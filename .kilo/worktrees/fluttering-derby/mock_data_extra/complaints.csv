@@ -1,0 +1,16 @@
+id,user_id,subject,description,status,created_at
+1,4,Late Delivery,The rider arrived 30 minutes late.,Open,2026-05-06 19:51:39
+2,30,Late Delivery,The rider arrived 30 minutes late.,Open,2026-04-25 00:14:39
+3,42,Late Delivery,The rider arrived 30 minutes late.,Open,2026-05-10 06:06:39
+4,38,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-05-12 05:46:39
+5,24,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-04-18 17:03:39
+6,9,Late Delivery,The rider arrived 30 minutes late.,Open,2026-04-26 14:38:39
+7,27,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-05-07 22:26:39
+8,12,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-04-30 07:06:39
+9,26,Late Delivery,The rider arrived 30 minutes late.,Open,2026-05-07 22:46:39
+10,14,Late Delivery,The rider arrived 30 minutes late.,Open,2026-05-08 14:58:39
+11,27,Late Delivery,The rider arrived 30 minutes late.,Open,2026-05-06 16:21:39
+12,40,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-04-15 16:19:39
+13,13,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-04-16 16:48:39
+14,44,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-04-15 05:44:39
+15,23,Late Delivery,The rider arrived 30 minutes late.,Resolved,2026-05-03 01:50:39

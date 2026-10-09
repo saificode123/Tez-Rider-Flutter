@@ -1,0 +1,21 @@
+order_id,reviewer_id,reviewee_id,rating,comment,created_at
+1,61af130d-f264-49de-a947-f5212c216332,29765abb-3467-4125-9398-de7e6be6ad35,5,Excellent service! Very fast delivery.,2026-04-17 10:22:55+00
+2,29765abb-3467-4125-9398-de7e6be6ad35,969098eb-2249-4d3c-9a20-8aaad945ce4a,4,"Good rider, arrived on time.",2026-04-18 14:35:55+00
+3,a5cf874a-d52c-44c4-b396-0b59b451e2bb,f658c3ff-66da-4850-b368-5c82a0e99a49,3,"Average experience, could be better.",2026-04-19 09:12:55+00
+4,c68f7df7-bed1-43ba-9cc5-115a71367f20,85c5b15c-d4fb-4799-944e-e1ed6af4d8bd,5,Amazing! Will order again.,2026-04-20 16:45:55+00
+5,5e04a7f4-b1dc-453c-a089-a0907579c791,1970950e-8ae1-4d16-a661-3f5c1b59f8ce,4,Quick delivery and polite rider.,2026-04-21 11:30:55+00
+6,969098eb-2249-4d3c-9a20-8aaad945ce4a,29e97cc9-3bc3-45a5-9534-f4337f68e4d2,2,Late delivery. Not satisfied.,2026-04-22 08:55:55+00
+7,f658c3ff-66da-4850-b368-5c82a0e99a49,5b9a42b0-41d0-4a40-9d6b-1f75651fe3c9,5,Perfect service every time.,2026-04-23 17:20:55+00
+8,85c5b15c-d4fb-4799-944e-e1ed6af4d8bd,f2a19e46-be1e-40c3-b0ed-ef1d427e4757,4,Friendly and professional.,2026-04-24 13:10:55+00
+9,1970950e-8ae1-4d16-a661-3f5c1b59f8ce,03065aef-275a-4563-b92b-a31562e99d71,3,Decent but package was slightly damaged.,2026-04-25 19:40:55+00
+10,29e97cc9-3bc3-45a5-9534-f4337f68e4d2,57e6aab9-330b-476e-bf02-573ef2f21745,5,Superb experience! Highly recommended.,2026-04-26 07:15:55+00
+11,5b9a42b0-41d0-4a40-9d6b-1f75651fe3c9,fa005328-e578-47f3-90a4-6c9b1e1ef4d1,4,Fast and reliable.,2026-04-27 12:25:55+00
+12,f2a19e46-be1e-40c3-b0ed-ef1d427e4757,9ac2a905-63bd-41e1-a92f-947073a41a9f,1,Very disappointing. Order was wrong.,2026-04-28 15:50:55+00
+13,03065aef-275a-4563-b92b-a31562e99d71,61af130d-f264-49de-a947-f5212c216332,5,Outstanding service!,2026-04-29 10:05:55+00
+14,57e6aab9-330b-476e-bf02-573ef2f21745,a5cf874a-d52c-44c4-b396-0b59b451e2bb,4,Good experience overall.,2026-04-30 18:35:55+00
+15,fa005328-e578-47f3-90a4-6c9b1e1ef4d1,c68f7df7-bed1-43ba-9cc5-115a71367f20,3,Could improve delivery time.,2026-05-01 09:45:55+00
+16,9ac2a905-63bd-41e1-a92f-947073a41a9f,5e04a7f4-b1dc-453c-a089-a0907579c791,5,Loved everything about this order!,2026-05-02 14:20:55+00
+17,61af130d-f264-49de-a947-f5212c216332,f658c3ff-66da-4850-b368-5c82a0e99a49,4,Smooth delivery process.,2026-05-03 11:55:55+00
+18,29765abb-3467-4125-9398-de7e6be6ad35,85c5b15c-d4fb-4799-944e-e1ed6af4d8bd,5,Best rider I have had!,2026-05-04 16:30:55+00
+19,a5cf874a-d52c-44c4-b396-0b59b451e2bb,1970950e-8ae1-4d16-a661-3f5c1b59f8ce,2,Rider was rude. Bad experience.,2026-05-05 08:10:55+00
+20,c68f7df7-bed1-43ba-9cc5-115a71367f20,29e97cc9-3bc3-45a5-9534-f4337f68e4d2,4,Happy with my order.,2026-05-06 19:25:55+00

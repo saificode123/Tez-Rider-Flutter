@@ -1,0 +1,4 @@
+userid,adminlevel,isverified,permissions,lastlogin,department,created_at
+04da27db-d866-4076-bcb9-4de7c2d90020,1,true,all,2026-05-13 05:22:55+00,Operations,2026-05-13 21:15:55+00
+ffba200b-ea6a-4185-af93-0a62fdd7cf47,2,true,read_write,2026-05-15 06:35:55+00,Support,2026-02-21 15:59:55+00
+32c45b24-6aa9-49d0-a952-533d40edabc0,3,true,read,2026-05-11 21:18:55+00,Finance,2026-02-16 09:20:55+00

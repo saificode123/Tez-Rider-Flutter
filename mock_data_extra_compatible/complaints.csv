@@ -1,0 +1,21 @@
+id,user_id,order_id,type,description,status,created_at
+5ceae942-9912-4194-81a8-1fb5624a5165,61af130d-f264-49de-a947-f5212c216332,25,Late Delivery,Rider arrived more than 30 minutes late.,Open,2026-04-26 18:34:55+00
+f870fe53-b447-478c-8960-a14be54da184,29765abb-3467-4125-9398-de7e6be6ad35,26,Wrong Item,I received the wrong item in my order.,Closed,2026-05-13 04:23:55+00
+a5b2de81-dbb1-4302-afc4-eb2bbcb61136,a5cf874a-d52c-44c4-b396-0b59b451e2bb,25,Missing Item,One item from my order is missing.,Under Review,2026-05-06 01:29:55+00
+1accb92c-8310-483a-9786-127ee3951beb,c68f7df7-bed1-43ba-9cc5-115a71367f20,27,Damaged Package,The package arrived damaged.,Under Review,2026-04-16 09:12:55+00
+f348a05c-d5ff-4bd8-8116-7166f71192dd,5e04a7f4-b1dc-453c-a089-a0907579c791,40,Payment Issue,Payment was deducted but order was not confirmed.,Open,2026-04-15 16:13:55+00
+b0093877-1c6f-4cf3-bada-b304fb34dba4,a5cf874a-d52c-44c4-b396-0b59b451e2bb,15,Late Delivery,Rider arrived more than 30 minutes late.,Open,2026-05-15 19:43:55+00
+c3ea8cec-0015-4d28-8b5a-df2b52e896d5,969098eb-2249-4d3c-9a20-8aaad945ce4a,50,Wrong Item,I received the wrong item in my order.,Closed,2026-04-30 23:07:55+00
+dcfba16d-01f9-4888-abbc-df804276ee6c,f658c3ff-66da-4850-b368-5c82a0e99a49,4,Missing Item,One item from my order is missing.,Resolved,2026-05-07 23:33:55+00
+9c830549-aa4a-436e-a023-fba5517d7427,fa005328-e578-47f3-90a4-6c9b1e1ef4d1,11,Damaged Package,The package arrived damaged.,Closed,2026-04-25 07:53:55+00
+5ac565e7-7b40-40ce-85dc-cd76c924e4d3,85c5b15c-d4fb-4799-944e-e1ed6af4d8bd,39,Payment Issue,Payment was deducted but order was not confirmed.,Closed,2026-05-01 23:26:55+00
+9712862e-9968-42ff-ac20-e3746d4ba4e6,29e97cc9-3bc3-45a5-9534-f4337f68e4d2,15,Late Delivery,Rider arrived more than 30 minutes late.,Closed,2026-05-04 11:11:55+00
+982229ef-541c-4235-afbc-2f7208ca7d65,5b9a42b0-41d0-4a40-9d6b-1f75651fe3c9,26,Wrong Item,I received the wrong item in my order.,Under Review,2026-05-07 00:32:55+00
+616aa10f-38aa-45a1-8b22-1747ea4bacc5,29e97cc9-3bc3-45a5-9534-f4337f68e4d2,41,Missing Item,One item from my order is missing.,Resolved,2026-05-06 05:05:55+00
+b06f564f-5f1c-4de9-b9d6-f95e40fa3307,1970950e-8ae1-4d16-a661-3f5c1b59f8ce,1,Damaged Package,The package arrived damaged.,Open,2026-04-28 21:25:55+00
+e0445f68-3fc4-4db2-b7c0-8ca6b51ebfc8,85c5b15c-d4fb-4799-944e-e1ed6af4d8bd,10,Payment Issue,Payment was deducted but order was not confirmed.,Closed,2026-04-30 17:28:55+00
+63ff1be7-b909-453f-88ce-824763ee3dc5,f2a19e46-be1e-40c3-b0ed-ef1d427e4757,6,Late Delivery,Rider arrived more than 30 minutes late.,Under Review,2026-04-28 03:36:55+00
+00b4c3ee-05c5-47ca-a6b0-0421e3bce7dc,61af130d-f264-49de-a947-f5212c216332,38,Wrong Item,I received the wrong item in my order.,Open,2026-05-09 08:01:55+00
+aa9e298e-2c9a-4831-8ce1-522e89f5646a,f2a19e46-be1e-40c3-b0ed-ef1d427e4757,47,Missing Item,One item from my order is missing.,Resolved,2026-05-07 02:58:55+00
+bd1c2c78-9b9a-42d9-8954-6ca7be85557c,1970950e-8ae1-4d16-a661-3f5c1b59f8ce,42,Damaged Package,The package arrived damaged.,Closed,2026-04-16 05:58:55+00
+7290d084-e730-47db-845c-c3ebeaff1cb3,03065aef-275a-4563-b92b-a31562e99d71,27,Payment Issue,Payment was deducted but order was not confirmed.,Open,2026-05-05 04:19:55+00

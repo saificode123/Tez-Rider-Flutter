@@ -1,0 +1,31 @@
+id,user_id,title,message,type,created_at,is_read
+1,9,System Alert,Your rider is arriving in 5 minutes.,order,2026-05-05 08:26:12,false
+2,6,System Alert,Your rider is arriving in 5 minutes.,order,2026-05-13 20:39:12,false
+3,16,System Alert,Get 20% off on your next grocery order.,order,2026-04-18 06:35:12,true
+4,15,System Alert,Get 20% off on your next grocery order.,system,2026-04-22 14:31:12,false
+5,2,System Alert,Rate your recent delivery experience.,promo,2026-04-29 08:34:12,true
+6,19,Update,Rate your recent delivery experience.,order,2026-05-08 11:12:12,true
+7,5,System Alert,Get 20% off on your next grocery order.,promo,2026-04-16 21:14:12,false
+8,4,Update,Get 20% off on your next grocery order.,order,2026-04-26 21:24:12,true
+9,4,System Alert,Your order has been shipped!,system,2026-04-26 04:55:12,true
+10,11,System Alert,Your order has been shipped!,system,2026-04-15 20:56:12,true
+11,18,Update,Get 20% off on your next grocery order.,order,2026-05-03 13:01:12,false
+12,1,System Alert,Your rider is arriving in 5 minutes.,system,2026-05-08 10:37:12,false
+13,1,Update,Your rider is arriving in 5 minutes.,order,2026-05-07 09:21:12,true
+14,1,Update,Rate your recent delivery experience.,promo,2026-05-02 12:17:12,false
+15,9,System Alert,Your rider is arriving in 5 minutes.,promo,2026-05-07 17:50:12,true
+16,2,Update,Welcome to TezRider!,system,2026-05-08 02:49:12,false
+17,7,Update,Get 20% off on your next grocery order.,order,2026-04-30 08:59:12,false
+18,7,Update,Your order has been shipped!,order,2026-05-02 21:39:12,true
+19,17,System Alert,Rate your recent delivery experience.,order,2026-05-07 20:38:12,false
+20,1,System Alert,Your order has been shipped!,order,2026-04-26 19:12:12,true
+21,15,System Alert,Welcome to TezRider!,promo,2026-04-30 02:49:12,false
+22,8,System Alert,Your order has been shipped!,promo,2026-05-08 19:05:12,true
+23,3,Update,Your rider is arriving in 5 minutes.,order,2026-05-02 07:49:12,true
+24,7,System Alert,Rate your recent delivery experience.,order,2026-05-13 01:51:12,true
+25,18,System Alert,Rate your recent delivery experience.,promo,2026-05-12 21:19:12,true
+26,1,Update,Get 20% off on your next grocery order.,promo,2026-04-23 12:29:12,true
+27,8,Update,Your rider is arriving in 5 minutes.,order,2026-04-22 13:39:12,true
+28,5,System Alert,Get 20% off on your next grocery order.,system,2026-05-02 03:15:12,false
+29,7,Update,Welcome to TezRider!,system,2026-04-20 14:38:12,true
+30,17,System Alert,Get 20% off on your next grocery order.,order,2026-04-18 13:10:12,false

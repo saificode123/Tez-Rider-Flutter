@@ -1,0 +1,21 @@
+id,user_id,name,phone,vehicle_details,is_available
+1,1,Rider 1,+923221234567,Honda CD70,true
+2,2,Rider 2,+923221234567,Honda CD70,true
+3,3,Rider 3,+923221234567,Honda CD70,true
+4,4,Rider 4,+923221234567,Honda CD70,true
+5,5,Rider 5,+923221234567,Honda CD70,true
+6,6,Rider 6,+923221234567,Honda CD70,true
+7,7,Rider 7,+923221234567,Honda CD70,true
+8,8,Rider 8,+923221234567,Honda CD70,true
+9,9,Rider 9,+923221234567,Honda CD70,true
+10,10,Rider 10,+923221234567,Honda CD70,true
+11,11,Rider 11,+923221234567,Honda CD70,true
+12,12,Rider 12,+923221234567,Honda CD70,true
+13,13,Rider 13,+923221234567,Honda CD70,true
+14,14,Rider 14,+923221234567,Honda CD70,true
+15,15,Rider 15,+923221234567,Honda CD70,true
+16,16,Rider 16,+923221234567,Honda CD70,true
+17,17,Rider 17,+923221234567,Honda CD70,true
+18,18,Rider 18,+923221234567,Honda CD70,true
+19,19,Rider 19,+923221234567,Honda CD70,true
+20,20,Rider 20,+923221234567,Honda CD70,true

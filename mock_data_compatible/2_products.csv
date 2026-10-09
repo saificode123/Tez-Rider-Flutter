@@ -1,0 +1,61 @@
+id,vendor_id,category,name,description,price,image_url,is_available,created_at
+1,28,Food,Chicken Biryani,Fresh Chicken Biryani available for same-day delivery.,3029,https://source.unsplash.com/200x200/?chicken,true,2026-04-23 01:13:36+00
+2,28,Food,Beef Karahi,Fresh Beef Karahi available for same-day delivery.,536,https://source.unsplash.com/200x200/?beef,true,2026-05-01 14:26:36+00
+3,28,Food,Daal Makhani,Fresh Daal Makhani available for same-day delivery.,243,https://source.unsplash.com/200x200/?daal,true,2026-03-25 19:09:36+00
+4,28,Food,Seekh Kabab Platter,Fresh Seekh Kabab Platter available for same-day delivery.,269,https://source.unsplash.com/200x200/?seekh,true,2026-04-30 09:51:36+00
+5,28,Food,Nihari,Fresh Nihari available for same-day delivery.,505,https://source.unsplash.com/200x200/?nihari,true,2026-05-15 02:06:36+00
+6,28,Food,Haleem,Fresh Haleem available for same-day delivery.,262,https://source.unsplash.com/200x200/?haleem,true,2026-05-11 03:06:36+00
+7,28,Food,Paye,Fresh Paye available for same-day delivery.,350,https://source.unsplash.com/200x200/?paye,true,2026-04-26 09:31:36+00
+8,28,Food,Mutton Pulao,Fresh Mutton Pulao available for same-day delivery.,262,https://source.unsplash.com/200x200/?mutton,true,2026-05-13 02:46:36+00
+9,28,Food,Mix Grill,Fresh Mix Grill available for same-day delivery.,802,https://source.unsplash.com/200x200/?mix,true,2026-04-13 09:05:36+00
+10,28,Food,Qeema Naan,Fresh Qeema Naan available for same-day delivery.,805,https://source.unsplash.com/200x200/?qeema,true,2026-05-06 13:17:36+00
+11,23,Grocery,Basmati Rice 5kg,Fresh Basmati Rice 5kg available for same-day delivery.,2069,https://source.unsplash.com/200x200/?basmati,true,2026-04-02 08:34:36+00
+12,23,Grocery,Atta 10kg,Fresh Atta 10kg available for same-day delivery.,444,https://source.unsplash.com/200x200/?atta,true,2026-04-23 13:37:36+00
+13,23,Grocery,Cooking Oil 1L,Fresh Cooking Oil 1L available for same-day delivery.,1020,https://source.unsplash.com/200x200/?cooking,true,2026-05-03 16:17:36+00
+14,23,Grocery,Sugar 1kg,Fresh Sugar 1kg available for same-day delivery.,2019,https://source.unsplash.com/200x200/?sugar,true,2026-04-22 14:11:36+00
+15,23,Grocery,Milk 1L,Fresh Milk 1L available for same-day delivery.,1509,https://source.unsplash.com/200x200/?milk,true,2026-04-16 11:10:36+00
+16,23,Grocery,Tea Leaves 250g,Fresh Tea Leaves 250g available for same-day delivery.,3054,https://source.unsplash.com/200x200/?tea,true,2026-04-12 17:01:36+00
+17,23,Grocery,Daal Chana 500g,Fresh Daal Chana 500g available for same-day delivery.,339,https://source.unsplash.com/200x200/?daal,true,2026-04-01 22:17:36+00
+18,23,Grocery,Tomatoes 1kg,Fresh Tomatoes 1kg available for same-day delivery.,762,https://source.unsplash.com/200x200/?tomatoes,true,2026-04-16 22:56:36+00
+19,23,Grocery,Onions 2kg,Fresh Onions 2kg available for same-day delivery.,841,https://source.unsplash.com/200x200/?onions,true,2026-03-26 23:07:36+00
+20,23,Grocery,Potatoes 2kg,Fresh Potatoes 2kg available for same-day delivery.,267,https://source.unsplash.com/200x200/?potatoes,true,2026-04-06 13:44:36+00
+21,27,Pharmacy,Panadol Extra 10s,Fresh Panadol Extra 10s available for same-day delivery.,1518,https://source.unsplash.com/200x200/?panadol,true,2026-04-13 03:17:36+00
+22,27,Pharmacy,ORS Sachet,Fresh ORS Sachet available for same-day delivery.,3030,https://source.unsplash.com/200x200/?ors,true,2026-04-29 13:52:36+00
+23,27,Pharmacy,Vitamin C 1000mg,Fresh Vitamin C 1000mg available for same-day delivery.,206,https://source.unsplash.com/200x200/?vitamin,true,2026-05-04 18:33:36+00
+24,27,Pharmacy,Antibiotic Cream,Fresh Antibiotic Cream available for same-day delivery.,217,https://source.unsplash.com/200x200/?antibiotic,true,2026-04-22 21:37:36+00
+25,27,Pharmacy,Bandages Pack,Fresh Bandages Pack available for same-day delivery.,191,https://source.unsplash.com/200x200/?bandages,true,2026-04-17 14:48:36+00
+26,27,Pharmacy,Hand Sanitizer 250ml,Fresh Hand Sanitizer 250ml available for same-day delivery.,2054,https://source.unsplash.com/200x200/?hand,true,2026-04-24 13:04:36+00
+27,27,Pharmacy,Cough Syrup 100ml,Fresh Cough Syrup 100ml available for same-day delivery.,236,https://source.unsplash.com/200x200/?cough,true,2026-03-24 11:32:36+00
+28,27,Pharmacy,Thermometer Digital,Fresh Thermometer Digital available for same-day delivery.,181,https://source.unsplash.com/200x200/?thermometer,true,2026-04-03 15:26:36+00
+29,27,Pharmacy,BP Monitor,Fresh BP Monitor available for same-day delivery.,3055,https://source.unsplash.com/200x200/?bp,true,2026-04-29 01:59:36+00
+30,27,Pharmacy,Antacid 20s,Fresh Antacid 20s available for same-day delivery.,234,https://source.unsplash.com/200x200/?antacid,true,2026-04-27 16:36:36+00
+31,22,Thrift,Denim Jacket (M),Fresh Denim Jacket (M) available for same-day delivery.,196,https://source.unsplash.com/200x200/?denim,true,2026-03-26 01:47:36+00
+32,22,Thrift,Leather Bag,Fresh Leather Bag available for same-day delivery.,561,https://source.unsplash.com/200x200/?leather,true,2026-04-25 20:53:36+00
+33,22,Thrift,Formal Shoes,Fresh Formal Shoes available for same-day delivery.,380,https://source.unsplash.com/200x200/?formal,true,2026-04-06 02:58:36+00
+34,22,Thrift,Linen Kurti,Fresh Linen Kurti available for same-day delivery.,266,https://source.unsplash.com/200x200/?linen,true,2026-03-19 20:41:36+00
+35,22,Thrift,Running Shoes,Fresh Running Shoes available for same-day delivery.,256,https://source.unsplash.com/200x200/?running,true,2026-04-07 17:11:36+00
+36,22,Thrift,Silk Dupatta,Fresh Silk Dupatta available for same-day delivery.,2035,https://source.unsplash.com/200x200/?silk,true,2026-04-11 11:10:36+00
+37,22,Thrift,Winter Coat,Fresh Winter Coat available for same-day delivery.,202,https://source.unsplash.com/200x200/?winter,true,2026-05-03 23:32:36+00
+38,22,Thrift,Casual Watch,Fresh Casual Watch available for same-day delivery.,3087,https://source.unsplash.com/200x200/?casual,true,2026-04-12 07:21:36+00
+39,22,Thrift,Canvas Bag,Fresh Canvas Bag available for same-day delivery.,3023,https://source.unsplash.com/200x200/?canvas,true,2026-03-16 00:42:36+00
+40,22,Thrift,Embroidered Shawl,Fresh Embroidered Shawl available for same-day delivery.,170,https://source.unsplash.com/200x200/?embroidered,true,2026-03-27 16:41:36+00
+41,24,Preloved,iPhone 12 (Good),Fresh iPhone 12 (Good) available for same-day delivery.,2058,https://source.unsplash.com/200x200/?iphone,true,2026-04-07 00:19:36+00
+42,24,Preloved,Samsung A32,Fresh Samsung A32 available for same-day delivery.,1500,https://source.unsplash.com/200x200/?samsung,true,2026-04-12 14:48:36+00
+43,24,Preloved,Laptop HP 8GB,Fresh Laptop HP 8GB available for same-day delivery.,849,https://source.unsplash.com/200x200/?laptop,true,2026-05-09 23:38:36+00
+44,24,Preloved,Sony Earbuds,Fresh Sony Earbuds available for same-day delivery.,308,https://source.unsplash.com/200x200/?sony,true,2026-03-30 23:24:36+00
+45,24,Preloved,Kindle Paperwhite,Fresh Kindle Paperwhite available for same-day delivery.,818,https://source.unsplash.com/200x200/?kindle,true,2026-03-25 12:38:36+00
+46,24,Preloved,Canon Camera,Fresh Canon Camera available for same-day delivery.,375,https://source.unsplash.com/200x200/?canon,true,2026-04-20 16:50:36+00
+47,24,Preloved,MacBook Air 2019,Fresh MacBook Air 2019 available for same-day delivery.,168,https://source.unsplash.com/200x200/?macbook,true,2026-05-06 20:30:36+00
+48,24,Preloved,Apple Watch SE,Fresh Apple Watch SE available for same-day delivery.,172,https://source.unsplash.com/200x200/?apple,true,2026-05-06 17:48:36+00
+49,24,Preloved,JBL Speaker,Fresh JBL Speaker available for same-day delivery.,812,https://source.unsplash.com/200x200/?jbl,true,2026-03-27 05:43:36+00
+50,24,Preloved,Ring Light 26cm,Fresh Ring Light 26cm available for same-day delivery.,279,https://source.unsplash.com/200x200/?ring,true,2026-05-13 04:43:36+00
+51,25,Gifts,Chocolate Box,Fresh Chocolate Box available for same-day delivery.,309,https://source.unsplash.com/200x200/?chocolate,true,2026-03-30 23:22:36+00
+52,25,Gifts,Flower Bouquet,Fresh Flower Bouquet available for same-day delivery.,179,https://source.unsplash.com/200x200/?flower,true,2026-04-13 13:56:36+00
+53,25,Gifts,Birthday Cake,Fresh Birthday Cake available for same-day delivery.,518,https://source.unsplash.com/200x200/?birthday,true,2026-04-25 11:00:36+00
+54,25,Gifts,Scented Candles Set,Fresh Scented Candles Set available for same-day delivery.,756,https://source.unsplash.com/200x200/?scented,true,2026-04-23 08:23:36+00
+55,25,Gifts,Gift Hamper (Small),Fresh Gift Hamper (Small) available for same-day delivery.,784,https://source.unsplash.com/200x200/?gift,true,2026-04-02 05:30:36+00
+56,25,Gifts,Teddy Bear 30cm,Fresh Teddy Bear 30cm available for same-day delivery.,2030,https://source.unsplash.com/200x200/?teddy,true,2026-05-02 06:45:36+00
+57,25,Gifts,Photo Frame,Fresh Photo Frame available for same-day delivery.,157,https://source.unsplash.com/200x200/?photo,true,2026-05-15 02:18:36+00
+58,25,Gifts,Perfume Gift Set,Fresh Perfume Gift Set available for same-day delivery.,415,https://source.unsplash.com/200x200/?perfume,true,2026-04-25 20:35:36+00
+59,25,Gifts,Coffee Mug Pair,Fresh Coffee Mug Pair available for same-day delivery.,540,https://source.unsplash.com/200x200/?coffee,true,2026-04-26 10:06:36+00
+60,25,Gifts,Personalized Notebook,Fresh Personalized Notebook available for same-day delivery.,1561,https://source.unsplash.com/200x200/?personalized,true,2026-04-26 13:06:36+00

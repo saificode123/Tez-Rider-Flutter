@@ -1,0 +1,302 @@
+[
+  {
+    "vendorId": 21,
+    "shopName": "Bismillah Mart",
+    "ownerName": "Iqra Hassan",
+    "category": "gift",
+    "rating": 3.9,
+    "totalOrders": 638,
+    "earnings": 384675,
+    "location": "Defence Housing Authority, Karachi",
+    "deliveryTime": "27 mins",
+    "products": [
+      1,
+      2
+    ]
+  },
+  {
+    "vendorId": 22,
+    "shopName": "Super Mart",
+    "ownerName": "Fatima Noor",
+    "category": "parcel",
+    "rating": 4.3,
+    "totalOrders": 3553,
+    "earnings": 218649,
+    "location": "F-8 Markaz, Islamabad",
+    "deliveryTime": "29 mins",
+    "products": [
+      3,
+      4
+    ]
+  },
+  {
+    "vendorId": 23,
+    "shopName": "Bismillah Gifts",
+    "ownerName": "Hamza Malik",
+    "category": "gift",
+    "rating": 3.8,
+    "totalOrders": 2593,
+    "earnings": 153811,
+    "location": "DHA Phase 2, Islamabad",
+    "deliveryTime": "31 mins",
+    "products": [
+      5,
+      6
+    ]
+  },
+  {
+    "vendorId": 24,
+    "shopName": "Super Bakers",
+    "ownerName": "Sana Javed",
+    "category": "gift",
+    "rating": 4.5,
+    "totalOrders": 1737,
+    "earnings": 147373,
+    "location": "Saddar, Karachi",
+    "deliveryTime": "31 mins",
+    "products": [
+      7,
+      8
+    ]
+  },
+  {
+    "vendorId": 25,
+    "shopName": "Bismillah Pharmacy",
+    "ownerName": "Fatima Noor",
+    "category": "grocery",
+    "rating": 4.9,
+    "totalOrders": 210,
+    "earnings": 11449,
+    "location": "E-11/3, Islamabad",
+    "deliveryTime": "43 mins",
+    "products": [
+      9,
+      10
+    ]
+  },
+  {
+    "vendorId": 26,
+    "shopName": "Al-Madina Mart",
+    "ownerName": "Hamza Malik",
+    "category": "gift",
+    "rating": 4.5,
+    "totalOrders": 3152,
+    "earnings": 195994,
+    "location": "DHA Phase 5, Lahore",
+    "deliveryTime": "39 mins",
+    "products": [
+      11,
+      12
+    ]
+  },
+  {
+    "vendorId": 27,
+    "shopName": "Quick Bakers",
+    "ownerName": "Mahnoor Zafar",
+    "category": "grocery",
+    "rating": 4.9,
+    "totalOrders": 3476,
+    "earnings": 114062,
+    "location": "Tariq Road, Karachi",
+    "deliveryTime": "35 mins",
+    "products": [
+      13,
+      14
+    ]
+  },
+  {
+    "vendorId": 28,
+    "shopName": "Prime Bakers",
+    "ownerName": "Sadaf Kanwal",
+    "category": "grocery",
+    "rating": 3.6,
+    "totalOrders": 3152,
+    "earnings": 316984,
+    "location": "DHA Phase 2, Islamabad",
+    "deliveryTime": "25 mins",
+    "products": [
+      15,
+      16
+    ]
+  },
+  {
+    "vendorId": 29,
+    "shopName": "Bismillah Pharmacy",
+    "ownerName": "Saad Mahmood",
+    "category": "grocery",
+    "rating": 3.8,
+    "totalOrders": 730,
+    "earnings": 393432,
+    "location": "G-11/2, Islamabad",
+    "deliveryTime": "24 mins",
+    "products": [
+      17,
+      18
+    ]
+  },
+  {
+    "vendorId": 30,
+    "shopName": "Prime Bakers",
+    "ownerName": "Hassan Raza",
+    "category": "grocery",
+    "rating": 4.9,
+    "totalOrders": 1014,
+    "earnings": 409454,
+    "location": "Bahria Town, Islamabad",
+    "deliveryTime": "20 mins",
+    "products": [
+      19,
+      20
+    ]
+  },
+  {
+    "vendorId": 31,
+    "shopName": "Super Pharmacy",
+    "ownerName": "Rabia Qamar",
+    "category": "parcel",
+    "rating": 4.5,
+    "totalOrders": 2915,
+    "earnings": 468453,
+    "location": "Johar Town, Lahore",
+    "deliveryTime": "24 mins",
+    "products": [
+      21,
+      22
+    ]
+  },
+  {
+    "vendorId": 32,
+    "shopName": "Al-Madina Pharmacy",
+    "ownerName": "Imran Nazir",
+    "category": "gift",
+    "rating": 4.9,
+    "totalOrders": 1261,
+    "earnings": 390796,
+    "location": "F-10 Markaz, Islamabad",
+    "deliveryTime": "41 mins",
+    "products": [
+      23,
+      24
+    ]
+  },
+  {
+    "vendorId": 33,
+    "shopName": "Al-Madina Store",
+    "ownerName": "Kamran Shah",
+    "category": "parcel",
+    "rating": 4.6,
+    "totalOrders": 1517,
+    "earnings": 375362,
+    "location": "I-8 Markaz, Islamabad",
+    "deliveryTime": "42 mins",
+    "products": [
+      25,
+      26
+    ]
+  },
+  {
+    "vendorId": 34,
+    "shopName": "Al-Madina Store",
+    "ownerName": "Muneeb Butt",
+    "category": "pharmacy",
+    "rating": 4.8,
+    "totalOrders": 4818,
+    "earnings": 155039,
+    "location": "PECHS, Karachi",
+    "deliveryTime": "30 mins",
+    "products": [
+      27,
+      28
+    ]
+  },
+  {
+    "vendorId": 35,
+    "shopName": "Quick Bakers",
+    "ownerName": "Talha Farooq",
+    "category": "parcel",
+    "rating": 3.9,
+    "totalOrders": 156,
+    "earnings": 46393,
+    "location": "Saddar, Karachi",
+    "deliveryTime": "30 mins",
+    "products": [
+      29,
+      30
+    ]
+  },
+  {
+    "vendorId": 36,
+    "shopName": "Prime Mart",
+    "ownerName": "Talha Farooq",
+    "category": "gift",
+    "rating": 4.3,
+    "totalOrders": 2638,
+    "earnings": 23493,
+    "location": "F-8 Markaz, Islamabad",
+    "deliveryTime": "31 mins",
+    "products": [
+      31,
+      32
+    ]
+  },
+  {
+    "vendorId": 37,
+    "shopName": "Prime Bakers",
+    "ownerName": "Hamza Malik",
+    "category": "parcel",
+    "rating": 5.0,
+    "totalOrders": 3070,
+    "earnings": 239839,
+    "location": "Gulshan-e-Iqbal, Karachi",
+    "deliveryTime": "30 mins",
+    "products": [
+      33,
+      34
+    ]
+  },
+  {
+    "vendorId": 38,
+    "shopName": "Al-Madina Pharmacy",
+    "ownerName": "Tariq Jameel",
+    "category": "gift",
+    "rating": 3.7,
+    "totalOrders": 66,
+    "earnings": 50092,
+    "location": "PECHS, Karachi",
+    "deliveryTime": "26 mins",
+    "products": [
+      35,
+      36
+    ]
+  },
+  {
+    "vendorId": 39,
+    "shopName": "Quick Gifts",
+    "ownerName": "Khadija Bibi",
+    "category": "gift",
+    "rating": 4.9,
+    "totalOrders": 609,
+    "earnings": 379980,
+    "location": "F-8 Markaz, Islamabad",
+    "deliveryTime": "31 mins",
+    "products": [
+      37,
+      38
+    ]
+  },
+  {
+    "vendorId": 40,
+    "shopName": "Super Mart",
+    "ownerName": "Kamran Shah",
+    "category": "gift",
+    "rating": 4.0,
+    "totalOrders": 978,
+    "earnings": 269728,
+    "location": "Defence Housing Authority, Karachi",
+    "deliveryTime": "23 mins",
+    "products": [
+      39,
+      40
+    ]
+  }
+]

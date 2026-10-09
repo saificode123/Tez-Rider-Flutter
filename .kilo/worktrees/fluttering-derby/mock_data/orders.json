@@ -1,0 +1,578 @@
+[
+  {
+    "orderId": 1,
+    "customerId": 18,
+    "vendorId": 22,
+    "riderId": 42,
+    "items": [
+      {
+        "productId": 4,
+        "name": "Ferrero Rocher 16s",
+        "quantity": 3,
+        "price": 2200
+      },
+      {
+        "productId": 4,
+        "name": "Ferrero Rocher 16s",
+        "quantity": 3,
+        "price": 2200
+      }
+    ],
+    "subtotal": 13200,
+    "deliveryFee": 50,
+    "total": 13250,
+    "paymentMethod": "Credit/Debit Card",
+    "status": "pending",
+    "createdAt": "2026-05-10T21:38:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 2,
+    "customerId": 14,
+    "vendorId": 38,
+    "riderId": 57,
+    "items": [
+      {
+        "productId": 36,
+        "name": "Tapal Danedar 900g",
+        "quantity": 2,
+        "price": 1450
+      }
+    ],
+    "subtotal": 2900,
+    "deliveryFee": 150,
+    "total": 3050,
+    "paymentMethod": "Cash on Delivery",
+    "status": "on_the_way",
+    "createdAt": "2026-05-10T16:06:48.499336Z",
+    "deliveryAddress": "G-11/2, Islamabad"
+  },
+  {
+    "orderId": 3,
+    "customerId": 19,
+    "vendorId": 40,
+    "riderId": 59,
+    "items": [
+      {
+        "productId": 39,
+        "name": "Gourmet Plain Cake",
+        "quantity": 3,
+        "price": 400
+      },
+      {
+        "productId": 40,
+        "name": "Gourmet Plain Cake",
+        "quantity": 2,
+        "price": 400
+      }
+    ],
+    "subtotal": 2000,
+    "deliveryFee": 200,
+    "total": 2200,
+    "paymentMethod": "JazzCash",
+    "status": "preparing",
+    "createdAt": "2026-05-07T17:28:48.499336Z",
+    "deliveryAddress": "Gulberg III, Lahore"
+  },
+  {
+    "orderId": 4,
+    "customerId": 20,
+    "vendorId": 37,
+    "riderId": 43,
+    "items": [
+      {
+        "productId": 33,
+        "name": "Dairy Milk Silk",
+        "quantity": 2,
+        "price": 450
+      },
+      {
+        "productId": 33,
+        "name": "Dairy Milk Silk",
+        "quantity": 1,
+        "price": 450
+      }
+    ],
+    "subtotal": 1350,
+    "deliveryFee": 150,
+    "total": 1500,
+    "paymentMethod": "Cash on Delivery",
+    "status": "preparing",
+    "createdAt": "2026-05-07T17:05:48.499336Z",
+    "deliveryAddress": "Tariq Road, Karachi"
+  },
+  {
+    "orderId": 5,
+    "customerId": 18,
+    "vendorId": 29,
+    "riderId": 44,
+    "items": [
+      {
+        "productId": 18,
+        "name": "National Ketchup 800g",
+        "quantity": 2,
+        "price": 500
+      },
+      {
+        "productId": 17,
+        "name": "Nestle MilkPak 1L",
+        "quantity": 3,
+        "price": 250
+      },
+      {
+        "productId": 18,
+        "name": "National Ketchup 800g",
+        "quantity": 3,
+        "price": 500
+      }
+    ],
+    "subtotal": 3250,
+    "deliveryFee": 200,
+    "total": 3450,
+    "paymentMethod": "Cash on Delivery",
+    "status": "pending",
+    "createdAt": "2026-05-13T08:16:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 6,
+    "customerId": 16,
+    "vendorId": 29,
+    "riderId": 59,
+    "items": [
+      {
+        "productId": 18,
+        "name": "National Ketchup 800g",
+        "quantity": 2,
+        "price": 500
+      },
+      {
+        "productId": 17,
+        "name": "Nestle MilkPak 1L",
+        "quantity": 2,
+        "price": 250
+      },
+      {
+        "productId": 17,
+        "name": "Nestle MilkPak 1L",
+        "quantity": 3,
+        "price": 250
+      }
+    ],
+    "subtotal": 2250,
+    "deliveryFee": 200,
+    "total": 2450,
+    "paymentMethod": "JazzCash",
+    "status": "on_the_way",
+    "createdAt": "2026-05-12T22:20:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 7,
+    "customerId": 15,
+    "vendorId": 26,
+    "riderId": 56,
+    "items": [
+      {
+        "productId": 12,
+        "name": "Gourmet Plain Cake",
+        "quantity": 1,
+        "price": 400
+      },
+      {
+        "productId": 11,
+        "name": "Arinac Forte",
+        "quantity": 3,
+        "price": 120
+      },
+      {
+        "productId": 12,
+        "name": "Gourmet Plain Cake",
+        "quantity": 2,
+        "price": 400
+      }
+    ],
+    "subtotal": 1560,
+    "deliveryFee": 150,
+    "total": 1710,
+    "paymentMethod": "Cash on Delivery",
+    "status": "picked_up",
+    "createdAt": "2026-05-09T06:28:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 8,
+    "customerId": 19,
+    "vendorId": 34,
+    "riderId": 42,
+    "items": [
+      {
+        "productId": 27,
+        "name": "Men's Unstitched Kurta",
+        "quantity": 1,
+        "price": 3500
+      }
+    ],
+    "subtotal": 3500,
+    "deliveryFee": 50,
+    "total": 3550,
+    "paymentMethod": "Credit/Debit Card",
+    "status": "delivered",
+    "createdAt": "2026-05-10T11:31:48.499336Z",
+    "deliveryAddress": "Gulberg III, Lahore"
+  },
+  {
+    "orderId": 9,
+    "customerId": 20,
+    "vendorId": 33,
+    "riderId": 50,
+    "items": [
+      {
+        "productId": 25,
+        "name": "Panadol Extra 500mg",
+        "quantity": 1,
+        "price": 150
+      },
+      {
+        "productId": 26,
+        "name": "Sufi Cooking Oil 3L",
+        "quantity": 2,
+        "price": 1600
+      },
+      {
+        "productId": 25,
+        "name": "Panadol Extra 500mg",
+        "quantity": 3,
+        "price": 150
+      }
+    ],
+    "subtotal": 3800,
+    "deliveryFee": 150,
+    "total": 3950,
+    "paymentMethod": "Credit/Debit Card",
+    "status": "picked_up",
+    "createdAt": "2026-05-13T18:56:48.499336Z",
+    "deliveryAddress": "Tariq Road, Karachi"
+  },
+  {
+    "orderId": 10,
+    "customerId": 16,
+    "vendorId": 26,
+    "riderId": 45,
+    "items": [
+      {
+        "productId": 11,
+        "name": "Arinac Forte",
+        "quantity": 1,
+        "price": 120
+      },
+      {
+        "productId": 11,
+        "name": "Arinac Forte",
+        "quantity": 3,
+        "price": 120
+      },
+      {
+        "productId": 12,
+        "name": "Gourmet Plain Cake",
+        "quantity": 1,
+        "price": 400
+      }
+    ],
+    "subtotal": 880,
+    "deliveryFee": 50,
+    "total": 930,
+    "paymentMethod": "Cash on Delivery",
+    "status": "delivered",
+    "createdAt": "2026-05-13T18:20:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 11,
+    "customerId": 6,
+    "vendorId": 31,
+    "riderId": 60,
+    "items": [
+      {
+        "productId": 21,
+        "name": "Dawn Bread Large",
+        "quantity": 1,
+        "price": 120
+      },
+      {
+        "productId": 21,
+        "name": "Dawn Bread Large",
+        "quantity": 2,
+        "price": 120
+      },
+      {
+        "productId": 22,
+        "name": "Panadol CF",
+        "quantity": 2,
+        "price": 100
+      }
+    ],
+    "subtotal": 560,
+    "deliveryFee": 150,
+    "total": 710,
+    "paymentMethod": "Credit/Debit Card",
+    "status": "cancelled",
+    "createdAt": "2026-05-07T14:51:48.499336Z",
+    "deliveryAddress": "Model Town, Lahore"
+  },
+  {
+    "orderId": 12,
+    "customerId": 3,
+    "vendorId": 40,
+    "riderId": 60,
+    "items": [
+      {
+        "productId": 40,
+        "name": "Gourmet Plain Cake",
+        "quantity": 1,
+        "price": 400
+      },
+      {
+        "productId": 40,
+        "name": "Gourmet Plain Cake",
+        "quantity": 2,
+        "price": 400
+      },
+      {
+        "productId": 39,
+        "name": "Gourmet Plain Cake",
+        "quantity": 3,
+        "price": 400
+      }
+    ],
+    "subtotal": 2400,
+    "deliveryFee": 200,
+    "total": 2600,
+    "paymentMethod": "JazzCash",
+    "status": "pending",
+    "createdAt": "2026-05-07T16:28:48.499336Z",
+    "deliveryAddress": "Cavalry Ground, Lahore"
+  },
+  {
+    "orderId": 13,
+    "customerId": 11,
+    "vendorId": 29,
+    "riderId": 42,
+    "items": [
+      {
+        "productId": 18,
+        "name": "National Ketchup 800g",
+        "quantity": 3,
+        "price": 500
+      }
+    ],
+    "subtotal": 1500,
+    "deliveryFee": 100,
+    "total": 1600,
+    "paymentMethod": "Cash on Delivery",
+    "status": "preparing",
+    "createdAt": "2026-05-07T07:56:48.499336Z",
+    "deliveryAddress": "Tariq Road, Karachi"
+  },
+  {
+    "orderId": 14,
+    "customerId": 14,
+    "vendorId": 28,
+    "riderId": 53,
+    "items": [
+      {
+        "productId": 15,
+        "name": "Customized Mug",
+        "quantity": 2,
+        "price": 800
+      },
+      {
+        "productId": 16,
+        "name": "Mitchell's Jam",
+        "quantity": 1,
+        "price": 350
+      }
+    ],
+    "subtotal": 1950,
+    "deliveryFee": 100,
+    "total": 2050,
+    "paymentMethod": "Credit/Debit Card",
+    "status": "picked_up",
+    "createdAt": "2026-05-12T01:10:48.499336Z",
+    "deliveryAddress": "G-11/2, Islamabad"
+  },
+  {
+    "orderId": 15,
+    "customerId": 8,
+    "vendorId": 26,
+    "riderId": 43,
+    "items": [
+      {
+        "productId": 11,
+        "name": "Arinac Forte",
+        "quantity": 2,
+        "price": 120
+      },
+      {
+        "productId": 12,
+        "name": "Gourmet Plain Cake",
+        "quantity": 3,
+        "price": 400
+      }
+    ],
+    "subtotal": 1440,
+    "deliveryFee": 50,
+    "total": 1490,
+    "paymentMethod": "Cash on Delivery",
+    "status": "picked_up",
+    "createdAt": "2026-05-09T04:47:48.499336Z",
+    "deliveryAddress": "Gulberg III, Lahore"
+  },
+  {
+    "orderId": 16,
+    "customerId": 9,
+    "vendorId": 30,
+    "riderId": 60,
+    "items": [
+      {
+        "productId": 19,
+        "name": "National Ketchup 800g",
+        "quantity": 2,
+        "price": 500
+      },
+      {
+        "productId": 19,
+        "name": "National Ketchup 800g",
+        "quantity": 3,
+        "price": 500
+      }
+    ],
+    "subtotal": 2500,
+    "deliveryFee": 50,
+    "total": 2550,
+    "paymentMethod": "Cash on Delivery",
+    "status": "preparing",
+    "createdAt": "2026-05-13T01:36:48.499336Z",
+    "deliveryAddress": "Gulshan-e-Iqbal, Karachi"
+  },
+  {
+    "orderId": 17,
+    "customerId": 4,
+    "vendorId": 27,
+    "riderId": 50,
+    "items": [
+      {
+        "productId": 14,
+        "name": "Chocolate Fudge Cake 2lbs",
+        "quantity": 2,
+        "price": 2500
+      },
+      {
+        "productId": 13,
+        "name": "Panadol Extra 500mg",
+        "quantity": 1,
+        "price": 150
+      },
+      {
+        "productId": 14,
+        "name": "Chocolate Fudge Cake 2lbs",
+        "quantity": 2,
+        "price": 2500
+      }
+    ],
+    "subtotal": 10150,
+    "deliveryFee": 50,
+    "total": 10200,
+    "paymentMethod": "JazzCash",
+    "status": "picked_up",
+    "createdAt": "2026-05-12T04:04:48.499336Z",
+    "deliveryAddress": "Model Town, Lahore"
+  },
+  {
+    "orderId": 18,
+    "customerId": 15,
+    "vendorId": 33,
+    "riderId": 42,
+    "items": [
+      {
+        "productId": 26,
+        "name": "Sufi Cooking Oil 3L",
+        "quantity": 1,
+        "price": 1600
+      },
+      {
+        "productId": 26,
+        "name": "Sufi Cooking Oil 3L",
+        "quantity": 2,
+        "price": 1600
+      },
+      {
+        "productId": 25,
+        "name": "Panadol Extra 500mg",
+        "quantity": 3,
+        "price": 150
+      }
+    ],
+    "subtotal": 5250,
+    "deliveryFee": 50,
+    "total": 5300,
+    "paymentMethod": "Cash on Delivery",
+    "status": "on_the_way",
+    "createdAt": "2026-05-07T11:37:48.499336Z",
+    "deliveryAddress": "Clifton Block 4, Karachi"
+  },
+  {
+    "orderId": 19,
+    "customerId": 3,
+    "vendorId": 38,
+    "riderId": 45,
+    "items": [
+      {
+        "productId": 35,
+        "name": "Knorr Noodles Chatpata",
+        "quantity": 2,
+        "price": 60
+      },
+      {
+        "productId": 36,
+        "name": "Tapal Danedar 900g",
+        "quantity": 1,
+        "price": 1450
+      },
+      {
+        "productId": 35,
+        "name": "Knorr Noodles Chatpata",
+        "quantity": 1,
+        "price": 60
+      }
+    ],
+    "subtotal": 1630,
+    "deliveryFee": 50,
+    "total": 1680,
+    "paymentMethod": "Cash on Delivery",
+    "status": "delivered",
+    "createdAt": "2026-05-11T22:13:48.499336Z",
+    "deliveryAddress": "Cavalry Ground, Lahore"
+  },
+  {
+    "orderId": 20,
+    "customerId": 3,
+    "vendorId": 40,
+    "riderId": 56,
+    "items": [
+      {
+        "productId": 40,
+        "name": "Gourmet Plain Cake",
+        "quantity": 1,
+        "price": 400
+      }
+    ],
+    "subtotal": 400,
+    "deliveryFee": 50,
+    "total": 450,
+    "paymentMethod": "Cash on Delivery",
+    "status": "preparing",
+    "createdAt": "2026-05-10T09:16:48.499336Z",
+    "deliveryAddress": "Cavalry Ground, Lahore"
+  }
+]

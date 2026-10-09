@@ -1,0 +1,11 @@
+id,userid,is_available,latitude,longitude,isavailable
+1,31,false,33.721015,72.928309,false
+2,32,true,33.716089,72.908045,true
+3,33,true,33.730089,72.941526,true
+4,34,false,33.636952,73.084661,false
+5,35,false,33.721651,72.951829,false
+6,36,true,33.697484,72.949379,true
+7,37,true,33.724541,72.922079,true
+8,38,true,33.738123,72.957666,true
+9,39,true,33.707444,72.987484,true
+10,40,true,33.687386,73.088564,true

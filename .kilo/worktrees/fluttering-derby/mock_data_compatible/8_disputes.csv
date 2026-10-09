@@ -1,0 +1,16 @@
+id,type,by,status,created_at
+1,Rider Misconduct,customer5@tezrider.com,Closed,2026-05-11 17:01:36+00
+2,Late Delivery,customer4@tezrider.com,Resolved,2026-05-05 10:43:36+00
+3,Damaged Item,customer3@tezrider.com,Under Review,2026-04-27 13:30:36+00
+4,Late Delivery,customer5@tezrider.com,Resolved,2026-05-08 03:37:36+00
+5,Rider Misconduct,customer10@tezrider.com,Under Review,2026-04-29 06:57:36+00
+6,Payment Not Received,customer11@tezrider.com,Resolved,2026-05-12 03:35:36+00
+7,Payment Not Received,customer14@tezrider.com,Closed,2026-04-25 03:56:36+00
+8,Payment Not Received,customer18@tezrider.com,Closed,2026-04-20 13:47:36+00
+9,Refund Request,customer16@tezrider.com,Open,2026-05-05 12:54:36+00
+10,Damaged Item,customer18@tezrider.com,Closed,2026-05-10 20:53:36+00
+11,Rider Misconduct,customer18@tezrider.com,Closed,2026-05-14 04:47:36+00
+12,Late Delivery,customer10@tezrider.com,Resolved,2026-04-26 23:24:36+00
+13,Wrong Item Delivered,customer7@tezrider.com,Resolved,2026-04-29 12:49:36+00
+14,Wrong Item Delivered,customer8@tezrider.com,Open,2026-05-08 02:53:36+00
+15,Payment Not Received,customer15@tezrider.com,Closed,2026-04-28 14:55:36+00

@@ -1,0 +1,16 @@
+id,vendor_id,name,address,is_open
+1,2,Store 1,Market Square,true
+2,19,Store 2,Market Square,true
+3,5,Store 3,Market Square,true
+4,14,Store 4,Market Square,true
+5,17,Store 5,Market Square,true
+6,15,Store 6,Market Square,true
+7,5,Store 7,Market Square,true
+8,1,Store 8,Market Square,true
+9,8,Store 9,Market Square,true
+10,15,Store 10,Market Square,true
+11,10,Store 11,Market Square,true
+12,20,Store 12,Market Square,true
+13,2,Store 13,Market Square,true
+14,5,Store 14,Market Square,true
+15,3,Store 15,Market Square,true

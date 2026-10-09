@@ -1,0 +1,402 @@
+[
+  {
+    "productId": 1,
+    "name": "Women's Lawn Suit",
+    "description": "High quality Women's Lawn Suit delivered to your doorstep.",
+    "category": "parcel",
+    "price": 4500,
+    "stock": 134,
+    "image": "https://via.placeholder.com/150?text=Women's+Lawn+Suit",
+    "vendorId": 21
+  },
+  {
+    "productId": 2,
+    "name": "Red Roses Bouquet",
+    "description": "High quality Red Roses Bouquet delivered to your doorstep.",
+    "category": "gift",
+    "price": 1500,
+    "stock": 48,
+    "image": "https://via.placeholder.com/150?text=Red+Roses+Bouquet",
+    "vendorId": 21
+  },
+  {
+    "productId": 3,
+    "name": "Knorr Noodles Chatpata",
+    "description": "High quality Knorr Noodles Chatpata delivered to your doorstep.",
+    "category": "grocery",
+    "price": 60,
+    "stock": 95,
+    "image": "https://via.placeholder.com/150?text=Knorr+Noodles+Chatpata",
+    "vendorId": 22
+  },
+  {
+    "productId": 4,
+    "name": "Ferrero Rocher 16s",
+    "description": "High quality Ferrero Rocher 16s delivered to your doorstep.",
+    "category": "gift",
+    "price": 2200,
+    "stock": 145,
+    "image": "https://via.placeholder.com/150?text=Ferrero+Rocher+16s",
+    "vendorId": 22
+  },
+  {
+    "productId": 5,
+    "name": "Men's Unstitched Kurta",
+    "description": "High quality Men's Unstitched Kurta delivered to your doorstep.",
+    "category": "parcel",
+    "price": 3500,
+    "stock": 165,
+    "image": "https://via.placeholder.com/150?text=Men's+Unstitched+Kurta",
+    "vendorId": 23
+  },
+  {
+    "productId": 6,
+    "name": "Women's Lawn Suit",
+    "description": "High quality Women's Lawn Suit delivered to your doorstep.",
+    "category": "parcel",
+    "price": 4500,
+    "stock": 62,
+    "image": "https://via.placeholder.com/150?text=Women's+Lawn+Suit",
+    "vendorId": 23
+  },
+  {
+    "productId": 7,
+    "name": "Ferrero Rocher 16s",
+    "description": "High quality Ferrero Rocher 16s delivered to your doorstep.",
+    "category": "gift",
+    "price": 2200,
+    "stock": 173,
+    "image": "https://via.placeholder.com/150?text=Ferrero+Rocher+16s",
+    "vendorId": 24
+  },
+  {
+    "productId": 8,
+    "name": "Knorr Noodles Chatpata",
+    "description": "High quality Knorr Noodles Chatpata delivered to your doorstep.",
+    "category": "grocery",
+    "price": 60,
+    "stock": 146,
+    "image": "https://via.placeholder.com/150?text=Knorr+Noodles+Chatpata",
+    "vendorId": 24
+  },
+  {
+    "productId": 9,
+    "name": "Women's Lawn Suit",
+    "description": "High quality Women's Lawn Suit delivered to your doorstep.",
+    "category": "parcel",
+    "price": 4500,
+    "stock": 32,
+    "image": "https://via.placeholder.com/150?text=Women's+Lawn+Suit",
+    "vendorId": 25
+  },
+  {
+    "productId": 10,
+    "name": "Lays French Cheese",
+    "description": "High quality Lays French Cheese delivered to your doorstep.",
+    "category": "grocery",
+    "price": 100,
+    "stock": 116,
+    "image": "https://via.placeholder.com/150?text=Lays+French+Cheese",
+    "vendorId": 25
+  },
+  {
+    "productId": 11,
+    "name": "Arinac Forte",
+    "description": "High quality Arinac Forte delivered to your doorstep.",
+    "category": "pharmacy",
+    "price": 120,
+    "stock": 156,
+    "image": "https://via.placeholder.com/150?text=Arinac+Forte",
+    "vendorId": 26
+  },
+  {
+    "productId": 12,
+    "name": "Gourmet Plain Cake",
+    "description": "High quality Gourmet Plain Cake delivered to your doorstep.",
+    "category": "grocery",
+    "price": 400,
+    "stock": 192,
+    "image": "https://via.placeholder.com/150?text=Gourmet+Plain+Cake",
+    "vendorId": 26
+  },
+  {
+    "productId": 13,
+    "name": "Panadol Extra 500mg",
+    "description": "High quality Panadol Extra 500mg delivered to your doorstep.",
+    "category": "pharmacy",
+    "price": 150,
+    "stock": 199,
+    "image": "https://via.placeholder.com/150?text=Panadol+Extra+500mg",
+    "vendorId": 27
+  },
+  {
+    "productId": 14,
+    "name": "Chocolate Fudge Cake 2lbs",
+    "description": "High quality Chocolate Fudge Cake 2lbs delivered to your doorstep.",
+    "category": "gift",
+    "price": 2500,
+    "stock": 42,
+    "image": "https://via.placeholder.com/150?text=Chocolate+Fudge+Cake+2lbs",
+    "vendorId": 27
+  },
+  {
+    "productId": 15,
+    "name": "Customized Mug",
+    "description": "High quality Customized Mug delivered to your doorstep.",
+    "category": "gift",
+    "price": 800,
+    "stock": 180,
+    "image": "https://via.placeholder.com/150?text=Customized+Mug",
+    "vendorId": 28
+  },
+  {
+    "productId": 16,
+    "name": "Mitchell's Jam",
+    "description": "High quality Mitchell's Jam delivered to your doorstep.",
+    "category": "grocery",
+    "price": 350,
+    "stock": 124,
+    "image": "https://via.placeholder.com/150?text=Mitchell's+Jam",
+    "vendorId": 28
+  },
+  {
+    "productId": 17,
+    "name": "Nestle MilkPak 1L",
+    "description": "High quality Nestle MilkPak 1L delivered to your doorstep.",
+    "category": "grocery",
+    "price": 250,
+    "stock": 13,
+    "image": "https://via.placeholder.com/150?text=Nestle+MilkPak+1L",
+    "vendorId": 29
+  },
+  {
+    "productId": 18,
+    "name": "National Ketchup 800g",
+    "description": "High quality National Ketchup 800g delivered to your doorstep.",
+    "category": "grocery",
+    "price": 500,
+    "stock": 100,
+    "image": "https://via.placeholder.com/150?text=National+Ketchup+800g",
+    "vendorId": 29
+  },
+  {
+    "productId": 19,
+    "name": "National Ketchup 800g",
+    "description": "High quality National Ketchup 800g delivered to your doorstep.",
+    "category": "grocery",
+    "price": 500,
+    "stock": 188,
+    "image": "https://via.placeholder.com/150?text=National+Ketchup+800g",
+    "vendorId": 30
+  },
+  {
+    "productId": 20,
+    "name": "Dairy Milk Silk",
+    "description": "High quality Dairy Milk Silk delivered to your doorstep.",
+    "category": "gift",
+    "price": 450,
+    "stock": 179,
+    "image": "https://via.placeholder.com/150?text=Dairy+Milk+Silk",
+    "vendorId": 30
+  },
+  {
+    "productId": 21,
+    "name": "Dawn Bread Large",
+    "description": "High quality Dawn Bread Large delivered to your doorstep.",
+    "category": "grocery",
+    "price": 120,
+    "stock": 49,
+    "image": "https://via.placeholder.com/150?text=Dawn+Bread+Large",
+    "vendorId": 31
+  },
+  {
+    "productId": 22,
+    "name": "Panadol CF",
+    "description": "High quality Panadol CF delivered to your doorstep.",
+    "category": "pharmacy",
+    "price": 100,
+    "stock": 66,
+    "image": "https://via.placeholder.com/150?text=Panadol+CF",
+    "vendorId": 31
+  },
+  {
+    "productId": 23,
+    "name": "National Ketchup 800g",
+    "description": "High quality National Ketchup 800g delivered to your doorstep.",
+    "category": "grocery",
+    "price": 500,
+    "stock": 167,
+    "image": "https://via.placeholder.com/150?text=National+Ketchup+800g",
+    "vendorId": 32
+  },
+  {
+    "productId": 24,
+    "name": "Mitchell's Jam",
+    "description": "High quality Mitchell's Jam delivered to your doorstep.",
+    "category": "grocery",
+    "price": 350,
+    "stock": 152,
+    "image": "https://via.placeholder.com/150?text=Mitchell's+Jam",
+    "vendorId": 32
+  },
+  {
+    "productId": 25,
+    "name": "Panadol Extra 500mg",
+    "description": "High quality Panadol Extra 500mg delivered to your doorstep.",
+    "category": "pharmacy",
+    "price": 150,
+    "stock": 47,
+    "image": "https://via.placeholder.com/150?text=Panadol+Extra+500mg",
+    "vendorId": 33
+  },
+  {
+    "productId": 26,
+    "name": "Sufi Cooking Oil 3L",
+    "description": "High quality Sufi Cooking Oil 3L delivered to your doorstep.",
+    "category": "grocery",
+    "price": 1600,
+    "stock": 112,
+    "image": "https://via.placeholder.com/150?text=Sufi+Cooking+Oil+3L",
+    "vendorId": 33
+  },
+  {
+    "productId": 27,
+    "name": "Men's Unstitched Kurta",
+    "description": "High quality Men's Unstitched Kurta delivered to your doorstep.",
+    "category": "parcel",
+    "price": 3500,
+    "stock": 170,
+    "image": "https://via.placeholder.com/150?text=Men's+Unstitched+Kurta",
+    "vendorId": 34
+  },
+  {
+    "productId": 28,
+    "name": "Women's Lawn Suit",
+    "description": "High quality Women's Lawn Suit delivered to your doorstep.",
+    "category": "parcel",
+    "price": 4500,
+    "stock": 86,
+    "image": "https://via.placeholder.com/150?text=Women's+Lawn+Suit",
+    "vendorId": 34
+  },
+  {
+    "productId": 29,
+    "name": "Dairy Milk Silk",
+    "description": "High quality Dairy Milk Silk delivered to your doorstep.",
+    "category": "gift",
+    "price": 450,
+    "stock": 31,
+    "image": "https://via.placeholder.com/150?text=Dairy+Milk+Silk",
+    "vendorId": 35
+  },
+  {
+    "productId": 30,
+    "name": "Dawn Bread Large",
+    "description": "High quality Dawn Bread Large delivered to your doorstep.",
+    "category": "grocery",
+    "price": 120,
+    "stock": 57,
+    "image": "https://via.placeholder.com/150?text=Dawn+Bread+Large",
+    "vendorId": 35
+  },
+  {
+    "productId": 31,
+    "name": "Sufi Cooking Oil 3L",
+    "description": "High quality Sufi Cooking Oil 3L delivered to your doorstep.",
+    "category": "grocery",
+    "price": 1600,
+    "stock": 80,
+    "image": "https://via.placeholder.com/150?text=Sufi+Cooking+Oil+3L",
+    "vendorId": 36
+  },
+  {
+    "productId": 32,
+    "name": "Men's Unstitched Kurta",
+    "description": "High quality Men's Unstitched Kurta delivered to your doorstep.",
+    "category": "parcel",
+    "price": 3500,
+    "stock": 55,
+    "image": "https://via.placeholder.com/150?text=Men's+Unstitched+Kurta",
+    "vendorId": 36
+  },
+  {
+    "productId": 33,
+    "name": "Dairy Milk Silk",
+    "description": "High quality Dairy Milk Silk delivered to your doorstep.",
+    "category": "gift",
+    "price": 450,
+    "stock": 96,
+    "image": "https://via.placeholder.com/150?text=Dairy+Milk+Silk",
+    "vendorId": 37
+  },
+  {
+    "productId": 34,
+    "name": "Tapal Danedar 900g",
+    "description": "High quality Tapal Danedar 900g delivered to your doorstep.",
+    "category": "grocery",
+    "price": 1450,
+    "stock": 115,
+    "image": "https://via.placeholder.com/150?text=Tapal+Danedar+900g",
+    "vendorId": 37
+  },
+  {
+    "productId": 35,
+    "name": "Knorr Noodles Chatpata",
+    "description": "High quality Knorr Noodles Chatpata delivered to your doorstep.",
+    "category": "grocery",
+    "price": 60,
+    "stock": 54,
+    "image": "https://via.placeholder.com/150?text=Knorr+Noodles+Chatpata",
+    "vendorId": 38
+  },
+  {
+    "productId": 36,
+    "name": "Tapal Danedar 900g",
+    "description": "High quality Tapal Danedar 900g delivered to your doorstep.",
+    "category": "grocery",
+    "price": 1450,
+    "stock": 66,
+    "image": "https://via.placeholder.com/150?text=Tapal+Danedar+900g",
+    "vendorId": 38
+  },
+  {
+    "productId": 37,
+    "name": "Mitchell's Jam",
+    "description": "High quality Mitchell's Jam delivered to your doorstep.",
+    "category": "grocery",
+    "price": 350,
+    "stock": 144,
+    "image": "https://via.placeholder.com/150?text=Mitchell's+Jam",
+    "vendorId": 39
+  },
+  {
+    "productId": 38,
+    "name": "Gourmet Plain Cake",
+    "description": "High quality Gourmet Plain Cake delivered to your doorstep.",
+    "category": "grocery",
+    "price": 400,
+    "stock": 125,
+    "image": "https://via.placeholder.com/150?text=Gourmet+Plain+Cake",
+    "vendorId": 39
+  },
+  {
+    "productId": 39,
+    "name": "Gourmet Plain Cake",
+    "description": "High quality Gourmet Plain Cake delivered to your doorstep.",
+    "category": "grocery",
+    "price": 400,
+    "stock": 60,
+    "image": "https://via.placeholder.com/150?text=Gourmet+Plain+Cake",
+    "vendorId": 40
+  },
+  {
+    "productId": 40,
+    "name": "Gourmet Plain Cake",
+    "description": "High quality Gourmet Plain Cake delivered to your doorstep.",
+    "category": "grocery",
+    "price": 400,
+    "stock": 32,
+    "image": "https://via.placeholder.com/150?text=Gourmet+Plain+Cake",
+    "vendorId": 40
+  }
+]
