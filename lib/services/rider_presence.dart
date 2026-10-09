@@ -7,6 +7,12 @@ typedef PresenceCall =
       Map<String, dynamic> parameters,
     );
 
+class PresenceFailure implements Exception {
+  const PresenceFailure(this.message, {this.retryable = false});
+  final String message;
+  final bool retryable;
+}
+
 /// A server-issued epoch rejects requests from a previous app session; sequence
 /// numbers reject late requests and make retries safe after a lost response.
 class RiderPresence {
@@ -22,6 +28,8 @@ class RiderPresence {
   int _sequence = 0;
   int _generation = 0;
   bool _closed = false;
+  bool _active = true;
+  bool _restorePending = false;
   Timer? _heartbeat;
   DateTime? _lastTap;
 
@@ -32,8 +40,10 @@ class RiderPresence {
     for (var attempt = 0; ; attempt++) {
       try {
         return await call(name, parameters).timeout(const Duration(seconds: 8));
-      } catch (_) {
-        if (attempt == 2 || _closed) rethrow;
+      } catch (e) {
+        if (attempt == 2 || _closed || (e is PresenceFailure && !e.retryable)) {
+          rethrow;
+        }
         await Future<void>.delayed(
           Duration(milliseconds: 300 * (1 << attempt)),
         );
@@ -42,8 +52,16 @@ class RiderPresence {
   }
 
   Future<void> restore() async {
-    if (busy || _closed) return;
+    if (_closed) return;
+    _active = true;
+    if (busy) {
+      _restorePending = true;
+      return;
+    }
+    _restorePending = false;
     busy = true;
+    ready = false;
+    _heartbeat?.cancel();
     changed();
     final generation = _generation;
     try {
@@ -52,19 +70,31 @@ class RiderPresence {
         'fr21_begin_presence',
         {},
       ).timeout(const Duration(seconds: 8));
-      if (_closed || generation != _generation) return;
       _epoch = (result['epoch'] as num).toInt();
       _sequence = 0;
+      if (_closed || generation != _generation || !_active) {
+        // Background/logout can occur before startup returns its epoch.
+        // Release that newly returned lease rather than leaving it online.
+        try {
+          await _write(false);
+        } catch (_) {}
+        return;
+      }
       online = result['is_online'] == true;
       ready = true;
       error = null;
       _scheduleHeartbeat();
-    } catch (_) {
-      error = 'Could not restore availability. Tap Retry.';
-      online = false;
+    } catch (e) {
+      if (!_closed && generation == _generation) {
+        error = e is PresenceFailure
+            ? e.message
+            : 'Could not restore availability. Tap Retry.';
+        online = false;
+      }
     } finally {
       busy = false;
       if (!_closed) changed();
+      _runPendingRestore();
     }
   }
 
@@ -72,6 +102,7 @@ class RiderPresence {
     final now = DateTime.now();
     if (_closed ||
         !ready ||
+        !_active ||
         busy ||
         value == online ||
         (_lastTap != null &&
@@ -92,11 +123,13 @@ class RiderPresence {
       if (_closed || generation != _generation) return;
       online = result['is_online'] == true;
       error = null;
-    } catch (_) {
+    } catch (e) {
       if (generation == _generation) {
         online = previous;
-        error =
-            'Availability was not confirmed. Check your connection and retry.';
+        ready = false;
+        error = e is PresenceFailure
+            ? e.message
+            : 'Availability was not confirmed. Check your connection and retry.';
       }
     } finally {
       busy = false;
@@ -104,6 +137,7 @@ class RiderPresence {
         _scheduleHeartbeat();
         changed();
       }
+      _runPendingRestore();
     }
   }
 
@@ -114,7 +148,7 @@ class RiderPresence {
 
   void _scheduleHeartbeat() {
     _heartbeat?.cancel();
-    if (!online || _closed) return;
+    if (!online || !ready || !_active || _closed) return;
     // One-shot scheduling prevents overlapping heartbeats; jitter spreads load.
     _heartbeat = Timer(Duration(seconds: 45 + Random().nextInt(11)), () async {
       if (busy || _closed) {
@@ -133,6 +167,7 @@ class RiderPresence {
       } catch (_) {
         if (generation == _generation) {
           online = false;
+          ready = false;
           error = 'Connection lost. Go online again when connected.';
         }
       } finally {
@@ -141,14 +176,18 @@ class RiderPresence {
           _scheduleHeartbeat();
           changed();
         }
+        _runPendingRestore();
       }
     });
   }
 
   Future<void> offline() async {
+    _active = false;
+    _restorePending = false;
     _generation++;
     _heartbeat?.cancel();
     online = false;
+    ready = false;
     if (!_closed) changed();
     if (_epoch == null) return;
     try {
@@ -156,6 +195,12 @@ class RiderPresence {
       await _write(false);
     } catch (_) {
       // Abrupt termination/network failure is handled by the server's 2m lease.
+    }
+  }
+
+  void _runPendingRestore() {
+    if (_restorePending && _active && !_closed && !busy) {
+      unawaited(restore());
     }
   }
 

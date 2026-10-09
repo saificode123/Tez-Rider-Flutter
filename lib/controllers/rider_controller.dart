@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +22,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   Timer? _refreshTimer;
   bool _refreshing = false;
   bool _refreshPending = false;
+  StreamSubscription<AuthState>? _authSubscription;
+  final deliveryBusy = false.obs;
   int _requestsPage = 0;
   final hasMoreRequests = false.obs;
   final requestsLoading = false.obs;
@@ -38,8 +39,23 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     super.onInit();
     _presence = RiderPresence(
       (name, parameters) async {
-        final response = await _supabase.rpc(name, params: parameters);
-        return Map<String, dynamic>.from(response as Map);
+        try {
+          final response = await _supabase.rpc(name, params: parameters);
+          return Map<String, dynamic>.from(response as Map);
+        } on AuthException {
+          throw const PresenceFailure('Session expired. Please sign in again.');
+        } on PostgrestException catch (e) {
+          throw PresenceFailure(
+            e.code == 'PGRST202'
+                ? 'Availability setup is pending on the server.'
+                : e.code == '42501'
+                ? 'An approved rider account is required.'
+                : e.code == '40001'
+                ? 'This session changed. Tap Retry to restore availability.'
+                : 'Availability could not be confirmed. Tap Retry.',
+            retryable: e.code == '503' || e.code == '504',
+          );
+        }
       },
       () {
         isOnline.value = _presence.online;
@@ -49,10 +65,38 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       },
     );
     WidgetsBinding.instance.addObserver(this);
+    _authSubscription = _supabase.auth.onAuthStateChange.listen((data) {
+      if (data.event == AuthChangeEvent.signedOut) unawaited(goOffline());
+    });
     unawaited(_presence.restore());
     unawaited(_listenToDashboard());
-    checkCurrentOrder();
-    loadEarnings();
+    unawaited(_loadInitialData());
+  }
+
+  Future<void> _loadInitialData() async {
+    try {
+      await Future.wait([checkCurrentOrder(), loadEarnings()]);
+    } catch (_) {
+      if (!isClosed) presenceError.value = 'Could not load rider deliveries.';
+    }
+  }
+
+  Future<void> updateLocation(double latitude, double longitude) async {
+    try {
+      await _supabase
+          .rpc(
+            'fr21_update_location',
+            params: {'p_lat': latitude, 'p_lng': longitude},
+          )
+          .timeout(const Duration(seconds: 8));
+    } catch (_) {
+      if (!isClosed) {
+        Get.snackbar(
+          'Location',
+          'Your location could not be saved. Delivery matching may be unavailable.',
+        );
+      }
+    }
   }
 
   Future<void> loadEarnings() async {
@@ -136,7 +180,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             filter: PostgresChangeFilter(
               type: PostgresChangeFilterType.inFilter,
               column: 'order_status',
-              value: ['placed', 'accepted'],
+              value: ['placed', 'accepted', 'on_the_way'],
             ),
             callback: (_) => _queueRefresh(),
           )
@@ -199,7 +243,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             .select(
               'id,rider_id,order_status,created_at,amount,delivery_address,delivery_lat,delivery_lng',
             )
-            .inFilter('order_status', ['placed', 'accepted'])
+            .inFilter('order_status', ['placed', 'accepted', 'on_the_way'])
             .or('rider_id.is.null,rider_id.eq.$_riderId')
             .order('created_at', ascending: false)
             .range(page * 100, page * 100 + 99)
@@ -262,38 +306,37 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         .select()
         .eq('rider_id', riderId)
         .eq('order_status', 'on_the_way')
-        .maybeSingle();
+        .order('created_at', ascending: false)
+        .limit(1)
+        .maybeSingle()
+        .timeout(const Duration(seconds: 8));
 
     if (orderData != null) {
       currentOrder.value = {...orderData, 'type': 'order'};
       return;
     }
 
-    _supabase
-        .from('users')
-        .select('id')
-        .eq('email', user.email!)
+    final tailorData = await _supabase
+        .from('tailoring_requests')
+        .select()
+        .eq('rider_id', riderId)
+        .inFilter('status', [
+          'picked_up_from_customer',
+          'picked_up_from_tailor',
+        ])
+        .order('created_at', ascending: false)
+        .limit(1)
         .maybeSingle()
-        .then((rec) async {
-          if (rec != null) {
-            final tailorData = await _supabase
-                .from('tailoring_requests')
-                .select()
-                .eq('rider_id', rec['id'])
-                .inFilter('status', [
-                  'picked_up_from_customer',
-                  'picked_up_from_tailor',
-                ])
-                .maybeSingle();
-
-            if (tailorData != null) {
-              currentOrder.value = {...tailorData, 'type': 'tailoring'};
-            }
-          }
-        });
+        .timeout(const Duration(seconds: 8));
+    if (!isClosed) {
+      currentOrder.value = tailorData == null
+          ? null
+          : {...tailorData, 'type': 'tailoring'};
+    }
   }
 
   Future<void> acceptOrder(Map<String, dynamic> order) async {
+    if (deliveryBusy.value) return;
     if (currentOrder.value != null) {
       Get.snackbar(
         'Ongoing Delivery',
@@ -305,6 +348,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     }
     final user = _supabase.auth.currentUser;
     if (user == null) return;
+    deliveryBusy.value = true;
     try {
       final userRecord = await _supabase
           .from('users')
@@ -312,17 +356,14 @@ class RiderController extends GetxController with WidgetsBindingObserver {
           .eq('email', user.email!)
           .maybeSingle();
       if (userRecord == null) return;
-      final otp = (100000 + Random().nextInt(900000)).toString();
-      await _supabase
-          .from('orders')
-          .update({
-            'rider_id': userRecord['id'],
-            'order_status': 'on_the_way',
-            'delivery_otp': otp,
-          })
-          .eq('id', order['id']);
-
-      currentOrder.value = {...order, 'type': 'order', 'delivery_otp': otp};
+      final result = Map<String, dynamic>.from(
+        await _supabase
+                .rpc('fr21_accept_order', params: {'p_order_id': order['id']})
+                .timeout(const Duration(seconds: 8))
+            as Map,
+      );
+      if (isClosed) return;
+      currentOrder.value = {...order, ...result, 'type': 'order'};
       Get.snackbar(
         'Order Accepted',
         'Navigate to the customer now.',
@@ -331,29 +372,27 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       );
     } catch (e) {
       Get.snackbar('Error', 'Could not accept order.');
+    } finally {
+      deliveryBusy.value = false;
     }
   }
 
   Future<bool> verifyOtpAndDeliver(String enteredOtp) async {
+    if (deliveryBusy.value) return false;
     final current = currentOrder.value;
     if (current == null) return false;
+    deliveryBusy.value = true;
     try {
-      final row = await _supabase
-          .from('orders')
-          .select('delivery_otp')
-          .eq('id', current['id'])
-          .maybeSingle();
-
-      final correct = row?['delivery_otp']?.toString() ?? '';
-      if (enteredOtp != correct) {
+      final confirmed = await _supabase
+          .rpc(
+            'fr21_complete_delivery',
+            params: {'p_order_id': current['id'], 'p_otp': enteredOtp},
+          )
+          .timeout(const Duration(seconds: 8));
+      if (confirmed != true) {
         HapticFeedback.heavyImpact();
         return false;
       }
-
-      await _supabase
-          .from('orders')
-          .update({'order_status': 'delivered'})
-          .eq('id', current['id']);
 
       try {
         await _supabase.from('delivery_proof').insert({
@@ -375,6 +414,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     } catch (e) {
       Get.snackbar('Error', 'Could not verify OTP.');
       return false;
+    } finally {
+      deliveryBusy.value = false;
     }
   }
 
@@ -422,11 +463,11 @@ class RiderController extends GetxController with WidgetsBindingObserver {
 
     try {
       if (current['type'] == 'order') {
-        await _supabase
-            .from('orders')
-            .update({'order_status': 'delivered'})
-            .eq('id', current['id']);
-        Get.snackbar('Success', 'Order marked as delivered!');
+        Get.snackbar(
+          'Delivery',
+          'Enter the customer OTP to complete delivery.',
+        );
+        return;
       } else if (current['type'] == 'tailoring') {
         String nextStatus = current['status'] == 'picked_up_from_customer'
             ? 'delivered_to_tailor'
@@ -465,6 +506,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     unawaited(goOffline());
     _presence.dispose();
     _refreshTimer?.cancel();
+    unawaited(_authSubscription?.cancel());
     if (_dashboardChannel != null) {
       unawaited(_supabase.removeChannel(_dashboardChannel!));
     }

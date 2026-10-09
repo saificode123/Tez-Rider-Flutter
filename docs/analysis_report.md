@@ -66,7 +66,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | ----- | ------------------- | ------------------------------------------------------------------------------------- |
 | FR-19 | **Partial (verified during FR-21 inspection)** | Original client matching used Haversine distance but omitted verification/freshness and was not atomic. FR-21 now provides transactional matching; migration/device validation remains pending. |
 | FR-20 | **Not implemented** | Returns a message if no rider found; no radius expansion and no admin notification    |
-| FR-21 | **Implemented locally; backend validation pending** | Originally local-only (confirmed). Presence RPCs, startup restore, heartbeat expiry, lifecycle cleanup, guarded toggle, transactional fresh/verified assignment and tests added on `feature/FR-21-rider-online-status`. Not deployed or merged; SQL/load/device checks pending. |
+| FR-21 | **Implemented locally; production blocked (2026-10-10)** | Revised migration reuses users.verification_status, is rerunnable, protects presence/identity/assignment writes, and supplies transactional location, assignment and reservation release. Local Flutter, SQL/RLS and 1,000-VU tests executed; see docs/FR-21-verification.md for actual results and APK evidence. Remote columns/RPCs remain absent. All 10 legacy rider rows reference vendor accounts and remain unchanged; no backup/restore or production approval exists. |
 | FR-22 | Not reviewed        | Rider performance metrics after each delivery                                         |
 
 ### Feedback and disputes

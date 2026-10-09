@@ -49,6 +49,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
       );
       if (mounted) {
         setState(() => _currentLocation = LatLng(pos.latitude, pos.longitude));
+        await riderCtrl.updateLocation(pos.latitude, pos.longitude);
       }
     } catch (_) {}
   }

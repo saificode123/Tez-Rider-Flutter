@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../data/mock_data.dart';
@@ -13,14 +14,20 @@ class VendorController extends GetxController {
   RxString totalEarnings = 'PKR 0'.obs;
   RxString averageRating = '—'.obs;
 
-  // True once mock orders have been seeded so we don't re-seed on every stream event.
-  bool _mockOrdersSeeded = false;
+  final ordersError = RxnString();
+  final hasMoreOrders = false.obs;
+  final ordersRefreshing = false.obs;
+  RealtimeChannel? _channel;
+  Timer? _refreshTimer;
+  Object? _vendorId;
+  int _orderPage = 0;
+  bool _refreshing = false;
+  bool _refreshPending = false;
 
   @override
   void onInit() {
     super.onInit();
     listenToOrders();
-    listenToTailoringJobs();
     loadStats();
   }
 
@@ -92,131 +99,141 @@ class VendorController extends GetxController {
     }
   }
 
-  void listenToOrders() {
-    final user = _supabase.auth.currentUser;
-    if (user == null) {
-      // No auth — seed mock orders immediately.
-      activeOrders.value = MockData.vendorOrders;
-      isLoadingOrders.value = false;
+  Future<void> listenToOrders() async {
+    try {
+      final id = await _supabase
+          .rpc('fr21_actor')
+          .timeout(const Duration(seconds: 8));
+      if (id == null) throw StateError('Sign in required');
+      if (isClosed) return;
+      _vendorId = id;
+      _channel = _supabase
+          .channel('vendor-dashboard-$id')
+          .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'vendor_orders',
+            filter: PostgresChangeFilter(
+              type: PostgresChangeFilterType.eq,
+              column: 'vendor_id',
+              value: id,
+            ),
+            callback: (_) => _queueRefresh(),
+          )
+          .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'tailoring_requests',
+            filter: PostgresChangeFilter(
+              type: PostgresChangeFilterType.eq,
+              column: 'vendor_id',
+              value: id,
+            ),
+            callback: (_) => _queueRefresh(),
+          )
+          .subscribe((status, error) {
+            if (status == RealtimeSubscribeStatus.subscribed) _queueRefresh();
+          });
+      await refreshOrders();
+    } catch (_) {
+      if (!isClosed) {
+        ordersError.value =
+            'Could not load your orders. Retry after signing in.';
+        isLoadingOrders.value = false;
+      }
+    }
+  }
+
+  void _queueRefresh() {
+    if (isClosed || _refreshTimer?.isActive == true) return;
+    _refreshTimer = Timer(
+      const Duration(milliseconds: 500),
+      () => unawaited(refreshOrders()),
+    );
+  }
+
+  Future<void> refreshOrders({bool loadMore = false}) async {
+    if (_vendorId == null) {
+      await listenToOrders();
       return;
     }
-
-    _supabase
-        .from('users')
-        .select('id')
-        .eq('email', user.email!)
-        .maybeSingle()
-        .then((userRecord) {
-          if (userRecord == null) {
-            activeOrders.value = MockData.vendorOrders;
-            isLoadingOrders.value = false;
-            return;
-          }
-          final vendorId = userRecord['id'];
-          // Stream just tells us *something changed* — we re-fetch the
-          // enriched (joined) data below so item names / customer info
-          // stay up to date in real time too.
-          _supabase
-              .from('vendor_orders')
-              .stream(primaryKey: ['id'])
-              .eq('vendor_id', vendorId)
-              .listen((_) => _refreshEnrichedOrders(vendorId));
-          _refreshEnrichedOrders(vendorId);
-        });
-  }
-
-  Future<void> _refreshEnrichedOrders(dynamic vendorId) async {
+    if (_refreshing) {
+      _refreshPending = true;
+      return;
+    }
+    _refreshing = true;
+    ordersRefreshing.value = true;
+    final page = loadMore ? _orderPage + 1 : 0;
     try {
-      final data = await _supabase
-          .from('vendor_orders')
-          .select(
-            '*, orders!vendor_orders_order_id_fkey(id, user_id, delivery_address, delivery_lat, delivery_lng, delivery_speed, users!orders_user_id_fkey(name, phone)), '
-            'order_items(quantity, price_at_time, products(name))',
-          )
-          .eq('vendor_id', vendorId)
-          .order('created_at', ascending: false);
-
-      final list = List<Map<String, dynamic>>.from(data);
-      final active = list
-          .where(
-            (o) => o['status'] != 'delivered' && o['status'] != 'cancelled',
-          )
-          .toList();
-      final history = list
-          .where(
-            (o) => o['status'] == 'delivered' || o['status'] == 'cancelled',
-          )
-          .toList();
-
-      // A real fetch succeeded — commit to real data from now on (even if
-      // it's empty right now). Never fall back to mock again after this,
-      // so mock and real orders can't end up mixed in the same list.
-      _mockOrdersSeeded = true;
-      activeOrders.value = active;
-      orderHistory.value = history;
-      isLoadingOrders.value = false;
-    } catch (e) {
-      // Only ever show mock data if we have NEVER managed a real fetch.
-      // ignore: avoid_print
-      print('Vendor orders fetch failed: $e');
-      if (!_mockOrdersSeeded) {
-        _mockOrdersSeeded = true;
-        activeOrders.value = MockData.vendorOrders;
+      final results = await Future.wait([
+        _supabase
+            .from('vendor_orders')
+            .select(
+              'id,order_id,vendor_id,status,sub_total,created_at, '
+              'orders!vendor_orders_order_id_fkey(id,user_id,rider_id,delivery_address,delivery_lat,delivery_lng,delivery_speed,users!orders_user_id_fkey(name,phone)), '
+              'order_items(quantity,price_at_time,products(name))',
+            )
+            .eq('vendor_id', _vendorId!)
+            .order('created_at', ascending: false)
+            .range(page * 100, page * 100 + 99)
+            .timeout(const Duration(seconds: 8)),
+        _supabase
+            .from('tailoring_requests')
+            .select('id,status,created_at,instructions')
+            .eq('vendor_id', _vendorId!)
+            .not('status', 'in', '(completed,picked_up_from_tailor)')
+            .order('created_at', ascending: false)
+            .range(0, 99)
+            .timeout(const Duration(seconds: 8)),
+      ]);
+      if (isClosed) return;
+      final rows = List<Map<String, dynamic>>.from(results[0]);
+      final merged = loadMore
+          ? [...activeOrders, ...orderHistory, ...rows]
+          : rows;
+      final unique = <Object?, Map<String, dynamic>>{
+        for (final row in merged) row['id']: row,
+      };
+      activeOrders.assignAll(
+        unique.values.where(
+          (o) => o['status'] != 'delivered' && o['status'] != 'cancelled',
+        ),
+      );
+      orderHistory.assignAll(
+        unique.values.where(
+          (o) => o['status'] == 'delivered' || o['status'] == 'cancelled',
+        ),
+      );
+      tailoringJobs.assignAll(results[1]);
+      _orderPage = page;
+      hasMoreOrders.value = rows.length == 100;
+      ordersError.value = null;
+    } catch (_) {
+      if (!isClosed) {
+        ordersError.value =
+            'Could not refresh orders. Check your connection and retry.';
       }
-      isLoadingOrders.value = false;
+    } finally {
+      _refreshing = false;
+      if (!isClosed) {
+        isLoadingOrders.value = false;
+        ordersRefreshing.value = false;
+      }
+      if (_refreshPending) {
+        _refreshPending = false;
+        _queueRefresh();
+      }
     }
   }
 
-  void listenToTailoringJobs() {
-    final user = _supabase.auth.currentUser;
-    if (user == null) return;
-
-    _supabase
-        .from('users')
-        .select('id')
-        .eq('email', user.email!)
-        .maybeSingle()
-        .then((userRecord) {
-          if (userRecord != null) {
-            _supabase
-                .from('tailoring_requests')
-                .stream(primaryKey: ['id'])
-                .eq('vendor_id', userRecord['id'])
-                .listen((data) {
-                  tailoringJobs.value = data
-                      .where(
-                        (o) =>
-                            o['status'] != 'completed' &&
-                            o['status'] != 'picked_up_from_tailor',
-                      )
-                      .toList();
-                  tailoringJobs.sort(
-                    (a, b) => (b['created_at'] ?? '').compareTo(
-                      a['created_at'] ?? '',
-                    ),
-                  );
-                });
-          }
-        });
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    if (_channel != null) unawaited(_supabase.removeChannel(_channel!));
+    super.onClose();
   }
 
   Future<void> updateOrderStatus(dynamic orderId, String newStatus) async {
-    // Mock order IDs start with 'mock_' — don't send to Supabase.
-    if (orderId.toString().startsWith('mock_')) {
-      activeOrders.value = activeOrders
-          .map((o) => o['id'] == orderId ? {...o, 'status': newStatus} : o)
-          .toList();
-      // Remove from active list if delivered/cancelled.
-      if (newStatus == 'delivered' || newStatus == 'cancelled') {
-        activeOrders.removeWhere((o) => o['id'] == orderId);
-      }
-      Get.snackbar(
-        'Updated',
-        'Order status updated to $newStatus',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return;
-    }
     try {
       await _supabase
           .from('vendor_orders')
@@ -249,14 +266,14 @@ class VendorController extends GetxController {
         }
       }
       if (vendorId != null) {
-        _refreshEnrichedOrders(vendorId);
+        unawaited(refreshOrders());
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to update order: $e');
     }
   }
 
-  final _assigningOrders = <String>{};
+  final assigningOrders = <String>{}.obs;
 
   Future<String> markReadyAndAssignRider(
     Map<String, dynamic> vendorOrder,
@@ -265,7 +282,7 @@ class VendorController extends GetxController {
     if (id == null || id.startsWith('mock_')) {
       return 'A saved vendor order is required.';
     }
-    if (!_assigningOrders.add(id)) return 'Assignment is already in progress.';
+    if (!assigningOrders.add(id)) return 'Assignment is already in progress.';
     try {
       dynamic response;
       for (var attempt = 0; ; attempt++) {
@@ -291,7 +308,14 @@ class VendorController extends GetxController {
       activeOrders.value = activeOrders
           .map(
             (order) => order['id'] == vendorOrder['id']
-                ? {...order, 'status': 'on_the_way'}
+                ? {
+                    ...order,
+                    'status': 'on_the_way',
+                    'orders': {
+                      ...?order['orders'] as Map<String, dynamic>?,
+                      'rider_id': result['rider_id'],
+                    },
+                  }
                 : order,
           )
           .toList();
@@ -299,7 +323,7 @@ class VendorController extends GetxController {
     } catch (_) {
       return 'Ready/assignment was not confirmed. Retry safely to check the result.';
     } finally {
-      _assigningOrders.remove(id);
+      assigningOrders.remove(id);
     }
   }
 

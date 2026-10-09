@@ -3,6 +3,70 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/rider_presence.dart';
 
 void main() {
+  testWidgets('background during startup releases returned lease', (
+    tester,
+  ) async {
+    final startup = Completer<Map<String, dynamic>>();
+    final writes = <bool>[];
+    final presence = RiderPresence((name, parameters) async {
+      if (name == 'fr21_begin_presence') return startup.future;
+      writes.add(parameters['p_online'] as bool);
+      return {'is_online': false};
+    }, () {});
+    final restoring = presence.restore();
+    await presence.offline();
+    startup.complete({'epoch': 9, 'is_online': true});
+    await restoring;
+    expect(writes, [false]);
+    expect(presence.online, isFalse);
+    expect(presence.ready, isFalse);
+    presence.dispose();
+  });
+
+  test(
+    'authorization failures do not retry and require reconciliation',
+    () async {
+      var writes = 0;
+      final presence = RiderPresence((name, _) async {
+        if (name == 'fr21_begin_presence') {
+          return {'epoch': 1, 'is_online': false};
+        }
+        writes++;
+        throw const PresenceFailure('Session expired. Please sign in again.');
+      }, () {});
+      await presence.restore();
+      await presence.setOnline(true);
+      expect(writes, 1);
+      expect(presence.online, isFalse);
+      expect(presence.ready, isFalse);
+      expect(presence.error, contains('Session expired'));
+      presence.dispose();
+    },
+  );
+
+  test('resume during an in-flight toggle queues a server restore', () async {
+    final write = Completer<Map<String, dynamic>>();
+    final started = Completer<void>();
+    var starts = 0;
+    final presence = RiderPresence((name, _) async {
+      if (name == 'fr21_begin_presence') {
+        return {'epoch': ++starts, 'is_online': false};
+      }
+      started.complete();
+      return write.future;
+    }, () {});
+    await presence.restore();
+    final toggle = presence.setOnline(true);
+    await started.future;
+    await presence.restore();
+    write.complete({'is_online': true});
+    await toggle;
+    await Future<void>.delayed(Duration.zero);
+    expect(starts, 2);
+    expect(presence.online, isFalse);
+    expect(presence.ready, isTrue);
+    presence.dispose();
+  });
   testWidgets('online heartbeat renews lease and stops after offline', (
     tester,
   ) async {

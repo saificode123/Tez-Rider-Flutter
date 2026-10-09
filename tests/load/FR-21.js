@@ -7,6 +7,8 @@ import { SharedArray } from 'k6/data';
 const fixtures = new SharedArray('FR21 accounts', () => JSON.parse(open(__ENV.FR21_FIXTURES)));
 const base = (__ENV.FR21_URL || '').replace(/\/$/, '');
 const isLocal = /^http:\/\/(localhost|127\.0\.0\.1):54321$/.test(base);
+// Native local PostgREST has no Kong /rest/v1 prefix. Hosted targets always do.
+const prefix = isLocal && __ENV.FR21_NATIVE_POSTGREST === 'true' ? '' : '/rest/v1';
 const testRef = __ENV.FR21_TEST_PROJECT_REF || '';
 if (!isLocal && (__ENV.FR21_ISOLATED_TEST !== 'true' || !testRef || !__ENV.FR21_LIVE_PROJECT_REF ||
     base !== `https://${testRef}.supabase.co` || testRef === __ENV.FR21_LIVE_PROJECT_REF)) {
@@ -27,7 +29,7 @@ export const options = {
 };
 
 function rpc(name, body, token) {
-  const response = http.post(`${base}/rest/v1/rpc/${name}`, JSON.stringify(body), {
+  const response = http.post(`${base}${prefix}/rpc/${name}`, JSON.stringify(body), {
     headers: { apikey: __ENV.FR21_ANON_KEY, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     tags: { endpoint: name }, timeout: '8s',
   });

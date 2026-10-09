@@ -1,24 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_application_1/main.dart';
+import 'package:get/get.dart';
+import 'package:flutter_application_1/screens/splash_screen.dart';
 
 void main() {
-  testWidgets('App shows splash screen title', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+  tearDown(Get.reset);
 
-    expect(find.text('Tez Rider'), findsOneWidget);
-    expect(find.text('Trusted Delivery Platform'), findsOneWidget);
-    expect(find.byIcon(Icons.delivery_dining), findsOneWidget);
+  testWidgets('Splash shows current branding and navigates to login', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      GetMaterialApp(
+        home: const SplashScreen(showCyclist: false),
+        getPages: [
+          GetPage(
+            name: '/login',
+            page: () => const Scaffold(body: Text('Login destination')),
+          ),
+        ],
+      ),
+    );
+    expect(find.text('TEZRIDER'), findsOneWidget);
+    expect(find.text('Delivering Excellence, Every Time'), findsOneWidget);
+    expect(find.byIcon(Icons.delivery_dining_rounded), findsOneWidget);
+    for (final delay in [200, 500, 500, 2000, 500]) {
+      await tester.pump(Duration(milliseconds: delay));
+    }
+    expect(find.text('Login destination'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(seconds: 1));
+  });
 
-    await tester.pump(Duration(seconds: 3));
-    await tester.pumpAndSettle();
+  testWidgets('Splash cancels animation work when disposed early', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const GetMaterialApp(home: SplashScreen(showCyclist: false)),
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(seconds: 4));
+    expect(tester.takeException(), isNull);
   });
 }

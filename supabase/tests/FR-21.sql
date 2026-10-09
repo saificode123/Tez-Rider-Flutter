@@ -1,13 +1,14 @@
 -- psql -v ON_ERROR_STOP=1 -v FR21_ISOLATED_TEST=true -f supabase/tests/FR-21.sql "$TEST_DB_URL"
 -- Requires the FR-21 migration and the application's existing schema on a clone.
 -- Refuse accidental execution without the explicit isolated-project marker.
+\set ON_ERROR_STOP on
 \if :{?FR21_ISOLATED_TEST}
 \if :FR21_ISOLATED_TEST
 \else
-\quit 3
+do $$ begin raise exception 'FR21_ISOLATED_TEST=true is required'; end $$;
 \endif
 \else
-\quit 3
+do $$ begin raise exception 'FR21_ISOLATED_TEST=true is required'; end $$;
 \endif
 
 begin;
@@ -37,8 +38,8 @@ insert into public.users(id,name,email,role,verification_status) values
 (-21004,'FR21 Admin','fr21-4@example.test','admin','approved'),
 (-21005,'FR21 Other Vendor','fr21-5@example.test','vendor','approved'),
 (-21006,'FR21 Other Rider','fr21-6@example.test','rider','approved');
-insert into public.riders(userid,is_online,is_verified,last_seen,latitude,longitude)
-values (-21003,false,true,now(),31.52,74.35),(-21006,false,true,now(),31.53,74.36);
+insert into public.riders(userid,is_online,last_seen,latitude,longitude)
+values (-21003,false,now(),31.52,74.35),(-21006,false,now(),31.53,74.36);
 -- Transactional test fixture coordinates only; these DDL changes roll back.
 alter table public.vendors add column if not exists latitude numeric;
 alter table public.vendors add column if not exists longitude numeric;
@@ -57,7 +58,10 @@ begin
   return false;
 exception when others then return sqlstate = code;
 end $$;
-grant usage on schema pg_temp to authenticated, anon;
+do $$ declare temp_schema text; begin
+  select nspname into temp_schema from pg_namespace where oid=pg_my_temp_schema();
+  execute format('grant usage on schema %I to authenticated,anon',temp_schema);
+end $$;
 grant execute on function pg_temp.denied(text,text) to authenticated, anon;
 
 do $$ declare i int; label text; begin
@@ -70,12 +74,13 @@ do $$ declare i int; label text; begin
     if i not in (3,6) then
       perform pg_temp.ok(pg_temp.denied('select public.fr21_begin_presence()'),label || ' cannot begin rider presence');
       perform pg_temp.ok(pg_temp.denied('select public.fr21_set_presence(true,1,1)'),label || ' cannot heartbeat');
+      perform pg_temp.ok(pg_temp.denied('select public.fr21_update_location(31.52,74.35)'),label || ' cannot update rider location');
     end if;
     if i <> 2 then
       perform pg_temp.ok(pg_temp.denied('select public.fr21_ready_and_assign(-21001)'),label || ' cannot assign vendor order');
     end if;
-    perform pg_temp.ok(pg_temp.denied('update public.riders set is_verified=true where userid=-21003'),
-      label || ' cannot directly change rider verification');
+    perform pg_temp.ok(pg_temp.denied('update public.riders set latitude=0 where userid=-21003'),
+      label || ' cannot directly change protected rider fields');
     perform pg_temp.ok(pg_temp.denied('update public.riders set userid=-21001 where userid=-21003'),
       label || ' cannot change rider ownership');
     execute 'reset role';
@@ -86,11 +91,18 @@ set local role anon;
 select pg_temp.ok(pg_temp.denied('select public.fr21_begin_presence()'),'anonymous begin denied');
 select pg_temp.ok(pg_temp.denied('select public.fr21_set_presence(true,1,1)'),'anonymous heartbeat denied');
 select pg_temp.ok(pg_temp.denied('select public.fr21_ready_and_assign(-21001)'),'anonymous assignment denied');
+select pg_temp.ok(pg_temp.denied('select public.fr21_update_location(31.52,74.35)'),'anonymous location update denied');
+select pg_temp.ok(pg_temp.denied('truncate public.riders'),'anonymous truncate denied before mutation');
 reset role;
 
 select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000003","role":"authenticated","email":"fr21-3@example.test"}',true);
 set local role authenticated;
 create temporary table fr21_session as select public.fr21_begin_presence() result;
+select public.fr21_update_location(32.25,73.5);
+select pg_temp.is((select latitude from public.riders where userid=-21003),32.25::numeric,'validated location updates own profile');
+select pg_temp.ok(pg_temp.denied('select public.fr21_update_location(91,74.35)','22023'),'out of range coordinates rejected');
+select pg_temp.ok(pg_temp.denied('select public.fr21_update_location(31.52,null)','22023'),'null coordinates rejected');
+select public.fr21_update_location(31.52,74.35);
 select pg_temp.ok((select (result->>'is_online')::boolean = false from fr21_session),'offline restored');
 select pg_temp.ok((public.fr21_set_presence(true,(select (result->>'epoch')::bigint from fr21_session),1)->>'is_online')::boolean,'rider online confirmed');
 create temporary table fr21_first_write as select last_seen from public.riders where userid=-21003;
@@ -114,12 +126,18 @@ update public.riders set last_seen=now()-interval '121 seconds' where userid=-21
 select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000002","role":"authenticated","email":"fr21-2@example.test"}',true);
 set local role authenticated;
 select pg_temp.ok((public.fr21_ready_and_assign(-21001)->>'rider_id') is null,'stale rider excluded');
+select pg_temp.ok(pg_temp.denied('update public.vendor_orders set order_id=-21002 where id=-21001'),
+  'vendor cannot move its row onto another order');
+select pg_temp.ok(pg_temp.denied('insert into public.vendor_orders(order_id,vendor_id) values(-21002,-21002)'),
+  'vendor cannot forge ownership of another customer order');
 reset role;
-update public.riders set last_seen=now(),is_verified=false where userid=-21003;
+update public.riders set last_seen=now() where userid=-21003;
+update public.users set verification_status='pending' where id=-21003;
 set local role authenticated;
 select pg_temp.ok((public.fr21_ready_and_assign(-21001)->>'rider_id') is null,'unverified rider excluded');
 reset role;
-update public.riders set last_seen=now(),is_verified=true,is_online=true where userid=-21003;
+update public.users set verification_status='approved' where id=-21003;
+update public.riders set last_seen=now(),is_online=true where userid=-21003;
 set local role authenticated;
 select pg_temp.is((public.fr21_ready_and_assign(-21001)->>'rider_id')::bigint,-21003::bigint,'fresh verified online rider assigned');
 select pg_temp.is((public.fr21_ready_and_assign(-21001)->>'rider_id')::bigint,-21003::bigint,'duplicate assignment returns same rider');
@@ -128,7 +146,37 @@ select pg_temp.ok(pg_temp.denied('update public.riders set is_available=true whe
 reset role;
 select pg_temp.is((select count(*) from public.rider_assignments where orderid=-21001),1::bigint,'exactly one assignment');
 select pg_temp.is((select count(*) from public.notifications where user_id=-21003),1::bigint,'exactly one assignment notification');
+select pg_temp.ok((select not is_available and not isavailable from public.riders where userid=-21003),'both availability flags reserved');
+select pg_temp.is((select order_status from public.orders where id=-21001),'on_the_way','existing vendor trigger propagates parent status');
+select pg_temp.ok((select delivery_otp ~ '^[0-9]{6}$' from public.orders where id=-21001),
+  'vendor-assigned active delivery has an OTP without a second accept');
 
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000003","role":"authenticated","email":"fr21-3@example.test"}',true);
+set local role authenticated;
+select pg_temp.ok(pg_temp.denied('update public.users set verification_status=''pending'' where id=-21003'),'self approval change denied');
+select pg_temp.ok(pg_temp.denied('update public.orders set rider_id=-21006 where id=-21001'),'direct assignment bypass denied');
+select pg_temp.ok(pg_temp.denied('update public.rider_assignments set status=''Accepted'' where orderid=-21001'),'direct assignment status bypass denied');
+create temporary table fr21_accept as select public.fr21_accept_order(-21001) result;
+select pg_temp.is((public.fr21_accept_order(-21001)->>'delivery_otp'),(select result->>'delivery_otp' from fr21_accept),'accept retry retains OTP');
+select pg_temp.ok(not public.fr21_complete_delivery(-21001,'invalid'),'incorrect OTP cannot release reservation');
+select pg_temp.ok(public.fr21_complete_delivery(-21001,(select result->>'delivery_otp' from fr21_accept)),'delivery completes atomically');
+select pg_temp.ok(public.fr21_complete_delivery(-21001,(select result->>'delivery_otp' from fr21_accept)),'delivery retry idempotent');
+reset role;
+select pg_temp.ok((select is_available and isavailable from public.riders where userid=-21003),'both availability flags released');
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000002","role":"authenticated","email":"fr21-2@example.test"}',true);
+set local role authenticated;
+select pg_temp.is((public.fr21_ready_and_assign(-21002)->>'rider_id')::bigint,-21003::bigint,'released rider may receive next order');
+reset role;
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000005","role":"authenticated","email":"fr21-5@example.test"}',true);
+set local role authenticated;
+select pg_temp.ok(pg_temp.denied('update public.orders set order_status=''cancelled'' where id=-21002'),'other vendor cannot cancel a reservation');
+reset role;
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000001","role":"authenticated","email":"fr21-1@example.test"}',true);
+set local role authenticated;
+update public.orders set order_status='cancelled' where id=-21002;
+reset role;
+select pg_temp.ok((select is_available and isavailable from public.riders where userid=-21003),'cancellation atomically releases both flags');
+select pg_temp.is((select status from public.rider_assignments where orderid=-21002),'Cancelled','cancelled reservation status confirmed');
 select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000003","role":"authenticated","email":"fr21-3@example.test"}',true);
 set local role authenticated;
 select public.fr21_begin_presence();
@@ -139,6 +187,33 @@ update public.riders set last_seen=now()-interval '121 seconds',is_online=true w
 set local role authenticated;
 select pg_temp.ok(not (public.fr21_begin_presence()->>'is_online')::boolean,'crashed app restores offline');
 reset role;
+-- Protected approval remains controlled by an approved administrator.
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000004","role":"authenticated","email":"fr21-4@example.test"}',true);
+set local role authenticated;
+update public.users set verification_status='pending' where id=-21006;
+select pg_temp.is((select verification_status from public.users where id=-21006),'pending','approved admin can change approval');
+reset role;
+update public.users set verification_status='pending' where id=-21004;
+set local role authenticated;
+select pg_temp.ok(pg_temp.denied('update public.users set verification_status=''approved'' where id=-21004'),'pending admin cannot self approve');
+reset role;
+update auth.users set email_confirmed_at=null where id='21000000-0000-0000-0000-000000000003';
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000003","role":"authenticated","email":"fr21-3@example.test"}',true);
+set local role authenticated;
+select pg_temp.ok(pg_temp.denied('select public.fr21_begin_presence()'),'unconfirmed Auth email cannot begin presence');
+reset role;
+insert into auth.users(id,email,email_confirmed_at,aud,role)
+values('21000000-0000-0000-0000-000000000007','fr21-new@example.test',now(),'authenticated','authenticated');
+select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000007","role":"authenticated","email":"fr21-new@example.test"}',true);
+set local role authenticated;
+select pg_temp.ok(pg_temp.denied('insert into public.users(name,email,role) values(''Forbidden admin'',''fr21-new@example.test'',''admin'')'),'self service admin registration rejected');
+insert into public.users(name,email,role,verification_status) values('New rider','fr21-new@example.test','rider','approved');
+select pg_temp.is((select verification_status from public.users where email='fr21-new@example.test'),'pending','rider signup cannot fabricate approval');
+create temporary table fr21_pending_session as select public.fr21_begin_presence() result;
+select pg_temp.ok(not (select (result->>'is_online')::boolean from fr21_pending_session),'new pending rider profile provisions offline');
+select pg_temp.ok(pg_temp.denied(format('select public.fr21_set_presence(true,%s,1)',
+  (select (result->>'epoch')::bigint from fr21_pending_session))),'pending rider cannot go online');
+reset role;
 select count(*) as assertions_passed from fr21_results;
 rollback;
 
@@ -146,6 +221,8 @@ rollback;
 -- load fixture file (never production). Supply the following optional psql vars:
 -- FR21_RACE_DSN, FR21_RACE_VENDOR_UUID, FR21_RACE_ORDER_A/B, FR21_RACE_RIDER_ID.
 \if :{?FR21_RACE_DSN}
+update public.riders set is_online=true,last_seen=clock_timestamp(),is_available=true,isavailable=true
+  where userid=:FR21_RACE_RIDER_ID;
 create extension if not exists dblink with schema extensions;
 select extensions.dblink_connect('fr21_a', :'FR21_RACE_DSN');
 select extensions.dblink_connect('fr21_b', :'FR21_RACE_DSN');
