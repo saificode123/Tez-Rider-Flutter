@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'rider_controller.dart';
 
 class AuthController extends GetxController {
   final LocalAuthentication _auth = LocalAuthentication();
@@ -57,7 +58,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout({bool navigate = true}) async {
-    try { await Supabase.instance.client.auth.signOut(); } catch (_) {}
+    if (Get.isRegistered<RiderController>()) {
+      await Get.find<RiderController>().goOffline();
+    }
+    try {
+      await Supabase.instance.client.auth.signOut();
+    } catch (_) {}
     await _storage.delete(key: 'tr_refresh');
     await _storage.delete(key: 'tr_role');
     await _storage.write(key: 'user_logged_in', value: 'false');

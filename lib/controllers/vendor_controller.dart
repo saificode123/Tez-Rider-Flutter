@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../data/mock_data.dart';
@@ -6,9 +5,9 @@ import '../data/mock_data.dart';
 class VendorController extends GetxController {
   final _supabase = Supabase.instance.client;
 
-  RxList<Map<String, dynamic>> activeOrders    = <Map<String, dynamic>>[].obs;
-  RxList<Map<String, dynamic>> orderHistory    = <Map<String, dynamic>>[].obs;
-  RxList<Map<String, dynamic>> tailoringJobs   = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> activeOrders = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> orderHistory = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> tailoringJobs = <Map<String, dynamic>>[].obs;
   RxBool isLoadingOrders = true.obs;
 
   RxString totalEarnings = 'PKR 0'.obs;
@@ -48,29 +47,36 @@ class VendorController extends GetxController {
 
     // ── Earnings ──
     try {
-      final delivered = await _supabase
-          .from('vendor_orders')
-          .select('sub_total')
-          .eq('vendor_id', vendorId)
-          .eq('status', 'delivered') as List;
+      final delivered =
+          await _supabase
+                  .from('vendor_orders')
+                  .select('sub_total')
+                  .eq('vendor_id', vendorId)
+                  .eq('status', 'delivered')
+              as List;
 
       double total = 0;
       for (final o in delivered) {
         final st = o['sub_total'];
-        total += st is num ? st.toDouble() : double.tryParse(st?.toString() ?? '0') ?? 0.0;
+        total += st is num
+            ? st.toDouble()
+            : double.tryParse(st?.toString() ?? '0') ?? 0.0;
       }
-      totalEarnings.value =
-          total > 0 ? 'PKR ${total.toStringAsFixed(0)}' : MockData.mockVendorEarnings;
+      totalEarnings.value = total > 0
+          ? 'PKR ${total.toStringAsFixed(0)}'
+          : MockData.mockVendorEarnings;
     } catch (_) {
       totalEarnings.value = MockData.mockVendorEarnings;
     }
 
     // ── Rating ──
     try {
-      final reviews = await _supabase
-          .from('reviews')
-          .select('rating')
-          .eq('reviewee_id', vendorId.toString()) as List;
+      final reviews =
+          await _supabase
+                  .from('reviews')
+                  .select('rating')
+                  .eq('reviewee_id', vendorId.toString())
+              as List;
 
       if (reviews.isNotEmpty) {
         double sum = 0;
@@ -101,22 +107,22 @@ class VendorController extends GetxController {
         .eq('email', user.email!)
         .maybeSingle()
         .then((userRecord) {
-      if (userRecord == null) {
-        activeOrders.value = MockData.vendorOrders;
-        isLoadingOrders.value = false;
-        return;
-      }
-      final vendorId = userRecord['id'];
-      // Stream just tells us *something changed* — we re-fetch the
-      // enriched (joined) data below so item names / customer info
-      // stay up to date in real time too.
-      _supabase
-          .from('vendor_orders')
-          .stream(primaryKey: ['id'])
-          .eq('vendor_id', vendorId)
-          .listen((_) => _refreshEnrichedOrders(vendorId));
-      _refreshEnrichedOrders(vendorId);
-    });
+          if (userRecord == null) {
+            activeOrders.value = MockData.vendorOrders;
+            isLoadingOrders.value = false;
+            return;
+          }
+          final vendorId = userRecord['id'];
+          // Stream just tells us *something changed* — we re-fetch the
+          // enriched (joined) data below so item names / customer info
+          // stay up to date in real time too.
+          _supabase
+              .from('vendor_orders')
+              .stream(primaryKey: ['id'])
+              .eq('vendor_id', vendorId)
+              .listen((_) => _refreshEnrichedOrders(vendorId));
+          _refreshEnrichedOrders(vendorId);
+        });
   }
 
   Future<void> _refreshEnrichedOrders(dynamic vendorId) async {
@@ -124,17 +130,22 @@ class VendorController extends GetxController {
       final data = await _supabase
           .from('vendor_orders')
           .select(
-              '*, orders!vendor_orders_order_id_fkey(id, user_id, delivery_address, delivery_lat, delivery_lng, delivery_speed, users!orders_user_id_fkey(name, phone)), '
-              'order_items(quantity, price_at_time, products(name))')
+            '*, orders!vendor_orders_order_id_fkey(id, user_id, delivery_address, delivery_lat, delivery_lng, delivery_speed, users!orders_user_id_fkey(name, phone)), '
+            'order_items(quantity, price_at_time, products(name))',
+          )
           .eq('vendor_id', vendorId)
           .order('created_at', ascending: false);
 
       final list = List<Map<String, dynamic>>.from(data);
       final active = list
-          .where((o) => o['status'] != 'delivered' && o['status'] != 'cancelled')
+          .where(
+            (o) => o['status'] != 'delivered' && o['status'] != 'cancelled',
+          )
           .toList();
       final history = list
-          .where((o) => o['status'] == 'delivered' || o['status'] == 'cancelled')
+          .where(
+            (o) => o['status'] == 'delivered' || o['status'] == 'cancelled',
+          )
           .toList();
 
       // A real fetch succeeded — commit to real data from now on (even if
@@ -166,22 +177,27 @@ class VendorController extends GetxController {
         .eq('email', user.email!)
         .maybeSingle()
         .then((userRecord) {
-      if (userRecord != null) {
-        _supabase
-            .from('tailoring_requests')
-            .stream(primaryKey: ['id'])
-            .eq('vendor_id', userRecord['id'])
-            .listen((data) {
-          tailoringJobs.value = data
-              .where((o) =>
-                  o['status'] != 'completed' &&
-                  o['status'] != 'picked_up_from_tailor')
-              .toList();
-          tailoringJobs.sort((a, b) =>
-              (b['created_at'] ?? '').compareTo(a['created_at'] ?? ''));
+          if (userRecord != null) {
+            _supabase
+                .from('tailoring_requests')
+                .stream(primaryKey: ['id'])
+                .eq('vendor_id', userRecord['id'])
+                .listen((data) {
+                  tailoringJobs.value = data
+                      .where(
+                        (o) =>
+                            o['status'] != 'completed' &&
+                            o['status'] != 'picked_up_from_tailor',
+                      )
+                      .toList();
+                  tailoringJobs.sort(
+                    (a, b) => (b['created_at'] ?? '').compareTo(
+                      a['created_at'] ?? '',
+                    ),
+                  );
+                });
+          }
         });
-      }
-    });
   }
 
   Future<void> updateOrderStatus(dynamic orderId, String newStatus) async {
@@ -194,22 +210,32 @@ class VendorController extends GetxController {
       if (newStatus == 'delivered' || newStatus == 'cancelled') {
         activeOrders.removeWhere((o) => o['id'] == orderId);
       }
-      Get.snackbar('Updated', 'Order status updated to $newStatus',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Updated',
+        'Order status updated to $newStatus',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
     try {
       await _supabase
           .from('vendor_orders')
-          .update({'status': newStatus}).eq('id', orderId);
-      Get.snackbar('Success', 'Order status updated to $newStatus',
-          snackPosition: SnackPosition.BOTTOM);
+          .update({'status': newStatus})
+          .eq('id', orderId);
+      Get.snackbar(
+        'Success',
+        'Order status updated to $newStatus',
+        snackPosition: SnackPosition.BOTTOM,
+      );
 
       // Optimistic local update so the UI reflects the change immediately
       // even if Realtime isn't enabled on this table in Supabase.
       Map<String, dynamic>? match;
       for (final o in activeOrders) {
-        if (o['id'] == orderId) { match = o; break; }
+        if (o['id'] == orderId) {
+          match = o;
+          break;
+        }
       }
       final vendorId = match?['vendor_id'];
       if (match != null) {
@@ -230,110 +256,64 @@ class VendorController extends GetxController {
     }
   }
 
-  double _haversine(double lat1, double lon1, double lat2, double lon2) {
-    const r = 6371.0;
-    final dLat = (lat2 - lat1) * pi / 180;
-    final dLon = (lon2 - lon1) * pi / 180;
-    final a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(lat1 * pi / 180) * cos(lat2 * pi / 180) *
-            sin(dLon / 2) * sin(dLon / 2);
-    return r * 2 * atan2(sqrt(a), sqrt(1 - a));
-  }
+  final _assigningOrders = <String>{};
 
-  /// Marks the order ready and assigns the nearest available rider.
-  /// The rider is matched against the STORE location (pickup point),
-  /// not the customer's address — the rider has to reach the shop first.
-  /// Returns a short status message to show the vendor.
-  Future<String> markReadyAndAssignRider(Map<String, dynamic> vendorOrder) async {
-    final orderInfo = vendorOrder['orders'] as Map<String, dynamic>?;
-    final orderId   = orderInfo?['id'] ?? vendorOrder['order_id'];
-    final vendorId  = vendorOrder['vendor_id'];
-
-    // Always mark the vendor's side of the order ready first.
-    await updateOrderStatus(vendorOrder['id'], 'on_the_way');
-
-    if (orderId == null) {
-      return 'Order marked ready, but the order id was missing.';
+  Future<String> markReadyAndAssignRider(
+    Map<String, dynamic> vendorOrder,
+  ) async {
+    final id = vendorOrder['id']?.toString();
+    if (id == null || id.startsWith('mock_')) {
+      return 'A saved vendor order is required.';
     }
-
-    // Pickup point = the store's own location.
-    double? pickupLat;
-    double? pickupLng;
+    if (!_assigningOrders.add(id)) return 'Assignment is already in progress.';
     try {
-      final store = await _supabase
-          .from('vendors')
-          .select('latitude, longitude')
-          .eq('user_id', vendorId)
-          .maybeSingle();
-      pickupLat = (store?['latitude'] as num?)?.toDouble();
-      pickupLng = (store?['longitude'] as num?)?.toDouble();
-    } catch (_) {/* fall through to the message below */}
-
-    if (pickupLat == null || pickupLng == null) {
-      return 'Order marked ready. Set your store location in Store Settings '
-          'so riders can be matched to your shop.';
-    }
-
-    try {
-      final riders = await _supabase
-          .from('riders')
-          .select('userid, latitude, longitude')
-          .eq('is_available', true) as List;
-
-      Map? nearest;
-      double minDist = double.infinity;
-      for (final r in riders) {
-        final rLat = (r['latitude'] as num?)?.toDouble();
-        final rLng = (r['longitude'] as num?)?.toDouble();
-        if (rLat == null || rLng == null) continue;
-        final d = _haversine(pickupLat, pickupLng, rLat, rLng);
-        if (d < minDist) { minDist = d; nearest = r; }
+      dynamic response;
+      for (var attempt = 0; ; attempt++) {
+        try {
+          response = await _supabase
+              .rpc(
+                'fr21_ready_and_assign',
+                params: {'p_vendor_order_id': vendorOrder['id']},
+              )
+              .timeout(const Duration(seconds: 8));
+          break;
+        } on PostgrestException {
+          rethrow;
+        } catch (_) {
+          if (attempt == 2) rethrow;
+          await Future<void>.delayed(
+            Duration(milliseconds: 300 * (1 << attempt)),
+          );
+        }
       }
-
-      if (nearest == null) {
-        return 'Order marked ready. No riders are available nearby right now.';
-      }
-
-      final riderId = nearest['userid'];
-      final riderRec = await _supabase
-          .from('users')
-          .select('name, phone')
-          .eq('id', riderId)
-          .maybeSingle();
-      final riderName = riderRec?['name']?.toString() ?? 'A rider';
-
-      await _supabase.from('orders').update({'rider_id': riderId}).eq('id', orderId);
-      await _supabase.from('rider_assignments').insert({
-        'assignid': DateTime.now().millisecondsSinceEpoch,
-        'riderid': riderId,
-        'orderid': orderId,
-        'status': 'Pending',
-      });
-      await _supabase.from('riders').update({
-        'is_available': false,
-        'isavailable': false,
-      }).eq('userid', riderId);
-      await _supabase.from('notifications').insert({
-        'user_id': riderId,
-        'title': 'New Delivery Assigned',
-        'message': 'You have a new pickup ready for delivery.',
-        'type': 'order',
-      });
-
-      return 'Order marked ready — $riderName assigned, ${minDist.toStringAsFixed(1)} km from your shop.';
-    } catch (e) {
-      return 'Order marked ready. Rider assignment failed: $e';
+      final result = Map<String, dynamic>.from(response as Map);
+      final message = result['message'] as String;
+      activeOrders.value = activeOrders
+          .map(
+            (order) => order['id'] == vendorOrder['id']
+                ? {...order, 'status': 'on_the_way'}
+                : order,
+          )
+          .toList();
+      return message;
+    } catch (_) {
+      return 'Ready/assignment was not confirmed. Retry safely to check the result.';
+    } finally {
+      _assigningOrders.remove(id);
     }
   }
 
-  Future<void> updateTailoringStatus(
-      String requestId, String newStatus) async {
+  Future<void> updateTailoringStatus(String requestId, String newStatus) async {
     try {
       await _supabase
           .from('tailoring_requests')
-          .update({'status': newStatus}).eq('id', requestId);
-      Get.snackbar('Success', 'Tailoring job marked as $newStatus',
-          snackPosition: SnackPosition.BOTTOM);
+          .update({'status': newStatus})
+          .eq('id', requestId);
+      Get.snackbar(
+        'Success',
+        'Tailoring job marked as $newStatus',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
       Get.snackbar('Error', 'Failed to update tailoring job: $e');
     }
