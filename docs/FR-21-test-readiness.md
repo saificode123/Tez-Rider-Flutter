@@ -1,6 +1,6 @@
 # FR-21 TEST readiness — 2026-10-12
 
-**FR-21 ready for physical Android testing: hosted TEST verified and final TEST APK built and checked.** This replaces earlier audit-only readiness reports. Only TEST `igeisilhtmglgnqvllrx` was contacted. Production was never connected to or changed. Starting commit `a053567` and unrelated work were preserved.
+**FR-21 ACCEPTED — Implementation and verification complete. Ready to proceed to the next functional requirement.** Final acceptance and evidence: [FR-21-acceptance.md](FR-21-acceptance.md). The final acceptance supersedes all earlier pending/device/build status statements below; they remain as historical records. This replaces earlier audit-only readiness reports. Only TEST `igeisilhtmglgnqvllrx` was contacted. Production was never connected to or changed. Starting commit `a053567` and unrelated work were preserved.
 
 ## Actual database results
 
@@ -92,3 +92,43 @@ Verified ZIP CRC, compiled exact TEST URL/public anon key, TEST JWT reference/ro
 Three final rebuild attempts failed on read-only generated OneDrive directories (assets, AAR metadata, plugin shaders). Previous generated outputs were preserved, not deleted. Clearing ReadOnly on 3,102 generated directories allowed the final build to complete; Kotlin's cross-drive incremental-cache diagnostic recovered through its fallback. No application dependencies or SDK versions were upgraded. Existing AGP/Kotlin future-support warnings remain. Evidence: apk-final-retry.log, apk-verification.json and apk-badging.log. Native compilation finished successfully; no warning is reported as a clean warning-free build.
 
 The latest adb device check still shows no connected phone. Installation, GPS/lifecycle and visible UI checks on a physical device: **Not executed**. The owned local PostgreSQL test server was shut down after testing; its data/evidence were preserved. Credentials remain outside Git with no broad Users/Everyone permission.
+
+## Auth/mobile follow-up — 2026-10-12
+
+Supersedes the earlier APK/device status only: `.fr21-local/TezRider-FR21-Test-debug.apk` is the latest arm64 debug build (101,303,203 bytes), SHA256 `c2732d71e788bfb8d5eb6c41f2bff2afa5b7f6659606f1b5770c5eeee3193da5`. Installed successfully on the connected phone. Actual saved TEST session and visible approved Rider Dashboard verified after password sign-in; native Auth callback also verified. Full physical FR-21 scenario acceptance still requires the manual checklist.
+
+Fixed own-profile login recovery: use authenticated canonical email and an INSERT instead of a protected email/role upsert, with duplicate recovery and real error propagation. Preserved the user's existing error-display edit. TEST-only callback manifest added. Auth Site URL/allowlist changed from localhost to `tezrider-fr21-test://login-callback/`; email verification remains enabled. No production settings touched, no approval bypass and no additional SQL migration. Synthetic approved-rider credentials synchronized privately; the user-provided value now authenticates. Personal password unchanged; personal email was already confirmed.
+
+Executed: hosted Auth permission regression (three assertions passed), real signed callback/server redirect and device Auth validation, Flutter tests (18 passed/2 conditional skips), changed login formatting (0 changes), login analysis (one existing user-edit info, no errors), final debug build, adb install -r, native callback resolution, APK CRC/backend/credential scan. Original workspace build failed because generated Windows plugin links were inaccessible after its build directory was cleared. Built an exact temporary copy outside OneDrive using the existing SDK; no source reset or dependency upgrade. Final app source includes the user's error-display edit.
+
+Some prior build logs/APKs were removed when the original build directory was cleared. Historical test claims remain actual recorded runs; do not treat their now-missing local files as currently available evidence. Current safe evidence is retained in ignored `.fr21-local/`: APK, public defines, Auth redirect/callback results, APK verification and current Flutter analysis/test/build logs. Private keys/passwords/tokens are absent from those logs. The standalone PostgreSQL 17 executable was unavailable for this follow-up; no new local SQL run is claimed or required since SQL was unchanged.
+
+## Physical-device verification in progress — 2026-10-12
+
+Device: AESWNRBAEUPNTGJZ. Dedicated TEST reference was checked by the runner before every remote operation. Production was not accessed. Existing changes preserved.
+
+Confirmed defect and fix: splash previously always routed saved sessions to Customer login. Startup now verifies the saved identity and own approved rider profile server-side, then opens RiderDashboard and restores presence. Other startup roles retain their existing login behavior. Corrected TEST APK built successfully (327.0s), passed ZIP/backend/public-key/privileged-credential checks and installed with app data preserved. Latest SHA256: 34feaaeff5fac97e146682a94f076daf487fd5ca4e52b789a3c3ffeea2d1d332. Artifact: .fr21-local/TezRider-FR21-Test-debug.apk.
+
+Verified physical evidence:
+- Online and Offline writes matched dashboard and hosted riders row.
+- Foreground heartbeat advanced last_seen from 09:16:52 to 09:17:38 UTC; later phone heartbeat sequences continued advancing.
+- Fresh Online restored after abrupt restart: epoch 25 became 26 and UI/server were Online. Offline restored after restart at epoch 27; floating app bar was recovered by scrolling to the top.
+- With phone network disconnected, heartbeat stopped, UI showed Offline/connection error/Retry and last_seen became older than two minutes while stored is_online remained true. Effective availability was false.
+- A synthetic assignment while physically stale selected no rider (order 17/vendor order 21). Reconnection plus Retry restored Offline; explicit Online made the rider eligible again.
+- Synthetic order 18/vendor order 22 assigned to the phone rider. Android received Active Delivery and Order #18 through Realtime without restart/manual refresh. Initial exact-label probe missed merged semantics; corrected probe and screenshot confirmed the card. Authorized synthetic-customer cancellation removed the card and released both availability flags through Realtime.
+- Rapid double taps left a stable Offline result. Exact request count is not independently captured; automated debounce/idempotency checks are the stronger evidence.
+- Current TEST process log probes reported zero fatal/unhandled exceptions, AuthException/invalid-login/expired-JWT mentions, and PostgrestException/SocketException/HandshakeException mentions. This is scoped to captured process logs, not a guarantee about all historical Android logs.
+
+Executed automated checks: hosted integration 46 passed/0 failed (authorization, stale exclusion, concurrent reservation, duplicate assignment, Realtime and delivery integrity); splash analysis no issues; Flutter tests 18 passed/2 conditional hosted skips. First Flutter run failed because the existing splash widget test had not initialized Supabase; test setup was updated and the suite passed. Formatting splash: zero changes. No new database migration required.
+
+NOT COMPLETE: the session was interrupted during the failed-write rollback repeat. An earlier offline read encountered an expired saved access token, so that read was not counted as proof of UI rollback; after connectivity returned, a valid refreshed session was verified. Failed-write rollback and isolated force-stop expiry still require final device verification. Full FR-21 acceptance must not be marked passed yet. Latest interrupted network test ended with original Wi-Fi and mobile-data settings restored at 10:12:31 UTC. No TEST reset, real data creation, production connection, push or merge.
+
+Evidence: ignored .fr21-local/device-evidence.jsonl and apk-verification.json; current build/test/analysis logs in the existing private temporary Android build directory. Reusable synthetic-only probes: tests/integration/FR-21-device.py, via tests/integration/FR-21-run.ps1 -Kind device -DeviceAction status. Probe actions can operate the TEST app, restore original network settings, and create/cancel only guarded synthetic fixtures. Private keys/tokens/passwords are never written to evidence.
+
+## Final acceptance closure — 2026-10-12
+
+Both remaining mandatory device tests passed: isolated rejected presence update with unchanged persisted state and real Offline UI rollback/error/Retry recovery; physical ADB force-stop with unchanged stored Online heartbeat, expiry after173.91s, no final Offline write, no rider assigned to order19, reopening Offline, and heartbeat/Realtime renewal after explicit Online. Final post-regression order25 had exactly one assignment and appeared through Android Realtime; cancellation and HOME-background Offline were verified. Phone remains synchronized Offline with valid Auth and original network settings.
+
+Final regressions: hosted46/0, general Flutter18 passed/2 conditional skips, hosted Flutter2/0, scoped analysis no issues/exit0, Python probes compile, final TEST-process logs0 observed crash/auth/API errors. All8 migrations match; none reapplied. Installed APK hash matches34feaaeff5fac97e146682a94f076daf487fd5ca4e52b789a3c3ffeea2d1d332 and103 source/config/asset files match its build copy. No application-source change during final acceptance; no rebuild needed. Intermediate harness failures are recorded in the acceptance report and corrected, not hidden.
+
+Durable sanitized evidence is now in docs/evidence/FR-21-* and the criterion-by-criterion table is docs/FR-21-acceptance.md. Protected test credentials remain outside Git. Production was never connected to or changed. No reset, unrelated feature change, push or merge.

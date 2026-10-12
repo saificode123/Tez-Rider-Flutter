@@ -1,0 +1,46 @@
+# FR-21 final acceptance — 2026-10-12
+
+**FR-21 ACCEPTED — Implementation and verification complete. Ready to proceed to the next functional requirement.**
+
+Scope: rider presence and assignment acceptance on dedicated TEST `igeisilhtmglgnqvllrx`, Android device `AESWNRBAEUPNTGJZ`, package `com.example.flutter_application_1.fr21test`. No production connections/writes, resets or repeated migrations. Times below are UTC; device local time is UTC+05:00.
+
+## Acceptance table
+
+Evidence paths below are relative to this document. The device JSONL contains sanitized, timestamped observations and assertions; no passwords, keys or tokens.
+
+| Acceptance criterion | Exact test performed | Result | Evidence location | Remaining limitation |
+|---|---|---|---|---|
+| Online/Offline persisted | Real Android switch followed by own hosted presence read; final Online and normal-background Offline at 10:40:58 | PASS | evidence/FR-21-device-20261012.jsonl | TEST/synthetic rider |
+| Server heartbeat renewal | Foreground last_seen advanced 10:39:04 → 10:40:00 → 10:40:46; sequence advanced 1 → 2 → 3 | PASS | evidence/FR-21-device-20261012.jsonl | 45–55 second cadence; not continuous background tracking |
+| Fresh status restored on restart | Abrupt restart restored Online and advanced epoch 25 → 26; later Offline restored at epoch 27 | PASS | evidence/FR-21-device-20261012.jsonl | Physical evidence includes earlier verified run |
+| Failed write rejected without corruption | Temporarily set only guarded synthetic rider approval pending; presence RPC rejected HTTP403/42501; Android attempted Online; entire persisted presence tuple unchanged | PASS | evidence/FR-21-device-20261012.jsonl, failed_write_rollback at 10:20:42 | Isolated permission rejection, not every possible network failure |
+| UI rollback and appropriate error | Android returned to Offline, displayed approval error, no successful Online state; approval restored, Retry cleared error, explicit Online succeeded | PASS | evidence/FR-21-device-20261012.jsonl, failure_isolation and subsequent epoch31 observations | No other account, Auth session or global policy changed |
+| Debounce and double-tap protection | Real rapid double taps gave stable Offline; unit test blocks duplicate taps/reverts failed toggle; retry test preserves sequence/epoch | PASS | evidence/FR-21-device-20261012.jsonl, evidence/FR-21-final-flutter.log | Exact network request count of physical double tap not captured |
+| Network loss/reconnection | Disable only phone Wi-Fi/data, observe connection error/Retry and stale lease; restore original network flags, Retry reconciles Offline, explicit Online resumes | PASS | evidence/FR-21-device-20261012.jsonl | Recovery intentionally requires Retry/explicit Online |
+| Force-stop prevents further heartbeats | ADB force-stop after fresh real heartbeat; process absent; presence tuple unchanged immediately and after cutoff | PASS | evidence/FR-21-force-stop-baseline.json, evidence/FR-21-device-20261012.jsonl | Test uses Android force-stop rather than causing a native crash |
+| Two-minute expiry without final Offline | Stored Online remained true, last_seen stayed 10:22:35.033313; after173.91s lease expired with no final Offline write | PASS | evidence/FR-21-device-20261012.jsonl, force_stop_expiry at 10:25:28 | Stored flag can stay true; eligibility is flag plus freshness |
+| Expired rider excluded from assignment | New synthetic order19/vendor_order23 selected no rider after real force-stop expiry | PASS | evidence/FR-21-device-20261012.jsonl | No alternate eligible rider was online in this isolated case |
+| Reopen expired app safely | Reopen produced Offline at epoch32, unchanged last_seen and sequence0; still unchanged89s later; explicit Online then resumed heartbeats | PASS | evidence/FR-21-device-20261012.jsonl | Requires network to verify saved identity/approval |
+| Best-effort lifecycle/logout Offline | Physical HOME action persisted Offline; resume stayed Offline; unit logout test supersedes an in-flight Online response; AuthController awaits goOffline before signOut | PASS | evidence/FR-21-device-20261012.jsonl, evidence/FR-21-final-flutter.log, ../lib/controllers/auth_controller.dart | Dedicated logout-screen interaction was not repeated; logout race covered by unit test |
+| Approved, online, fresh assignment eligibility | Pending/non-rider presence rejected; expired rider excluded; resumed rider received orders20 and25 | PASS | evidence/FR-21-final-backend.json, evidence/FR-21-device-20261012.jsonl | Approval remains authoritative users.verification_status |
+| Atomic assignment and duplicate prevention | Final hosted suite parallel orders cannot reserve one rider twice;16 concurrent duplicate requests return one assignment; physical orders20/25 each had one persisted row | PASS | evidence/FR-21-final-backend.json, evidence/FR-21-device-20261012.jsonl | Bounded concurrency test, not unlimited capacity certification |
+| Android Realtime after recovery | Active Delivery appeared for orders20 and25 without restart/manual refresh; authorized cancellation removed card and released both availability flags | PASS | evidence/FR-21-device-20261012.jsonl | Snapshot probe handles merged accessibility labels |
+| Rider updates only own presence | Hosted other-rider mutation affected zero rows; protected field denied; customer/vendor/admin/pending rejected as appropriate; live grants only is_online,last_seen | PASS | evidence/FR-21-final-backend.json, evidence/FR-21-final-schema.json | Synthetic authorization fixtures |
+| Required presence/approval lookup indexes | Read-only catalog verification of rider presence/user index, users(role,verification_status,id), order/rider and assignment indexes | PASS | evidence/FR-21-final-schema.json | Verification is normalized in users; no duplicate riders.is_verified column/composite index |
+| Migration history correct | Read-only CLI list: all8 local/remote versions exactly match | PASS | evidence/FR-21-final-migrations.log | No schema change applied during final acceptance |
+| Final Flutter/backend regressions | Backend46/0; general Flutter18 passed/2 conditional skips; both hosted Flutter tests separately passed; scoped6-file analysis no issues | PASS | evidence/FR-21-final-backend.json, evidence/FR-21-final-flutter.log, evidence/FR-21-final-hosted-flutter.log, evidence/FR-21-final-analysis.log | Full unrelated app analysis was not rerun |
+| Latest-source TEST APK and credential safety |103 current source/config/asset files matched build copy; pulled installed APK hash equaled validated artifact; TEST endpoint/public key present, production ref/privileged key/fixture passwords absent | PASS | evidence/FR-21-final-source.json, evidence/FR-21-final-apk.json | Existing arm64 debug build; no application-source change this turn |
+| Android runtime errors | Final TEST-process logs:0 fatal/unhandled,0 AuthException/invalid-login/expired-JWT mentions,0 Postgrest/Socket/Handshake exception mentions | PASS | evidence/FR-21-device-20261012.jsonl, logs at 10:41:23 | Counts cover captured current-process logs, not every historical device log |
+| Production isolation | Exact TEST link checked by each REST request and before CLI access; immutable TEST URL/package; no production commands, keys or records used | PASS | tests/integration/FR-21-device.py and FR-21-run.ps1 under ../, evidence/FR-21-final-migrations.log, evidence/FR-21-final-apk.json | No independent external network audit claimed |
+
+## Artifact and test changes
+
+APK: `.fr21-local/TezRider-FR21-Test-debug.apk`,101,303,203 bytes. SHA256 `34feaaeff5fac97e146682a94f076daf487fd5ca4e52b789a3c3ffeea2d1d332`. Installed artifact hash matched. Phone left on approved rider dashboard, Offline, original connectivity restored.
+
+Only test/evidence/documentation changes in this final run. Widget tests now use Supabase's own EmptyLocalStorage plus isolated test PKCE storage, avoiding an undeclared transitive package import. An intermediate test-storage attempt failed and was corrected; final18 tests and scoped analysis both exited0. Hosted Flutter first stalled in OneDrive and was explicitly terminated (exit4294967295), then rerun through cached Flutter tools in a source-verified build workspace:2 passed, exit0. No failed intermediate run is presented as success.
+
+Reusable rejected-write and force-stop probes are added to `tests/integration/FR-21-device.py`; protected runner exposes reject/crashbegin/crashend. Synthetic approval restoration uses finally. Hosted Flutter runner accepts optional FR21_FLUTTER_WORKSPACE, verifies app/test/lockfile hashes before using it, strips the privileged key from Flutter's environment and has a240-second timeout.
+
+## Limits
+
+Acceptance closes FR-21 behavior on TEST; unrelated whole-app requirements are outside this report. The existing Supabase Free Realtime capacity limitation remains: this acceptance does not certify1,000 simultaneously connected hosted dashboards. The previously recorded local k6 run and free/self-hosting guidance remain in the readiness report. No paid dependency introduced. A mean50-second heartbeat produces approximately72,000 presence writes/hour for1,000 Online riders, excluding other writes; rider heartbeat rows are not published to Realtime.

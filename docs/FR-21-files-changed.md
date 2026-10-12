@@ -41,3 +41,34 @@ Exact repository-relative paths for this continuation. The original presence mig
 - `tests/integration/FR-21-run.ps1`
 - `docs/FR-21-files-changed.md`
 - `.gitattributes`
+
+## Auth/mobile follow-up
+
+- `.gitignore`: keeps TEST artifacts/public build defines outside files removed by flutter clean.
+- `lib/screens/login_screen.dart`: canonical own-profile INSERT recovery; user error-display edit preserved.
+- `android/app/src/fr21test/AndroidManifest.xml`: native TEST Auth callback only.
+- `tests/integration/FR-21-auth-regression.py`: real protected-upsert/own-insert/pending-rider checks.
+- `tests/integration/FR-21-run.ps1`: adds protected auth regression mode.
+- `docs/FR-21-android-testing.md` and `docs/FR-21-test-readiness.md`: current device/Auth/APK evidence.
+
+Final acceptance: tests/integration/FR-21-device.py, tests/integration/FR-21-run.ps1, tests/integration/FR-21-flutter-hosted.py, test/widget_test.dart, docs/FR-21-acceptance.md, docs/FR-21-test-readiness.md, docs/FR-21-android-testing.md, docs/evidence/FR-21-* (sanitized actual device/regression/schema/migration/APK evidence). No new application-source or SQL migration change in the final acceptance run.
+
+Exact final-acceptance paths:
+- test/widget_test.dart
+- tests/integration/FR-21-device.py
+- tests/integration/FR-21-run.ps1
+- tests/integration/FR-21-flutter-hosted.py
+- docs/FR-21-acceptance.md
+- docs/FR-21-test-readiness.md
+- docs/FR-21-android-testing.md
+- docs/FR-21-files-changed.md
+- docs/evidence/FR-21-device-20261012.jsonl
+- docs/evidence/FR-21-final-analysis.log
+- docs/evidence/FR-21-final-apk.json
+- docs/evidence/FR-21-final-backend.json
+- docs/evidence/FR-21-final-flutter.log
+- docs/evidence/FR-21-final-hosted-flutter.log
+- docs/evidence/FR-21-final-migrations.log
+- docs/evidence/FR-21-final-schema.json
+- docs/evidence/FR-21-final-source.json
+- docs/evidence/FR-21-force-stop-baseline.json

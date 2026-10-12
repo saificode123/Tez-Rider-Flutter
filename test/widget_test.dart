@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_application_1/screens/splash_screen.dart';
 
+class _TestPkceStorage extends GotrueAsyncStorage {
+  const _TestPkceStorage();
+
+  @override
+  Future<String?> getItem({required String key}) async => null;
+
+  @override
+  Future<void> setItem({required String key, required String value}) async {}
+
+  @override
+  Future<void> removeItem({required String key}) async {}
+}
+
 void main() {
+  setUpAll(() async {
+    // No session and no network request: exercise the unauthenticated startup.
+    await Supabase.initialize(
+      url: 'http://localhost:54321',
+      publishableKey: 'widget-test-public-key',
+      authOptions: const FlutterAuthClientOptions(
+        localStorage: EmptyLocalStorage(),
+        pkceAsyncStorage: _TestPkceStorage(),
+        autoRefreshToken: false,
+        detectSessionInUri: false,
+      ),
+    );
+  });
+  tearDownAll(() => Supabase.instance.dispose());
   tearDown(Get.reset);
 
   testWidgets('Splash shows current branding and navigates to login', (

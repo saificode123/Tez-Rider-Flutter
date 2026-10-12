@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'rider_dashboard.dart';
 import '../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -89,9 +91,35 @@ class _SplashScreenState extends State<SplashScreen>
     if (mounted) _checkSession();
   }
 
-  void _checkSession() async {
-    // Always show login screen so the user selects their role and authenticates.
-    // Supabase session is preserved in the SDK, so login just re-verifies credentials.
+  Future<void> _checkSession() async {
+    final client = Supabase.instance.client;
+    if (client.auth.currentSession != null) {
+      try {
+        // Verify the saved identity and approval with the server before restoring
+        // rider presence. Metadata alone cannot authorize a dashboard session.
+        final identity = await client.auth.getUser().timeout(
+          const Duration(seconds: 8),
+        );
+        final email = identity.user?.email;
+        if (email != null) {
+          final profile = await client
+              .from('users')
+              .select('role,verification_status')
+              .eq('email', email)
+              .maybeSingle()
+              .timeout(const Duration(seconds: 8));
+          if (!mounted) return;
+          if (profile?['role'] == 'rider' &&
+              profile?['verification_status'] == 'approved') {
+            Get.offAll(() => const RiderDashboard());
+            return;
+          }
+        }
+      } catch (_) {
+        // An unavailable or invalid session must not imply successful recovery.
+      }
+    }
+    if (!mounted) return;
     Get.offAllNamed('/login');
   }
 

@@ -1,0 +1,9 @@
+{
+  "sha256": "34feaaeff5fac97e146682a94f076daf487fd5ca4e52b789a3c3ffeea2d1d332",
+  "size_bytes": 101303203,
+  "zip_crc_passed": true,
+  "compiled_test_backend_and_public_key_passed": true,
+  "production_reference_absent": true,
+  "service_role_key_absent": true,
+  "fixture_passwords_absent": true
+}

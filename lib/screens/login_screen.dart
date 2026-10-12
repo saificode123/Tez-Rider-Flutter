@@ -146,10 +146,11 @@ class _LoginScreenState extends State<LoginScreen>
         return;
       }
 
+      final authenticatedEmail = res.user?.email ?? email;
       var userRecord = await Supabase.instance.client
           .from('users')
           .select('*')
-          .eq('email', email)
+          .eq('email', authenticatedEmail)
           .maybeSingle();
 
       // Recovery: user exists in Auth but has no profile row (e.g. signed up
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen>
       if (userRecord == null) {
         final meta = res.user?.userMetadata;
         final recoveryData = <String, dynamic>{
-          'email': email,
+          'email': authenticatedEmail,
           'role': const {'customer', 'vendor', 'rider'}.contains(meta?['role'])
               ? meta!['role']
               : _role,
@@ -165,15 +166,18 @@ class _LoginScreenState extends State<LoginScreen>
           'verification_status': 'pending',
         };
         try {
-          await Supabase.instance.client
-              .from('users')
-              .upsert(recoveryData, onConflict: 'email');
-          userRecord = await Supabase.instance.client
-              .from('users')
-              .select('*')
-              .eq('email', email)
-              .maybeSingle();
-        } catch (_) {}
+          // RLS permits creating an own pending profile. An upsert also needs
+          // UPDATE on email/role, which are deliberately protected columns.
+          await Supabase.instance.client.from('users').insert(recoveryData);
+        } on PostgrestException catch (error) {
+          // Another sign-in can create the same profile concurrently.
+          if (error.code != '23505') rethrow;
+        }
+        userRecord = await Supabase.instance.client
+            .from('users')
+            .select('*')
+            .eq('email', authenticatedEmail)
+            .maybeSingle();
       }
 
       final access = AccountAccess.fromProfile(userRecord);
@@ -215,9 +219,10 @@ class _LoginScreenState extends State<LoginScreen>
         default:
           _showError('Sign in failed: ${e.message}');
       }
-    } catch (_) {
+    } catch (error) {
       _showError(
-        'Something went wrong. Please check your internet and try again.',
+        // 'Something went wrong. Please check your internet and try again.',
+        "${error.toString()}",
       );
     } finally {
       if (mounted) setState(() => _loading = false);

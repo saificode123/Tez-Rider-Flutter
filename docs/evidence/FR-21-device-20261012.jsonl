@@ -1,0 +1,133 @@
+{"time": "2026-10-12T09:15:30.543243+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T09:16:46.842909+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:10:56.987787+00:00", "presence_epoch": 20, "presence_sequence": 0, "is_available": false, "isavailable": false}, "age_seconds": 346.71, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:16:50.303049+00:00", "action": "tap_toggle"}
+{"time": "2026-10-12T09:17:08.200920+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:16:52.980714+00:00", "presence_epoch": 20, "presence_sequence": 1, "is_available": false, "isavailable": false}, "age_seconds": 12.22, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:17:08.954458+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}
+{"time": "2026-10-12T09:17:48.564855+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:17:38.505599+00:00", "presence_epoch": 20, "presence_sequence": 2, "is_available": false, "isavailable": false}, "age_seconds": 6.87, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:17:49.142251+00:00", "action": "force_stop_test_app"}
+{"time": "2026-10-12T09:17:49.608673+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T09:18:12.455030+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:17:38.505599+00:00", "presence_epoch": 20, "presence_sequence": 2, "is_available": false, "isavailable": false}, "age_seconds": 30.62, "effective_online": true, "ui_online": false, "ui_offline": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:18:41.362485+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}
+{"time": "2026-10-12T09:28:23.508345+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T09:28:45.970842+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:22:16.118245+00:00", "presence_epoch": 25, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 386.73, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:28:49.209654+00:00", "action": "tap_toggle"}
+{"time": "2026-10-12T09:29:14.850044+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:28:51.339343+00:00", "presence_epoch": 25, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 20.76, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:29:15.513180+00:00", "action": "force_stop_test_app"}
+{"time": "2026-10-12T09:29:16.448963+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T09:29:36.827820+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:29:29.267676+00:00", "presence_epoch": 26, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 4.61, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:29:39.927583+00:00", "action": "tap_toggle"}
+{"time": "2026-10-12T09:30:06.042203+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:29:42.028784+00:00", "presence_epoch": 26, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 21.21, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:30:06.722681+00:00", "action": "force_stop_test_app"}
+{"time": "2026-10-12T09:30:07.295574+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T09:30:33.068021+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:29:42.028784+00:00", "presence_epoch": 27, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 48.19, "effective_online": false, "ui_online": false, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:32:46.953628+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:29:42.028784+00:00", "presence_epoch": 27, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 182.16, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:32:50.028409+00:00", "action": "tap_toggle"}
+{"time": "2026-10-12T09:32:50.774619+00:00", "action": "network_disabled", "previous": {"wifi": true, "data": true}}
+{"time": "2026-10-12T09:36:50.989963+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:32:52.324728+00:00", "presence_epoch": 27, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 235.88, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": true, "ui_retry": true}
+{"time": "2026-10-12T09:36:51.471902+00:00", "action": "network_restored", "restored": {"wifi": true, "data": true}}
+{"time": "2026-10-12T09:37:30.811190+00:00", "action": "synthetic_assignment", "order_id": 17, "vendor_order_id": 21, "assigned_to_phone": false, "has_rider": false}
+{"time": "2026-10-12T09:37:33.991673+00:00", "action": "retry_presence"}
+{"time": "2026-10-12T09:37:55.131228+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:32:52.324728+00:00", "presence_epoch": 28, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 300.03, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:37:58.230912+00:00", "action": "tap_toggle"}
+{"time": "2026-10-12T09:38:15.753886+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:38:00.428842+00:00", "presence_epoch": 28, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 12.38, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:38:24.819572+00:00", "action": "synthetic_assignment", "order_id": 18, "vendor_order_id": 22, "assigned_to_phone": true, "has_rider": true}
+{"time": "2026-10-12T09:38:39.732388+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:38:00.428842+00:00", "presence_epoch": 28, "presence_sequence": 1, "is_available": false, "isavailable": false}, "age_seconds": 36.56, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:38:40.202117+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}
+{"time": "2026-10-12T09:39:35.369394+00:00", "probe": "active_orders", "orders": [{"id": 18, "order_status": "on_the_way"}]}
+{"time": "2026-10-12T09:39:39.287789+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:38:53.845228+00:00", "presence_epoch": 28, "presence_sequence": 2, "is_available": false, "isavailable": false}, "age_seconds": 41.21, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:39:45.454132+00:00", "probe": "active_orders", "orders": [{"id": 18, "order_status": "on_the_way"}]}
+{"time": "2026-10-12T09:39:48.286934+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:38:53.845228+00:00", "presence_epoch": 28, "presence_sequence": 2, "is_available": false, "isavailable": false}, "age_seconds": 51.33, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:41:10.496649+00:00", "probe": "active_orders", "orders": [{"id": 18, "order_status": "on_the_way"}]}
+{"time": "2026-10-12T09:41:13.274838+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:40:37.503589+00:00", "presence_epoch": 28, "presence_sequence": 4, "is_available": false, "isavailable": false}, "age_seconds": 32.61, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": true, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:41:15.380379+00:00", "action": "cancel_own_synthetic_order", "order_id": 18}
+{"time": "2026-10-12T09:41:35.460327+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T09:41:38.927434+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T09:41:28.716663+00:00", "presence_epoch": 28, "presence_sequence": 5, "is_available": true, "isavailable": true}, "age_seconds": 6.45, "effective_online": true, "ui_online": false, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:42:22.586016+00:00", "action": "tap_toggle", "taps": 2}
+{"time": "2026-10-12T09:42:50.081726+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T09:42:52.829758+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:42:24.542235+00:00", "presence_epoch": 28, "presence_sequence": 7, "is_available": true, "isavailable": true}, "age_seconds": 25.03, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T09:42:53.543862+00:00", "action": "network_disabled", "previous": {"wifi": true, "data": true}}
+{"time": "2026-10-12T09:42:56.936059+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T09:55:52.100185+00:00", "action": "network_restored", "restored": {"wifi": true, "data": true}}
+{"time": "2026-10-12T09:55:55.825699+00:00", "action": "retry_presence"}
+{"time": "2026-10-12T09:56:36.540681+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T09:56:39.504495+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:42:24.542235+00:00", "presence_epoch": 29, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 851.65, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": true}
+{"time": "2026-10-12T09:56:39.988624+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}
+{"time": "2026-10-12T09:57:18.357617+00:00", "action": "network_disabled", "previous": {"wifi": true, "data": true}}
+{"time": "2026-10-12T09:57:22.763192+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:12:31.096510+00:00", "action": "network_restored", "restored": {"wifi": true, "data": true}}
+{"time": "2026-10-12T10:17:15.168456+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T10:17:16.313563+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:17:17.743494+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:17:21.129725+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:42:24.542235+00:00", "presence_epoch": 29, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 2092.53, "effective_online": false, "ui_online": false, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:18:52.606018+00:00", "action": "restore_synthetic_approval", "restored": true}
+{"time": "2026-10-12T10:19:50.910889+00:00", "action": "force_stop_test_app"}
+{"time": "2026-10-12T10:19:51.349792+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T10:20:08.158615+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:20:08.757191+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:20:11.741489+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:42:24.542235+00:00", "presence_epoch": 30, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 2263.92, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:20:36.851188+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:20:42.999816+00:00", "test": "failed_write_rollback", "result": "PASS", "rejection_http": 403, "rejection_code": "42501", "server_presence_unchanged": true, "ui_offline": true, "appropriate_error_visible": true}
+{"time": "2026-10-12T10:20:43.300464+00:00", "action": "restore_synthetic_approval", "restored": true}
+{"time": "2026-10-12T10:20:43.578650+00:00", "test": "failure_isolation", "result": "PASS", "other_rider_unchanged": true, "auth_sessions_mutated": false, "global_policies_mutated": false}
+{"time": "2026-10-12T10:20:46.913201+00:00", "action": "retry_presence"}
+{"time": "2026-10-12T10:21:37.636747+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:21:38.428052+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:21:41.245610+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T09:42:24.542235+00:00", "presence_epoch": 31, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 2353.58, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:21:44.382234+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:22:30.875003+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:22:31.516677+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:22:35.787911+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:21:46.649165+00:00", "presence_epoch": 31, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 44.57, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:23:18.477487+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:23:19.184261+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:23:21.936926+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:22:35.033313+00:00", "presence_epoch": 31, "presence_sequence": 2, "is_available": true, "isavailable": true}, "age_seconds": 43.84, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:23:24.112346+00:00", "test": "force_stop_no_final_offline", "result": "PASS", "row": {"is_online": true, "last_seen": "2026-10-12T10:22:35.033313+00:00", "presence_epoch": 31, "presence_sequence": 2}, "process_running": false}
+{"time": "2026-10-12T10:25:28.945799+00:00", "test": "force_stop_expiry", "result": "PASS", "row": {"is_online": true, "last_seen": "2026-10-12T10:22:35.033313+00:00", "presence_epoch": 31, "presence_sequence": 2}, "age_seconds": 173.91, "effective_online": false, "last_seen_unchanged": true, "no_final_offline_write": true}
+{"time": "2026-10-12T10:25:47.974406+00:00", "action": "synthetic_assignment", "order_id": 19, "vendor_order_id": 23, "assigned_to_phone": false, "has_rider": false}
+{"time": "2026-10-12T10:25:49.779430+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T10:26:35.506432+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:26:36.142529+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:26:39.367600+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T10:22:35.033313+00:00", "presence_epoch": 32, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 240.8, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:28:04.341383+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:28:05.076105+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:28:07.938786+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T10:22:35.033313+00:00", "presence_epoch": 32, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 329.64, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:28:11.202306+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:29:40.156382+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:29:40.768428+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:29:43.516086+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:29:01.039461+00:00", "presence_epoch": 32, "presence_sequence": 2, "is_available": true, "isavailable": true}, "age_seconds": 39.43, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:29:50.635009+00:00", "action": "synthetic_assignment", "order_id": 20, "vendor_order_id": 24, "assigned_to_phone": true, "has_rider": true}
+{"time": "2026-10-12T10:30:17.700957+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:30:18.254142+00:00", "probe": "active_orders", "orders": [{"id": 20, "order_status": "on_the_way"}]}
+{"time": "2026-10-12T10:30:18.537931+00:00", "test": "physical_assignment_uniqueness", "result": "PASS", "order_id": 20, "assignment_count": 1}
+{"time": "2026-10-12T10:30:21.403273+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:29:47.490409+00:00", "presence_epoch": 32, "presence_sequence": 3, "is_available": false, "isavailable": false}, "age_seconds": 30.49, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": true, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:30:22.987443+00:00", "action": "cancel_own_synthetic_order", "order_id": 20}
+{"time": "2026-10-12T10:30:47.482416+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:30:48.387492+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:30:51.368659+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:30:32.702464+00:00", "presence_epoch": 32, "presence_sequence": 4, "is_available": true, "isavailable": true}, "age_seconds": 15.4, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:30:55.272670+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:30:56.864145+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}
+{"time": "2026-10-12T10:30:58.007258+00:00", "action": "force_stop_test_app"}
+{"time": "2026-10-12T10:38:13.446691+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T10:38:57.070917+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:38:57.657695+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:39:00.798633+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T10:37:30.72032+00:00", "presence_epoch": 39, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 86.64, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:39:04.010905+00:00", "action": "tap_toggle", "taps": 1}
+{"time": "2026-10-12T10:39:29.941348+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:39:30.600297+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:39:33.359901+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:39:04.694028+00:00", "presence_epoch": 39, "presence_sequence": 1, "is_available": true, "isavailable": true}, "age_seconds": 25.59, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:39:41.862930+00:00", "action": "synthetic_assignment", "order_id": 25, "vendor_order_id": 30, "assigned_to_phone": true, "has_rider": true}
+{"time": "2026-10-12T10:40:24.928752+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:40:25.950723+00:00", "probe": "active_orders", "orders": [{"id": 25, "order_status": "on_the_way"}]}
+{"time": "2026-10-12T10:40:26.427381+00:00", "test": "physical_assignment_uniqueness", "result": "PASS", "order_id": 25, "assignment_count": 1}
+{"time": "2026-10-12T10:40:29.176057+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:40:00.047345+00:00", "presence_epoch": 39, "presence_sequence": 2, "is_available": false, "isavailable": false}, "age_seconds": 25.51, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": true, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:40:31.139493+00:00", "action": "cancel_own_synthetic_order", "order_id": 25}
+{"time": "2026-10-12T10:40:54.629678+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:40:55.263882+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:40:58.016751+00:00", "probe": "status", "row": {"is_online": true, "last_seen": "2026-10-12T10:40:46.263123+00:00", "presence_epoch": 39, "presence_sequence": 3, "is_available": true, "isavailable": true}, "age_seconds": 8.66, "effective_online": true, "ui_online": true, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:40:58.997176+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:40:59.540116+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:40:59.541625+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T10:40:58.929568+00:00", "presence_epoch": 39, "presence_sequence": 4, "is_available": true, "isavailable": true}, "age_seconds": 0.34, "effective_online": false, "ui_online": false, "ui_offline": false, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:41:00.230419+00:00", "action": "start_test_app"}
+{"time": "2026-10-12T10:41:19.103462+00:00", "probe": "device_auth", "valid_access_token": true}
+{"time": "2026-10-12T10:41:19.697686+00:00", "probe": "active_orders", "orders": []}
+{"time": "2026-10-12T10:41:22.452110+00:00", "probe": "status", "row": {"is_online": false, "last_seen": "2026-10-12T10:40:58.929568+00:00", "presence_epoch": 40, "presence_sequence": 0, "is_available": true, "isavailable": true}, "age_seconds": 20.49, "effective_online": false, "ui_online": false, "ui_offline": true, "ui_active_delivery": false, "ui_connection_error": false, "ui_retry": false}
+{"time": "2026-10-12T10:41:23.010472+00:00", "probe": "logs", "fatal_exception": 0, "unhandled_exception": 0, "authentication_error_mentions": 0, "api_error_mentions": 0}

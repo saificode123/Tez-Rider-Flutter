@@ -1,4 +1,5 @@
-param([ValidateSet('backend','flutter')][string]$Kind = 'backend')
+param([ValidateSet('backend','flutter','auth','device')][string]$Kind = 'backend',
+    [ValidateSet('status','database','toggle','doubletap','start','stop','logs','networkoff','networkon','retry','assign','cancel','reject','crashbegin','crashend')][string]$DeviceAction = 'status')
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location -LiteralPath $repo
@@ -17,8 +18,15 @@ try {
 }
 $env:FR21_PRIVATE_DIRECTORY = $privateDirectory
 try {
-    $scriptFile = if ($Kind -eq 'backend') { 'FR-21-hosted.py' } else { 'FR-21-flutter-hosted.py' }
-    & 'C:/Users/urreh/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' (Join-Path $PSScriptRoot $scriptFile)
+    $scriptFile = switch ($Kind) {
+        'backend' { 'FR-21-hosted.py' }
+        'flutter' { 'FR-21-flutter-hosted.py' }
+        'auth' { 'FR-21-auth-regression.py' }
+        'device' { 'FR-21-device.py' }
+    }
+    $scriptArguments = @()
+    if ($Kind -eq 'device') { $scriptArguments = @($DeviceAction) }
+    & 'C:/Users/urreh/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' (Join-Path $PSScriptRoot $scriptFile) @scriptArguments
     $result = $LASTEXITCODE
 } finally {
     Remove-Item Env:FR21_TEST_KEYS_JSON -ErrorAction SilentlyContinue

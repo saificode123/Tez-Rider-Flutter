@@ -53,3 +53,4 @@ build/
 .env
 /supabase/.temp/
 __pycache__/
+/.fr21-local/
