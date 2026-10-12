@@ -22,12 +22,19 @@ DB = "fr21_isolated_test"
 
 
 def main():
+    global DB, OUT
     parser = argparse.ArgumentParser()
     parser.add_argument("--psql", required=True)
     parser.add_argument("--postgrest", required=True)
     parser.add_argument("--k6", required=True)
     parser.add_argument("--pool-size", type=int, default=10)
+    parser.add_argument("--database", choices=['fr21_isolated_test','fr21_secure_validation'], default=DB)
+    parser.add_argument("--output-directory", default=str(OUT))
     args = parser.parse_args()
+    DB = args.database
+    OUT = Path(args.output_directory).resolve()
+    if not OUT.is_relative_to((ROOT/'build').resolve()):
+        parser.error('Load evidence must remain in the ignored build directory')
     if not 1 <= args.pool_size <= 50:
         parser.error("--pool-size must be between 1 and 50")
     OUT.mkdir(parents=True, exist_ok=True)
@@ -43,7 +50,7 @@ def main():
         parts.append(encode(hmac.new(secret.encode(), ".".join(parts).encode(), hashlib.sha256).digest()))
         return ".".join(parts)
 
-    sql = ["do $$ begin if current_database()<>'fr21_isolated_test' then raise exception 'Local only'; end if; end $$;"]
+    sql = [f"do $$ begin if current_database()<>'{DB}' then raise exception 'Local only'; end if; end $$;"]
     # Leave existing race fixtures offline so the load dataset is self-contained.
     sql.append("update public.riders set is_online=false where userid=-22003;")
     # Reset only the named local load dataset, making assignment (not just its

@@ -19,14 +19,13 @@ void main() async {
   final config = BackendConfig(
     url: const String.fromEnvironment(
       'SUPABASE_URL',
-      defaultValue: 'https://arrqsvejrfdbacfwtpcc.supabase.co',
+      defaultValue: 'https://igeisilhtmglgnqvllrx.supabase.co',
     ),
-    key: const String.fromEnvironment(
-      'SUPABASE_ANON_KEY',
-      defaultValue:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFycnFzdmVqcmZkYmFjZnd0cGNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTczODksImV4cCI6MjA5MjY5MzM4OX0.3_0AHeKg5pM8dA9HK6f3merIrfi7SknKRaQ8kByQe7U',
+    key: const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: ''),
+    isolatedTest: const bool.fromEnvironment(
+      'FR21_ISOLATED_TEST',
+      defaultValue: true,
     ),
-    isolatedTest: const bool.fromEnvironment('FR21_ISOLATED_TEST'),
   );
   await Supabase.initialize(url: config.url, publishableKey: config.key);
 
@@ -50,7 +49,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'TezRider',
+      title:
+          const bool.fromEnvironment('FR21_ISOLATED_TEST', defaultValue: true)
+          ? 'TezRider TEST'
+          : 'TezRider',
       debugShowCheckedModeBanner: false,
       translations: AppTranslations(),
       locale: const Locale('en', 'US'),
@@ -67,7 +69,15 @@ class MyApp extends StatelessWidget {
             context,
           ).clamp(minScaleFactor: 0.9, maxScaleFactor: 1.15),
         ),
-        child: child!,
+        child:
+            const bool.fromEnvironment('FR21_ISOLATED_TEST', defaultValue: true)
+            ? Banner(
+                message: 'TEST',
+                location: BannerLocation.topEnd,
+                color: Colors.orange,
+                child: child!,
+              )
+            : child!,
       ),
     );
   }

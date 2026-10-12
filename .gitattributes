@@ -1,0 +1,4 @@
+# Preserve exact authoritative/reviewed SQL bytes; disable newline conversion.
+schema-export/*.sql -text
+supabase/migrations/*.sql -text
+supabase/test-environment/*.sql -text

@@ -1,0 +1,38 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "source_schema_sha256": "3b67b93133531794941a7148d744b0b215817e62f822bfda7e45a7b68d0c8f18",
+  "migrations": [
+    {
+      "file": "202610080001_tezrider_baseline.sql",
+      "sha256": "32967ff13210a734f229aa37c9a59e508a6a55709c9eb3e962047cdba6639114"
+    },
+    {
+      "file": "202610090001_fr21_presence.sql",
+      "sha256": "a07d16d38e332d5d6b8677cab71f08adf1125bc80f34fa7004f92431a88f1196"
+    },
+    {
+      "file": "202610110001_fr21_test_security.sql",
+      "sha256": "75d3532fd48cf30727db64e085620954236e6cbef6b3429fa5de7bd8b18b1278"
+    },
+    {
+      "file": "202610110002_fr21_dashboard_consistency.sql",
+      "sha256": "405c9acc1231a52dd46c461b87e42647de157e2b2bc74e5c6a2c31c2e82bf582"
+    },
+    {
+      "file": "202610110003_fr21_presence_http_conflict.sql",
+      "sha256": "1d8d9ce888254e731aeecc3c9cb463d933c3870f1ce980c26753c41c8077062f"
+    },
+    {
+      "file": "202610110004_fr21_delivery_receipt.sql",
+      "sha256": "27403be9cce2e71c575b5f4c99dd7830061447a13a16ded2feb6424735eba7d8"
+    },
+    {
+      "file": "202610110005_fr21_ready_state.sql",
+      "sha256": "5bf73af627c57de671756d5914fe097897c116284c5900f93652c2a1a03165cf"
+    },
+    {
+      "file": "202610110006_fr21_visibility_guards.sql",
+      "sha256": "c1ab8753708987e68f2829e46645b099442397ffd36a08070c8dbd50806b2d7b"
+    }
+  ]
+}

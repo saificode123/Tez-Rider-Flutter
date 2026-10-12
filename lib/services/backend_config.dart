@@ -15,6 +15,13 @@ class BackendConfig {
       '127.0.0.1',
       '10.0.2.2',
     }.contains(uri.host);
+    if (isolatedTest &&
+        !local &&
+        uri.host != 'igeisilhtmglgnqvllrx.supabase.co') {
+      throw const FormatException(
+        'The FR-21 app must use its dedicated TEST backend.',
+      );
+    }
     if (uri.scheme != 'https' &&
         !(isolatedTest && local && uri.scheme == 'http')) {
       throw const FormatException('A secure backend connection is required.');
@@ -35,6 +42,13 @@ class BackendConfig {
       if (claims['role'] != 'anon') {
         throw const FormatException(
           'Only a public backend key may be used in the app.',
+        );
+      }
+      if (!local &&
+          claims['ref'] != null &&
+          uri.host != '${claims['ref']}.supabase.co') {
+        throw const FormatException(
+          'The public key belongs to a different backend.',
         );
       }
     }

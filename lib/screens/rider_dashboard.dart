@@ -326,6 +326,19 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 ),
               ),
 
+            if (riderCtrl.requestsError.value != null)
+              SliverToBoxAdapter(
+                child: ListTile(
+                  title: Text(riderCtrl.requestsError.value!),
+                  trailing: TextButton(
+                    onPressed: riderCtrl.requestsLoading.value
+                        ? null
+                        : riderCtrl.retryRequests,
+                    child: const Text('Retry'),
+                  ),
+                ),
+              ),
+
             if (riderCtrl.currentOrder.value != null)
               SliverToBoxAdapter(
                 child: Padding(

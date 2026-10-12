@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../data/mock_data.dart';
 
 class VendorController extends GetxController {
   final _supabase = Supabase.instance.client;
@@ -32,70 +31,19 @@ class VendorController extends GetxController {
   }
 
   Future<void> loadStats() async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) {
-      // No authenticated user — show mock stats immediately.
-      totalEarnings.value = MockData.mockVendorEarnings;
-      averageRating.value = MockData.mockVendorRating;
-      return;
-    }
-
-    final userRecord = await _supabase
-        .from('users')
-        .select('id')
-        .eq('email', user.email!)
-        .maybeSingle();
-    if (userRecord == null) {
-      totalEarnings.value = MockData.mockVendorEarnings;
-      averageRating.value = MockData.mockVendorRating;
-      return;
-    }
-    final vendorId = userRecord['id'];
-
-    // ── Earnings ──
     try {
-      final delivered =
-          await _supabase
-                  .from('vendor_orders')
-                  .select('sub_total')
-                  .eq('vendor_id', vendorId)
-                  .eq('status', 'delivered')
-              as List;
-
-      double total = 0;
-      for (final o in delivered) {
-        final st = o['sub_total'];
-        total += st is num
-            ? st.toDouble()
-            : double.tryParse(st?.toString() ?? '0') ?? 0.0;
-      }
-      totalEarnings.value = total > 0
-          ? 'PKR ${total.toStringAsFixed(0)}'
-          : MockData.mockVendorEarnings;
+      final response = await _supabase
+          .rpc('fr21_dashboard_stats')
+          .timeout(const Duration(seconds: 8));
+      if (isClosed) return;
+      final stats = Map<String, dynamic>.from(response as Map);
+      totalEarnings.value =
+          'PKR ${((stats['total'] as num?) ?? 0).toStringAsFixed(0)}';
+      averageRating.value = stats['rating'] == null
+          ? '—'
+          : '${stats['rating']} ★';
     } catch (_) {
-      totalEarnings.value = MockData.mockVendorEarnings;
-    }
-
-    // ── Rating ──
-    try {
-      final reviews =
-          await _supabase
-                  .from('reviews')
-                  .select('rating')
-                  .eq('reviewee_id', vendorId.toString())
-              as List;
-
-      if (reviews.isNotEmpty) {
-        double sum = 0;
-        for (final r in reviews) {
-          sum += (r['rating'] as num?)?.toDouble() ?? 0.0;
-        }
-        averageRating.value = '${(sum / reviews.length).toStringAsFixed(1)} ★';
-      } else {
-        averageRating.value = MockData.mockVendorRating;
-      }
-    } catch (_) {
-      averageRating.value = MockData.mockVendorRating;
+      if (!isClosed) ordersError.value = 'Could not load vendor statistics.';
     }
   }
 
@@ -132,7 +80,15 @@ class VendorController extends GetxController {
             callback: (_) => _queueRefresh(),
           )
           .subscribe((status, error) {
-            if (status == RealtimeSubscribeStatus.subscribed) _queueRefresh();
+            if (status == RealtimeSubscribeStatus.subscribed) {
+              ordersError.value = null;
+              _queueRefresh();
+            } else if (status == RealtimeSubscribeStatus.channelError ||
+                status == RealtimeSubscribeStatus.timedOut) {
+              if (!isClosed) {
+                ordersError.value = 'Live updates disconnected. Reconnecting…';
+              }
+            }
           });
       await refreshOrders();
     } catch (_) {
@@ -170,7 +126,7 @@ class VendorController extends GetxController {
             .from('vendor_orders')
             .select(
               'id,order_id,vendor_id,status,sub_total,created_at, '
-              'orders!vendor_orders_order_id_fkey(id,user_id,rider_id,delivery_address,delivery_lat,delivery_lng,delivery_speed,users!orders_user_id_fkey(name,phone)), '
+              'orders!vendor_orders_order_id_fkey(id,user_id,rider_id,delivery_address,delivery_lat,delivery_lng,delivery_speed), '
               'order_items(quantity,price_at_time,products(name))',
             )
             .eq('vendor_id', _vendorId!)
@@ -188,6 +144,30 @@ class VendorController extends GetxController {
       ]);
       if (isClosed) return;
       final rows = List<Map<String, dynamic>>.from(results[0]);
+      final orderIds = rows
+          .map((row) => row['order_id'])
+          .whereType<num>()
+          .toSet()
+          .toList();
+      if (orderIds.isNotEmpty) {
+        final contacts = await _supabase
+            .rpc('fr21_order_contacts', params: {'p_order_ids': orderIds})
+            .timeout(const Duration(seconds: 8));
+        final byOrder = {
+          for (final contact in contacts as List)
+            contact['order_id']: {
+              'name': contact['name'],
+              'phone': contact['phone'],
+            },
+        };
+        for (final row in rows) {
+          final order = row['orders'];
+          if (order is Map<String, dynamic>) {
+            order['users'] = byOrder[row['order_id']];
+          }
+        }
+      }
+      if (isClosed) return;
       final merged = loadMore
           ? [...activeOrders, ...orderHistory, ...rows]
           : rows;
@@ -305,20 +285,7 @@ class VendorController extends GetxController {
       }
       final result = Map<String, dynamic>.from(response as Map);
       final message = result['message'] as String;
-      activeOrders.value = activeOrders
-          .map(
-            (order) => order['id'] == vendorOrder['id']
-                ? {
-                    ...order,
-                    'status': 'on_the_way',
-                    'orders': {
-                      ...?order['orders'] as Map<String, dynamic>?,
-                      'rider_id': result['rider_id'],
-                    },
-                  }
-                : order,
-          )
-          .toList();
+      await refreshOrders();
       return message;
     } catch (_) {
       return 'Ready/assignment was not confirmed. Retry safely to check the result.';

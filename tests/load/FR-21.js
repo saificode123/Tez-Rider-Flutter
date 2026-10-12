@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { SharedArray } from 'k6/data';
+import { Counter } from 'k6/metrics';
 
 // Fixture JSON: 1000 distinct riders plus vendor accounts, each with a test
 // JWT, and disposable vendor_order_id values. Never include this file in Git.
@@ -10,11 +11,14 @@ const isLocal = /^http:\/\/(localhost|127\.0\.0\.1):54321$/.test(base);
 // Native local PostgREST has no Kong /rest/v1 prefix. Hosted targets always do.
 const prefix = isLocal && __ENV.FR21_NATIVE_POSTGREST === 'true' ? '' : '/rest/v1';
 const testRef = __ENV.FR21_TEST_PROJECT_REF || '';
+const authorizedTestRef = 'igeisilhtmglgnqvllrx';
 if (!isLocal && (__ENV.FR21_ISOLATED_TEST !== 'true' || !testRef || !__ENV.FR21_LIVE_PROJECT_REF ||
-    base !== `https://${testRef}.supabase.co` || testRef === __ENV.FR21_LIVE_PROJECT_REF)) {
+    testRef !== authorizedTestRef || base !== `https://${testRef}.supabase.co` || testRef === __ENV.FR21_LIVE_PROJECT_REF)) {
   throw new Error('Use local Supabase or explicitly identified isolated test project. Live testing is forbidden.');
 }
 if (!__ENV.FR21_ANON_KEY || fixtures.length < 1000) throw new Error('Test key and 1000 fixtures required.');
+const transportErrors = new Counter('rpc_transport_errors');
+const httpErrors = new Counter('rpc_http_errors');
 
 export const options = {
   stages: [
@@ -34,6 +38,27 @@ function rpc(name, body, token) {
     tags: { endpoint: name }, timeout: '8s',
   });
   check(response, { 'RPC confirmed': r => r.status === 200 });
+  transportErrors.add(response.status === 0 ? 1 : 0, { endpoint: name });
+  httpErrors.add(response.status !== 0 && response.status !== 200 ? 1 : 0, { endpoint: name });
+  if (response.status !== 200) {
+    // Log only diagnostics: never tokens, email, response bodies or fixture data.
+    let databaseCode = null;
+    if (response.status !== 0) {
+      try {
+        const code = response.json('code');
+        if (typeof code === 'string' && /^[A-Z0-9]{5,8}$/.test(code)) databaseCode = code;
+      } catch (_) {}
+    }
+    console.warn(JSON.stringify({
+      event: 'FR21_RPC_FAILURE', endpoint: name, status: response.status,
+      transport_code: response.error_code || null, database_code: databaseCode,
+      transport_reason: response.status === 0
+        ? /EOF/.test(response.error || '') ? 'EOF'
+          : /timeout/i.test(response.error || '') ? 'timeout' : 'other'
+        : null,
+      vu: __VU, iteration: __ITER,
+    }));
+  }
   return response;
 }
 

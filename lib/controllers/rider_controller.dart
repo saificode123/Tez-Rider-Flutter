@@ -27,6 +27,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   int _requestsPage = 0;
   final hasMoreRequests = false.obs;
   final requestsLoading = false.obs;
+  final requestsError = RxnString();
 
   RxString todayEarnings = 'PKR 0'.obs;
   RxString weeklyEarnings = 'PKR 0'.obs;
@@ -50,7 +51,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
                 ? 'Availability setup is pending on the server.'
                 : e.code == '42501'
                 ? 'An approved rider account is required.'
-                : e.code == '40001'
+                : e.code == '40001' || e.code == 'PT409'
                 ? 'This session changed. Tap Retry to restore availability.'
                 : 'Availability could not be confirmed. Tap Retry.',
             retryable: e.code == '503' || e.code == '504',
@@ -100,68 +101,19 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> loadEarnings() async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) return;
-    final userRecord = await _supabase
-        .from('users')
-        .select('id')
-        .eq('email', user.email!)
-        .maybeSingle();
-    if (userRecord == null) return;
-    final riderId = userRecord['id'];
-
-    try {
-      final now = DateTime.now();
-      final todayStart = DateTime(
-        now.year,
-        now.month,
-        now.day,
-      ).toUtc().toIso8601String();
-      final weekStart = now
-          .subtract(const Duration(days: 7))
-          .toUtc()
-          .toIso8601String();
-      final monthStart = now
-          .subtract(const Duration(days: 30))
-          .toUtc()
-          .toIso8601String();
-
-      final delivered =
-          await _supabase
-                  .from('orders')
-                  .select('amount, created_at')
-                  .eq('rider_id', riderId)
-                  .eq('order_status', 'delivered')
-              as List;
-
-      double todayTotal = 0, weekTotal = 0, monthTotal = 0;
-      int todayTrips = 0;
-
-      for (final o in delivered) {
-        final createdAt = o['created_at'] as String?;
-        if (createdAt == null) continue;
-        final date = DateTime.tryParse(createdAt);
-        if (date == null) continue;
-        final amount = (o['amount'] as num?)?.toDouble() ?? 0.0;
-
-        if (date.isAfter(DateTime.parse(monthStart))) {
-          monthTotal += amount;
-          if (date.isAfter(DateTime.parse(weekStart))) {
-            weekTotal += amount;
-            if (date.isAfter(DateTime.parse(todayStart))) {
-              todayTotal += amount;
-              todayTrips++;
-            }
-          }
-        }
-      }
-
-      todayEarnings.value = 'PKR ${todayTotal.toStringAsFixed(0)}';
-      weeklyEarnings.value = 'PKR ${weekTotal.toStringAsFixed(0)}';
-      monthlyEarnings.value = 'PKR ${monthTotal.toStringAsFixed(0)}';
-      tripsToday.value = todayTrips;
-      totalDeliveries.value = delivered.length;
-    } catch (_) {}
+    final response = await _supabase
+        .rpc('fr21_dashboard_stats')
+        .timeout(const Duration(seconds: 8));
+    if (isClosed) return;
+    final stats = Map<String, dynamic>.from(response as Map);
+    todayEarnings.value =
+        'PKR ${((stats['today'] as num?) ?? 0).toStringAsFixed(0)}';
+    weeklyEarnings.value =
+        'PKR ${((stats['week'] as num?) ?? 0).toStringAsFixed(0)}';
+    monthlyEarnings.value =
+        'PKR ${((stats['month'] as num?) ?? 0).toStringAsFixed(0)}';
+    tripsToday.value = (stats['trips_today'] as num?)?.toInt() ?? 0;
+    totalDeliveries.value = (stats['total_deliveries'] as num?)?.toInt() ?? 0;
   }
 
   Future<void> _listenToDashboard() async {
@@ -180,7 +132,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             filter: PostgresChangeFilter(
               type: PostgresChangeFilterType.inFilter,
               column: 'order_status',
-              value: ['placed', 'accepted', 'on_the_way'],
+              value: ['placed', 'accepted', 'ready', 'on_the_way'],
             ),
             callback: (_) => _queueRefresh(),
           )
@@ -207,7 +159,16 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             callback: (_) => _queueRefresh(),
           )
           .subscribe((status, error) {
-            if (status == RealtimeSubscribeStatus.subscribed) _queueRefresh();
+            if (status == RealtimeSubscribeStatus.subscribed) {
+              requestsError.value = null;
+              _queueRefresh();
+            } else if (status == RealtimeSubscribeStatus.channelError ||
+                status == RealtimeSubscribeStatus.timedOut) {
+              if (!isClosed) {
+                requestsError.value =
+                    'Live updates disconnected. Reconnecting…';
+              }
+            }
           });
       await _refreshRequests();
     } catch (_) {
@@ -243,7 +204,12 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             .select(
               'id,rider_id,order_status,created_at,amount,delivery_address,delivery_lat,delivery_lng',
             )
-            .inFilter('order_status', ['placed', 'accepted', 'on_the_way'])
+            .inFilter('order_status', [
+              'placed',
+              'accepted',
+              'ready',
+              'on_the_way',
+            ])
             .or('rider_id.is.null,rider_id.eq.$_riderId')
             .order('created_at', ascending: false)
             .range(page * 100, page * 100 + 99)
@@ -274,9 +240,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         hasMoreRequests.value = responses.any((rows) => rows.length == 100);
       }
       await checkCurrentOrder();
+      if (!isClosed) requestsError.value = null;
     } catch (_) {
       if (!isClosed) {
-        presenceError.value = 'Could not refresh delivery requests.';
+        requestsError.value = 'Could not refresh delivery requests. Tap Retry.';
       }
     } finally {
       _refreshing = false;
@@ -394,20 +361,6 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         return false;
       }
 
-      try {
-        await _supabase.from('delivery_proof').insert({
-          'proofid': 'proof_${DateTime.now().millisecondsSinceEpoch}',
-          'orderid': current['id'].toString(),
-          'riderid': _supabase.auth.currentUser?.id ?? '',
-          'photourl': '',
-          'location': '',
-          'otpconfirmed': true,
-          'otp': enteredOtp,
-          'is_verified': true,
-          'verified_at': DateTime.now().toUtc().toIso8601String(),
-        });
-      } catch (_) {}
-
       HapticFeedback.mediumImpact();
       currentOrder.value = null;
       return true;
@@ -484,9 +437,17 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  Future<void> setOnlineStatus(bool status) => _presence.setOnline(status);
+  Future<void> setOnlineStatus(bool status) async {
+    await _presence.setOnline(status);
+    _queueRefresh();
+  }
 
-  Future<void> restoreOnlineStatus() => _presence.restore();
+  Future<void> restoreOnlineStatus() async {
+    await _presence.restore();
+    _queueRefresh();
+  }
+
+  Future<void> retryRequests() => _refreshRequests();
 
   Future<void> goOffline() => _presence.offline();
 

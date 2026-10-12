@@ -53,10 +53,15 @@ insert into public.vendor_orders(id,order_id,vendor_id,status) values
 -- SQLSTATE checks, rather than accepting arbitrary backend failures.
 create function pg_temp.denied(statement text, code text default '42501')
 returns boolean language plpgsql as $$
+declare affected bigint;
 begin
   execute statement;
-  return false;
-exception when others then return sqlstate = code;
+  get diagnostics affected = row_count;
+  -- RLS can reject an UPDATE by making its target invisible (zero rows).
+  return lower(ltrim(statement)) like 'update %' and affected=0;
+exception when others then
+  -- PT409 is the hosted-safe business conflict replacement for legacy 40001.
+  return sqlstate = code or (code='40001' and sqlstate='PT409');
 end $$;
 do $$ declare temp_schema text; begin
   select nspname into temp_schema from pg_namespace where oid=pg_my_temp_schema();
@@ -163,6 +168,16 @@ select pg_temp.ok(public.fr21_complete_delivery(-21001,(select result->>'deliver
 select pg_temp.ok(public.fr21_complete_delivery(-21001,(select result->>'delivery_otp' from fr21_accept)),'delivery retry idempotent');
 reset role;
 select pg_temp.ok((select is_available and isavailable from public.riders where userid=-21003),'both availability flags released');
+-- New full TEST schema stores the server-confirmed OTP receipt atomically.
+do $$ begin
+  if to_regclass('public.delivery_proof') is not null and
+    pg_get_functiondef('public.fr21_complete_delivery(bigint,text)'::regprocedure)
+      like '%insert into public.delivery_proof%' then
+    perform pg_temp.is((select count(*) from public.delivery_proof where orderid='-21001'
+      and proofid='fr21-otp--21001' and otpconfirmed and is_verified),1::bigint,
+      'delivery receipt persists exactly once across retries');
+  end if;
+end $$;
 select set_config('request.jwt.claims','{"sub":"21000000-0000-0000-0000-000000000002","role":"authenticated","email":"fr21-2@example.test"}',true);
 set local role authenticated;
 select pg_temp.is((public.fr21_ready_and_assign(-21002)->>'rider_id')::bigint,-21003::bigint,'released rider may receive next order');

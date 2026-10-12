@@ -1,11 +1,17 @@
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
-    id("com.google.gms.google-services")
+    id("com.google.gms.google-services") apply false
     // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Supabase TEST has no Firebase dependency. Preserve the existing Google
+// configuration only for the original application variant.
+if (!gradle.startParameter.taskNames.any { it.contains("Fr21test", ignoreCase = true) }) {
+    apply(plugin = "com.google.gms.google-services")
 }
 
 android {
@@ -24,6 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.flutter_application_1"
+        manifestPlaceholders["appLabel"] = "TezRider"
 
         // ✅ FIXED: local_auth requires minimum SDK 23
         // Do NOT use flutter.minSdkVersion — it defaults to 21
@@ -31,6 +38,18 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        create("production") {
+            dimension = "environment"
+        }
+        create("fr21test") {
+            dimension = "environment"
+            applicationIdSuffix = ".fr21test"
+            manifestPlaceholders["appLabel"] = "TezRider TEST"
+        }
     }
 
     buildTypes {
