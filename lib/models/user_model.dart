@@ -9,6 +9,7 @@ class UserModel {
   final String? cnic;
   final String? cnicImageUrl;
   final String? rejectionReason;
+  final bool documentValid;
 
   UserModel({
     required this.id,
@@ -21,6 +22,7 @@ class UserModel {
     this.cnic,
     this.cnicImageUrl,
     this.rejectionReason,
+    this.documentValid = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -32,9 +34,10 @@ class UserModel {
       role: json['role'] ?? 'customer',
       verificationStatus: json['verification_status'] ?? 'pending',
       profileImage: json['profile_image'],
-      cnic: json['cnic'],
+      cnic: json['cnic_masked'] ?? json['cnic'],
       cnicImageUrl: json['cnic_image_url'],
       rejectionReason: json['rejection_reason'],
+      documentValid: json['document_valid'] == true,
     );
   }
 
@@ -76,6 +79,7 @@ class UserModel {
       cnic: cnic ?? this.cnic,
       cnicImageUrl: cnicImageUrl ?? this.cnicImageUrl,
       rejectionReason: rejectionReason ?? this.rejectionReason,
+      documentValid: documentValid,
     );
   }
 }

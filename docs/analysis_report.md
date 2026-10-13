@@ -31,7 +31,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | ------------ | ----------- | ------------------------------------------------------------------------------------------------------------- |
 | FR-01, FR-02 | Complete    | Register/login via Supabase Auth, `auth_controller.dart`. Biometric login exists (not in SRDS)                |
 | FR-03        | Complete    | Vendor/rider pending until admin approval, `admin_controller.dart`                                            |
-| FR-04        | **Partial** | `signup_screen.dart` has a CNIC number field. CNIC document image upload is missing (Table 5.6 row 3, SEC-09) |
+| FR-04        | **Functionally accepted; scale qualification outstanding** | Implemented and integrated in code/TEST: private validated JPEG/PNG uploads, encrypted CNIC numbers, masked owned-order identity, 900-second viewing and server-enforced approval (Table 5.6 row 3; S-05/SEC-08/SEC-09). Actual hosted and Android evidence is in `FR-04-readiness.md` and `FR-04-acceptance.md`; fresh native email confirmation/upload/approval/login, oversized/corrupt rejection and real fifteen-minute viewer expiry passed. Bounded Tokyo read p95 is below 800 ms; full 1,000-user qualification awaits local-runtime restart. Updated against real implementation on 2026-10-13. |
 | FR-05        | Complete    | Role-based routing to dashboards                                                                              |
 
 ### Orders
