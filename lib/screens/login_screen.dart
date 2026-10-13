@@ -10,6 +10,7 @@ import 'customer_dashboard.dart';
 import 'vendor_dashboard.dart';
 import 'rider_dashboard.dart';
 import 'admin_dashboard.dart';
+import 'cnic_document_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -163,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen>
               ? meta!['role']
               : _role,
           'name': meta?['name'] ?? '',
+          'phone': meta?['phone'],
           'verification_status': 'pending',
         };
         try {
@@ -193,6 +195,10 @@ class _LoginScreenState extends State<LoginScreen>
       await authController.setBioPreference(authController.isBioEnabled.value);
 
       if (access.needsApproval) {
+        if (realRole == 'rider') {
+          Get.offAll(() => const CnicDocumentScreen());
+          return;
+        }
         Get.offAllNamed(
           '/pending_verification',
           arguments: {'status': vStatus},
@@ -222,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen>
     } catch (error) {
       _showError(
         // 'Something went wrong. Please check your internet and try again.',
-        "${error.toString()}",
+        error.toString(),
       );
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -261,6 +267,10 @@ class _LoginScreenState extends State<LoginScreen>
           final access = AccountAccess.fromProfile(profile);
           await _storage.write(key: 'tr_role', value: access.role);
           if (access.needsApproval) {
+            if (access.role == 'rider') {
+              Get.offAll(() => const CnicDocumentScreen());
+              return;
+            }
             Get.offAllNamed(
               '/pending_verification',
               arguments: {'status': access.status},

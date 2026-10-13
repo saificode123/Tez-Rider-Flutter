@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme/app_theme.dart';
 import 'login_screen.dart';
+import 'cnic_document_screen.dart';
+import '../services/cnic_document.dart';
+import 'package:image_picker/image_picker.dart';
 
 const _kBg = Color(0xFFF5F0E8);
 const _kText = Color(0xFF1A1340);
 const _kTextSub = Color(0xFF6B6B8A);
 const _kGreen = Color(0xFF10B981);
-const _kDivider = Color(0xFFE5EDE6);
 
 class SignupScreen extends StatefulWidget {
   final String? initialRole;
@@ -27,6 +29,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool _loading = false;
   bool _obscure = true;
+  CnicImage? _cnicImage;
+  final _cnicImages = CnicImageService();
+  final _cnicDraft = CnicDraftStore();
+  String _cnicRequest = cnicRequestId();
   late String _role;
 
   final List<Map<String, dynamic>> _roles = [
@@ -79,6 +85,7 @@ class _SignupScreenState extends State<SignupScreen> {
       RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(e);
 
   Future<void> _signup() async {
+    if (_loading) return;
     final name = _name.text.trim();
     final email = _email.text.trim();
     final pass = _pass.text;
@@ -103,17 +110,63 @@ class _SignupScreenState extends State<SignupScreen> {
       _err('Shop/store name is required for vendors');
       return;
     }
+    if (_role == 'rider') {
+      try {
+        normalizeCnic(_cnic.text.trim());
+      } on FormatException catch (e) {
+        _err(e.message);
+        return;
+      }
+      if (_cnicImage == null) {
+        _err('Please upload your CNIC document to continue.');
+        return;
+      }
+    }
 
     setState(() => _loading = true);
     try {
+      if (_role == 'rider') {
+        await _cnicDraft.save(
+          email,
+          normalizeCnic(_cnic.text.trim()),
+          _cnicImage!.sourcePath,
+          _cnicRequest,
+        );
+      }
       final res = await Supabase.instance.client.auth.signUp(
         email: email,
         password: pass,
-        data: {'name': name, 'role': _role},
+        data: {'name': name, 'role': _role, 'phone': _phone.text.trim()},
       );
 
       if (res.user == null) {
         _err('Sign up failed. Please try again.');
+        return;
+      }
+
+      if (_role == 'rider') {
+        if (res.session == null) {
+          Get.snackbar(
+            'Verify your email',
+            'Verify the email, then sign in as Rider to finish your CNIC submission. Registration remains incomplete until the document is uploaded.',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 8),
+          );
+          Get.off(() => const LoginScreen());
+        } else {
+          try {
+            await Supabase.instance.client.from('users').insert({
+              'name': name,
+              'email': res.user!.email,
+              'phone': _phone.text.trim(),
+              'role': 'rider',
+              'verification_status': 'pending',
+            });
+          } on PostgrestException catch (e) {
+            if (e.code != '23505') rethrow;
+          }
+          Get.off(() => const CnicDocumentScreen());
+        }
         return;
       }
 
@@ -217,6 +270,26 @@ class _SignupScreenState extends State<SignupScreen> {
       } else {
         _err('Sign up failed: $msg');
       }
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  Future<void> _chooseCnic(ImageSource source) async {
+    if (_loading) return;
+    setState(() => _loading = true);
+    try {
+      final image = await _cnicImages.pick(source);
+      if (mounted && image != null) {
+        setState(() {
+          _cnicImage = image;
+          _cnicRequest = cnicRequestId();
+        });
+      }
+    } on FormatException catch (e) {
+      _err(e.message);
+    } catch (_) {
+      _err('Could not select the image. Please try again.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -343,6 +416,45 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SizedBox(height: 16),
                     ],
 
+                    if (_role == 'rider') ...[
+                      _label('CNIC document image'),
+                      if (_cnicImage != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Image.memory(
+                            _cnicImage!.bytes,
+                            height: 150,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _loading
+                                  ? null
+                                  : () => _chooseCnic(ImageSource.camera),
+                              icon: const Icon(Icons.camera_alt),
+                              label: const Text('Camera'),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _loading
+                                  ? null
+                                  : () => _chooseCnic(ImageSource.gallery),
+                              icon: const Icon(Icons.photo_library),
+                              label: const Text('Gallery'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        'JPEG or PNG only · maximum 5 MB · private access',
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                     if (_role == 'vendor') ...[
                       _buildField(
                         'Shop / Store Name',
@@ -574,7 +686,7 @@ class _SignupScreenState extends State<SignupScreen> {
           }).toList(),
           onChanged: (value) {
             if (value == null) return;
-            setState(() => _role = value);
+            if (!_loading) setState(() => _role = value);
           },
         ),
       ),

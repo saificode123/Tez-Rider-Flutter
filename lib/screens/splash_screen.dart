@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_dashboard.dart';
+import 'cnic_document_screen.dart';
 import '../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -112,6 +113,10 @@ class _SplashScreenState extends State<SplashScreen>
           if (profile?['role'] == 'rider' &&
               profile?['verification_status'] == 'approved') {
             Get.offAll(() => const RiderDashboard());
+            return;
+          }
+          if (profile?['role'] == 'rider') {
+            Get.offAll(() => const CnicDocumentScreen());
             return;
           }
         }
