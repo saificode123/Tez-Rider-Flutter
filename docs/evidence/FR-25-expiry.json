@@ -1,0 +1,11 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "passed": 4,
+  "failed": 0,
+  "checks": [
+    "expiry probe starts with actual 900-second link",
+    "actual evidence signed URL rejected after 900 seconds",
+    "fresh authorized evidence link after expiry",
+    "fresh evidence link usable after expiry"
+  ]
+}

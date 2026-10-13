@@ -1,0 +1,151 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "checks": [
+    {
+      "criterion": "APK installation preserves app data",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/adb install -r: Success",
+      "recorded_at": "2026-10-13T10:58:39.981204+00:00"
+    },
+    {
+      "criterion": "Synthetic customer login",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/hello-fr25.png",
+      "recorded_at": "2026-10-13T10:58:39.981204+00:00"
+    },
+    {
+      "criterion": "Dashboard disputes entry and hosted history",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/dispute-history.png",
+      "recorded_at": "2026-10-13T10:58:39.981204+00:00"
+    },
+    {
+      "criterion": "Required order validation",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/select-a-delivered-order.png",
+      "recorded_at": "2026-10-13T10:58:39.981204+00:00"
+    },
+    {
+      "criterion": "Native Gallery selection and preview",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/gallery-preview.png",
+      "recorded_at": "2026-10-13T10:58:39.981204+00:00"
+    },
+    {
+      "criterion": "Native Camera capture and preview",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/camera-preview.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Native image removal",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/image-removal.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Required description validation",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/enter-a-description.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Required reason validation",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/select-a-valid-dispute-reason.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Network-loss error with retained submission",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/network-submission-error.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Same-submission retry and one persisted dispute/notification",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/device-submission.json",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Native owned dispute details",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/fr25-physical-device-synthetic-evidence-test.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Native private evidence rendering",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/private-evidence-viewer.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Native support message persisted once",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/checks.jsonl",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Native admin Realtime reception without refresh",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/fr25-native-realtime-reply.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Original inbox dispute entry",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/submit-dispute.png",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "No captured Android fatal/auth/API exceptions",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/android-log-summary.json",
+      "recorded_at": "2026-10-13T11:09:37.097190+00:00"
+    },
+    {
+      "criterion": "Exact native success confirmation",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/exact-native-success-confirmation.png",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    },
+    {
+      "criterion": "Native expiry rejection and no persisted dispute",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/the-dispute-window-for-this-order-has-closed.png",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    },
+    {
+      "criterion": "Order History eligible preselected dispute entry",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/order-104.png",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    },
+    {
+      "criterion": "Second customer empty native history and server denial",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/no-disputes-yet.png",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    },
+    {
+      "criterion": "FR21 native Online/heartbeat/Offline persistence",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/device-presence.jsonl",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    },
+    {
+      "criterion": "Existing CNIC valid/approved and native routing",
+      "result": "PASS",
+      "evidence": ".fr21-local/fr25/fr04-approved-rider-routing.png",
+      "recorded_at": "2026-10-13T11:29:34.825877+00:00"
+    }
+  ],
+  "pending": [],
+  "additional_not_repeated": [
+    "Native force-stop draft recovery; Flutter recovery passed",
+    "Native 15-minute viewer timer/Retry; hosted expiry passed",
+    "Entire earlier FR04 upload/FR21 assignment native workflows; hosted regressions passed"
+  ]
+}

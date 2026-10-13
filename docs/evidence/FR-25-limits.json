@@ -1,0 +1,20 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "passed": 13,
+  "failed": 0,
+  "checks": [
+    "concurrent per-customer draft limit is exactly ten",
+    "Storage bucket itself rejects unsupported MIME for privileged upload",
+    "Storage bucket itself rejects oversized privileged upload",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner",
+    "isolated limit draft abandoned by its owner"
+  ]
+}

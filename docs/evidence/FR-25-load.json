@@ -1,0 +1,7 @@
+{
+  "exit": 1,
+  "target_vus": 1000,
+  "project_id": "tezrider-fr25-local",
+  "aborted_for_resource_safety": true,
+  "minimum_available_bytes": 5812224
+}

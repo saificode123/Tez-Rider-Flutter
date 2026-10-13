@@ -1,0 +1,34 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "passed": 23,
+  "failed": 0,
+  "checks": [
+    "unprepared rejected request can safely discard without touching files",
+    "uppercase UUID draft is securely canonicalized",
+    "Storage uses the server-canonical dispute UUID",
+    "canonical UUID cleanup removes its own unsubmitted evidence",
+    "three-image draft prepared",
+    "actual JPEG/PNG evidence 1 validated",
+    "actual JPEG/PNG evidence 2 validated",
+    "actual JPEG/PNG evidence 3 validated",
+    "fourth distinct image is rejected before Storage write",
+    "Storage API confirms exactly three immutable objects",
+    "whitespace-only description rejected",
+    "actual separate-customer evidence fixture uploaded",
+    "real other-customer evidence cannot be attached",
+    "three-image dispute submitted successfully",
+    "three-image detail preserved",
+    "distinct racing draft prepared",
+    "distinct racing evidence uploaded",
+    "distinct racing draft prepared",
+    "distinct racing evidence uploaded",
+    "distinct concurrent requests produce one success and one business rejection",
+    "concurrent order has exactly one open dispute",
+    "losing race cleans only unattached evidence",
+    "foreign fixture cleanup is performed only by its owner"
+  ],
+  "final_device_regression": {
+    "passed": 23,
+    "failed": 0
+  }
+}

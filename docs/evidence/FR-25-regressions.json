@@ -1,0 +1,17 @@
+{
+  "FR04": {
+    "mode": "tests",
+    "passed": 49,
+    "failed": 0
+  },
+  "FR21": {
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 46,
+    "failed": 0
+  },
+  "flutter_hosted": {
+    "passed": 2,
+    "failed": 0,
+    "evidence": "build/fr21-hosted-evidence/flutter-hosted.log"
+  }
+}

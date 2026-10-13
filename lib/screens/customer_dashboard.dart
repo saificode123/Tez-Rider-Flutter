@@ -20,6 +20,7 @@ import 'search_screen.dart';
 import 'customer/profile_screen.dart';
 import 'customer/tailoring_screen.dart';
 import 'customer/order_history_screen.dart';
+import 'customer/dispute_screen.dart';
 import 'customer/saved_addresses_screen.dart';
 import 'customer/payment_methods_screen.dart';
 import 'customer/saved_stores_screen.dart';
@@ -1664,6 +1665,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           const SizedBox(height: 16),
 
           _menuGroup('Support', [
+            _menuRow('⚖️', 'Disputes', _kPink,
+                () => Get.to(() => const DisputeHistoryScreen())),
             _menuRow('💬', 'Help Center',     _kSaffron,
                 () => Get.to(() => const HelpCenterScreen())),
             _menuRow('ℹ️',  'About TezRider', _kTeal,

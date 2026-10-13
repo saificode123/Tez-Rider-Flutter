@@ -1,0 +1,11 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "passed": 4,
+  "failed": 0,
+  "checks": [
+    "TEST migration history exactly matches source",
+    "private evidence bucket 5MB and MIME settings",
+    "FR25 functions have explicit empty search_path",
+    "FR25 RPC execution excludes PUBLIC and anonymous"
+  ]
+}

@@ -74,7 +74,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | FR           | Status      | Notes                                                                                                                                             |
 | ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-23, FR-24 | Complete    | Customers can rate; average ratings calculated in `vendor_controller.dart`                                                                        |
-| FR-25        | **Partial** | App has a "Dispute with Admin" chat room only. SRDS requires reason dropdown, evidence images, 24 h window (Figure 3.3.1-G, Table 5.6 rows 20-21) |
+| FR-25 | **Functionally accepted; performance qualification outstanding** | Structured customer disputes/evidence/history and secured TEST RPC/Storage passed hosted and final-APK Android verification, including exact messages, expiry, network Retry, private viewing, account isolation and preserved chat/Realtime. FR-04/FR-21 regressions passed. Isolated 1,000-VU qualification aborted for RAM without a complete latency/error result. See `FR-25-readiness.md` and `FR-25-acceptance.md`. |
 | FR-26        | **Partial** | Admin can mark "Resolved", but the dispute path relies on mock fallback data                                                                      |
 
 ### Admin
