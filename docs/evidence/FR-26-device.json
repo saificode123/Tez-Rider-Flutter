@@ -1,0 +1,515 @@
+{
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "timestamped_observations": [
+    {
+      "time": "2026-10-13T12:52:03.718450+00:00",
+      "scenario": "final-admin-install",
+      "result": "OBSERVED",
+      "evidence": "final-admin-install.png"
+    },
+    {
+      "time": "2026-10-13T12:54:16.377199+00:00",
+      "scenario": "admin-overview",
+      "result": "OBSERVED",
+      "evidence": "admin-overview.png"
+    },
+    {
+      "time": "2026-10-13T12:59:51.261287+00:00",
+      "scenario": "final-admin-dashboard",
+      "result": "OBSERVED",
+      "evidence": "final-admin-dashboard.png"
+    },
+    {
+      "time": "2026-10-13T13:00:45.122048+00:00",
+      "scenario": "admin-panel",
+      "result": "PASS",
+      "evidence": "admin-panel.png"
+    },
+    {
+      "time": "2026-10-13T13:04:31.464661+00:00",
+      "scenario": "admin-viewer-before-expiry",
+      "result": "OBSERVED",
+      "evidence": "admin-viewer-before-expiry.png"
+    },
+    {
+      "time": "2026-10-13T13:19:45.687105+00:00",
+      "scenario": "admin-viewer-after-expiry",
+      "result": "PASS",
+      "evidence": "admin-viewer-after-expiry.png"
+    },
+    {
+      "time": "2026-10-13T13:31:52.831863+00:00",
+      "scenario": "admin-viewer-after-refresh",
+      "result": "OBSERVED",
+      "evidence": "admin-viewer-after-refresh.png"
+    },
+    {
+      "time": "2026-10-13T13:37:35.434487+00:00",
+      "scenario": "enter-an-admin-note-of",
+      "result": "PASS",
+      "evidence": "enter-an-admin-note-of.png"
+    },
+    {
+      "time": "2026-10-13T13:39:56.105153+00:00",
+      "scenario": "resolve-this-dispute",
+      "result": "PASS",
+      "evidence": "resolve-this-dispute.png"
+    },
+    {
+      "time": "2026-10-13T13:48:03.836028+00:00",
+      "scenario": "refund-has-been-initiated",
+      "result": "PASS",
+      "evidence": "refund-has-been-initiated.png"
+    },
+    {
+      "time": "2026-10-13T13:48:08.104357+00:00",
+      "scenario": "read-only-dispute",
+      "result": "PASS",
+      "evidence": "read-only-dispute.png"
+    },
+    {
+      "time": "2026-10-14T06:50:19.538404+00:00",
+      "scenario": "resume-admin",
+      "result": "OBSERVED",
+      "evidence": "resume-admin.png"
+    },
+    {
+      "time": "2026-10-14T06:53:12.074491+00:00",
+      "scenario": "reject-this-dispute",
+      "result": "PASS",
+      "evidence": "reject-this-dispute.png"
+    },
+    {
+      "time": "2026-10-14T06:53:20.028552+00:00",
+      "scenario": "dispute-rejected-see-reason-in-app",
+      "result": "PASS",
+      "evidence": "dispute-rejected-see-reason-in-app.png"
+    },
+    {
+      "time": "2026-10-14T06:53:45.897907+00:00",
+      "scenario": "read-only-dispute",
+      "result": "PASS",
+      "evidence": "read-only-dispute.png"
+    },
+    {
+      "time": "2026-10-14T06:54:20.311260+00:00",
+      "scenario": "dispute-152",
+      "result": "PASS",
+      "evidence": "dispute-152.png"
+    },
+    {
+      "time": "2026-10-14T06:55:25.810533+00:00",
+      "scenario": "dispute-76",
+      "result": "PASS",
+      "evidence": "dispute-76.png"
+    },
+    {
+      "time": "2026-10-14T06:56:00.680296+00:00",
+      "scenario": "open-queue-after-realtime-removal",
+      "result": "OBSERVED",
+      "evidence": "open-queue-after-realtime-removal.png"
+    },
+    {
+      "time": "2026-10-14T06:56:13.222041+00:00",
+      "scenario": "dispute-152",
+      "result": "PASS",
+      "evidence": "dispute-152.png"
+    },
+    {
+      "time": "2026-10-14T06:57:09.368858+00:00",
+      "scenario": "queue-navigation",
+      "result": "OBSERVED",
+      "evidence": "queue-navigation.png"
+    },
+    {
+      "time": "2026-10-14T06:57:45.955637+00:00",
+      "scenario": "admin-panel",
+      "result": "PASS",
+      "evidence": "admin-panel.png"
+    },
+    {
+      "time": "2026-10-14T06:59:43.543504+00:00",
+      "scenario": "dispute-rejected-see-reason-in-app",
+      "result": "PASS",
+      "evidence": "dispute-rejected-see-reason-in-app.png"
+    },
+    {
+      "time": "2026-10-14T06:59:47.366420+00:00",
+      "scenario": "refund-has-been-initiated",
+      "result": "PASS",
+      "evidence": "refund-has-been-initiated.png"
+    },
+    {
+      "time": "2026-10-14T07:00:00.234587+00:00",
+      "scenario": "customer-navigation",
+      "result": "OBSERVED",
+      "evidence": "customer-navigation.png"
+    },
+    {
+      "time": "2026-10-14T07:01:15.034581+00:00",
+      "scenario": "fr26-android-reject-note",
+      "result": "PASS",
+      "evidence": "fr26-android-reject-note.png"
+    },
+    {
+      "time": "2026-10-14T07:01:25.344594+00:00",
+      "scenario": "fr26-android-resolve-note",
+      "result": "PASS",
+      "evidence": "fr26-android-resolve-note.png"
+    },
+    {
+      "time": "2026-10-14T07:01:51.961602+00:00",
+      "scenario": "money-has-not-been-returned",
+      "result": "PASS",
+      "evidence": "money-has-not-been-returned.png"
+    },
+    {
+      "time": "2026-10-14T07:02:12.619883+00:00",
+      "scenario": "customer-history",
+      "result": "OBSERVED",
+      "evidence": "customer-history.png"
+    },
+    {
+      "time": "2026-10-14T07:29:48.597730+00:00",
+      "scenario": "order-303",
+      "result": "PASS",
+      "evidence": "order-303.png"
+    },
+    {
+      "time": "2026-10-14T07:29:55.950251+00:00",
+      "scenario": "fr26-android-submission-regression",
+      "result": "PASS",
+      "evidence": "fr26-android-submission-regression.png"
+    },
+    {
+      "time": "2026-10-14T07:30:00.386587+00:00",
+      "scenario": "submission-evidence-view",
+      "result": "OBSERVED",
+      "evidence": "submission-evidence-view.png"
+    },
+    {
+      "time": "2026-10-14T07:31:10.470775+00:00",
+      "scenario": "chat-send-control",
+      "result": "OBSERVED",
+      "evidence": "chat-send-control.png"
+    },
+    {
+      "time": "2026-10-14T07:31:35.888985+00:00",
+      "scenario": "fr26-android-chat-regression",
+      "result": "PASS",
+      "evidence": "fr26-android-chat-regression.png"
+    },
+    {
+      "time": "2026-10-14T07:31:44.222542+00:00",
+      "scenario": "fr26-android-realtime-chat-reply",
+      "result": "PASS",
+      "evidence": "fr26-android-realtime-chat-reply.png"
+    },
+    {
+      "time": "2026-10-14T07:32:56.358269+00:00",
+      "scenario": "submission-evidence-loaded",
+      "result": "OBSERVED",
+      "evidence": "submission-evidence-loaded.png"
+    }
+  ],
+  "latest_screenshot_files": [
+    {
+      "time": "2026-10-13T12:52:03.718450+00:00",
+      "scenario": "final-admin-install",
+      "result": "OBSERVED",
+      "evidence": "final-admin-install.png",
+      "sha256": "1ddeaf2694e95f8a77b39aadb3591f2518157473a4c718aa8fc107a10ccc73ed"
+    },
+    {
+      "time": "2026-10-13T12:54:16.377199+00:00",
+      "scenario": "admin-overview",
+      "result": "OBSERVED",
+      "evidence": "admin-overview.png",
+      "sha256": "2532c0919caa79a0acf071ee579b64b5224d863c0aa6126de3bb14d688464e4f"
+    },
+    {
+      "time": "2026-10-13T12:59:51.261287+00:00",
+      "scenario": "final-admin-dashboard",
+      "result": "OBSERVED",
+      "evidence": "final-admin-dashboard.png",
+      "sha256": "3d901f1c0a7c2ef7886098495b5edfa7bc5a822ac9572baee8619127b98e8fac"
+    },
+    {
+      "time": "2026-10-14T06:57:45.955637+00:00",
+      "scenario": "admin-panel",
+      "result": "PASS",
+      "evidence": "admin-panel.png",
+      "sha256": "264a98c1561dbb1e7ba4763c3055e6f6b220efd432b831b6fe33499588b8a67c"
+    },
+    {
+      "time": "2026-10-13T13:04:31.464661+00:00",
+      "scenario": "admin-viewer-before-expiry",
+      "result": "OBSERVED",
+      "evidence": "admin-viewer-before-expiry.png",
+      "sha256": "8f284eaf4f6c78e2f4a4e5abde0ee94f24ee0aacb8992a3224dfc55524d8cf26"
+    },
+    {
+      "time": "2026-10-13T13:19:45.687105+00:00",
+      "scenario": "admin-viewer-after-expiry",
+      "result": "PASS",
+      "evidence": "admin-viewer-after-expiry.png",
+      "sha256": "0b18005def079fff38c16e615807c3cafbece6270399df8b3ae7424ab51eae56"
+    },
+    {
+      "time": "2026-10-13T13:31:52.831863+00:00",
+      "scenario": "admin-viewer-after-refresh",
+      "result": "OBSERVED",
+      "evidence": "admin-viewer-after-refresh.png",
+      "sha256": "82be054be3a21bc75c8c5cf7b915525f0ef5e199972347f4d9a7cf1f85027815"
+    },
+    {
+      "time": "2026-10-13T13:37:35.434487+00:00",
+      "scenario": "enter-an-admin-note-of",
+      "result": "PASS",
+      "evidence": "enter-an-admin-note-of.png",
+      "sha256": "daee981f3284d4fee5b7284ac42920c11a665d6bd9428a4103fae588485e49d2"
+    },
+    {
+      "time": "2026-10-13T13:39:56.105153+00:00",
+      "scenario": "resolve-this-dispute",
+      "result": "PASS",
+      "evidence": "resolve-this-dispute.png",
+      "sha256": "fa2db093feeb8ef7ff60909b5672eeab4d1a1ee8a2462f1fd111eeb6d0184408"
+    },
+    {
+      "time": "2026-10-14T06:59:47.366420+00:00",
+      "scenario": "refund-has-been-initiated",
+      "result": "PASS",
+      "evidence": "refund-has-been-initiated.png",
+      "sha256": "1a3058c713050c6f15065611acb4960c995583e04a645e4346f849696e0dd0df"
+    },
+    {
+      "time": "2026-10-14T06:53:45.897907+00:00",
+      "scenario": "read-only-dispute",
+      "result": "PASS",
+      "evidence": "read-only-dispute.png",
+      "sha256": "714bedf2f279ada51b0bb1365984556ba5d1a9753b17f5f7b1ff3cbdc6df8727"
+    },
+    {
+      "time": "2026-10-14T06:50:19.538404+00:00",
+      "scenario": "resume-admin",
+      "result": "OBSERVED",
+      "evidence": "resume-admin.png",
+      "sha256": "b0e3c0b189adf887bf9a1af3918c2ee9b4c9792a16df063c1aa7d2d9cde75a4c"
+    },
+    {
+      "time": "2026-10-14T06:53:12.074491+00:00",
+      "scenario": "reject-this-dispute",
+      "result": "PASS",
+      "evidence": "reject-this-dispute.png",
+      "sha256": "fbceb343fc7bdf9910d3477201e8d1dd29c40ba11de1776b36747922c3323a0b"
+    },
+    {
+      "time": "2026-10-14T06:59:43.543504+00:00",
+      "scenario": "dispute-rejected-see-reason-in-app",
+      "result": "PASS",
+      "evidence": "dispute-rejected-see-reason-in-app.png",
+      "sha256": "1a3058c713050c6f15065611acb4960c995583e04a645e4346f849696e0dd0df"
+    },
+    {
+      "time": "2026-10-14T06:56:13.222041+00:00",
+      "scenario": "dispute-152",
+      "result": "PASS",
+      "evidence": "dispute-152.png",
+      "sha256": "8129a75ac4f5725c3fdada14be597eafb72f1b2fef1cdb92ab74980cebb2f02d"
+    },
+    {
+      "time": "2026-10-14T06:55:25.810533+00:00",
+      "scenario": "dispute-76",
+      "result": "PASS",
+      "evidence": "dispute-76.png",
+      "sha256": "92179ee31901d3f19bd7bb4c61106f1d44f311dcf9ab5af11e9e5cb844ff886a"
+    },
+    {
+      "time": "2026-10-14T06:56:00.680296+00:00",
+      "scenario": "open-queue-after-realtime-removal",
+      "result": "OBSERVED",
+      "evidence": "open-queue-after-realtime-removal.png",
+      "sha256": "18b3821568fe9d88786a9481fc37e598d51a48ee6b6827e5022368c41ae1e3b9"
+    },
+    {
+      "time": "2026-10-14T06:57:09.368858+00:00",
+      "scenario": "queue-navigation",
+      "result": "OBSERVED",
+      "evidence": "queue-navigation.png",
+      "sha256": "be3982c5ac659934d664657679edcf1ec653c217ffa4f389ef06bb3f507ef6dd"
+    },
+    {
+      "time": "2026-10-14T07:00:00.234587+00:00",
+      "scenario": "customer-navigation",
+      "result": "OBSERVED",
+      "evidence": "customer-navigation.png",
+      "sha256": "5335fd852e146cf5601fc899f43861dd7144936567778d8e9a96a81ce067e99a"
+    },
+    {
+      "time": "2026-10-14T07:01:15.034581+00:00",
+      "scenario": "fr26-android-reject-note",
+      "result": "PASS",
+      "evidence": "fr26-android-reject-note.png",
+      "sha256": "e7a2591469185c820094c6b15017fd70aa144f83af95d9cd4f2ffd02205d77d9"
+    },
+    {
+      "time": "2026-10-14T07:01:25.344594+00:00",
+      "scenario": "fr26-android-resolve-note",
+      "result": "PASS",
+      "evidence": "fr26-android-resolve-note.png",
+      "sha256": "dd827af9a26a123c7ecfc44e03de48d66d0c843f923c18e5895bb5f21844af7a"
+    },
+    {
+      "time": "2026-10-14T07:01:51.961602+00:00",
+      "scenario": "money-has-not-been-returned",
+      "result": "PASS",
+      "evidence": "money-has-not-been-returned.png",
+      "sha256": "d1546196230bbf5b1d16f70c3bd6279aa1da8307b0f798600cec8df7ae5d5d56"
+    },
+    {
+      "time": "2026-10-14T07:02:12.619883+00:00",
+      "scenario": "customer-history",
+      "result": "OBSERVED",
+      "evidence": "customer-history.png",
+      "sha256": "ee7c07bb8c973ad78e24f99a009310f84401ff501d1db41e04ca6821712430fc"
+    },
+    {
+      "time": "2026-10-14T07:29:48.597730+00:00",
+      "scenario": "order-303",
+      "result": "PASS",
+      "evidence": "order-303.png",
+      "sha256": "02dabe89c0305cf3d8811b4882428adbeb1938bead214fda84eae862f83e1841"
+    },
+    {
+      "time": "2026-10-14T07:29:55.950251+00:00",
+      "scenario": "fr26-android-submission-regression",
+      "result": "PASS",
+      "evidence": "fr26-android-submission-regression.png",
+      "sha256": "ca744ba796876ea551270b397015009146791ce56c19c1dde47a6814130db73f"
+    },
+    {
+      "time": "2026-10-14T07:30:00.386587+00:00",
+      "scenario": "submission-evidence-view",
+      "result": "OBSERVED",
+      "evidence": "submission-evidence-view.png",
+      "sha256": "320bd1d5db44f5f7360017dc3d7702f07c670c233f68f3eb782136dd87b85d54"
+    },
+    {
+      "time": "2026-10-14T07:31:10.470775+00:00",
+      "scenario": "chat-send-control",
+      "result": "OBSERVED",
+      "evidence": "chat-send-control.png",
+      "sha256": "eb1b43b12bf20de739754f491b36a1df79fef7234047d80755d070c77075b7e1"
+    },
+    {
+      "time": "2026-10-14T07:31:35.888985+00:00",
+      "scenario": "fr26-android-chat-regression",
+      "result": "PASS",
+      "evidence": "fr26-android-chat-regression.png",
+      "sha256": "4edfb8c3748a12bc7d1f2d4c65a9fecd337ff77697f6e8aca7c94e7f01da8186"
+    },
+    {
+      "time": "2026-10-14T07:31:44.222542+00:00",
+      "scenario": "fr26-android-realtime-chat-reply",
+      "result": "PASS",
+      "evidence": "fr26-android-realtime-chat-reply.png",
+      "sha256": "bd2a89c405668bc91486a0a0d508cd39c0321290387e95ac801deb01e5a23b87"
+    },
+    {
+      "time": "2026-10-14T07:32:56.358269+00:00",
+      "scenario": "submission-evidence-loaded",
+      "result": "OBSERVED",
+      "evidence": "submission-evidence-loaded.png",
+      "sha256": "aacde88c1da7be341f0cd99b0ec96c6eab8c99b49a4a654f41a37b8787134364"
+    }
+  ],
+  "native_backend_checks": [
+    {
+      "time": "2026-10-13T12:23:46.435987+00:00",
+      "result": "PASS",
+      "check": "other customer cannot read native final detail"
+    },
+    {
+      "time": "2026-10-13T13:10:43.406089+00:00",
+      "result": "PASS",
+      "check": "no captured Android fatal/Auth/API exceptions"
+    },
+    {
+      "time": "2026-10-13T13:44:52.290972+00:00",
+      "result": "PASS",
+      "check": "native resolve decision persisted with correct note/actor"
+    },
+    {
+      "time": "2026-10-14T06:53:22.641186+00:00",
+      "result": "PASS",
+      "check": "native reject decision persisted with correct note/actor"
+    },
+    {
+      "time": "2026-10-14T06:55:35.960473+00:00",
+      "result": "PASS",
+      "check": "isolated second admin Realtime rejection committed"
+    },
+    {
+      "time": "2026-10-14T07:05:16.519003+00:00",
+      "result": "PASS",
+      "check": "other customer cannot read native final detail"
+    },
+    {
+      "time": "2026-10-14T07:28:35.627998+00:00",
+      "result": "PASS",
+      "check": "no captured Android fatal/Auth/API exceptions"
+    },
+    {
+      "time": "2026-10-14T07:29:21.714723+00:00",
+      "result": "PASS",
+      "check": "native FR25 submission persisted one owned dispute after FR26"
+    },
+    {
+      "time": "2026-10-14T07:29:29.576120+00:00",
+      "result": "PASS",
+      "check": "native FR25 description and uploaded evidence preserved"
+    },
+    {
+      "time": "2026-10-14T07:31:39.081286+00:00",
+      "result": "PASS",
+      "check": "native customer chat persisted once after FR26"
+    },
+    {
+      "time": "2026-10-14T07:31:40.593028+00:00",
+      "result": "PASS",
+      "check": "synthetic authorized support reply persisted"
+    },
+    {
+      "time": "2026-10-14T07:31:44.821716+00:00",
+      "result": "PASS",
+      "check": "no captured Android fatal/Auth/API exceptions"
+    }
+  ],
+  "submission": {
+    "order_id": 303,
+    "dispute_id": 161,
+    "evidence_count": 1,
+    "verified_at": "2026-10-14T07:29:29.576120+00:00"
+  },
+  "android_runtime": {
+    "fatal": 0,
+    "auth": 0,
+    "api": 0
+  },
+  "remaining_mandatory": [],
+  "visual_image_verification": {
+    "result": "PASS",
+    "evidence": "submission-evidence-loaded.png",
+    "observed": "Actual green FR25 SYNTHETIC EVIDENCE / NOT PERSONAL DATA image visually inspected after load"
+  },
+  "initial_submission_retry": {
+    "result": "PASS after retry",
+    "first_attempt": "unconfirmed state displayed; no persisted dispute at first check",
+    "retry": "same request persisted exactly one dispute without duplicates",
+    "limitation": "Underlying transient transport failure not identified; no assertion of exact network root cause"
+  },
+  "screenshots_directory": ".fr21-local/fr26/",
+  "limitation": "Repeated filenames overwrite images; hash records describe current/latest files only. Runtime log scan covers captured current PID, not lifetime."
+}

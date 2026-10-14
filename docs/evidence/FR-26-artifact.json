@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "mode": "artifact",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 4,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-14T07:34:34.630139+00:00",
+      "result": "PASS",
+      "check": "final APK mirror matches all 91 current Dart sources"
+    },
+    {
+      "time": "2026-10-14T07:34:35.107245+00:00",
+      "result": "PASS",
+      "check": "Git candidates contain no protected credentials, private images or build artifacts"
+    },
+    {
+      "time": "2026-10-14T07:34:37.845412+00:00",
+      "result": "PASS",
+      "check": "compiled APK has exact TEST URL and actual public client key"
+    },
+    {
+      "time": "2026-10-14T07:34:37.847374+00:00",
+      "result": "PASS",
+      "check": "compiled APK excludes all four suites passwords, service-role key and Vault key"
+    }
+  ]
+}

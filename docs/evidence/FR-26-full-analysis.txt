@@ -1,0 +1,100 @@
+Analyzing FYP_Final2_Backup...
+
+   info - The imported package 'supabase' isn't a dependency of the importing package. Try adding a dependency for 'supabase' in the 'pubspec.yaml' file - db_test.dart:1:8 - depend_on_referenced_packages
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:10:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:11:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:13:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:15:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:18:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:20:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - db_test.dart:23:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\prescription_controller.dart:34:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\prescription_controller.dart:48:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\prescription_controller.dart:62:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\prescription_controller.dart:89:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\prescription_controller.dart:116:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\controllers\recommendation_controller.dart:23:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\main.dart:35:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\main.dart:38:7 - avoid_print
+warning - The value of the field '_selectedProductForRec' isn't used. Try removing the field, or using it - lib\screens\customer\cart_screen.dart:28:11 - unused_field
+warning - The value of the field '_selectedProductForRec' isn't used. Try removing the field, or using it - lib\screens\customer\cart_screen_new.dart:28:11 - unused_field
+warning - The value of the field '_prescriptionController' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:42:32 - unused_field
+warning - The value of the field '_mapController' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:59:23 - unused_field
+warning - The value of the field '_currentLocation' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:61:16 - unused_field
+warning - The value of the field '_locationLoading' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:63:14 - unused_field
+warning - The value of the field '_vendorLocation' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:90:14 - unused_field
+warning - The value of the field '_customerLocation' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:92:14 - unused_field
+warning - The value of the field '_riderLocation' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:94:14 - unused_field
+warning - The value of the field '_rider2Location' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:96:14 - unused_field
+warning - The value of the field '_orderPicked' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:100:6 - unused_field
+warning - The value of the field '_orderDelivered' isn't used. Try removing the field, or using it - lib\screens\customer\enhanced_checkout_screen.dart:102:6 - unused_field
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\product_detail_screen.dart:436:25 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\product_detail_screen.dart:437:25 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\product_detail_screen.dart:438:25 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\product_detail_screen.dart:439:25 - avoid_print
+warning - Unused import: '../../models/prescription_model.dart'. Try removing the import directive - lib\screens\vendor\prescription_review_screen.dart:5:8 - unused_import
+warning - The value of the field '_loadingCategories' isn't used. Try removing the field, or using it - lib\screens\vendor\product_form_screen.dart:35:7 - unused_field
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:59:10 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:74:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:116:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:144:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:145:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:146:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:153:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:154:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:156:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:165:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:177:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:186:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:187:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:188:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:189:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:215:3 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:228:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:243:7 - avoid_print
+warning - The value of the local variable 'result' isn't used. Try removing the variable or using it - lib\screens\vendor\product_form_screen.dart:244:13 - unused_local_variable
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:250:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:252:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\product_form_screen.dart:269:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:35:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:39:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:47:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:50:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:56:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:64:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:65:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:73:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:74:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:99:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:100:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:101:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:108:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\screens\vendor\vendor_products_screen.dart:120:5 - avoid_print
+warning - The declaration '_miniOrderCard' isn't referenced. Try removing the declaration of '_miniOrderCard' - lib\screens\vendor_dashboard.dart:410:10 - unused_element
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\prescription_service.dart:38:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\prescription_service.dart:59:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\prescription_service.dart:75:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\prescription_service.dart:100:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\prescription_service.dart:123:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\recommendation_service.dart:21:7 - avoid_print
+   info - The imported package 'path' isn't a dependency of the importing package. Try adding a dependency for 'path' in the 'pubspec.yaml' file - lib\services\storage_service.dart:3:8 - depend_on_referenced_packages
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:33:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:60:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:71:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:85:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:97:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:115:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:124:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:127:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\services\storage_service.dart:136:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:5:3 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:11:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:22:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:24:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:25:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:26:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_db.dart:27:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_schema.dart:12:5 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - test_schema.dart:13:5 - avoid_print
+
+96 issues found. (ran in 167.8s)

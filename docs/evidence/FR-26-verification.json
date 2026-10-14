@@ -1,0 +1,35 @@
+{
+  "summary": {
+    "mode": "verify",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 5,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-13T13:56:39.120339+00:00",
+      "result": "PASS",
+      "check": "all migration versions intact and new FR26 applied once"
+    },
+    {
+      "time": "2026-10-13T13:57:13.748301+00:00",
+      "result": "PASS",
+      "check": "FR26 fixed empty search_path"
+    },
+    {
+      "time": "2026-10-13T13:57:14.288131+00:00",
+      "result": "PASS",
+      "check": "anonymous FR26 execution denied"
+    },
+    {
+      "time": "2026-10-13T13:57:27.144598+00:00",
+      "result": "PASS",
+      "check": "touched financial/decision/audit tables RLS and no direct client mutation grants"
+    },
+    {
+      "time": "2026-10-13T13:57:36.884386+00:00",
+      "result": "PASS",
+      "check": "disputes published for RLS-authorized Realtime"
+    }
+  ]
+}

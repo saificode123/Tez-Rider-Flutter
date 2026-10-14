@@ -15,8 +15,8 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
-- **18 complete** (as reported)
-- **5 partial**: FR-04, FR-21, FR-25, FR-26, FR-33
+- **19 functionally complete** (18 as previously reported; FR-26 verified)
+- **4 partial in the earlier review**: FR-04, FR-21, FR-25, FR-33 (see later verified feature rows)
 - **8 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-20, FR-28, FR-30, FR-32
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
@@ -75,7 +75,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-23, FR-24 | Complete    | Customers can rate; average ratings calculated in `vendor_controller.dart`                                                                        |
 | FR-25 | **Functionally accepted; performance qualification outstanding** | Structured customer disputes/evidence/history and secured TEST RPC/Storage passed hosted and final-APK Android verification, including exact messages, expiry, network Retry, private viewing, account isolation and preserved chat/Realtime. FR-04/FR-21 regressions passed. Isolated 1,000-VU qualification aborted for RAM without a complete latency/error result. See `FR-25-readiness.md` and `FR-25-acceptance.md`. |
-| FR-26        | **Partial** | Admin can mark "Resolved", but the dispute path relies on mock fallback data                                                                      |
+| FR-26 | **Functionally accepted; scale qualification outstanding** | TEST admin queue/details, private900-second expiry/refresh, confirmed Resolve/Reject, atomic pending-refund/audit/owner notice, immutable/replayed outcomes, physical Realtime/customer notes/notifications and native FR-25 submission/chat verified. Final hosted95, SQL91, canonical-payment6, Flutter19 new tests passed. Paired local10-VU passed; 1,000-VU NOT EXECUTED for RAM. See `FR-26-readiness.md`, `FR-26-acceptance.md` and evidence. |
 
 ### Admin
 

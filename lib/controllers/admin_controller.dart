@@ -4,13 +4,20 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_model.dart';
 import '../models/order_model.dart';
+import '../services/admin_dispute_service.dart';
+import 'admin_dispute_state.dart';
 
-class AdminController extends GetxController {
-  final _supabase = Supabase.instance.client;
+class AdminController extends GetxController with AdminDisputeState {
+  AdminController({AdminDisputeBackend? disputesBackend})
+    : disputeBackend = disputesBackend ?? SupabaseAdminDisputeBackend();
+  @override
+  final AdminDisputeBackend disputeBackend;
+  SupabaseClient get _supabase => Supabase.instance.client;
 
   var riders = <UserModel>[].obs;
   var vendors = <UserModel>[].obs;
   var orders = <OrderModel>[].obs;
+  @override
   var disputes = <Map<String, dynamic>>[].obs;
 
   var isLoading = true.obs;
@@ -23,14 +30,28 @@ class AdminController extends GetxController {
   final reviewing = RxnString();
   bool _approvalLoading = false;
   StreamSubscription<dynamic>? _ordersSubscription;
-  StreamSubscription<dynamic>? _disputesSubscription;
+  bool _disputeTabActive = false;
+
+  Future<void> setDisputeTabActive(bool active) async {
+    if (isClosed || active == _disputeTabActive) return;
+    _disputeTabActive = active;
+    if (active) {
+      final old = _ordersSubscription;
+      _ordersSubscription = null;
+      await old?.cancel();
+      if (!isClosed && _disputeTabActive) await openDisputeQueue();
+    } else {
+      closeDisputeQueue();
+      if (!isClosed && _ordersSubscription == null) _listenToOrders();
+    }
+  }
 
   @override
   void onInit() {
     super.onInit();
     _listenToUsers();
     _listenToOrders();
-    _listenToDisputes();
+    unawaited(loadDisputeOptions());
   }
 
   void _listenToUsers() {
@@ -158,38 +179,6 @@ class AdminController extends GetxController {
         );
   }
 
-  void _listenToDisputes() {
-    _disputesSubscription = _supabase
-        .from('disputes')
-        .stream(primaryKey: ['id'])
-        .listen(
-          (data) {
-            disputes.value = List<Map<String, dynamic>>.from(data);
-          },
-          onError: (error) {
-            debugPrint(
-              'Error listening to disputes, maybe table doesn\'t exist yet: $error',
-            );
-            disputes.value = [
-              {
-                'id': '#D-041',
-                'type': 'Late Delivery',
-                'by': 'Customer',
-                'status': 'Open',
-                'date': 'Today',
-              },
-              {
-                'id': '#D-040',
-                'type': 'Wrong Item',
-                'by': 'Customer',
-                'status': 'Resolved',
-                'date': 'Yesterday',
-              },
-            ];
-          },
-        );
-  }
-
   Future<void> updateStatus(String table, String id, String newStatus) async {
     if (reviewing.value != null) return;
     reviewing.value = id;
@@ -235,6 +224,9 @@ class AdminController extends GetxController {
         pendingRiders.removeWhere((u) => u.id == id);
         unawaited(_fetchActiveRiderCount());
       } else {
+        if (table == 'disputes') {
+          throw StateError('Use the confirmed dispute decision RPC');
+        }
         await _supabase.from(table).update({'status': newStatus}).eq('id', id);
       }
       Get.snackbar('Success', 'Status updated to $newStatus');
@@ -248,7 +240,7 @@ class AdminController extends GetxController {
   @override
   void onClose() {
     unawaited(_ordersSubscription?.cancel());
-    unawaited(_disputesSubscription?.cancel());
+    disposeDisputes();
     super.onClose();
   }
 }

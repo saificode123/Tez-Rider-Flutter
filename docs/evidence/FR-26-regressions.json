@@ -1,0 +1,26 @@
+{
+  "FR25-tests": {
+    "last_output": "{\"passed\": 83, \"failed\": 0}",
+    "evidence": ".fr21-local/fr26/regression-FR25-tests.log"
+  },
+  "FR25-extra": {
+    "last_output": "{\"passed\": 23, \"failed\": 0}",
+    "evidence": ".fr21-local/fr26/regression-FR25-extra.log"
+  },
+  "FR25-sql": {
+    "last_output": "{\"passed\": 43, \"failed\": 0}",
+    "evidence": ".fr21-local/fr26/regression-FR25-sql.log"
+  },
+  "FR04-tests": {
+    "last_output": "{\"mode\": \"tests\", \"passed\": 49, \"failed\": 0}",
+    "evidence": ".fr21-local/fr26/regression-FR04-tests.log"
+  },
+  "FR21-backend": {
+    "last_output": "{\"project_ref\": \"igeisilhtmglgnqvllrx\", \"passed\": 46, \"failed\": 0}",
+    "evidence": ".fr21-local/fr26/regression-FR21-backend.log"
+  },
+  "FR21-flutter": {
+    "last_output": "Hosted Flutter test exit: 0",
+    "evidence": ".fr21-local/fr26/regression-FR21-flutter.log"
+  }
+}

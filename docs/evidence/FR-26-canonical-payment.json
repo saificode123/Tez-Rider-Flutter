@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "mode": "canonical",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 6,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-14T07:06:22.069034+00:00",
+      "result": "PASS",
+      "check": "SRDS SUCCESS receipt supports confirmed pending refund"
+    },
+    {
+      "time": "2026-10-14T07:06:22.385434+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 160"
+    },
+    {
+      "time": "2026-10-14T07:06:22.675033+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 160"
+    },
+    {
+      "time": "2026-10-14T07:06:22.951517+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 160"
+    },
+    {
+      "time": "2026-10-14T07:06:22.951517+00:00",
+      "result": "PASS",
+      "check": "refund action remains pending and amount intact"
+    },
+    {
+      "time": "2026-10-14T07:06:24.385880+00:00",
+      "result": "PASS",
+      "check": "canonical successful payment history preserved"
+    }
+  ]
+}

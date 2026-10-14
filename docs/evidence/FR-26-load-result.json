@@ -1,0 +1,9 @@
+{
+  "profile": "smoke",
+  "target_vus": 10,
+  "project_id": "tezrider-fr25-local",
+  "exit": 0,
+  "resource_abort": false,
+  "minimum_available_bytes": 327008256,
+  "summary_present": true
+}

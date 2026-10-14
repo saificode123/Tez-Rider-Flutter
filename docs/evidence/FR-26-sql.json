@@ -1,0 +1,465 @@
+{
+  "summary": {
+    "mode": "sql",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 91,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-13T13:56:26.993446+00:00",
+      "result": "PASS",
+      "check": "server-defined note minimum"
+    },
+    {
+      "time": "2026-10-13T13:56:27.001033+00:00",
+      "result": "PASS",
+      "check": "server-defined note maximum"
+    },
+    {
+      "time": "2026-10-13T13:56:27.003090+00:00",
+      "result": "PASS",
+      "check": "bounded admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.005119+00:00",
+      "result": "PASS",
+      "check": "invalid queue filter denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.017208+00:00",
+      "result": "PASS",
+      "check": "oversized queue limit denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.019207+00:00",
+      "result": "PASS",
+      "check": "partial cursor denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.021134+00:00",
+      "result": "PASS",
+      "check": "invalid dispute ID denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.031814+00:00",
+      "result": "PASS",
+      "check": "nonexistent dispute denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.034357+00:00",
+      "result": "PASS",
+      "check": "unsupported decision denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.038354+00:00",
+      "result": "PASS",
+      "check": "null note denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.048999+00:00",
+      "result": "PASS",
+      "check": "short note denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.051009+00:00",
+      "result": "PASS",
+      "check": "overlong note denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.052526+00:00",
+      "result": "PASS",
+      "check": "direct admin decision denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.054556+00:00",
+      "result": "PASS",
+      "check": "null-state blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.063113+00:00",
+      "result": "PASS",
+      "check": "missing-method blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.065804+00:00",
+      "result": "PASS",
+      "check": "blank-method blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.067330+00:00",
+      "result": "PASS",
+      "check": "missing blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.077780+00:00",
+      "result": "PASS",
+      "check": "unpaid blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.081792+00:00",
+      "result": "PASS",
+      "check": "wrong-owner blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.084367+00:00",
+      "result": "PASS",
+      "check": "wrong-amount blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.085707+00:00",
+      "result": "PASS",
+      "check": "wrong-method blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.087724+00:00",
+      "result": "PASS",
+      "check": "ambiguous blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.093401+00:00",
+      "result": "PASS",
+      "check": "no-receipt blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.095423+00:00",
+      "result": "PASS",
+      "check": "future-receipt blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.099126+00:00",
+      "result": "PASS",
+      "check": "legacy-final blocks unsafe resolution"
+    },
+    {
+      "time": "2026-10-13T13:56:27.103359+00:00",
+      "result": "PASS",
+      "check": "admin resolve records pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.104376+00:00",
+      "result": "PASS",
+      "check": "same-decision retry replays"
+    },
+    {
+      "time": "2026-10-13T13:56:27.111906+00:00",
+      "result": "PASS",
+      "check": "same-decision retry preserves original note"
+    },
+    {
+      "time": "2026-10-13T13:56:27.115555+00:00",
+      "result": "PASS",
+      "check": "opposite finalized decision conflicts"
+    },
+    {
+      "time": "2026-10-13T13:56:27.116516+00:00",
+      "result": "PASS",
+      "check": "SRDS SUCCESS payment is refundable"
+    },
+    {
+      "time": "2026-10-13T13:56:27.118531+00:00",
+      "result": "PASS",
+      "check": "rejection allowed without payment"
+    },
+    {
+      "time": "2026-10-13T13:56:27.119534+00:00",
+      "result": "PASS",
+      "check": "under-review may finalize"
+    },
+    {
+      "time": "2026-10-13T13:56:27.119534+00:00",
+      "result": "PASS",
+      "check": "existing escalated state may finalize"
+    },
+    {
+      "time": "2026-10-13T13:56:27.137594+00:00",
+      "result": "PASS",
+      "check": "one final audit event"
+    },
+    {
+      "time": "2026-10-13T13:56:27.145628+00:00",
+      "result": "PASS",
+      "check": "audit actor comes from trusted context"
+    },
+    {
+      "time": "2026-10-13T13:56:27.147154+00:00",
+      "result": "PASS",
+      "check": "one customer resolution notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.149691+00:00",
+      "result": "PASS",
+      "check": "one pending refund action"
+    },
+    {
+      "time": "2026-10-13T13:56:27.150688+00:00",
+      "result": "PASS",
+      "check": "reject creates no refund action"
+    },
+    {
+      "time": "2026-10-13T13:56:27.152241+00:00",
+      "result": "PASS",
+      "check": "settled payment status preserved"
+    },
+    {
+      "time": "2026-10-13T13:56:27.159816+00:00",
+      "result": "PASS",
+      "check": "notification reaches owner only"
+    },
+    {
+      "time": "2026-10-13T13:56:27.161837+00:00",
+      "result": "PASS",
+      "check": "privileged final mutation blocked"
+    },
+    {
+      "time": "2026-10-13T13:56:27.164419+00:00",
+      "result": "PASS",
+      "check": "final deletion blocked"
+    },
+    {
+      "time": "2026-10-13T13:56:27.165419+00:00",
+      "result": "PASS",
+      "check": "audit event append-only"
+    },
+    {
+      "time": "2026-10-13T13:56:27.167420+00:00",
+      "result": "PASS",
+      "check": "refund action append-only"
+    },
+    {
+      "time": "2026-10-13T13:56:27.169420+00:00",
+      "result": "PASS",
+      "check": "notice-failure rolls back decision"
+    },
+    {
+      "time": "2026-10-13T13:56:27.170934+00:00",
+      "result": "PASS",
+      "check": "audit-failure rolls back decision"
+    },
+    {
+      "time": "2026-10-13T13:56:27.175832+00:00",
+      "result": "PASS",
+      "check": "failed transaction leaves no pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.179835+00:00",
+      "result": "PASS",
+      "check": "failed transaction leaves no decision audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.181848+00:00",
+      "result": "PASS",
+      "check": "failed transaction leaves no notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.183388+00:00",
+      "result": "PASS",
+      "check": "customer cannot decide"
+    },
+    {
+      "time": "2026-10-13T13:56:27.186401+00:00",
+      "result": "PASS",
+      "check": "customer cannot read admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.188406+00:00",
+      "result": "PASS",
+      "check": "customer cannot read admin identities"
+    },
+    {
+      "time": "2026-10-13T13:56:27.191937+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.195987+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.198288+00:00",
+      "result": "PASS",
+      "check": "customer cannot mutate settlements"
+    },
+    {
+      "time": "2026-10-13T13:56:27.199304+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.201838+00:00",
+      "result": "PASS",
+      "check": "other cannot decide"
+    },
+    {
+      "time": "2026-10-13T13:56:27.203387+00:00",
+      "result": "PASS",
+      "check": "other cannot read admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.205406+00:00",
+      "result": "PASS",
+      "check": "other cannot read admin identities"
+    },
+    {
+      "time": "2026-10-13T13:56:27.209051+00:00",
+      "result": "PASS",
+      "check": "other cannot forge audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.212576+00:00",
+      "result": "PASS",
+      "check": "other cannot forge notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.214608+00:00",
+      "result": "PASS",
+      "check": "other cannot mutate settlements"
+    },
+    {
+      "time": "2026-10-13T13:56:27.216841+00:00",
+      "result": "PASS",
+      "check": "other cannot forge pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.217857+00:00",
+      "result": "PASS",
+      "check": "vendor cannot decide"
+    },
+    {
+      "time": "2026-10-13T13:56:27.235020+00:00",
+      "result": "PASS",
+      "check": "vendor cannot read admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.237009+00:00",
+      "result": "PASS",
+      "check": "vendor cannot read admin identities"
+    },
+    {
+      "time": "2026-10-13T13:56:27.266313+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.268326+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.270830+00:00",
+      "result": "PASS",
+      "check": "vendor cannot mutate settlements"
+    },
+    {
+      "time": "2026-10-13T13:56:27.282984+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.285013+00:00",
+      "result": "PASS",
+      "check": "rider cannot decide"
+    },
+    {
+      "time": "2026-10-13T13:56:27.286014+00:00",
+      "result": "PASS",
+      "check": "rider cannot read admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.288010+00:00",
+      "result": "PASS",
+      "check": "rider cannot read admin identities"
+    },
+    {
+      "time": "2026-10-13T13:56:27.289014+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.293569+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.295586+00:00",
+      "result": "PASS",
+      "check": "rider cannot mutate settlements"
+    },
+    {
+      "time": "2026-10-13T13:56:27.297586+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.298585+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot decide"
+    },
+    {
+      "time": "2026-10-13T13:56:27.301096+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot read admin queue"
+    },
+    {
+      "time": "2026-10-13T13:56:27.305157+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot read admin identities"
+    },
+    {
+      "time": "2026-10-13T13:56:27.308484+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot forge audit"
+    },
+    {
+      "time": "2026-10-13T13:56:27.312025+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot forge notification"
+    },
+    {
+      "time": "2026-10-13T13:56:27.314059+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot mutate settlements"
+    },
+    {
+      "time": "2026-10-13T13:56:27.334508+00:00",
+      "result": "PASS",
+      "check": "pending_admin cannot forge pending refund"
+    },
+    {
+      "time": "2026-10-13T13:56:27.336567+00:00",
+      "result": "PASS",
+      "check": "owner sees final note"
+    },
+    {
+      "time": "2026-10-13T13:56:27.344836+00:00",
+      "result": "PASS",
+      "check": "owner sees pending not paid"
+    },
+    {
+      "time": "2026-10-13T13:56:27.349505+00:00",
+      "result": "PASS",
+      "check": "customer cannot mutate decision"
+    },
+    {
+      "time": "2026-10-13T13:56:27.365750+00:00",
+      "result": "PASS",
+      "check": "other customer cannot read final detail"
+    },
+    {
+      "time": "2026-10-13T13:56:27.371093+00:00",
+      "result": "PASS",
+      "check": "RLS excludes other customer final dispute"
+    },
+    {
+      "time": "2026-10-13T13:56:27.377284+00:00",
+      "result": "PASS",
+      "check": "anonymous queue execution denied"
+    },
+    {
+      "time": "2026-10-13T13:56:27.379285+00:00",
+      "result": "PASS",
+      "check": "anonymous decision execution denied"
+    }
+  ]
+}

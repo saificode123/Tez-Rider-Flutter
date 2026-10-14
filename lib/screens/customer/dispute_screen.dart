@@ -408,6 +408,16 @@ class _DisputeDetailScreenState extends State<DisputeDetailScreen> {
               const SizedBox(height: 16),
               Text(detail!['reason'].toString()),
               Text(detail!['description'].toString()),
+              if (detail!['decision'] != null) ...[
+                const SizedBox(height: 16),
+                Text('Admin decision: ${detail!['decision']}'),
+                Text('Admin note: ${detail!['admin_note']}'),
+                Text('Decided: ${detail!['decided_at']}'),
+                if (detail!['refund_pending'] == true)
+                  const Text(
+                    'Refund has been initiated. Pending manual processing; money has not been returned.',
+                  ),
+              ],
               for (var i = 1; i <= (detail!['evidence_count'] as int); i++)
                 TextButton.icon(
                   onPressed: () => showDialog<void>(

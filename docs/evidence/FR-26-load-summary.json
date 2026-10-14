@@ -1,0 +1,206 @@
+{
+  "metrics": {
+    "http_req_waiting": {
+      "p(95)": 83.794715,
+      "avg": 31.93583351648356,
+      "min": 5.5988,
+      "med": 20.82315,
+      "max": 335.2545,
+      "p(90)": 65.89314999999999
+    },
+    "http_req_failed": {
+      "passes": 0,
+      "fails": 364,
+      "thresholds": {
+        "rate<0.01": false
+      },
+      "value": 0
+    },
+    "http_req_duration{operation:conflicting_decision}": {
+      "avg": 46.094187912087904,
+      "min": 8.6399,
+      "med": 22.3434,
+      "max": 996.1797,
+      "p(90)": 66.8626,
+      "p(95)": 86.7432,
+      "thresholds": {
+        "p(95)<800": false
+      }
+    },
+    "http_req_sending": {
+      "p(90)": 0,
+      "p(95)": 0.6547449999999976,
+      "avg": 1.1983997252747252,
+      "min": 0,
+      "med": 0,
+      "max": 271.6654
+    },
+    "data_received": {
+      "count": 602195,
+      "rate": 16508.712314984
+    },
+    "checks": {
+      "passes": 364,
+      "fails": 0,
+      "thresholds": {
+        "rate>0.99": false
+      },
+      "value": 1
+    },
+    "http_req_blocked": {
+      "avg": 0.2780107142857143,
+      "min": 0,
+      "med": 0,
+      "max": 72.4751,
+      "p(90)": 0,
+      "p(95)": 0
+    },
+    "iterations": {
+      "count": 91,
+      "rate": 2.4946949421093563
+    },
+    "expected_decision_conflicts": {
+      "count": 45,
+      "rate": 1.2336403559881433
+    },
+    "http_req_duration{operation:admin_queue}": {
+      "p(95)": 75.1993,
+      "avg": 25.987921978021983,
+      "min": 7.6183,
+      "med": 18.8545,
+      "max": 108.6405,
+      "p(90)": 56.5444,
+      "thresholds": {
+        "p(95)<800": false
+      }
+    },
+    "http_req_connecting": {
+      "max": 14.717,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0.10527362637362637,
+      "min": 0,
+      "med": 0
+    },
+    "http_req_duration": {
+      "min": 5.5988,
+      "med": 21.85005,
+      "max": 996.1797,
+      "p(90)": 68.07186999999999,
+      "p(95)": 85.916805,
+      "avg": 36.01489505494506
+    },
+    "http_reqs": {
+      "count": 364,
+      "rate": 9.978779768437425
+    },
+    "http_req_tls_handshaking": {
+      "avg": 0,
+      "min": 0,
+      "med": 0,
+      "max": 0,
+      "p(90)": 0,
+      "p(95)": 0
+    },
+    "iteration_duration": {
+      "max": 3126.8505,
+      "p(90)": 2265.0792,
+      "p(95)": 2390.24715,
+      "avg": 2160.39289010989,
+      "min": 2039.8294,
+      "med": 2117.2342
+    },
+    "vus": {
+      "value": 1,
+      "min": 1,
+      "max": 10
+    },
+    "data_sent": {
+      "count": 263256,
+      "rate": 7216.960567911437
+    },
+    "http_req_duration{operation:customer_detail}": {
+      "p(95)": 47.417649999999995,
+      "avg": 22.7675043956044,
+      "min": 5.5988,
+      "med": 15.0416,
+      "max": 287.735,
+      "p(90)": 34.4325,
+      "thresholds": {
+        "p(95)<800": false
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "max": 996.1797,
+      "p(90)": 68.07186999999999,
+      "p(95)": 85.916805,
+      "avg": 36.01489505494506,
+      "min": 5.5988,
+      "med": 21.85005
+    },
+    "http_req_receiving": {
+      "med": 0,
+      "max": 917.5417,
+      "p(90)": 1.01544,
+      "p(95)": 1.51212,
+      "avg": 2.880661813186811,
+      "min": 0
+    },
+    "http_req_duration{operation:same_decision}": {
+      "p(90)": 85.9413,
+      "p(95)": 121.4045,
+      "avg": 49.209965934065934,
+      "min": 11.0542,
+      "med": 34.9054,
+      "max": 274.5538,
+      "thresholds": {
+        "p(95)<800": false
+      }
+    },
+    "confirmed_final_decisions": {
+      "count": 10,
+      "rate": 0.2741423013306985
+    },
+    "vus_max": {
+      "value": 10,
+      "min": 10,
+      "max": 10
+    }
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": {},
+    "checks": {
+      "authorized bounded queue": {
+        "passes": 91,
+        "fails": 0,
+        "name": "authorized bounded queue",
+        "path": "::authorized bounded queue",
+        "id": "6f7d87c22451a270adc5bcd2381c07e9"
+      },
+      "customer reads own dispute": {
+        "name": "customer reads own dispute",
+        "path": "::customer reads own dispute",
+        "id": "a6232d73ca5e9a1474fa734e9079edb8",
+        "passes": 91,
+        "fails": 0
+      },
+      "same decision confirms one pending outcome": {
+        "id": "d9901cce039b5f765a193621aae158dc",
+        "passes": 91,
+        "fails": 0,
+        "name": "same decision confirms one pending outcome",
+        "path": "::same decision confirms one pending outcome"
+      },
+      "one winner or explicit opposite conflict": {
+        "id": "bc632bd1a5dd29ab44c5761a08183c6a",
+        "passes": 91,
+        "fails": 0,
+        "name": "one winner or explicit opposite conflict",
+        "path": "::one winner or explicit opposite conflict"
+      }
+    }
+  }
+}

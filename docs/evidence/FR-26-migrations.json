@@ -1,0 +1,70 @@
+[
+  {
+    "name": "tezrider_baseline",
+    "version": "202610080001"
+  },
+  {
+    "name": "fr21_presence",
+    "version": "202610090001"
+  },
+  {
+    "name": "fr21_test_security",
+    "version": "202610110001"
+  },
+  {
+    "name": "fr21_dashboard_consistency",
+    "version": "202610110002"
+  },
+  {
+    "name": "fr21_presence_http_conflict",
+    "version": "202610110003"
+  },
+  {
+    "name": "fr21_delivery_receipt",
+    "version": "202610110004"
+  },
+  {
+    "name": "fr21_ready_state",
+    "version": "202610110005"
+  },
+  {
+    "name": "fr21_visibility_guards",
+    "version": "202610110006"
+  },
+  {
+    "name": "fr04_cnic_document",
+    "version": "202610120001"
+  },
+  {
+    "name": "fr25_dispute_submission",
+    "version": "202610130001"
+  },
+  {
+    "name": "fr25_delivery_guard",
+    "version": "202610130002"
+  },
+  {
+    "name": "fr25_upload_reservations",
+    "version": "202610130003"
+  },
+  {
+    "name": "fr25_notification_and_lock_guards",
+    "version": "202610130004"
+  },
+  {
+    "name": "fr25_unprepared_cleanup",
+    "version": "202610130005"
+  },
+  {
+    "name": "fr26_admin_dispute_decisions",
+    "version": "202610130006"
+  },
+  {
+    "name": "fr26_canonical_payment_success",
+    "version": "202610130007"
+  },
+  {
+    "name": "fr26_nullable_state_guards",
+    "version": "202610130008"
+  }
+]

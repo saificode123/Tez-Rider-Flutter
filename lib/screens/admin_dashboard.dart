@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/admin_controller.dart';
 import '../models/user_model.dart';
 import '../widgets/app_drawer.dart';
 import '../theme/app_theme.dart';
-import 'chat_rooms_screen.dart';
 import '../widgets/cnic_document_viewer.dart';
+import 'admin_disputes_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -319,9 +318,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           o.orderStatus != 'cancelled',
                     )
                     .length;
-                final openDisputes = adminCtrl.disputes
-                    .where((d) => d['status'] == 'Open')
-                    .length;
+                final openDisputes =
+                    adminCtrl.openDisputeCount.value?.toString() ?? '—';
 
                 return GridView.count(
                   shrinkWrap: true,
@@ -351,7 +349,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     ),
                     _statCard(
                       'Open Disputes',
-                      '$openDisputes',
+                      openDisputes,
                       Icons.warning_amber_rounded,
                       AppColors.error,
                     ),
@@ -780,149 +778,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  Widget _disputesTab() {
-    return CustomScrollView(
-      slivers: [
-        _tabSliverAppBar('Dispute Resolution', Icons.report_problem_rounded),
-        Obx(
-          () => adminCtrl.disputes.isEmpty
-              ? SliverFillRemaining(
-                  child: _emptyState(
-                    'No disputes.',
-                    Icons.check_circle_outline_rounded,
-                  ),
-                )
-              : SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (_, i) => _disputeCard(adminCtrl.disputes[i]),
-                      childCount: adminCtrl.disputes.length,
-                    ),
-                  ),
-                ),
-        ),
-      ],
-    );
-  }
-
-  Widget _disputeCard(Map<String, dynamic> d) {
-    final isOpen = d['status'] == 'Open';
-    final statusColor = isOpen ? AppColors.error : AppColors.success;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: isOpen
-            ? Border.all(
-                color: AppColors.error.withValues(alpha: 0.20),
-                width: 1,
-              )
-            : null,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  isOpen
-                      ? Icons.warning_amber_rounded
-                      : Icons.check_circle_rounded,
-                  color: statusColor,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      d['type'] ?? 'Dispute',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    Text(
-                      'Raised by ${d['by'] ?? 'Unknown'}',
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              _statusBadge(d['status'] ?? 'Unknown', statusColor),
-            ],
-          ),
-          if (isOpen) ...[
-            const SizedBox(height: 14),
-            const Divider(color: AppColors.divider, height: 1),
-            const SizedBox(height: 14),
-            Row(
-              children: [
-                Expanded(
-                  child: _actionBtn('Chat', AppColors.info, () {
-                    Get.to(() => const ChatRoomsScreen());
-                  }),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  flex: 2,
-                  child: _actionBtn(
-                    'Mark Resolved',
-                    AppColors.success,
-                    () async {
-                      try {
-                        final supabase = Supabase.instance.client;
-                        await supabase
-                            .from('disputes')
-                            .update({'status': 'Resolved'})
-                            .eq('id', d['id']);
-                      } catch (_) {}
-                      Get.snackbar(
-                        'Dispute Resolved',
-                        'The dispute has been marked as resolved.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: AppColors.success,
-                        colorText: Colors.white,
-                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                        borderRadius: 14,
-                        icon: const Icon(
-                          Icons.check_circle_rounded,
-                          color: Colors.white,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ],
-      ),
-    );
-  }
+  Widget _disputesTab() =>
+      AdminDisputeQueue(controller: adminCtrl, active: _tab == 3);
 
   SliverAppBar _tabSliverAppBar(String title, IconData icon) {
     return SliverAppBar(

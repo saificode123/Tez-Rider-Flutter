@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "mode": "ttl",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 4,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-13T12:26:33.774460+00:00",
+      "result": "PASS",
+      "check": "actual admin signed URL issued"
+    },
+    {
+      "time": "2026-10-13T12:26:34.668679+00:00",
+      "result": "PASS",
+      "check": "actual admin evidence initially readable"
+    },
+    {
+      "time": "2026-10-13T12:41:38.408162+00:00",
+      "result": "PASS",
+      "check": "actual admin evidence expires after 900 seconds"
+    },
+    {
+      "time": "2026-10-13T12:41:41.024976+00:00",
+      "result": "PASS",
+      "check": "fresh authorized admin link usable"
+    }
+  ]
+}

@@ -1,0 +1,485 @@
+{
+  "summary": {
+    "mode": "tests",
+    "project_ref": "igeisilhtmglgnqvllrx",
+    "passed": 95,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "time": "2026-10-14T07:04:59.130645+00:00",
+      "result": "PASS",
+      "check": "authorized server note bounds"
+    },
+    {
+      "time": "2026-10-14T07:05:03.093542+00:00",
+      "result": "PASS",
+      "check": "customer denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:03.427509+00:00",
+      "result": "PASS",
+      "check": "customer denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:03.747502+00:00",
+      "result": "PASS",
+      "check": "customer denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:04.092364+00:00",
+      "result": "PASS",
+      "check": "other customer denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:04.487664+00:00",
+      "result": "PASS",
+      "check": "other customer denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:04.811573+00:00",
+      "result": "PASS",
+      "check": "other customer denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:05.151414+00:00",
+      "result": "PASS",
+      "check": "vendor denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:05.490844+00:00",
+      "result": "PASS",
+      "check": "vendor denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:05.840239+00:00",
+      "result": "PASS",
+      "check": "vendor denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:06.176129+00:00",
+      "result": "PASS",
+      "check": "rider denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:06.475222+00:00",
+      "result": "PASS",
+      "check": "rider denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:06.819735+00:00",
+      "result": "PASS",
+      "check": "rider denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:07.255781+00:00",
+      "result": "PASS",
+      "check": "pending admin denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:07.562791+00:00",
+      "result": "PASS",
+      "check": "pending admin denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:08.873432+00:00",
+      "result": "PASS",
+      "check": "pending admin denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:09.189660+00:00",
+      "result": "PASS",
+      "check": "anonymous denied fr26_queue"
+    },
+    {
+      "time": "2026-10-14T07:05:10.055537+00:00",
+      "result": "PASS",
+      "check": "anonymous denied fr26_detail"
+    },
+    {
+      "time": "2026-10-14T07:05:10.386139+00:00",
+      "result": "PASS",
+      "check": "anonymous denied admin_resolve_dispute"
+    },
+    {
+      "time": "2026-10-14T07:05:10.780016+00:00",
+      "result": "PASS",
+      "check": "admin real order/customer/evidence details"
+    },
+    {
+      "time": "2026-10-14T07:05:11.283227+00:00",
+      "result": "PASS",
+      "check": "unsupported transition rejected without decision"
+    },
+    {
+      "time": "2026-10-14T07:05:11.581890+00:00",
+      "result": "PASS",
+      "check": "short note rejected without decision"
+    },
+    {
+      "time": "2026-10-14T07:05:11.984784+00:00",
+      "result": "PASS",
+      "check": "long note rejected without decision"
+    },
+    {
+      "time": "2026-10-14T07:05:13.449854+00:00",
+      "result": "PASS",
+      "check": "missing note rejected without decision"
+    },
+    {
+      "time": "2026-10-14T07:05:13.783190+00:00",
+      "result": "PASS",
+      "check": "real admin resolve confirms pending refund"
+    },
+    {
+      "time": "2026-10-14T07:05:14.395340+00:00",
+      "result": "PASS",
+      "check": "other-admin same-decision retry preserves winning actor/note"
+    },
+    {
+      "time": "2026-10-14T07:05:14.684804+00:00",
+      "result": "PASS",
+      "check": "opposite retry returns conflict"
+    },
+    {
+      "time": "2026-10-14T07:05:14.976825+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 153"
+    },
+    {
+      "time": "2026-10-14T07:05:15.259045+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 153"
+    },
+    {
+      "time": "2026-10-14T07:05:15.897929+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 153"
+    },
+    {
+      "time": "2026-10-14T07:05:15.897929+00:00",
+      "result": "PASS",
+      "check": "refund action remains pending and amount intact"
+    },
+    {
+      "time": "2026-10-14T07:05:15.909010+00:00",
+      "result": "PASS",
+      "check": "audit actor derived from authenticated profile"
+    },
+    {
+      "time": "2026-10-14T07:05:15.909010+00:00",
+      "result": "PASS",
+      "check": "refund notification never claims paid money"
+    },
+    {
+      "time": "2026-10-14T07:05:16.224177+00:00",
+      "result": "PASS",
+      "check": "customer sees final note and pending refund"
+    },
+    {
+      "time": "2026-10-14T07:05:16.519003+00:00",
+      "result": "PASS",
+      "check": "other customer cannot read native final detail"
+    },
+    {
+      "time": "2026-10-14T07:05:17.313846+00:00",
+      "result": "PASS",
+      "check": "original payment settlement remains intact"
+    },
+    {
+      "time": "2026-10-14T07:05:17.610707+00:00",
+      "result": "PASS",
+      "check": "customer direct dispute update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:18.016446+00:00",
+      "result": "PASS",
+      "check": "customer direct settlement update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:18.331517+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge audit"
+    },
+    {
+      "time": "2026-10-14T07:05:18.658642+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge notification"
+    },
+    {
+      "time": "2026-10-14T07:05:18.994686+00:00",
+      "result": "PASS",
+      "check": "customer cannot forge refund action"
+    },
+    {
+      "time": "2026-10-14T07:05:19.346327+00:00",
+      "result": "PASS",
+      "check": "admin direct dispute update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:19.627450+00:00",
+      "result": "PASS",
+      "check": "admin direct settlement update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:19.927539+00:00",
+      "result": "PASS",
+      "check": "admin cannot forge audit"
+    },
+    {
+      "time": "2026-10-14T07:05:20.293435+00:00",
+      "result": "PASS",
+      "check": "admin cannot forge notification"
+    },
+    {
+      "time": "2026-10-14T07:05:20.690440+00:00",
+      "result": "PASS",
+      "check": "admin cannot forge refund action"
+    },
+    {
+      "time": "2026-10-14T07:05:21.392797+00:00",
+      "result": "PASS",
+      "check": "vendor direct dispute update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:22.371902+00:00",
+      "result": "PASS",
+      "check": "vendor direct settlement update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:22.740627+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge audit"
+    },
+    {
+      "time": "2026-10-14T07:05:23.038860+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge notification"
+    },
+    {
+      "time": "2026-10-14T07:05:24.023869+00:00",
+      "result": "PASS",
+      "check": "vendor cannot forge refund action"
+    },
+    {
+      "time": "2026-10-14T07:05:24.722912+00:00",
+      "result": "PASS",
+      "check": "rider direct dispute update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:25.052902+00:00",
+      "result": "PASS",
+      "check": "rider direct settlement update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:25.773406+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge audit"
+    },
+    {
+      "time": "2026-10-14T07:05:26.077262+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge notification"
+    },
+    {
+      "time": "2026-10-14T07:05:26.415015+00:00",
+      "result": "PASS",
+      "check": "rider cannot forge refund action"
+    },
+    {
+      "time": "2026-10-14T07:05:26.753946+00:00",
+      "result": "PASS",
+      "check": "anonymous direct dispute update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:27.120896+00:00",
+      "result": "PASS",
+      "check": "anonymous direct settlement update forbidden"
+    },
+    {
+      "time": "2026-10-14T07:05:27.441363+00:00",
+      "result": "PASS",
+      "check": "anonymous cannot forge audit"
+    },
+    {
+      "time": "2026-10-14T07:05:27.840584+00:00",
+      "result": "PASS",
+      "check": "anonymous cannot forge notification"
+    },
+    {
+      "time": "2026-10-14T07:05:28.480776+00:00",
+      "result": "PASS",
+      "check": "anonymous cannot forge refund action"
+    },
+    {
+      "time": "2026-10-14T07:05:31.799814+00:00",
+      "result": "PASS",
+      "check": "missing-payment blocks resolution"
+    },
+    {
+      "time": "2026-10-14T07:05:32.132281+00:00",
+      "result": "PASS",
+      "check": "missing-payment retains nonfinal state"
+    },
+    {
+      "time": "2026-10-14T07:05:37.760368+00:00",
+      "result": "PASS",
+      "check": "unpaid-payment blocks resolution"
+    },
+    {
+      "time": "2026-10-14T07:05:39.730943+00:00",
+      "result": "PASS",
+      "check": "unpaid-payment retains nonfinal state"
+    },
+    {
+      "time": "2026-10-14T07:05:46.885280+00:00",
+      "result": "PASS",
+      "check": "real admin rejection succeeds without payment"
+    },
+    {
+      "time": "2026-10-14T07:05:48.963719+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 156"
+    },
+    {
+      "time": "2026-10-14T07:05:49.321330+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 156"
+    },
+    {
+      "time": "2026-10-14T07:05:50.009206+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 156"
+    },
+    {
+      "time": "2026-10-14T07:05:54.128772+00:00",
+      "result": "PASS",
+      "check": "same-resolve genuinely concurrent HTTP outcomes"
+    },
+    {
+      "time": "2026-10-14T07:05:54.128772+00:00",
+      "result": "PASS",
+      "check": "same-resolve exactly one new decision"
+    },
+    {
+      "time": "2026-10-14T07:05:54.521978+00:00",
+      "result": "PASS",
+      "check": "same-resolve one final winner"
+    },
+    {
+      "time": "2026-10-14T07:05:54.818145+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 157"
+    },
+    {
+      "time": "2026-10-14T07:05:55.648101+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 157"
+    },
+    {
+      "time": "2026-10-14T07:05:55.945586+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 157"
+    },
+    {
+      "time": "2026-10-14T07:05:55.945586+00:00",
+      "result": "PASS",
+      "check": "refund action remains pending and amount intact"
+    },
+    {
+      "time": "2026-10-14T07:05:59.427657+00:00",
+      "result": "PASS",
+      "check": "same-reject genuinely concurrent HTTP outcomes"
+    },
+    {
+      "time": "2026-10-14T07:05:59.427657+00:00",
+      "result": "PASS",
+      "check": "same-reject exactly one new decision"
+    },
+    {
+      "time": "2026-10-14T07:05:59.888844+00:00",
+      "result": "PASS",
+      "check": "same-reject one final winner"
+    },
+    {
+      "time": "2026-10-14T07:06:00.222803+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 158"
+    },
+    {
+      "time": "2026-10-14T07:06:00.588820+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 158"
+    },
+    {
+      "time": "2026-10-14T07:06:01.029362+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 158"
+    },
+    {
+      "time": "2026-10-14T07:06:05.922512+00:00",
+      "result": "PASS",
+      "check": "conflicting genuinely concurrent HTTP outcomes"
+    },
+    {
+      "time": "2026-10-14T07:06:06.243033+00:00",
+      "result": "PASS",
+      "check": "conflicting one final winner"
+    },
+    {
+      "time": "2026-10-14T07:06:06.612272+00:00",
+      "result": "PASS",
+      "check": "exactly one final audit for dispute 159"
+    },
+    {
+      "time": "2026-10-14T07:06:06.967108+00:00",
+      "result": "PASS",
+      "check": "exactly one owner decision notification for dispute 159"
+    },
+    {
+      "time": "2026-10-14T07:06:07.260041+00:00",
+      "result": "PASS",
+      "check": "pending refund count matches winning decision 159"
+    },
+    {
+      "time": "2026-10-14T07:06:07.632577+00:00",
+      "result": "PASS",
+      "check": "queue bounded status filter"
+    },
+    {
+      "time": "2026-10-14T07:06:09.613670+00:00",
+      "result": "PASS",
+      "check": "queue cursor has no repeated rows"
+    },
+    {
+      "time": "2026-10-14T07:06:10.497065+00:00",
+      "result": "PASS",
+      "check": "admin evidence issuance exact 900-second TTL"
+    },
+    {
+      "time": "2026-10-14T07:06:11.662581+00:00",
+      "result": "PASS",
+      "check": "other customer cannot view private final evidence"
+    },
+    {
+      "time": "2026-10-14T07:06:12.244162+00:00",
+      "result": "PASS",
+      "check": "vendor cannot view private final evidence"
+    },
+    {
+      "time": "2026-10-14T07:06:13.026436+00:00",
+      "result": "PASS",
+      "check": "rider cannot view private final evidence"
+    },
+    {
+      "time": "2026-10-14T07:06:13.789239+00:00",
+      "result": "PASS",
+      "check": "unapproved admin cannot view private final evidence"
+    },
+    {
+      "time": "2026-10-14T07:06:14.249894+00:00",
+      "result": "PASS",
+      "check": "anonymous cannot view private final evidence"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/notification_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -13,7 +13,13 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
-        title: const Text('Notifications', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A0533))),
+        title: const Text(
+          'Notifications',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1A0533),
+          ),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
@@ -22,12 +28,28 @@ class NotificationsScreen extends StatelessWidget {
             icon: const Icon(Icons.done_all),
             tooltip: 'Mark all as read',
             onPressed: () => notifCtrl.markAllAsRead(),
-          )
+          ),
         ],
       ),
       body: Obx(() {
-        if (notifCtrl.isLoading.value) {
-          return const Center(child: CircularProgressIndicator(color: Color(0xFF1B5E20)));
+        if (notifCtrl.error.value != null) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(notifCtrl.error.value!),
+                TextButton(
+                  onPressed: notifCtrl.isLoading.value ? null : notifCtrl.retry,
+                  child: const Text('Retry notifications'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (notifCtrl.isLoading.value && notifCtrl.notifications.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF1B5E20)),
+          );
         }
 
         if (notifCtrl.notifications.isEmpty) {
@@ -35,11 +57,21 @@ class NotificationsScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.notifications_off_outlined, size: 80, color: Colors.grey.shade300),
+                Icon(
+                  Icons.notifications_off_outlined,
+                  size: 80,
+                  color: Colors.grey.shade300,
+                ),
                 const SizedBox(height: 16),
-                const Text('No notifications yet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text(
+                  'No notifications yet',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
-                const Text('We will notify you of any updates.', style: TextStyle(color: Colors.grey)),
+                const Text(
+                  'We will notify you of any updates.',
+                  style: TextStyle(color: Colors.grey),
+                ),
               ],
             ),
           );
@@ -47,11 +79,23 @@ class NotificationsScreen extends StatelessWidget {
 
         return ListView.builder(
           padding: const EdgeInsets.all(16),
-          itemCount: notifCtrl.notifications.length,
+          itemCount:
+              notifCtrl.notifications.length +
+              (notifCtrl.hasMore.value ? 1 : 0),
           itemBuilder: (context, i) {
+            if (i == notifCtrl.notifications.length) {
+              return TextButton(
+                onPressed: notifCtrl.isLoading.value
+                    ? null
+                    : () => notifCtrl.load(append: true),
+                child: const Text('Load more notifications'),
+              );
+            }
             final n = notifCtrl.notifications[i];
             final bool isRead = n['is_read'] ?? true;
-            final DateTime? date = n['created_at'] != null ? DateTime.tryParse(n['created_at']) : null;
+            final DateTime? date = n['created_at'] != null
+                ? DateTime.tryParse(n['created_at'])
+                : null;
 
             return GestureDetector(
               onTap: () {
@@ -61,9 +105,15 @@ class NotificationsScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isRead ? Colors.white : const Color(0xFF1B5E20).withValues(alpha: 0.05),
+                  color: isRead
+                      ? Colors.white
+                      : const Color(0xFF1B5E20).withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(16),
-                  border: isRead ? Border.all(color: Colors.black.withValues(alpha: 0.05)) : Border.all(color: const Color(0xFF1B5E20).withValues(alpha: 0.3)),
+                  border: isRead
+                      ? Border.all(color: Colors.black.withValues(alpha: 0.05))
+                      : Border.all(
+                          color: const Color(0xFF1B5E20).withValues(alpha: 0.3),
+                        ),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,11 +121,15 @@ class NotificationsScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: isRead ? Colors.grey.shade100 : const Color(0xFF1B5E20).withValues(alpha: 0.1),
+                        color: isRead
+                            ? Colors.grey.shade100
+                            : const Color(0xFF1B5E20).withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        isRead ? Icons.notifications_none : Icons.notifications_active,
+                        isRead
+                            ? Icons.notifications_none
+                            : Icons.notifications_active,
                         color: isRead ? Colors.grey : const Color(0xFF1B5E20),
                         size: 24,
                       ),
@@ -85,13 +139,35 @@ class NotificationsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(n['title'] ?? 'Alert', style: TextStyle(fontWeight: isRead ? FontWeight.w600 : FontWeight.bold, fontSize: 16)),
+                          Text(
+                            n['title'] ?? 'Alert',
+                            style: TextStyle(
+                              fontWeight: isRead
+                                  ? FontWeight.w600
+                                  : FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                           const SizedBox(height: 6),
-                          Text(n['message'] ?? '', style: TextStyle(color: isRead ? Colors.grey.shade700 : Colors.black87, fontSize: 14)),
+                          Text(
+                            n['message'] ?? '',
+                            style: TextStyle(
+                              color: isRead
+                                  ? Colors.grey.shade700
+                                  : Colors.black87,
+                              fontSize: 14,
+                            ),
+                          ),
                           if (date != null) ...[
                             const SizedBox(height: 8),
-                            Text(timeago.format(date), style: const TextStyle(color: Colors.grey, fontSize: 11)),
-                          ]
+                            Text(
+                              timeago.format(date),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -104,7 +180,7 @@ class NotificationsScreen extends StatelessWidget {
                           color: Color(0xFFE91E63),
                           shape: BoxShape.circle,
                         ),
-                      )
+                      ),
                   ],
                 ),
               ),
