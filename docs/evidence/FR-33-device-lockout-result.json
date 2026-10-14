@@ -1,0 +1,16 @@
+{
+  "order_id": 366,
+  "order": {
+    "order_status": "on_the_way",
+    "otp_admin_review": true,
+    "delivery_otp": null
+  },
+  "issuances": [
+    {
+      "state": "LOCKED",
+      "attempts": 3,
+      "sent_at": "2026-10-14T09:44:21.976653+00:00",
+      "expires_at": "2026-10-14T09:54:21.976653+00:00"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "time": "2026-10-14T09:37:03.313433+00:00",
+    "scenario": "incorrect-otp-2-attempts-remaining",
+    "result": "PASS",
+    "evidence": "incorrect-otp-2-attempts-remaining.png"
+  },
+  {
+    "time": "2026-10-14T09:45:32.131938+00:00",
+    "scenario": "incorrect-otp-2-attempts-remaining",
+    "result": "PASS",
+    "evidence": "incorrect-otp-2-attempts-remaining.png"
+  },
+  {
+    "time": "2026-10-14T09:45:54.266633+00:00",
+    "scenario": "incorrect-otp-1-attempts-remaining",
+    "result": "PASS",
+    "evidence": "incorrect-otp-1-attempts-remaining.png"
+  },
+  {
+    "time": "2026-10-14T09:46:07.219874+00:00",
+    "scenario": "otp-expired-request-a-new-code",
+    "result": "PASS",
+    "evidence": "otp-expired-request-a-new-code.png"
+  },
+  {
+    "time": "2026-10-14T09:47:09.693369+00:00",
+    "scenario": "server-cooldown-disabled",
+    "result": "PASS",
+    "evidence": "server-cooldown-disabled.png"
+  },
+  {
+    "time": "2026-10-14T09:47:43.187363+00:00",
+    "scenario": "network-recoverable-error",
+    "result": "PASS",
+    "evidence": "network-recoverable-error.png"
+  },
+  {
+    "time": "2026-10-14T09:50:40.762333+00:00",
+    "scenario": "email-request-accepted",
+    "result": "PASS",
+    "evidence": "email-request-accepted.png"
+  },
+  {
+    "time": "2026-10-14T09:54:14.831947+00:00",
+    "scenario": "incorrect-otp-2-attempts-remaining",
+    "result": "PASS",
+    "evidence": "incorrect-otp-2-attempts-remaining.png"
+  },
+  {
+    "time": "2026-10-14T10:16:14.708638+00:00",
+    "scenario": "replacement-old-rejected",
+    "result": "PASS",
+    "evidence": "replacement-old-rejected.png"
+  },
+  {
+    "time": "2026-10-14T10:17:03.650364+00:00",
+    "scenario": "network-recoverable-error",
+    "result": "PASS",
+    "evidence": "network-recoverable-error.png"
+  },
+  {
+    "time": "2026-10-14T10:17:14.799368+00:00",
+    "scenario": "network-restored-server-state",
+    "result": "PASS",
+    "evidence": "network-restored-server-state.png"
+  },
+  {
+    "time": "2026-10-14T10:25:40.738971+00:00",
+    "scenario": "customer-email-no-plaintext-code",
+    "result": "PASS",
+    "evidence": "customer-email-no-plaintext-code.png"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "result": "NOT EXECUTED",
+  "profile": "full",
+  "available_bytes": 811237376,
+  "required_available_bytes": 2147483648,
+  "reason": "Insufficient RAM for safe isolated load; no hosted fallback",
+  "real_emails_sent": 0
+}

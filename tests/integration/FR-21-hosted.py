@@ -292,10 +292,17 @@ def main():
     check(len(assignments) == 1, 'exactly one persisted assignment')
     contacts = rpc('fr21_order_contacts', {'p_order_ids': [order['id']]}, vendor['token'])
     check(len(contacts) == 1 and set(contacts[0]) == {'order_id','name','phone'}, 'bounded customer contact projection excludes private fields')
-    record = request(f'/rest/v1/orders?id=eq.{order["id"]}&select=delivery_otp', token=rider['token'])[0]
-    check(not rpc('fr21_complete_delivery', {'p_order_id': order['id'], 'p_otp': 'wrong'}, rider['token']), 'wrong OTP does not complete delivery')
-    check(rpc('fr21_complete_delivery', {'p_order_id': order['id'], 'p_otp': record['delivery_otp']}, rider['token']), 'delivery completion releases reservation')
-    check(rpc('fr21_complete_delivery', {'p_order_id': order['id'], 'p_otp': record['delivery_otp']}, rider['token']), 'delivery retry is idempotent')
+    # FR33 intentionally removes plaintext OTP access. This trusted security
+    # fixture simulates provider acceptance only; it never sends real email.
+    import uuid
+    issuance_id=str(uuid.uuid4())
+    reserved=request('/rest/v1/rpc/issue_delivery_otp','POST',{'p_order_id':order['id'],'p_request_id':issuance_id,'p_actor':rider['auth_id']},admin=True)
+    check(reserved['code']=='SEND','protected server OTP fixture reserved for delivery regression')
+    request('/rest/v1/rpc/fr33_start_send','POST',{'p_id':issuance_id},admin=True)
+    request('/rest/v1/rpc/fr33_finish_send','POST',{'p_id':issuance_id,'p_result':'ACCEPTED','p_provider_id':'FR21-REGRESSION-MOCK-PROVIDER'},admin=True)
+    check(not rpc('fr21_complete_delivery', {'p_order_id':order['id'],'p_otp':'wrong'},rider['token']),'wrong OTP does not complete delivery')
+    check(rpc('fr21_complete_delivery', {'p_order_id':order['id'],'p_otp':reserved['otp']},rider['token']),'delivery completion releases reservation')
+    check(rpc('fr21_complete_delivery', {'p_order_id':order['id'],'p_otp':reserved['otp']},rider['token']),'delivery retry is idempotent')
     delivered_vo = request(f'/rest/v1/vendor_orders?id=eq.{vo["id"]}&select=status',token=vendor['token'])[0]
     check(delivered_vo['status']=='delivered','delivery status propagates to vendor history')
     receipts = request(f'/rest/v1/delivery_proof?orderid=eq.{order["id"]}&select=id,otpconfirmed,is_verified', token=rider['token'])

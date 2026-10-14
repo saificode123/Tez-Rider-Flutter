@@ -1,0 +1,9 @@
+{
+  "fatal": 0,
+  "auth": 0,
+  "api_total": 1,
+  "fr33_or_unclassified_api": 0,
+  "inherited_vendor_ratings_permission_errors": 1,
+  "inherited_origin": "202610080001_tezrider_baseline.sql blanket public-function revocation; FR33 changes exclude this function/controller",
+  "whole_app_logs_clean": false
+}

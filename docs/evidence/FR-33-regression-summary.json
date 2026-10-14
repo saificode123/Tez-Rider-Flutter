@@ -1,0 +1,28 @@
+{
+  "flutter_passed": 86,
+  "flutter_conditionally_skipped": 2,
+  "otp_tests": 21,
+  "deno_tests_passed": 15,
+  "hosted_fr33_checks_passed": 39,
+  "hosted_sql_assertions_passed_rollback": 73,
+  "schema_checks_passed": 7,
+  "regressions": {
+    "FR21": 47,
+    "FR04": 49,
+    "FR25": 83,
+    "FR26": 96
+  },
+  "full_analysis": {
+    "errors": 0,
+    "warnings": 16,
+    "information": 82
+  },
+  "scoped_analysis": {
+    "errors": 0,
+    "warnings": 0,
+    "information": 2
+  },
+  "load_smoke": "NOT EXECUTED: insufficient RAM",
+  "load_1000": "NOT EXECUTED: insufficient RAM",
+  "source_execution_logs": ".fr21-local/fr33/; private/build logs excluded from Git"
+}

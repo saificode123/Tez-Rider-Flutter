@@ -91,7 +91,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | ----- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-31 | Complete            | In-app notifications                                                                                                                                                                                                                   |
 | FR-32 | **Not implemented** | No email dispatch for invoices/confirmations                                                                                                                                                                                           |
-| FR-33 | **Partial**         | `verifyOtpAndDeliver` in `rider_controller.dart` works, but the OTP is shown in plain text on the customer dashboard (`customer_dashboard.dart` around line 1400) and never sent. Needs the approved email OTP, 3-attempt limit (S-04) |
+| FR-33 | **Functionally accepted on TEST** | Server-only CSPRNG email OTP through TEST Edge Function/Brevo, Vault HMAC verifier, no plaintext client/DB code, three-attempt lockout, atomic idempotent delivery proof/audit/notifications. Hosted security/races, Flutter tests and physical Android/email checks passed; see `FR-33-readiness.md` / `FR-33-acceptance.md`. Additional local load qualification not executed due RAM; inherited vendor-rating permission denial documented. |
 
 ### Security
 

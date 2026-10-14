@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/rider_presence.dart';
+import '../services/delivery_otp_service.dart';
 
 class RiderController extends GetxController with WidgetsBindingObserver {
   final _supabase = Supabase.instance.client;
@@ -24,6 +25,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   bool _refreshPending = false;
   StreamSubscription<AuthState>? _authSubscription;
   final deliveryBusy = false.obs;
+  final deliveryOtp = DeliveryOtpFlow(SupabaseDeliveryOtpBackend());
   int _requestsPage = 0;
   final hasMoreRequests = false.obs;
   final requestsLoading = false.obs;
@@ -344,32 +346,42 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  Future<bool> verifyOtpAndDeliver(String enteredOtp) async {
-    if (deliveryBusy.value) return false;
-    final current = currentOrder.value;
-    if (current == null) return false;
+  Future<void> requestDeliveryOtp() async {
+    final order = currentOrder.value;
+    if (order == null ||
+        order['type'] != 'order' ||
+        order['id'] is! int ||
+        deliveryBusy.value) {
+      return;
+    }
     deliveryBusy.value = true;
     try {
-      final confirmed = await _supabase
-          .rpc(
-            'fr21_complete_delivery',
-            params: {'p_order_id': current['id'], 'p_otp': enteredOtp},
-          )
-          .timeout(const Duration(seconds: 8));
-      if (confirmed != true) {
-        HapticFeedback.heavyImpact();
-        return false;
+      if (!deliveryOtp.begin(order['id'] as int)) {
+        return;
       }
-
-      HapticFeedback.mediumImpact();
-      currentOrder.value = null;
-      return true;
-    } catch (e) {
-      Get.snackbar('Error', 'Could not verify OTP.');
-      return false;
+      await deliveryOtp.refresh();
+      if (!deliveryOtp.active && !deliveryOtp.delivered) {
+        await deliveryOtp.requestEmail();
+      }
     } finally {
-      deliveryBusy.value = false;
+      if (!isClosed) deliveryBusy.value = false;
     }
+  }
+
+  Future<bool> verifyOtpAndDeliver(String enteredOtp) async {
+    final order = currentOrder.value;
+    if (order == null || order['id'] is! int || deliveryBusy.value) {
+      return false;
+    }
+    if (!deliveryOtp.begin(order['id'] as int)) return false;
+    final confirmed = await deliveryOtp.verify(enteredOtp);
+    if (!confirmed || isClosed) return false;
+    HapticFeedback.mediumImpact();
+    if (currentOrder.value?['id'] == order['id']) {
+      currentOrder.value = null;
+    }
+    unawaited(loadEarnings());
+    return true;
   }
 
   Future<void> acceptTailoring(Map<String, dynamic> request) async {
@@ -466,6 +478,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     unawaited(goOffline());
     _presence.dispose();
+    deliveryOtp.dispose();
     _refreshTimer?.cancel();
     unawaited(_authSubscription?.cancel());
     if (_dashboardChannel != null) {

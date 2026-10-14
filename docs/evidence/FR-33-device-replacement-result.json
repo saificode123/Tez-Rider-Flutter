@@ -1,0 +1,28 @@
+{
+  "order_id": 367,
+  "order": {
+    "order_status": "delivered",
+    "otp_admin_review": false,
+    "delivery_otp": null
+  },
+  "issuances": [
+    {
+      "state": "USED",
+      "attempts": 0,
+      "sent_at": "2026-10-14T10:03:25.317959+00:00",
+      "expires_at": "2026-10-14T10:13:25.317959+00:00"
+    },
+    {
+      "state": "INVALIDATED",
+      "attempts": 0,
+      "sent_at": "2026-10-14T09:51:12.607118+00:00",
+      "expires_at": "2026-10-14T10:01:12.607118+00:00"
+    },
+    {
+      "state": "INVALIDATED",
+      "attempts": 0,
+      "sent_at": "2026-10-14T09:46:39.231691+00:00",
+      "expires_at": "2026-10-14T09:56:39.231691+00:00"
+    }
+  ]
+}

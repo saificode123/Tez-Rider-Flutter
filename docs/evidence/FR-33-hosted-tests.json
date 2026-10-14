@@ -1,0 +1,204 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "passed": 39,
+  "failed": 0,
+  "real_emails_sent": 0,
+  "provider_acceptance": "Explicit privileged mock fixtures for backend security tests only",
+  "checks": [
+    {
+      "time": "2026-10-14T09:56:48.885463+00:00",
+      "result": "PASS",
+      "check": "security-customer cannot verify another assigned delivery"
+    },
+    {
+      "time": "2026-10-14T09:56:51.119297+00:00",
+      "result": "PASS",
+      "check": "no direct OTP SELECT for security-customer"
+    },
+    {
+      "time": "2026-10-14T09:56:51.599745+00:00",
+      "result": "PASS",
+      "check": "security-customer cannot invoke privileged issuance"
+    },
+    {
+      "time": "2026-10-14T09:56:52.415490+00:00",
+      "result": "PASS",
+      "check": "security-customer cannot send delivery email"
+    },
+    {
+      "time": "2026-10-14T09:56:52.908563+00:00",
+      "result": "PASS",
+      "check": "other-rider cannot verify another assigned delivery"
+    },
+    {
+      "time": "2026-10-14T09:56:53.341604+00:00",
+      "result": "PASS",
+      "check": "no direct OTP SELECT for other-rider"
+    },
+    {
+      "time": "2026-10-14T09:56:55.058454+00:00",
+      "result": "PASS",
+      "check": "other-rider cannot invoke privileged issuance"
+    },
+    {
+      "time": "2026-10-14T09:56:56.190255+00:00",
+      "result": "PASS",
+      "check": "other-rider cannot send delivery email"
+    },
+    {
+      "time": "2026-10-14T09:56:56.715989+00:00",
+      "result": "PASS",
+      "check": "vendor cannot verify another assigned delivery"
+    },
+    {
+      "time": "2026-10-14T09:56:57.105525+00:00",
+      "result": "PASS",
+      "check": "no direct OTP SELECT for vendor"
+    },
+    {
+      "time": "2026-10-14T09:56:57.516982+00:00",
+      "result": "PASS",
+      "check": "vendor cannot invoke privileged issuance"
+    },
+    {
+      "time": "2026-10-14T09:56:58.731355+00:00",
+      "result": "PASS",
+      "check": "vendor cannot send delivery email"
+    },
+    {
+      "time": "2026-10-14T09:56:59.139849+00:00",
+      "result": "PASS",
+      "check": "admin cannot verify another assigned delivery"
+    },
+    {
+      "time": "2026-10-14T09:56:59.552975+00:00",
+      "result": "PASS",
+      "check": "no direct OTP SELECT for admin"
+    },
+    {
+      "time": "2026-10-14T09:56:59.892809+00:00",
+      "result": "PASS",
+      "check": "admin cannot invoke privileged issuance"
+    },
+    {
+      "time": "2026-10-14T09:57:00.738632+00:00",
+      "result": "PASS",
+      "check": "admin cannot send delivery email"
+    },
+    {
+      "time": "2026-10-14T09:57:01.130745+00:00",
+      "result": "PASS",
+      "check": "anonymous verify denied"
+    },
+    {
+      "time": "2026-10-14T09:57:01.632495+00:00",
+      "result": "PASS",
+      "check": "anonymous email request denied"
+    },
+    {
+      "time": "2026-10-14T09:57:02.001149+00:00",
+      "result": "PASS",
+      "check": "authorized public status has no code/verifier/full recipient"
+    },
+    {
+      "time": "2026-10-14T09:57:02.342960+00:00",
+      "result": "PASS",
+      "check": "wrong code consumes exactly one attempt"
+    },
+    {
+      "time": "2026-10-14T09:57:02.671718+00:00",
+      "result": "PASS",
+      "check": "network retry preserves remaining attempts"
+    },
+    {
+      "time": "2026-10-14T09:57:03.013857+00:00",
+      "result": "PASS",
+      "check": "persisted remaining 1"
+    },
+    {
+      "time": "2026-10-14T09:57:03.400140+00:00",
+      "result": "PASS",
+      "check": "persisted remaining 0"
+    },
+    {
+      "time": "2026-10-14T09:57:04.092021+00:00",
+      "result": "PASS",
+      "check": "lockout preserves active order and flags admin review"
+    },
+    {
+      "time": "2026-10-14T09:57:04.679797+00:00",
+      "result": "PASS",
+      "check": "one hosted admin lockout notice"
+    },
+    {
+      "time": "2026-10-14T09:57:07.196732+00:00",
+      "result": "PASS",
+      "check": "correct-correct genuine separate-request race returns structured outcomes"
+    },
+    {
+      "time": "2026-10-14T09:57:07.218779+00:00",
+      "result": "PASS",
+      "check": "one correct race winner"
+    },
+    {
+      "time": "2026-10-14T09:57:07.765949+00:00",
+      "result": "PASS",
+      "check": "one protected delivery proof for 370"
+    },
+    {
+      "time": "2026-10-14T09:57:09.122616+00:00",
+      "result": "PASS",
+      "check": "one completion audit for 370"
+    },
+    {
+      "time": "2026-10-14T09:57:11.555539+00:00",
+      "result": "PASS",
+      "check": "correct-wrong genuine separate-request race returns structured outcomes"
+    },
+    {
+      "time": "2026-10-14T09:57:11.717628+00:00",
+      "result": "PASS",
+      "check": "correct/wrong race safe outcome"
+    },
+    {
+      "time": "2026-10-14T09:57:12.093038+00:00",
+      "result": "PASS",
+      "check": "one protected delivery proof for 371"
+    },
+    {
+      "time": "2026-10-14T09:57:12.624851+00:00",
+      "result": "PASS",
+      "check": "one completion audit for 371"
+    },
+    {
+      "time": "2026-10-14T09:57:15.018812+00:00",
+      "result": "PASS",
+      "check": "wrong-wrong genuine separate-request race returns structured outcomes"
+    },
+    {
+      "time": "2026-10-14T09:57:15.021811+00:00",
+      "result": "PASS",
+      "check": "two concurrent wrong entries both persist"
+    },
+    {
+      "time": "2026-10-14T09:57:16.030558+00:00",
+      "result": "PASS",
+      "check": "concurrent issuance reserves once"
+    },
+    {
+      "time": "2026-10-14T09:57:19.066728+00:00",
+      "result": "PASS",
+      "check": "issuance versus verification retains one completion"
+    },
+    {
+      "time": "2026-10-14T09:57:19.402037+00:00",
+      "result": "PASS",
+      "check": "one protected delivery proof for 374"
+    },
+    {
+      "time": "2026-10-14T09:57:19.860954+00:00",
+      "result": "PASS",
+      "check": "one completion audit for 374"
+    }
+  ]
+}

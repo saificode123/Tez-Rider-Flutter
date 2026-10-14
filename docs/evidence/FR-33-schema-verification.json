@@ -1,0 +1,142 @@
+{
+  "functions": [
+    {
+      "anon": false,
+      "authenticated": true,
+      "name": "delivery_otp_status",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": false,
+      "name": "fr33_equal",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": false,
+      "name": "fr33_finish_send",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": false,
+      "name": "fr33_start_send",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": false,
+      "name": "fr33_tag",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": false,
+      "name": "issue_delivery_otp",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    },
+    {
+      "anon": false,
+      "authenticated": true,
+      "name": "verify_delivery_otp",
+      "path": [
+        "search_path=\"\""
+      ],
+      "service": true
+    }
+  ],
+  "plain_order_count": 0,
+  "plain_proof_count": 0,
+  "published_secret_tables": 0,
+  "tables": [
+    {
+      "client_insert": false,
+      "client_read": false,
+      "name": "delivery_otp_budgets",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": false,
+      "name": "delivery_otp_rates",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": false,
+      "name": "delivery_otp_verifications",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": false,
+      "name": "delivery_otps",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": true,
+      "name": "delivery_proof",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": true,
+      "name": "notifications",
+      "rls": true
+    },
+    {
+      "client_insert": true,
+      "client_read": true,
+      "name": "orders",
+      "rls": true
+    },
+    {
+      "client_insert": false,
+      "client_read": false,
+      "name": "security_audit_log",
+      "rls": true
+    }
+  ],
+  "vault_client_read": false,
+  "versions": [
+    "202610080001",
+    "202610090001",
+    "202610110001",
+    "202610110002",
+    "202610110003",
+    "202610110004",
+    "202610110005",
+    "202610110006",
+    "202610120001",
+    "202610130001",
+    "202610130002",
+    "202610130003",
+    "202610130004",
+    "202610130005",
+    "202610130006",
+    "202610130007",
+    "202610130008",
+    "202610140001",
+    "202610140002"
+  ]
+}

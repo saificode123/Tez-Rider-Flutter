@@ -1,0 +1,8 @@
+{
+  "result": "NOT EXECUTED",
+  "profile": "smoke",
+  "available_bytes": 504528896,
+  "required_available_bytes": 536870912,
+  "reason": "Insufficient RAM for safe isolated load; no hosted fallback",
+  "real_emails_sent": 0
+}

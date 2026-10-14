@@ -1,0 +1,294 @@
+[
+  {
+    "result": "PASS",
+    "test": "server cryptographic six-digit issuance"
+  },
+  {
+    "result": "PASS",
+    "test": "only salted protected verifier persisted"
+  },
+  {
+    "result": "PASS",
+    "test": "same issuance request replay has no new code"
+  },
+  {
+    "result": "PASS",
+    "test": "replay cannot disclose plaintext"
+  },
+  {
+    "result": "PASS",
+    "test": "provider send claimed once"
+  },
+  {
+    "result": "PASS",
+    "test": "duplicate dispatch cannot send twice"
+  },
+  {
+    "result": "PASS",
+    "test": "simulated provider acceptance activates code"
+  },
+  {
+    "result": "PASS",
+    "test": "ten-minute accepted issuance lifetime"
+  },
+  {
+    "result": "PASS",
+    "test": "sixty-second cooldown enforced"
+  },
+  {
+    "result": "PASS",
+    "test": "rider sees safe active status"
+  },
+  {
+    "result": "PASS",
+    "test": "public status has no secrets or full recipient"
+  },
+  {
+    "result": "PASS",
+    "test": "first wrong code persists two remaining"
+  },
+  {
+    "result": "PASS",
+    "test": "HTTP verification retry does not consume attempt"
+  },
+  {
+    "result": "PASS",
+    "test": "request identifier cannot change guessed code"
+  },
+  {
+    "result": "PASS",
+    "test": "second wrong code persists one remaining"
+  },
+  {
+    "result": "PASS",
+    "test": "third failure locks without exception rollback"
+  },
+  {
+    "result": "PASS",
+    "test": "lockout persists in database"
+  },
+  {
+    "result": "PASS",
+    "test": "third failure flags admin review"
+  },
+  {
+    "result": "PASS",
+    "test": "exactly one admin lockout notification"
+  },
+  {
+    "result": "PASS",
+    "test": "one lockout audit"
+  },
+  {
+    "result": "PASS",
+    "test": "locked code requires fresh issuance"
+  },
+  {
+    "result": "PASS",
+    "test": "malformed code denied without attempt"
+  },
+  {
+    "result": "PASS",
+    "test": "malformed entry does not consume a guess"
+  },
+  {
+    "result": "PASS",
+    "test": "provider failure preserves previous usable OTP"
+  },
+  {
+    "result": "PASS",
+    "test": "other cannot verify assigned delivery"
+  },
+  {
+    "result": "PASS",
+    "test": "other cannot read verifier"
+  },
+  {
+    "result": "PASS",
+    "test": "other cannot issue server code"
+  },
+  {
+    "result": "PASS",
+    "test": "other cannot bypass verification"
+  },
+  {
+    "result": "PASS",
+    "test": "customer cannot verify assigned delivery"
+  },
+  {
+    "result": "PASS",
+    "test": "customer cannot read verifier"
+  },
+  {
+    "result": "PASS",
+    "test": "customer cannot issue server code"
+  },
+  {
+    "result": "PASS",
+    "test": "customer cannot bypass verification"
+  },
+  {
+    "result": "PASS",
+    "test": "vendor cannot verify assigned delivery"
+  },
+  {
+    "result": "PASS",
+    "test": "vendor cannot read verifier"
+  },
+  {
+    "result": "PASS",
+    "test": "vendor cannot issue server code"
+  },
+  {
+    "result": "PASS",
+    "test": "vendor cannot bypass verification"
+  },
+  {
+    "result": "PASS",
+    "test": "admin cannot verify assigned delivery"
+  },
+  {
+    "result": "PASS",
+    "test": "admin cannot read verifier"
+  },
+  {
+    "result": "PASS",
+    "test": "admin cannot issue server code"
+  },
+  {
+    "result": "PASS",
+    "test": "admin cannot bypass verification"
+  },
+  {
+    "result": "PASS",
+    "test": "correct active OTP delivers"
+  },
+  {
+    "result": "PASS",
+    "test": "confirmed status and delivery timestamp preserved"
+  },
+  {
+    "result": "PASS",
+    "test": "exactly one compatible protected delivery proof"
+  },
+  {
+    "result": "PASS",
+    "test": "delivery replay does not reconsume code"
+  },
+  {
+    "result": "PASS",
+    "test": "one completion audit"
+  },
+  {
+    "result": "PASS",
+    "test": "one exact customer delivery notice"
+  },
+  {
+    "result": "PASS",
+    "test": "unissued order cannot deliver"
+  },
+  {
+    "result": "PASS",
+    "test": "expired code cannot deliver"
+  },
+  {
+    "result": "PASS",
+    "test": "expiry preserves order state"
+  },
+  {
+    "result": "PASS",
+    "test": "anonymous RPC denied"
+  },
+  {
+    "result": "PASS",
+    "test": "anonymous verifier read denied"
+  },
+  {
+    "result": "PASS",
+    "test": "ambiguous provider timeout retains old active code"
+  },
+  {
+    "result": "PASS",
+    "test": "timeout replay does not send again"
+  },
+  {
+    "result": "PASS",
+    "test": "replacement never repeats an earlier code"
+  },
+  {
+    "result": "PASS",
+    "test": "only intended active issuance usable"
+  },
+  {
+    "result": "PASS",
+    "test": "accepted replacement invalidates predecessor"
+  },
+  {
+    "result": "PASS",
+    "test": "predecessor code cannot verify replacement"
+  },
+  {
+    "result": "PASS",
+    "test": "new code verifies intended issuance"
+  },
+  {
+    "result": "PASS",
+    "test": "bounded issuance 1"
+  },
+  {
+    "result": "PASS",
+    "test": "bounded issuance 2"
+  },
+  {
+    "result": "PASS",
+    "test": "bounded issuance 3"
+  },
+  {
+    "result": "PASS",
+    "test": "bounded issuance 4"
+  },
+  {
+    "result": "PASS",
+    "test": "bounded issuance 5"
+  },
+  {
+    "result": "PASS",
+    "test": "maximum five issuances enforced including failed sends"
+  },
+  {
+    "result": "PASS",
+    "test": "ten new email issuances per rider per minute"
+  },
+  {
+    "result": "PASS",
+    "test": "hundred new verification operations per rider per minute"
+  },
+  {
+    "result": "PASS",
+    "test": "daily shared 300-reservation budget enforced"
+  },
+  {
+    "result": "PASS",
+    "test": "wrong delivery state cannot issue"
+  },
+  {
+    "result": "PASS",
+    "test": "unknown order does not disclose recipient"
+  },
+  {
+    "result": "PASS",
+    "test": "crashed reservation retry resolves to failed, not perpetual pending"
+  },
+  {
+    "result": "PASS",
+    "test": "crashed in-flight send retry resolves unknown without another send"
+  },
+  {
+    "result": "PASS",
+    "test": "rider approval is rechecked at dispatch"
+  },
+  {
+    "result": "PASS",
+    "test": "revoked dispatch leaves a recoverable failed reservation"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "order_id": 365,
+  "provider_receipt_present": true,
+  "inbox_receipt": "PASS: user entered emailed code on physical device; hosted verifier completed order",
+  "state": "ACCEPTED",
+  "attempts": 1,
+  "sent_at": "2026-10-14T09:36:05.195931+00:00",
+  "expires_at": "2026-10-14T09:46:05.195931+00:00"
+}

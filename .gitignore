@@ -54,3 +54,4 @@ build/
 /supabase/.temp/
 __pycache__/
 /.fr21-local/
+/supabase/functions/.env.test.local

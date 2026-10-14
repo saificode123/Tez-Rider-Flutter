@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -5,7 +7,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:geolocator/geolocator.dart';
-import 'package:lottie/lottie.dart' as lottie;
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/rider_controller.dart';
@@ -100,6 +101,11 @@ class _RiderDashboardState extends State<RiderDashboard> {
   Future<void> _markDelivered() async {
     await riderCtrl.markDelivered();
     if (riderCtrl.currentOrder.value == null) setState(() => _tab = 0);
+  }
+
+  Future<void> _arrived() async {
+    await riderCtrl.requestDeliveryOtp();
+    if (mounted) _showOtpSheet();
   }
 
   void _showOtpSheet() {
@@ -1068,9 +1074,13 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       Expanded(
                         flex: 2,
                         child: ElevatedButton(
-                          onPressed: order['type'] == 'tailoring'
+                          onPressed:
+                              riderCtrl.deliveryBusy.value ||
+                                  riderCtrl.deliveryOtp.busy.value
+                              ? null
+                              : order['type'] == 'tailoring'
                               ? _markDelivered
-                              : _showOtpSheet,
+                              : _arrived,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             foregroundColor: Colors.white,
@@ -1083,7 +1093,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           child: Text(
                             order['type'] == 'tailoring'
                                 ? 'Complete Step'
-                                : 'Enter OTP',
+                                : 'Arrived',
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
@@ -1926,302 +1936,128 @@ class _OtpVerifySheet extends StatefulWidget {
   State<_OtpVerifySheet> createState() => _OtpVerifySheetState();
 }
 
-class _OtpVerifySheetState extends State<_OtpVerifySheet>
-    with SingleTickerProviderStateMixin {
-  final List<TextEditingController> _ctrls = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
-  final List<FocusNode> _nodes = List.generate(6, (_) => FocusNode());
-
-  bool _loading = false;
-  bool _error = false;
-  bool _success = false;
-  late AnimationController _shakeCtrl;
-  late Animation<double> _shakeAnim;
-
-  String get _otp => _ctrls.map((c) => c.text).join();
-
+class _OtpVerifySheetState extends State<_OtpVerifySheet> {
+  final input = TextEditingController();
+  Timer? clock;
   @override
   void initState() {
     super.initState();
-    _shakeCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _shakeAnim = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _shakeCtrl, curve: Curves.elasticIn));
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _nodes[0].requestFocus(),
-    );
+    clock = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    _shakeCtrl.dispose();
-    for (final c in _ctrls) {
-      c.dispose();
-    }
-    for (final n in _nodes) {
-      n.dispose();
-    }
+    clock?.cancel();
+    input.dispose();
     super.dispose();
   }
 
-  Future<void> _verify() async {
-    if (_otp.length < 6 || _loading) return;
-    setState(() {
-      _loading = true;
-      _error = false;
-    });
-
-    final ok = await widget.riderCtrl.verifyOtpAndDeliver(_otp);
+  Future<void> verify() async {
+    final ok = await widget.riderCtrl.verifyOtpAndDeliver(input.text);
     if (!mounted) return;
-
     if (ok) {
-      setState(() {
-        _success = true;
-        _loading = false;
-      });
-      await Future.delayed(const Duration(milliseconds: 900));
       widget.onSuccess();
-    } else {
-      setState(() {
-        _error = true;
-        _loading = false;
-      });
-      _shakeCtrl.forward(from: 0);
-      for (final c in _ctrls) {
-        c.clear();
-      }
-      if (mounted) _nodes[0].requestFocus();
+      return;
     }
-  }
-
-  void _onDigitChanged(String val, int index) {
-    if (val.length == 1 && index < 5) {
-      _nodes[index + 1].requestFocus();
-    } else if (val.isEmpty && index > 0) {
-      _nodes[index - 1].requestFocus();
+    if (!widget.riderCtrl.deliveryOtp.uncertainVerification.value) {
+      input.clear();
     }
-    if (_otp.length == 6) _verify();
-    setState(() {
-      _error = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final flow = widget.riderCtrl.deliveryOtp;
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-        ),
-        padding: const EdgeInsets.fromLTRB(28, 20, 28, 36),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 36,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            if (_success) ...[
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.success.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Obx(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Email delivery verification',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                child: const Icon(
-                  Icons.check_circle_rounded,
-                  color: AppColors.success,
-                  size: 44,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Delivered!',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Order confirmed successfully.',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
-              ),
-              const SizedBox(height: 28),
-            ] else ...[
-              Center(
-                child: lottie.Lottie.asset(
-                  'assets/lottie/order_picked.json',
-                  width: 160,
-                  height: 160,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: 68,
-                height: 68,
-                decoration: BoxDecoration(
-                  color: AppColors.primarySurface,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.lock_open_rounded,
-                  color: AppColors.primary,
-                  size: 32,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Enter Delivery OTP',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Ask the customer for their 6-digit OTP',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
-              ),
-              const SizedBox(height: 28),
-
-              AnimatedBuilder(
-                animation: _shakeAnim,
-                builder: (_, child) => Transform.translate(
-                  offset: Offset(
-                    _shakeAnim.value * 8 * (_shakeCtrl.value < 0.5 ? 1 : -1),
-                    0,
-                  ),
-                  child: child,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(6, (i) => _otpBox(i)),
-                ),
-              ),
-
-              if (_error) ...[
                 const SizedBox(height: 12),
                 const Text(
-                  'Incorrect OTP. Please try again.',
-                  style: TextStyle(
-                    color: AppColors.error,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
+                  'Ask the customer for the six-digit code from their registered email when handing over the order.',
+                ),
+                if (flow.status['masked_email'] is String)
+                  Text(flow.status['masked_email'] as String),
+                const SizedBox(height: 12),
+                Text(flow.message),
+                if (flow.status['remaining'] != null)
+                  Text('Attempts remaining: ${flow.status['remaining']}'),
+                if (flow.status['expires_at'] != null)
+                  Text(
+                    flow.active
+                        ? 'Code expires: ${flow.status['expires_at']}'
+                        : 'Code is not currently active.',
                   ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: input,
+                  enabled:
+                      !flow.busy.value && !flow.uncertainVerification.value,
+                  obscureText: true,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(6),
+                  ],
+                  maxLength: 6,
+                  decoration: const InputDecoration(
+                    labelText: 'Six-digit delivery code',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: flow.busy.value ? null : verify,
+                  child: Text(
+                    flow.uncertainVerification.value
+                        ? 'Retry unchanged verification'
+                        : 'Confirm Delivery',
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: flow.busy.value ? null : () => flow.requestEmail(),
+                  child: const Text('Retry email request'),
+                ),
+                OutlinedButton(
+                  onPressed:
+                      flow.busy.value ||
+                          flow.cooldownSeconds > 0 ||
+                          flow.uncertainVerification.value
+                      ? null
+                      : () => flow.requestEmail(newCode: true),
+                  child: Text(
+                    flow.cooldownSeconds > 0
+                        ? 'Resend in ${flow.cooldownSeconds}s'
+                        : 'Request a new code',
+                  ),
+                ),
+                if (flow.busy.value)
+                  const Center(child: CircularProgressIndicator()),
+                TextButton(
+                  onPressed: flow.busy.value ? null : () => flow.refresh(),
+                  child: const Text('Refresh server status'),
                 ),
               ],
-
-              const SizedBox(height: 28),
-
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: _otp.length == 6 && !_loading ? _verify : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    disabledBackgroundColor: AppColors.primarySurface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: _loading
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : const Text(
-                          'Confirm Delivery',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15,
-                          ),
-                        ),
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _otpBox(int index) {
-    final filled = _ctrls[index].text.isNotEmpty;
-    return SizedBox(
-      width: 46,
-      height: 56,
-      child: TextField(
-        controller: _ctrls[index],
-        focusNode: _nodes[index],
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w900,
-          color: _error ? AppColors.error : AppColors.textPrimary,
-        ),
-        decoration: InputDecoration(
-          counterText: '',
-          filled: true,
-          fillColor: _error
-              ? AppColors.error.withValues(alpha: 0.06)
-              : filled
-              ? AppColors.primarySurface
-              : AppColors.bgSection,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(
-              color: _error ? AppColors.error : AppColors.primary,
-              width: 2,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(
-              color: _error
-                  ? AppColors.error.withValues(alpha: 0.4)
-                  : filled
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : Colors.transparent,
-              width: 1.5,
             ),
           ),
         ),
-        onChanged: (val) => _onDigitChanged(val, index),
       ),
     );
   }

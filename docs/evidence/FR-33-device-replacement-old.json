@@ -1,0 +1,18 @@
+{
+  "order_id": 382,
+  "issuances": [
+    {
+      "state": "ACCEPTED",
+      "attempts": 1,
+      "sent_at": "2026-10-14T10:16:04.287832+00:00"
+    },
+    {
+      "state": "INVALIDATED",
+      "attempts": 0,
+      "sent_at": "2026-10-14T10:14:35.141016+00:00"
+    }
+  ],
+  "initial_provider": "explicit privileged mock fixture; no initial mail",
+  "replacement_provider": "actual TEST Edge/Brevo acceptance",
+  "old_code_source": "privileged test fixture held in memory only; not printed or persisted"
+}
