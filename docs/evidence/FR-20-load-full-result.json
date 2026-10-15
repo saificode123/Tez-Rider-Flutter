@@ -1,0 +1,8 @@
+{
+  "profile": "full",
+  "status": "NOT EXECUTED",
+  "reason": "Insufficient host memory for 1000 VUs; require 1 GiB available before starting",
+  "available_bytes": 397377536,
+  "required_available_bytes": 1073741824,
+  "after_build_with_local_containers_stopped_available_bytes": 611364864
+}

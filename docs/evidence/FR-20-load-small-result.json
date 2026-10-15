@@ -1,0 +1,49 @@
+{
+  "profile": "small",
+  "exit": 0,
+  "resource_aborted": false,
+  "minimum_available_bytes": 283885568,
+  "invariants": {
+    "duplicate_order": 0,
+    "duplicate_rider": 0,
+    "duplicate_notification": 0
+  },
+  "metrics": {
+    "http_req_duration": {
+      "p(95)": 188.42225000000002,
+      "avg": 50.36468964143426,
+      "min": 2.7213,
+      "med": 21.4667,
+      "max": 859.4396,
+      "p(90)": 119.0041,
+      "thresholds": {
+        "p(95)<800": false
+      }
+    },
+    "unexpected_errors": {
+      "passes": 0,
+      "fails": 251,
+      "thresholds": {
+        "rate<0.01": false
+      },
+      "value": 0
+    },
+    "checks": {
+      "passes": 251,
+      "fails": 0,
+      "thresholds": {
+        "rate>0.99": false
+      },
+      "value": 1
+    },
+    "vus_max": {
+      "value": 10,
+      "min": 10,
+      "max": 10
+    },
+    "http_reqs": {
+      "count": 251,
+      "rate": 12.444425291377666
+    }
+  }
+}

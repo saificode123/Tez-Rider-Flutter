@@ -826,34 +826,49 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 ],
               ),
             ] else if (status == 'accepted' ||
+                status == 'preparing' ||
+                status == 'ready' ||
                 (status == 'on_the_way' &&
                     o['orders']?['rider_id'] == null)) ...[
               const SizedBox(height: 14),
               const Divider(color: AppColors.divider, height: 1),
               const SizedBox(height: 14),
-              Obx(
-                () => _actionBtn(
-                  vendorCtrl.assigningOrders.contains(o['id'].toString())
-                      ? 'Matching rider…'
-                      : status == 'on_the_way'
-                      ? 'Retry Rider Matching'
-                      : 'Mark Ready & Call Rider',
-                  AppColors.success,
-                  true,
-                  vendorCtrl.assigningOrders.contains(o['id'].toString())
-                      ? null
-                      : () async {
-                          final msg = await vendorCtrl.markReadyAndAssignRider(
-                            o,
-                          );
-                          Get.snackbar(
-                            'Rider',
-                            msg,
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        },
-                ),
-              ),
+              Obx(() {
+                final id = o['id'].toString();
+                final busy = vendorCtrl.assigningOrders.contains(id);
+                final message = vendorCtrl.assignment.messages[id];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (busy) const LinearProgressIndicator(),
+                    _actionBtn(
+                      busy
+                          ? 'Matching rider…'
+                          : status == 'ready' || status == 'on_the_way'
+                          ? 'Retry Rider Matching'
+                          : 'Mark Ready & Call Rider',
+                      AppColors.success,
+                      true,
+                      busy
+                          ? null
+                          : () async {
+                              final msg = await vendorCtrl
+                                  .markReadyAndAssignRider(o);
+                              Get.snackbar(
+                                'Rider',
+                                msg,
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            },
+                    ),
+                    if (message != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(message),
+                      ),
+                  ],
+                );
+              }),
             ],
           ],
         ),

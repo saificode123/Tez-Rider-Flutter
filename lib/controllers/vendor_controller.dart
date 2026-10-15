@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/rider_assignment_service.dart';
 
 class VendorController extends GetxController {
   final _supabase = Supabase.instance.client;
@@ -253,45 +254,17 @@ class VendorController extends GetxController {
     }
   }
 
-  final assigningOrders = <String>{}.obs;
+  final assignment = RiderAssignmentFlow(SupabaseRiderAssignmentBackend());
+  RxSet<String> get assigningOrders => assignment.busy;
 
   Future<String> markReadyAndAssignRider(
     Map<String, dynamic> vendorOrder,
   ) async {
-    final id = vendorOrder['id']?.toString();
-    if (id == null || id.startsWith('mock_')) {
-      return 'A saved vendor order is required.';
-    }
-    if (!assigningOrders.add(id)) return 'Assignment is already in progress.';
-    try {
-      dynamic response;
-      for (var attempt = 0; ; attempt++) {
-        try {
-          response = await _supabase
-              .rpc(
-                'fr21_ready_and_assign',
-                params: {'p_vendor_order_id': vendorOrder['id']},
-              )
-              .timeout(const Duration(seconds: 8));
-          break;
-        } on PostgrestException {
-          rethrow;
-        } catch (_) {
-          if (attempt == 2) rethrow;
-          await Future<void>.delayed(
-            Duration(milliseconds: 300 * (1 << attempt)),
-          );
-        }
-      }
-      final result = Map<String, dynamic>.from(response as Map);
-      final message = result['message'] as String;
-      await refreshOrders();
-      return message;
-    } catch (_) {
-      return 'Ready/assignment was not confirmed. Retry safely to check the result.';
-    } finally {
-      assigningOrders.remove(id);
-    }
+    final rawId = vendorOrder['id'];
+    if (rawId is! int) return 'A saved vendor order is required.';
+    final message = await assignment.assign(rawId);
+    await refreshOrders();
+    return message;
   }
 
   Future<void> updateTailoringStatus(String requestId, String newStatus) async {

@@ -1,0 +1,28 @@
+{
+  "flutter_passed": 112,
+  "conditional_skips": 2,
+  "assignment_service_tests": 15,
+  "hosted_fr20": 70,
+  "deployed_sql": 63,
+  "local_sql": 60,
+  "regressions": {
+    "FR-21": 47,
+    "FR-04": 49,
+    "FR-25": 83,
+    "FR-26": 96,
+    "FR-33": 39,
+    "FR-28": 74
+  },
+  "analysis": {
+    "errors": 0,
+    "unique_inherited_warnings": 16,
+    "unique_inherited_infos": 86,
+    "changed_files_inherited_warning": "unused miniOrderCard",
+    "new_service_tests": "No issues found"
+  },
+  "physical": "PASS; core cases plus final-APK admin Realtime/log correction verified",
+  "full_load": "NOT EXECUTED: insufficient RAM",
+  "acceptance": "FUNCTIONALLY ACCEPTED; full scale NOT QUALIFIED",
+  "hosted_shared_parent_checks": 5,
+  "model_compatibility_tests": 2
+}

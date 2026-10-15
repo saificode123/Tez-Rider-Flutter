@@ -14,6 +14,7 @@ import '../theme/app_theme.dart';
 import 'splash_screen.dart';
 import 'chat_rooms_screen.dart';
 import 'customer/help_center_screen.dart';
+import 'customer/notifications_screen.dart';
 
 /// Safely shortens an id string for display — never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
@@ -257,6 +258,11 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 ),
               ),
               actions: [
+                IconButton(
+                  tooltip: 'Notifications',
+                  onPressed: () => Get.to(() => NotificationsScreen()),
+                  icon: const Icon(Icons.notifications_outlined),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: Row(

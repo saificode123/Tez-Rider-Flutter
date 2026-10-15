@@ -1,0 +1,13 @@
+{
+  "root_cause": "Inherited OrderModel expected string ids for PostgreSQL bigint identifiers; unhandled admin order-stream type error",
+  "fix": "Convert primary/foreign ids to strings, preserving nullable and legacy string ids",
+  "compatibility_tests_passed": 2,
+  "final_device_errors": {
+    "fatal": 0,
+    "unhandled": 0,
+    "auth": 0,
+    "api": 0
+  },
+  "shared_parent_fix": "Preserve owning second vendor ready transition without repeated reservation or notice",
+  "shared_parent_hosted_checks_passed": 5
+}

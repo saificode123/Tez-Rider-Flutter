@@ -15,13 +15,13 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
-- **19 functionally complete** (18 as previously reported; FR-26 verified)
+- **20 functionally complete** (historical review count plus verified FR-26 and FR-20; later feature rows contain newer acceptance evidence)
 - **5 partial or pending verification**: FR-04, FR-21, FR-25, FR-28, FR-33 (see later verified feature rows)
-- **7 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-20, FR-30, FR-32
+- **6 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-30, FR-32
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
 
-Counts above do not add up to 36 because the five unverified FRs are listed separately from the status buckets.
+These historical buckets are not a fresh review of every feature; use the later verified rows for current acceptance. FR-19/20 were checked against source for this task.
 
 ## Feature status (as reported)
 
@@ -64,8 +64,8 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 
 | FR    | Status              | Notes                                                                                 |
 | ----- | ------------------- | ------------------------------------------------------------------------------------- |
-| FR-19 | **Partial (verified during FR-21 inspection)** | Original client matching used Haversine distance but omitted verification/freshness and was not atomic. FR-21 now provides transactional matching; migration/device validation remains pending. |
-| FR-20 | **Not implemented** | Returns a message if no rider found; no radius expansion and no admin notification    |
+| FR-19 | **Implemented/verified for FR-20 assignment scope (TEST, 2026-10-15)** | Existing FR21 transaction extended with indexed WGS84 distance, nearest approved/unblocked/fresh/available rider, atomic active-assignment uniqueness and preserved child/parent delivery flow. Final SQL63, hosted70+5 shared-parent checks and native assignment/notifications passed. Live GPS/ETA remain outside this scope. |
+| FR-20 | **Functionally accepted; scale qualification outstanding (2026-10-15)** | Three new TEST migrations;5km then10km search, manual escalation/actual receipt, exactly-once notifications/audits, canonical authorization, concurrency invariants, status reconciliation and preserved shared-parent readiness. SQL63, Flutter112(two skips), hosted70+5 and native vendor/rider/admin checks passed. Local10VU p95 188.422ms;1000VU NOT EXECUTED for memory. See FR-20-acceptance.md.    |
 | FR-21 | **Implemented locally; production blocked (2026-10-10)** | Revised migration reuses users.verification_status, is rerunnable, protects presence/identity/assignment writes, and supplies transactional location, assignment and reservation release. Local Flutter, SQL/RLS and 1,000-VU tests executed; see docs/FR-21-verification.md for actual results and APK evidence. Remote columns/RPCs remain absent. All 10 legacy rider rows reference vendor accounts and remain unchanged; no backup/restore or production approval exists. |
 | FR-22 | Not reviewed        | Rider performance metrics after each delivery                                         |
 

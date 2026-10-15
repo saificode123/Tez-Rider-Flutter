@@ -1,0 +1,25 @@
+{
+  "passed": 5,
+  "checks": [
+    {
+      "check": "initial parent assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "second owning vendor reuses same assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "both vendor child states preserved",
+      "result": "PASS"
+    },
+    {
+      "check": "one assignment and rider notice after second vendor ready",
+      "result": "PASS"
+    },
+    {
+      "check": "shared parent does not authorize another vendor child",
+      "result": "PASS"
+    }
+  ]
+}

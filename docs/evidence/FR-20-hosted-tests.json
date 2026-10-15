@@ -1,0 +1,287 @@
+{
+  "passed": 70,
+  "checks": [
+    {
+      "check": "other-vendor denied vendor assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "customer denied vendor assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "rider denied vendor assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "admin denied vendor assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous assignment denied",
+      "result": "PASS"
+    },
+    {
+      "check": "direct rider_assignments forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "direct notifications forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "direct security_audit_log forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 4900",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 4900",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 698",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 698",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 698",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 5000",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 5000",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 699",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 699",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 699",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 5100",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 5100",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 701",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 701",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 701",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 7000",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 7000",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 702",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 702",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 702",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 10000",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 10000",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 703",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 703",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 703",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted distance 10001",
+      "result": "PASS"
+    },
+    {
+      "check": "safe retry 10001",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 707",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 707",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 707",
+      "result": "PASS"
+    },
+    {
+      "check": "all and only eligible admins receive one escalation",
+      "result": "PASS"
+    },
+    {
+      "check": "later retry assigns",
+      "result": "PASS"
+    },
+    {
+      "check": "manual flag resolved",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent same-order structured outcomes",
+      "result": "PASS"
+    },
+    {
+      "check": "same order has one winner/replay",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment count 710",
+      "result": "PASS"
+    },
+    {
+      "check": "rider notice exactly once 710",
+      "result": "PASS"
+    },
+    {
+      "check": "correct rider message/references",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment audit exactly once 710",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent active rider/order uniqueness same-order",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent one-rider structured outcomes",
+      "result": "PASS"
+    },
+    {
+      "check": "one rider claimed by at most one order",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent active rider/order uniqueness one-rider",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent two-riders structured outcomes",
+      "result": "PASS"
+    },
+    {
+      "check": "two distinct riders claimed concurrently",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent active rider/order uniqueness two-riders",
+      "result": "PASS"
+    },
+    {
+      "check": "race rider presence session",
+      "result": "PASS"
+    },
+    {
+      "check": "race rider online",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent offline confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment/offline safely linearizes",
+      "result": "PASS"
+    },
+    {
+      "check": "rider ends offline after offline",
+      "result": "PASS"
+    },
+    {
+      "check": "race rider presence session",
+      "result": "PASS"
+    },
+    {
+      "check": "race rider online",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent block confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment/block safely linearizes",
+      "result": "PASS"
+    },
+    {
+      "check": "rider ends offline after block",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked race old JWT denied location write",
+      "result": "PASS"
+    }
+  ],
+  "real_concurrent_http": true,
+  "project_ref": "igeisilhtmglgnqvllrx"
+}

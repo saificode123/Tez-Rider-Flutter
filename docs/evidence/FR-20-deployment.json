@@ -1,0 +1,14 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "new_migrations": [
+    "202610150001_fr20_radius_assignment.sql",
+    "202610150002_fr20_escalation_receipt.sql",
+    "202610150003_fr20_shared_parent_ready.sql"
+  ],
+  "migration_versions": 27,
+  "prior_24_preserved": true,
+  "production_touched": false,
+  "reset": false,
+  "replayed_existing": false,
+  "new_edge_functions": []
+}

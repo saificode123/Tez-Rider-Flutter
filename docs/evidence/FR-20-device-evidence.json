@@ -1,0 +1,143 @@
+{
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "scenarios": [
+    {
+      "scenario": "native-5km-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-5km-result-observed.png"
+    },
+    {
+      "scenario": "native-5km-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-5km-persisted.png"
+    },
+    {
+      "scenario": "native-10km-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-10km-result-observed.png"
+    },
+    {
+      "scenario": "native-10km-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-10km-persisted.png"
+    },
+    {
+      "scenario": "native-none-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-none-result-observed.png"
+    },
+    {
+      "scenario": "native-none-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-none-persisted.png"
+    },
+    {
+      "scenario": "native-none-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-none-persisted.png"
+    },
+    {
+      "scenario": "native-offline-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-offline-result-observed.png"
+    },
+    {
+      "scenario": "native-offline-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-offline-persisted.png"
+    },
+    {
+      "scenario": "native-blocked-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-blocked-result-observed.png"
+    },
+    {
+      "scenario": "native-blocked-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-blocked-persisted.png"
+    },
+    {
+      "scenario": "native-5km-result-observed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-5km-result-observed.png"
+    },
+    {
+      "scenario": "native-5km-persisted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-5km-persisted.png"
+    },
+    {
+      "scenario": "native-assigned-order-replay-preserved",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-assigned-order-replay-preserved.png"
+    },
+    {
+      "scenario": "active-delivery",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "active-delivery.png"
+    },
+    {
+      "scenario": "new-delivery-job-assigned",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "new-delivery-job-assigned.png"
+    },
+    {
+      "scenario": "manual-rider-assignment-required",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "manual-rider-assignment-required.png"
+    },
+    {
+      "scenario": "total-orders",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "total-orders.png"
+    },
+    {
+      "scenario": "manual-rider-assignment-required",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "manual-rider-assignment-required.png"
+    }
+  ],
+  "core_build_sha256": "482e4c8c3c4b5c260c656a90d3927efba452904767ca40963e402013dc74881e",
+  "final_build_sha256": "4a62266415a67851f88e9894789ff514fbf12953b22c4b89d7808dae99345f52",
+  "final_patch_verification": "Admin totals, native notifications and live order stream; zero final runtime errors",
+  "excluded_probes": "Backgrounded app/early loading timing; retested successfully"
+}

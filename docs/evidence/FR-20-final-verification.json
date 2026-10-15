@@ -1,0 +1,302 @@
+{
+  "anonymous_assignment_execute": false,
+  "assignment_client_insert": false,
+  "audit_client_insert": false,
+  "blocked_fr20_fixtures": 0,
+  "definers": [
+    {
+      "definer": true,
+      "grants": [
+        "postgres=X/postgres",
+        "service_role=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "fr20_assignment_status",
+      "settings": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "definer": false,
+      "grants": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "fr20_guard_manual_flag",
+      "settings": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "definer": true,
+      "grants": [
+        "postgres=X/postgres",
+        "service_role=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "fr21_accept_order",
+      "settings": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "definer": true,
+      "grants": [
+        "postgres=X/postgres",
+        "service_role=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "fr21_ready_and_assign",
+      "settings": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "definer": true,
+      "grants": [
+        "postgres=X/postgres",
+        "service_role=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "fr21_update_location",
+      "settings": [
+        "search_path=\"\""
+      ]
+    }
+  ],
+  "duplicate_audits": 0,
+  "duplicate_notifications": 0,
+  "duplicate_orders": 0,
+  "duplicate_riders": 0,
+  "indexes": [
+    "CREATE UNIQUE INDEX fr20_audit_once_idx ON public.security_audit_log USING btree (assignment_order_id, action) WHERE (assignment_order_id IS NOT NULL)",
+    "CREATE UNIQUE INDEX fr20_notification_once_idx ON public.notifications USING btree (user_id, assignment_order_id, assignment_event) WHERE (assignment_event IS NOT NULL)",
+    "CREATE UNIQUE INDEX fr20_one_active_order_idx ON public.rider_assignments USING btree (orderid) WHERE (status = ANY (ARRAY['Pending'::text, 'Accepted'::text]))",
+    "CREATE UNIQUE INDEX fr20_one_active_rider_idx ON public.rider_assignments USING btree (riderid) WHERE (status = ANY (ARRAY['Pending'::text, 'Accepted'::text]))",
+    "CREATE INDEX fr20_rider_location_idx ON public.riders USING gist (assignment_location)"
+  ],
+  "manual_flag_client_update": false,
+  "max_connections": "60",
+  "notification_client_insert": false,
+  "pending_block_operations": 0,
+  "policies": [
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr21_test_notifications_read",
+      "table": "notifications",
+      "using": "(user_id = ( SELECT fr21_actor() AS fr21_actor))"
+    },
+    {
+      "check": "(user_id = ( SELECT fr21_actor() AS fr21_actor))",
+      "command": "UPDATE",
+      "name": "fr21_test_notifications_update",
+      "table": "notifications",
+      "using": "(user_id = ( SELECT fr21_actor() AS fr21_actor))"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "table": "notifications",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    },
+    {
+      "check": "true",
+      "command": "INSERT",
+      "name": "notif_insert",
+      "table": "notifications",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "notif_read",
+      "table": "notifications",
+      "using": "true"
+    },
+    {
+      "check": null,
+      "command": "UPDATE",
+      "name": "notif_update",
+      "table": "notifications",
+      "using": "true"
+    },
+    {
+      "check": "((user_id = ( SELECT fr21_actor() AS fr21_actor)) AND (( SELECT fr21_role() AS fr21_role) = 'customer'::text))",
+      "command": "INSERT",
+      "name": "fr21_test_orders_insert",
+      "table": "orders",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr21_test_orders_read",
+      "table": "orders",
+      "using": "fr21_order_visible(id)"
+    },
+    {
+      "check": "(order_status = 'cancelled'::text)",
+      "command": "UPDATE",
+      "name": "fr21_test_orders_update",
+      "table": "orders",
+      "using": "((user_id = ( SELECT fr21_actor() AS fr21_actor)) OR (( SELECT fr21_role() AS fr21_role) = 'admin'::text) OR fr28_vendor_owns_order(id))"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "table": "orders",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    },
+    {
+      "check": "true",
+      "command": "INSERT",
+      "name": "orders_insert",
+      "table": "orders",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "orders_select",
+      "table": "orders",
+      "using": "true"
+    },
+    {
+      "check": null,
+      "command": "UPDATE",
+      "name": "orders_update",
+      "table": "orders",
+      "using": "true"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr21_test_assignments_read",
+      "table": "rider_assignments",
+      "using": "fr21_order_visible(orderid)"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "table": "rider_assignments",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    },
+    {
+      "check": "true",
+      "command": "INSERT",
+      "name": "rider_assignments_insert",
+      "table": "rider_assignments",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "rider_assignments_select",
+      "table": "rider_assignments",
+      "using": "true"
+    },
+    {
+      "check": null,
+      "command": "UPDATE",
+      "name": "rider_assignments_update",
+      "table": "rider_assignments",
+      "using": "true"
+    },
+    {
+      "check": "((userid = ( SELECT fr21_actor() AS fr21_actor)) AND (( SELECT fr21_role() AS fr21_role) = 'rider'::text))",
+      "command": "UPDATE",
+      "name": "fr21_presence_owner",
+      "table": "riders",
+      "using": "((userid = ( SELECT fr21_actor() AS fr21_actor)) AND (( SELECT fr21_role() AS fr21_role) = 'rider'::text))"
+    },
+    {
+      "check": "((userid = ( SELECT fr21_actor() AS fr21_actor)) AND (( SELECT fr21_role() AS fr21_role) = 'rider'::text))",
+      "command": "UPDATE",
+      "name": "fr21_presence_owner_guard",
+      "table": "riders",
+      "using": "((userid = ( SELECT fr21_actor() AS fr21_actor)) AND (( SELECT fr21_role() AS fr21_role) = 'rider'::text))"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr21_presence_read",
+      "table": "riders",
+      "using": "(userid = ( SELECT fr21_actor() AS fr21_actor))"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr21_test_riders_read",
+      "table": "riders",
+      "using": "((userid = ( SELECT fr21_actor() AS fr21_actor)) OR (( SELECT fr21_role() AS fr21_role) = 'admin'::text))"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "table": "riders",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    },
+    {
+      "check": "true",
+      "command": "INSERT",
+      "name": "riders_insert",
+      "table": "riders",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "riders_select",
+      "table": "riders",
+      "using": "true"
+    },
+    {
+      "check": null,
+      "command": "UPDATE",
+      "name": "riders_update",
+      "table": "riders",
+      "using": "true"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "table": "security_audit_log",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    }
+  ],
+  "versions": [
+    "202610080001",
+    "202610090001",
+    "202610110001",
+    "202610110002",
+    "202610110003",
+    "202610110004",
+    "202610110005",
+    "202610110006",
+    "202610120001",
+    "202610130001",
+    "202610130002",
+    "202610130003",
+    "202610130004",
+    "202610130005",
+    "202610130006",
+    "202610130007",
+    "202610130008",
+    "202610140001",
+    "202610140002",
+    "202610140003",
+    "202610140004",
+    "202610140005",
+    "202610140006",
+    "202610140007",
+    "202610150001",
+    "202610150002",
+    "202610150003"
+  ]
+}
