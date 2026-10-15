@@ -1,0 +1,25 @@
+{
+  "pub_get": "PASS",
+  "changed_dart_formatted": true,
+  "final_full_suite": {
+    "passed": 123,
+    "skipped": 2,
+    "failed": 0,
+    "source_identical_build_mirror": true
+  },
+  "new_broadcast_tests": 11,
+  "python_helpers_compiled": 3,
+  "whole_analyzer_before_vendor_entry": {
+    "errors": 0,
+    "inherited_warnings": 16,
+    "inherited_infos": 86
+  },
+  "final_analyzer": "PASS: no new issues",
+  "new_edge_or_deno_code": "NOT APPLICABLE",
+  "final_whole_analyzer": {
+    "errors": 0,
+    "inherited_warnings": 16,
+    "inherited_infos": 86,
+    "new_findings": 0
+  }
+}

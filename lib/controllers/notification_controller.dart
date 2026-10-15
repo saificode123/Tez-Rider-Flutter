@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class NotificationController extends GetxController {
+class NotificationController extends GetxController
+    with WidgetsBindingObserver {
   final _supabase = Supabase.instance.client;
   final notifications = <Map<String, dynamic>>[].obs;
   final unreadCount = 0.obs,
@@ -21,6 +22,7 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
     _auth = _supabase.auth.onAuthStateChange.listen((_) {
       if (_account != _supabase.auth.currentUser?.id) unawaited(_initialize());
     });
@@ -78,6 +80,15 @@ class NotificationController extends GetxController {
           .subscribe((status, _) {
             if (!_closed &&
                 generation == _generation &&
+                status == RealtimeSubscribeStatus.subscribed) {
+              if (_busy) {
+                _dirty = true;
+              } else {
+                unawaited(load());
+              }
+            }
+            if (!_closed &&
+                generation == _generation &&
                 (status == RealtimeSubscribeStatus.channelError ||
                     status == RealtimeSubscribeStatus.timedOut)) {
               error.value = 'Live notifications disconnected. Tap Retry.';
@@ -99,6 +110,17 @@ class NotificationController extends GetxController {
 
   Future<void> retry() async {
     await _initialize();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && !_closed) {
+      if (_busy) {
+        _dirty = true;
+      } else {
+        unawaited(load());
+      }
+    }
   }
 
   Future<void> load({bool append = false}) async {
@@ -196,6 +218,7 @@ class NotificationController extends GetxController {
 
   @override
   void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
     _closed = true;
     _generation++;
     _refresh?.cancel();

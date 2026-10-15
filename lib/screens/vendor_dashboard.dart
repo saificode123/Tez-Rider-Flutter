@@ -11,6 +11,7 @@ import 'vendor/vendor_analytics_screen.dart';
 import 'splash_screen.dart';
 import 'customer/help_center_screen.dart';
 import 'chat_rooms_screen.dart';
+import 'customer/notifications_screen.dart';
 
 /// Safely shortens an id string for display — never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
@@ -211,6 +212,11 @@ class _VendorDashboardState extends State<VendorDashboard> {
               ),
             ),
             actions: [
+              IconButton(
+                tooltip: 'Notifications',
+                icon: const Icon(Icons.notifications_outlined),
+                onPressed: () => Get.to(() => NotificationsScreen()),
+              ),
               Container(
                 margin: const EdgeInsets.only(right: 16),
                 width: 40,

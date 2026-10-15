@@ -1,0 +1,10 @@
+{
+  "code": "SENT",
+  "recipient_count": 13,
+  "blocked_excluded": true,
+  "other_role_excluded": true,
+  "database_accepted": true,
+  "native_receipt_pending": false,
+  "native_receipt_verified": true,
+  "individual_read_verified": true
+}

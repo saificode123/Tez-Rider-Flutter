@@ -1,0 +1,89 @@
+{
+  "audit_mismatch": 0,
+  "client_audit_insert": false,
+  "client_delete": false,
+  "client_insert": false,
+  "client_notification_insert": false,
+  "client_update": false,
+  "count_mismatch": 0,
+  "definers": [
+    {
+      "anon_execute": false,
+      "auth_execute": true,
+      "definer": true,
+      "name": "admin_send_broadcast",
+      "settings": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "anon_execute": false,
+      "auth_execute": true,
+      "definer": true,
+      "name": "fr30_estimate",
+      "settings": [
+        "search_path=\"\""
+      ]
+    }
+  ],
+  "duplicate_recipients": 0,
+  "indexes": [
+    "CREATE UNIQUE INDEX fr30_audit_once_idx ON public.security_audit_log USING btree (broadcast_id) WHERE (broadcast_id IS NOT NULL)",
+    "CREATE INDEX fr30_history_idx ON public.admin_broadcasts USING btree (created_at DESC, id DESC)",
+    "CREATE UNIQUE INDEX fr30_recipient_once_idx ON public.notifications USING btree (broadcast_id, user_id) WHERE (broadcast_id IS NOT NULL)",
+    "CREATE INDEX fr30_sender_time_idx ON public.admin_broadcasts USING btree (sender_id, created_at DESC)",
+    "CREATE INDEX fr30_unread_idx ON public.notifications USING btree (user_id) WHERE (is_read = false)"
+  ],
+  "limits": {
+    "cooldown_seconds": 60,
+    "daily_max": 10,
+    "singleton": true
+  },
+  "policies": [
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "fr30_admin_history",
+      "using": "((( SELECT fr21_role() AS fr21_role) = 'admin'::text) AND (EXISTS ( SELECT 1\n   FROM users\n  WHERE ((users.id = ( SELECT fr21_actor() AS fr21_actor)) AND (users.verification_status = 'approved'::text)))))"
+    },
+    {
+      "check": "( SELECT is_current_user_allowed() AS is_current_user_allowed)",
+      "command": "ALL",
+      "name": "fr28_session_guard",
+      "using": "( SELECT is_current_user_allowed() AS is_current_user_allowed)"
+    }
+  ],
+  "sender_lock_correct": true,
+  "unmarked_recipient_count": 0,
+  "versions": [
+    "202610080001",
+    "202610090001",
+    "202610110001",
+    "202610110002",
+    "202610110003",
+    "202610110004",
+    "202610110005",
+    "202610110006",
+    "202610120001",
+    "202610130001",
+    "202610130002",
+    "202610130003",
+    "202610130004",
+    "202610130005",
+    "202610130006",
+    "202610130007",
+    "202610130008",
+    "202610140001",
+    "202610140002",
+    "202610140003",
+    "202610140004",
+    "202610140005",
+    "202610140006",
+    "202610140007",
+    "202610150001",
+    "202610150002",
+    "202610150003",
+    "202610150004",
+    "202610150005"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "passed": 2,
+  "real_concurrent_sessions": true,
+  "local_only": true,
+  "both_admins_send_ALL": "SENT",
+  "retryable_deadlocks": 0
+}

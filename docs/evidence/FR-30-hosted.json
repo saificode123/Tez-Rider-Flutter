@@ -1,0 +1,108 @@
+{
+  "passed": 25,
+  "checks": [
+    {
+      "check": "block own synthetic recipient",
+      "result": "PASS"
+    },
+    {
+      "check": "four genuine concurrent HTTP responses",
+      "result": "PASS"
+    },
+    {
+      "check": "one send and three authoritative concurrent replays",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent requests share one broadcast UUID",
+      "result": "PASS"
+    },
+    {
+      "check": "authoritative recipient count matches committed fan-out",
+      "result": "PASS"
+    },
+    {
+      "check": "no duplicate recipient",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked recipient excluded",
+      "result": "PASS"
+    },
+    {
+      "check": "other role excluded",
+      "result": "PASS"
+    },
+    {
+      "check": "literal plain text stored with broadcast type",
+      "result": "PASS"
+    },
+    {
+      "check": "exactly one trusted audit",
+      "result": "PASS"
+    },
+    {
+      "check": "changed-payload replay conflicts",
+      "result": "PASS"
+    },
+    {
+      "check": "hosted cooldown enforced",
+      "result": "PASS"
+    },
+    {
+      "check": "customer cannot send",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor cannot send",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous cannot send",
+      "result": "PASS"
+    },
+    {
+      "check": "customer cannot enumerate history",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor cannot enumerate history",
+      "result": "PASS"
+    },
+    {
+      "check": "admin history reflects accepted broadcast",
+      "result": "PASS"
+    },
+    {
+      "check": "recipient sees own delivery only",
+      "result": "PASS"
+    },
+    {
+      "check": "other role cannot change read state",
+      "result": "PASS"
+    },
+    {
+      "check": "own read state confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "client notification forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "new recipient does not acquire old broadcast",
+      "result": "PASS"
+    },
+    {
+      "check": "offline non-subscriber retrieves broadcast after fresh login",
+      "result": "PASS"
+    },
+    {
+      "check": "different-key concurrent sends cannot bypass cooldown",
+      "result": "PASS"
+    }
+  ],
+  "real_concurrent_http": true,
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "unrelated_recipients": 0
+}

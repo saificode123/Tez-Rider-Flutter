@@ -1,0 +1,44 @@
+[
+  {
+    "feature": "FR21",
+    "passed": 47,
+    "result": "PASS",
+    "note": "Original assertions; fresh authorized GPS and ready secondary vendor fixture for accepted FR20"
+  },
+  {
+    "feature": "FR04",
+    "passed": 49,
+    "result": "PASS",
+    "note": ""
+  },
+  {
+    "feature": "FR25",
+    "passed": 83,
+    "result": "PASS",
+    "note": ""
+  },
+  {
+    "feature": "FR26",
+    "passed": 95,
+    "result": "PASS",
+    "note": ""
+  },
+  {
+    "feature": "FR33",
+    "passed": 39,
+    "result": "PASS",
+    "note": "Zero real emails"
+  },
+  {
+    "feature": "FR28",
+    "passed": 74,
+    "result": "PASS",
+    "note": ""
+  },
+  {
+    "feature": "FR20",
+    "passed": 70,
+    "result": "PASS",
+    "note": ""
+  }
+]

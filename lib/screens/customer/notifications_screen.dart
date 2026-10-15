@@ -139,6 +139,14 @@ class NotificationsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (n['type'] == 'broadcast')
+                            const Text(
+                              'Admin broadcast',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF1B5E20),
+                              ),
+                            ),
                           Text(
                             n['title'] ?? 'Alert',
                             style: TextStyle(

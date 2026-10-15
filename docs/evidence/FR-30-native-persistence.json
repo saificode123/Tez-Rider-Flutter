@@ -1,0 +1,39 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "check": "physical confirmation double tap created exactly one broadcast",
+      "result": "PASS"
+    },
+    {
+      "check": "native vendor count and unique snapshot match",
+      "result": "PASS"
+    },
+    {
+      "check": "actual native vendor owns final vendor delivery",
+      "result": "PASS"
+    },
+    {
+      "check": "customer cannot see final vendor broadcast",
+      "result": "PASS"
+    },
+    {
+      "check": "native vendor cannot see customer offline broadcast",
+      "result": "PASS"
+    },
+    {
+      "check": "physical mark-all persisted personal read state",
+      "result": "PASS"
+    },
+    {
+      "check": "physical individual read persisted after reconnect",
+      "result": "PASS"
+    },
+    {
+      "check": "physical double-tap audit exactly once",
+      "result": "PASS"
+    }
+  ],
+  "device": "AESWNRBAEUPNTGJZ",
+  "final_apk": true
+}

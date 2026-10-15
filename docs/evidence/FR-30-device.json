@@ -1,0 +1,111 @@
+{
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "checks": [
+    {
+      "scenario": "estimated-recipients",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "estimated-recipients.png"
+    },
+    {
+      "scenario": "accepted-for-14-recipients",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "accepted-for-14-recipients.png"
+    },
+    {
+      "scenario": "native-unread-badge-2",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-unread-badge-2.png"
+    },
+    {
+      "scenario": "admin-broadcast",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "admin-broadcast.png"
+    },
+    {
+      "scenario": "fr30-synthetic-personal-notice",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr30-synthetic-personal-notice.png"
+    },
+    {
+      "scenario": "native-unread-badge-0",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-unread-badge-0.png"
+    },
+    {
+      "scenario": "native-unread-badge-1",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-unread-badge-1.png"
+    },
+    {
+      "scenario": "fr30-offline-recovery",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr30-offline-recovery.png"
+    },
+    {
+      "scenario": "native-unread-badge-0",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-unread-badge-0.png"
+    },
+    {
+      "scenario": "accepted-for-9-recipients",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "accepted-for-9-recipients.png"
+    },
+    {
+      "scenario": "fr30-final-vendor-broadcast",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr30-final-vendor-broadcast.png"
+    },
+    {
+      "scenario": "native-other-role-excluded",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-other-role-excluded.png"
+    },
+    {
+      "scenario": "native-other-role-excluded",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "native-other-role-excluded.png"
+    }
+  ],
+  "final_vendor_error_counts": {
+    "fatal": 0,
+    "unhandled": 0,
+    "auth": 0,
+    "api": 0
+  },
+  "native_os_push_tested": false,
+  "build_scope": "Composer/customer/offline/double-tap checks used earlier FR30 builds; only later Dart change was six-line vendor notification entry, verified on final APK.",
+  "final_apk_sha256": "e2c8ad739869e486a33e9bf873bdc77cda80e0197751f29686a34d5228983c93",
+  "network_restored": true,
+  "synthetic_block_restored": true,
+  "screenshot_note": "Reused screenshot names retain latest capture; event log records executed observations, not immutable copies.",
+  "vendor_entry_and_targeted_receipt_verified": true,
+  "vendor_customer_broadcast_exclusion_observed": true
+}

@@ -7,6 +7,7 @@ import '../theme/app_theme.dart';
 import '../widgets/cnic_document_viewer.dart';
 import 'admin_disputes_screen.dart';
 import 'admin_users_screen.dart';
+import 'admin_broadcasts_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -60,11 +61,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'manage-users',
-        onPressed: () => Get.to(() => const AdminUsersScreen()),
-        icon: const Icon(Icons.manage_accounts),
-        label: const Text('Manage Users'),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: 'admin-broadcasts',
+            onPressed: () => Get.to(() => const AdminBroadcastsScreen()),
+            icon: const Icon(Icons.campaign_outlined),
+            label: const Text('Broadcast notifications'),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: 'manage-users',
+            onPressed: () => Get.to(() => const AdminUsersScreen()),
+            icon: const Icon(Icons.manage_accounts),
+            label: const Text('Manage Users'),
+          ),
+        ],
       ),
       body: Obx(() {
         if (adminCtrl.isLoading.value) {

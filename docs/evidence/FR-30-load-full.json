@@ -1,0 +1,7 @@
+{
+  "profile": "full",
+  "status": "NOT EXECUTED",
+  "reason": "Require 1 GiB available host RAM for safe 1000 VU preflight",
+  "available_bytes": 321413120,
+  "required_available_bytes": 1073741824
+}

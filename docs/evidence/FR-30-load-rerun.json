@@ -1,0 +1,19 @@
+{
+  "profile": "small",
+  "exit": 1,
+  "resource_aborted": true,
+  "minimum_available_bytes": 170811392,
+  "invariants": {
+    "audits": 1,
+    "broadcasts": 1,
+    "notifications": 2000,
+    "duplicate_recipients": 0,
+    "notification_payload_bytes": 255997,
+    "notification_relation_bytes": 2064384,
+    "notification_relation_growth_bytes": 286720
+  },
+  "notification_insert_events": 2000,
+  "transmitted_realtime_events": "NOT MEASURED: local Realtime excluded; hosted receipt separately verified",
+  "metrics": {},
+  "note": "No fresh k6 summary after resource abort. Earlier cached summary is excluded; initial successful run is recorded separately."
+}
