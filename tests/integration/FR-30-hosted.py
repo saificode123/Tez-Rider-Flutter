@@ -299,8 +299,8 @@ def sql(review=False,patch=False):
  (OUT/('migration-review.json'if review else 'sql-tests.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
  print(json.dumps({'passed':len(result['rows'][0]['results']),'rolled_back':True,'migration_applied':False}))
 
-def deploy(patch=False):
- migration=ROOT/'supabase/migrations/202610150005_fr30_sender_lock.sql'if patch else MIGRATION
+def deploy(patch=False,push=False):
+ migration=ROOT/'supabase/migrations/202610150006_fr30_android_push.sql'if push else ROOT/'supabase/migrations/202610150005_fr30_sender_lock.sql'if patch else MIGRATION
  b.target();history=write('history.sql','select version from supabase_migrations.schema_migrations order by version;')
  versions=sorted(p.name.split('_')[0]for p in(ROOT/'supabase/migrations').glob('*.sql'))
  assert [r['version']for r in query(history)['rows']]==[v for v in versions if v!=migration.name.split('_')[0]],'History mismatch; never replay'

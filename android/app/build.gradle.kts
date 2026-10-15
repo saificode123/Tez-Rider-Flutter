@@ -8,9 +8,10 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Supabase TEST has no Firebase dependency. Preserve the existing Google
-// configuration only for the original application variant.
-if (!gradle.startParameter.taskNames.any { it.contains("Fr21test", ignoreCase = true) }) {
+// Android TEST FCM uses only its own registered Firebase configuration.
+// Until supplied, existing in-app TEST builds remain usable with push disabled.
+val isFr21TestBuild = gradle.startParameter.taskNames.any { it.contains("Fr21test", ignoreCase = true) }
+if (!isFr21TestBuild || file("src/fr21test/google-services.json").exists()) {
     apply(plugin = "com.google.gms.google-services")
 }
 
@@ -20,6 +21,7 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -59,6 +61,10 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 flutter {

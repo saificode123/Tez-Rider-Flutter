@@ -8,6 +8,9 @@
         android:label="${appLabel}"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Enable messaging only after an authenticated Android TEST opt-in. -->
+        <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="false"/>
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

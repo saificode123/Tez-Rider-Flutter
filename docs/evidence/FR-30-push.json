@@ -1,0 +1,268 @@
+{
+  "scope": "Authorized Android TEST FR30",
+  "firebase_project": "tez-rider-fe12b",
+  "test_package": "com.example.flutter_application_1.fr21test",
+  "flutter_passed": 135,
+  "flutter_inherited_skips": 2,
+  "sql_push_passed": 45,
+  "sql_in_app_rerun_passed": 65,
+  "deno_passed": 4,
+  "deno_entry_point_check": "PASS",
+  "whole_analyzer": {
+    "errors": 0,
+    "inherited_warnings": 16,
+    "inherited_infos": 86,
+    "new_push_findings": 0
+  },
+  "regressions": {
+    "FR21": 47,
+    "FR04": 49,
+    "FR25": 83,
+    "FR26": 95,
+    "FR33": 39,
+    "FR28": 74,
+    "FR20": 70
+  },
+  "real_emails_sent": 0,
+  "artifact": {
+    "sha256": "ad2676f55ba055c20b95ed6bc33fbbe0d2403b8c3183fd8586e82ee53ea680e7",
+    "bytes": 206306517,
+    "source_files_matched": 101,
+    "test_only": true,
+    "credentials_absent": true
+  },
+  "native": {
+    "scenarios": [
+      {
+        "scenario": "denied",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 0,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 0,
+        "result": "PASS"
+      },
+      {
+        "scenario": "foreground",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "background",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "terminated",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "logout",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 0,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 0,
+        "result": "PASS"
+      },
+      {
+        "scenario": "foreground-final",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "background-final",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "terminated-final",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      },
+      {
+        "scenario": "blocked",
+        "count_matches": true,
+        "customer_notices": 0,
+        "jobs": 0,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 0,
+        "result": "PASS"
+      },
+      {
+        "scenario": "cron-final",
+        "count_matches": true,
+        "customer_notices": 1,
+        "jobs": 1,
+        "one_broadcast": true,
+        "one_trusted_audit": true,
+        "other_role_notices": 0,
+        "provider_accepted": 1,
+        "result": "PASS"
+      }
+    ],
+    "os_checks": [
+      {
+        "scenario": "no-test-os-notification",
+        "passed": true
+      },
+      {
+        "scenario": "foreground",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "background",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "normal-terminated-precondition",
+        "passed": true,
+        "process_absent": true,
+        "package_force_stopped": false
+      },
+      {
+        "scenario": "terminated",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "no-test-os-notification",
+        "passed": true
+      },
+      {
+        "scenario": "no-test-os-notification",
+        "passed": true
+      },
+      {
+        "scenario": "foreground-final",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "background-final",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "normal-terminated-precondition",
+        "passed": true,
+        "process_absent": true,
+        "package_force_stopped": false
+      },
+      {
+        "scenario": "terminated-final",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      },
+      {
+        "scenario": "no-test-os-notification",
+        "passed": true
+      },
+      {
+        "scenario": "normal-terminated-precondition",
+        "passed": true,
+        "process_absent": true,
+        "package_force_stopped": false
+      },
+      {
+        "scenario": "cron-final",
+        "passed": true,
+        "one_test_notification": true,
+        "exact_title_and_message": true,
+        "physical_os_receipt": true
+      }
+    ],
+    "restored_test_state": {
+      "enabled": true,
+      "fixture_blocked": false,
+      "other_owner_registrations": 0,
+      "registrations": 1
+    },
+    "private_credentials_disclosed": false,
+    "production_touched": false
+  },
+  "runtime": {
+    "fatal": 0,
+    "unhandled": 0,
+    "auth": 0,
+    "fr30_api_errors": 0,
+    "inherited_api_errors": [
+      {
+        "module": "VendorInfoController",
+        "rpc": "get_vendor_ratings",
+        "code": "42501",
+        "source_unchanged": true,
+        "grant_origin": "202610080001_tezrider_baseline.sql blanket public-function revoke"
+      }
+    ]
+  },
+  "secrets_scan": {
+    "changed_source_files": 42,
+    "credential_matches": 0,
+    "test_client_config_ignored": true,
+    "test_apk_scanned": true,
+    "private_key_disclosed": false
+  },
+  "ios_native_push": "NOT TESTED; APNs dependency unresolved",
+  "full_1000_vu": "NOT EXECUTED; prior measured RAM preflight blocked",
+  "production_touched": false,
+  "paid_services_added": false,
+  "autonomous_cron_os_receipt": true
+}

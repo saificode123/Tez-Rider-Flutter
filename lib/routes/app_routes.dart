@@ -8,6 +8,7 @@ import '../screens/vendor_dashboard.dart';
 import '../screens/rider_dashboard.dart';
 import '../screens/admin_dashboard.dart';
 import '../screens/pending_verification_screen.dart';
+import '../screens/customer/notifications_screen.dart';
 
 class AppRoutes {
   static const splash = '/';
@@ -18,12 +19,21 @@ class AppRoutes {
   static const riderHome = '/rider_home';
   static const adminHome = '/admin_home';
   static const pendingVerification = '/pending_verification';
+  static const notifications = '/notifications';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: signup, page: () => const SignupScreen()),
-    GetPage(name: pendingVerification, page: () => const PendingVerificationScreen()),
+    GetPage(
+      name: pendingVerification,
+      page: () => const PendingVerificationScreen(),
+    ),
+    GetPage(
+      name: notifications,
+      page: () => NotificationsScreen(),
+      middlewares: [AuthMiddleware()],
+    ),
     GetPage(
       name: customerHome,
       page: () => const CustomerDashboard(),

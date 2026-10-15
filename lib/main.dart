@@ -8,6 +8,7 @@ import 'routes/app_routes.dart';
 import 'core/app_translations.dart';
 import 'services/backend_config.dart';
 import 'services/account_session_service.dart';
+import 'services/android_broadcast_push_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,10 @@ void main() async {
   });
 
   Get.put(AuthController(), permanent: true);
+  if (androidTestPushEnabled) {
+    final push = Get.put(AndroidBroadcastPushService(), permanent: true);
+    await push.initialize();
+  }
   runApp(const MyApp());
 }
 
@@ -69,6 +74,11 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.light,
       initialRoute: AppRoutes.splash,
+      routingCallback: (_) {
+        if (Get.isRegistered<AndroidBroadcastPushService>()) {
+          Get.find<AndroidBroadcastPushService>().openPendingIfReady();
+        }
+      },
       getPages: AppRoutes.pages,
       // Cap system text scaling so large accessibility settings can't overflow layouts.
       builder: (context, child) => MediaQuery(

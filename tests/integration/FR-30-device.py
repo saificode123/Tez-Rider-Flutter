@@ -7,8 +7,9 @@ state=backend.state
 def adb(*args,input=None):
  r=subprocess.run([ADB,'-s',SERIAL,*args],input=input,capture_output=True,text=True,encoding='utf-8',timeout=45)
  assert r.returncode==0,'Authorized Android TEST command failed';return r.stdout
-def nodes():
- assert re.search(r'topResumedActivity=ActivityRecord\{[^}]*'+re.escape(PACKAGE)+'/',adb('shell','dumpsys','activity','activities')),'TEST app must be foreground'
+def nodes(permission=False):
+ expected=r'(?:com\.google\.android\.permissioncontroller|com\.android\.permissioncontroller)'if permission else re.escape(PACKAGE)
+ assert re.search(r'topResumedActivity=ActivityRecord\{[^}]*'+expected+'/',adb('shell','dumpsys','activity','activities')),'Expected TEST app or requested permission dialog must be foreground'
  for attempt in range(3):
   adb('shell','uiautomator','dump','/data/local/tmp/fr30-ui.xml')
   try:return list(ET.fromstring(adb('exec-out','cat','/data/local/tmp/fr30-ui.xml')).iter('node'))
@@ -34,6 +35,9 @@ def record(name):
 
 action=os.environ.get('FR30_DEVICE_ACTION','status');backend.b.target()
 if action=='status':print(json.dumps({'labels':[re.sub(r'\S+@\S+','[email]',label(n))for n in nodes()if label(n)],'edit_fields':len([n for n in nodes()if n.get('class')=='android.widget.EditText'])}))
+elif action=='permission-controls':print(json.dumps({'controls':[{'label':label(n),'bounds':n.get('bounds')}for n in nodes(True)if label(n)]}))
+elif action.startswith('permission-tap:'):
+ matches=[n for n in nodes(True)if label(n)==action[15:]and n.get('clickable')=='true'];assert len(matches)==1,'Observed permission button required';tap(matches[0])
 elif action=='controls':print(json.dumps({'controls':[{'label':re.sub(r'\S+@\S+','[email]',label(n)),'bounds':n.get('bounds'),'class':n.get('class')}for n in nodes()if n.get('clickable')=='true']}))
 elif action.startswith('bounds:'):
  matches=[n for n in nodes()if n.get('bounds')==action[7:]and n.get('clickable')=='true'];assert len(matches)==1,'Observed native control required';tap(matches[0])
@@ -79,5 +83,10 @@ elif action.startswith('assert-no:'):
 elif action=='logs':
  pid=adb('shell','pidof',PACKAGE).strip();assert re.fullmatch(r'\d+',pid)
  logs=adb('logcat','-d','--pid='+pid);counts={k:len(re.findall(pattern,logs,re.I))for k,pattern in{'fatal':'FATAL EXCEPTION','unhandled':'Unhandled Exception','auth':'AuthApiException','api':'PostgrestException|FunctionException'}.items()}
+ contexts=[]
+ for match in re.finditer('PostgrestException|FunctionException',logs,re.I):
+  context=logs[max(0,match.start()-120):match.end()+450]
+  contexts.append(re.sub(r'eyJ[A-Za-z0-9_.-]+|\S+@\S+|[A-Za-z0-9_-]{30,}','[redacted]',context))
+ (backend.OUT/'android-api-context.json').write_text(json.dumps({'sanitized_contexts':contexts},indent=2),encoding='utf-8')
  (backend.OUT/'android-log-summary.json').write_text(json.dumps(counts,indent=2),encoding='utf-8');print(json.dumps(counts))
 else:raise AssertionError('Unknown native action')

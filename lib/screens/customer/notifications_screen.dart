@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/notification_controller.dart';
+import '../../services/android_broadcast_push_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationsScreen extends StatelessWidget {
@@ -24,6 +25,23 @@ class NotificationsScreen extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
         actions: [
+          if (Get.isRegistered<AndroidBroadcastPushService>())
+            Obx(() {
+              final push = Get.find<AndroidBroadcastPushService>();
+              return IconButton(
+                tooltip: push.status.value,
+                icon: const Icon(Icons.notifications_active_outlined),
+                onPressed: push.busy.value || !push.configured
+                    ? null
+                    : () async {
+                        await push.enable();
+                        Get.snackbar(
+                          'Android notifications',
+                          push.status.value,
+                        );
+                      },
+              );
+            }),
           IconButton(
             icon: const Icon(Icons.done_all),
             tooltip: 'Mark all as read',

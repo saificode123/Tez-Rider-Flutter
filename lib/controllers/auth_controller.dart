@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_controller.dart';
 import '../services/account_session_service.dart';
+import '../services/android_broadcast_push_service.dart';
 
 class AuthController extends GetxController {
   final LocalAuthentication _auth = LocalAuthentication();
@@ -119,6 +120,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout({bool navigate = true}) async {
+    if (Get.isRegistered<AndroidBroadcastPushService>()) {
+      await Get.find<AndroidBroadcastPushService>().unregisterBeforeLogout();
+    }
     await accountGate.reset();
     if (Get.isRegistered<RiderController>()) {
       await Get.find<RiderController>().goOffline();

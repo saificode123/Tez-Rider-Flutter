@@ -145,3 +145,88 @@ and aborted per-operation rerun. Initial successful local10 VU evidence retained
 No paid infrastructure, production modification, Git push or merge. All original
 accepted commits remain ancestors. Preparing the requested feature-only commit;
 HEAD before commit `fa29b4c`, branch `feature/FR-30-admin-broadcasts`.
+
+## Android TEST push approval and implementation checkpoint
+User explicitly approved Android TEST FCM. In-app implementation was committed as
+`ddc8a54`; branch remains `feature/FR-30-admin-broadcasts`. New migration006,
+server sender, Android lifecycle and guarded notification rendering are in progress;
+none is deployed or physically verified yet. Dispatch defaults disabled.
+Package resolution completed; new code checks remain pending. Firebase TEST client
+configuration and dedicated server credential paths requested; browser access is
+unavailable. No credentials invented or exposed. iOS remains unresolved.
+Background rendering uses an encrypted random device capability scoped server-side
+to one existing unread snapshot delivery, live Auth session and one-hour job.
+Normal FR31 JWT/RLS authorization is preserved. No production access or Git push.
+
+## Firebase files supplied — secure TEST configuration
+User provided external client/server paths and authorized continuing, with no new
+commit until mandatory acceptance checks pass. Both files exist and match TEST
+package; verified actual Firebase project ID is `tez-rider-fe12b` (display name
+`tez-rider`). Service credential shape and real Google OAuth authorization passed;
+no private credential or OAuth token was printed. New flavor `.gitignore` excludes
+the copied TEST client JSON. Server account remains outside repository; Edge TEST
+secrets and Vault worker key configured using temporary external files, then erased.
+Worker redeployed with exact project ID; `android_push_enabled` remains false.
+Migration006 applied once (30 versions); SQL45 push and65 in-app checks pass in
+rollback, final audit/recipient/grant integrity verified. Flutter131 pass/2 skips;
+Node worker4 tests pass. Configured APK, proper lint configuration, Deno checks,
+updated seven-feature regressions and physical foreground/background/termination
+remain in progress. Authorized device reconnected and detected. No Git push/merge.
+
+## Live Android push verified; final safety rerun
+Real foreground/background/normal-terminated deliveries passed with exact OS title
+and body, one notification tag, and independent in-app evidence. Termination
+precondition proved process absent and package not force-stopped. OEM shade did
+not yield an idle accessibility tree; observed screenshot taps expanded the TEST
+group and selected its terminated notification. Existing cold-start customer
+sign-in remains required; pending route opened the correct list after authentication.
+No unrelated notification contents were exported as evidence. Read-all/badge0
+passed. Logout removed registration and OS notices; signed-out broadcast produced
+zero jobs/provider calls/OS notices. Private snapshot jobs remain immutable.
+Review found a cross-isolate logout/platform-post race: final code rechecks the
+encrypted session credential after the OS post and withdraws a stale notice.
+Four focused race tests added; full Flutter135 passed/2 inherited skips. Final
+whole-workspace analyzer:0 errors/16 inherited warnings/86 inherited infos,
+zero new push findings. Deno2.9.7 official checksum verified, entry-point check and
+four sender/security tests passed; formatted worker redeployed to TEST.
+Seven regression reruns passed:47/49/83/95/39/74/70, zero real emails.
+Final APK `ad2676f55ba055c20b95ed6bc33fbbe0d2403b8c3183fd8586e82ee53ea680e7`,
+206306517 bytes,101 matching Dart sources; protected source/APK scans0 matches.
+Installed final APK; foreground-final OS check passed. Final background/termination,
+blocked fixture exclusion/restoration and final evidence/security review in progress.
+No new commit before remaining mandatory acceptance checks; no push/merge.
+
+## Android TEST acceptance complete
+Final race-fixed APK passed foreground/background/normal-terminated OS receipt,
+each exact title/body and one notification tag. Final physical list omitted the
+blocked-time broadcast after unblock; mark-all and badge0 passed. Intentional
+block removed registration, denied sign-in and produced0 jobs/provider calls/OS
+notices; fixture restored and exactly one current installation re-registered.
+Nine persisted real scenarios passed snapshot count/targeting, trusted single audit
+and exact job/provider-state checks. Final30-version integrity check passed with
+zero mismatches/unmarked recipients/client forgery. No migration repeated.
+
+Runtime investigation: final customer startup logs one inherited
+`VendorInfoController/get_vendor_ratings`42501. Baseline migration202610080001
+revokes public-function access and this unchanged caller logs its denial. The
+exact sanitized context was captured after earlier Android log rotation made
+classification difficult. No ratings authorization/source was modified or error
+hidden. FR30 errors0; fatal/unhandled/Auth0. Controlled negative capture also
+recorded0 matching errors. This inherited non-FR30 limitation is explicit in
+acceptance/evidence; no claim that the entire application's API logs are clean.
+
+Acceptance: FR30 functionally accepted for explicitly authorized Android TEST.
+iOS/APNs remains a separate unverified platform dependency; full1000 VUs remain
+NOT EXECUTED. Updated sanitized evidence includes actual final APK, SQL45, Deno4,
+Flutter135/2 skips, seven regression counts and nine live scenarios. Final source
+review, credential scan and feature-only follow-up commit next. Branch unchanged,
+HEAD `ddc8a54`; root `.gitignore` preserved; no Git push/merge.
+
+## Final review and commit checkpoint
+Autonomous cron/Vault dispatch delivered an exact OS notification without a manual
+worker call; badge0→1→0 passed. Final persisted verification now covers10 scenarios,
+all correct single audits/counts/targeting/jobs. Seven actual OS deliveries total;
+final APK covers all3 lifecycle modes. Fixture unblocked, one authorized registration,
+phone returned to normal customer home with unread0.42 follow-up files reviewed;
+seven accepted ancestors preserved. Final feature-only scan/staging/commit follows.
+Root `.gitignore` remains unrelated and unstaged; no push/merge or production change.

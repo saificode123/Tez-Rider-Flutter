@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "check": "anonymous worker boundary",
+      "status": 403,
+      "result": "PASS"
+    },
+    {
+      "check": "customer worker boundary",
+      "status": 403,
+      "result": "PASS"
+    },
+    {
+      "check": "admin worker boundary",
+      "status": 503,
+      "result": "PASS"
+    }
+  ],
+  "disabled": {
+    "devices": 0,
+    "disabled": true,
+    "jobs": 0
+  }
+}

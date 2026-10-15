@@ -51,13 +51,25 @@ class SupabaseAdminBroadcastBackend implements AdminBroadcastBackend {
   }
 
   @override
-  Future<Map<String, dynamic>> send(Map<String, dynamic> request) async =>
-      Map<String, dynamic>.from(
-        await client
-                .rpc('admin_send_broadcast', params: request)
-                .timeout(const Duration(seconds: 25))
-            as Map,
-      );
+  Future<Map<String, dynamic>> send(Map<String, dynamic> request) async {
+    final result = Map<String, dynamic>.from(
+      await client
+              .rpc('admin_send_broadcast', params: request)
+              .timeout(const Duration(seconds: 25))
+          as Map,
+    );
+    if (const bool.fromEnvironment('FR30_ANDROID_PUSH') &&
+        {'SENT', 'ALREADY_SENT'}.contains(result['code'])) {
+      // In-app acceptance is already committed. The durable server queue retries
+      // push independently; never turn it into a second broadcast submission.
+      try {
+        await client.functions
+            .invoke('fr30-dispatch-push', body: {'source': 'admin'})
+            .timeout(const Duration(seconds: 8));
+      } catch (_) {}
+    }
+    return result;
+  }
 }
 
 String broadcastResultMessage(

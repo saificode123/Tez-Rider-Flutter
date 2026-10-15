@@ -1,0 +1,182 @@
+[
+  {
+    "check": "disabled registration",
+    "result": "PASS"
+  },
+  {
+    "check": "authenticated device registration",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid registration",
+    "result": "PASS"
+  },
+  {
+    "check": "server stores capability hash",
+    "result": "PASS"
+  },
+  {
+    "check": "blocked registration denied",
+    "result": "PASS"
+  },
+  {
+    "check": "in-app accepted with transactional outbox",
+    "result": "PASS"
+  },
+  {
+    "check": "exactly one installation snapshot job",
+    "result": "PASS"
+  },
+  {
+    "check": "push adds no duplicate audit",
+    "result": "PASS"
+  },
+  {
+    "check": "later device registration",
+    "result": "PASS"
+  },
+  {
+    "check": "late registration does not gain old jobs",
+    "result": "PASS"
+  },
+  {
+    "check": "client cannot claim",
+    "result": "PASS"
+  },
+  {
+    "check": "anonymous cannot finish",
+    "result": "PASS"
+  },
+  {
+    "check": "client cannot inspect jobs",
+    "result": "PASS"
+  },
+  {
+    "check": "client cannot enumerate devices",
+    "result": "PASS"
+  },
+  {
+    "check": "anonymous cannot enumerate jobs",
+    "result": "PASS"
+  },
+  {
+    "check": "wrong device capability denied",
+    "result": "PASS"
+  },
+  {
+    "check": "wrong snapshot denied",
+    "result": "PASS"
+  },
+  {
+    "check": "anonymous without capability denied",
+    "result": "PASS"
+  },
+  {
+    "check": "anonymous transport requires valid scoped device capability",
+    "result": "PASS"
+  },
+  {
+    "check": "valid scoped capability resolves snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "worker claims live job",
+    "result": "PASS"
+  },
+  {
+    "check": "eligible immediately before provider",
+    "result": "PASS"
+  },
+  {
+    "check": "active lease not claimed twice",
+    "result": "PASS"
+  },
+  {
+    "check": "wrong lease cannot finish",
+    "result": "PASS"
+  },
+  {
+    "check": "transient outcome persisted",
+    "result": "PASS"
+  },
+  {
+    "check": "retry bounded and delayed",
+    "result": "PASS"
+  },
+  {
+    "check": "provider acceptance recorded",
+    "result": "PASS"
+  },
+  {
+    "check": "provider acceptance distinct from device receipt",
+    "result": "PASS"
+  },
+  {
+    "check": "already read notice not rendered",
+    "result": "PASS"
+  },
+  {
+    "check": "expired capability lookup denied",
+    "result": "PASS"
+  },
+  {
+    "check": "other owner unregister is harmless",
+    "result": "PASS"
+  },
+  {
+    "check": "other owner cannot unregister device",
+    "result": "PASS"
+  },
+  {
+    "check": "new authenticated owner rebinds device",
+    "result": "PASS"
+  },
+  {
+    "check": "old owner capability invalidated",
+    "result": "PASS"
+  },
+  {
+    "check": "new owner cannot resolve old owner snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "restore synthetic installation",
+    "result": "PASS"
+  },
+  {
+    "check": "expired Auth session denied",
+    "result": "PASS"
+  },
+  {
+    "check": "final transient result recorded",
+    "result": "PASS"
+  },
+  {
+    "check": "five attempts exhausted",
+    "result": "PASS"
+  },
+  {
+    "check": "provider invalid installation recorded",
+    "result": "PASS"
+  },
+  {
+    "check": "provider invalid installation removed",
+    "result": "PASS"
+  },
+  {
+    "check": "new registration after invalid installation",
+    "result": "PASS"
+  },
+  {
+    "check": "blocking removes all owner registrations",
+    "result": "PASS"
+  },
+  {
+    "check": "blocked owner lookup denied",
+    "result": "PASS"
+  },
+  {
+    "check": "one durable retry scheduler",
+    "result": "PASS"
+  }
+]

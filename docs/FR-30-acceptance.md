@@ -1,9 +1,10 @@
 # FR-30 acceptance — 2026-10-15
 
-**FR-30 PARTIALLY IMPLEMENTED — Native push approval or verification pending.**
+**FR-30 FUNCTIONALLY ACCEPTED — Ready for the next functional requirement (authorized Android TEST scope).**
 
 In-app functionality/security passed the executed TEST and physical checks below. SRDS §2.3.8 also
-requires native push; it has not been waived or implemented. Full 1,000-user
+requires native push; the approved Android TEST implementation is configured and
+physically verified. iOS native push/APNs is not accepted by these Android tests. Full 1,000-user
 performance qualification remains separate and unverified. Production untouched;
 no TEST reset, migration replay, push or merge.
 
@@ -78,8 +79,8 @@ Exact changed-file manifest: `FR-30-files.txt`.
   Physical Android network disabled/backgrounded during server send; original network
   settings restored/resume loaded the notice. No periodic polling or per-broadcast
   subscriptions. Evidence: `realtime.json`, `device.json`.
-- **PASS — TEST safety.** Only `igeisilhtmglgnqvllrx`; all 29 repository migration versions
-  match. Only new 004/005 applied. Final audit: zero unmarked recipients. Customer/vendor
+- **PASS — TEST safety.** Only `igeisilhtmglgnqvllrx`; all 30 repository migration versions
+  match. Only new 004/005/006 applied. Final audit: zero unmarked recipients. Customer/vendor
   marker cohorts checked before committed hosted sends. Local load stack is unlinked,
   loopback-only with no hosted fallback. Production `arrqsvejrfdbacfwtpcc` untouched.
 
@@ -91,18 +92,30 @@ audit policies unchanged. No recipient list is exposed by history.
 `admin_broadcasts`: revoke PUBLIC/anon/authenticated, grant authenticated SELECT,
 service_role ALL; identity sequence usage/select only service_role. Private schema
 and limits table revoked from PUBLIC/anon/authenticated. New FK/unique recipient/audit
-and owner unread/history/sender-time indexes. Two SECURITY DEFINER functions only:
+and owner unread/history/sender-time indexes. In-app SECURITY DEFINER functions:
 `admin_send_broadcast(uuid,text,text,text)` and `fr30_estimate(text)`, fixed empty
 search_path, qualified names, no PUBLIC/anon EXECUTE, authenticated EXECUTE.
 005 replaces only the sender locking clause; it preserves function privileges.
+006 adds private RLS-protected device/outbox tables with no client table grants.
+Authenticated-only definer RPCs: `fr30_register_push`, `fr30_unregister_push`.
+Service-role-only definer RPCs: `fr30_claim_push`, `fr30_push_eligible`,
+`fr30_finish_push`. The anon/authenticated `fr30_resolve_push` definer RPC requires
+a random 256-bit encrypted device credential; it resolves only one existing unread
+snapshot job for that installation, unchanged owner/session/credential hashes,
+confirmed unblocked owner, live Auth session and one-hour expiry. It provides no
+list, registration or read-state access. PUBLIC EXECUTE revoked; all search paths
+empty. Private trigger functions `queue_push`, `block_push` and scheduled
+`dispatch_push` have no client EXECUTE. No existing RLS policy was weakened.
+The cron job runs once/minute and makes no HTTP request while dispatch is disabled
+or no due jobs exist; server worker key must come from Vault, never client code.
 
 ## Executed verification
 
 - **PASS:** final deployed SQL 65 (rolled back); local SQL 65; hosted HTTP 25 including
   actual concurrent requests; Realtime 3; local cross-admin ALL race 2.
-- **PASS:** Flutter 123, two inherited conditional skips; scoped final analyzer clean.
+- **PASS:** Baseline in-app Flutter123, two inherited conditional skips; later push suite135 below.
   Whole analyzer: zero errors, 16 inherited warnings / 86 inherited infos. Dependencies
-  resolved; changed Dart only formatted. No new Edge Function/Deno implementation. Python verification helpers compile.
+  resolved; changed Dart only formatted. These are baseline in-app results; approved push preparation results follow below. Python verification helpers compile.
 - **PASS:** regressions FR21 47, FR04 49, FR25 83, FR26 95, FR33 39 (zero real emails),
   FR28 74, FR20 70. Evidence `regressions.json`.
   Initial FR21 failure was stale GPS in legacy fixtures after accepted FR20 freshness
@@ -111,13 +124,13 @@ search_path, qualified names, no PUBLIC/anon EXECUTE, authenticated EXECUTE.
   Transient CLI login-password conflicts resolved after remote jobs finished;005
   applied once. Initial OneDrive Flutter cache-copy error passed in source-identical
   existing build mirror, sequentially. Failed attempts remain in ignored logs.
-- **PASS:** final APK source99/package/TEST endpoint/credential guards and installation.
+- **PASS — baseline in-app APK:** source99/package/TEST endpoint/credential guards and installation.
   SHA256 `e2c8ad739869e486a33e9bf873bdc77cda80e0197751f29686a34d5228983c93`;
   205955532 bytes. Device AESWNRBAEUPNTGJZ; package
   `com.example.flutter_application_1.fr21test`. Actual native admin composer/send/history,
   customer broadcast+personal list, read/badges/offline-resume executed on earlier FR30 builds.
-  The only later Dart change was the six-line vendor notification entry, verified on
-  the final APK. Screenshots with reused names retain the latest capture. Customer
+  The last baseline Dart change was the six-line vendor notification entry, verified on
+  that APK. Approved push changes require a separate rebuilt APK and device verification. Screenshots with reused names retain the latest capture. Customer
   logs: zero fatal/unhandled/Auth/API errors. Evidence `artifact.json`, `device.json`.
 - **PASS — physical double tap and persisted isolation.** Final vendor-targeted
   confirmation double tap executed; server confirmed9 recipients. Eight persistence
@@ -126,9 +139,55 @@ search_path, qualified names, no PUBLIC/anon EXECUTE, authenticated EXECUTE.
   `native-persistence.json`. The final rebuilt APK vendor Notifications action opened the real list and displayed
   the targeted notice. Final vendor fatal/unhandled/Auth/API error counts were zero. Vendor UI also showed
   existing server-generated personal order notices, with customer broadcasts absent.
-- **NOT TESTED — native OS push.** No Firebase/messaging or Android/iOS build changes.
-  Explicit approval required by task D1. See `FR-30-push-decision.md` for the concrete
-  free Android FCM proposal, required Firebase/server setup and iOS/APNs cost dependency.
+- **PASS — approved push preparation:** new push SQL45 rollback assertions (also rerun with a live registered phone), existing
+  SQL65 rerun, Node and Deno TypeScript worker/sender4 tests in each runtime (synthetic OAuth/FCM responses,
+  real generated RSA signing), deployed Edge boundary4 checks. Worker returns403 to
+  anonymous/customer callers and503 to authorized admin without credentials. These were pre-configuration failure-boundary checks. After secure configuration,
+  anonymous/customer403 and admin readiness200 passed before enabling dispatch.
+  Subsequent real provider and device results are recorded below.
+- **PASS — updated Flutter suite:**135 passed, two inherited skips, including eight
+  lookup/privacy tests and four async OS-post/logout-race tests. Firebase packages resolved.
+  Whole workspace:0 errors/16 inherited warnings/86 inherited infos; no new push findings.
+- **PASS — live Android TEST OS push:** real configuration matched project
+  `tez-rider-fe12b` and the exact TEST package. Private sender credential stayed
+  outside Git/client/log output; Edge-only secrets and private Vault worker key
+  configured securely. Seven real deliveries across initial/final builds, including
+  foreground/background/normal-terminated on final APK, each had one actual OS
+  notification with exact title/body. Provider acceptance was checked separately.
+  Process absence and non-force-stopped package were proved before terminated sends.
+- **PASS — permission, authentication and recipient safety:** actual deny/retry/allow;
+  denied in-app delivery without OS push; authenticated registration; logout erased
+  registration/notices; signed-out send had0 jobs; blocked recipient excluded from
+  immutable in-app snapshot and push, registration removed, blocked sign-in message
+  observed. Fixture restored and exactly one authorized installation re-registered.
+  Ten real scenarios each have one trusted audit, exact counts and no other-role
+  recipients. Blocked-time broadcast remains absent after unblock. Read-all/badge0
+  and legitimate existing personal notifications preserved.
+- **PASS — autonomous dispatch:** one additional real broadcast was left for cron;
+  no manual Edge dispatch occurred. The scheduled Vault-key-authenticated worker
+  delivered the exact OS notice, verifying the durable fallback independently of
+  the admin client. Its unread badge changed0→1→0 through normal read-all.
+- **PASS — cold-start interaction:** the observed Android TEST notification was
+  selected from its OEM group. Existing customer cold-start sign-in remains required;
+  pending notification route opened the correct list after authentication. No unrelated
+  session-restoration behavior was changed. OEM idle hierarchy failure required
+  observed screenshot coordinates; unrelated shade contents were not committed.
+- **PASS — runtime scoped to FR30:** zero fatal/unhandled/Auth errors and zero FR30
+  API errors. One reproducible inherited customer-dashboard log is **not fixed or
+  hidden**: unchanged `VendorInfoController` calls `get_vendor_ratings`, denied42501
+  by the baseline public-function revoke. Its source and grants were preserved.
+  This is an unrelated existing ratings issue, not accepted as working by FR30.
+- **PASS — final build:** SHA256
+  `ad2676f55ba055c20b95ed6bc33fbbe0d2403b8c3183fd8586e82ee53ea680e7`,
+  206306517 bytes,101 identical Dart sources; installed on authorized device.
+  Actual server-key/worker-key/fixture-password/service-role scans found0 matches.
+  TEST client JSON ignored by flavor `.gitignore`; no private JSON added to repository.
+- **PASS — Deno:** entry-point type check and4 isolated tests; formatted source
+  deployed to TEST. No Docker rebuild, migration replay or production modification.
+  Evidence for this approved follow-up: `FR-30-push.json`, `FR-30-push-sql.json`,
+  `FR-30-push-ready.json` and the earlier fail-closed `FR-30-push-edge.json`.
+- **NOT TESTED — iOS native push:** no APNs credentials/capabilities or paid membership
+  configured. This acceptance covers the explicitly authorized Android TEST scope.
 
 ## Performance and free-tier qualification
 
@@ -156,7 +215,8 @@ lists Free 500MB database, 2 million Realtime messages/month, 200 peak connectio
 500000 Edge invocations. [Realtime limits](https://supabase.com/docs/guides/realtime/limits)
 lists 100 messages/sec on Free. [Compute limits](https://supabase.com/docs/guides/platform/compute-and-disk)
 lists Nano up to 0.5GB RAM, 60 direct database connections and 200 pooler clients.
-The implemented broadcast path uses no Edge invocation.
+In-app fan-out uses no Edge invocation. Approved native push adds bounded Edge batches
+and cron invocations only when due jobs exist, within the same Free invocation quota.
 
 **Assumption:** Realtime 100msg/sec and 200 concurrent connections are the first live
 delivery bottlenecks for this fan-out design; database duplication accumulates toward
@@ -164,11 +224,13 @@ delivery bottlenecks for this fan-out design; database duplication accumulates t
 on the local 10 VU results. No paid infrastructure added. FCM is no-cost but APNs/iOS
 membership must be resolved separately; details/official links are in the push decision.
 
-## Remaining dependency
+## Remaining limitations
 
-Native push approval, Firebase TEST configuration/server credentials and physical
-OS delivery verification remain mandatory. iOS APNs/zero-cost scope needs an explicit
-decision. High-load scalability remains unqualified independently of in-app correctness.
+iOS APNs/zero-cost availability remains a separate platform dependency; Android
+verification does not establish iOS delivery. Full1000 VU scalability qualification
+remains NOT EXECUTED. Existing vendor-ratings42501 is documented above and unchanged.
+No remaining blocker for the authorized Android FR30 implementation.
 
-Final candidate security/artifact scan:38 files, zero credential matches, zero
-unexpected files over5MB; `.gitignore` excluded. Exact paths are in `FR-30-files.txt`.
+Exact feature paths are in `FR-30-files.txt`; follow-up paths in
+`FR-30-push-files.txt`. Final candidate security/artifact scan passed:42 follow-up files,0 credential
+matches,0 unexpected files over5MB; final TEST APK also scanned. Unrelated root `.gitignore` is preserved and excluded from staging.
