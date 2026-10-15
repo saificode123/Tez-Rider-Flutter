@@ -1,3 +1,4 @@
+import {accountBoundary}from '../_shared/fr28-access.ts';
 // Isolated private evidence boundary. No credentials, paths or links are logged.
 const base = Deno.env.get('SUPABASE_URL') ?? '';
 const anon = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
@@ -45,6 +46,7 @@ async function validate(bytes:Uint8Array,mime:string) {
 }
 const digest=async(bytes:Uint8Array)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(v=>v.toString(16).padStart(2,'0')).join('');
 Deno.serve(async(req)=>{
+ const denied=await accountBoundary(req,base,anon);if(denied)return denied;
  if(req.method==='OPTIONS')return new Response(null,{headers:cors});
  if(req.method!=='POST')return reply(405,{error:'Use POST.'});
  try {

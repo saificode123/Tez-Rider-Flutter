@@ -16,8 +16,8 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
 - **19 functionally complete** (18 as previously reported; FR-26 verified)
-- **4 partial in the earlier review**: FR-04, FR-21, FR-25, FR-33 (see later verified feature rows)
-- **8 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-20, FR-28, FR-30, FR-32
+- **5 partial or pending verification**: FR-04, FR-21, FR-25, FR-28, FR-33 (see later verified feature rows)
+- **7 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-20, FR-30, FR-32
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
 
@@ -82,7 +82,7 @@ Counts above do not add up to 36 because the five unverified FRs are listed sepa
 | FR           | Status              | Notes                              |
 | ------------ | ------------------- | ---------------------------------- |
 | FR-27, FR-29 | Complete            | Approvals and analytics            |
-| FR-28        | **Not implemented** | No block/unblock UI or logic       |
+| FR-28 | **Functionally accepted; scale qualification outstanding (2026-10-15)** | Real admin UI; canonical `users.is_blocked` authorization; recoverable Auth synchronization; restrictive RLS/REST 403 and audit. Five FR28 migrations/four Edge functions deployed only to TEST. Flutter 95 (two skips), SQL 54, Edge 23 and hosted 74 passed; physical FR28 customer/rider/vendor checks passed. Fresh native FR25 private-image submission, FR26 confirmed admin rejection/private viewer and FR33 real-email/code completion passed. Final reconciliation and runtime logs passed. Load NOT EXECUTED; local commit authorized, no push/merge. See FR-28 acceptance/readiness. |
 | FR-30        | **Not implemented** | No broadcast notification composer |
 
 ### Notifications

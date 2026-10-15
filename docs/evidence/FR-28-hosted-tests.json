@@ -1,0 +1,304 @@
+{
+  "passed": 74,
+  "checks": [
+    {
+      "check": "invalid JWT denied",
+      "result": "PASS"
+    },
+    {
+      "check": "non-admin denied",
+      "result": "PASS"
+    },
+    {
+      "check": "self block denied",
+      "result": "PASS"
+    },
+    {
+      "check": "other-admin block denied",
+      "result": "PASS"
+    },
+    {
+      "check": "unknown target denied",
+      "result": "PASS"
+    },
+    {
+      "check": "bounded newest-first pagination",
+      "result": "PASS"
+    },
+    {
+      "check": "cursor next page disjoint",
+      "result": "PASS"
+    },
+    {
+      "check": "ordinary directory denied",
+      "result": "PASS"
+    },
+    {
+      "check": "client role escalation denied",
+      "result": "PASS"
+    },
+    {
+      "check": "client blocked-state update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer real Auth ban/session sync confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "customer active order warning surfaced",
+      "result": "PASS"
+    },
+    {
+      "check": "customer existing JWT GET protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "customer existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "customer existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "customer narrow own blocked status",
+      "result": "PASS"
+    },
+    {
+      "check": "customer banned login rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "customer completed UUID idempotent",
+      "result": "PASS"
+    },
+    {
+      "check": "customer new same-action no-op",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked customer evidence Edge explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "customer Auth unban synchronization confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "customer old JWT stays revoked after unblock",
+      "result": "PASS"
+    },
+    {
+      "check": "customer fresh login protected access restored",
+      "result": "PASS"
+    },
+    {
+      "check": "customer block audit exactly once authenticated actor",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor real Auth ban/session sync confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor active order warning surfaced",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor existing JWT GET protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor narrow own blocked status",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor banned login rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor completed UUID idempotent",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor new same-action no-op",
+      "result": "PASS"
+    },
+    {
+      "check": "admin retains product review",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked vendor products hidden",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked vendor new-order acceptance explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor Auth unban synchronization confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor old JWT stays revoked after unblock",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor fresh login protected access restored",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor block audit exactly once authenticated actor",
+      "result": "PASS"
+    },
+    {
+      "check": "rider real Auth ban/session sync confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "rider active order warning surfaced",
+      "result": "PASS"
+    },
+    {
+      "check": "rider existing JWT GET protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "rider existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "rider existing JWT POST protected API explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "rider narrow own blocked status",
+      "result": "PASS"
+    },
+    {
+      "check": "rider banned login rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "rider completed UUID idempotent",
+      "result": "PASS"
+    },
+    {
+      "check": "rider new same-action no-op",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked rider cannot go online",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked rider fr21_accept_order explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked rider verify_delivery_otp explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked rider Edge fr04-cnic explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked rider Edge send-delivery-otp explicit 403",
+      "result": "PASS"
+    },
+    {
+      "check": "direct Storage list denies protected data",
+      "result": "PASS"
+    },
+    {
+      "check": "rider Auth unban synchronization confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "rider old JWT stays revoked after unblock",
+      "result": "PASS"
+    },
+    {
+      "check": "rider fresh login protected access restored",
+      "result": "PASS"
+    },
+    {
+      "check": "rider block audit exactly once authenticated actor",
+      "result": "PASS"
+    },
+    {
+      "check": "unblock vendor product visibility restored",
+      "result": "PASS"
+    },
+    {
+      "check": "genuine concurrent same UUID requests consistent",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent same request reconciled",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent duplicate audit once",
+      "result": "PASS"
+    },
+    {
+      "check": "race fixture restored",
+      "result": "PASS"
+    },
+    {
+      "check": "genuine concurrent same action with distinct UUIDs consistent",
+      "result": "PASS"
+    },
+    {
+      "check": "same-action race settles blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "different-UUID same-action race audit exactly once",
+      "result": "PASS"
+    },
+    {
+      "check": "genuine opposite requests serialized or pending conflict",
+      "result": "PASS"
+    },
+    {
+      "check": "conflicting race converged to confirmed restored account",
+      "result": "PASS"
+    },
+    {
+      "check": "simulated worker interruption commits denial before Auth",
+      "result": "PASS"
+    },
+    {
+      "check": "pending worker cannot restore protected access",
+      "result": "PASS"
+    },
+    {
+      "check": "same UUID reconciles interrupted worker",
+      "result": "PASS"
+    },
+    {
+      "check": "all active order state and assignments unchanged",
+      "result": "PASS"
+    },
+    {
+      "check": "unblocked rider remains offline",
+      "result": "PASS"
+    }
+  ],
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "real_auth_api": true,
+  "synthetic_only": true
+}

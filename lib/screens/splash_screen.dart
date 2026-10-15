@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_dashboard.dart';
 import 'cnic_document_screen.dart';
 import '../theme/app_theme.dart';
+import '../controllers/auth_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool showCyclist;
@@ -96,6 +97,19 @@ class _SplashScreenState extends State<SplashScreen>
     final client = Supabase.instance.client;
     if (client.auth.currentSession != null) {
       try {
+        if (Get.isRegistered<AuthController>() &&
+            !await Get.find<AuthController>().enforceAccountAccess()) {
+          if (mounted && Get.currentRoute == '/splash') {
+            Get.offAllNamed(
+              '/login',
+              arguments: {
+                'account_message':
+                    'Account access could not be verified. Check your connection and Retry.',
+              },
+            );
+          }
+          return;
+        }
         // Verify the saved identity and approval with the server before restoring
         // rider presence. Metadata alone cannot authorize a dashboard session.
         final identity = await client.auth.getUser().timeout(

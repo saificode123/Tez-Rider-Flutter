@@ -1,0 +1,338 @@
+{
+  "policies": [
+    {
+      "schemaname": "storage",
+      "tablename": "objects",
+      "policyname": "fr28_storage_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "dispute_refund_actions",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "security_audit_log",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "delivery_otps",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "delivery_otp_verifications",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "delivery_otp_budgets",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "delivery_otp_rates",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disputes",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_rooms",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_messages",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "addresses",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "admins",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "analytics",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "app_settings",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "audit_logs",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "cart",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "cart_items",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "categories",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_participants",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "complaints",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customer",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customers",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favourite",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "gifts",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "gps_locations",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "messages",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "payment",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prescription_items",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prescriptions",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "product_recommendations",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "review",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "payments",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "delivery_proof",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "stores",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "products",
+      "policyname": "fr28_product_vendor_guard",
+      "cmd": "SELECT"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "products",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "order_items",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tailoring_requests",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "orders",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "users",
+      "policyname": "fr21_test_users_read",
+      "cmd": "SELECT"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "users",
+      "policyname": "fr28_users_delete_guard",
+      "cmd": "DELETE"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "users",
+      "policyname": "fr28_users_write_guard",
+      "cmd": "UPDATE"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "riders",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vendor_orders",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rider_assignments",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vendors",
+      "policyname": "fr28_session_guard",
+      "cmd": "ALL"
+    }
+  ],
+  "changed_original_policies": [
+    "fr21_test_users_read",
+    "fr21_test_orders_update"
+  ],
+  "privileged_entry_points": [
+    "fr28_identity",
+    "fr28_token_live",
+    "is_current_user_allowed",
+    "fr21_actor",
+    "fr21_approved_rider",
+    "fr28_require_unblocked",
+    "fr28_guard_identity",
+    "fr28_vendor_visible",
+    "fr28_account_status",
+    "fr28_pre_request",
+    "fr28_user_list",
+    "fr28_active_orders",
+    "admin_set_user_blocked",
+    "fr28_sync_context",
+    "fr28_revoke_sessions",
+    "fr28_finish",
+    "fr04_begin_upload",
+    "fr04_finish_upload",
+    "fr25_begin_evidence",
+    "fr25_finish_upload",
+    "issue_delivery_otp",
+    "fr28_vendor_owns_order"
+  ],
+  "guarded_edges": [
+    "fr04-cnic",
+    "fr25-evidence",
+    "send-delivery-otp",
+    "admin-user-status"
+  ]
+}

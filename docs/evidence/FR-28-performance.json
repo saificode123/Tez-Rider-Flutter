@@ -1,0 +1,12 @@
+{
+  "execution_ms": 47.094,
+  "rows": 25,
+  "helper_initplan_loops": 1,
+  "load_test": "NOT EXECUTED",
+  "capacity_1000": "NOT QUALIFIED",
+  "docker_available": true,
+  "local_containers": 0,
+  "docker_memory_gib": 3.754,
+  "docker_cpus": 8,
+  "reason": "Dedicated local FR28 stack and 1000 synthetic load fixtures have not been initialized. Hosted Free stress is prohibited."
+}

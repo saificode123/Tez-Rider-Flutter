@@ -1,0 +1,8 @@
+{
+  "endpoint": "POST /storage/v1/object/list/rider-cnic",
+  "http_status": 200,
+  "protected_data_returned": false,
+  "explicit_403": false,
+  "mobile_path": "fr04-cnic explicitly returns 403",
+  "signed_url_caveat": "Existing capability URLs remain usable to TTL"
+}

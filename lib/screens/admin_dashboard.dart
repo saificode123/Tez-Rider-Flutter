@@ -6,6 +6,7 @@ import '../widgets/app_drawer.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cnic_document_viewer.dart';
 import 'admin_disputes_screen.dart';
+import 'admin_users_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -59,6 +60,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       drawer: const AppDrawer(),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'manage-users',
+        onPressed: () => Get.to(() => const AdminUsersScreen()),
+        icon: const Icon(Icons.manage_accounts),
+        label: const Text('Manage Users'),
+      ),
       body: Obx(() {
         if (adminCtrl.isLoading.value) {
           return const Center(

@@ -1,3 +1,4 @@
+import {accountBoundary}from '../_shared/fr28-access.ts';
 import {createHandler, type Dependencies, type Result} from './handler.ts';
 function dependencies(): Dependencies {
  const base=Deno.env.get('SUPABASE_URL')??'';
@@ -35,5 +36,5 @@ function dependencies(): Dependencies {
  };
 }
 Deno.serve({hostname:Deno.env.get('FR33_LOCAL_TEST')==='true'?'127.0.0.1':'0.0.0.0'},async req=>{
- try{return await createHandler(dependencies())(req);}catch{return new Response(JSON.stringify({code:'UNAVAILABLE'}),{status:503,headers:{'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});}
+ try{const denied=await accountBoundary(req,Deno.env.get('SUPABASE_URL')??'',Deno.env.get('SUPABASE_ANON_KEY')??'');if(denied)return denied;return await createHandler(dependencies())(req);}catch{return new Response(JSON.stringify({code:'UNAVAILABLE'}),{status:503,headers:{'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});}
 });

@@ -5,11 +5,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_model.dart';
 import '../models/order_model.dart';
 import '../services/admin_dispute_service.dart';
+import '../services/admin_users_service.dart';
 import 'admin_dispute_state.dart';
 
-class AdminController extends GetxController with AdminDisputeState {
-  AdminController({AdminDisputeBackend? disputesBackend})
-    : disputeBackend = disputesBackend ?? SupabaseAdminDisputeBackend();
+class AdminController extends GetxController
+    with AdminDisputeState, AdminUsersState {
+  AdminController({
+    AdminDisputeBackend? disputesBackend,
+    AdminUsersBackend? managedUsersBackend,
+  }) : disputeBackend = disputesBackend ?? SupabaseAdminDisputeBackend(),
+       usersBackend = managedUsersBackend ?? SupabaseAdminUsersBackend();
+  @override
+  final AdminUsersBackend usersBackend;
   @override
   final AdminDisputeBackend disputeBackend;
   SupabaseClient get _supabase => Supabase.instance.client;
@@ -241,6 +248,7 @@ class AdminController extends GetxController with AdminDisputeState {
   void onClose() {
     unawaited(_ordersSubscription?.cancel());
     disposeDisputes();
+    disposeManagedUsers();
     super.onClose();
   }
 }

@@ -10,6 +10,10 @@ class AccountAccess {
         }.contains(profile['role'])) {
       throw const FormatException('Account profile is missing or invalid.');
     }
+    if (profile['is_blocked'] == true)
+      throw const FormatException(
+        'Your account has been blocked. Please contact support.',
+      );
     role = profile['role'] as String;
     status = profile['verification_status'] as String? ?? 'pending';
   }

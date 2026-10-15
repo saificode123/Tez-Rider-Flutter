@@ -1,0 +1,20 @@
+{
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "new_migrations": [
+    "202610140003_fr28_account_blocking.sql",
+    "202610140004_fr28_identity_trigger_context.sql",
+    "202610140005_fr28_order_policy_cycle.sql",
+    "202610140006_fr28_active_order_bounds.sql",
+    "202610140007_fr28_canonical_service_identity.sql"
+  ],
+  "edge_functions": [
+    "admin-user-status",
+    "fr04-cnic",
+    "fr25-evidence",
+    "send-delivery-otp"
+  ],
+  "production_touched": false,
+  "reset": false,
+  "prior_migrations_replayed": false,
+  "migration_versions_total": 24
+}

@@ -1,0 +1,224 @@
+{
+  "core_fr28": "PASS",
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "scenarios": [
+    {
+      "scenario": "admin-panel",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "admin-panel.png"
+    },
+    {
+      "scenario": "fr28-synthetic-customer",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr28-synthetic-customer.png"
+    },
+    {
+      "scenario": "block-this-user",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "block-this-user.png"
+    },
+    {
+      "scenario": "customer-active",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "customer-active.png"
+    },
+    {
+      "scenario": "existing-orders-need-attention",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "existing-orders-need-attention.png"
+    },
+    {
+      "scenario": "account-blocked-auth-access-and-sessions-revoked",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "account-blocked-auth-access-and-sessions-revoked.png"
+    },
+    {
+      "scenario": "unblock-this-user",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "unblock-this-user.png"
+    },
+    {
+      "scenario": "account-unblocked-the-user-can-sign-in-again",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "account-unblocked-the-user-can-sign-in-again.png"
+    },
+    {
+      "scenario": "fr28-synthetic-product",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr28-synthetic-product.png"
+    },
+    {
+      "scenario": "realtime-forced-signout",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "realtime-forced-signout.png"
+    },
+    {
+      "scenario": "blocked-login-support-message",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "blocked-login-support-message.png"
+    },
+    {
+      "scenario": "fr28-synthetic-product",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr28-synthetic-product.png"
+    },
+    {
+      "scenario": "rider-dashboard",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "rider-dashboard.png"
+    },
+    {
+      "scenario": "exact-online",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "exact-online.png"
+    },
+    {
+      "scenario": "exact-offline",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "exact-offline.png"
+    },
+    {
+      "scenario": "exact-online",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "exact-online.png"
+    },
+    {
+      "scenario": "physical-rider-blocked-native-signout",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "physical-rider-blocked-native-signout.png"
+    },
+    {
+      "scenario": "store-dashboard",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "store-dashboard.png"
+    },
+    {
+      "scenario": "physical-vendor-blocked-native-signout",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "physical-vendor-blocked-native-signout.png"
+    },
+    {
+      "scenario": "realtime-forced-signout",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "realtime-forced-signout.png"
+    },
+    {
+      "scenario": "blocked-login-support-message",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "blocked-login-support-message.png"
+    },
+    {
+      "scenario": "fr28-synthetic-product",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "fr28-synthetic-product.png"
+    },
+    {
+      "scenario": "regression-real-email-accepted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-real-email-accepted.png"
+    },
+    {
+      "scenario": "regression-native-delivery-confirmed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-native-delivery-confirmed.png"
+    },
+    {
+      "scenario": "regression-native-submission-confirmation",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-native-submission-confirmation.png"
+    },
+    {
+      "scenario": "regression-native-dispute-submitted",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-native-dispute-submitted.png"
+    },
+    {
+      "scenario": "private-dispute-evidence",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "private-dispute-evidence.png"
+    },
+    {
+      "scenario": "regression-native-admin-decision",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-native-admin-decision.png"
+    },
+    {
+      "scenario": "regression-native-admin-decision",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "regression-native-admin-decision.png"
+    },
+    {
+      "scenario": "read-only-dispute-no-further-decision-is-allowed",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "evidence": "read-only-dispute-no-further-decision-is-allowed.png"
+    }
+  ],
+  "remaining_native_regressions": [],
+  "device_connection": "CONNECTED and verified on 2026-10-15",
+  "native_regressions": {
+    "FR-33": "PASS real provider acceptance, user-entered email code, delivered with one proof/audit",
+    "FR-25": "PASS private synthetic image upload and one dispute/submission notice",
+    "FR-26": "PASS private image displayed; confirmed rejection, actor/note/audit/owner notice; no refund; Realtime recovery to read-only"
+  }
+}

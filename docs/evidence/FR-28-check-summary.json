@@ -1,0 +1,24 @@
+{
+  "flutter_passed": 95,
+  "flutter_conditional_skips": 2,
+  "edge_tests_passed": 23,
+  "sql_checks_passed": 54,
+  "regressions": {
+    "FR-21": 47,
+    "FR-04": 49,
+    "FR-25": 83,
+    "FR-26": 95,
+    "FR-33": 39
+  },
+  "whole_app_analysis": {
+    "errors": 0,
+    "warnings": 16,
+    "information": 86
+  },
+  "scoped_services_tests": "No issues found",
+  "physical_verification": "PASS: FR28 core and fresh native FR21/04/25/26/33 flows",
+  "load": "NOT EXECUTED",
+  "hosted_checks_passed": 74,
+  "acceptance": "FUNCTIONALLY ACCEPTED; performance NOT QUALIFIED",
+  "commit": "Local commit follows acceptance; no push/merge"
+}

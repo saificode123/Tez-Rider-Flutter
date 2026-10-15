@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/account_session_service.dart';
 import '../services/account_access.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -79,6 +80,12 @@ class _LoginScreenState extends State<LoginScreen>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _animCtrl.forward();
+    final args = Get.arguments;
+    if (args is Map && args['account_message'] is String) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _showError(args['account_message'] as String);
+      });
+    }
   }
 
   @override
@@ -147,6 +154,15 @@ class _LoginScreenState extends State<LoginScreen>
         return;
       }
 
+      if (!await authController.enforceAccountAccess()) {
+        if (authController.accountGate.current ==
+            AccountDisposition.unavailable) {
+          _showError(
+            'Account access could not be verified. Check your connection and Retry.',
+          );
+        }
+        return;
+      }
       final authenticatedEmail = res.user?.email ?? email;
       var userRecord = await Supabase.instance.client
           .from('users')
@@ -208,6 +224,9 @@ class _LoginScreenState extends State<LoginScreen>
       }
     } on AuthApiException catch (e) {
       switch (e.code) {
+        case 'user_banned':
+          _showError(blockedAccountMessage);
+          break;
         case 'invalid_credentials':
           _showError('Incorrect email or password. Please try again.');
           break;
@@ -255,6 +274,14 @@ class _LoginScreenState extends State<LoginScreen>
           refreshToken,
         );
         if (res.session != null) {
+          if (!await authController.enforceAccountAccess()) {
+            _showError(
+              authController.accountGate.current == AccountDisposition.blocked
+                  ? blockedAccountMessage
+                  : 'Account access could not be verified. Retry.',
+            );
+            return;
+          }
           await _storage.write(
             key: 'tr_refresh',
             value: res.session!.refreshToken ?? refreshToken,

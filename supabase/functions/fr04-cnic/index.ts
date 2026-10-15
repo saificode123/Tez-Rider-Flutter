@@ -1,3 +1,4 @@
+import {accountBoundary}from '../_shared/fr28-access.ts';
 const base = Deno.env.get("SUPABASE_URL") ?? "";
 const anon = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
@@ -90,6 +91,7 @@ async function authenticatedIdentity(token: string): Promise<any> {
 }
 
 Deno.serve(async (req) => {
+  const denied=await accountBoundary(req,base,anon);if(denied)return denied;
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   if (req.method !== "POST") return reply(405, { error: "Use POST." });
   try {

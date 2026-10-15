@@ -7,6 +7,7 @@ import 'controllers/auth_controller.dart';
 import 'routes/app_routes.dart';
 import 'core/app_translations.dart';
 import 'services/backend_config.dart';
+import 'services/account_session_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,14 @@ void main() async {
       defaultValue: true,
     ),
   );
-  await Supabase.initialize(url: config.url, publishableKey: config.key);
+  await Supabase.initialize(
+    url: config.url,
+    publishableKey: config.key,
+    httpClient: AccountHttpClient((code) {
+      if (Get.isRegistered<AuthController>())
+        Get.find<AuthController>().handleAccountFailure(code);
+    }),
+  );
 
   Supabase.instance.client.auth.onAuthStateChange.listen((data) {
     final event = data.event;

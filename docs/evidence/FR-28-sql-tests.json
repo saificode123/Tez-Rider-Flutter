@@ -1,0 +1,222 @@
+{
+  "passed": 54,
+  "rolled_back": true,
+  "checks": [
+    {
+      "name": "admin paginated user list",
+      "result": "PASS"
+    },
+    {
+      "name": "name search bound",
+      "result": "PASS"
+    },
+    {
+      "name": "role/status filters",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary directory RPC denied",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary privileged block RPC denied",
+      "result": "PASS"
+    },
+    {
+      "name": "role escalation denied",
+      "result": "PASS"
+    },
+    {
+      "name": "own blocked flag update denied",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary operation table access denied",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary users cannot enumerate directory",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary audit updates denied",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary audit deletion denied",
+      "result": "PASS"
+    },
+    {
+      "name": "self block denied",
+      "result": "PASS"
+    },
+    {
+      "name": "other admin protected",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown target",
+      "result": "PASS"
+    },
+    {
+      "name": "server rejects forged non-admin actor",
+      "result": "PASS"
+    },
+    {
+      "name": "block commits before Auth sync",
+      "result": "PASS"
+    },
+    {
+      "name": "authoritative rider blocked",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked rider offline",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked rider ineligible",
+      "result": "PASS"
+    },
+    {
+      "name": "active order state and assignment preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "block audit once",
+      "result": "PASS"
+    },
+    {
+      "name": "opposite pending intent denied",
+      "result": "PASS"
+    },
+    {
+      "name": "pending duplicate idempotent",
+      "result": "PASS"
+    },
+    {
+      "name": "controlled external failure remains partial",
+      "result": "PASS"
+    },
+    {
+      "name": "Auth failure never restores access",
+      "result": "PASS"
+    },
+    {
+      "name": "existing valid session immediately denied",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked rider actor denied",
+      "result": "PASS"
+    },
+    {
+      "name": "own status usable for exact blocked message",
+      "result": "PASS"
+    },
+    {
+      "name": "REST next call explicitly 403",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked rider presence denied",
+      "result": "PASS"
+    },
+    {
+      "name": "only target sessions revoked",
+      "result": "PASS"
+    },
+    {
+      "name": "other fixture sessions preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "confirmed mocked ban completes SQL phase",
+      "result": "PASS"
+    },
+    {
+      "name": "already blocked no-op",
+      "result": "PASS"
+    },
+    {
+      "name": "pending unblock remains denied",
+      "result": "PASS"
+    },
+    {
+      "name": "unconfirmed unban cannot restore access",
+      "result": "PASS"
+    },
+    {
+      "name": "confirmed mocked unban restores SQL authorization",
+      "result": "PASS"
+    },
+    {
+      "name": "unblocked status persisted",
+      "result": "PASS"
+    },
+    {
+      "name": "unblock never sets rider online",
+      "result": "PASS"
+    },
+    {
+      "name": "unblock audit once",
+      "result": "PASS"
+    },
+    {
+      "name": "already unblocked no-op",
+      "result": "PASS"
+    },
+    {
+      "name": "revoked old JWT cannot return after unblock",
+      "result": "PASS"
+    },
+    {
+      "name": "revoked session returns explicit 401 after unblock",
+      "result": "PASS"
+    },
+    {
+      "name": "new session unblocked access restored",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked vendor products hidden",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked vendor protected operations denied",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked customer order placement denied",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous directory denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous block denied",
+      "result": "PASS"
+    },
+    {
+      "name": "CNIC service actor bound by UUID after Auth email drift",
+      "result": "PASS"
+    },
+    {
+      "name": "blocked email-alias victim not modified",
+      "result": "PASS"
+    },
+    {
+      "name": "OTP service rider bound by UUID after Auth email drift",
+      "result": "PASS"
+    },
+    {
+      "name": "OTP recipient is current confirmed canonical Auth email",
+      "result": "PASS"
+    }
+  ]
+}
