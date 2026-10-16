@@ -75,6 +75,9 @@ def hosted():
     vendor = state['accounts']['vendor']['profile_id']
     status, products = b.api('/rest/v1/products', 'POST', {'vendor_id': vendor, 'name': 'FR10 synthetic checkout', 'price': 80, 'is_available': True}, admin=True)
     check(status == 201, 'synthetic canonical product')
+    if 'stock_qty' in products[0]:
+        status, stocked = b.rpc('vendor_adjust_stock', {'p_product_id':products[0]['id'],'p_quantity':100,'p_mode':'set','p_reason':'FR10 regression synthetic opening stock','p_request_id':str(uuid.uuid4()),'p_expected_version':products[0]['stock_version']}, tokens['vendor'])
+        assert status == 200 and stocked['code'] == 'UPDATED', 'FR17 synthetic fixture stock confirmation'
     request = {'p_request_id': str(uuid.uuid4()), 'p_items': [{'product_id': products[0]['id'], 'quantity': 1}], 'p_delivery': {'address':'FR10 synthetic TEST address','lat':33.68,'lng':73.04,'speed':'standard'}}
     status, result = b.rpc('fr10_checkout', request, tokens['customer'])
     check(status == 200 and result['code'] == 'PLACED' and result['amount'] == 200, 'real HTTP atomic checkout')

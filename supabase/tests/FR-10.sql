@@ -105,7 +105,11 @@ end$$;
 do $$declare pid bigint;oid bigint;res jsonb;request uuid:=gen_random_uuid();delivery jsonb;items jsonb;vid bigint;deadline timestamptz;begin
  perform pg_temp.ok(not fr10_private.before_deadline(now(),now()),'exact deadline boundary is expired');
  perform pg_temp.ok(fr10_private.before_deadline(now(),now()-interval '1 microsecond'),'strictly before boundary allowed');
- insert into public.products(vendor_id,name,price,is_available)values((select id from fr10_people where label='vendor'),'FR10 synthetic checkout',80,true)returning id into pid;
+ -- FR17 fixture integration: confirm synthetic stock through the owning
+ -- vendor RPC; retain every accepted FR10 assertion and business rule.
+ perform pg_temp.claim('vendor');
+ res:=public.fr17_save_product(gen_random_uuid(),null,'{"name":"FR10 synthetic checkout","price":80,"is_available":true}',100,5,null);
+ pid:=(res->>'product_id')::bigint;
  items:=jsonb_build_array(jsonb_build_object('product_id',pid,'quantity',2));delivery:='{"address":"FR10 synthetic address","lat":33.68,"lng":73.04,"speed":"standard"}';
  perform pg_temp.claim('customer');
  res:=public.fr10_checkout(request,items,delivery);oid:=(res->>'order_id')::bigint;

@@ -608,6 +608,39 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         );
       }
     } catch (e) {
+      if (e is CheckoutStockShortage) {
+        await widget.cart.refreshAvailability();
+        if (!mounted) return;
+        final adjust = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Stock changed'),
+            content: SingleChildScrollView(
+              child: Text(
+                e.products
+                    .map(
+                      (p) =>
+                          '${p['name']}: requested ${p['requested']}, available ${p['available']}',
+                    )
+                    .join('\n'),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Keep cart'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Adjust quantities'),
+              ),
+            ],
+          ),
+        );
+        if (adjust == true) widget.cart.applyShortages(e.products);
+        if (mounted) Get.back(); // Return to the existing cart for review.
+        return;
+      }
       final message = e is PostgrestException
           ? e.message
           : e is StateError

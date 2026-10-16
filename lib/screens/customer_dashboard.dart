@@ -1,3 +1,4 @@
+import '../widgets/stock_indicator.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -1321,11 +1322,32 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           const SizedBox(height: 16),
           Obx(() {
             if (productCtrl.isLoading.value) return _buildShimmerGrid();
+            if (productCtrl.error.value != null)
+              return Column(
+                children: [
+                  Text(productCtrl.error.value!),
+                  TextButton(
+                    onPressed: productCtrl.refreshProducts,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              );
             final products = productCtrl.getProductsByCategory(
               _selectedCatName,
             );
-            if (products.isEmpty) return _buildEmptyState();
-            return _buildProductGrid(products);
+            return Column(
+              children: [
+                products.isEmpty
+                    ? _buildEmptyState()
+                    : _buildProductGrid(products),
+                if (productCtrl.hasMore.value)
+                  TextButton(
+                    onPressed: () =>
+                        productCtrl.refreshProducts(loadMore: true),
+                    child: const Text('Load more products'),
+                  ),
+              ],
+            );
           }),
         ],
       ),
@@ -1484,44 +1506,54 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           child: InkWell(
                             customBorder: const CircleBorder(),
                             splashColor: accent.withValues(alpha: 0.25),
-                            onTap: () {
-                              HapticFeedback.mediumImpact();
-                              cart.addItem({
-                                'product_id': p.id,
-                                'name': p.name,
-                                'price': p.price,
-                                'image_url': p.imageUrl,
-                                'vendor_id': p.vendorId,
-                              });
-                              Get.snackbar(
-                                '',
-                                '${p.name} added to cart! 🛒',
-                                titleText: const SizedBox.shrink(),
-                                messageText: Text(
-                                  '${p.name} added to cart! 🛒',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                backgroundColor: _kGreen,
-                                snackPosition: SnackPosition.BOTTOM,
-                                margin: const EdgeInsets.fromLTRB(
-                                  20,
-                                  0,
-                                  20,
-                                  24,
-                                ),
-                                borderRadius: 16,
-                                duration: const Duration(seconds: 2),
-                                icon: const Icon(
-                                  Icons.check_circle_rounded,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              );
-                            },
+                            onTap:
+                                p.isPurchasable && !cart.checking.contains(p.id)
+                                ? () async {
+                                    HapticFeedback.mediumImpact();
+                                    final added = await cart.addItem({
+                                      'product_id': p.id,
+                                      'name': p.name,
+                                      'price': p.price,
+                                      'image_url': p.imageUrl,
+                                      'vendor_id': p.vendorId,
+                                    });
+                                    if (!added) {
+                                      Get.snackbar(
+                                        'Cart',
+                                        cart.lastError.value,
+                                      );
+                                      return;
+                                    }
+                                    Get.snackbar(
+                                      '',
+                                      '${p.name} added to cart! 🛒',
+                                      titleText: const SizedBox.shrink(),
+                                      messageText: Text(
+                                        '${p.name} added to cart! 🛒',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      backgroundColor: _kGreen,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      margin: const EdgeInsets.fromLTRB(
+                                        20,
+                                        0,
+                                        20,
+                                        24,
+                                      ),
+                                      borderRadius: 16,
+                                      duration: const Duration(seconds: 2),
+                                      icon: const Icon(
+                                        Icons.check_circle_rounded,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    );
+                                  }
+                                : null,
                             child: SizedBox(
                               width: 34,
                               height: 34,
@@ -1553,6 +1585,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        StockIndicator(product: p.toJson()),
                         Text(
                           p.name,
                           style: const TextStyle(

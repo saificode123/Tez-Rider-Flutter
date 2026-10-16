@@ -1,3 +1,4 @@
+import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,10 +27,7 @@ class RecommendationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade200, width: 1),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-          ),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 8),
         ],
       ),
       child: Column(
@@ -68,6 +66,7 @@ class RecommendationCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                StockIndicator(product: product.toJson()),
                 Text(
                   product.name,
                   maxLines: 2,
@@ -91,23 +90,29 @@ class RecommendationCard extends StatelessWidget {
                   width: double.infinity,
                   height: 28,
                   child: ElevatedButton(
-                    onPressed: () {
-                      final cart = Get.find<CartController>();
-                      cart.addItem({
-                        'name': product.name,
-                        'price': product.price,
-                        'vendor_id': product.vendorId,
-                        'product_id': product.id,
-                        'image_url': product.imageUrl,
-                      });
-                      Get.snackbar(
-                        'Added to Cart',
-                        '${product.name} added successfully!',
-                        snackPosition: SnackPosition.BOTTOM,
-                        duration: const Duration(seconds: 2),
-                      );
-                      onAddToCart?.call();
-                    },
+                    onPressed: product.isPurchasable
+                        ? () async {
+                            final cart = Get.find<CartController>();
+                            final added = await cart.addItem({
+                              'name': product.name,
+                              'price': product.price,
+                              'vendor_id': product.vendorId,
+                              'product_id': product.id,
+                              'image_url': product.imageUrl,
+                            });
+                            if (!added) {
+                              Get.snackbar('Cart', cart.lastError.value);
+                              return;
+                            }
+                            Get.snackbar(
+                              'Added to Cart',
+                              '${product.name} added successfully!',
+                              snackPosition: SnackPosition.BOTTOM,
+                              duration: const Duration(seconds: 2),
+                            );
+                            onAddToCart?.call();
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _purple,
                       foregroundColor: Colors.white,
@@ -118,7 +123,10 @@ class RecommendationCard extends StatelessWidget {
                     ),
                     child: const Text(
                       'Add',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

@@ -15,9 +15,9 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
-- **19 functionally complete** (historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
+- **20 functionally complete** (FR-17 now verified; historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
 - **8 partial or pending verification**: FR-04, FR-10, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
-- **4 not implemented**: FR-13, FR-14, FR-17, FR-32
+- **3 not implemented**: FR-13, FR-14, FR-32
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
 
@@ -57,7 +57,7 @@ These historical buckets are not a fresh review of every feature; use the later 
 | FR    | Status              | Notes                                                                           |
 | ----- | ------------------- | ------------------------------------------------------------------------------- |
 | FR-16 | Complete            | `product_form_screen.dart`, image upload to Supabase Storage                    |
-| FR-17 | **Not implemented** | `ProductModel` only has `isAvailable`; no stock quantity, no decrement on order |
+| FR-17 | **FUNCTIONALLY ACCEPTED on isolated TEST/Android (2026-10-16)** | Confirmed integer stock, versioned adjustment/save RPCs, atomic checkout/decrement, append-only ledger, exact-once shared cancellation restoration and low-stock crossing alerts. SQL53, real-session races15, hosted HTTP27, Flutter176 PASS/2 skips; all9 accepted-FR regressions passed. Fresh Android creation/adjustment/zero/shortage/checkout/rejection/shared timeout/OS alert rearm/inbox tests passed after fixing a dialog-close assertion. Existing3 products remain unconfirmed. HTTP k6/1,000-buyer qualification NOT EXECUTED due RAM limits. See `FR-17-acceptance.md`. |
 | FR-18 | Complete            | `vendor_analytics_screen.dart`                                                  |
 
 ### Rider management

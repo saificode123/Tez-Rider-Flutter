@@ -1,0 +1,542 @@
+{
+  "status": "FR-17 FUNCTIONALLY ACCEPTED — Ready for the next FR.",
+  "date": "2026-10-16",
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "production_touched": false,
+  "pushed_or_merged": false,
+  "branch": "feature/FR-17-stock-tracking",
+  "base": "76960fadf207f17156a2124b547f6cbe47d04b1f",
+  "migration": "202610160002_fr17_inventory.sql",
+  "migration_sha256": "5c8068ba2c263a71d182706320529e756f18ee85dc8934a95f43c2ea3ea98b50",
+  "sql": {
+    "local_rollback": 53,
+    "hosted_review_rollback": 53,
+    "hosted_deployed_rollback": 53,
+    "fr10_deployed_rollback": 67
+  },
+  "concurrency": {
+    "checks": [
+      {
+        "check": "two real buyers: last unit sold exactly once",
+        "result": "PASS"
+      },
+      {
+        "check": "last unit ends at zero",
+        "result": "PASS"
+      },
+      {
+        "check": "last unit one decrement",
+        "result": "PASS"
+      },
+      {
+        "check": "200 valid attempts across10 independent buyers: exactly100 purchases",
+        "result": "PASS"
+      },
+      {
+        "check": "popular product never oversold",
+        "result": "PASS"
+      },
+      {
+        "check": "concurrent threshold crossing emits exactly one alert",
+        "result": "PASS"
+      },
+      {
+        "check": "opposite multi-product input ordering completes without deadlock",
+        "result": "PASS"
+      },
+      {
+        "check": "multi-product exact decrements",
+        "result": "PASS"
+      },
+      {
+        "check": "absolute vendor count waiting behind checkout rejects stale version",
+        "result": "PASS"
+      },
+      {
+        "check": "checkout and cancellation use compatible locks",
+        "result": "PASS"
+      },
+      {
+        "check": "concurrent cancellation restores exactly consumed two units",
+        "result": "PASS"
+      },
+      {
+        "check": "concurrent cancellation retries return confirmed cancelled",
+        "result": "PASS"
+      },
+      {
+        "check": "concurrent cancellation restores once",
+        "result": "PASS"
+      },
+      {
+        "check": "two simultaneous purchases crossing7 to5 notify once",
+        "result": "PASS"
+      },
+      {
+        "check": "real concurrent movements reconcile opening0 to final stock",
+        "result": "PASS"
+      }
+    ],
+    "independent_sessions": true,
+    "local_only": true,
+    "popular_product_attempts": 200,
+    "popular_product_purchases": 100,
+    "optional_1000_VUs": "NOT EXECUTED by SQL runner"
+  },
+  "hosted_http": {
+    "passed": 27,
+    "checks": [
+      {
+        "check": "HTTP atomic checkout committed",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP exact decrement",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP retry no double decrement",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP owner ledger actual movement",
+        "result": "PASS"
+      },
+      {
+        "check": "two real concurrent HTTP buyers no oversell",
+        "result": "PASS"
+      },
+      {
+        "check": "concurrent HTTP final stock zero",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP structured multi-item shortage",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP shortage no partial order or stock",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP duplicate product aggregation",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP shared checkout",
+        "result": "PASS"
+      },
+      {
+        "check": "shared sibling accepted before timeout",
+        "result": "PASS"
+      },
+      {
+        "check": "timeout restores every shared item",
+        "result": "PASS"
+      },
+      {
+        "check": "shared full pending refund/notice preserved with two restores",
+        "result": "PASS"
+      },
+      {
+        "check": "repeated worker no duplicate restore",
+        "result": "PASS"
+      },
+      {
+        "check": "HTTP vendor rejection restores",
+        "result": "PASS"
+      },
+      {
+        "check": "one exact low-stock notice while below threshold",
+        "result": "PASS"
+      },
+      {
+        "check": "restock re-arms low-stock HTTP notifications",
+        "result": "PASS"
+      },
+      {
+        "check": "customer stock adjustment denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider stock adjustment denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor2 stock adjustment denied",
+        "result": "PASS"
+      },
+      {
+        "check": "direct stock_qty HTTP update denied",
+        "result": "PASS"
+      },
+      {
+        "check": "direct low_stock_threshold HTTP update denied",
+        "result": "PASS"
+      },
+      {
+        "check": "direct stock_version HTTP update denied",
+        "result": "PASS"
+      },
+      {
+        "check": "direct stock_confirmed HTTP update denied",
+        "result": "PASS"
+      },
+      {
+        "check": "direct ledger HTTP write denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer ledger read isolated",
+        "result": "PASS"
+      },
+      {
+        "check": "blocked owning vendor HTTP denied",
+        "result": "PASS"
+      }
+    ],
+    "project": "igeisilhtmglgnqvllrx",
+    "actual_money_movement": false
+  },
+  "deployed_verification": {
+    "authenticated_product_insert": false,
+    "authenticated_stock_write": false,
+    "authenticated_threshold_write": false,
+    "cron": [
+      {
+        "active": true,
+        "id": 1,
+        "name": "fr30-android-push",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": true,
+        "id": 4,
+        "name": "fr10-order-timeout",
+        "schedule": "* * * * *"
+      }
+    ],
+    "indexes": [
+      "fr17_adjust_request_once_idx",
+      "fr17_item_movement_once_idx",
+      "fr17_low_notice_once_idx",
+      "fr17_open_inventory_orders_idx",
+      "fr17_order_movements_idx",
+      "fr17_product_movements_idx",
+      "fr17_vendor_inventory_idx"
+    ],
+    "invalid_stock": 0,
+    "ledger_rls": true,
+    "ledger_write": false,
+    "restore_execute": false,
+    "timeout": 180,
+    "unconfirmed_products": 3,
+    "versions": [
+      "202610080001",
+      "202610090001",
+      "202610110001",
+      "202610110002",
+      "202610110003",
+      "202610110004",
+      "202610110005",
+      "202610110006",
+      "202610120001",
+      "202610130001",
+      "202610130002",
+      "202610130003",
+      "202610130004",
+      "202610130005",
+      "202610130006",
+      "202610130007",
+      "202610130008",
+      "202610140001",
+      "202610140002",
+      "202610140003",
+      "202610140004",
+      "202610140005",
+      "202610140006",
+      "202610140007",
+      "202610150001",
+      "202610150002",
+      "202610150003",
+      "202610150004",
+      "202610150005",
+      "202610150006",
+      "202610160001",
+      "202610160002"
+    ]
+  },
+  "flutter": {
+    "focused_pass": 41,
+    "full_pass": 176,
+    "inherited_conditional_skips": 2,
+    "analysis_errors": 0,
+    "inherited_warnings": 13,
+    "notices": 66,
+    "dependencies_changed": false,
+    "new_style_notices": 2,
+    "analysis_exit_code": 1,
+    "analysis_clean_lint_pass": false,
+    "post_fix_stalled_run_counted_as_pass": false,
+    "workspace_temp_retry_pass": true
+  },
+  "regressions": {
+    "FR21": 47,
+    "FR04": 49,
+    "FR25": 83,
+    "FR26": 96,
+    "FR33": 39,
+    "FR28": 74,
+    "FR20": 70,
+    "FR30_SQL": 65,
+    "FR30_HTTP": 25,
+    "FR30_realtime": 3,
+    "FR10_SQL": 67,
+    "FR10_HTTP": 24
+  },
+  "regression_exit_codes": [
+    {
+      "log": ".fr21-local/fr17/regression-FR21.log",
+      "exit_code": 0,
+      "name": "FR21"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR04.log",
+      "exit_code": 0,
+      "name": "FR04"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR25.log",
+      "exit_code": 0,
+      "name": "FR25"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR26.log",
+      "exit_code": 0,
+      "name": "FR26"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR33.log",
+      "exit_code": 0,
+      "name": "FR33"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR28.log",
+      "exit_code": 0,
+      "name": "FR28"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR20.log",
+      "exit_code": 0,
+      "name": "FR20"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR30-sql.log",
+      "exit_code": 0,
+      "name": "FR30-sql"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR30-http.log",
+      "exit_code": 0,
+      "name": "FR30-http"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR30-realtime.log",
+      "exit_code": 0,
+      "name": "FR30-realtime"
+    },
+    {
+      "log": ".fr21-local/fr17/regression-FR10-http.log",
+      "exit_code": 0,
+      "name": "FR10-http"
+    }
+  ],
+  "load_full": {
+    "profile": "full",
+    "status": "NOT EXECUTED",
+    "available_bytes": 469442560,
+    "reason": "Local RAM safety gate"
+  },
+  "load_small": {
+    "profile": "small",
+    "status": "NOT EXECUTED",
+    "available_bytes": 75042816,
+    "reason": "Local RAM safety gate"
+  },
+  "observed_ledger_size": {
+    "index_bytes": 81920,
+    "mean_tuple_bytes": "207",
+    "rows": 25,
+    "table_bytes": 49152
+  },
+  "artifact": {
+    "sha256": "91a475b1ffc5d0ae8fa9b4ef37096e52f3f9f76ed09b02163827470405314694",
+    "bytes": 206344554,
+    "source_files_matched": 106,
+    "test_only": true,
+    "fr17_code_present": true,
+    "credential_scan_passed": true,
+    "files_scanned": 38,
+    "production_endpoint_absent": true,
+    "physical_device_test": "EXECUTED; see native-evidence.jsonl"
+  },
+  "physical": {
+    "status": "PASS",
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "installation_result": "Success",
+    "ui_product": {
+      "actual_UI_product_database_confirmed": true,
+      "id": 34,
+      "stock_qty": 12,
+      "stock_version": 1,
+      "low_stock_threshold": 5,
+      "stock_confirmed": true,
+      "is_available": true
+    },
+    "ui_checks": [
+      {
+        "physical_UI_check": "inventory",
+        "result": "PASS"
+      },
+      {
+        "physical_UI_check": "zero",
+        "result": "PASS"
+      },
+      {
+        "physical_UI_check": "shortage",
+        "result": "PASS"
+      },
+      {
+        "physical_UI_check": "cancelled",
+        "result": "PASS"
+      },
+      {
+        "physical_UI_check": "notification",
+        "result": "PASS"
+      }
+    ],
+    "actual_UI_orders": {
+      "ui-reject": {
+        "physical_UI_checkout_database_confirmed": "ui-reject",
+        "amount": "200.0",
+        "cancellation_reason": null,
+        "decrements": 1,
+        "id": 1671,
+        "items": [
+          {
+            "child": 1271,
+            "product_id": 34,
+            "qty": 1,
+            "status": "pending"
+          }
+        ],
+        "order_status": "pending",
+        "restores": 0
+      },
+      "ui-shared": {
+        "physical_UI_checkout_database_confirmed": "ui-shared",
+        "amount": "360",
+        "cancellation_reason": null,
+        "decrements": 2,
+        "id": 1672,
+        "items": [
+          {
+            "child": 1272,
+            "product_id": 30,
+            "qty": 1,
+            "status": "pending"
+          },
+          {
+            "child": 1273,
+            "product_id": 32,
+            "qty": 1,
+            "status": "pending"
+          }
+        ],
+        "order_status": "pending",
+        "restores": 0
+      }
+    },
+    "cancellations": [
+      {
+        "physical_cancellation_database_check": "ui-shared",
+        "result": "PASS",
+        "cancellation_reason": "vendor_timeout",
+        "children": 2,
+        "decrements": 2,
+        "live_children": 0,
+        "notices": 1,
+        "order_status": "cancelled",
+        "refunds": 0,
+        "restores": 2
+      },
+      {
+        "physical_cancellation_database_check": "ui-reject",
+        "result": "PASS",
+        "cancellation_reason": "vendor_rejected",
+        "children": 1,
+        "decrements": 1,
+        "live_children": 0,
+        "notices": 0,
+        "order_status": "cancelled",
+        "refunds": 0,
+        "restores": 1
+      }
+    ],
+    "worker_retry": {
+      "physical_shared_repeated_worker_restores_once": "PASS",
+      "restores": 2
+    },
+    "OS_crossings": [
+      {
+        "physical_OS_inventory_notification": "PASS",
+        "product_id": 33,
+        "crossing_notice_count": 1,
+        "exact_message": true
+      },
+      {
+        "physical_OS_inventory_notification": "PASS",
+        "product_id": 33,
+        "crossing_notice_count": 2,
+        "exact_message": true
+      }
+    ],
+    "mark_all_read": {
+      "physical_notification_mark_all_read": "PASS",
+      "own_unread_count": 0
+    },
+    "shortage_no_partial_write": {
+      "physical_shortage_no_partial_order_or_stock": "PASS",
+      "order_count_unchanged": true,
+      "valid_stock": 20
+    },
+    "final_runtime": {
+      "physical_TEST_log_scan": "PASS",
+      "fatal_or_unhandled": 0,
+      "flutter_error_lines": 0
+    },
+    "final_integrity": {
+      "physical_fixture_final_integrity": "PASS",
+      "products": 6,
+      "duplicate_movements": 0,
+      "missing_restores": 0,
+      "unreconciled": 0
+    },
+    "initial_dialog_close_attempt": "FAIL; State-owned controller lifecycle fixed, widget-tested, rebuilt and physically retested PASS",
+    "old_order_lookup_discarded": true,
+    "new_order_probe_requires_both_shared_products": true,
+    "low_stock_customer_triggers": "Actual synthetic HTTP purchases; restock used physical vendor UI",
+    "synthetic_only": true,
+    "device_location_excluded_from_portable_evidence": true
+  },
+  "functional_acceptance": "PASS",
+  "security_acceptance": "PASS",
+  "scale_qualification": "NOT EXECUTED",
+  "git_finalization": {
+    "required_commit_message": "feat(FR-17): stock quantity tracking",
+    "identity": "Commit containing this evidence; see Git history/final handoff",
+    "push_executed": false,
+    "merge_executed": false
+  }
+}

@@ -79,6 +79,11 @@ class OrderTransitionFlow {
 typedef CheckoutSubmit =
     Future<Map<String, dynamic>> Function(Map<String, dynamic> request);
 
+class CheckoutStockShortage implements Exception {
+  CheckoutStockShortage(this.products);
+  final List<Map<String, dynamic>> products;
+}
+
 class OrderCheckoutFlow {
   OrderCheckoutFlow(this.submit);
   final CheckoutSubmit submit;
@@ -107,6 +112,19 @@ class OrderCheckoutFlow {
     busy = true;
     try {
       final result = await submit(_request!);
+      if (result['code'] == 'INSUFFICIENT_STOCK') {
+        _request =
+            null; // Definitive rejection: no order/stock write committed.
+        throw CheckoutStockShortage(
+          List<Map<String, dynamic>>.from(result['shortages'] as List),
+        );
+      }
+      if (result['code'] == 'UNAVAILABLE') {
+        _request = null;
+        throw StateError(
+          'A product or vendor is unavailable. Review your cart.',
+        );
+      }
       if (!['PLACED', 'ALREADY_PLACED'].contains(result['code']) ||
           result['order_id'] is! int) {
         throw StateError(
