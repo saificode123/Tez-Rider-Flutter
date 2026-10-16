@@ -1,0 +1,82 @@
+{
+  "checked_date": "2026-10-16",
+  "project": "igeisilhtmglgnqvllrx",
+  "mode": "READ ONLY",
+  "base_commit": "fed835ffb27d7f163be33e89478a14a4af2943bf",
+  "branch": "feature/FR-10-order-timeout-autocancel",
+  "accepted_ancestors": {
+    "1173736": true,
+    "fd478a4": true,
+    "281c8a8": true,
+    "aabd6ca": true,
+    "ec1c63b": true,
+    "7e809fd": true,
+    "fa29b4c": true,
+    "40ad2ca": true
+  },
+  "migration_count": 30,
+  "migration_history_matches_source": true,
+  "extensions": [
+    {
+      "name": "pg_cron",
+      "version": "1.6.4"
+    },
+    {
+      "name": "pg_net",
+      "version": "0.20.4"
+    }
+  ],
+  "cron_jobs": [
+    {
+      "active": true,
+      "id": 1,
+      "name": "fr30-android-push",
+      "schedule": "* * * * *"
+    }
+  ],
+  "timeout_function_present": false,
+  "relevant_tables": [
+    {
+      "name": "dispute_refund_actions",
+      "rls": true
+    },
+    {
+      "name": "order_items",
+      "rls": true
+    },
+    {
+      "name": "payment",
+      "rls": true
+    },
+    {
+      "name": "payments",
+      "rls": true
+    },
+    {
+      "name": "orders",
+      "rls": true
+    },
+    {
+      "name": "vendor_orders",
+      "rls": true
+    },
+    {
+      "name": "notifications",
+      "rls": true
+    }
+  ],
+  "deadline_columns_present": false,
+  "timeline_table_found": false,
+  "order_payment_foreign_key": false,
+  "multi_vendor_allocation_table_found": false,
+  "schema_mutations": false,
+  "financial_mutations": false,
+  "production_access": false,
+  "functional_acceptance": "BLOCKED: shared-order cancellation and refund allocation decision pending",
+  "sql_behavior_tests": "NOT EXECUTED",
+  "flutter_tests": "NOT EXECUTED",
+  "hosted_mutation_tests": "NOT EXECUTED",
+  "android_tests": "NOT EXECUTED",
+  "load_tests": "NOT EXECUTED",
+  "local_docker_engine_version": "29.8.2"
+}

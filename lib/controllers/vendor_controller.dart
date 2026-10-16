@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/rider_assignment_service.dart';
+import '../services/order_timeout_service.dart';
 
 class VendorController extends GetxController {
   final _supabase = Supabase.instance.client;
@@ -214,43 +215,20 @@ class VendorController extends GetxController {
     super.onClose();
   }
 
+  final orderTransitions = OrderTransitionFlow(
+    SupabaseOrderTransitionBackend(),
+  );
   Future<void> updateOrderStatus(dynamic orderId, String newStatus) async {
-    try {
-      await _supabase
-          .from('vendor_orders')
-          .update({'status': newStatus})
-          .eq('id', orderId);
+    final id = int.tryParse(orderId.toString());
+    if (id == null) return;
+    final message = await orderTransitions.change(id, newStatus);
+    await refreshOrders();
+    if (!isClosed) {
       Get.snackbar(
-        'Success',
-        'Order status updated to $newStatus',
+        'Order update',
+        message,
         snackPosition: SnackPosition.BOTTOM,
       );
-
-      // Optimistic local update so the UI reflects the change immediately
-      // even if Realtime isn't enabled on this table in Supabase.
-      Map<String, dynamic>? match;
-      for (final o in activeOrders) {
-        if (o['id'] == orderId) {
-          match = o;
-          break;
-        }
-      }
-      final vendorId = match?['vendor_id'];
-      if (match != null) {
-        if (newStatus == 'delivered' || newStatus == 'cancelled') {
-          activeOrders.removeWhere((o) => o['id'] == orderId);
-          orderHistory.insert(0, {...match, 'status': newStatus});
-        } else {
-          activeOrders.value = activeOrders
-              .map((o) => o['id'] == orderId ? {...o, 'status': newStatus} : o)
-              .toList();
-        }
-      }
-      if (vendorId != null) {
-        unawaited(refreshOrders());
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to update order: $e');
     }
   }
 

@@ -1,39 +1,61 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class OrderTimeline extends StatefulWidget {
   final int currentStep;
   final Color activeColor;
+  final List<Map<String, dynamic>>? events;
 
   const OrderTimeline({
     super.key,
     required this.currentStep,
     this.activeColor = const Color(0xFFF2855A),
+    this.events,
   });
 
   @override
   State<OrderTimeline> createState() => _OrderTimelineState();
 }
 
-class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProviderStateMixin {
+class _OrderTimelineState extends State<OrderTimeline>
+    with SingleTickerProviderStateMixin {
   late AnimationController _pulseCtrl;
   late Animation<double> _pulseAnim;
 
   static const _steps = [
-    _TimelineStep(Icons.receipt_long_rounded, 'Order Placed', 'Your order has been received'),
-    _TimelineStep(Icons.check_circle_outline_rounded, 'Confirmed', 'Vendor has accepted your order'),
-    _TimelineStep(Icons.restaurant_rounded, 'Preparing', 'Your order is being freshly prepared'),
-    _TimelineStep(Icons.delivery_dining_rounded, 'On the Way', 'Rider is heading your way'),
+    _TimelineStep(
+      Icons.receipt_long_rounded,
+      'Order Placed',
+      'Your order has been received',
+    ),
+    _TimelineStep(
+      Icons.check_circle_outline_rounded,
+      'Confirmed',
+      'Vendor has accepted your order',
+    ),
+    _TimelineStep(
+      Icons.restaurant_rounded,
+      'Preparing',
+      'Your order is being freshly prepared',
+    ),
+    _TimelineStep(
+      Icons.delivery_dining_rounded,
+      'On the Way',
+      'Rider is heading your way',
+    ),
     _TimelineStep(Icons.home_rounded, 'Delivered', 'Enjoy your order! 🎉'),
   ];
 
   @override
   void initState() {
     super.initState();
-    _pulseCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000))
-      ..repeat(reverse: true);
-    _pulseAnim = Tween<double>(begin: 1.0, end: 1.18).animate(
-      CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut),
-    );
+    _pulseCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+    _pulseAnim = Tween<double>(
+      begin: 1.0,
+      end: 1.18,
+    ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -44,6 +66,38 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    if (widget.events case final events?) {
+      final sorted = [...events]
+        ..sort(
+          (a, b) =>
+              a['created_at'].toString().compareTo(b['created_at'].toString()),
+        );
+      return Column(
+        children: sorted
+            .map(
+              (event) => ListTile(
+                dense: true,
+                leading: Icon(
+                  event['status'] == 'cancelled'
+                      ? Icons.cancel_outlined
+                      : Icons.check_circle_outline,
+                ),
+                title: Text(event['status'].toString().replaceAll('_', ' ')),
+                subtitle: Text(
+                  [
+                    if (event['reason'] == 'vendor_timeout')
+                      'Order cancelled — vendor unavailable.',
+                    DateTime.tryParse(
+                          event['created_at'].toString(),
+                        )?.toLocal().toString() ??
+                        'Timestamp unavailable',
+                  ].join('\n'),
+                ),
+              ),
+            )
+            .toList(),
+      );
+    }
     return Column(
       children: List.generate(_steps.length, (i) {
         final isDone = i < widget.currentStep;
@@ -54,7 +108,13 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
     );
   }
 
-  Widget _buildRow(_TimelineStep step, int index, bool isDone, bool isActive, bool isLast) {
+  Widget _buildRow(
+    _TimelineStep step,
+    int index,
+    bool isDone,
+    bool isActive,
+    bool isLast,
+  ) {
     final color = widget.activeColor;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,14 +126,21 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
               if (isActive)
                 AnimatedBuilder(
                   animation: _pulseAnim,
-                  builder: (_, child) => Transform.scale(scale: _pulseAnim.value, child: child),
+                  builder: (_, child) =>
+                      Transform.scale(scale: _pulseAnim.value, child: child),
                   child: Container(
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: color,
-                      boxShadow: [BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 14, offset: const Offset(0, 4))],
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.4),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Icon(step.icon, size: 22, color: Colors.white),
                   ),
@@ -86,7 +153,9 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isDone ? color : const Color(0xFFF0F0F0),
-                    border: isDone ? null : Border.all(color: const Color(0xFFDDDDDD), width: 2),
+                    border: isDone
+                        ? null
+                        : Border.all(color: const Color(0xFFDDDDDD), width: 2),
                   ),
                   child: Icon(
                     isDone ? Icons.check_rounded : step.icon,
@@ -102,7 +171,9 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                   height: 44,
                   margin: const EdgeInsets.symmetric(vertical: 4),
                   decoration: BoxDecoration(
-                    color: isDone ? color.withValues(alpha: 0.6) : const Color(0xFFE8E8E8),
+                    color: isDone
+                        ? color.withValues(alpha: 0.6)
+                        : const Color(0xFFE8E8E8),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -114,7 +185,10 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
 
         Expanded(
           child: Padding(
-            padding: EdgeInsets.only(top: isActive ? 10 : 8, bottom: isLast ? 0 : 20),
+            padding: EdgeInsets.only(
+              top: isActive ? 10 : 8,
+              bottom: isLast ? 0 : 20,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -122,12 +196,14 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                   step.label,
                   style: TextStyle(
                     fontSize: isActive ? 16 : 15,
-                    fontWeight: isActive ? FontWeight.w800 : (isDone ? FontWeight.w600 : FontWeight.w500),
+                    fontWeight: isActive
+                        ? FontWeight.w800
+                        : (isDone ? FontWeight.w600 : FontWeight.w500),
                     color: isActive
                         ? const Color(0xFF1A0A00)
                         : isDone
-                            ? const Color(0xFF333333)
-                            : const Color(0xFFBBBBBB),
+                        ? const Color(0xFF333333)
+                        : const Color(0xFFBBBBBB),
                   ),
                 ),
                 if (isActive || isDone) ...[
@@ -136,7 +212,9 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                     step.sub,
                     style: TextStyle(
                       fontSize: 12,
-                      color: isActive ? const Color(0xFF666666) : const Color(0xFFAAAAAA),
+                      color: isActive
+                          ? const Color(0xFF666666)
+                          : const Color(0xFFAAAAAA),
                       height: 1.4,
                     ),
                   ),
@@ -145,7 +223,10 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -153,7 +234,11 @@ class _OrderTimelineState extends State<OrderTimeline> with SingleTickerProvider
                       ),
                       child: Text(
                         'Current Status',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: color),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: color,
+                        ),
                       ),
                     ),
                   ),
@@ -192,7 +277,13 @@ class OrderStatusCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 6))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,23 +294,52 @@ class OrderStatusCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Order Status', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w500)),
-                  Text(orderId, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1A0A00), letterSpacing: -0.4)),
+                  Text(
+                    'Order Status',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    orderId,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1A0A00),
+                      letterSpacing: -0.4,
+                    ),
+                  ),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: accentColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    Container(width: 6, height: 6, decoration: BoxDecoration(color: accentColor, shape: BoxShape.circle)),
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: accentColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       _stepLabels[currentStep.clamp(0, 4)],
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: accentColor),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: accentColor,
+                      ),
                     ),
                   ],
                 ),
@@ -233,5 +353,11 @@ class OrderStatusCard extends StatelessWidget {
     );
   }
 
-  static const _stepLabels = ['Placed', 'Confirmed', 'Preparing', 'On the Way', 'Delivered'];
+  static const _stepLabels = [
+    'Placed',
+    'Confirmed',
+    'Preparing',
+    'On the Way',
+    'Delivered',
+  ];
 }

@@ -1,3 +1,4 @@
+import '../../widgets/order_timeout_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -284,6 +285,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     'PKR $amount  •  $dateStr',
                     style: TextStyle(color: _kTextSub, fontSize: 12),
                   ),
+                  OrderTimeoutSummary(order: order),
                 ],
               ),
             ),

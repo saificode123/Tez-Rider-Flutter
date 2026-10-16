@@ -16,8 +16,8 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
 - **19 functionally complete** (historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
-- **7 partial or pending verification**: FR-04, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
-- **5 not implemented**: FR-10, FR-13, FR-14, FR-17, FR-32
+- **8 partial or pending verification**: FR-04, FR-10, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
+- **4 not implemented**: FR-13, FR-14, FR-17, FR-32
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
 
@@ -40,7 +40,7 @@ These historical buckets are not a fresh review of every feature; use the later 
 | ------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-06, FR-07, FR-08 | Complete            | `enhanced_checkout_screen.dart`, multi-vendor cart, delivery fee split. Payment/refund integration (UC-06, Table 5.6 rows 9-11) not covered by the review |
 | FR-09               | Complete            | `vendor_dashboard.dart`                                                                                                                                   |
-| FR-10               | **Not implemented** | No timer, edge function or frontend logic to cancel timed-out orders                                                                                      |
+| FR-10 | **FUNCTIONALLY ACCEPTED on isolated TEST (2026-10-16)** | Approved whole shared-order policy; atomic COD checkout, immutable vendor deadlines/config180seconds, RPC acceptance, bounded pg_cron cancellation, full verified-capture pending refund, owner notification and persisted timeline. SQL67/HTTP24/Flutter150 plus all eight accepted-feature regressions passed. Fresh Android checkout/cancellation/timeline/refund/notification and vendor deadline behavior verified; temporary60seconds restored180. Local5000-order dedup and2VU p95146.64ms passed; optional1000VUs NOT EXECUTED. Legacy fragmented checkouts not backfilled with invented eligibility. See `FR-10-acceptance.md`. |
 | FR-11, FR-12        | Complete            | `order_timeline.dart`, `order_history_screen.dart`                                                                                                        |
 
 ### Tracking and delivery

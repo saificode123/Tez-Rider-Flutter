@@ -809,28 +809,51 @@ class _VendorDashboardState extends State<VendorDashboard> {
               const SizedBox(height: 14),
               const Divider(color: AppColors.divider, height: 1),
               const SizedBox(height: 14),
-              Row(
-                children: [
-                  Expanded(
-                    child: _actionBtn(
-                      'Reject',
-                      AppColors.error,
-                      false,
-                      () => vendorCtrl.updateOrderStatus(o['id'], 'cancelled'),
+              Obx(() {
+                final busy = vendorCtrl.orderTransitions.busy.contains(
+                  o['id'].toString(),
+                );
+                return Column(
+                  children: [
+                    if (busy) const LinearProgressIndicator(),
+                    if (vendorCtrl.orderTransitions.messages[o['id'].toString()]
+                        case final message?)
+                      Text(message),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _actionBtn(
+                            'Reject',
+                            AppColors.error,
+                            false,
+                            busy
+                                ? null
+                                : () => vendorCtrl.updateOrderStatus(
+                                    o['id'],
+                                    'cancelled',
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          flex: 2,
+                          child: _actionBtn(
+                            'Accept Order',
+                            AppColors.primary,
+                            true,
+                            busy
+                                ? null
+                                : () => vendorCtrl.updateOrderStatus(
+                                    o['id'],
+                                    'accepted',
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    flex: 2,
-                    child: _actionBtn(
-                      'Accept Order',
-                      AppColors.primary,
-                      true,
-                      () => vendorCtrl.updateOrderStatus(o['id'], 'accepted'),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }),
             ] else if (status == 'accepted' ||
                 status == 'preparing' ||
                 status == 'ready' ||

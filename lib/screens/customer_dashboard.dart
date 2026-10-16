@@ -13,6 +13,7 @@ import '../controllers/tez_order_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../controllers/product_controller.dart';
 import '../controllers/notification_controller.dart';
+import '../widgets/order_timeout_summary.dart';
 import '../controllers/vendor_info_controller.dart';
 import '../widgets/app_drawer.dart';
 import 'ai_assistant_screen.dart';
@@ -56,6 +57,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   List<Map<String, dynamic>> _orders = [];
   List<Map<String, dynamic>> _dbCategories = [];
   bool _ordersLoading = true;
+  Worker? _orderRefresh;
+  bool _ordersBusy = false, _ordersDirty = false;
+  String? _ordersError;
   int? _userId;
   Set<dynamic> _favIds = {};
 
@@ -126,6 +130,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   @override
   void initState() {
     super.initState();
+    _orderRefresh = ever(notifCtrl.notifications, (_) {
+      if (mounted) unawaited(_loadOrders());
+    });
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -300,6 +307,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   @override
   void dispose() {
+    _orderRefresh?.dispose();
     _carouselTimer?.cancel();
     _heroAnim.dispose();
     _navAnim.dispose();
@@ -313,6 +321,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Future<void> _loadOrders() async {
+    if (!mounted) return;
+    if (_ordersBusy) {
+      _ordersDirty = true;
+      return;
+    }
+    _ordersBusy = true;
+    _ordersError = null;
     setState(() => _ordersLoading = true);
     try {
       final user = _supabase.auth.currentUser;
@@ -326,13 +341,26 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       final data =
           await _supabase
                   .from('orders')
-                  .select()
+                  .select(
+                    '*,order_refund_actions(status,amount),order_timeline_events(status,reason,created_at)',
+                  )
                   .eq('user_id', userRecord['id'])
                   .order('created_at', ascending: false)
+                  .limit(30)
               as List;
-      setState(() => _orders = data.cast<Map<String, dynamic>>());
+      if (mounted) setState(() => _orders = data.cast<Map<String, dynamic>>());
     } catch (_) {
+      if (mounted)
+        setState(
+          () => _ordersError =
+              'Order status could not be refreshed. Retry when connected.',
+        );
     } finally {
+      _ordersBusy = false;
+      if (_ordersDirty && mounted) {
+        _ordersDirty = false;
+        unawaited(_loadOrders());
+      }
       if (mounted) setState(() => _ordersLoading = false);
     }
   }
@@ -1803,6 +1831,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             ),
           ),
 
+          if (_ordersError != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              child: Text(_ordersError!, style: const TextStyle(color: _kPink)),
+            ),
           Expanded(
             child: _ordersLoading
                 ? Center(
@@ -2005,6 +2038,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                 ),
               ],
             ),
+
+            OrderTimeoutSummary(order: order),
 
             if (status == 'on_the_way') ...[
               const SizedBox(height: 14),

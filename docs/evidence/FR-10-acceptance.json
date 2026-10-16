@@ -1,0 +1,342 @@
+{
+  "status": "FR-10 FUNCTIONALLY ACCEPTED",
+  "date": "2026-10-16",
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "production_touched": false,
+  "actual_money_movement": false,
+  "branch": "feature/FR-10-order-timeout-autocancel",
+  "base": "fed835ffb27d7f163be33e89478a14a4af2943bf",
+  "migration": "202610160001_fr10_order_timeout.sql",
+  "migration_count": 31,
+  "timeout_seconds": 180,
+  "cron": {
+    "active": true,
+    "id": 4,
+    "name": "fr10-order-timeout",
+    "schedule": "* * * * *"
+  },
+  "autonomous_cron": {
+    "result": "PASS",
+    "autonomous_cron": true,
+    "manual_worker_call": false,
+    "verified": {
+      "cancellation_reason": "vendor_timeout",
+      "cron_succeeded": true,
+      "events": 1,
+      "notices": 1,
+      "order_status": "cancelled",
+      "refunds": 1
+    }
+  },
+  "checks": {
+    "local_sql": 67,
+    "hosted_predeployment_sql": 67,
+    "hosted_deployed_sql": 67,
+    "hosted_http": 24,
+    "flutter_pass": 150,
+    "flutter_conditional_skip": 2,
+    "fr10_flutter": 15,
+    "analysis_errors": 0,
+    "analysis_inherited_warnings": 14,
+    "analysis_style_notices": 87,
+    "regressions": {
+      "FR21": 47,
+      "FR04": 49,
+      "FR25": 83,
+      "FR26": 95,
+      "FR33": 39,
+      "FR28": 74,
+      "FR20": 70,
+      "FR30_sql": 65,
+      "FR30_http": 25,
+      "FR30_realtime": 3,
+      "Deno_sender": 4
+    }
+  },
+  "physical_android": {
+    "result": "PASS",
+    "serial": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "fresh_install": "Success",
+    "fixture_final_integrity": {
+      "physical_fixture_final_integrity": "PASS",
+      "seconds_restored": 180,
+      "orders": [
+        {
+          "assignments": 0,
+          "children": [
+            "cancelled"
+          ],
+          "events": 1,
+          "id": 1577,
+          "notices": 1,
+          "order_status": "cancelled",
+          "refunds": 0,
+          "rider_id": null
+        },
+        {
+          "assignments": 0,
+          "children": [
+            "cancelled"
+          ],
+          "events": 1,
+          "id": 1578,
+          "notices": 1,
+          "order_status": "cancelled",
+          "refunds": 1,
+          "rider_id": null
+        },
+        {
+          "assignments": 0,
+          "children": [
+            "accepted"
+          ],
+          "events": 0,
+          "id": 1579,
+          "notices": 0,
+          "order_status": "accepted",
+          "refunds": 0,
+          "rider_id": null
+        },
+        {
+          "assignments": 0,
+          "children": [
+            "cancelled"
+          ],
+          "events": 1,
+          "id": 1580,
+          "notices": 1,
+          "order_status": "cancelled",
+          "refunds": 0,
+          "rider_id": null
+        }
+      ]
+    },
+    "checks": [
+      "actual customer UI checkout confirmed",
+      "60-second deadline persisted",
+      "autonomous scheduled cancellation",
+      "exact cancellation message",
+      "persisted cancellation timeline on phone",
+      "captured full pending refund displayed",
+      "COD no refund",
+      "before-deadline UI acceptance persisted",
+      "after-deadline UI acceptance rejected",
+      "no cancelled-order rider assignments",
+      "repeated-cron deduplication",
+      "existing inbox and broadcast preserved",
+      "unread3 to0 through UI",
+      "actual timeout OS receipt",
+      "actual existing broadcast OS receipt",
+      "timeout restored180",
+      "no fatal/unhandled/Flutter error logs"
+    ],
+    "after_deadline_observation": {
+      "parent_id": 1580,
+      "vendor_order_id": 1185,
+      "server_deadline": "2026-10-16T06:26:52.754478+00:00",
+      "actual_observed_UI_message": "This order has expired and can no longer be accepted.",
+      "source": "ADB UI observed immediately following the physical Accept Order tap; delayed standalone assertion missed the transient refreshed message"
+    },
+    "probe_notes": "Initial standalone timeline assertion raced with live refresh; final observed expanded timeline assertion passed. Failed standalone transient-message assertions are not counted as PASS."
+  },
+  "performance": {
+    "small_local": {
+      "profile": "small",
+      "exit_code": 0,
+      "resource_aborted": false,
+      "minimum_available_bytes": 321523712,
+      "metrics": {
+        "vendor_acceptance_ms": {
+          "p(95)": 146.63857999999996,
+          "avg": 88.97109999999999,
+          "min": 32.8851,
+          "med": 75.2354,
+          "max": 845.8601,
+          "p(90)": 124.22330000000002,
+          "thresholds": {
+            "p(95)<800": false
+          }
+        },
+        "unexpected_errors": {
+          "passes": 0,
+          "fails": 197,
+          "thresholds": {
+            "rate<0.01": false
+          },
+          "value": 0
+        },
+        "checks": {
+          "passes": 197,
+          "fails": 0,
+          "thresholds": {
+            "rate>0.99": false
+          },
+          "value": 1
+        },
+        "http_reqs": {
+          "count": 197,
+          "rate": 13.084913744049336
+        },
+        "vus_max": {
+          "min": 2,
+          "max": 2,
+          "value": 2
+        }
+      },
+      "local_only": true
+    },
+    "bulk_local": {
+      "checks": [
+        {
+          "check": "separate sessions: acceptance wins before deadline, worker skips locked parent",
+          "result": "PASS"
+        },
+        {
+          "check": "accepted winner has no cancellation side effects",
+          "result": "PASS"
+        },
+        {
+          "check": "separate sessions: timeout winner blocks later acceptance",
+          "result": "PASS"
+        },
+        {
+          "check": "concurrent duplicate workers create one notification",
+          "result": "PASS"
+        },
+        {
+          "check": "concurrent duplicate workers create one cancellation event",
+          "result": "PASS"
+        },
+        {
+          "check": "500-order batch limit honored among 5000",
+          "result": "PASS"
+        },
+        {
+          "check": "oldest expired first",
+          "result": "PASS"
+        },
+        {
+          "check": "5000 orders drained with exactly one notice refund and cancellation event each",
+          "result": "PASS"
+        },
+        {
+          "check": "overlapping bounded workers never exceed batch cap",
+          "result": "PASS"
+        }
+      ],
+      "bulk": {
+        "events": 5000,
+        "orders": 5000,
+        "refunds": 5000,
+        "cancelled": 5000,
+        "notifications": 5000
+      },
+      "total_seconds_including_fixture_creation": 80.47,
+      "scheduler_batches": [
+        {
+          "milliseconds": 24421.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 25187.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 30516.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 30734.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 578.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 688.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 891.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 687.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 609.0,
+          "cancelled": 500,
+          "processed": 500,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 391.0,
+          "cancelled": 0,
+          "processed": 0,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 312.0,
+          "cancelled": 0,
+          "processed": 0,
+          "review_required": 0
+        },
+        {
+          "milliseconds": 313.0,
+          "cancelled": 0,
+          "processed": 0,
+          "review_required": 0
+        }
+      ],
+      "interactive_p95": "NOT MEASURED by SQL transport",
+      "full_1000_vus": "NOT EXECUTED",
+      "local_container": "supabase_db_tezrider-fr30-local"
+    },
+    "optional_full": {
+      "profile": "full",
+      "status": "NOT EXECUTED",
+      "reason": "Insufficient available memory for safe local benchmark",
+      "available_bytes": 443621376
+    },
+    "hosted_load": false
+  },
+  "artifact": {
+    "sha256": "e7f146d1c117c755cef2b323fec0362d60ec8466e02481b42d867139be1dc4e6",
+    "bytes": 206318163,
+    "source_files_matched": 103,
+    "test_only": true,
+    "fr10_code_present": true,
+    "credential_scan_passed": true,
+    "files_scanned": 27,
+    "production_endpoint_absent": true,
+    "physical_device_test": "EXECUTED; see native-evidence.jsonl"
+  },
+  "refund_disclaimer": "Refund initiation records a pending financial obligation. It does not prove money was returned.",
+  "limitations": [
+    "Optional1000 VUs NOT EXECUTED due RAM safety gate",
+    "Legacy fragmented orders not retrospectively enrolled",
+    "No iOS build/device verification in FR10",
+    "Free Supabase quotas remain bounded"
+  ],
+  "push": false,
+  "merge": false
+}
