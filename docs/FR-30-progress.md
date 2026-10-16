@@ -230,3 +230,16 @@ final APK covers all3 lifecycle modes. Fixture unblocked, one authorized registr
 phone returned to normal customer home with unread0.42 follow-up files reviewed;
 seven accepted ancestors preserved. Final feature-only scan/staging/commit follows.
 Root `.gitignore` remains unrelated and unstaged; no push/merge or production change.
+
+## iOS/APNs inspection — 2026-10-15, base 40ad2ca
+
+See `FR-30-ios-acceptance.md` and `evidence/FR-30-ios.json`. iOS/APNs is
+**NOT EXECUTED**, with static readiness **FAIL**: missing TEST iOS Firebase app
+configuration, signing/capabilities/native dependency integration and iOS client/
+sender support. Installed Firebase plugins require iOS15; Runner targets13.
+Windows cannot run the iOS build; Mac/Xcode, an authorized Apple team and a
+physical iPhone are required. Apple/Firebase console APNs setup is unverified.
+Added iOS config/signing-file ignore rules only; Android runtime and all backend
+configuration remain unchanged. No production operation, commit, push or merge.
+Current-checkout FR30 delivery/broadcast regressions:23 passed, exit0. Ignore
+probes and Git whitespace check passed. Native iOS verification remains unexecuted.

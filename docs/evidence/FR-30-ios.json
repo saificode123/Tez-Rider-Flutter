@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-15",
+  "base_commit": "40ad2ca0851e7a3f203f173a1fc1d96b41a8d9d1",
+  "overall_ios_apns": "NOT EXECUTED",
+  "static_readiness": "FAIL",
+  "host": "Windows",
+  "tools_available": {
+    "xcodebuild": false,
+    "xcrun": false,
+    "pod": false,
+    "sw_vers": false
+  },
+  "ios_google_service_plist_present": false,
+  "ios_entitlements_present": false,
+  "ios_podfile_present": false,
+  "ios_swift_package_integration_present": false,
+  "development_team_configured": false,
+  "code_sign_entitlements_configured": false,
+  "push_capability_configured": false,
+  "background_modes": [],
+  "swizzling_explicitly_disabled": false,
+  "test_scheme_present": false,
+  "runner_deployment_target": "13.0",
+  "installed_firebase_core_required_ios": "15.0",
+  "installed_firebase_messaging_required_ios": "15.0",
+  "notification_service_android_only": true,
+  "ios_permission_registration_implemented": false,
+  "apns_credential_in_supplied_secret_directory": false,
+  "firebase_console_apns_upload": "NOT EXECUTED: console/account access not available; local key absence does not prove no uploaded key",
+  "ios_build_attempt": {
+    "command": "flutter build ios",
+    "exit_code": 1,
+    "result": "Could not find a subcommand named \"ios\" for \"flutter build\"."
+  },
+  "ios_physical_device_test": "NOT EXECUTED: no macOS/Xcode iPhone build/test connection available",
+  "supabase_mutations": false,
+  "android_runtime_changes": false,
+  "flutter_regression": {
+    "location": "current workspace",
+    "command": "flutter test --no-pub --concurrency=1 --reporter expanded test/fr30_push_delivery_test.dart test/admin_broadcast_test.dart",
+    "exit_code": 0,
+    "passed": 23,
+    "ios_native_coverage": false
+  },
+  "ignored_apple_paths_verified": [
+    "ios/Runner/GoogleService-Info.plist",
+    "ios/Runner/AuthKey_TEST.p8",
+    "ios/Runner/signing.p12",
+    "ios/Runner/test.mobileprovision"
+  ],
+  "accepted_runtime_matches_base": true,
+  "git_diff_check_exit_code": 0
+}

@@ -55,3 +55,7 @@ build/
 __pycache__/
 /.fr21-local/
 /supabase/functions/.env.test.local
+
+Add-Content .gitignore "supabase/functions/.env*"
+git check-ignore -v supabase/functions/.env.test.local
+git status
