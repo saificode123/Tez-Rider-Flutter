@@ -1,4 +1,5 @@
 import '../../widgets/order_timeout_summary.dart';
+import '../../widgets/invoice_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -292,6 +293,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                InvoiceButton(orderId: order['id'] as int),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,

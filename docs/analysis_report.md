@@ -15,9 +15,9 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
-- **20 functionally complete** (FR-17 now verified; historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
+- **21 functionally complete** (FR-17 and FR-32 now verified; historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
 - **8 partial or pending verification**: FR-04, FR-10, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
-- **3 not implemented**: FR-13, FR-14, FR-32
+- **2 not implemented**: FR-13, FR-14
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
 
@@ -90,7 +90,7 @@ These historical buckets are not a fresh review of every feature; use the later 
 | FR    | Status              | Notes                                                                                                                                                                                                                                  |
 | ----- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-31 | **Partially verified** | Trusted personal and broadcast notices use owner RLS, bounded stable pagination, unread count, own read state and one Realtime channel with reconnect/resume refresh. Android TEST foreground/background/normal-terminated push verified; iOS/APNs remains separate; legacy client `sendNotification` writes are denied by current grants, so not all automatic notification creation paths are accepted. See `FR-30-acceptance.md`.                                                                                                                                                                                                                   |
-| FR-32 | **Not implemented** | No email dispatch for invoices/confirmations                                                                                                                                                                                           |
+| FR-32 | **Functionally accepted on isolated TEST** | Transactional outbox, shared FR-33 rolling26h quota, protected worker/cron, private immutable PDF invoices and Order History access. Actual inbox/attachment/account receipts, physical Android checkout/invoice/notifications/OTP, SQL63/Deno76/Flutter179 and all10 prior FR regression groups passed. Local k6 smoke passed; optional1000-user qualification NOT EXECUTED. Production untouched. See docs/FR-32-acceptance.md. |
 | FR-33 | **Functionally accepted on TEST** | Server-only CSPRNG email OTP through TEST Edge Function/Brevo, Vault HMAC verifier, no plaintext client/DB code, three-attempt lockout, atomic idempotent delivery proof/audit/notifications. Hosted security/races, Flutter tests and physical Android/email checks passed; see `FR-33-readiness.md` / `FR-33-acceptance.md`. Additional local load qualification not executed due RAM; inherited vendor-rating permission denial documented. |
 
 ### Security

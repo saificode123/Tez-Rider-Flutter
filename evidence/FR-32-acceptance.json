@@ -1,0 +1,209 @@
+{
+  "recorded_at": "2026-10-17T17:02:32.606922+00:00",
+  "status": "FUNCTIONALLY ACCEPTED",
+  "branch": "feature/FR-32-email-notifications",
+  "test_project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "migration": "202610160003",
+  "worker": "fr32-email-worker",
+  "cron_job": 5,
+  "schedule": "*/2 * * * *",
+  "commit": "Resolve from Git history for this report; final response supplies hash",
+  "pushed": false,
+  "merged": false,
+  "checks": {
+    "sql_local": 63,
+    "sql_hosted": 63,
+    "deno": 76,
+    "flutter_passed": 179,
+    "flutter_inherited_skips": 2,
+    "analyze": {
+      "errors": 0,
+      "inherited_warnings": 13,
+      "notices": 66,
+      "clean_lint": false
+    },
+    "regressions": [
+      {
+        "FR": "FR21",
+        "result": "PASS",
+        "passed": 47
+      },
+      {
+        "FR": "FR04",
+        "result": "PASS",
+        "passed": 49
+      },
+      {
+        "FR": "FR25",
+        "result": "PASS",
+        "passed": 83
+      },
+      {
+        "FR": "FR26",
+        "result": "PASS",
+        "passed": 95
+      },
+      {
+        "FR": "FR33",
+        "result": "PASS",
+        "passed": 39
+      },
+      {
+        "FR": "FR28",
+        "result": "PASS",
+        "passed": 54
+      },
+      {
+        "FR": "FR20",
+        "result": "PASS",
+        "passed": 63
+      },
+      {
+        "FR": "FR30-sql",
+        "result": "PASS",
+        "passed": 65
+      },
+      {
+        "FR": "FR30-http",
+        "result": "PASS",
+        "passed": 25
+      },
+      {
+        "FR": "FR30-realtime",
+        "result": "PASS",
+        "passed": 3
+      },
+      {
+        "FR": "FR10-sql",
+        "result": "PASS",
+        "passed": 67
+      },
+      {
+        "FR": "FR10-http",
+        "result": "PASS",
+        "passed": 24
+      },
+      {
+        "FR": "FR17-sql",
+        "result": "PASS",
+        "passed": 53
+      },
+      {
+        "FR": "FR17-http",
+        "result": "PASS",
+        "passed": 27
+      }
+    ],
+    "final_reconciled_deno": 76
+  },
+  "inbox_receipts": {
+    "order_confirmation": "USER CONFIRMED",
+    "paid_invoice": "USER CONFIRMED: invoice verified; PKR440.00 total, PKR200.00 delivery once",
+    "vendor_rejection": "USER CONFIRMED: vendor rejection received",
+    "vendor_approval": "USER CONFIRMED: vendor approval received",
+    "rider_rejection": "USER CONFIRMED: rider rejection received",
+    "rider_cnic_verification": "USER CONFIRMED: rider verification received",
+    "blocked": "USER CONFIRMED: blocked email received",
+    "unblocked": "USER CONFIRMED: unblocked email received",
+    "fr33_otp": "USER CONFIRMED: OTP verified; private code entered directly on phone"
+  },
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "fresh_build_install": "PASS",
+    "apk_sha256": "c5cfb89afff036683ff00b603c2e847740c4790ceb356ee16e70770d8731c561",
+    "source_and_credential_scan": "PASS",
+    "physical_paid_invoice_pdf": "PASS",
+    "physical_unpaid_invoice_feedback": "PASS",
+    "physical_checkout": {
+      "result": "PASS",
+      "order_id": 2112,
+      "confirmation_intents": 1,
+      "unpaid_invoices": 0
+    },
+    "notifications_mark_read_persisted": "PASS",
+    "fatal_unhandled_log_scan": "PASS",
+    "physical_fr33_otp": {
+      "result": "PASS",
+      "order_id": 2113,
+      "used_otp": true,
+      "shared_otp_admissions": 1,
+      "delivery_proofs": 1,
+      "completion_audits": 1,
+      "user_confirmation": "OTP verified"
+    },
+    "source_verification": "PASS: preserved successful108-source manifest and identical APK; complete APK credential scan repeated"
+  },
+  "load": {
+    "scope": "LOCAL loopback only, Brevo mocked",
+    "result": "PASS",
+    "vus": 2,
+    "iterations": 40,
+    "checks_passed": 49,
+    "checks_failed": 0,
+    "unexpected_error_rate": 0,
+    "enqueue_p95_ms": 57.7359,
+    "mock_acceptances": 7,
+    "remaining_deferred": 34,
+    "real_emails_sent": 0,
+    "full_1000_vu": "NOT EXECUTED",
+    "configuration_restored": true,
+    "queue_observation_ms": 31067,
+    "full_queue_drain": "Not claimed:34 jobs deferred by synthetic quota"
+  },
+  "limitations": [
+    "Brevo reset timezone unverified; user approved rolling26h shared300/90 policy",
+    "Provider acceptance does not establish inbox receipt",
+    "No 1000-user or iOS claim",
+    "Physical OTP and account receipts remain mandatory",
+    "Earlier failed attempts retained in ignored logs; latest passing accepted regressions supersede them"
+  ],
+  "remaining": [],
+  "final_security_recheck": "PASS: TEST quota/RLS/private bucket, one FR32 job, FR10/30 active",
+  "changed_file_credential_scan": {
+    "result": "PASS",
+    "files": 36
+  },
+  "inbox_latency": "Not instrumented; receipt confirmed separately by user",
+  "changed_files": [
+    "docs/FR-32-acceptance.md",
+    "docs/FR-32-operations.md",
+    "docs/FR-32-progress.md",
+    "docs/analysis_report.md",
+    "evidence/FR-32-acceptance.json",
+    "lib/screens/customer/order_history_screen.dart",
+    "lib/services/invoice_service.dart",
+    "lib/widgets/invoice_button.dart",
+    "supabase/config.toml",
+    "supabase/functions/_shared/fr32-brevo.ts",
+    "supabase/functions/_shared/fr32-fonts/NotoNaskhArabic-Regular.ttf",
+    "supabase/functions/_shared/fr32-fonts/NotoSans-Regular.ttf",
+    "supabase/functions/_shared/fr32-fonts/OFL.txt",
+    "supabase/functions/_shared/fr32-invoice.ts",
+    "supabase/functions/_shared/fr32-templates.ts",
+    "supabase/functions/fr32-email-worker/handler.ts",
+    "supabase/functions/fr32-email-worker/handler_test.ts",
+    "supabase/functions/fr32-email-worker/index.ts",
+    "supabase/functions/fr32-invoice-url/handler.ts",
+    "supabase/functions/fr32-invoice-url/handler_test.ts",
+    "supabase/functions/fr32-invoice-url/index.ts",
+    "supabase/inspection/FR-32-preflight.sql",
+    "supabase/migrations/202610160003_fr32_email_outbox.sql",
+    "supabase/tests/FR-32.sql",
+    "test/fr32_invoice_test.dart",
+    "tests/integration/FR-32-artifact.py",
+    "tests/integration/FR-32-build.ps1",
+    "tests/integration/FR-32-db.py",
+    "tests/integration/FR-32-hosted.py",
+    "tests/integration/FR-32-load.py",
+    "tests/integration/FR-32-local.py",
+    "tests/integration/FR-32-native.py",
+    "tests/integration/FR-32-run.ps1",
+    "tests/load/FR-32-harness.ts",
+    "tests/load/FR-32-local.sql",
+    "tests/load/FR-32.js"
+  ],
+  "final_worker_deployment": "Reconciled final worker deployed only to isolated TEST; no migration or scheduler replay",
+  "final_hosted_access_recheck": "PASS: wrong-worker-key401, owner/admin signing, cross-customer403, private public-fetch denial and role outbox denials"
+}
