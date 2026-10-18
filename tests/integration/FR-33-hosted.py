@@ -126,7 +126,12 @@ def security_fixtures():
  check(True,'synthetic security fixtures ready; no SMTP request')
 def order(label,real=False):
  rider=state['accounts'][ACTOR];customer=state['accounts']['customer' if real else 'security-customer']
- code,rows=b.api('/rest/v1/orders','POST',{'user_id':customer['profile_id'],'rider_id':rider['profile_id'],'order_status':'on_the_way','amount':25,'payment_method':'COD','delivery_address':'FR33 SYNTHETIC TEST ONLY'},admin=True);assert code==201
+ body={'user_id':customer['profile_id'],'rider_id':rider['profile_id'],'order_status':'on_the_way','amount':25,'payment_method':'COD','delivery_address':'FR33 SYNTHETIC TEST ONLY'}
+ if __import__('os').environ.get('CHECKLIST_REGRESSION_FIXTURES')=='true':
+  from checklist_fixtures import create
+  code,rows=create(b,body,rider)
+ else:code,rows=b.api('/rest/v1/orders','POST',body,admin=True)
+ assert code==201
  state['orders'][label]=rows[0]['id'];save();return rows[0]['id']
 def simulated_issue(order_id):
  import uuid

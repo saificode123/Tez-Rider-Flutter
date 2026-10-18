@@ -26,7 +26,12 @@ def fixture(label,role='customer',approved=True):
   assert code==201,'Synthetic TEST profile fixture creation failed';account['profile_id']=rows[0]['id'];save()
  return account,b.login(account)
 def new_dispute(label,customer,token,payment='PAID'):
- code,rows=api('/rest/v1/orders','POST',{'user_id':customer['profile_id'],'order_status':'delivered','amount':25,'delivery_address':'FR26 SYNTHETIC TEST ONLY','payment_method':'COD'},admin=True);assert code==201
+ body={'user_id':customer['profile_id'],'order_status':'delivered','amount':25,'delivery_address':'FR26 SYNTHETIC TEST ONLY','payment_method':'COD'}
+ if __import__('os').environ.get('CHECKLIST_REGRESSION_FIXTURES')=='true':
+  from checklist_fixtures import create
+  code,rows=create(b,body)
+ else:code,rows=api('/rest/v1/orders','POST',body,admin=True)
+ assert code==201
  order=rows[0]['id'];request=str(uuid.uuid4());code,_=rpc('fr25_prepare',{'p_request_id':request,'p_order_id':order},token);assert code==200
  code,image=g.upload(token,request);assert code==200
  code,data=g.submit(token,request,order,[image['path']],description='FR26 synthetic decision evidence');assert code==200

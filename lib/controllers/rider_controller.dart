@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/rider_presence.dart';
 import '../services/delivery_otp_service.dart';
+import '../services/pre_delivery_checklist_service.dart';
 
 class RiderController extends GetxController with WidgetsBindingObserver {
   final _supabase = Supabase.instance.client;
@@ -26,6 +27,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   StreamSubscription<AuthState>? _authSubscription;
   final deliveryBusy = false.obs;
   final deliveryOtp = DeliveryOtpFlow(SupabaseDeliveryOtpBackend());
+  final checklist = PreDeliveryChecklistFlow(SupabaseChecklistBackend());
   int _requestsPage = 0;
   final hasMoreRequests = false.obs;
   final requestsLoading = false.obs;
@@ -274,7 +276,13 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         .from('orders')
         .select()
         .eq('rider_id', riderId)
-        .eq('order_status', 'on_the_way')
+        .inFilter('order_status', [
+          'pending',
+          'accepted',
+          'preparing',
+          'ready',
+          'on_the_way',
+        ])
         .order('created_at', ascending: false)
         .limit(1)
         .maybeSingle()
@@ -282,9 +290,11 @@ class RiderController extends GetxController with WidgetsBindingObserver {
 
     if (orderData != null) {
       currentOrder.value = {...orderData, 'type': 'order'};
+      await checklist.open(orderData['id'] as int);
       return;
     }
 
+    await checklist.open(null);
     final tailorData = await _supabase
         .from('tailoring_requests')
         .select()
@@ -306,7 +316,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
 
   Future<void> acceptOrder(Map<String, dynamic> order) async {
     if (deliveryBusy.value) return;
-    if (currentOrder.value != null) {
+    if (currentOrder.value != null &&
+        (currentOrder.value?['type'] != 'order' ||
+            currentOrder.value?['id'] != order['id'])) {
       Get.snackbar(
         'Ongoing Delivery',
         'Please complete your current order first.',
@@ -333,9 +345,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       );
       if (isClosed) return;
       currentOrder.value = {...order, ...result, 'type': 'order'};
+      await checklist.open(order['id'] as int);
       Get.snackbar(
         'Order Accepted',
-        'Navigate to the customer now.',
+        'Complete the pickup checklist before starting delivery.',
         backgroundColor: Get.theme.colorScheme.primary,
         colorText: Get.theme.colorScheme.onPrimary,
       );
@@ -354,6 +367,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         deliveryBusy.value) {
       return;
     }
+    if (order['order_status'] != 'on_the_way') {
+      Get.snackbar('Pickup checklist', checklistMessage('CHECKLIST_REQUIRED'));
+      return;
+    }
     deliveryBusy.value = true;
     try {
       if (!deliveryOtp.begin(order['id'] as int)) {
@@ -362,6 +379,27 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       await deliveryOtp.refresh();
       if (!deliveryOtp.active && !deliveryOtp.delivered) {
         await deliveryOtp.requestEmail();
+      }
+    } finally {
+      if (!isClosed) deliveryBusy.value = false;
+    }
+  }
+
+  Future<void> startDelivery() async {
+    if (deliveryBusy.value) return;
+    final orderId = currentOrder.value?['id'];
+    deliveryBusy.value = true;
+    try {
+      if (await checklist.start() &&
+          !isClosed &&
+          currentOrder.value?['id'] == orderId) {
+        // STARTED/on_the_way was validated from the server response. A later
+        // refresh failure must not erase that confirmation or escape unhandled.
+        currentOrder.value = {
+          ...currentOrder.value!,
+          'order_status': checklist.orderStatus.value,
+        };
+        unawaited(_refreshRequests());
       }
     } finally {
       if (!isClosed) deliveryBusy.value = false;
@@ -479,6 +517,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     unawaited(goOffline());
     _presence.dispose();
     deliveryOtp.dispose();
+    checklist.dispose();
     _refreshTimer?.cancel();
     unawaited(_authSubscription?.cancel());
     if (_dashboardChannel != null) {

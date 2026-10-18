@@ -1,0 +1,162 @@
+{
+  "status": "PRE-DELIVERY CHECKLIST FUNCTIONALLY ACCEPTED",
+  "scope": "isolated TEST only",
+  "project_ref": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "branch": "feature/pre-delivery-checklist",
+  "base": "569e8c671a57982d3ed8f99dcb1c04613607a685",
+  "migration": "202610170001_pre_delivery_checklist.sql",
+  "migration_versions": 34,
+  "accepted_schedulers_unchanged": true,
+  "sql": {
+    "rollback_review": 63,
+    "local_post_apply": 56,
+    "hosted_post_apply": 56
+  },
+  "concurrency": {
+    "result": "PASS",
+    "real_independent_session_assertions": 6
+  },
+  "hosted_http": {
+    "result": "PASS",
+    "assertions": 11
+  },
+  "flutter": {
+    "full_passed": 194,
+    "inherited_skips": 2,
+    "focused_passed": 14,
+    "analyze_errors": 0,
+    "inherited_warnings": 13,
+    "notices": 66,
+    "later_start_refresh_hardening": "PASS final tests, analysis, APK and runtime",
+    "otp_attempt_display_correction": "PASS 194 tests / 2 inherited skips; changed-file analysis no issues; final APK installed"
+  },
+  "regressions": [
+    {
+      "FR": "FR21",
+      "result": "PASS",
+      "passed": 47
+    },
+    {
+      "FR": "FR04",
+      "result": "PASS",
+      "passed": 49
+    },
+    {
+      "FR": "FR25",
+      "result": "PASS",
+      "passed": 83
+    },
+    {
+      "FR": "FR26",
+      "result": "PASS",
+      "passed": 95
+    },
+    {
+      "FR": "FR33",
+      "result": "PASS",
+      "passed": 39
+    },
+    {
+      "FR": "FR28",
+      "result": "PASS",
+      "passed": 74
+    },
+    {
+      "FR": "FR20",
+      "result": "PASS",
+      "passed": 70
+    },
+    {
+      "FR": "FR30-sql",
+      "result": "PASS",
+      "passed": 65
+    },
+    {
+      "FR": "FR30-http",
+      "result": "PASS",
+      "passed": 25
+    },
+    {
+      "FR": "FR30-realtime",
+      "result": "PASS",
+      "passed": 3
+    },
+    {
+      "FR": "FR10",
+      "result": "PASS",
+      "passed": 24
+    },
+    {
+      "FR": "FR17",
+      "result": "PASS",
+      "passed": 27
+    },
+    {
+      "FR": "FR32",
+      "result": "PASS",
+      "passed": 63
+    }
+  ],
+  "otp_source_preserved": true,
+  "legacy": {
+    "recorded_old_transit_orders": 28,
+    "fabricated_checklist_completions": 0,
+    "new_assignments_cannot_inherit": true
+  },
+  "physical_android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "initial_apk_sha256": "83e416617a5433116f5160f51b7582dda03ab3565c2c470f7ff76bb3a5121366",
+    "initial_source_files_matched": 110,
+    "initial_apk_secret_scan": "PASS",
+    "server_items_visible": 3,
+    "incomplete_actions_disabled": "PASS",
+    "all_confirmations_enable_submit_only": "PASS",
+    "authoritative_submit": "PASS",
+    "restart_restore": "PASS",
+    "duplicate_evidence_and_time_unchanged": "PASS",
+    "explicit_start_delivery": "PASS",
+    "order_id": 2124,
+    "real_otp_provider_acceptance": "PASS",
+    "otp_completion": "PASS backend USED/delivered; one protected proof and completion audit",
+    "other_rider_phone_view": "PASS target absent; evidence RLS denied; submit FORBIDDEN",
+    "final_build_after_start_refresh_hardening": "PASS build/source/APK scan/install/startup/runtime",
+    "final_apk_sha256": "48d2521ccfa28d7b668cb39730ea2abd312b64993c24b0e3df2a3215fd956176",
+    "final_integrity": "PASS assignment Delivered; one response; matching server timestamp; version 1; three items",
+    "runtime_fatal_unhandled_scan": "PASS"
+  },
+  "load": {
+    "scope": "LOCAL only, real PostgREST/RLS/RPC",
+    "result": "PASS",
+    "iterations": 40,
+    "distinct_assignments": 20,
+    "contended_retries": 20,
+    "vus_per_scenario": 2,
+    "allocated_vus": 4,
+    "max_observed_vus": 2,
+    "requests": 260,
+    "checks_passed": 180,
+    "checks_failed": 0,
+    "unexpected_error_rate": 0,
+    "operation_p95_ms": 29.914175,
+    "operation_max_ms": 229.4457,
+    "real_emails_sent": 0,
+    "synthetic_fixtures_closed": 22,
+    "jwt_fixture_removed": true,
+    "quota_changed": false,
+    "full_1000_vu": "NOT EXECUTED"
+  },
+  "remaining": [],
+  "commit": "Feature-only local commit follows this evidence; see git log",
+  "pushed": false,
+  "merged": false,
+  "limitations": [
+    "No GPS streaming implemented; existing simulation retained",
+    "Damaged-package reporting workflow unspecified and not invented",
+    "1000-user capacity not established",
+    "Initial failed fixture-adapter attempts retained; subsequent accepted suites all passed",
+    "Financial regression delivered seeds are explicit privileged synthetic history after real checklist/start, not real OTP/provider capture"
+  ],
+  "accepted_on": "2026-10-18"
+}

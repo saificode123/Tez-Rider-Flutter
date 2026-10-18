@@ -41,6 +41,8 @@ String deliveryOtpMessage(
   'EMAIL_UNAVAILABLE' =>
     'The customer needs a confirmed registered email. Contact Admin.',
   'WRONG_STATE' => 'This order is not eligible for delivery verification.',
+  'CHECKLIST_REQUIRED' =>
+    'Complete and submit the pickup checklist, then start delivery before confirming the OTP.',
   'FORMAT' => 'Enter exactly six numeric digits.',
   'REQUEST_CONFLICT' =>
     'Retry the unchanged verification before entering a different code.',
@@ -124,6 +126,13 @@ class DeliveryOtpFlow {
             status['expires_at']?.toString() ?? '',
           )?.isAfter(DateTime.now().toUtc()) ??
           false);
+  int? get remainingAttempts {
+    final remaining = status['remaining'];
+    return active && remaining is int && remaining >= 0 && remaining <= 3
+        ? remaining
+        : null;
+  }
+
   int get cooldownSeconds => max(
     0,
     (cooldownUntil?.difference(DateTime.now()).inMilliseconds ?? 0).ceil() ~/

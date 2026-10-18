@@ -26,7 +26,11 @@ def fixture(label,role='customer'):
   assert status==201,'Synthetic TEST profile creation failed';a['profile_id']=rows[0]['id'];save()
  return a,b.login(a)
 def order(account,label,status='delivered'):
- code,rows=api('/rest/v1/orders','POST',{'user_id':account['profile_id'],'order_status':status,'amount':25,'delivery_address':'FR25 SYNTHETIC TEST ONLY','payment_method':'COD'},admin=True)
+ body={'user_id':account['profile_id'],'order_status':status,'amount':25,'delivery_address':'FR25 SYNTHETIC TEST ONLY','payment_method':'COD'}
+ if os.environ.get('CHECKLIST_REGRESSION_FIXTURES')=='true'and status=='delivered':
+  from checklist_fixtures import create
+  code,rows=create(b,body)
+ else:code,rows=api('/rest/v1/orders','POST',body,admin=True)
  assert code==201,'Synthetic order creation failed';state['orders'][label]=rows[0]['id'];save();return rows[0]['id']
 def image():
  im=Image.new('RGB',(320,180),'green');ImageDraw.Draw(im).text((12,50),'FR25 SYNTHETIC EVIDENCE\nNOT PERSONAL DATA',fill='white');out=io.BytesIO();im.save(out,format='PNG');return out.getvalue()

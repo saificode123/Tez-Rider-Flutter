@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/rider_controller.dart';
+import '../widgets/pre_delivery_checklist_card.dart';
 import '../theme/app_theme.dart';
 import 'splash_screen.dart';
 import 'chat_rooms_screen.dart';
@@ -977,139 +978,165 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 36,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: AppColors.divider,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.68,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 46,
-                        height: 46,
+                        width: 36,
+                        height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.primarySurface,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.pin_drop_rounded,
-                          color: AppColors.primary,
-                          size: 22,
+                          color: AppColors.divider,
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              order['type'] == 'tailoring'
-                                  ? 'Tailoring Pickup/Dropoff'
-                                  : 'Delivering to',
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            Text(
-                              order['delivery_address'] ?? 'Customer Location',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                                color: AppColors.textPrimary,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                      const SizedBox(height: 20),
+                      if (order['type'] == 'order' &&
+                          order['order_status'] != 'on_the_way')
+                        PreDeliveryChecklistCard(
+                          flow: riderCtrl.checklist,
+                          onAccept: () => riderCtrl.acceptOrder(order),
+                          onStart: riderCtrl.startDelivery,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () async {
-                            final phone =
-                                order['customer_phone'] ?? order['phone'];
-                            if (phone != null && phone.toString().isNotEmpty) {
-                              final uri = Uri.parse('tel:${phone.toString()}');
-                              try {
-                                await launchUrl(uri);
-                              } catch (_) {}
-                            } else {
-                              Get.snackbar(
-                                'Contact',
-                                'Customer number not available.',
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppColors.bgSection,
-                                colorText: AppColors.textPrimary,
-                                margin: const EdgeInsets.fromLTRB(
-                                  16,
-                                  0,
-                                  16,
-                                  20,
+                      Row(
+                        children: [
+                          Container(
+                            width: 46,
+                            height: 46,
+                            decoration: BoxDecoration(
+                              color: AppColors.primarySurface,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.pin_drop_rounded,
+                              color: AppColors.primary,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order['type'] == 'tailoring'
+                                      ? 'Tailoring Pickup/Dropoff'
+                                      : 'Delivering to',
+                                  style: const TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 12,
+                                  ),
                                 ),
-                                borderRadius: 14,
-                              );
-                            }
-                          },
-                          icon: const Icon(Icons.call_rounded, size: 18),
-                          label: const Text('Call'),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.success,
-                            side: const BorderSide(color: AppColors.success),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                                const SizedBox(height: 3),
+                                Text(
+                                  order['delivery_address'] ??
+                                      'Customer Location',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        flex: 2,
-                        child: ElevatedButton(
-                          onPressed:
-                              riderCtrl.deliveryBusy.value ||
-                                  riderCtrl.deliveryOtp.busy.value
-                              ? null
-                              : order['type'] == 'tailoring'
-                              ? _markDelivered
-                              : _arrived,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () async {
+                                final phone =
+                                    order['customer_phone'] ?? order['phone'];
+                                if (phone != null &&
+                                    phone.toString().isNotEmpty) {
+                                  final uri = Uri.parse(
+                                    'tel:${phone.toString()}',
+                                  );
+                                  try {
+                                    await launchUrl(uri);
+                                  } catch (_) {}
+                                } else {
+                                  Get.snackbar(
+                                    'Contact',
+                                    'Customer number not available.',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: AppColors.bgSection,
+                                    colorText: AppColors.textPrimary,
+                                    margin: const EdgeInsets.fromLTRB(
+                                      16,
+                                      0,
+                                      16,
+                                      20,
+                                    ),
+                                    borderRadius: 14,
+                                  );
+                                }
+                              },
+                              icon: const Icon(Icons.call_rounded, size: 18),
+                              label: const Text('Call'),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: AppColors.success,
+                                side: const BorderSide(
+                                  color: AppColors.success,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
                             ),
-                            elevation: 0,
                           ),
-                          child: Text(
-                            order['type'] == 'tailoring'
-                                ? 'Complete Step'
-                                : 'Arrived',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            flex: 2,
+                            child: ElevatedButton(
+                              onPressed:
+                                  riderCtrl.deliveryBusy.value ||
+                                      riderCtrl.deliveryOtp.busy.value ||
+                                      (order['type'] == 'order' &&
+                                          order['order_status'] != 'on_the_way')
+                                  ? null
+                                  : order['type'] == 'tailoring'
+                                  ? _markDelivered
+                                  : _arrived,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                order['type'] == 'tailoring'
+                                    ? 'Complete Step'
+                                    : 'Arrived',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -2003,8 +2030,8 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                   Text(flow.status['masked_email'] as String),
                 const SizedBox(height: 12),
                 Text(flow.message),
-                if (flow.status['remaining'] != null)
-                  Text('Attempts remaining: ${flow.status['remaining']}'),
+                if (flow.remainingAttempts != null)
+                  Text('Attempts remaining: ${flow.remainingAttempts}'),
                 if (flow.status['expires_at'] != null)
                   Text(
                     flow.active

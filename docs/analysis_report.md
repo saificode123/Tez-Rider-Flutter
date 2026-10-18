@@ -19,7 +19,7 @@ The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 
 - **8 partial or pending verification**: FR-04, FR-10, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
 - **2 not implemented**: FR-13, FR-14
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
-- **Extra gap, no FR number**: mandatory pre-delivery checklist (SRDS 1.3, 2.3.3, Table 5.6 row 16)
+- **Extra requirement, no FR number**: mandatory pre-delivery checklist functionally accepted on isolated TEST (see docs/CHECKLIST-acceptance.md)
 
 These historical buckets are not a fresh review of every feature; use the later verified rows for current acceptance. FR-19/20 were checked against source for this task.
 
@@ -50,7 +50,7 @@ These historical buckets are not a fresh review of every feature; use the later 
 | FR-13     | **Not implemented (simulated)** | `rider_dashboard.dart` reads GPS once at startup. `map_screen.dart` runs `_simulateRider()` and pushes fake coordinates to Supabase |
 | FR-14     | **Not implemented**             | Depends on FR-13. No route or ETA                                                                                                   |
 | FR-15     | Not reviewed                    | Rider info before delivery                                                                                                          |
-| Checklist | **Not implemented**             | No pre-delivery checklist UI or logic                                                                                               |
+| Checklist | **Functionally accepted (TEST)** | Server-defined versioned pickup checklist, protected submission/start RPCs, immutable evidence/RLS, legacy transit snapshot and FR33 completion gate. Deployed only TEST; SQL/concurrency/Android/OTP and all eleven prior-FR regressions passed. Evidence in docs/CHECKLIST-acceptance.md. |
 
 ### Vendor and product
 

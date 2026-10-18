@@ -141,8 +141,10 @@ void main() {
   test('invalid attempt displays server remaining count', () async {
     final b = Backend()..outcome = {'code': 'INVALID', 'remaining': 1};
     final f = DeliveryOtpFlow(b)..begin(1);
+    await f.refresh();
     expect(await f.verify('012345'), false);
     expect(f.status['remaining'], 1);
+    expect(f.remainingAttempts, 1);
     expect(f.message, 'Incorrect OTP. 1 attempts remaining.');
   });
   test('expired or locked response deactivates verification', () async {
@@ -152,8 +154,25 @@ void main() {
       await f.refresh();
       await f.verify('012345');
       expect(f.active, false);
+      expect(f.remainingAttempts, isNull);
     }
   });
+  test(
+    'expired status never presents a fresh three-attempt allowance',
+    () async {
+      final f = DeliveryOtpFlow(Backend())..begin(1);
+      await f.refresh();
+      expect(f.remainingAttempts, 3);
+      f.status['expires_at'] = DateTime.now()
+          .toUtc()
+          .subtract(const Duration(seconds: 1))
+          .toIso8601String();
+      expect(f.remainingAttempts, isNull);
+      f.status['code'] = 'EXPIRED';
+      f.status['remaining'] = 3;
+      expect(f.remainingAttempts, isNull);
+    },
+  );
   test('already delivered is confirmed idempotent outcome', () async {
     final b = Backend()..outcome = {'code': 'ALREADY_DELIVERED'};
     final f = DeliveryOtpFlow(b)..begin(1);
