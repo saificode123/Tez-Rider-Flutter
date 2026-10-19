@@ -6,3 +6,6 @@ static_files = ["./functions/_shared/fr32-fonts/*.ttf"]
 
 [functions.fr32-invoice-url]
 verify_jwt = false
+
+[functions.fr13-location]
+verify_jwt = false

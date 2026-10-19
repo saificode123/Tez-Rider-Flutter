@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../widgets/tez_map_tiles.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/rider_controller.dart';
@@ -35,32 +35,14 @@ class _RiderDashboardState extends State<RiderDashboard> {
   final AuthController authController = Get.find<AuthController>();
   final RiderController riderCtrl = Get.put(RiderController());
 
-  LatLng _currentLocation = const LatLng(31.5204, 74.3587);
-
-  Future<void> _initLocation() async {
-    try {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        return;
-      }
-      final pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      if (mounted) {
-        setState(() => _currentLocation = LatLng(pos.latitude, pos.longitude));
-        await riderCtrl.updateLocation(pos.latitude, pos.longitude);
-      }
-    } catch (_) {}
+  LatLng? get _currentLocation {
+    final fix = riderCtrl.location.latestFix.value;
+    return fix == null ? null : LatLng(fix.latitude, fix.longitude);
   }
 
   @override
   void initState() {
     super.initState();
-    _initLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
@@ -336,6 +318,17 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         : riderCtrl.restoreOnlineStatus,
                     child: const Text('Retry'),
                   ),
+                ),
+              ),
+
+            if (riderCtrl.isOnline.value)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  child: Text(riderCtrl.location.message.value),
                 ),
               ),
 
@@ -896,40 +889,42 @@ class _RiderDashboardState extends State<RiderDashboard> {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: _currentLocation,
+              initialCenter: _currentLocation ?? const LatLng(33.6844, 73.0479),
               initialZoom: 15.0,
             ),
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.tezrider.app',
+                tileProvider: tezMapTiles(),
               ),
               MarkerLayer(
                 markers: [
-                  Marker(
-                    point: _currentLocation,
-                    width: 60,
-                    height: 60,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.20),
-                            blurRadius: 12,
+                  if (_currentLocation != null)
+                    Marker(
+                      point: _currentLocation!,
+                      width: 60,
+                      height: 60,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.20),
+                              blurRadius: 12,
+                            ),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.motorcycle_rounded,
+                            color: AppColors.primary,
+                            size: 30,
                           ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.motorcycle_rounded,
-                          color: AppColors.primary,
-                          size: 30,
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],
@@ -960,6 +955,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
             ),
           ),
+
+          const Positioned(top: 52, right: 16, child: TezMapAttribution()),
 
           Positioned(
             bottom: 0,
@@ -1002,6 +999,27 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           onAccept: () => riderCtrl.acceptOrder(order),
                           onStart: riderCtrl.startDelivery,
                         ),
+                      if (order['type'] == 'order' &&
+                          order['order_status'] == 'on_the_way') ...[
+                        const Text(
+                          'Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below.',
+                        ),
+                        const SizedBox(height: 8),
+                        Text(riderCtrl.location.message.value),
+                        FilledButton(
+                          onPressed: riderCtrl.location.busy.value
+                              ? null
+                              : riderCtrl.location.sharing.value
+                              ? riderCtrl.location.stop
+                              : riderCtrl.shareDeliveryLocation,
+                          child: Text(
+                            riderCtrl.location.sharing.value
+                                ? 'Stop sharing location'
+                                : 'Share delivery location',
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
                       Row(
                         children: [
                           Container(

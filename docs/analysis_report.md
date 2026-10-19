@@ -15,9 +15,9 @@ Stack: Flutter + GetX, Supabase (PostgreSQL, Auth, Storage, Realtime, Edge Funct
 
 The SRDS has 36 FRs: FR-01 to FR-33 and FR-42 to FR-44. The earlier summary (19 / 7 / 10) did not match its own details. Recounted:
 
-- **21 functionally complete** (FR-17 and FR-32 now verified; historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
+- **22 functionally complete** (FR-13, FR-17 and FR-32 now verified; historical count adjusted for the narrower verified FR-31 scope; later feature rows contain newer acceptance evidence)
 - **8 partial or pending verification**: FR-04, FR-10, FR-21, FR-25, FR-28, FR-30, FR-31, FR-33 (see later verified feature rows)
-- **2 not implemented**: FR-13, FR-14
+- **1 not implemented**: FR-14
 - **5 not covered by the review (must be verified in code)**: FR-15, FR-22, FR-42, FR-43, FR-44
 - **Extra requirement, no FR number**: mandatory pre-delivery checklist functionally accepted on isolated TEST (see docs/CHECKLIST-acceptance.md)
 
@@ -47,7 +47,7 @@ These historical buckets are not a fresh review of every feature; use the later 
 
 | FR        | Status                          | Notes                                                                                                                               |
 | --------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| FR-13     | **Not implemented (simulated)** | `rider_dashboard.dart` reads GPS once at startup. `map_screen.dart` runs `_simulateRider()` and pushes fake coordinates to Supabase |
+| FR-13 | **Functionally accepted (TEST)** | Genuine Android GPS, assignment-scoped server validation/private Broadcast, throttled latest state and 30s stale-pin removal. SQL55/HTTP26/Realtime24, Flutter223 (2 inherited skips), prior-FR regressions and physical lifecycle/privacy/OTP/battery checks passed. Four-rider LOCAL load only; iOS not verified and 1,000-rider scale not executed. See docs/FR-13-acceptance.md for timing and Free-tier limits. |
 | FR-14     | **Not implemented**             | Depends on FR-13. No route or ETA                                                                                                   |
 | FR-15     | Not reviewed                    | Rider info before delivery                                                                                                          |
 | Checklist | **Functionally accepted (TEST)** | Server-defined versioned pickup checklist, protected submission/start RPCs, immutable evidence/RLS, legacy transit snapshot and FR33 completion gate. Deployed only TEST; SQL/concurrency/Android/OTP and all eleven prior-FR regressions passed. Evidence in docs/CHECKLIST-acceptance.md. |

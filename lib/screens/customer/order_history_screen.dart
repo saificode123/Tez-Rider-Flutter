@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rating_screen.dart';
 import '../../services/dispute_service.dart';
 import 'dispute_screen.dart';
+import '../map_screen.dart';
 
 const _kPurple = Color(0xFF1B5E20);
 const _kBg = Color(0xFFF8F7FF);
@@ -294,6 +295,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 InvoiceButton(orderId: order['id'] as int),
+                if (status == 'on_the_way')
+                  TextButton(
+                    onPressed: () =>
+                        Get.to(() => MapScreen(orderId: order['id'] as int)),
+                    child: const Text('Track location'),
+                  ),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,

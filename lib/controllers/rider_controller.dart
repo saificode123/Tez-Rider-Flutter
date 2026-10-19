@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/rider_presence.dart';
 import '../services/delivery_otp_service.dart';
 import '../services/pre_delivery_checklist_service.dart';
+import '../services/delivery_location.dart';
+import '../services/delivery_location_platform.dart';
 
 class RiderController extends GetxController with WidgetsBindingObserver {
   final _supabase = Supabase.instance.client;
@@ -28,6 +30,12 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   final deliveryBusy = false.obs;
   final deliveryOtp = DeliveryOtpFlow(SupabaseDeliveryOtpBackend());
   final checklist = PreDeliveryChecklistFlow(SupabaseChecklistBackend());
+  final location = RiderLocationService(
+    AndroidRiderLocationSource(),
+    SupabaseDeliveryLocationBackend(),
+  );
+  Worker? _locationWorker;
+  bool _foreground = true;
   int _requestsPage = 0;
   final hasMoreRequests = false.obs;
   final requestsLoading = false.obs;
@@ -42,6 +50,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     super.onInit();
+    _locationWorker = everAll([isOnline, currentOrder], (_) => _syncLocation());
     _presence = RiderPresence(
       (name, parameters) async {
         try {
@@ -70,12 +79,42 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       },
     );
     WidgetsBinding.instance.addObserver(this);
+    final initialAccount = _supabase.auth.currentUser?.id;
     _authSubscription = _supabase.auth.onAuthStateChange.listen((data) {
-      if (data.event == AuthChangeEvent.signedOut) unawaited(goOffline());
+      if (data.event == AuthChangeEvent.signedOut) {
+        unawaited(goOffline());
+      } else if (data.session?.user.id != initialAccount) {
+        unawaited(location.stop());
+        _syncLocation();
+      }
     });
     unawaited(_presence.restore());
     unawaited(_listenToDashboard());
     unawaited(_loadInitialData());
+  }
+
+  void _syncLocation() {
+    if (isClosed) return;
+    final order = currentOrder.value;
+    unawaited(
+      location.reconcile(
+        online: isOnline.value,
+        activeOrder:
+            order?['type'] == 'order' && order?['order_status'] == 'on_the_way'
+            ? order!['id'] as int?
+            : null,
+        foreground: _foreground,
+      ),
+    );
+  }
+
+  Future<void> shareDeliveryLocation() async {
+    final order = currentOrder.value;
+    if (order?['type'] == 'order' &&
+        order?['order_status'] == 'on_the_way' &&
+        order?['id'] is int) {
+      await location.share(order!['id'] as int);
+    }
   }
 
   Future<void> _loadInitialData() async {
@@ -488,6 +527,11 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> setOnlineStatus(bool status) async {
+    if (status) {
+      await location.allowIdlePermission();
+    } else {
+      await location.stop();
+    }
     await _presence.setOnline(status);
     _queueRefresh();
   }
@@ -499,16 +543,29 @@ class RiderController extends GetxController with WidgetsBindingObserver {
 
   Future<void> retryRequests() => _refreshRequests();
 
-  Future<void> goOffline() => _presence.offline();
+  Future<void> goOffline() async {
+    await location.stop();
+    await _presence.offline();
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      return;
+    }
+    _foreground = state == AppLifecycleState.resumed;
+    if (state == AppLifecycleState.detached ||
+        (state == AppLifecycleState.paused && !location.sharing.value)) {
       unawaited(goOffline());
     } else if (state == AppLifecycleState.resumed) {
-      unawaited(restoreOnlineStatus());
+      if (location.sharing.value) {
+        _queueRefresh();
+      } else {
+        unawaited(restoreOnlineStatus());
+      }
     }
+    _syncLocation();
   }
 
   @override
@@ -516,6 +573,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     unawaited(goOffline());
     _presence.dispose();
+    _locationWorker?.dispose();
+    location.onClose();
     deliveryOtp.dispose();
     checklist.dispose();
     _refreshTimer?.cancel();
