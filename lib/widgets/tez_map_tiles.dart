@@ -11,7 +11,13 @@ TileProvider tezMapTiles() =>
 
 class _CachedTezTiles extends TileProvider {
   _CachedTezTiles()
-    : super(headers: {'User-Agent': 'TezRider/1.0 (Android delivery app)'});
+    : super(
+        headers: {
+          'User-Agent': defaultTargetPlatform == TargetPlatform.iOS
+              ? 'TezRider/1.0 (iOS delivery app)'
+              : 'TezRider/1.0 (Android delivery app)',
+        },
+      );
   @override
   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) =>
       CachedNetworkImageProvider(

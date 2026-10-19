@@ -24,6 +24,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>TezRider uses location when you request your position on a delivery map. Online riders also use it for nearby delivery matching. During delivery, the rider can share location with the assigned customer while the app is in the background or the screen is locked. Stop sharing ends delivery sharing; going Offline also ends matching updates.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 
 	<!-- ✅ Added for Biometric Authentication (Face ID) -->
 	<key>NSFaceIDUsageDescription</key>

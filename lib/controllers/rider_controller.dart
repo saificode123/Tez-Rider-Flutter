@@ -31,7 +31,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   final deliveryOtp = DeliveryOtpFlow(SupabaseDeliveryOtpBackend());
   final checklist = PreDeliveryChecklistFlow(SupabaseChecklistBackend());
   final location = RiderLocationService(
-    AndroidRiderLocationSource(),
+    createRiderLocationSource(),
     SupabaseDeliveryLocationBackend(),
   );
   Worker? _locationWorker;

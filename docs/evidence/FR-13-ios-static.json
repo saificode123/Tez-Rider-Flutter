@@ -1,0 +1,25 @@
+{
+  "scope": "FR-13 iOS static readiness only",
+  "base": "3408790d7c556665228d4c1cca371c4018a07cea",
+  "host": "Windows",
+  "location_usage_and_background_configuration": "PASS",
+  "when_in_use_only": true,
+  "minimum_ios": "15.0",
+  "cocoapods_template_present": true,
+  "podfile_native_syntax_check": "NOT EXECUTED",
+  "android_location_source_unchanged": true,
+  "android_source_sha256": "cef3098271bb968efc4deb27a4d4fb9faebd4d1ab5fb1c1799526d71594328eb",
+  "android_manifest_unchanged": true,
+  "trusted_backend_customer_feed_and_security_unchanged": true,
+  "dependencies_unchanged": true,
+  "native_tools_available": {
+    "xcodebuild": false,
+    "xcrun": false,
+    "pod": false,
+    "sw_vers": false,
+    "ruby": false
+  },
+  "native_ios_build": "NOT EXECUTED",
+  "physical_iphone_tests": "NOT EXECUTED",
+  "ios_functional_acceptance": false
+}

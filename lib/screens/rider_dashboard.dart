@@ -35,6 +35,21 @@ class _RiderDashboardState extends State<RiderDashboard> {
   final AuthController authController = Get.find<AuthController>();
   final RiderController riderCtrl = Get.put(RiderController());
 
+  Widget _locationStatus() {
+    final message = Text(riderCtrl.location.message.value);
+    if (!riderCtrl.location.hasSettingsLink) return message;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        message,
+        TextButton(
+          onPressed: riderCtrl.location.openSettings,
+          child: const Text('Location settings'),
+        ),
+      ],
+    );
+  }
+
   LatLng? get _currentLocation {
     final fix = riderCtrl.location.latestFix.value;
     return fix == null ? null : LatLng(fix.latitude, fix.longitude);
@@ -328,7 +343,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     horizontal: 20,
                     vertical: 8,
                   ),
-                  child: Text(riderCtrl.location.message.value),
+                  child: _locationStatus(),
                 ),
               ),
 
@@ -1005,7 +1020,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           'Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below.',
                         ),
                         const SizedBox(height: 8),
-                        Text(riderCtrl.location.message.value),
+                        _locationStatus(),
                         FilledButton(
                           onPressed: riderCtrl.location.busy.value
                               ? null

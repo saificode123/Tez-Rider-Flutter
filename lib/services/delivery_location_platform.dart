@@ -5,6 +5,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'delivery_location.dart';
+import 'ios_rider_location_source.dart';
+
+RiderLocationSource createRiderLocationSource() =>
+    !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS
+    ? IosRiderLocationSource()
+    : AndroidRiderLocationSource();
 
 class AndroidRiderLocationSource implements RiderLocationSource {
   @override

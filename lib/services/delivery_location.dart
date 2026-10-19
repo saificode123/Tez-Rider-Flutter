@@ -32,6 +32,13 @@ abstract class RiderLocationSource {
   Stream<bool> get serviceEnabled;
 }
 
+/// Optional platform guidance; the accepted Android source stays unchanged.
+abstract class RiderLocationGuidance {
+  String? get notice;
+  String get waitingForFixMessage;
+  Future<bool> openSettings();
+}
+
 abstract class DeliveryLocationBackend {
   String get accountId;
   Future<Map<String, dynamic>> context(int order, {bool? enable});
@@ -67,6 +74,24 @@ class RiderLocationService extends GetxService {
   Duration? _lastSent, _retryAt;
   (DeviceFix, int, bool)? _pendingFix;
 
+  RiderLocationGuidance? get _guidance =>
+      source is RiderLocationGuidance ? source as RiderLocationGuidance : null;
+  bool get hasSettingsLink => _guidance != null;
+  Future<void> openSettings() async {
+    if (_closed || !_foreground || _guidance == null) return;
+    try {
+      if (!await _guidance!.openSettings() && !_closed) {
+        message.value =
+            'Settings could not be opened. Open TezRider location settings manually.';
+      }
+    } catch (_) {
+      if (!_closed) {
+        message.value =
+            'Settings could not be opened. Open TezRider location settings manually.';
+      }
+    }
+  }
+
   Future<void> reconcile({
     required bool online,
     required int? activeOrder,
@@ -75,6 +100,7 @@ class RiderLocationService extends GetxService {
     final account = backend.accountId;
     final changed =
         _account != account || _order != activeOrder || _online != online;
+    final resumed = foreground && !_foreground;
     _foreground = foreground;
     if (changed) {
       await _cancel();
@@ -88,7 +114,34 @@ class RiderLocationService extends GetxService {
       message.value = 'Location sharing is off.';
       return;
     }
-    if (sharing.value && _sharingOrder == activeOrder) return;
+    if (sharing.value && _sharingOrder == activeOrder) {
+      // iOS Settings can change authorization/accuracy while the stream exists.
+      // Recheck without prompting or creating a duplicate subscription.
+      if (resumed && _guidance != null) {
+        final generation = _generation;
+        try {
+          final problem = await source.prepare(
+            requestPermission: false,
+            delivery: true,
+          );
+          if (!_valid(generation)) return;
+          if (problem != null) {
+            await _halt(problem);
+          } else {
+            message.value =
+                _guidance?.notice ??
+                'Sharing your live location. Keep GPS enabled.';
+          }
+        } catch (_) {
+          if (_valid(generation)) {
+            await _halt(
+              'Location access could not be checked. Check Settings and retry sharing.',
+            );
+          }
+        }
+      }
+      return;
+    }
     if (!foreground) {
       await _cancel();
       return;
@@ -115,6 +168,7 @@ class RiderLocationService extends GetxService {
       }
       _listen(delivery: false);
       message.value =
+          _guidance?.notice ??
           'Online: location refreshes once a minute for delivery matching.';
     } catch (_) {
       failed = true;
@@ -178,7 +232,8 @@ class RiderLocationService extends GetxService {
       _order = order;
       _sharingOrder = order;
       sharing.value = true;
-      message.value = 'Sharing your live location. Keep GPS enabled.';
+      message.value =
+          _guidance?.notice ?? 'Sharing your live location. Keep GPS enabled.';
       _listen(delivery: true);
     } catch (_) {
       if (_valid(generation)) {
@@ -257,7 +312,9 @@ class RiderLocationService extends GetxService {
   Future<void> _send(DeviceFix fix, int generation, bool delivery) async {
     if (!_valid(generation) || !_online) return;
     if (!fix.valid(now().toUtc())) {
-      message.value = 'Waiting for a fresh, accurate GPS fix.';
+      message.value =
+          _guidance?.waitingForFixMessage ??
+          'Waiting for a fresh, accurate GPS fix.';
       return;
     }
     latestFix.value = fix;
@@ -307,7 +364,7 @@ class RiderLocationService extends GetxService {
           throw StateError('Unconfirmed');
         }
         message.value = code == 'PUBLISHED'
-            ? 'Sharing your live location.'
+            ? _guidance?.notice ?? 'Sharing your live location.'
             : 'Waiting for the next fresh GPS fix.';
       } else {
         await backend.idle(fix);
