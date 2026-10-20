@@ -9,3 +9,6 @@ verify_jwt = false
 
 [functions.fr13-location]
 verify_jwt = false
+
+[functions.get-delivery-route]
+verify_jwt = false

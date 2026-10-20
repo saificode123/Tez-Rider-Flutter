@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
 
 import '../../controllers/cart_controller.dart';
 import '../../controllers/prescription_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../models/product_model.dart';
 import '../../services/order_timeout_service.dart';
+import '../../services/delivery_destination.dart';
+import '../../widgets/tez_map_tiles.dart';
 import '../../widgets/prescription_upload_widget.dart';
 
 class EnhancedCheckoutScreen extends StatefulWidget {
@@ -48,6 +48,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
   double? _currentLat;
   double? _currentLng;
+  final _destination = DeliveryDestination();
+  bool _selectingDestination = false;
 
   final Map<String, bool> _prescriptionsUploaded = {};
 
@@ -121,8 +123,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
     _calculateDeliverySuggestion();
 
-    _getCurrentLocation();
-
     _prefillContactInfo();
   }
 
@@ -189,6 +189,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
   }
 
   Future<void> _getCurrentLocation() async {
+    if (_selectingDestination || _isProcessing) return;
+    setState(() => _selectingDestination = true);
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
@@ -203,55 +205,76 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         permission = await Geolocator.requestPermission();
       }
 
-      if (permission == LocationPermission.deniedForever) {
+      if (permission == LocationPermission.deniedForever ||
+          permission == LocationPermission.denied) {
         Get.snackbar("Permission", "Location permission permanently denied.");
         return;
       }
 
-      final position = await Geolocator.getCurrentPosition();
-
-      setState(() {
-        _currentLat = position.latitude;
-        _currentLng = position.longitude;
-      });
-
-      await _reverseGeocode(position.latitude, position.longitude);
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      ).timeout(const Duration(seconds: 15));
+      if (!mounted) return;
+      if (position.accuracy > 100 ||
+          DateTime.now().difference(position.timestamp).abs() >
+              const Duration(seconds: 30)) {
+        throw StateError('Waiting for a fresh, accurate location.');
+      }
+      await _confirmDestination(
+        position.latitude,
+        position.longitude,
+        'my_location',
+      );
     } catch (e) {
-      debugPrint(e.toString());
+      if (mounted) {
+        Get.snackbar(
+          'Location unavailable',
+          'Choose a map pin or retry My Location.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _selectingDestination = false);
     }
   }
 
-  Future<void> _reverseGeocode(double lat, double lng) async {
-    setState(() => _addressCtrl.text = 'Fetching address...');
-    try {
-      final uri = Uri.parse(
-        'https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lng&zoom=18&addressdetails=1',
-      );
-      final res = await http.get(
-        uri,
-        headers: {'User-Agent': 'TezRiderApp/1.0'},
-      );
-      if (res.statusCode == 200) {
-        final data = jsonDecode(res.body);
-        final displayName = data['display_name'] as String?;
-        if (displayName != null && displayName.isNotEmpty && mounted) {
-          setState(() => _addressCtrl.text = displayName);
-          return;
-        }
-      }
-    } catch (e) {
-      debugPrint('Reverse geocode failed: $e');
-    }
-    if (mounted) {
-      setState(
-        () => _addressCtrl.text =
-            'Lat: ${lat.toStringAsFixed(5)}, Lng: ${lng.toStringAsFixed(5)}',
-      );
-    }
+  Future<void> _confirmDestination(
+    double lat,
+    double lng,
+    String source,
+  ) async {
+    if (!mounted) return;
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        title: const Text('Confirm delivery destination'),
+        content: Text(
+          'Deliver to this ${source == 'my_location' ? 'current location' : 'map pin'}?\n${lat.toStringAsFixed(5)}, ${lng.toStringAsFixed(5)}',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Confirm destination'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || confirmed != true) return;
+    _destination.confirm(lat, lng, source);
+    setState(() {
+      _currentLat = lat;
+      _currentLng = lng;
+      _addressCtrl.text =
+          'Confirmed delivery pin: ${lat.toStringAsFixed(5)}, ${lng.toStringAsFixed(5)}';
+    });
   }
 
   Future<void> _selectLocationOnMap() async {
-    await Get.dialog(
+    if (_selectingDestination || _isProcessing) return;
+    setState(() => _selectingDestination = true);
+    final point = await Get.dialog<LatLng>(
       Scaffold(
         appBar: AppBar(title: const Text("Select Delivery Location")),
 
@@ -265,14 +288,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
             initialZoom: 15,
 
             onTap: (tapPosition, point) {
-              setState(() {
-                _currentLat = point.latitude;
-                _currentLng = point.longitude;
-              });
-
-              Get.back();
-
-              _reverseGeocode(point.latitude, point.longitude);
+              Get.back(result: point);
             },
           ),
 
@@ -281,31 +297,45 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
               urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 
               userAgentPackageName: "com.example.flutter_application_1",
+              tileProvider: tezMapTiles(),
+            ),
+            const RichAttributionWidget(
+              attributions: [
+                TextSourceAttribution('OpenStreetMap contributors'),
+              ],
             ),
 
             MarkerLayer(
               markers: [
-                Marker(
-                  point: LatLng(_currentLat ?? 33.6844, _currentLng ?? 73.0479),
+                if (_destination.confirmed)
+                  Marker(
+                    point: LatLng(
+                      _currentLat ?? 33.6844,
+                      _currentLng ?? 73.0479,
+                    ),
 
-                  width: 45,
+                    width: 45,
 
-                  height: 45,
+                    height: 45,
 
-                  child: const Icon(
-                    Icons.location_pin,
+                    child: const Icon(
+                      Icons.location_pin,
 
-                    color: Colors.red,
+                      color: Colors.red,
 
-                    size: 40,
+                      size: 40,
+                    ),
                   ),
-                ),
               ],
             ),
           ],
         ),
       ),
     );
+    if (point != null && mounted) {
+      await _confirmDestination(point.latitude, point.longitude, 'map_pin');
+    }
+    if (mounted) setState(() => _selectingDestination = false);
   }
 
   /// Load same-category products from all vendors
@@ -434,8 +464,11 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       return;
     }
 
-    if (_addressCtrl.text.trim().isEmpty) {
-      Get.snackbar('Error', 'Please enter delivery address');
+    if (!_destination.confirmed || _selectingDestination) {
+      Get.snackbar(
+        'Delivery destination',
+        'Confirm My Location or a map pin before placing your order.',
+      );
       return;
     }
 
@@ -597,6 +630,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
           'lat': _currentLat,
           'lng': _currentLng,
           'speed': _deliverySpeed,
+          ..._destination.provenance,
         },
       );
       widget.cart.clear();
@@ -794,12 +828,18 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.my_location),
-                      onPressed: _getCurrentLocation,
+                      tooltip: 'My Location',
+                      onPressed: _isProcessing || _selectingDestination
+                          ? null
+                          : _getCurrentLocation,
                     ),
 
                     IconButton(
                       icon: const Icon(Icons.map),
-                      onPressed: _selectLocationOnMap,
+                      tooltip: 'Choose delivery pin',
+                      onPressed: _isProcessing || _selectingDestination
+                          ? null
+                          : _selectLocationOnMap,
                     ),
                   ],
                 ),

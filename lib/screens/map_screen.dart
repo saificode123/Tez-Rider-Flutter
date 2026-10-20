@@ -5,8 +5,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/delivery_location.dart';
 import '../services/delivery_location_platform.dart';
+import '../services/delivery_route.dart';
 import '../widgets/tez_map_tiles.dart';
 
 class MapScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class _MapScreenState extends State<MapScreen> {
   final _client = Supabase.instance.client;
   final _map = MapController();
   CustomerLocationFeed? _feed;
+  DeliveryRouteController? _route;
   Worker? _fixWorker;
   bool _mapReady = false, _centered = false;
   LatLng? _userLocation;
@@ -43,6 +46,8 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _open() async {
     final generation = ++_generation;
     _fixWorker?.dispose();
+    _route?.onClose();
+    _route = null;
     _mapReady = false;
     _centered = false;
     final previous = _feed;
@@ -98,6 +103,28 @@ class _MapScreenState extends State<MapScreen> {
       if (!mounted || generation != _generation) return;
       final feed = CustomerLocationFeed(order['id'] as int);
       _feed = feed;
+      _route = DeliveryRouteController(order['id'] as int, feed.state, (
+        id,
+      ) async {
+        try {
+          final response = await _client.functions.invoke(
+            'get-delivery-route',
+            body: {'orderId': id},
+          );
+          return Map<String, dynamic>.from(response.data as Map);
+        } on FunctionException catch (e) {
+          final details = e.details;
+          return details is Map
+              ? Map<String, dynamic>.from(details)
+              : {
+                  'code': e.status == 401
+                      ? 'UNAUTHORIZED'
+                      : e.status == 403
+                      ? 'FORBIDDEN'
+                      : 'UNAVAILABLE',
+                };
+        }
+      })..start();
       _fixWorker = ever(feed.state.position, (_) => _centerFirstFix());
       await feed.start();
       if (!mounted || generation != _generation) await feed.dispose();
@@ -158,6 +185,7 @@ class _MapScreenState extends State<MapScreen> {
   void dispose() {
     _generation++;
     _fixWorker?.dispose();
+    _route?.onClose();
     unawaited(_feed?.dispose());
     _map.dispose();
     super.dispose();
@@ -204,6 +232,23 @@ class _MapScreenState extends State<MapScreen> {
                       userAgentPackageName: 'com.example.tezrider',
                       tileProvider: tezMapTiles(),
                     ),
+                    if (_feed != null)
+                      Obx(() {
+                        final route = _route?.route.value;
+                        final visible = !_feed!.state.stale.value;
+                        return PolylineLayer(
+                          polylines: [
+                            if (visible &&
+                                route != null &&
+                                route.points.isNotEmpty)
+                              Polyline(
+                                points: route.points,
+                                strokeWidth: 5,
+                                color: green,
+                              ),
+                          ],
+                        );
+                      }),
                     if (_feed != null)
                       Obx(() {
                         final fix = _feed!.state.position.value;
@@ -286,6 +331,43 @@ class _MapScreenState extends State<MapScreen> {
                           })
                         else
                           const Text(unavailableRiderLocation),
+                        if (_route != null)
+                          Obx(
+                            () => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Chip(
+                                  label: Text(
+                                    _route!.loading.value &&
+                                            _route!.route.value == null &&
+                                            !_feed!.state.stale.value
+                                        ? 'Calculating ETA…'
+                                        : _route!.label.value,
+                                  ),
+                                ),
+                                if (_route!.notice.value.isNotEmpty &&
+                                    !_feed!.state.stale.value)
+                                  Text(
+                                    _route!.notice.value,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                if (_route!.route.value?.source == 'geoapify' &&
+                                    !_feed!.state.stale.value)
+                                  InkWell(
+                                    onTap: () => launchUrl(
+                                      Uri.parse('https://www.geoapify.com/'),
+                                    ),
+                                    child: const Text(
+                                      'Powered by Geoapify | © OpenStreetMap contributors',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -342,6 +424,7 @@ class _MapScreenState extends State<MapScreen> {
                               unawaited(_open());
                             } else {
                               unawaited(_feed!.refresh());
+                              unawaited(_route?.refreshRoute(retry: true));
                             }
                           },
                           child: const Text('Retry'),

@@ -131,7 +131,10 @@ void main() {
     final map = File('lib/screens/map_screen.dart').readAsStringSync();
     expect(map, isNot(contains('_simulateRider')));
     expect(map, isNot(contains("from('gps_locations')")));
-    expect(map, isNot(contains('PolylineLayer')));
+    // FR14 now renders only server-derived road geometry; FR13 must still
+    // reject simulation and direct legacy GPS access.
+    expect(map, contains('points: route.points'));
+    expect(map, isNot(contains('RoutingService.fetchRoute')));
     expect(map, isNot(contains('_etaText')));
     expect(map, contains('fr04_order_rider_identity'));
   });

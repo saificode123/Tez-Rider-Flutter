@@ -1,0 +1,76 @@
+# FR-14 acceptance - in progress
+
+Updated: 2026-10-20 (Asia/Karachi). Branch: `feature/FR-14-route-and-eta`.
+
+**FR-14 NOT YET FUNCTIONALLY ACCEPTED.** Nonzero physical road-route/progression/deviation, physical map-pin flow and controlled network-disconnect verification remain pending. Automated accepted-FR regression reruns passed; latency qualification failed. No production modification, push or merge. The implementation commit does not imply acceptance.
+
+## Functional evidence
+
+- **PASS - explicit destination:** `enhanced_checkout_screen.dart`, `delivery_destination.dart`, migration `202610190001`. No automatic GPS destination. My Location or map tap opens confirmation. Trusted checkout validates the marker, stores existing coordinates plus server timestamp/source, and preserves FR10/FR17 transaction/idempotency. Historical records are not backfilled. No existing safe historical confirmation workflow was found; their ETA remains unavailable.
+- **PASS, automated - destination compatibility:** rollback SQL exercises unconfirmed rejection, ownership, server provenance, idempotency, stock decrement and historical active-order unavailable state. Source: `supabase/tests/FR-14.sql`; final 50 local/TEST assertions. New client contract intentionally rejects older clients attempting new unconfirmed checkouts; existing original-payload checkout retries still reconcile without inventing provenance.
+- **PASS - actual hosted provider:** dedicated synthetic TEST checkout, real assignment/checklist/start and FR13 publication; deployed Edge returned a Geoapify road route. Customer, rider and approved admin reused one version without additional provider reservations. These are synthetic coordinates; this is not physical GPS evidence. Private evidence: `.fr21-local/fr14/hosted-http.json`.
+- **PASS, automated - geometry/ETA/progress:** `delivery_route.dart`, `map_screen.dart`, `delivery_route_test.dart`; GeoJSON longitude/latitude normalized to Flutter LatLng, segment projection, noise/backward/low-accuracy handling, stationary ETA, approximate client adjustments, single in-flight request, 60-second throttle, errors and stale recovery. Focused suite 23 passed; full suite 266 passed, 2 skipped.
+- **PASS, mocked - failure behavior:** 32 Deno tests in `get-delivery-route/handler_test.ts`: provider errors/timeout/429/invalid geometry, cache, authentication, strict bounded input and secret redaction. Approximate Haversine estimate uses configurable 20km/h and has no fake road geometry. Fallback remains an estimate without traffic, road detours or stops.
+- **PASS, SQL - persistence:** accepted provider calculation and `orders.route_estimated_arrival_at` commit together, using database computation time plus seconds. Client progress causes no DB writes. Fallback is not persisted as a verified road route.
+- **PASS, physical preliminary:** authorized phone connection recovered; actual customer selected/confirmed destination and placed order #2385. Provenance `my_location` persisted with server timestamp. Vendor acceptance, exact FR20 rider assignment using real idle GPS, native acceptance/checklist/start and explicit FR13 sharing succeeded. Customer browser shows live rider/Arriving in 1 min with actual Geoapify ETA persisted. Initial selected destination coincides with rider position (0m route), so this does not prove a nonzero road polyline. Four actual-order cross-customer context/location/cache/Edge denial checks passed.
+- **PENDING physically:** nonzero route rendering, walking progression/deviation, >30-second disconnect/reconnect, fallback screen, completion and OTP. User walking action requested; no movement result claimed. iOS build/device verification NOT EXECUTED on this Windows host.
+- **Physical interruption result:** after the reported walk, GPS was stale and customer ETA unavailable. Reopened TEST app showed rider offline; explicit online/sharing recovery restored fresh GPS and the labeled approximate ETA. Walking movement was not captured, so progression/deviation remains unverified. This was an app restart/presence interruption, not a controlled network-only disconnect test.
+- **Provider safety blocker:** one unsettled TEST routing reservation from 2026-10-20 14:36:32.769902 PKT blocks new calls under conservative accounting. Aggregate reserved credits: 17 at inspection. Unknown provider usage was not refunded/reset. It ages out of the rolling 24h guard after 2026-10-21 14:36:33 PKT, subject to all other limits. Physical nonzero provider-route acceptance cannot be completed now.
+- **PASS, physical completion:** after user returned to destination, native Arrived opened the real email verification sheet and the app reported email request accepted. User entered/submitted the code directly on the phone (no code recorded in chat). Backend confirms order #2385 delivered; route/ETA/latest GPS/session/lease all cleared, and the completed-order route endpoint denies access (3 checks). Customer browser shows ETA unavailable. Phone disconnected before post-completion UI capture, so terminal evidence is the server result and customer UI, not a rider success screenshot.
+
+## Security evidence
+
+- Authenticated Edge checks Auth `/user`, shared FR28 account boundary and JWT-derived database actor. Only an owned active delivery customer, assigned rider or approved admin is allowed; checklist, rider presence and blocked-user guards reuse FR13.
+- **PASS - deployed ownership:** other customer, other rider, vendor and anonymous denied. Deployed blocked-customer check also passed. Cache/direct SQL RLS/write guards, unconfirmed orders, inactive orders, blocked-user rules, terminal cleanup, abandoned retention and ETA write protection covered by 50 deployed rollback SQL assertions.
+- RLS cache has authenticated SELECT only through `fr14_can_read`. No ordinary cache writes. Lease/quota/finish functions grant only service_role; privileged keys stay on the server. Function deployment is hard-guarded to isolated TEST or explicit localhost.
+- Confirmed destinations are immutable. Unconfirmed ready/active/terminal destinations cannot be changed. New provenance and authoritative ETA cannot be forged by ordinary direct writes. No historical edit endpoint or client-supplied route coordinates.
+- One cache row/order; terminal trigger deletes cache/lease and clears ETA. Private cleanup every five minutes removes abandoned routes older than 15 minutes, old attempts, old request counters and expired provider reservations. RLS denies ineligible deliveries immediately, independently of cleanup.
+- No raw provider responses/errors/URLs, tokens or coordinates are logged by the function. Responses use no-store. Only geometry/distance/duration are retained from provider output; instructions and query metadata are discarded.
+- Actual physical delivery completion/cleanup checks passed. Functional acceptance remains pending the unverified physical scenarios listed above.
+
+## Provider decision and attribution
+
+SRDS Directions API deviation is approved: Geoapify is an OSM-based provider with a free plan, rather than a mandatory paid Maps/Directions dependency. Current official sources checked 2026-10-19:
+
+- [Plan](https://www.geoapify.com/pricing/): 3000 credits/day and up to 5 requests/second; free commercial production permitted within plan limits, with attribution. No payment card required for the free plan.
+- [Routing contract and credit pricing](https://apidocs.geoapify.com/docs/routing/): two waypoints, `mode=drive`, metric output, no extra details/avoidance/optimization; long routes have additional credit cost. Driving estimates do not guarantee motorbike travel time or current traffic.
+- [Terms](https://www.geoapify.com/terms-and-conditions/) and [privacy](https://www.geoapify.com/privacy-policy/): server sends only coordinate pairs, no rider/customer/order identifiers. Provider documents API request storage, generally no longer than 24 hours for successful requests. App displays linked Geoapify attribution plus existing OSM copyright attribution.
+- ORS comparison: live Standard plan asset showed 2000/day and 40/min. Current [HeiGIT terms](https://account.heigit.org/info/tos) prohibit transmitting personal data, so ORS was not selected for private live delivery coordinates. No ORS request was sent. Public OSRM demo infrastructure was not used.
+- No new geocoding dependency. Confirmation uses the actual chosen point. Old direct Nominatim reverse lookup is removed from this checkout flow; the app does not silently geocode addresses or upload addresses for routing.
+
+## Cache and quota behavior
+
+- Refresh 240 seconds, significant deviation 150m, minimum attempt interval 60 seconds, lease 25 seconds. These are configurable engineering defaults.
+- Geometry distance-to-route is checked using PostGIS geography. Cache is shared across authorized viewers. Off-route cache geometry is withheld; stale compatible routes are bounded to 15 minutes and labeled approximate/stale.
+- Atomic global advisory lock plus parent-row lock reserves credits, rolling second/minute windows and active leases before HTTP. No transaction remains open across HTTP. Eight real concurrent local SQL sessions produced exactly one lease/reservation and seven BUSY results (6 assertions passed).
+- Conservative application budget is 2800 credits per rolling 24h, four requests per rolling second, 120/minute and four concurrent calls. A request reserves 10 credits; accepted <=1000km results settle to ceil(distance/500km)+1 credits. Error/uncertain responses consume the remaining budget; abandoned unsettled requests stop new calls when their lease expires. This intentionally prefers fallback over retrying with unknown usage. A dedicated account/key is needed to avoid uncounted external usage.
+- Provider errors never refund uncertain usage or start automatic HTTP retries. With no valid route, valid fresh confirmed coordinates produce labeled straight-line ETA; missing/stale/unconfirmed coordinates return unavailable.
+
+## Theoretical capacity, not load-test evidence
+
+Assume a 30-minute delivery, one initial route, seven scheduled four-minute refreshes and one deviation refresh: nine provider calls per delivery. Short accepted routes consume a conservative two reserved-settled credits each: 18 credits/delivery. Cache hits consume zero provider credits, but still use Edge/database capacity.
+
+- 10 deliveries: 90 calculations, 180 credits. Scheduled refresh average 2.5 requests/minute, plus the initial/deviation bursts.
+- 100 deliveries: 900 calculations, 1800 credits. Scheduled refresh average 25/minute, plus bursts.
+- 1000 deliveries: 9000 calculations, 18000 credits. Scheduled refresh average 250/minute, above this application's 120/minute cap, and total credits exceed the free tier. Initial bursts are additionally constrained by second/concurrency limits. Fallback is required; full road routing cannot be continuously provided at this scale on the selected free plan.
+
+At two credits per accepted short route, the 2800-credit application budget permits at most 1400 such successful calls in 24 hours. Errors reduce that capacity substantially under the fail-closed accounting policy. These figures assume no other API use on the provider account.
+
+[Supabase pricing](https://supabase.com/pricing/) lists 500MB free database, 1GB storage, 5GB egress, 500,000 included monthly Edge invocations, 200 peak Realtime connections and two million monthly messages; [Edge limits](https://supabase.com/docs/guides/functions/limits) list 256MB RAM, 2s CPU/request and 150s free worker wall-clock. Existing FR13 and other features share these resources. A continuous 30-minute delivery at one FR13 Edge submission/2.3s is approximately 783 submissions/rider; 1000 such riders already exceed the monthly free Edge allowance in that batch, before route calls. 1000 concurrent customer connections also exceed the listed free peak. Actual TEST account consumption has not been certified. No production-scale readiness claim.
+
+## Executed local load qualification
+
+- Actual LOCAL Supabase HTTP/Auth/PostgREST/RLS, mocked provider: 10 VUs/50 requests; 40 authorized successes, 10 denials, 0 unexpected errors, 0 unauthorized disclosures and exactly 1 provider call. p95 **4219.55ms: FAIL** against 800ms.
+- Mocked provider failure and exhausted conservative budget: 2 VUs/10 requests; 8 approximate successes, 2 denials, 0 unexpected errors/disclosures, exactly 1 provider call. p95 **1318.08ms: FAIL**.
+- Hardware observed approximately 700MB free of 8GB during concurrent build/test; workstation interruption affected some longer checks. This does not establish performance at the target. 1000 VUs **NOT EXECUTED**. Functional/security behavior in these local scenarios passed; scale/latency acceptance did not.
+
+## Deployment inventory and outstanding work
+
+- Applied once to LOCAL and isolated TEST: `202610190001_fr14_route_eta.sql` and `202610190002_fr14_bounded_cleanup.sql`; all 35 prior versions preserved (37 total). Follow-up fixes cleanup parent/cache lock order without replaying 001.
+- New schema/tables: `fr14_private.configuration`, `attempts`, `quota_reservations`, `user_limits`; public `delivery_route_cache`.
+- Orders columns: `destination_confirmed_at`, `destination_source`, `route_estimated_arrival_at`; constraint `fr14_destination_pair`.
+- Public functions: preserved-wrapper `fr10_checkout`, `fr14_can_read`, `fr14_route_context`, service-only `fr14_prepare`, `fr14_finish`. Private functions: relocated checkout wrapper, destination guard, allowed, invalidate, cleanup. Cache policy `fr14_cache_read`; triggers `fr14_destination_guard`, `fr14_delivery_end`; cron `fr14-route-cleanup` every five minutes. Private schema/table/function privileges revoked from ordinary roles.
+- Deployed function: `get-delivery-route`; secret: `ROUTING_API_KEY` configured only on TEST, never printed/committed. No existing shared secret removed.
+- Android TEST APK built, source hashes/package identity verified and installed. Physical destination/checkout/assignment/checklist/start/sharing, interruption recovery and email-code completion executed as described above. Nonzero walk not captured; no physical route-progression evidence is invented.
+- Accepted regression results: FR21 47; FR04 49; FR25 83; FR26 96; FR33 39; FR28 74; FR20 70; FR30 SQL 65, HTTP 25, Realtime 3; FR10 24; FR17 HTTP 27; FR32 SQL 63; checklist SQL 56; FR13 SQL 55. FR17 rollback SQL also passed 53. Interrupted-run transport failures were rerun; the FR17 synthetic captured-payment expiration fixture was made atomic to prevent its cron race.
+- Remaining: physical map-pin confirmation, nonzero road-route walking/progression/deviation, controlled network-only stale/reconnect verification and latency qualification. Final review: helper syntax/diff checks passed and basic embedded credential-pattern scan found no matching files; no comprehensive independent secret audit claimed. Commit the implementation with these gaps recorded; no acceptance, push or merge.

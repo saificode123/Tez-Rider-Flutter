@@ -42,13 +42,16 @@ def read_product(pid,token):
     assert status==200 and len(rows)==1,'Scoped current stock read required'
     return rows[0]
 def checkout(items,token,request=None):
-    return b.rpc('fr10_checkout',{'p_request_id':request or str(uuid.uuid4()),'p_items':items,'p_delivery':{'address':'FR17 synthetic TEST','lat':33.68,'lng':73.04,'speed':'standard'}},token)
+    return b.rpc('fr10_checkout',{'p_request_id':request or str(uuid.uuid4()),'p_items':items,'p_delivery':{'address':'FR17 synthetic TEST','lat':33.68,'lng':73.04,'speed':'standard','destination_confirmed':True,'destination_source':'map_pin'}},token)
 def adjust(pid,qty,token,req=None,threshold=None):
     row=read_product(pid,token)
     return b.rpc('vendor_adjust_stock',{'p_product_id':pid,'p_quantity':qty,'p_mode':'set','p_reason':'FR17 synthetic verified count','p_request_id':req or str(uuid.uuid4()),'p_threshold':threshold,'p_expected_version':row['stock_version']},token)
 def expire(oid):
     assert oid in [o['id']for o in state['orders'].values()],'Only recorded FR17 orders may be clock-controlled'
-    query(f"begin;create temp table original as select checkout_finalized_at as stamp from public.orders where id={oid};update public.orders set checkout_finalized_at=null where id={oid};update public.vendor_orders set acceptance_started_at=clock_timestamp()-interval '1 hour',acceptance_deadline_at=clock_timestamp()-interval '1 second'where order_id={oid};update public.orders set checkout_finalized_at=(select stamp from original),acceptance_deadline_at=clock_timestamp()-interval '1 second'where id={oid};commit;")
+    # This helper is used only by the synthetic captured shared-order case.
+    # Establish its financial fixture before publishing an expired deadline;
+    # otherwise the real cron can correctly cancel COD before capture is seeded.
+    query(f"begin;update public.orders set payment_method='CARD'where id={oid};update public.payments set method='CARD',status='SUCCESS',paidat=clock_timestamp()where orderid='{oid}';create temp table original as select checkout_finalized_at as stamp from public.orders where id={oid};update public.orders set checkout_finalized_at=null where id={oid};update public.vendor_orders set acceptance_started_at=clock_timestamp()-interval '1 hour',acceptance_deadline_at=clock_timestamp()-interval '1 second'where order_id={oid};update public.orders set checkout_finalized_at=(select stamp from original),acceptance_deadline_at=clock_timestamp()-interval '1 second'where id={oid};commit;")
 
 def hosted():
     for label,role in[('vendor','vendor'),('vendor2','vendor'),('customer','customer'),('other','customer'),('rider','rider'),('admin','admin')]:fixture(label,role)
@@ -83,7 +86,7 @@ def hosted():
     status,accepted=b.rpc('fr10_vendor_transition',{'p_vendor_order_id':children[0]['id'],'p_status':'accepted'},v)
     check(status==200 and accepted['code']=='ACCEPTED','shared sibling accepted before timeout')
     expire(oid)
-    query(f"update public.orders set payment_method='CARD'where id={oid};update public.payments set method='CARD',status='SUCCESS',paidat=clock_timestamp()where orderid='{oid}';select public.cancel_timed_out_orders();")
+    query('select public.cancel_timed_out_orders();')
     check(read_product(p,v)['stock_qty']==15 and read_product(q,tokens['vendor2'])['stock_qty']==20,'timeout restores every shared item')
     row=query(f"select(select count(*)from public.inventory_movements where order_id={oid} and movement_type='ORDER_RESTORE')as restores,(select count(*)from public.order_refund_actions where order_id={oid} and amount=600 and status='PENDING')as refunds,(select count(*)from public.notifications where timeout_order_id={oid})as notices;")[0]
     check(row=={'restores':2,'refunds':1,'notices':1},'shared full pending refund/notice preserved with two restores')
