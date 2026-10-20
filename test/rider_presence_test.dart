@@ -3,6 +3,72 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/rider_presence.dart';
 
 void main() {
+  for (final scenario in [
+    'recover',
+    'offline',
+    'withdraw',
+    'withdraw-in-flight',
+    'superseded',
+  ]) {
+    testWidgets('active delivery transport recovery: $scenario', (
+      tester,
+    ) async {
+      var disconnected = true, consent = true, superseded = false, starts = 0;
+      final writes = <Map<String, dynamic>>[];
+      Completer<Map<String, dynamic>>? pending;
+      final presence = RiderPresence(
+        (name, parameters) async {
+          if (name == 'fr21_begin_presence') {
+            starts++;
+            return {'epoch': 7, 'is_online': true};
+          }
+          writes.add(Map.of(parameters));
+          if (pending != null) return pending!.future;
+          if (superseded) throw const PresenceFailure('Stale presence epoch');
+          if (disconnected) throw StateError('network disconnected');
+          return {'is_online': parameters['p_online']};
+        },
+        () {},
+        allowTransportRecovery: () => consent,
+      );
+      await presence.restore();
+      for (var i = 0; i < 80; i++) {
+        await tester.pump(const Duration(seconds: 1));
+        if (presence.transportInterrupted && !presence.busy) break;
+      }
+      expect(presence.transportInterrupted, isTrue);
+      expect(presence.online, isFalse);
+      expect(presence.ready, isFalse);
+      disconnected = false;
+      final before = writes.length;
+      if (scenario == 'offline') await presence.offline();
+      if (scenario == 'withdraw') consent = false;
+      if (scenario == 'superseded') superseded = true;
+      final response = Completer<Map<String, dynamic>>();
+      if (scenario == 'withdraw-in-flight') pending = response;
+      await tester.pump(const Duration(seconds: 11));
+      if (scenario == 'withdraw-in-flight') {
+        expect(presence.busy, isTrue);
+        consent = false;
+        pending = null;
+        response.complete({'is_online': true});
+      }
+      await tester.pump();
+      expect(starts, 1, reason: 'Recovery must not replace a superseded epoch');
+      expect(writes.every((p) => p['p_epoch'] == 7), isTrue);
+      expect(
+        presence.online,
+        scenario == 'recover',
+        reason:
+            'scenario=$scenario before=$before writes=$writes busy=${presence.busy}',
+      );
+      expect(presence.transportInterrupted, isFalse);
+      if (scenario == 'withdraw') expect(writes.length, before);
+      if (scenario == 'withdraw-in-flight')
+        expect(writes.last['p_online'], isFalse);
+      presence.dispose();
+    });
+  }
   testWidgets('background during startup releases returned lease', (
     tester,
   ) async {

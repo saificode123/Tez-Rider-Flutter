@@ -158,6 +158,51 @@ void main() {
       await source.close();
     });
   }
+  for (final outcome in ['recover', 'stop', 'ended', 'account']) {
+    test(
+      'presence interruption retains only same-delivery consent: $outcome',
+      () async {
+        final source = Source();
+        final backend = Backend();
+        final service = RiderLocationService(source, backend, now: () => base);
+        await service.reconcile(online: true, activeOrder: 1, foreground: true);
+        await service.share(1);
+        final starts = source.starts;
+        await service.reconcile(
+          online: false,
+          activeOrder: 1,
+          foreground: true,
+          presenceInterrupted: true,
+        );
+        expect(service.sharing.value, isTrue);
+        source.fixes.add(DeviceFix(33.7, 73.05, 5, base));
+        await Future<void>.delayed(Duration.zero);
+        expect(
+          backend.sent,
+          0,
+          reason: 'No publishing while availability is unconfirmed',
+        );
+        if (outcome == 'stop') await service.stop();
+        if (outcome == 'ended') backend.eligibility = 'INELIGIBLE';
+        if (outcome == 'account') backend.accountId = 'another-account';
+        await service.reconcile(online: true, activeOrder: 1, foreground: true);
+        source.fixes.add(DeviceFix(33.7, 73.05, 5, base));
+        await Future<void>.delayed(Duration.zero);
+        expect(service.sharing.value, outcome == 'recover');
+        expect(backend.sent, outcome == 'recover' ? 1 : 0);
+        if (outcome == 'recover')
+          expect(
+            source.starts,
+            starts,
+            reason: 'Reuse the existing real GPS subscription',
+          );
+        await service.stop();
+        service.onClose();
+        await Future<void>.delayed(Duration.zero);
+        await source.close();
+      },
+    );
+  }
   for (final result in ['INELIGIBLE', 'FORBIDDEN']) {
     test('$result blocks delivery stream after authoritative check', () async {
       final source = Source();

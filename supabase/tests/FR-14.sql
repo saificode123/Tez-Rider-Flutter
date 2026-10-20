@@ -36,6 +36,11 @@ do $$declare rid bigint;cid bigint;o bigint;a bigint;r jsonb;begin
  perform pg_temp.ok(r->>'code'='ACCEPTED','real FR13 trusted location submission reused');
 end$$;
 do $$declare f fr14_fixture;who text;r jsonb;again jsonb;saved jsonb;lease uuid;begin
+ -- Assertion-only transaction: isolate simulated quota from real unsettled
+ -- reservations, then the file's mandatory ROLLBACK restores every real row.
+ -- Setup-only load fixtures stop before this block and never execute it.
+ delete from fr14_private.quota_reservations;
+ update fr14_quota_baseline set n=0;
  select *into f from fr14_fixture;
  foreach who in array array['customer','rider','admin']loop
   perform pg_temp.claim(who);perform pg_temp.ok(public.fr14_route_context(f.oid)->>'code'='OK',who||' authorized');end loop;
@@ -53,6 +58,12 @@ do $$declare f fr14_fixture;who text;r jsonb;again jsonb;saved jsonb;lease uuid;
  perform pg_temp.ok((select route_estimated_arrival_at=(saved->'route'->>'estimatedArrivalAt')::timestamptz from public.orders where id=f.oid),'authoritative ETA and cache commit consistently');
  perform pg_temp.ok((saved->'route'->>'estimatedArrivalAt')::timestamptz between clock_timestamp()+interval '239 seconds'and clock_timestamp()+interval '241 seconds','ETA uses server calculation clock plus seconds');
  perform pg_temp.ok(public.fr14_prepare(f.oid,f.cid,true)->>'code'='CACHE','fresh route cache hit');
+ perform pg_temp.ok(not has_function_privilege('service_role','fr14_private.prepare_locked(bigint,bigint,boolean)','EXECUTE'),'locked helper is not directly callable by service role');
+ perform pg_temp.ok(public.fr14_prepare(f.oid,(select id from fr14_people where label='other-customer'),true)->>'code'='FORBIDDEN','fast cache path still checks ownership');
+ update fr14_private.user_limits set requests=100,window_at=clock_timestamp()where actor=f.cid;
+ perform pg_temp.ok(public.fr14_prepare(f.oid,f.cid,true)->>'code'='RATE_LIMIT','fast cache path retains per-actor rate limit');
+ update fr14_private.user_limits set requests=1 where actor=f.cid;
+ perform pg_temp.ok((select count(*)=(select n+1 from fr14_quota_baseline)from fr14_private.quota_reservations),'fast cache reads and denials reserve no extra provider credits');
  update public.delivery_route_cache set expires_at=clock_timestamp()-interval '1 second'where order_id=f.oid;
  perform pg_temp.ok(public.fr14_prepare(f.oid,f.cid,true)->>'code'='THROTTLED','expired cache respects minimum interval');
  update fr14_private.attempts set last_attempt_at=clock_timestamp()-interval '61 seconds'where order_id=f.oid;

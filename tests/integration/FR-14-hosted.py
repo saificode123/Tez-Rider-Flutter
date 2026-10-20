@@ -60,6 +60,8 @@ def physical_accept():
  assert len(rows)==1 and rows[0]['confirmed'],'Exactly one recent customer-confirmed physical TEST checkout required'
  row=rows[0];code,r=b.rpc('fr10_vendor_transition',{'p_vendor_order_id':row['vo'],'p_status':'accepted'},b.login(state['accounts']['vendor']))
  assert code==200 and r['code']in('ACCEPTED','UPDATED'),'Actual vendor acceptance required'
+ if state.get('physical_order',{}).get('oid')not in(None,row['id']):
+  state.setdefault('physical_order_history',[]).append(dict(state['physical_order']))
  state['physical_order']={'oid':row['id'],'vo':row['vo']};save()
  check(True,'actual confirmed physical TEST checkout accepted by its vendor; destination unchanged')
 
@@ -101,6 +103,7 @@ def physical_observe():
  rows=db.query(f"select o.order_status,o.destination_source,o.destination_confirmed_at is not null as confirmed,o.route_estimated_arrival_at is not null as eta_persisted,l.received_at>clock_timestamp()-interval '30 seconds' as gps_fresh,l.accuracy<=100 as accurate,c.computed_at,c.data->>'source' as route_source,c.data->>'distanceMeters' as route_meters,c.data->>'durationSeconds' as route_seconds from public.orders o left join public.delivery_latest_locations l on l.order_id=o.id left join public.delivery_route_cache c on c.order_id=o.id where o.id={oid}")
  assert len(rows)==1
  record={'physical_order':oid,**rows[0],'observed_at':dt.datetime.now(dt.timezone.utc).isoformat()}
+ record['presence']=db.query(f"select is_online,presence_epoch,presence_sequence,last_seen>clock_timestamp()-interval '2 minutes' as fresh from public.riders where userid=(select rider_id from public.orders where id={oid})")[0]
  record['quota']=db.query("select coalesce(sum(units),0)as reserved_credits,count(*)filter(where not settled)as unsettled_requests,min(reserved_at)filter(where not settled)as oldest_unsettled from fr14_private.quota_reservations where reserved_at>clock_timestamp()-interval '24 hours'")[0]
  with(OUT/'physical-observations.jsonl').open('a')as f:f.write(json.dumps(record)+'\n')
  print(json.dumps(record),flush=True)

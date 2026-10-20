@@ -77,6 +77,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         presenceReady.value = _presence.ready;
         presenceError.value = _presence.error;
       },
+      allowTransportRecovery: () =>
+          location.sharing.value &&
+          currentOrder.value?['type'] == 'order' &&
+          currentOrder.value?['order_status'] == 'on_the_way',
     );
     WidgetsBinding.instance.addObserver(this);
     final initialAccount = _supabase.auth.currentUser?.id;
@@ -104,6 +108,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             ? order!['id'] as int?
             : null,
         foreground: _foreground,
+        presenceInterrupted: _presence.transportInterrupted,
       ),
     );
   }

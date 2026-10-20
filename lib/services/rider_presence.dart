@@ -16,10 +16,13 @@ class PresenceFailure implements Exception {
 /// A server-issued epoch rejects requests from a previous app session; sequence
 /// numbers reject late requests and make retries safe after a lost response.
 class RiderPresence {
-  RiderPresence(this.call, this.changed);
+  RiderPresence(this.call, this.changed, {this.allowTransportRecovery});
 
   final PresenceCall call;
   final void Function() changed;
+  // Opt-in only for a delivery whose live-sharing consent is still active.
+  final bool Function()? allowTransportRecovery;
+  bool transportInterrupted = false;
   bool online = false;
   bool busy = false;
   bool ready = false;
@@ -59,6 +62,7 @@ class RiderPresence {
       return;
     }
     _restorePending = false;
+    transportInterrupted = false;
     busy = true;
     ready = false;
     _heartbeat?.cancel();
@@ -150,39 +154,84 @@ class RiderPresence {
     _heartbeat?.cancel();
     if (!online || !ready || !_active || _closed) return;
     // One-shot scheduling prevents overlapping heartbeats; jitter spreads load.
-    _heartbeat = Timer(Duration(seconds: 45 + Random().nextInt(11)), () async {
-      if (busy || _closed) {
-        _scheduleHeartbeat();
-        return;
-      }
-      busy = true;
-      final generation = _generation;
+    _heartbeat = Timer(Duration(seconds: 45 + Random().nextInt(11)), _renew);
+  }
+
+  void _scheduleRecovery() {
+    _heartbeat?.cancel();
+    if (_closed || !_active || allowTransportRecovery?.call() != true) {
+      transportInterrupted = false;
+      return;
+    }
+    _heartbeat = Timer(const Duration(seconds: 10), _renew);
+  }
+
+  Future<void> _renew() async {
+    if (transportInterrupted && allowTransportRecovery?.call() != true) {
+      transportInterrupted = false;
       changed();
-      try {
-        final result = await _write(true);
-        if (!_closed && generation == _generation) {
-          online = result['is_online'] == true;
-          error = null;
-        }
-      } catch (_) {
-        if (generation == _generation) {
+      return;
+    }
+    if (busy || _closed) {
+      if (transportInterrupted) {
+        _scheduleRecovery();
+      } else {
+        _scheduleHeartbeat();
+      }
+      return;
+    }
+    busy = true;
+    final generation = _generation;
+    final recovering = transportInterrupted;
+    changed();
+    try {
+      final result = await _write(true);
+      if (!_closed && generation == _generation) {
+        if (recovering && allowTransportRecovery?.call() != true) {
+          // Consent may be withdrawn while renewal is in flight. A newer
+          // offline sequence supersedes that response; never resurrect it.
           online = false;
           ready = false;
-          error = 'Connection lost. Go online again when connected.';
+          transportInterrupted = false;
+          try {
+            await _write(false);
+          } catch (_) {}
+          return;
         }
-      } finally {
-        busy = false;
-        if (!_closed && generation == _generation) {
-          _scheduleHeartbeat();
-          changed();
-        }
-        _runPendingRestore();
+        online = result['is_online'] == true;
+        ready = true;
+        transportInterrupted = false;
+        error = null;
       }
-    });
+    } catch (e) {
+      if (generation == _generation) {
+        online = false;
+        ready = false;
+        transportInterrupted =
+            _active &&
+            allowTransportRecovery?.call() == true &&
+            (e is! PresenceFailure || e.retryable);
+        error = transportInterrupted
+            ? 'Connection lost. Delivery sharing will retry after availability is confirmed.'
+            : 'Connection lost. Go online again when connected.';
+      }
+    } finally {
+      busy = false;
+      if (!_closed && generation == _generation) {
+        if (transportInterrupted) {
+          _scheduleRecovery();
+        } else {
+          _scheduleHeartbeat();
+        }
+        changed();
+      }
+      _runPendingRestore();
+    }
   }
 
   Future<void> offline() async {
     _active = false;
+    transportInterrupted = false;
     _restorePending = false;
     _generation++;
     _heartbeat?.cancel();

@@ -12,6 +12,7 @@ async function rpc(jwt: string, name: string, body: Data, privileged = false): P
 }
 const handler = createHandler({
   configured: key.length > 0,
+  accountBoundary: req => accountBoundary(req, base, anon),
   async authenticate(jwt) {
     const res = await fetch(base + '/auth/v1/user', {headers: {apikey: anon, Authorization: 'Bearer ' + jwt}, signal: AbortSignal.timeout(8000)});
     return res.ok && typeof (await res.json()).id === 'string';
@@ -38,7 +39,4 @@ const handler = createHandler({
     return JSON.parse(new TextDecoder().decode(bytes));
   },
 });
-Deno.serve({hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54329 : 8000}, async req => {
-  const denial = await accountBoundary(req, base, anon);
-  return denial ?? handler(req);
-});
+Deno.serve({hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54329 : 8000}, handler);

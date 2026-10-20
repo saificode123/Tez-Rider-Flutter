@@ -11,6 +11,7 @@ supabase/functions/get-delivery-route/handler_test.ts
 supabase/functions/get-delivery-route/index.ts
 supabase/migrations/202610190001_fr14_route_eta.sql
 supabase/migrations/202610190002_fr14_bounded_cleanup.sql
+supabase/migrations/202610200001_fr14_cache_read_path.sql
 supabase/tests/FR-14.sql
 test/delivery_location_test.dart
 test/delivery_route_test.dart
@@ -27,3 +28,8 @@ tests/integration/FR-17-hosted.py
 tests/load/FR-14-harness.ts
 tests/load/FR-14.js
 docs/FR-14-files.txt
+lib/controllers/rider_controller.dart
+lib/services/delivery_location.dart
+lib/services/rider_presence.dart
+test/rider_presence_test.dart
+docs/FR-14-followup-files.txt

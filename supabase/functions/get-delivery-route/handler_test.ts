@@ -19,6 +19,26 @@ function harness(change: Partial<Dependencies> = {}) {
   return {run, calls, handler};
 }
 Deno.test('JWT rejected before routing', async () => { const h = harness(); equal((await h.run(undefined, 'forged')).status, 401); equal(h.calls.prepare, 0); });
+Deno.test('live auth and account checks overlap without starting order work early', async () => {
+  let release!: (value: boolean) => void, boundaryStarted = false, contexts = 0;
+  const authenticated = new Promise<boolean>(resolve => { release = resolve; });
+  const h = harness({authenticate: () => authenticated,
+    accountBoundary: async () => { boundaryStarted = true; return null; },
+    context: async () => { contexts++; return {code: 'OK', actor: 42}; }});
+  const pending = h.run();
+  await Promise.resolve(); equal(boundaryStarted, true); equal(contexts, 0); equal(h.calls.prepare, 0);
+  release(true); equal((await pending).status, 200);
+});
+Deno.test('blocked account denial wins and never starts coordinate lookup', async () => {
+  let contexts = 0;
+  const h = harness({accountBoundary: async () => Response.json({code: 'FR28_ACCOUNT_BLOCKED'}, {status: 403}),
+    context: async () => { contexts++; return {code: 'OK', actor: 42}; }});
+  equal((await h.run()).status, 403); equal(contexts, 0); equal(h.calls.prepare, 0);
+});
+Deno.test('unavailable account check fails closed without routing', async () => {
+  const h = harness({accountBoundary: async () => { throw Error('account service unavailable'); }});
+  equal((await h.run()).status, 503); equal(h.calls.prepare, 0);
+});
 Deno.test('ownership authorization precedes trusted coordinate lookup', async () => { const h = harness({context: async () => ({code: 'FORBIDDEN'})}); equal((await h.run()).status, 403); equal(h.calls.provider, 0); });
 for (const body of [{orderId: 1, destination}, {orderId: -1}, {orderId: 1.5}, {}, null, []]) {
   Deno.test('strict input ' + JSON.stringify(body), async () => { equal((await harness().run(body)).status, 400); });

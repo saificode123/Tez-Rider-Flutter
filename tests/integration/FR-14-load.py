@@ -20,9 +20,12 @@ def token(label):
  return raw+'.'+wire(hmac.new(secret.encode(),raw.encode(),hashlib.sha256).digest())
 mode=sys.argv[2]if len(sys.argv)>2 else'normal'
 assert mode in('normal','failure')
+auth_mode=sys.argv[3]if len(sys.argv)>3 else'overlap'
+assert auth_mode in('sequential','overlap')
+cache_path=d.local("select exists(select 1 from supabase_migrations.schema_migrations where version='202610200001');").strip()=='t'
 private=OUT/'load-private.json';log=(OUT/('load-server-'+mode+'.log')).open('w');server=None;stop=threading.Event();updater=None
 try:
- private.write_text(json.dumps({'scope':'LOCAL only','base':'http://127.0.0.1:54330','customer':token('customer'),'other':token('other-customer'),'order':oid,'output':str(OUT/('load-results-'+mode+'.json'))}))
+ private.write_text(json.dumps({'scope':'LOCAL only','base':'http://127.0.0.1:54330','customer':token('customer'),'other':token('other-customer'),'order':oid,'authMode':auth_mode,'databaseCacheReadPath':cache_path,'output':str(OUT/('load-results-'+mode+'-'+auth_mode+'.json'))}))
  def keep_gps():
   while not stop.is_set():
    body={'p_order_id':oid,'p_lat':33.7,'p_lng':73.05,'p_accuracy':5,'p_device_at':dt.datetime.now(dt.timezone.utc).isoformat(),'p_request_id':str(scope['uuid'].uuid4())}
@@ -43,7 +46,7 @@ try:
  except Exception as e:
   body=json.loads(e.read())if hasattr(e,'read')else{}
   print(json.dumps({'local_auth_status':getattr(e,'code',0),'code':body.get('code'),'message':body.get('msg')or body.get('message')}))
- env={**os.environ,'SUPABASE_URL':'http://127.0.0.1:54321','SUPABASE_ANON_KEY':keys['anon'],'SUPABASE_SERVICE_ROLE_KEY':keys['service_role'],'FR14_MOCK_FAILURE':'true'if mode=='failure'else'false'}
+ env={**os.environ,'SUPABASE_URL':'http://127.0.0.1:54321','SUPABASE_ANON_KEY':keys['anon'],'SUPABASE_SERVICE_ROLE_KEY':keys['service_role'],'FR14_MOCK_FAILURE':'true'if mode=='failure'else'false','FR14_AUTH_SEQUENTIAL':'true'if auth_mode=='sequential'else'false'}
  deno='C:/Users/urreh/AppData/Local/Temp/tezrider-fr21-tools/deno/deno.exe'
  server=subprocess.Popen([deno,'run','--allow-env','--allow-net',str(ROOT/'tests/load/FR-14-harness.ts')],env=env,stdout=log,stderr=log)
  for _ in range(30):

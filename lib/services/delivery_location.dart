@@ -67,6 +67,7 @@ class RiderLocationService extends GetxService {
   StreamSubscription<bool>? _services;
   int? _order, _sharingOrder;
   bool _online = false, _foreground = true, _closed = false, _sending = false;
+  bool _presenceSuspended = false, _resumingPresence = false;
   String _account = '';
   int _generation = 0, _failures = 0, _operation = 0;
   Future<void>? _stopWork;
@@ -96,8 +97,59 @@ class RiderLocationService extends GetxService {
     required bool online,
     required int? activeOrder,
     required bool foreground,
+    bool presenceInterrupted = false,
   }) async {
     final account = backend.accountId;
+    final sameDelivery =
+        !_closed &&
+        _account == account &&
+        account.isNotEmpty &&
+        _order == activeOrder &&
+        activeOrder != null &&
+        _sharingOrder == activeOrder &&
+        sharing.value;
+    if (presenceInterrupted && sameDelivery) {
+      _foreground = foreground;
+      _presenceSuspended = true;
+      _pendingFix = null;
+      message.value =
+          'Connection lost. Waiting for confirmed delivery availability.';
+      return;
+    }
+    if (_presenceSuspended && sameDelivery && online) {
+      if (_resumingPresence) return;
+      _resumingPresence = true;
+      final generation = _generation;
+      try {
+        final problem = await source.prepare(
+          requestPermission: false,
+          delivery: true,
+        );
+        if (!_valid(generation)) return;
+        if (problem != null) {
+          await _halt(problem);
+          return;
+        }
+        final context = await backend.context(activeOrder, enable: true);
+        if (!_valid(generation)) return;
+        if (context['code'] != 'OK' || context['sharing'] != true) {
+          await _halt(
+            'Location sharing stopped: delivery is no longer eligible.',
+          );
+          return;
+        }
+        _presenceSuspended = false;
+        _retryAt = null;
+        _lastSent = null;
+        message.value = 'Sharing your live location.';
+      } catch (_) {
+        // Preserve only the existing consent; no publishing until server checks
+        // succeed. A later presence update retries this reconciliation.
+        return;
+      } finally {
+        _resumingPresence = false;
+      }
+    }
     final changed =
         _account != account || _order != activeOrder || _online != online;
     final resumed = foreground && !_foreground;
@@ -310,7 +362,7 @@ class RiderLocationService extends GetxService {
   }
 
   Future<void> _send(DeviceFix fix, int generation, bool delivery) async {
-    if (!_valid(generation) || !_online) return;
+    if (!_valid(generation) || !_online || _presenceSuspended) return;
     if (!fix.valid(now().toUtc())) {
       message.value =
           _guidance?.waitingForFixMessage ??
@@ -425,6 +477,7 @@ class RiderLocationService extends GetxService {
 
   Future<void> _cancel() async {
     _generation++;
+    _presenceSuspended = false;
     _pendingFix = null;
     sharing.value = false;
     final position = _positions, services = _services;

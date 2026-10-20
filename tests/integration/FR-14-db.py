@@ -5,7 +5,7 @@ spec=importlib.util.spec_from_file_location('fr17db',Path(__file__).with_name('F
 d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
 ROOT=d.ROOT;OUT=ROOT/'.fr21-local/fr14';OUT.mkdir(parents=True,exist_ok=True)
 VERSION=sys.argv[2]if len(sys.argv)>2 else'202610190001'
-assert VERSION in('202610190001','202610190002')
+assert VERSION in('202610190001','202610190002','202610200001')
 MIGRATION=next((ROOT/'supabase/migrations').glob(VERSION+'_*.sql'))
 def main(mode):
  local=mode.startswith('local');run=d.local if local else d.hosted
@@ -15,6 +15,7 @@ def main(mode):
   (OUT/(mode+'.json')).write_text(json.dumps(rows));print(json.dumps({'mode':mode,'history_saved':True}));return
  if mode.endswith('review')or mode.endswith('sql'):
   rules=(ROOT/'supabase/tests/FR-14.sql').read_text()
+  assert rules.rstrip().endswith('rollback;'),'Security/quota simulations must roll back'
   if mode.endswith('review'):
    source=re.sub(r'^begin;\s*|^commit;\s*','',MIGRATION.read_text(),flags=re.M)
    rules=rules.replace('begin;','begin;\n'+source,1)

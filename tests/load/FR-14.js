@@ -23,7 +23,7 @@ async function main() {
   }));
   latency.sort((a,b)=>a-b);const p95=latency[Math.max(0,Math.ceil(latency.length*.95)-1)]||Infinity;
   const stats=await(await fetch(config.base+'/stats')).json();
-  const result={scope:'LOCAL Supabase HTTP with mocked provider',vus,requests:vus*5,p95Ms:p95,unexpectedErrors:unexpected,unexpectedErrorRate:unexpected/(vus*5),unauthorizedDisclosures:disclosures,authorizedSuccesses:success,denied,fallbackResponses:fallback,providerCalls:stats.providerCalls,providerMocked:true,codes};
+  const result={scope:'LOCAL Supabase HTTP with mocked provider',authMode:config.authMode,databaseCacheReadPath:config.databaseCacheReadPath,vus,requests:vus*5,p95Ms:p95,unexpectedErrors:unexpected,unexpectedErrorRate:unexpected/(vus*5),unauthorizedDisclosures:disclosures,authorizedSuccesses:success,denied,fallbackResponses:fallback,providerCalls:stats.providerCalls,providerMocked:true,codes,timings:stats.timings};
   fs.writeFileSync(config.output,JSON.stringify(result,null,2));console.log(JSON.stringify(result));
   if(unexpected/(vus*5)>=.01||disclosures||stats.providerCalls!==1||p95>=800||success===0)process.exitCode=1;
 }

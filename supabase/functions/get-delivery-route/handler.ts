@@ -1,6 +1,7 @@
 export type Data = Record<string, any>;
 export interface Dependencies {
   authenticate(jwt: string): Promise<boolean>;
+  accountBoundary?(req: Request): Promise<Response | null>;
   context(jwt: string, order: number): Promise<Data>;
   prepare(order: number, actor: number, configured: boolean): Promise<Data>;
   finish(order: number, actor: number, lease: string, route: Data | null): Promise<Data>;
@@ -45,12 +46,18 @@ export function createHandler(deps: Dependencies) {
   return async (req: Request): Promise<Response> => {
     const reply = (data: Data, status = 200) => Response.json(data, {status, headers});
     if (req.method === 'OPTIONS') return new Response('ok', {headers});
-    if (req.method !== 'POST') return reply({code: 'METHOD_NOT_ALLOWED'}, 405);
+    if (req.method !== 'POST') return await deps.accountBoundary?.(req) ?? reply({code: 'METHOD_NOT_ALLOWED'}, 405);
     const auth = req.headers.get('authorization') ?? '';
     if (!/^Bearer \S+$/.test(auth)) return reply({code: 'UNAUTHORIZED'}, 401);
     try {
       const jwt = auth.slice(7);
-      if (!await deps.authenticate(jwt)) return reply({code: 'UNAUTHORIZED'}, 401);
+      // Independent live checks overlap, but no order lookup or provider work
+      // starts until both complete. No authentication result is cached.
+      const [authenticated, denial] = await Promise.all([
+        deps.authenticate(jwt), deps.accountBoundary?.(req) ?? Promise.resolve(null),
+      ]);
+      if (denial) return denial;
+      if (!authenticated) return reply({code: 'UNAUTHORIZED'}, 401);
       const reader = req.body?.getReader();
       if (!reader) return reply({code: 'INVALID_REQUEST'}, 400);
       let text = '', size = 0;

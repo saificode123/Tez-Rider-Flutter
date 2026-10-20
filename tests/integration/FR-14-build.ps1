@@ -3,7 +3,7 @@ $repo=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $mirror='C:/Users/urreh/AppData/Local/Temp/tezrider-fr21-auth-debug/android-build-20261012-125502'
 if(-not(Test-Path -LiteralPath $mirror)){throw 'Existing accepted Android build mirror required'}
 if((Get-Content (Join-Path $repo 'supabase/.temp/project-ref') -Raw).Trim() -cne 'igeisilhtmglgnqvllrx'){throw 'Isolated TEST link required'}
-$allowed=@('lib/screens/customer/enhanced_checkout_screen.dart','lib/services/delivery_destination.dart','lib/services/delivery_route.dart','lib/controllers/rider_controller.dart','lib/screens/rider_dashboard.dart','lib/screens/map_screen.dart','lib/screens/customer/order_history_screen.dart','lib/services/delivery_location.dart','lib/services/delivery_location_platform.dart','lib/widgets/tez_map_tiles.dart')
+$allowed=@('lib/screens/customer/enhanced_checkout_screen.dart','lib/services/delivery_destination.dart','lib/services/delivery_route.dart','lib/controllers/rider_controller.dart','lib/screens/rider_dashboard.dart','lib/screens/map_screen.dart','lib/screens/customer/order_history_screen.dart','lib/services/delivery_location.dart','lib/services/rider_presence.dart','lib/services/delivery_location_platform.dart','lib/widgets/tez_map_tiles.dart')
 foreach($source in Get-ChildItem -LiteralPath (Join-Path $repo 'lib') -File -Recurse){
  $relative=[IO.Path]::GetRelativePath($repo,$source.FullName).Replace('\','/')
  $destination=Join-Path $mirror $relative

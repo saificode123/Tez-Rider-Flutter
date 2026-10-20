@@ -15,6 +15,11 @@ def main(action):
  current=n.nodes()
  if action=='screen':
   print(json.dumps([{'label':safe(n.label(node)),'bounds':node.get('bounds'),'enabled':node.get('enabled'),'checked':node.get('checked'),'class':node.get('class')}for node in current if node.get('class')!='android.widget.EditText'and(n.label(node)or node.get('clickable')=='true')and not re.fullmatch(r'\d{6}',n.label(node))]))
+ elif action=='runtime-evidence':
+  pid=ui.adb('shell','pidof',ui.PKG).strip();assert re.fullmatch(r'\d+(?: \d+)*',pid)
+  connectivity=ui.adb('shell','dumpsys','connectivity')
+  match=re.search(r'Active default network:\s*(none|null|\d+)\b',connectivity)
+  emit({'TEST_app_foreground':True,'TEST_process':pid,'default_network_present':None if not match else match[1]not in('none','null')})
  elif action=='screenshot':
   p=subprocess.run([ui.ADB,'-s',ui.SERIAL,'exec-out','screencap','-p'],capture_output=True,timeout=30);assert p.returncode==0
   (h.OUT/'native-screen.png').write_bytes(p.stdout);emit({'TEST_screenshot_saved':True})
