@@ -16,7 +16,9 @@ function timingSummary() {
   return Object.fromEntries(Object.entries(timings).map(([name, values]) => {
     const ordered = [...values].sort((a, b) => a - b);
     return [name, {count: values.length, meanMs: values.reduce((a, b) => a + b, 0) / values.length,
-      p95Ms: ordered[Math.ceil(ordered.length * .95) - 1]}];
+      p50Ms: ordered[Math.ceil(ordered.length * .5) - 1],
+      p95Ms: ordered[Math.ceil(ordered.length * .95) - 1],
+      p99Ms: ordered[Math.ceil(ordered.length * .99) - 1]}];
   }));
 }
 async function rpc(jwt: string, name: string, body: Data, privileged = false) {
@@ -34,12 +36,12 @@ const handler = createHandler({
   context: (jwt, order) => measure('context', () => rpc(jwt, 'fr14_route_context', {p_order_id: order})),
   prepare: (order, actor, configured) => measure('prepare', () => rpc(service, 'fr14_prepare', {p_order_id: order, p_actor: actor, p_configured: configured}, true)),
   finish: (order, actor, lease, route) => measure('finish', () => rpc(service, 'fr14_finish', {p_order_id: order, p_actor: actor, p_lease: lease, p_route: route}, true)),
-  async provider(origin, destination) {
+  provider: (origin, destination) => measure('mockProvider', async () => {
     providerCalls++;
     await new Promise(resolve => setTimeout(resolve, 100));
     if (Deno.env.get('FR14_MOCK_FAILURE') === 'true') throw Error('Mock timeout');
     return {type: 'FeatureCollection', features: [{geometry: {type: 'MultiLineString', coordinates: [[origin, destination]]}, properties: {distance: 1600, time: 240}}]};
-  },
+  }),
 });
 Deno.serve({hostname: '127.0.0.1', port: 54330}, async req => {
   if (new URL(req.url).pathname === '/stats') return Response.json({providerCalls, mockedProvider: true, timings: timingSummary()});
