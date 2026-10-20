@@ -33,3 +33,4 @@ lib/services/delivery_location.dart
 lib/services/rider_presence.dart
 test/rider_presence_test.dart
 docs/FR-14-followup-files.txt
+tests/load/FR-14-isolated.ts
