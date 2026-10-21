@@ -204,11 +204,10 @@ class AdminController extends GetxController
           }
         } else {
           final changed = await _supabase
-              .from(table)
-              .update({'verification_status': newStatus})
-              .eq('id', id)
-              .select('id,verification_status')
-              .single()
+              .rpc(
+                'final1_review_vendor',
+                params: {'p_user_id': int.parse(id), 'p_status': newStatus},
+              )
               .timeout(const Duration(seconds: 10));
           if (changed['verification_status'] != newStatus) {
             throw StateError('Review not confirmed');
@@ -234,7 +233,7 @@ class AdminController extends GetxController
         if (table == 'disputes') {
           throw StateError('Use the confirmed dispute decision RPC');
         }
-        await _supabase.from(table).update({'status': newStatus}).eq('id', id);
+        throw StateError('Unsupported administrative action');
       }
       Get.snackbar('Success', 'Status updated to $newStatus');
     } catch (e) {

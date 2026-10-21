@@ -1,6 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../data/mock_data.dart';
+
 
 const _kPurple  = Color(0xFF1B5E20);
 const _kBg      = Color(0xFFF8F7FF);
@@ -22,6 +22,8 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
   final _supabase = Supabase.instance.client;
 
   bool _loading = true;
+  bool _fetching = false;
+  String? _error;
   double _totalRevenue  = 0;
   int    _totalOrders   = 0;
   int    _pendingCount  = 0;
@@ -38,13 +40,15 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
   }
 
   Future<void> _loadData() async {
-    setState(() => _loading = true);
+    if (_fetching) return;
+    _fetching = true;
+    setState(() { _loading = true; _error = null; });
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
 
       final rec = await _supabase.from('users').select('id').eq('email', user.email!).maybeSingle();
-      if (rec == null) return;
+      if (rec == null) throw StateError('Profile unavailable');
       _vendorId = rec['id'];
 
       final orders = await _supabase
@@ -53,12 +57,13 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
           .eq('vendor_id', _vendorId!) as List;
 
       _totalOrders    = orders.length;
-      _totalRevenue   = orders.fold(0.0, (s, o) => s + ((o['sub_total'] as num?) ?? 0));
+      _totalRevenue   = orders.where((o) => o['status'] == 'delivered').fold(0.0, (s, o) => s + ((o['sub_total'] as num?) ?? 0));
       _pendingCount   = orders.where((o) => o['status'] == 'pending').length;
       _acceptedCount  = orders.where((o) => o['status'] == 'accepted').length;
       _deliveredCount = orders.where((o) => o['status'] == 'delivered').length;
       _cancelledCount = orders.where((o) => o['status'] == 'cancelled').length;
 
+      _topProducts = [];
       final orderIds = orders.map((o) => o['id']).toList();
       if (orderIds.isNotEmpty) {
         final items = await _supabase
@@ -85,25 +90,13 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
         _topProducts = sorted.take(5).toList();
       }
 
-      // No real orders yet — seed with realistic mock analytics.
-      if (_totalOrders == 0) _applyMockAnalytics();
+
     } catch (_) {
-      _applyMockAnalytics();
+      _error = 'Analytics could not be loaded. Retry when connected.';
     } finally {
+      _fetching = false;
       if (mounted) setState(() => _loading = false);
     }
-  }
-
-  void _applyMockAnalytics() {
-    final m      = MockData.vendorAnalytics;
-    _totalRevenue   = m['total_revenue'] as double;
-    _totalOrders    = m['total_orders']  as int;
-    _pendingCount   = m['pending_count'] as int;
-    _acceptedCount  = m['accepted_count'] as int;
-    _deliveredCount = m['delivered_count'] as int;
-    _cancelledCount = m['cancelled_count'] as int;
-    _topProducts    = List<Map<String, dynamic>>.from(
-        m['top_products'] as List);
   }
 
   @override
@@ -128,6 +121,11 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2))
+          : _error != null
+          ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(_error!),
+              TextButton(onPressed: _loadData, child: const Text('Retry')),
+            ]))
           : RefreshIndicator(
               color: _kPurple,
               onRefresh: _loadData,

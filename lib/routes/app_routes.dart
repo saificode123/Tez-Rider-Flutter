@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../middleware/auth_middleware.dart';
+import '../widgets/role_access_gate.dart';
 import '../screens/splash_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/signup_screen.dart';
@@ -36,25 +37,33 @@ class AppRoutes {
     ),
     GetPage(
       name: customerHome,
-      page: () => const CustomerDashboard(),
+      page: () => RoleAccessGate(
+        role: 'customer',
+        builder: (_) => const CustomerDashboard(),
+      ),
       middlewares: [AuthMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: vendorHome,
-      page: () => const VendorDashboard(),
+      page: () => RoleAccessGate(
+        role: 'vendor',
+        builder: (_) => const VendorDashboard(),
+      ),
       middlewares: [AuthMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: riderHome,
-      page: () => const RiderDashboard(),
+      page: () =>
+          RoleAccessGate(role: 'rider', builder: (_) => const RiderDashboard()),
       middlewares: [AuthMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: adminHome,
-      page: () => const AdminDashboard(),
+      page: () =>
+          RoleAccessGate(role: 'admin', builder: (_) => const AdminDashboard()),
       middlewares: [AuthMiddleware()],
       transition: Transition.cupertino,
     ),

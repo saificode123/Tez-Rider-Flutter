@@ -1,17 +1,19 @@
 import 'dart:io';
-import 'dart:convert';
+import 'package:supabase/supabase.dart';
+import 'lib/services/diagnostic_backend.dart';
 
-void main() async {
-  var client = HttpClient();
+Future<void> main() async {
   try {
-    var request = await client.getUrl(Uri.parse('https://arrqsvejrfdbacfwtpcc.supabase.co/rest/v1/users?limit=1'));
-    request.headers.add('apikey', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFycnFzdmVqcmZkYmFjZnd0cGNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTczODksImV4cCI6MjA5MjY5MzM4OX0.3_0AHeKg5pM8dA9HK6f3merIrfi7SknKRaQ8kByQe7U');
-    request.headers.add('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFycnFzdmVqcmZkYmFjZnd0cGNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTczODksImV4cCI6MjA5MjY5MzM4OX0.3_0AHeKg5pM8dA9HK6f3merIrfi7SknKRaQ8kByQe7U');
-    var response = await request.close();
-    var responseBody = await response.transform(utf8.decoder).join();
-    print('RESPONSE CODE: ${response.statusCode}');
-    print('BODY: $responseBody');
-  } finally {
-    client.close();
+    final config = diagnosticBackend();
+    final client = SupabaseClient(config.url, config.key);
+    final rows = await client.from('users').select('id').limit(1);
+    stdout.writeln(
+      'TEST diagnostic completed; visible records: ${rows.length}',
+    );
+    await client.dispose();
+  } catch (_) {
+    stdout.writeln(
+      'TEST diagnostic denied or unavailable. Check TEST configuration and access.',
+    );
   }
 }

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 const _kPurple  = Color(0xFF1B5E20);
@@ -17,29 +17,7 @@ class PaymentMethodsScreen extends StatefulWidget {
 }
 
 class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
-  final List<Map<String, dynamic>> _methods = [
-    {
-      'type': 'card',
-      'label': 'Visa •••• 4242',
-      'sub': 'Expires 12/26',
-      'icon': '📲',
-      'color': Color(0xFF1A56DB),
-    },
-    {
-      'type': 'wallet',
-      'label': 'EasyPaisa',
-      'sub': '+92 300 **** 5678',
-      'icon': '📱',
-      'color': Color(0xFF00A651),
-    },
-    {
-      'type': 'wallet',
-      'label': 'JazzCash',
-      'sub': '+92 311 **** 1234',
-      'icon': '📲',
-      'color': Color(0xFFEF4444),
-    },
-  ];
+  final List<Map<String, dynamic>> _methods = [];
 
   int _selectedIndex = 0;
 
@@ -84,7 +62,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('$title coming soon!'),
+            content: Text('$title is not configured. No payment method was saved.'),
             backgroundColor: color,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -146,7 +124,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             child: Row(children: [
               const Icon(Icons.check_circle_rounded, color: _kGreen, size: 20),
               const SizedBox(width: 10),
-              Text('Tap a payment method to set it as default.',
+              Text('No online payment method is configured.',
                   style: TextStyle(color: _kGreen, fontSize: 13, fontWeight: FontWeight.w600)),
             ]),
           ),

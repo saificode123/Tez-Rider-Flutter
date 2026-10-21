@@ -7,7 +7,6 @@ import '../controllers/cnic_document_controller.dart';
 import '../services/cnic_document.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cnic_document_viewer.dart';
-import 'rider_dashboard.dart';
 
 class CnicDocumentScreen extends StatefulWidget {
   const CnicDocumentScreen({super.key});
@@ -109,7 +108,7 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
             ),
             if (ctrl.application['verification_status'] == 'approved')
               TextButton(
-                onPressed: () => Get.offAll(() => const RiderDashboard()),
+                onPressed: () => Get.offAllNamed('/rider_home'),
                 child: const Text('Continue to Rider Dashboard'),
               ),
             Text('CNIC: ${ctrl.application['cnic_masked'] ?? 'Protected'}'),

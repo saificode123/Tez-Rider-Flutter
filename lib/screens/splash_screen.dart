@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'rider_dashboard.dart';
 import 'cnic_document_screen.dart';
 import '../theme/app_theme.dart';
 import '../controllers/auth_controller.dart';
@@ -126,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen>
           if (!mounted) return;
           if (profile?['role'] == 'rider' &&
               profile?['verification_status'] == 'approved') {
-            Get.offAll(() => const RiderDashboard());
+            Get.offAllNamed('/rider_home');
             return;
           }
           if (profile?['role'] == 'rider') {

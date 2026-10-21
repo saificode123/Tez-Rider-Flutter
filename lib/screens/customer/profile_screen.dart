@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,11 +20,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   final _phoneCtrl = TextEditingController();
   bool _loading = true;
   bool _saving  = false;
+  String? _profileError;
   String _email = '';
   String _role  = 'customer';
   late final AnimationController _rewardPulseCtrl;
   late final Animation<double> _rewardPulseAnim;
-  final int _rewardPoints = 120;
+
 
   @override
   void initState() {
@@ -49,28 +50,32 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
   Future<void> _loadProfile() async {
-    setState(() => _loading = true);
+    setState(() { _loading = true; _profileError = null; });
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
       final rec = await _supabase
           .from('users')
           .select('name, phone, email, role')
           .eq('email', user.email!)
           .maybeSingle();
-      if (rec != null && mounted) {
+      if (rec == null) throw StateError('Profile unavailable');
+      if (mounted) {
         _nameCtrl.text  = rec['name']  ?? '';
         _phoneCtrl.text = rec['phone'] ?? '';
         _email = rec['email'] ?? user.email ?? '';
         _role  = rec['role']  ?? 'customer';
       }
-    } catch (_) {}
+    } catch (_) {
+      if (mounted) _profileError = 'Profile could not be loaded. Please retry.';
+    }
     finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _save() async {
+    if (_saving) return;
     if (_nameCtrl.text.trim().isEmpty) {
       Get.snackbar('Error', 'Name cannot be empty.',
           backgroundColor: Colors.redAccent, colorText: Colors.white,
@@ -81,11 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     setState(() => _saving = true);
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
       await _supabase.from('users').update({
         'name':  _nameCtrl.text.trim(),
         'phone': _phoneCtrl.text.trim(),
-      }).eq('email', user.email!);
+      }).eq('auth_user_id', user.id).select('id,name,phone').single();
 
       // Keep auth metadata in sync too — the dashboard greeting and
       // profile header read the name from here, not the users table.
@@ -100,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
           borderRadius: 14, duration: const Duration(seconds: 2));
     } catch (e) {
-      Get.snackbar('Error', 'Failed to save: $e',
+      Get.snackbar('Error', 'Profile changes could not be confirmed. Please retry.',
           backgroundColor: Colors.redAccent, colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);
     } finally {
@@ -136,6 +141,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2))
+          : _profileError != null
+          ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(_profileError!),
+              TextButton(onPressed: _loadProfile, child: const Text('Retry')),
+            ]))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(children: [
@@ -195,10 +205,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       const Text('TezRider Rewards',
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 14)),
                       const SizedBox(height: 2),
-                      Text('$_rewardPoints points available',
+                      Text('Reward balance unavailable',
                           style: const TextStyle(color: Colors.white70, fontSize: 11)),
                       const SizedBox(height: 4),
-                      const Text('Keep ordering to unlock exclusive rewards!',
+                      const Text('Rewards are not currently configured.',
                           style: TextStyle(color: Colors.white70, fontSize: 11)),
                     ])),
                   ]),

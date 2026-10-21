@@ -1,5 +1,7 @@
 # Final implementation roadmap — Stage0 proposals
 
+> Stage1 update2026-10-22: the new user authorization permits security work despite partial Stage0. Historical proposals below are retained; no payment/UI/biometric implementation approval is inferred. Current Stage1 acceptance is PARTIAL; see the dated addendum at the end.
+
 2026-10-21 (Asia/Karachi). Base `f8bce53`; branch `feature/final-0-audit`. **Stage0 PARTIAL; Stages1–5 not started.** Only audit documentation changed. Full traceability and current TEST security metadata are in SRDS-traceability.md; source control ledger in UI-control-inventory.md; ancestry/limits in FINAL-progress.md.
 
 P0 = security-critical/blocking; P1 = mandatory incomplete requirement; P2 = optional work only if approved. No time estimates. Do not treat historic acceptance as production deployment or complete cross-platform acceptance.
@@ -183,3 +185,17 @@ No Dart/Deno/SQL integration suite rerun in Stage0: existing accepted evidence r
 Current714-file tracked-text scan found hardcoded production anon JWTs in diagnostic files (LOW SEC04 compliance issue, not service-role exposure), Firebase client config and generated/validation-only key-header candidates. No values printed; full history/restrictions remain uninspected. The four audit docs contain no matching credential values. Final documented security counts: CRITICAL0/HIGH2/MEDIUM4/LOW3.
 
 Next action after documentation commit: awaitA/B decisions while retaining PARTIAL Stage0 limitations. Complete the remaining Stage0 inspection before declaring readiness for Stage1; approvals do not automatically waive missing evidence.
+
+## Stage1 execution update — 2026-10-22
+
+Completed/tested security subset: twoHIGH credential/false-payment risks, canonical dashboard role gate, bounded literal search and profile validation, transactionally audited vendor review/confirmation, missing private-table RLS, truthful mock/error paths and configured TEST-only diagnostics. New TEST migration39checkpoint and new shopping-assistant deployed without production/credential modifications; path-only follow-up brings final history to40versions.79rollback SQL/86real-session HTTP assertions; Flutter279pass/2skips;143unique Deno cases have passing evidence after fixing two test-output permission failures. Current matrix/guards/tests/manifest are in FINAL-security-audit.md; old Stage0 row counts remain historical. Final follow-up79SQL and scoped0error/0warning analysis pass their stated scope (6existing infos remain).
+
+Before Stage1 acceptance/handoff:
+
+1. Resolve/approve SEC03 seven-day refresh semantics under zero-cost constraint. Observed JWTs last3600s, but fixture sessions have no not_after bound. Application-side seven-day server enforcement/reauthentication is a proposed free alternative, not implemented or equivalent provider refresh-token expiry. No paid plan/credential rotation proposed.
+2. Define/verify universal SEC06 limiter covering all relevant services. New assistant10/min and existing feature quotas are not a100/min gateway guarantee; Data API-only pre-request would not protect Storage/Realtime/Auth.
+3. Complete safe secure-media workflow/security acceptance without making existing private buckets public. Missing product/prescription/document/photo features are still Stage2 dependencies; low-level helpers are not declared compliant.
+4. Complete remaining legacy definer-body/operation/lifecycle verification and Table5.6row30 error audit coverage. Full existing mutating hosted harnesses were not run under the no-destructive-fixture/no-provider-quota constraints; targeted role/SQL/unit/read evidence does not replace every positive journey.
+5. Preserve incomplete Stage0 rendered-control/diagram inspection and FR14 unaccepted road/latency status. No hidden acceptance or waived mandatory functionality.
+
+Stage2–5 remain stopped. The original consolidated approval table is historical/provisional; security removal of false data under the explicit Stage1 PhaseF authorization does not approve other feature hides or payment integration.

@@ -7,7 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../controllers/cart_controller.dart';
 import '../controllers/vendor_info_controller.dart';
-import '../data/mock_data.dart';
+
 import '../services/inventory_service.dart';
 import '../widgets/stock_indicator.dart';
 
@@ -38,11 +38,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late Map<String, dynamic> _currentProduct;
   bool _stockLoading = true;
   String? _stockError;
-  double _rating = MockData.sampleRating;
-  int _reviewCount = MockData.sampleReviewCount;
+  double _rating = 0;
+  int _reviewCount = 0;
 
-  // Populated with sample reviews when backend has none.
-  List<Map<String, dynamic>> _reviews = MockData.sampleReviews;
+  // Only confirmed backend reviews are displayed.
+  List<Map<String, dynamic>> _reviews = [];
+  String? _ratingError;
 
   @override
   void initState() {
@@ -92,7 +93,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   .eq('reviewee_id', vendorId.toString())
               as List;
 
-      if (rows.isEmpty) return; // keep mock reviews
+      if (rows.isEmpty) return;
 
       final count = rows.length;
       final avg =
@@ -132,7 +133,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           _reviews = enriched;
         });
       }
-    } catch (_) {}
+    } catch (_) {
+      if (mounted) setState(() => _ratingError = 'Reviews are unavailable.');
+    }
   }
 
   String _monthName(int m) {
@@ -711,6 +714,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
         const SizedBox(height: 14),
+        if (_ratingError != null) Text(_ratingError!),
+        if (_ratingError == null && _reviews.isEmpty)
+          const Text('No reviews yet.'),
         ..._reviews.take(3).map(_buildReviewCard),
       ],
     );

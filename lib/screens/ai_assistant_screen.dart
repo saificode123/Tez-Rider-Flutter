@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/ai_service.dart';
 
@@ -25,7 +25,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   void _sendMessage() async {
     final text = _msgCtrl.text.trim();
-    if (text.isEmpty) return;
+    if (text.isEmpty || _isTyping) return;
 
     _msgCtrl.clear();
     setState(() {
@@ -35,6 +35,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     _scrollToBottom();
 
     final reply = await aiService.getRecommendation(text);
+    if (!mounted) return;
 
     setState(() {
       _isTyping = false;

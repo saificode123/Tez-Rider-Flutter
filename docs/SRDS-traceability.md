@@ -1,5 +1,7 @@
 # Stage 0 SRDS traceability
 
+> Historical Stage0 matrix retained below. Stage1 evidence update (2026-10-22): see the dated addendum at the end and FINAL-security-audit.md. Stage1 remains PARTIAL; the131-row historical counts are not rewritten.
+
 2026-10-21, Asia/Karachi. Base `f8bce533f20650649deef31304d235554af35735`. **PARTIAL audit.**
 
 The authoritative PDF has45 pages. Physical pages12–17 contain36 FRs:01–33 and42–44; FR34–41 are absent. The contents page's payment-table label conflicts with the actual feedback table. Payment is nevertheless mandatory under UC06,2.5.2 and Table5.6. Screen descriptions are on physical pages23–28; safety/security31–32; decision table42–45.
@@ -525,3 +527,26 @@ ACL =X means PUBLIC execution; NULL means default ACL, not automatic denial. Int
 ## Recorded row counts
 
 131 requirement/scenario/screen rows: DEVIATION-APPROVED=4, IMPLEMENTED-UNVERIFIED=8, MISSING=8, NOT TESTED=7, PARTIAL=74, VERIFIED=30. Overlapping rows are not distinct implemented features. Entire audit remains PARTIAL for limitations in FINAL-progress.md.
+
+## Stage1 evidence addendum — 2026-10-22
+
+Stage0 matrix/counts are historical, not a description of unchanged source after Stage1. Detailed current evidence: `docs/FINAL-security-audit.md`, `docs/evidence/FINAL-security-results.json`.
+
+| Requirement/finding | Current Stage1 disposition | New code/evidence | Remaining scope |
+|---|---|---|---|
+| SEC-A01 HIGH / SEC04 / FR43 | Security remediation verified | AI client no credential lookup/provider HTTP; shopping-assistant authenticated/bounded/private server proxy deployed TEST;20Deno and Dart tests; actual app_settings/invalid Edge denials | No actual provider-use/account quota functionality accepted |
+| SEC-A02 HIGH / S03 / SEC05 | False-payment-success remediation verified | PaymentScreen no card fields or success invocation; widget test including delayed3s | Gateway/callback/refund implementation remains missing Stage2, not marked compliant |
+| SEC-A03 / FR05 | Dashboard-entry role check remediated | Fresh canonical RoleAccessGate; all dashboard entry sites gated; four-role/pending/blocked/revoked tests and actual session reads | All-screen rendered inventory remains incomplete |
+| SEC-A05 / FR44/SEC07 | Vendor approval audit gap remediated; FR44 overall PARTIAL | final1_review_vendor and transactional trigger including legacy update; strict inputs/confirmed result/confirmation dialog;79SQL checks include one actual audit/no-op/owner/email-event preservation | Manual/configuration modules absent; universal error audit/full hosted lifecycle coverage pending |
+| SEC-A06 / FR43/SEC10 | Filter-grammar risk remediated; overall PARTIAL | final1_search_products literal bounded invoker RPC; request/error/disposal handling; SQL/actual HTTP validation | Full catalogue/category UX and unimplemented writes remain Stage2 |
+| SEC-A07 / FR42/SEC01 | RLS exception fixed; FR42 overall PARTIAL | New private limiter/RLS; existing fr30_private.limits RLS enabled;80table catalog/320operation matrix/170function index; no exposed private schemas;79SQL/86HTTP | Every legacy positive/negative operation not independently executed; no production claim |
+| SEC-A09 / SEC04 | Current diagnostic source corrected | TEST-only configured ID reads, no embedded anon key/production target; bounded729file/953blob scan at recorded checkpoint | Public anon historical blobs and Firebase restrictions remain documented; no history rewrite/rotation |
+| SEC02 | New TEST verification evidence | Synthetic password storage nonempty bcrypt-format aggregate; no hashes printed | Not independent audit of GoTrue implementation/all logs |
+| SEC03 | PARTIAL with observed JWT3600s | Actual4role authenticated JWT lifetimes; existing session/block guard tests | Seven-day refresh expiry not established;40fixture sessions observed with no not_after; free alternative requires deviation approval |
+| SEC06 | NOT VERIFIED globally | Assistant10/minute plus existing feature quotas | Not100/minute universal gateway/REST/Storage/Realtime/Auth coverage |
+| SEC08/S05 / SEC-A04 | OPEN/CONTAINED |3private protected buckets; actual four-role direct listing denied; accepted signing/encryption retained | Missing product/prescription/document/photo secure media workflows deferred |
+| SEC-A08 | OPEN/DEFERRED | No biometric policy change | Stage3/user fallback/enrollment decision, no physical biometric acceptance |
+| FR18/24 / PhaseF | Fabricated analytics/reviews removed | Real empty/error/retry; delivered revenue; no sample review fallback; no fake saved instruments/rewards/instant assignment | Full earnings/rating writes still incomplete; checkout hardcoded multi-rider suggestions remain deferred |
+| FR14 | NOT FUNCTIONALLY ACCEPTED, unchanged | Existing route authorization/Dart/Deno/read denials preserved | Physical road/progression/deviation and prior latency gates not resolved by Stage1 |
+
+Only new security evidence above changes current dispositions; do not infer whole-SRDS or complete Stage1 acceptance. No Stage2–5 handoff approved.

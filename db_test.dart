@@ -1,25 +1,19 @@
+import 'dart:io';
 import 'package:supabase/supabase.dart';
+import 'lib/services/diagnostic_backend.dart';
 
-void main() async {
-  final supabase = SupabaseClient(
-    'https://arrqsvejrfdbacfwtpcc.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFycnFzdmVqcmZkYmFjZnd0cGNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTczODksImV4cCI6MjA5MjY5MzM4OX0.3_0AHeKg5pM8dA9HK6f3merIrfi7SknKRaQ8kByQe7U',
-  );
-
+Future<void> main() async {
   try {
-    print('--- DB DIAGNOSTICS ---');
-    print('Testing SELECT on users table...');
-    final data = await supabase.from('users').select();
-    print('Success! Users found: ${data.length}');
-    for (var u in data) {
-      print(u);
-    }
-    
-    print('Testing SELECT on products table...');
-    final pData = await supabase.from('products').select();
-    print('Success! Products found: ${pData.length}');
-    
-  } catch (e) {
-    print('❌ ERROR DETAILS: $e');
+    final config = diagnosticBackend();
+    final client = SupabaseClient(config.url, config.key);
+    final rows = await client.from('users').select('id').limit(1);
+    stdout.writeln(
+      'TEST diagnostic completed; visible records: ${rows.length}',
+    );
+    await client.dispose();
+  } catch (_) {
+    stdout.writeln(
+      'TEST diagnostic denied or unavailable. Check TEST configuration and access.',
+    );
   }
 }

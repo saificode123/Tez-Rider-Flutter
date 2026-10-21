@@ -1,0 +1,781 @@
+{
+  "date": "2026-10-22",
+  "project": "igeisilhtmglgnqvllrx",
+  "base": "c0a8da1",
+  "status": "PARTIAL - SECURITY ACCEPTANCE PENDING",
+  "sql": [
+    {
+      "check": "all application tables have RLS",
+      "result": "PASS"
+    },
+    {
+      "check": "private schemas deny client USAGE",
+      "result": "PASS"
+    },
+    {
+      "check": "every definer pins trusted search_path",
+      "result": "PASS"
+    },
+    {
+      "check": "sensitive buckets private",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous vendor review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous provider claim denied",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous audit denied",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous search denied",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous private Storage invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: audit update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: audit delete denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: Vault denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: audit update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: audit delete denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: Vault denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: audit update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: audit delete denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: Vault denied",
+      "result": "PASS"
+    },
+    {
+      "check": "pending-admin: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "pending-admin: audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "pending-admin: audit update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "pending-admin: audit delete denied",
+      "result": "PASS"
+    },
+    {
+      "check": "pending-admin: Vault denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked: audit forgery denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked: audit update denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked: audit delete denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked: Vault denied",
+      "result": "PASS"
+    },
+    {
+      "check": "cross-customer profile invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "cross-customer orders invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "owned customer order visible",
+      "result": "PASS"
+    },
+    {
+      "check": "role escalation denied",
+      "result": "PASS"
+    },
+    {
+      "check": "identity reassignment denied",
+      "result": "PASS"
+    },
+    {
+      "check": "oversized profile name rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "empty profile name rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "malformed phone rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "valid profile update confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "oversized search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "null search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "empty search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "filter punctuation treated as literal search",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 1",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 2",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 3",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 4",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 5",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 6",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 7",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 8",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 9",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant bounded claim 10",
+      "result": "PASS"
+    },
+    {
+      "check": "assistant eleventh request denied without provider",
+      "result": "PASS"
+    },
+    {
+      "check": "cross-vendor portion invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "owned vendor portion visible",
+      "result": "PASS"
+    },
+    {
+      "check": "direct price manipulation denied",
+      "result": "PASS"
+    },
+    {
+      "check": "cross-rider assignment invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "own rider assignment visible",
+      "result": "PASS"
+    },
+    {
+      "check": "unrelated rider tracking denied",
+      "result": "PASS"
+    },
+    {
+      "check": "unrelated rider route denied",
+      "result": "PASS"
+    },
+    {
+      "check": "direct delivery transition leaves ready state unchanged",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked actor unavailable",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked order reads denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked provider claim denied",
+      "result": "PASS"
+    },
+    {
+      "check": "blocked search denied",
+      "result": "PASS"
+    },
+    {
+      "check": "malformed vendor ID rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "unsupported review status rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "null review status rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "admin vendor decision confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "same decision idempotently reconciles",
+      "result": "PASS"
+    },
+    {
+      "check": "admin cannot directly read unrestricted audit table",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor decision exactly one transactional audit",
+      "result": "PASS"
+    },
+    {
+      "check": "no forged events",
+      "result": "PASS"
+    },
+    {
+      "check": "existing account-email event preserved without sending",
+      "result": "PASS"
+    }
+  ],
+  "real_session_http": [
+    {
+      "check": "invalid JWT denied before provider",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: actual authenticated JWT, not service-role test",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: observed access JWT lifetime3600s",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: canonical current account status",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct security_audit_log denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct delivery_otps denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct delivery_otp_verifications denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct email_outbox denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct payments denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct app_settings denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: unrelated private profile invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: admin directory denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: trusted empty search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: trusted literal search works",
+      "result": "PASS"
+    },
+    {
+      "check": "fr25_history: accepted owner read remains available",
+      "result": "PASS"
+    },
+    {
+      "check": "fr25_eligible_orders: accepted owner read remains available",
+      "result": "PASS"
+    },
+    {
+      "check": "fr25_order_history: accepted owner read remains available",
+      "result": "PASS"
+    },
+    {
+      "check": "fr25_chat_list: accepted owner read remains available",
+      "result": "PASS"
+    },
+    {
+      "check": "fr32_invoice_authority: unrelated/malformed order denied without mutation",
+      "result": "PASS"
+    },
+    {
+      "check": "fr14_route_context: unrelated/malformed order denied without mutation",
+      "result": "PASS"
+    },
+    {
+      "check": "delivery_otp_status: unrelated/malformed order denied without mutation",
+      "result": "PASS"
+    },
+    {
+      "check": "pre_delivery_checklist: unrelated/malformed order denied without mutation",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: deployed Edge rejects extra fields before key/provider",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct private rider-cnic list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct private dispute-evidence list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "customer: direct private invoices list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: actual authenticated JWT, not service-role test",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: observed access JWT lifetime3600s",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: canonical current account status",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct security_audit_log denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct delivery_otps denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct delivery_otp_verifications denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct email_outbox denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct payments denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct app_settings denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: unrelated private profile invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: admin directory denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: trusted empty search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: trusted literal search works",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: accepted FR21 dashboard aggregate read",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: deployed Edge rejects extra fields before key/provider",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct private rider-cnic list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct private dispute-evidence list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "vendor: direct private invoices list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: actual authenticated JWT, not service-role test",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: observed access JWT lifetime3600s",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: canonical current account status",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct security_audit_log denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct delivery_otps denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct delivery_otp_verifications denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct email_outbox denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct payments denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct app_settings denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: unrelated private profile invisible",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: privileged review denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: admin directory denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: trusted empty search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: trusted literal search works",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: accepted FR21 dashboard aggregate read",
+      "result": "PASS"
+    },
+    {
+      "check": "FR04: rider submission status remains masked",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: deployed Edge rejects extra fields before key/provider",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct private rider-cnic list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct private dispute-evidence list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "rider: direct private invoices list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: actual authenticated JWT, not service-role test",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: observed access JWT lifetime3600s",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: canonical current account status",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct security_audit_log denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct delivery_otps denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct delivery_otp_verifications denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct email_outbox denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct payments denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct app_settings denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: accepted directory read preserved",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: malformed review rejected without mutation",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: trusted empty search rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: trusted literal search works",
+      "result": "PASS"
+    },
+    {
+      "check": "FR04: approved admin review queue read",
+      "result": "PASS"
+    },
+    {
+      "check": "FR26: approved dispute queue read",
+      "result": "PASS"
+    },
+    {
+      "check": "FR30: approved broadcast estimate read without sending",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: deployed Edge rejects extra fields before key/provider",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct private rider-cnic list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct private dispute-evidence list denied",
+      "result": "PASS"
+    },
+    {
+      "check": "admin: direct private invoices list denied",
+      "result": "PASS"
+    }
+  ],
+  "flutter": {
+    "full_passed": 279,
+    "full_inherited_skips": 2,
+    "last_focused_passed": 6
+  },
+  "deno": {
+    "unique_cases_with_passing_evidence": 143,
+    "initial_passed": 141,
+    "initial_output_permission_failures": 2,
+    "invoice_group_retry_passed": 4
+  },
+  "migrations": [
+    "202610220001_final1_security_foundation.sql",
+    "202610220002_final1_legacy_definer_paths.sql"
+  ],
+  "versions": [
+    "202610080001",
+    "202610090001",
+    "202610110001",
+    "202610110002",
+    "202610110003",
+    "202610110004",
+    "202610110005",
+    "202610110006",
+    "202610120001",
+    "202610130001",
+    "202610130002",
+    "202610130003",
+    "202610130004",
+    "202610130005",
+    "202610130006",
+    "202610130007",
+    "202610130008",
+    "202610140001",
+    "202610140002",
+    "202610140003",
+    "202610140004",
+    "202610140005",
+    "202610140006",
+    "202610140007",
+    "202610150001",
+    "202610150002",
+    "202610150003",
+    "202610150004",
+    "202610150005",
+    "202610150006",
+    "202610160001",
+    "202610160002",
+    "202610160003",
+    "202610170001",
+    "202610180001",
+    "202610190001",
+    "202610190002",
+    "202610200001",
+    "202610220001",
+    "202610220002"
+  ],
+  "tables": 80,
+  "functions": 170,
+  "production_modified": false,
+  "external_provider_requests": 0,
+  "secret_scan": {
+    "current_files": 729,
+    "historical_small_blobs": 953,
+    "candidates": [
+      {
+        "path": "android/app/google-services.json",
+        "type": "firebase_client_config_key",
+        "active": "not probed; no credential used"
+      }
+    ],
+    "history": [
+      {
+        "path": "android/app/google-services.json",
+        "blob": "7e38d80d1183e7b18443ed83270857a4f7573373",
+        "type": "firebase_client_config_key",
+        "active": "not probed; historical presence is not active privilege"
+      },
+      {
+        "path": "db_test.dart",
+        "blob": "13855f15f29708d4d54e1c895e715a409a2afc0a",
+        "type": "public_anon_jwt",
+        "active": "not probed; historical presence is not active privilege"
+      },
+      {
+        "path": "test_db.dart",
+        "blob": "bfc8f4b93505848800402d114f9f29cf966d30cc",
+        "type": "public_anon_jwt",
+        "active": "not probed; historical presence is not active privilege"
+      },
+      {
+        "path": "test_schema.dart",
+        "blob": "28b3fefdb4ee3af81aafad540e8bef03f5d99f7d",
+        "type": "public_anon_jwt",
+        "active": "not probed; historical presence is not active privilege"
+      },
+      {
+        "path": ".kilo/worktrees/fluttering-derby/lib/main.dart",
+        "blob": "4038b644c3bf21c529d6d734994fc29033f20590",
+        "type": "public_anon_jwt",
+        "active": "not probed; historical presence is not active privilege"
+      },
+      {
+        "path": "lib/main.dart",
+        "blob": "6dedcd5f68e157c5b3970ab25c2c6a1f36eb9636",
+        "type": "public_anon_jwt",
+        "active": "not probed; historical presence is not active privilege"
+      }
+    ],
+    "limits": "Reachable local/cached remote history only; UTF-8 blobs<=2MB; no credential use/rotation/history rewrite."
+  }
+}

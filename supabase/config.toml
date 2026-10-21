@@ -12,3 +12,7 @@ verify_jwt = false
 
 [functions.get-delivery-route]
 verify_jwt = false
+
+[functions.shopping-assistant]
+# Handler validates the real session/canonical account before credential lookup.
+verify_jwt = false

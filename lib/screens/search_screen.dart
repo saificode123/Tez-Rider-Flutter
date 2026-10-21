@@ -29,6 +29,8 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Map<String, dynamic>> _results = [];
   bool _loading = false;
   bool _searched = false;
+  String? _error;
+  int _request = 0;
 
   @override
   void initState() {
@@ -40,40 +42,45 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
+    _request++;
     _searchCtrl.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
   Future<void> _search(String query) async {
+    final request = ++_request;
     final q = query.trim();
     if (q.isEmpty) {
       setState(() {
         _results = [];
         _searched = false;
+        _loading = false;
+        _error = null;
       });
       return;
     }
     setState(() {
       _loading = true;
       _searched = true;
+      _error = null;
     });
     try {
       final data =
           await _supabase
-                  .from('products')
-                  .select()
-                  .or(
-                    'name.ilike.%$q%,description.ilike.%$q%,category.ilike.%$q%',
-                  )
-                  .order('name')
-                  .limit(40)
+                  .rpc('final1_search_products', params: {'p_query': q})
+                  .timeout(const Duration(seconds: 12))
               as List;
+      if (!mounted || request != _request) return;
       setState(() => _results = data.cast<Map<String, dynamic>>());
     } catch (_) {
-      setState(() => _results = []);
+      if (!mounted || request != _request) return;
+      setState(
+        () => _error =
+            'Search could not be completed. Use up to 120 characters and retry.',
+      );
     } finally {
-      if (mounted) setState(() => _loading = false);
+      if (mounted && request == _request) setState(() => _loading = false);
     }
   }
 
@@ -127,6 +134,19 @@ class _SearchScreenState extends State<SearchScreen> {
       body: _loading
           ? const Center(
               child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2),
+            )
+          : _error != null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(_error!),
+                  TextButton(
+                    onPressed: () => _search(_searchCtrl.text),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             )
           : !_searched
           ? _buildSuggestions()

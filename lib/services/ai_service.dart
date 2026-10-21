@@ -1,72 +1,48 @@
-﻿import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+typedef RecommendationRequest = Future<Map<String, dynamic>> Function(String);
+
+/// Provider credentials and provider calls belong exclusively to the server.
 class AIService extends GetxService {
-  String? _apiKey;
-  final _supabase = Supabase.instance.client;
+  AIService({RecommendationRequest? request}) : _request = request ?? _invoke;
+  final RecommendationRequest _request;
 
-  Future<void> _loadApiKey() async {
-    if (_apiKey != null) return;
+  static Future<Map<String, dynamic>> _invoke(String prompt) async {
     try {
-      final response = await _supabase
-          .from('app_settings')
-          .select('setting_value')
-          .eq('setting_key', 'groq_api_key')
-          .maybeSingle();
-
-      if (response != null && response['setting_value'] != null) {
-        _apiKey = response['setting_value'];
+      final response = await Supabase.instance.client.functions
+          .invoke('shopping-assistant', body: {'prompt': prompt})
+          .timeout(const Duration(seconds: 25));
+      if (response.status == 429) return {'code': 'RATE_LIMITED'};
+      if (response.status != 200 || response.data is! Map) {
+        throw StateError('Recommendation unavailable');
       }
-    } catch (e) {
-      debugPrint('Failed to fetch API key from DB: $e');
+      return Map<String, dynamic>.from(response.data as Map);
+    } on FunctionException catch (error) {
+      if (error.status == 429) return {'code': 'RATE_LIMITED'};
+      rethrow;
     }
   }
 
   Future<String> getRecommendation(String prompt) async {
-    await _loadApiKey();
-
-    if (_apiKey == null || _apiKey!.isEmpty) {
-      return "⚠️ The AI is currently unavailable. (Admin: Please add your Groq API Key to the 'app_settings' table in Supabase).";
+    final text = prompt.trim();
+    if (text.isEmpty || text.runes.length > 2000) {
+      return 'Please enter a question of up to 2,000 characters.';
     }
-
     try {
-      final systemPrompt = """
-You are TezRider's brilliant AI Shopping Assistant.
-The app offers: Gifts delivery, Flower bouquets, Cakes, and Home Tailoring.
-Your job is to recommend combinations of products based on occasions or user requests.
-For example, if they ask for a birthday gift, suggest a specific cake flavor and a matching flower bouquet.
-Be extremely friendly, very concise (keep it short), and use emojis and bullet points.
-""";
-
-      final res = await http.post(
-        Uri.parse('https://api.groq.com/openai/v1/chat/completions'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_apiKey',
-        },
-        body: jsonEncode({
-          'model': 'openai/gpt-oss-120b',
-          'messages': [
-            {'role': 'system', 'content': systemPrompt},
-            {'role': 'user', 'content': prompt},
-          ],
-        }),
-      );
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(res.body);
-        final text = data['choices']?[0]?['message']?['content'] as String?;
-        return text ?? "I'm having trouble thinking of a recommendation right now.";
-      } else {
-        debugPrint('Groq API error ${res.statusCode}: ${res.body}');
-        return "Sorry, I lost connection to the AI engine. Please try again.";
+      final result = await _request(text);
+      final reply = result['text'];
+      if (result['code'] == 'OK' &&
+          reply is String &&
+          reply.trim().isNotEmpty) {
+        return reply;
       }
-    } catch (e) {
-      debugPrint('Groq API exception: $e');
-      return "Sorry, I lost connection to the AI engine. Please try again.";
+      if (result['code'] == 'RATE_LIMITED') {
+        return 'Too many requests. Please try again in a minute.';
+      }
+    } catch (_) {
+      // Never display provider errors, credentials, or backend internals.
     }
+    return 'The assistant is unavailable. Please try again later.';
   }
 }

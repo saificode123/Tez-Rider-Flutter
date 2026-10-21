@@ -633,17 +633,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     AppColors.success,
                     isRider && !item.documentValid
                         ? null
-                        : () => adminCtrl.updateStatus(
-                            'users',
-                            item.id,
-                            'approved',
-                          ),
+                        : () => _confirmReview(item, 'approved'),
                   ),
                   const SizedBox(width: 6),
                   _actionBtn(
                     'Reject',
                     AppColors.error,
-                    () => adminCtrl.updateStatus('users', item.id, 'rejected'),
+                    () => _confirmReview(item, 'rejected'),
                   ),
                 ],
               ),
@@ -652,6 +648,34 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ],
       ),
     );
+  }
+
+  Future<void> _confirmReview(UserModel item, String status) async {
+    if (adminCtrl.reviewing.value != null) return;
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text(
+          status == 'approved'
+              ? 'Approve this account?'
+              : 'Reject this account?',
+        ),
+        content: const Text(
+          'The account status will change only after server confirmation.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Confirm'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || confirmed != true) return;
+    await adminCtrl.updateStatus('users', item.id, status);
   }
 
   Widget _ridersTab() {

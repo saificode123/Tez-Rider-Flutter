@@ -1,5 +1,7 @@
 # Stage 0 audit progress
 
+> Latest work: Stage1 was explicitly authorized on2026-10-22. Historical Stage0 statements/counts below are preserved; current Stage1 status is recorded in the dated addendum at the end.
+
 Date: 2026-10-21 (Asia/Karachi).
 
 **Status: PARTIAL. No Stage 1–5 implementation authorized or performed.**
@@ -69,3 +71,21 @@ Only the four requested audit Markdown files may be staged. Application/database
 - Current tracked-text credential-pattern scan:714 files; candidates classified without revealing values. Three diagnostic files embed production anon JWTs (public, not service-role); Firebase client key and generated/validation-only PEM header matches are not established privileged leaks. Full history/restriction scan remains pending.
 - All four audit documents passed private-key/provider-key/JWT-value pattern checks; requirement IDs/FR36/Table5.6-30 rows checked for uniqueness/completeness. Current Git status outside preserved298 `.kilo` deletions contains only four new audit docs.
 - Documentation commit contains exactly those four files; actual final hash is reported by Git in the chat. No push or merge. No claim of full Stage0 completion.
+
+## Stage1 — 2026-10-22
+
+**PARTIAL — SECURITY ACCEPTANCE PENDING.** Branch `feature/final-1-security` created from verified `c0a8da1`;16baseline/accepted refs confirmed as ancestors. All298 unrelated worktree deletions preserved. Stage0 rendered-control/diagram and historical verification gaps remain documented; production inspection is not required for this Stage1 task and was not retried.
+
+Implemented security remediations for the actual two HIGH findings: server-only authenticated AI credential/provider boundary and fail-closed card screen without false capture. Added dashboard role gate, literal validated search, server profile name/phone validation, confirmed canonical profile save, transactional vendor decision/audit and confirmations, private-table RLS, TEST-only diagnostics without embedded anon keys. Removed active mock reviews/vendor analytics/saved instruments/rewards/instant-rider success; preserved legitimate fixtures and real accepted checkout/assignment.
+
+TEST only: applied `202610220001_final1_security_foundation.sql` after79rollback checks;39versions confirmed with no replay. Deployed new shopping-assistant through API, no Docker/secret changes. After-deploy79SQL assertions pass;86real-session HTTP assertions pass using4existing synthetic accounts and no business-record mutations/provider calls. Current metadata80tables/170functions(143definers); all inspected RLS enabled and observed definer search_path fixed. See320operation rows and exact policies in FINAL-security-audit.md.
+
+Verification: full Flutter279PASS/2inherited skips;4new focused tests pass; post-confirmation29focused pass; final profile/security/widget6pass. Deno full run141PASS/2PDF output-permission failures; corrected output permissions for ignored PDFs and invoice group4PASS, yielding143unique cases with passing evidence. New AI20included, no live provider request. Initial SQL expectation treated zero-row RLS denial as error; fixed to assert unchanged state, then79PASS. Python helper syntax/diff checks pass. Full analyzer checkpoint0errors/14existing warnings/71infos, with diagnostic stdout cleanup later; final scoped analysis recorded in security audit.
+
+Original9finding disposition: resolvedHIGH2/MEDIUM3/LOW2; openHIGH0/MEDIUM1/LOW1; CRITICAL0. Open: conditional legacy media design/integration; biometric policy Stage3. Additional mandatory gaps: seven-day refresh requirement, global100/minute gateway policy, universal error-audit coverage, exhaustive retained-body/legacy lifecycle regressions and remaining Stage0 review. These are not waived. Stage2 is not cleared.
+
+Current/history secret scan is bounded (recorded729UTF-8files/953small reachable blobs at checkpoint): no matched privileged/provider/static private PEM; historical public anon/Firebase candidates only. No values printed/committed and no rotation/history rewrite. No production command, data modification or deployment. No push/merge; commit only Stage1 files after final review. Exact manifest/evidence in FINAL-security-audit.md and evidence/FINAL-security-results.json.
+
+Final source review: two legacy helpers used `search_path=public` despite denied client execution. Separate migration202610220002 pins only those paths;79rollback review passes. No existing body/grant changed or accepted migration replayed. Final scoped Dart analysis:0errors/0warnings/6pre-existing product-detail infos; final profile/security/widget test group6PASS. Follow-up deployment/history/post-check results are recorded in FINAL-security-audit.md and the final evidence JSON.
+
+Final deployment confirmed:40versions on TEST; both new migrations applied exactly once. Post-follow-up79rollback checks PASS;80inspected tables all RLS-enabled,142definers with empty search_path/1with pg_catalog. Existing function bodies/grants preserved by the follow-up. Both HIGH findings resolved; one original MEDIUM(media) and one original LOW(biometric policy) remain open/deferred, plus mandatory acceptance gaps. Additional LOW legacy-path hardening resolved. Stage1 remains PARTIAL and Stage2–5 stopped.

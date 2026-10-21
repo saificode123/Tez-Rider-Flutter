@@ -7,10 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
 import 'signup_screen.dart';
-import 'customer_dashboard.dart';
-import 'vendor_dashboard.dart';
-import 'rider_dashboard.dart';
-import 'admin_dashboard.dart';
 import 'cnic_document_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -97,25 +93,13 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _goTo(String role) {
-    switch (role) {
-      case 'vendor':
-        Get.offAll(
-          () => const VendorDashboard(),
-          transition: Transition.fadeIn,
-        );
-        break;
-      case 'rider':
-        Get.offAll(() => const RiderDashboard(), transition: Transition.fadeIn);
-        break;
-      case 'admin':
-        Get.offAll(() => const AdminDashboard(), transition: Transition.fadeIn);
-        break;
-      default:
-        Get.offAll(
-          () => const CustomerDashboard(),
-          transition: Transition.fadeIn,
-        );
-    }
+    final route = switch (role) {
+      'vendor' => '/vendor_home',
+      'rider' => '/rider_home',
+      'admin' => '/admin_home',
+      _ => '/customer_home',
+    };
+    Get.offAllNamed(route);
   }
 
   bool _isValidEmail(String email) => RegExp(
