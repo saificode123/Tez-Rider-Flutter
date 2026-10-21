@@ -550,3 +550,144 @@ Stage0 matrix/counts are historical, not a description of unchanged source after
 | FR14 | NOT FUNCTIONALLY ACCEPTED, unchanged | Existing route authorization/Dart/Deno/read denials preserved | Physical road/progression/deviation and prior latency gates not resolved by Stage1 |
 
 Only new security evidence above changes current dispositions; do not infer whole-SRDS or complete Stage1 acceptance. No Stage2–5 handoff approved.
+
+
+## Completion pass — 2026-10-22, baseline553039d
+
+Current static reconciliation and diagrams: UI-control-reconciliation.md and FINAL-stage-0-1-acceptance.md. Historical131-row status counts remain unchanged: they describe implementation acceptance, not audit effort. Stage1 fixes supersede stale historical descriptions for FR05/06/18/24/27/42/43/44, SEC04/07/08 and O01/05/08; see FINAL-security-audit.md. No blanket promotion to VERIFIED. FR14 remains NOT FUNCTIONALLY ACCEPTED.
+
+Every existing requirement now has an explicit owner stage below. References identify the physical PDF page/section/scenario; implementation, evidence, gap and priority remain the seven columns of its original row plus dated security changes. Investigation is source/report based; unavailable runtime/configuration proofs remain open. No future-stage implementation acceptance is inferred.
+
+| Requirement | Exact SRDS reference | Responsible stage | Current implementation status |
+|---|---|---|---|
+| FR-01 | 3.2 FR-01; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-02 | 3.2 FR-02; physical12–17 | Stage2 functional; Stage5 verification | IMPLEMENTED-UNVERIFIED |
+| FR-03 | 3.2 FR-03; physical12–17 | Stage2 functional; Stage5 verification | IMPLEMENTED-UNVERIFIED |
+| FR-04 | 3.2 FR-04; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-05 | 3.2 FR-05; physical12–17 | Stage1 security; Stage5 final coverage | PARTIAL |
+| FR-06 | 3.2 FR-06; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-07 | 3.2 FR-07; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-08 | 3.2 FR-08; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-09 | 3.2 FR-09; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-10 | 3.2 FR-10; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-11 | 3.2 FR-11; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-12 | 3.2 FR-12; physical12–17 | Stage2 functional; Stage5 verification | IMPLEMENTED-UNVERIFIED |
+| FR-13 | 3.2 FR-13; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-14 | 3.2 FR-14; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-15 | 3.2 FR-15; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-16 | 3.2 FR-16; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-17 | 3.2 FR-17; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-18 | 3.2 FR-18; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-19 | 3.2 FR-19; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-20 | 3.2 FR-20; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-21 | 3.2 FR-21; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-22 | 3.2 FR-22; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-23 | 3.2 FR-23; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-24 | 3.2 FR-24; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-25 | 3.2 FR-25; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-26 | 3.2 FR-26; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-27 | 3.2 FR-27; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-28 | 3.2 FR-28; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-29 | 3.2 FR-29; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-30 | 3.2 FR-30; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-31 | 3.2 FR-31; physical12–17 | Stage2 functional; Stage5 verification | PARTIAL |
+| FR-32 | 3.2 FR-32; physical12–17 | Stage2 functional; Stage5 verification | VERIFIED |
+| FR-33 | 3.2 FR-33; physical12–17 | Stage2 functional; Stage5 verification | DEVIATION-APPROVED |
+| FR-42 | 3.2 FR-42; physical12–17 | Stage1 security; Stage5 final coverage | PARTIAL |
+| FR-43 | 3.2 FR-43; physical12–17 | Stage1 security; Stage5 final coverage | PARTIAL |
+| FR-44 | 3.2 FR-44; physical12–17 | Stage1 security; Stage5 final coverage | PARTIAL |
+| UC-01 | 3.2 use-case UC-01; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-02 | 3.2 use-case UC-02; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-03 | 3.2 use-case UC-03; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-04 | 3.2 use-case UC-04; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-05 | 3.2 use-case UC-05; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-06 | 3.2 use-case UC-06; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-07 | 3.2 use-case UC-07; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| UC-08 | 3.2 use-case UC-08; physical18–22 | Stage2 functional; Stage5 verification | PARTIAL |
+| S-01 | 4.2.1 S-01; physical31 | Stage1 security; Stage5 final coverage | PARTIAL |
+| S-02 | 4.2.1 S-02; physical31 | Stage2 functional; Stage5 verification | VERIFIED |
+| S-03 | 4.2.1 S-03; physical31 | Stage2 functional; Stage5 verification | MISSING |
+| S-04 | 4.2.1 S-04; physical31 | Stage2 functional; Stage5 verification | VERIFIED |
+| S-05 | 4.2.1 S-05; physical31 | Stage1 security; Stage5 final coverage | PARTIAL |
+| S-06 | 4.2.1 S-06; physical31 | Stage2 functional; Stage5 verification | DEVIATION-APPROVED |
+| SEC-01 | 4.2.2 SEC-01; physical31–32 | Stage1 security; Stage5 final coverage | PARTIAL |
+| SEC-02 | 4.2.2 SEC-02; physical31–32 | Stage1 security; Stage5 final coverage | IMPLEMENTED-UNVERIFIED |
+| SEC-03 | 4.2.2 SEC-03; physical31–32 | Stage1 security; Stage5 final coverage | NOT TESTED |
+| SEC-04 | 4.2.2 SEC-04; physical31–32 | Stage1 security; Stage5 final coverage | PARTIAL |
+| SEC-05 | 4.2.2 SEC-05; physical31–32 | Stage1 security; Stage5 final coverage | MISSING |
+| SEC-06 | 4.2.2 SEC-06; physical31–32 | Stage1 security; Stage5 final coverage | NOT TESTED |
+| SEC-07 | 4.2.2 SEC-07; physical31–32 | Stage1 security; Stage5 final coverage | PARTIAL |
+| SEC-08 | 4.2.2 SEC-08; physical31–32 | Stage1 security; Stage5 final coverage | PARTIAL |
+| SEC-09 | 4.2.2 SEC-09; physical31–32 | Stage1 security; Stage5 final coverage | VERIFIED |
+| SEC-10 | 4.2.2 SEC-10; physical31–32 | Stage1 security; Stage5 final coverage | PARTIAL |
+| T5.6-01 | 5.6 row01; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-02 | 5.6 row02; physical42–45 | Stage2 functional; Stage5 verification | NOT TESTED |
+| T5.6-03 | 5.6 row03; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-04 | 5.6 row04; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-05 | 5.6 row05; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-06 | 5.6 row06; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-07 | 5.6 row07; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-08 | 5.6 row08; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-09 | 5.6 row09; physical42–45 | Stage2 functional; Stage5 verification | MISSING |
+| T5.6-10 | 5.6 row10; physical42–45 | Stage2 functional; Stage5 verification | MISSING |
+| T5.6-11 | 5.6 row11; physical42–45 | Stage2 functional; Stage5 verification | MISSING |
+| T5.6-12 | 5.6 row12; physical42–45 | Stage2 functional; Stage5 verification | DEVIATION-APPROVED |
+| T5.6-13 | 5.6 row13; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-14 | 5.6 row14; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-15 | 5.6 row15; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-16 | 5.6 row16; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-17 | 5.6 row17; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-18 | 5.6 row18; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-19 | 5.6 row19; physical42–45 | Stage2 functional; Stage5 verification | IMPLEMENTED-UNVERIFIED |
+| T5.6-20 | 5.6 row20; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-21 | 5.6 row21; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-22 | 5.6 row22; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-23 | 5.6 row23; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-24 | 5.6 row24; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-25 | 5.6 row25; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-26 | 5.6 row26; physical42–45 | Stage2 functional; Stage5 verification | DEVIATION-APPROVED |
+| T5.6-27 | 5.6 row27; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-28 | 5.6 row28; physical42–45 | Stage2 functional; Stage5 verification | PARTIAL |
+| T5.6-29 | 5.6 row29; physical42–45 | Stage2 functional; Stage5 verification | VERIFIED |
+| T5.6-30 | 5.6 row30; physical42–45 | Stage1 security; Stage5 final coverage | PARTIAL |
+| UI-A | 3.3.1 screenA; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | IMPLEMENTED-UNVERIFIED |
+| UI-B | 3.3.1 screenB; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| UI-C | 3.3.1 screenC; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| UI-D | 3.3.1 screenD; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| UI-E | 3.3.1 screenE; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| UI-F | 3.3.1 screenF; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| UI-G | 3.3.1 screenG; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | VERIFIED |
+| UI-H | 3.3.1 screenH; physical23–28 | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| O-01 | 2.3.1; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-02 | 2.3.2; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-03 | 1.3/2.3.3; see full requirement row and diagram map | Stage2 functional; Stage5 verification | VERIFIED |
+| O-04 | 2.3.4; see full requirement row and diagram map | Stage2 functional; Stage5 verification | VERIFIED |
+| O-05 | 2.3.4; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-06 | 2.3.5; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-07 | 2.3.5; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-08 | 2.3.6; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-09 | 2.3.6; see full requirement row and diagram map | Stage2 functional; Stage5 verification | MISSING |
+| O-10 | 2.3.7; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-11 | 2.3.7; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-12 | 2.3.7; see full requirement row and diagram map | Stage2 functional; Stage5 verification | MISSING |
+| O-13 | Table5.6-15; see full requirement row and diagram map | Stage2 functional; Stage5 verification | MISSING |
+| O-14 | 2.3.8; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-15 | 2.4; see full requirement row and diagram map | Stage4 UI; Stage2 required services; Stage5 runtime | PARTIAL |
+| O-16 | 2.4; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-17 | 2.5.1; see full requirement row and diagram map | Stage5 environment/performance/portability | NOT TESTED |
+| O-18 | 2.5.2; see full requirement row and diagram map | Stage3 biometric/platform policy; Stage5 runtime | IMPLEMENTED-UNVERIFIED |
+| O-19 | 2.5.2; see full requirement row and diagram map | Stage3 biometric/platform policy; Stage5 runtime | PARTIAL |
+| O-20 | 2.5.2; see full requirement row and diagram map | Stage5 environment/performance/portability | PARTIAL |
+| O-21 | 3.3.2; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-22 | 3.3.3; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-23 | 3.3.4; see full requirement row and diagram map | Stage2 functional; Stage5 verification | PARTIAL |
+| O-24 | 4.1; see full requirement row and diagram map | Stage5 environment/performance/portability | NOT TESTED |
+| O-25 | 4.3.1; see full requirement row and diagram map | Stage5 environment/performance/portability | PARTIAL |
+| O-26 | 4.3.2; see full requirement row and diagram map | Stage4 UI; Stage2 required services; Stage5 runtime | NOT TESTED |
+| O-27 | 4.3.3; see full requirement row and diagram map | Stage0 design decisions; Stage2–5 implementation/verification | PARTIAL |
+| O-28 | 4.3.4; see full requirement row and diagram map | Stage5 environment/performance/portability | PARTIAL |
+| O-29 | 4.3.5; see full requirement row and diagram map | Stage5 environment/performance/portability | NOT TESTED |
+| O-30 | 4.3.6; see full requirement row and diagram map | Stage5 environment/performance/portability | PARTIAL |
+| O-31 | 4.3.7; see full requirement row and diagram map | Stage0 design decisions; Stage2–5 implementation/verification | PARTIAL |
+| O-32 | 4.3.8; see full requirement row and diagram map | Stage0 design decisions; Stage2–5 implementation/verification | IMPLEMENTED-UNVERIFIED |
+| O-33 | 5; see full requirement row and diagram map | Stage0 design decisions; Stage2–5 implementation/verification | PARTIAL |

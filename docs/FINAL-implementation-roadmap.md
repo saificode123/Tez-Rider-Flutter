@@ -199,3 +199,19 @@ Before Stage1 acceptance/handoff:
 5. Preserve incomplete Stage0 rendered-control/diagram inspection and FR14 unaccepted road/latency status. No hidden acceptance or waived mandatory functionality.
 
 Stage2–5 remain stopped. The original consolidated approval table is historical/provisional; security removal of false data under the explicit Stage1 PhaseF authorization does not approve other feature hides or payment integration.
+
+
+## Completion decision delta — 2026-10-22 (no approval inferred)
+
+ApprovalA recommendation narrowed to **truthful COD only for current zero-cost operation**, with digital payments/authenticated callbacks/automatic provider refunds explicitly unimplemented and requiring an SRDS deviation. JazzCash sandbox is optional future exploration, not needed for this completion task and not integrated. Existing COD invoice/refund-due records do not establish collected cash or settled refunds. Approval is still pending.
+
+ApprovalB remains the single table above. Mandatory IMPLEMENT rows stay visible in the roadmap, not hidden; HIDE and NEEDS BUSINESS DECISION rows remain proposals and no Stage4 changes are authorized. Add the following entries to that same decision set:
+
+| Role | Screen | Control/content | Current issue | Decision | Proposed outcome | SRDS relevance |
+|---|---|---|---|---|---|---|
+| Shared | About |5min average/4.8rating/500+riders/Up-to-date/version | Unsupported fixed operational claims | IMPLEMENT | Truthful confirmed application/build facts; omit unsupported numerical claims when Stage4 is authorized | Truthful UI; no invented analytics |
+| Customer | Profile | Rewards | Class diagram physical36 includes loyaltyPoints, whereas detailed functional requirements specify no rewards workflow; old fake120 removed | NEEDS BUSINESS DECISION | Confirm diagram-only field is deferred, with unavailable state; no new rewards system | Figure5.2 Customer.loyaltyPoints |
+| Shared | Legacy QR pickup | Timestamp QR/copy | No caller/server verification; not proof of pickup | NEEDS BUSINESS DECISION | Keep unreachable compatibility source or explicitly approve a scoped future workflow; never use it to bypass checklist/assignment | No explicit pickup QR requirement |
+| Shared | Legacy source variants | cart_screen_new, unused payment/product/pickup/review widgets | No current routed caller or duplicate class | NEEDS BUSINESS DECISION | Preserve source now; decide consolidation in Stage4; no approval or test count credit | Existing-source preservation |
+
+Security decisionC is separate from A/B: exact SEC03 refresh-token expiry7days and SEC06 API-Gateway100/min are not met by present feature quotas/application timers. Official provider session settings and all-service scope must be verified; no alternate semantics silently approved. See FINAL-stage-0-1-acceptance.md. No new infrastructure/paid plan/provider integration introduced.

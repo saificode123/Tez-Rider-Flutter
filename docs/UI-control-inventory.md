@@ -489,3 +489,16 @@ Each row below identifies the exact source line and callback text, with nearest 
 | lib/widgets/stock_adjustment_dialog.dart | 2 | Static census; runtime and complete helper expansion NOT TESTED |
 | lib/widgets/stock_indicator.dart | 0 | Static census; runtime and complete helper expansion NOT TESTED |
 | lib/widgets/tez_map_tiles.dart | 1 | Static census; runtime and complete helper expansion NOT TESTED |
+
+
+## Completion reconciliation — 2026-10-22
+
+The source census at553039d now covers all40screen and16widget files (RoleAccessGate is new since Stage0). See UI-control-reconciliation.md for707source rows:339callback declarations excluding database onConflict options,68implicit control templates,266same-file Widget-helper invocations and34conditional default navigation templates. Categories overlap, include noninteractive helper calls, and are NOT707unique rendered controls. The historical317-site census used a narrower pattern and baseline; do not compare counts as UI progress.
+
+Newly established coverage: helper-generated profile menus and bottom navigation, FAQ entries/expansion, role dropdowns, forms/field editing, dialog fields, dynamically generated catalogue/order/checklist/rating controls, default AppBar/stack navigation and unused constructor paths. Static caller search distinguishes same-file detail/sheet composition from unused exported screens; duplicate cart_screen_new.dart is not the dashboard's imported cart.
+
+Historical findings for fake reviews, analytics, instruments, rewards, instant rider, AI credentials, raw search, profile save, admin confirmation/audit and dashboard role entry are superseded by553039d and FINAL-security-audit.md. Required functional gaps remain, and these source fixes do not prove complete rendered behavior.
+
+Additional discovered issues: About hardcodes5-minute average delivery/4.8rating/500+riders and an unverified Up-to-date/version claim; QRPickupScreen constructs an unsigned timestamp QR with no discovered verification flow/caller; unused RateOrderSheet writes reviews directly; duplicate CartScreen source should not be treated as two accepted screens. Missing platform launch destinations/privacy/terms ownership and FAQ promises remain unverified. MockData is unreferenced by current production source after Stage1 removals (data declaration only); image shimmer/error placeholders are legitimate loading/error UI, not fake backend records.
+
+Known literal empty chat attachment handler remains EMPTY-HANDLER. Coming-soon vendor earnings/reviews/settings, rider vehicle/bank/reviews/settings and Admin reports/platform settings remain incomplete controls. Actual mounted conditional rows/keyboard/OS picker/navigation interactions remain IMPLEMENTED-UNVERIFIED until observed. This static pass makes no fabricated visual-verification claim. Dispositions and newly discovered proposals are consolidated in ApprovalB in the roadmap.

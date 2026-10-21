@@ -89,3 +89,10 @@ Current/history secret scan is bounded (recorded729UTF-8files/953small reachable
 Final source review: two legacy helpers used `search_path=public` despite denied client execution. Separate migration202610220002 pins only those paths;79rollback review passes. No existing body/grant changed or accepted migration replayed. Final scoped Dart analysis:0errors/0warnings/6pre-existing product-detail infos; final profile/security/widget test group6PASS. Follow-up deployment/history/post-check results are recorded in FINAL-security-audit.md and the final evidence JSON.
 
 Final deployment confirmed:40versions on TEST; both new migrations applied exactly once. Post-follow-up79rollback checks PASS;80inspected tables all RLS-enabled,142definers with empty search_path/1with pg_catalog. Existing function bodies/grants preserved by the follow-up. Both HIGH findings resolved; one original MEDIUM(media) and one original LOW(biometric policy) remain open/deferred, plus mandatory acceptance gaps. Additional LOW legacy-path hardening resolved. Stage1 remains PARTIAL and Stage2–5 stopped.
+
+
+## Stage0/1 completion pass — 2026-10-22
+
+Created feature/final-0-1-completion from verified553039d; c0a8da1 is its ancestor; only298existing unrelated deletions at start. No accepted history changed. Source reconciliation covers40screens/16widgets and707overlapping template/invocation rows; no rendered-control pass count inferred. Added131explicit stage owners, fine diagram comparison34–42, unused-source reachability and additionalAbout/diagramloyalty/QR proposals to the consolidated decisions. See FINAL-stage-0-1-acceptance.md and UI-control-reconciliation.md.
+
+Stage0 remainsPARTIAL pending material rendered/evidence gaps and approvalsA/B; Stage1 remainsPARTIAL pending exact session/rate/media/audit/lifecycle/device controls. DeviceAESWNRBAEUPNTGJZ connected after user action; no behavior acceptance yet. No Stage2–5 work, paiddependency, Docker, load/1000-user run, production change, reset, push or merge. Stage0 documentation committed separately from subsequent security changes.
