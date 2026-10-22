@@ -3,17 +3,19 @@
 Seeds only the new counter to99 (two requests, never a load test). Ages exactly
 one newly created synthetic session to test authorization, not provider expiry.
 """
-import base64,concurrent.futures,importlib.util,json,re,urllib.request,urllib.error,uuid
+import base64,concurrent.futures,importlib.util,json,re,urllib.request,urllib.error,uuid,sys
 from pathlib import Path
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,Path(__file__).with_name(file));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 b=module('b','FR-04-hosted.py');d=module('d','FINAL-security.py');b.target();OUT=b.ROOT/'.fr21-local/final01';checks=[]
+enforced=sys.argv[1:]==['enforced']
+if enforced:assert (OUT/'deployment-202610220004.json').exists()
 a=json.loads(b.crypt((b.PRIVATE/'final01-workflow.bin').read_bytes(),True));uid=str(uuid.UUID(a['auth_id']))
 assert a['email'].startswith('final01-')and a['email'].endswith('@example.test')
 def check(ok,label):
  assert ok,label
  checks.append({'check':label,'result':'PASS'})
- (OUT/'boundary-results.json').write_text(json.dumps(checks,indent=2),encoding='utf-8')
+ (OUT/('boundary-enforced-results.json' if enforced else 'boundary-results.json')).write_text(json.dumps(checks,indent=2),encoding='utf-8')
  print(json.dumps(checks[-1]),flush=True)
 def sql(source):
  p=OUT/'boundary-operation.private.sql';p.write_text(source,encoding='utf-8');return d.query(p)
@@ -56,4 +58,4 @@ if code==200:
  check(code==401 and value['code']=='FR28_SESSION_REVOKED','provider refresh cannot extend approved application authorization deadline')
 else:check(code in(400,401,403),'provider independently rejects old controlled session refresh')
 check(True,'controlled timestamp test is not seven-day wall-clock or provider refresh-expiry evidence')
-print(json.dumps({'TEST':b.REF,'checks':len(checks),'concurrent_requests':2,'provider_spend':0,'activation_executed':False}))
+print(json.dumps({'TEST':b.REF,'checks':len(checks),'concurrent_requests':2,'provider_spend':0,'post_activation':enforced}))

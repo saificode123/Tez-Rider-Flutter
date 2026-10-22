@@ -1034,10 +1034,9 @@
     "scope": "mocked/pure; scoped read/write/env permissions; all11 entrypoints type-check passed"
   },
   "catalog": {
-    "versions": 41,
+    "versions": 42,
     "tables": 83,
     "functions": 174,
-    "definers": 146,
     "all_inspected_rls": true
   },
   "edge_versions": [
@@ -1099,24 +1098,255 @@
   ],
   "activation": {
     "prerequisites": "202610220003 APPLIED ONCE",
-    "enforcement": "202610220004 REVIEWED ONLY; transaction rolled back",
-    "direct_rest_proof_required": false,
-    "reason": "Approved rollout phase3 requires compatible client installation and physical security journeys; device absent."
+    "enforcement": "202610220004 APPLIED ONCE",
+    "direct_rest_proof_required": true,
+    "readiness": "actual successful preflight;170retained body/grant matches",
+    "post_deploy_metadata_passed": 25,
+    "four_role_enforced_checks": 108
   },
   "android": {
     "serial": "AESWNRBAEUPNTGJZ",
-    "build": "PASS current-source TEST APK, hashes recorded privately",
     "package": "com.example.flutter_application_1.fr21test",
-    "installation": "PENDING device absent",
-    "physical_behavior": "NOT EXECUTED"
+    "source_installed_hash_check": true,
+    "observations": [
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:01:16.425350+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Rider Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:03:56.722550+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Rider Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:04:06.970224+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Search food, stores, cuisines...",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:08:42.336031+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Store Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:11:40.768884+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Store Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:11:50.731672+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "server confirmed global logout for synthetic vendor; physical denial requires separate observation",
+        "result": "PASS",
+        "surface": "HTTP",
+        "observed_at": "2026-10-22T19:15:27.528397+00:00",
+        "activation_deployed": true,
+        "project": "igeisilhtmglgnqvllrx"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:16:54.137410+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Admin Panel",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:19:03.394049+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Admin Panel",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:20:26.479803+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native FINAL01 SYNTHETIC SECURITY TEST UPDATED",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:22:26.625347+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:22:48.219057+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Search food, stores, cuisines...",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:33:14.900661+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:33:34.090624+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "post-enforcement marked-customer block routed physical app to sign-in",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:33:34.091659+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Search food, stores, cuisines...",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:34:15.417919+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T19:34:29.535865+00:00",
+        "activation_deployed": true,
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "historical_observations": [
+      {
+        "check": "deployed TEST assistant method guard; no provider request",
+        "result": "PASS",
+        "surface": "HTTP",
+        "project": "igeisilhtmglgnqvllrx"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Rider Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Search food, stores, cuisines...",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Store Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Admin Panel",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native FINAL01 SYNTHETIC SECURITY TEST UPDATED",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "new synthetic customer confirmed unblocked after physical Admin test",
+        "result": "PASS",
+        "surface": "HTTP",
+        "project": "igeisilhtmglgnqvllrx"
+      },
+      {
+        "check": "observed native Admin Panel",
+        "result": "PASS",
+        "surface": "android",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ]
   },
   "limitations": [
-    "No proof-required direct REST bypass denial evidence until activation",
-    "Seven-day cross-service RLS/Realtime/installation-secret enforcement pending activation",
-    "Controlled session clock test is not seven-day wall-clock/provider refresh expiry",
-    "No physical logout/realtime/biometric/fault-injection acceptance",
-    "Full independent retained-definer lifecycle and all FR42/43/44 coverage not established",
-    "FR14 remains NOT FUNCTIONALLY ACCEPTED; Stage2-5 stopped"
+    "Complete rendered conditional states and handler acceptance remain unverified; source inventory is complete only within56screen/widget files.",
+    "Own-profile Realtime live/expired/revoked lifecycle passed12checks with bounded10second nondelivery; other private topics remain unverified. Installation capability passed8rollback-only SQL and10actual anonymous HTTP live/deadline/revoked checks; no new native push receipt claimed.",
+    "Five real short-deadline CNIC checks passed; other media and authorized-owner direct Storage lifecycles remain unverified.",
+    "Four-role password routing/restoration, logout, marked-customer blocked/re-login flow and eventual Vendor-revocation routing observed; complete physical error/retry and secure-storage fault coverage remains incomplete. Optional biometric enrollment/fault work remains Stage3 per existing policy.",
+    "Independent functional proof for every retained definer/legacy operation and universal FR42/43/44 coverage remains incomplete.",
+    "FR14 remains NOT FUNCTIONALLY ACCEPTED; iOS runtime and production are outside executed verification; Stage2\u20135 stopped."
   ],
   "files_changed": [
     "docs/FINAL-biometric-security-policy.md",
@@ -1175,5 +1405,50 @@
     "tests/integration/FINAL01-prerequisite-http.py",
     "tests/integration/FINAL01-report.py",
     "tests/integration/FINAL01-workflow.py"
-  ]
+  ],
+  "historical_afcc765_checkpoint": {
+    "activation": {
+      "prerequisites": "202610220003 APPLIED ONCE",
+      "enforcement": "202610220004 REVIEWED ONLY; transaction rolled back",
+      "direct_rest_proof_required": false,
+      "reason": "Approved rollout phase3 requires compatible client installation and physical security journeys; device absent."
+    },
+    "android": {
+      "serial": "AESWNRBAEUPNTGJZ",
+      "build": "PASS current-source TEST APK, hashes recorded privately",
+      "package": "com.example.flutter_application_1.fr21test",
+      "installation": "PENDING device absent",
+      "physical_behavior": "NOT EXECUTED"
+    },
+    "catalog": {
+      "versions": 41,
+      "tables": 83,
+      "functions": 174,
+      "definers": 146,
+      "all_inspected_rls": true
+    },
+    "limitations": [
+      "No proof-required direct REST bypass denial evidence until activation",
+      "Seven-day cross-service RLS/Realtime/installation-secret enforcement pending activation",
+      "Controlled session clock test is not seven-day wall-clock/provider refresh expiry",
+      "No physical logout/realtime/biometric/fault-injection acceptance",
+      "Full independent retained-definer lifecycle and all FR42/43/44 coverage not established",
+      "FR14 remains NOT FUNCTIONALLY ACCEPTED; Stage2-5 stopped"
+    ]
+  },
+  "current_checkpoint": {
+    "date": "2026-10-23",
+    "evidence": "docs/evidence/FINAL02-acceptance.json",
+    "activation_applied_once": true,
+    "versions": 42,
+    "security_accepted": false,
+    "limits": [
+      "Complete rendered conditional states and handler acceptance remain unverified; source inventory is complete only within56screen/widget files.",
+      "Own-profile Realtime live/expired/revoked lifecycle passed12checks with bounded10second nondelivery; other private topics remain unverified. Installation capability passed8rollback-only SQL and10actual anonymous HTTP live/deadline/revoked checks; no new native push receipt claimed.",
+      "Five real short-deadline CNIC checks passed; other media and authorized-owner direct Storage lifecycles remain unverified.",
+      "Four-role password routing/restoration, logout, marked-customer blocked/re-login flow and eventual Vendor-revocation routing observed; complete physical error/retry and secure-storage fault coverage remains incomplete. Optional biometric enrollment/fault work remains Stage3 per existing policy.",
+      "Independent functional proof for every retained definer/legacy operation and universal FR42/43/44 coverage remains incomplete.",
+      "FR14 remains NOT FUNCTIONALLY ACCEPTED; iOS runtime and production are outside executed verification; Stage2\u20135 stopped."
+    ]
+  }
 }
