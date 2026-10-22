@@ -21,4 +21,6 @@ class AccountAccess {
   late final String role;
   late final String status;
   bool get needsApproval => role != 'customer' && status != 'approved';
+
+  String? get dashboardRoute => needsApproval ? null : '/${role}_home';
 }

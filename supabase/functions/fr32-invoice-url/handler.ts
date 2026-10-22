@@ -3,6 +3,7 @@ export interface Dependencies {
   authority(jwt: string, order: number): Promise<{ code: string; path?: string }>;
   sign(path: string, seconds: number): Promise<string>;
   base: string;
+  ttl?(): number;
 }
 const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization,apikey,content-type,x-client-info', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Cache-Control': 'no-store' };
 export function createHandler(d: Dependencies) {
@@ -21,10 +22,11 @@ export function createHandler(d: Dependencies) {
       const r = await d.authority(jwt, body.order_id);
       if (r.code !== 'READY') return reply('NOT_READY', 409);
       if (!r.path || !/^\d+\/\d+\/[0-9a-f-]{36}\.pdf$/.test(r.path)) return reply('UNAVAILABLE', 503);
-      const signed = await d.sign(r.path, 900);
+      const seconds = d.ttl?.() ?? 900;
+      const signed = await d.sign(r.path, seconds);
       const url = new URL(signed);
       if (url.origin !== d.base || !url.pathname.startsWith('/storage/v1/object/sign/invoices/')) return reply('UNAVAILABLE', 503);
-      return reply('READY', 200, { url: signed, expires_in: 900 });
+      return reply('READY', 200, { url: signed, expires_in: seconds });
     } catch { return reply('INVOICE_ACCESS_UNCONFIRMED', 403); }
   };
 }

@@ -1,12 +1,13 @@
+import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import {createHandler} from './handler.ts';
 const base = Deno.env.get('SUPABASE_URL') ?? '';
 if (base !== 'https://igeisilhtmglgnqvllrx.supabase.co') throw Error('Isolated TEST required');
 const anon = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const service = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 const userHeaders = (jwt: string) => ({apikey: anon, Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json'});
-Deno.serve(createHandler({
+serveSecurity('shopping-assistant', createHandler({
   async authorize(jwt) {
-    const r = await fetch(base + '/rest/v1/rpc/fr28_account_status', {
+    const r = await applicationFetch(base + '/rest/v1/rpc/fr28_account_status', {
       method: 'POST', headers: userHeaders(jwt), body: '{}', signal: AbortSignal.timeout(8000),
     });
     if (!r.ok) return false;
@@ -15,14 +16,14 @@ Deno.serve(createHandler({
       (value.role === 'customer' || value.verification_status === 'approved');
   },
   async claim(jwt) {
-    const r = await fetch(base + '/rest/v1/rpc/final1_claim_assistant', {
+    const r = await applicationFetch(base + '/rest/v1/rpc/final1_claim_assistant', {
       method: 'POST', headers: userHeaders(jwt), body: '{}', signal: AbortSignal.timeout(8000),
     });
     if (!r.ok) throw Error('UNAVAILABLE');
     return await r.json() === true;
   },
   async key() {
-    const r = await fetch(base + '/rest/v1/app_settings?setting_key=eq.groq_api_key&select=setting_value&limit=1', {
+    const r = await applicationFetch(base + '/rest/v1/app_settings?setting_key=eq.groq_api_key&select=setting_value&limit=1', {
       headers: {apikey: service, Authorization: `Bearer ${service}`}, signal: AbortSignal.timeout(8000),
     });
     if (!r.ok) throw Error('UNAVAILABLE');
@@ -30,7 +31,7 @@ Deno.serve(createHandler({
     return typeof rows[0]?.setting_value === 'string' && rows[0].setting_value.length > 0 ? rows[0].setting_value : null;
   },
   async recommend(key, prompt) {
-    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const r = await applicationFetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', Authorization: `Bearer ${key}`},
       body: JSON.stringify({model: 'openai/gpt-oss-120b', max_completion_tokens: 1000, messages: [

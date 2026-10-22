@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import { createFcmSender, type PushJob, type PushOutcome } from "./fcm.ts";
 import { createPushHandler } from "./handler.ts";
 const base = Deno.env.get("SUPABASE_URL") ?? "";
@@ -14,7 +15,7 @@ try {
   if (raw) sender = createFcmSender(JSON.parse(raw), project);
 } catch { /* Fail closed, never log credentials. */ }
 async function rpc(name: string, body: unknown) {
-  const response = await fetch(base + "/rest/v1/rpc/" + name, {
+  const response = await applicationFetch(base + "/rest/v1/rpc/" + name, {
     method: "POST",
     headers: {
       apikey: service,
@@ -35,12 +36,12 @@ const handler = createPushHandler({
   },
   async authorize(jwt) {
     const headers = { apikey: anon, Authorization: "Bearer " + jwt };
-    const user = await fetch(base + "/auth/v1/user", {
+    const user = await applicationFetch(base + "/auth/v1/user", {
       headers,
       signal: AbortSignal.timeout(8000),
     });
     if (!user.ok) return false;
-    const status = await fetch(base + "/rest/v1/rpc/fr28_account_status", {
+    const status = await applicationFetch(base + "/rest/v1/rpc/fr28_account_status", {
       method: "POST",
       headers: { ...headers, "Content-Type": "application/json" },
       body: "{}",
@@ -70,7 +71,7 @@ const handler = createPushHandler({
   },
 });
 let active = 0;
-Deno.serve(async (req) => {
+serveSecurity('fr30-dispatch-push', async (req) => {
   if (active >= 2) {
     return Response.json({ code: "BUSY" }, {
       status: 429,

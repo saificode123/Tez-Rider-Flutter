@@ -1,0 +1,1179 @@
+{
+  "date": "2026-10-22",
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "status": "PARTIAL - SECURITY ACCEPTANCE PENDING",
+  "approvals": {
+    "A": "APPROVED COD-only deviation",
+    "B": "APPROVED stated later-stage IMPLEMENT/HIDE; business decisions deferred",
+    "C": "APPROVED application authorization/shared REST-Edge deviation and phased TEST integration"
+  },
+  "hosted": {
+    "prerequisite-http": [
+      {
+        "check": "customer: new POST authorizer verifies canonical real session and quota",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: deadline and subject from trusted Auth session",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: client cannot mint a gateway capability",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: trusted server mints bound capability without exposing key",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: client cannot forge classified failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: real denial audit is bounded/deduplicated",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: new POST authorizer verifies canonical real session and quota",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: deadline and subject from trusted Auth session",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: client cannot mint a gateway capability",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: trusted server mints bound capability without exposing key",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: client cannot forge classified failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: real denial audit is bounded/deduplicated",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: new POST authorizer verifies canonical real session and quota",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: deadline and subject from trusted Auth session",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: client cannot mint a gateway capability",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: trusted server mints bound capability without exposing key",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: client cannot forge classified failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: real denial audit is bounded/deduplicated",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: new POST authorizer verifies canonical real session and quota",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: deadline and subject from trusted Auth session",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: client cannot mint a gateway capability",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: trusted server mints bound capability without exposing key",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: client cannot forge classified failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: real denial audit is bounded/deduplicated",
+        "result": "PASS"
+      },
+      {
+        "check": "invalid signature never reaches request budget authority",
+        "result": "PASS"
+      }
+    ],
+    "hosted-compatible": [
+      {
+        "check": "invalid JWT denied before provider",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: actual authenticated JWT, not service-role test",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: observed access JWT lifetime3600s",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: canonical current account status",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct security_audit_log denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct delivery_otps denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct delivery_otp_verifications denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct email_outbox denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct payments denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct app_settings denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: unrelated private profile invisible",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: privileged review denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: admin directory denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: trusted empty search rejected",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: trusted literal search works",
+        "result": "PASS"
+      },
+      {
+        "check": "fr25_history: accepted owner read remains available",
+        "result": "PASS"
+      },
+      {
+        "check": "fr25_eligible_orders: accepted owner read remains available",
+        "result": "PASS"
+      },
+      {
+        "check": "fr25_order_history: accepted owner read remains available",
+        "result": "PASS"
+      },
+      {
+        "check": "fr25_chat_list: accepted owner read remains available",
+        "result": "PASS"
+      },
+      {
+        "check": "fr32_invoice_authority: unrelated/malformed order denied without mutation",
+        "result": "PASS"
+      },
+      {
+        "check": "fr14_route_context: unrelated/malformed order denied without mutation",
+        "result": "PASS"
+      },
+      {
+        "check": "delivery_otp_status: unrelated/malformed order denied without mutation",
+        "result": "PASS"
+      },
+      {
+        "check": "pre_delivery_checklist: unrelated/malformed order denied without mutation",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: deployed Edge rejects extra fields before key/provider",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct private rider-cnic list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct private dispute-evidence list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct private invoices list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: actual authenticated JWT, not service-role test",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: observed access JWT lifetime3600s",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: canonical current account status",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct security_audit_log denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct delivery_otps denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct delivery_otp_verifications denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct email_outbox denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct payments denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct app_settings denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: unrelated private profile invisible",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: privileged review denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: admin directory denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: trusted empty search rejected",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: trusted literal search works",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: accepted FR21 dashboard aggregate read",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: deployed Edge rejects extra fields before key/provider",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct private rider-cnic list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct private dispute-evidence list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct private invoices list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: actual authenticated JWT, not service-role test",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: observed access JWT lifetime3600s",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: canonical current account status",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct security_audit_log denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct delivery_otps denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct delivery_otp_verifications denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct email_outbox denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct payments denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct app_settings denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: unrelated private profile invisible",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: privileged review denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: admin directory denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: trusted empty search rejected",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: trusted literal search works",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: accepted FR21 dashboard aggregate read",
+        "result": "PASS"
+      },
+      {
+        "check": "FR04: rider submission status remains masked",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: deployed Edge rejects extra fields before key/provider",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct private rider-cnic list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct private dispute-evidence list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct private invoices list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: actual authenticated JWT, not service-role test",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: observed access JWT lifetime3600s",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: canonical current account status",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct security_audit_log denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct delivery_otps denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct delivery_otp_verifications denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct email_outbox denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct payments denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct app_settings denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: accepted directory read preserved",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: malformed review rejected without mutation",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: trusted empty search rejected",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: trusted literal search works",
+        "result": "PASS"
+      },
+      {
+        "check": "FR04: approved admin review queue read",
+        "result": "PASS"
+      },
+      {
+        "check": "FR26: approved dispute queue read",
+        "result": "PASS"
+      },
+      {
+        "check": "FR30: approved broadcast estimate read without sending",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: deployed Edge rejects extra fields before key/provider",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct private rider-cnic list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct private dispute-evidence list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct private invoices list denied",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: gateway preserves user RLS for permitted read",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: direct REST compatibility retained before activation",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: client cannot supply private proof",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: fr30-dispatch-push rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: fr32-email-worker rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: gateway preserves user RLS for permitted read",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: direct REST compatibility retained before activation",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: client cannot supply private proof",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: fr30-dispatch-push rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: fr32-email-worker rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: gateway preserves user RLS for permitted read",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: direct REST compatibility retained before activation",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: client cannot supply private proof",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: fr30-dispatch-push rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: fr32-email-worker rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: gateway preserves user RLS for permitted read",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: direct REST compatibility retained before activation",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: client cannot supply private proof",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: fr30-dispatch-push rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: fr32-email-worker rejects without provider/claim",
+        "result": "PASS"
+      },
+      {
+        "check": "gateway invalid signed JWT denied",
+        "result": "PASS"
+      },
+      {
+        "check": "anonymous order contacts cannot disclose data",
+        "result": "PASS"
+      }
+    ],
+    "workflow-results": [
+      {
+        "check": "isolated marked Auth fixture created without SMTP",
+        "result": "PASS"
+      },
+      {
+        "check": "isolated canonical customer profile created",
+        "result": "PASS"
+      },
+      {
+        "check": "own profile write confirmed by actual returned row",
+        "result": "PASS"
+      },
+      {
+        "check": "customer cannot promote canonical role",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor product and inventory save through gateway",
+        "result": "PASS"
+      },
+      {
+        "check": "customer cannot create vendor inventory",
+        "result": "PASS"
+      },
+      {
+        "check": "customer atomic COD checkout confirmed",
+        "result": "PASS"
+      },
+      {
+        "check": "checkout retry preserves exact order identity",
+        "result": "PASS"
+      },
+      {
+        "check": "owner reads real COD order",
+        "result": "PASS"
+      },
+      {
+        "check": "unrelated customer cannot read isolated order",
+        "result": "PASS"
+      },
+      {
+        "check": "owning vendor reads its order child",
+        "result": "PASS"
+      },
+      {
+        "check": "customer cannot perform vendor transition",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor accepts own synthetic child",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor cancels real unpaid COD order through intended workflow",
+        "result": "PASS"
+      },
+      {
+        "check": "cancellation retry is idempotent",
+        "result": "PASS"
+      },
+      {
+        "check": "stock restored exactly once after cancellation",
+        "result": "PASS"
+      },
+      {
+        "check": "owner confirms persisted terminal cancellation",
+        "result": "PASS"
+      },
+      {
+        "check": "accounting evidence: no fabricated capture or refund",
+        "result": "PASS"
+      }
+    ],
+    "boundary-results": [
+      {
+        "check": "fresh synthetic session authorized before concurrency probe",
+        "result": "PASS"
+      },
+      {
+        "check": "only marked fixture new counter seeded at99",
+        "result": "PASS"
+      },
+      {
+        "check": "REST and Edge concurrently share last remaining request without overshoot",
+        "result": "PASS"
+      },
+      {
+        "check": "shared quota denial includes positive Retry-After",
+        "result": "PASS"
+      },
+      {
+        "check": "atomic persisted request cap is exactly100",
+        "result": "PASS"
+      },
+      {
+        "check": "authorized private CNIC URL has capped lifetime",
+        "result": "PASS"
+      },
+      {
+        "check": "authorized private CNIC URL retrieves real protected bytes",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: unrelated private CNIC URL denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: unrelated private CNIC URL denied",
+        "result": "PASS"
+      },
+      {
+        "check": "controlled clock test ages exactly one fresh marked session",
+        "result": "PASS"
+      },
+      {
+        "check": "otherwise unexpired access JWT loses application authorization beyond168hours",
+        "result": "PASS"
+      },
+      {
+        "check": "provider refresh cannot extend approved application authorization deadline",
+        "result": "PASS"
+      },
+      {
+        "check": "controlled timestamp test is not seven-day wall-clock or provider refresh-expiry evidence",
+        "result": "PASS"
+      }
+    ],
+    "lifecycle-results": [
+      {
+        "check": "Admin block confirmed by synchronized server response",
+        "result": "PASS"
+      },
+      {
+        "check": "blocked/revoked pre-block JWT loses gateway access",
+        "result": "PASS"
+      },
+      {
+        "check": "provider refuses password login while synthetic customer blocked",
+        "result": "PASS"
+      },
+      {
+        "check": "block request replay remains idempotent",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted accounting read confirms exactly one committed Admin block audit",
+        "result": "PASS"
+      },
+      {
+        "check": "Admin unblock confirmed by synchronized server response",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh password login after unblock receives live application authorization",
+        "result": "PASS"
+      },
+      {
+        "check": "normal provider logout confirms fresh synthetic session revoked",
+        "result": "PASS"
+      },
+      {
+        "check": "otherwise valid access JWT denied after server session revocation",
+        "result": "PASS"
+      }
+    ]
+  },
+  "sql": {
+    "review-202610220003": [
+      {
+        "check": "deadline absolute168hours",
+        "result": "PASS"
+      },
+      {
+        "check": "earlier provider not_after retained",
+        "result": "PASS"
+      },
+      {
+        "check": "later provider bound cannot extend deadline",
+        "result": "PASS"
+      },
+      {
+        "check": "missing created_at fails closed",
+        "result": "PASS"
+      },
+      {
+        "check": "expired deadline recognized",
+        "result": "PASS"
+      },
+      {
+        "check": "boundary deadline equals expiry",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh deadline remains valid",
+        "result": "PASS"
+      },
+      {
+        "check": "new request counter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new private proof key RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new failure limiter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "private schema client denied",
+        "result": "PASS"
+      },
+      {
+        "check": "counter client write denied",
+        "result": "PASS"
+      },
+      {
+        "check": "proof material client read denied",
+        "result": "PASS"
+      },
+      {
+        "check": "only authenticated can claim",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot forge failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may record classified failure",
+        "result": "PASS"
+      },
+      {
+        "check": "audit direct writes still denied",
+        "result": "PASS"
+      },
+      {
+        "check": "all inspected tables retain RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new definer paths fixed",
+        "result": "PASS"
+      },
+      {
+        "check": "counter cap checked",
+        "result": "PASS"
+      },
+      {
+        "check": "proof key unique fixed row",
+        "result": "PASS"
+      },
+      {
+        "check": "activation state matches review",
+        "result": "PASS"
+      },
+      {
+        "check": "retention restricted to new namespace",
+        "result": "PASS"
+      }
+    ],
+    "post-202610220003": [
+      {
+        "check": "deadline absolute168hours",
+        "result": "PASS"
+      },
+      {
+        "check": "earlier provider not_after retained",
+        "result": "PASS"
+      },
+      {
+        "check": "later provider bound cannot extend deadline",
+        "result": "PASS"
+      },
+      {
+        "check": "missing created_at fails closed",
+        "result": "PASS"
+      },
+      {
+        "check": "expired deadline recognized",
+        "result": "PASS"
+      },
+      {
+        "check": "boundary deadline equals expiry",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh deadline remains valid",
+        "result": "PASS"
+      },
+      {
+        "check": "new request counter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new private proof key RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new failure limiter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "private schema client denied",
+        "result": "PASS"
+      },
+      {
+        "check": "counter client write denied",
+        "result": "PASS"
+      },
+      {
+        "check": "proof material client read denied",
+        "result": "PASS"
+      },
+      {
+        "check": "only authenticated can claim",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot forge failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may record classified failure",
+        "result": "PASS"
+      },
+      {
+        "check": "audit direct writes still denied",
+        "result": "PASS"
+      },
+      {
+        "check": "all inspected tables retain RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new definer paths fixed",
+        "result": "PASS"
+      },
+      {
+        "check": "counter cap checked",
+        "result": "PASS"
+      },
+      {
+        "check": "proof key unique fixed row",
+        "result": "PASS"
+      },
+      {
+        "check": "activation state matches review",
+        "result": "PASS"
+      },
+      {
+        "check": "retention restricted to new namespace",
+        "result": "PASS"
+      }
+    ],
+    "review-202610220004": [
+      {
+        "check": "deadline absolute168hours",
+        "result": "PASS"
+      },
+      {
+        "check": "earlier provider not_after retained",
+        "result": "PASS"
+      },
+      {
+        "check": "later provider bound cannot extend deadline",
+        "result": "PASS"
+      },
+      {
+        "check": "missing created_at fails closed",
+        "result": "PASS"
+      },
+      {
+        "check": "expired deadline recognized",
+        "result": "PASS"
+      },
+      {
+        "check": "boundary deadline equals expiry",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh deadline remains valid",
+        "result": "PASS"
+      },
+      {
+        "check": "new request counter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new private proof key RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new failure limiter RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "private schema client denied",
+        "result": "PASS"
+      },
+      {
+        "check": "counter client write denied",
+        "result": "PASS"
+      },
+      {
+        "check": "proof material client read denied",
+        "result": "PASS"
+      },
+      {
+        "check": "only authenticated can claim",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may mint proof",
+        "result": "PASS"
+      },
+      {
+        "check": "client cannot forge failure audit",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted server may record classified failure",
+        "result": "PASS"
+      },
+      {
+        "check": "audit direct writes still denied",
+        "result": "PASS"
+      },
+      {
+        "check": "all inspected tables retain RLS",
+        "result": "PASS"
+      },
+      {
+        "check": "new definer paths fixed",
+        "result": "PASS"
+      },
+      {
+        "check": "counter cap checked",
+        "result": "PASS"
+      },
+      {
+        "check": "proof key unique fixed row",
+        "result": "PASS"
+      },
+      {
+        "check": "activation state matches review",
+        "result": "PASS"
+      },
+      {
+        "check": "retention restricted to new namespace",
+        "result": "PASS"
+      }
+    ]
+  },
+  "flutter": {
+    "passed": 290,
+    "inherited_skips": 2,
+    "analyzer_errors": 0,
+    "analyzer_warnings": 14,
+    "analyzer_infos": 46,
+    "analyzer_exit": 1
+  },
+  "deno": {
+    "passed": 175,
+    "failed": 0,
+    "scope": "mocked/pure; scoped read/write/env permissions; all11 entrypoints type-check passed"
+  },
+  "catalog": {
+    "versions": 41,
+    "tables": 83,
+    "functions": 174,
+    "definers": 146,
+    "all_inspected_rls": true
+  },
+  "edge_versions": [
+    {
+      "function": "fr04-cnic",
+      "version": 15,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "fr25-evidence",
+      "version": 12,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "send-delivery-otp",
+      "version": 10,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "admin-user-status",
+      "version": 9,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "fr30-dispatch-push",
+      "version": 9,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "fr32-email-worker",
+      "version": 6,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "fr32-invoice-url",
+      "version": 5,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "fr13-location",
+      "version": 5,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "get-delivery-route",
+      "version": 6,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "shopping-assistant",
+      "version": 3,
+      "status": "ACTIVE"
+    },
+    {
+      "function": "security-gateway",
+      "version": 1,
+      "status": "ACTIVE"
+    }
+  ],
+  "activation": {
+    "prerequisites": "202610220003 APPLIED ONCE",
+    "enforcement": "202610220004 REVIEWED ONLY; transaction rolled back",
+    "direct_rest_proof_required": false,
+    "reason": "Approved rollout phase3 requires compatible client installation and physical security journeys; device absent."
+  },
+  "android": {
+    "serial": "AESWNRBAEUPNTGJZ",
+    "build": "PASS current-source TEST APK, hashes recorded privately",
+    "package": "com.example.flutter_application_1.fr21test",
+    "installation": "PENDING device absent",
+    "physical_behavior": "NOT EXECUTED"
+  },
+  "limitations": [
+    "No proof-required direct REST bypass denial evidence until activation",
+    "Seven-day cross-service RLS/Realtime/installation-secret enforcement pending activation",
+    "Controlled session clock test is not seven-day wall-clock/provider refresh expiry",
+    "No physical logout/realtime/biometric/fault-injection acceptance",
+    "Full independent retained-definer lifecycle and all FR42/43/44 coverage not established",
+    "FR14 remains NOT FUNCTIONALLY ACCEPTED; Stage2-5 stopped"
+  ],
+  "files_changed": [
+    "docs/FINAL-biometric-security-policy.md",
+    "docs/FINAL-implementation-roadmap.md",
+    "docs/FINAL-progress.md",
+    "docs/FINAL-stage-0-1-acceptance.md",
+    "docs/FINAL01-security-verification.md",
+    "docs/evidence/FINAL01-security-results.json",
+    "docs/proposals/final01-security/README.md",
+    "docs/proposals/final01-security/functions/_shared/security-runtime.ts",
+    "docs/proposals/final01-security/functions/security-gateway/handler.ts",
+    "docs/proposals/final01-security/functions/security-gateway/handler_test.ts",
+    "docs/proposals/final01-security/functions/security-gateway/index.ts",
+    "docs/proposals/final01-security/migrations/202610220003_final01_application_security.sql",
+    "lib/controllers/auth_controller.dart",
+    "lib/main.dart",
+    "lib/screens/splash_screen.dart",
+    "lib/screens/vendor/product_form_screen.dart",
+    "lib/services/account_access.dart",
+    "lib/services/account_session_service.dart",
+    "lib/services/storage_service.dart",
+    "supabase/config.toml",
+    "supabase/functions/_shared/fr28-access.ts",
+    "supabase/functions/_shared/security-runtime.ts",
+    "supabase/functions/_shared/security-runtime_test.ts",
+    "supabase/functions/admin-user-status/index.ts",
+    "supabase/functions/fr04-cnic/index.ts",
+    "supabase/functions/fr13-location/index.ts",
+    "supabase/functions/fr25-evidence/index.ts",
+    "supabase/functions/fr30-dispatch-push/index.ts",
+    "supabase/functions/fr32-email-worker/index.ts",
+    "supabase/functions/fr32-invoice-url/handler.ts",
+    "supabase/functions/fr32-invoice-url/index.ts",
+    "supabase/functions/get-delivery-route/index.ts",
+    "supabase/functions/security-gateway/handler.ts",
+    "supabase/functions/security-gateway/handler_test.ts",
+    "supabase/functions/security-gateway/index.ts",
+    "supabase/functions/send-delivery-otp/index.ts",
+    "supabase/functions/shopping-assistant/handler.ts",
+    "supabase/functions/shopping-assistant/handler_test.ts",
+    "supabase/functions/shopping-assistant/index.ts",
+    "supabase/migrations/202610220003_final01_security_prerequisites.sql",
+    "supabase/migrations/202610220004_final01_security_activation.sql",
+    "supabase/tests/FINAL01-security.sql",
+    "test/biometric_security_policy_test.dart",
+    "test/final_completion_security_test.dart",
+    "test/security_transport_test.dart",
+    "tests/integration/FINAL01-boundaries.py",
+    "tests/integration/FINAL01-build.ps1",
+    "tests/integration/FINAL01-db.py",
+    "tests/integration/FINAL01-edge-deploy.py",
+    "tests/integration/FINAL01-hosted.py",
+    "tests/integration/FINAL01-lifecycle.py",
+    "tests/integration/FINAL01-native.ps1",
+    "tests/integration/FINAL01-native.py",
+    "tests/integration/FINAL01-prerequisite-http.py",
+    "tests/integration/FINAL01-report.py",
+    "tests/integration/FINAL01-workflow.py"
+  ]
+}

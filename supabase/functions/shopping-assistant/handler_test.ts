@@ -44,7 +44,8 @@ Deno.test('malformed JSON is a private400', async () => {
 });
 Deno.test('rate denial never calls provider/key', async () => {
   const {run, calls} = setup({claim: async () => false});
-  ok((await run(request({prompt: 'Question'}))).status === 429);
+  const response = await run(request({prompt: 'Question'}));
+  ok(response.status === 429 && response.headers.get('Retry-After') === '60');
   ok(calls.keys === 0 && calls.providers === 0);
 });
 Deno.test('unconfigured server returns503 without simulated content', async () => {

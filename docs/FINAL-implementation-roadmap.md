@@ -215,3 +215,9 @@ ApprovalB remains the single table above. Mandatory IMPLEMENT rows stay visible 
 | Shared | Legacy source variants | cart_screen_new, unused payment/product/pickup/review widgets | No current routed caller or duplicate class | NEEDS BUSINESS DECISION | Preserve source now; decide consolidation in Stage4; no approval or test count credit | Existing-source preservation |
 
 Security decisionC is separate from A/B: exact SEC03 refresh-token expiry7days and SEC06 API-Gateway100/min are not met by present feature quotas/application timers. Official provider session settings and all-service scope must be verified; no alternate semantics silently approved. See FINAL-stage-0-1-acceptance.md. No new infrastructure/paid plan/provider integration introduced.
+
+## Recorded decision update — 2026-10-22
+
+The user explicitly approved **A and the stated B dispositions**: truthful COD-only with the listed online-payment/callback/automatic-provider-refund deviations; the consolidated mandatoryIMPLEMENT/optionalHIDE entries, including the completion delta, for their assigned later stages. NEEDS BUSINESS DECISION stays deferred. These recorded approvals supersede earlier pending/proposal labels only for those scopes. No JazzCash integration, Stage4 UI changes or new business rules are authorized by this completion pass.
+
+The user also approved C's exact zero-cost alternative and the concrete phased TEST implementation. This means seven-day server application authorization with re-login and shared authenticated REST/Edge100/minute; it does not mean provider refresh-token expiry or a universal Auth/Storage/Realtime gateway. Prerequisite/control compatibility verification is complete within its documented scope, but enforcement migration0004 remains unapplied pending physical client verification. See FINAL01-security-verification.md. Stage2–5 remain stopped.

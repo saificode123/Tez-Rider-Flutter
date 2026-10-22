@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import {accountBoundary} from '../_shared/fr28-access.ts';
 import {createHandler, type Data} from './handler.ts';
 const base = Deno.env.get('SUPABASE_URL') ?? '';
@@ -6,7 +7,7 @@ if (base !== 'https://igeisilhtmglgnqvllrx.supabase.co' && !local) throw Error('
 const anon = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const service = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 async function rpc(jwt: string, name: string, params: Data): Promise<Data> {
-  const response = await fetch(base + '/rest/v1/rpc/' + name, {
+  const response = await applicationFetch(base + '/rest/v1/rpc/' + name, {
     method: 'POST', headers: {apikey: anon, Authorization: 'Bearer ' + jwt, 'Content-Type': 'application/json'},
     body: JSON.stringify(params), signal: AbortSignal.timeout(8000),
   });
@@ -20,7 +21,7 @@ const handler = createHandler({
   }),
   context: (jwt, order) => rpc(jwt, 'fr13_tracking_context', {p_order_id: order}),
   async publish(topic, payload) {
-    const response = await fetch(base + '/realtime/v1/api/broadcast', {
+    const response = await applicationFetch(base + '/realtime/v1/api/broadcast', {
       method: 'POST', headers: {apikey: service, Authorization: 'Bearer ' + service, 'Content-Type': 'application/json'},
       body: JSON.stringify({messages: [{topic, event: 'location', payload, private: true}]}),
       signal: AbortSignal.timeout(5000),
@@ -28,7 +29,7 @@ const handler = createHandler({
     return response.ok;
   },
 });
-Deno.serve({hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54328 : 8000}, async req => {
+serveSecurity('fr13-location', {hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54328 : 8000}, async req => {
   const denial = await accountBoundary(req, base, anon);
   return denial ?? await handler(req);
 });

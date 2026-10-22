@@ -12,7 +12,9 @@ const headers = {
 };
 export function createHandler(deps: Dependencies) {
   return async (req: Request): Promise<Response> => {
-    const reply = (body: Data, status: number) => new Response(JSON.stringify(body), {status, headers});
+    const reply = (body: Data, status: number) => new Response(JSON.stringify(body), {
+      status, headers: {...headers, ...(status === 429 ? {'Retry-After': '60'} : {})},
+    });
     if (req.method === 'OPTIONS') return new Response('ok', {headers});
     if (req.method !== 'POST') return reply({code: 'METHOD_NOT_ALLOWED'}, 405);
     const auth = req.headers.get('Authorization') ?? '';

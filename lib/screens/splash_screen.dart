@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'cnic_document_screen.dart';
 import '../theme/app_theme.dart';
 import '../controllers/auth_controller.dart';
+import '../services/account_access.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool showCyclist;
@@ -98,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen>
       try {
         if (Get.isRegistered<AuthController>() &&
             !await Get.find<AuthController>().enforceAccountAccess()) {
-          if (mounted && Get.currentRoute == '/splash') {
+          if (mounted) {
             Get.offAllNamed(
               '/login',
               arguments: {
@@ -114,24 +115,27 @@ class _SplashScreenState extends State<SplashScreen>
         final identity = await client.auth.getUser().timeout(
           const Duration(seconds: 8),
         );
-        final email = identity.user?.email;
-        if (email != null) {
+        final account = identity.user;
+        if (account != null) {
           final profile = await client
               .from('users')
-              .select('role,verification_status')
-              .eq('email', email)
+              .select('role,verification_status,is_blocked')
+              .eq('auth_user_id', account.id)
               .maybeSingle()
               .timeout(const Duration(seconds: 8));
-          if (!mounted) return;
-          if (profile?['role'] == 'rider' &&
-              profile?['verification_status'] == 'approved') {
-            Get.offAllNamed('/rider_home');
-            return;
-          }
-          if (profile?['role'] == 'rider') {
+          if (!mounted || account.id != client.auth.currentUser?.id) return;
+          final access = AccountAccess.fromProfile(profile);
+          if (access.dashboardRoute != null) {
+            Get.offAllNamed(access.dashboardRoute!);
+          } else if (access.role == 'rider') {
             Get.offAll(() => const CnicDocumentScreen());
-            return;
+          } else {
+            Get.offAllNamed(
+              '/pending_verification',
+              arguments: {'status': access.status},
+            );
           }
+          return;
         }
       } catch (_) {
         // An unavailable or invalid session must not imply successful recovery.

@@ -167,13 +167,57 @@ class AccountSessionGate {
 // Only server-issued FR28 codes cause global session action. An arbitrary 403,
 // network error or vendor permission denial never signs out a legitimate user.
 class AccountHttpClient extends http.BaseClient {
-  AccountHttpClient(this.onDenied, {http.Client? inner})
+  AccountHttpClient(this.onDenied, {http.Client? inner, this.gatewayBase})
     : _inner = inner ?? http.Client();
   final void Function(String code) onDenied;
   final http.Client _inner;
+  final Uri? gatewayBase;
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    final response = await _inner.send(request);
+    http.BaseRequest outgoing = request;
+    final gateway = gatewayBase;
+    if (gateway != null &&
+        request.url.origin == gateway.origin &&
+        request.url.path.startsWith('/rest/v1/')) {
+      final body = await request.finalize().toBytes();
+      if (body.length > 900000) throw StateError('Request is too large.');
+      const allowed = {
+        'accept',
+        'content-type',
+        'prefer',
+        'range',
+        'range-unit',
+        'accept-profile',
+        'content-profile',
+      };
+      final headers = <String, String>{};
+      for (final entry in request.headers.entries) {
+        if (allowed.contains(entry.key.toLowerCase()))
+          headers[entry.key.toLowerCase()] = entry.value;
+      }
+      outgoing =
+          http.Request(
+              'POST',
+              gateway.resolve('/functions/v1/security-gateway'),
+            )
+            ..headers.addAll({
+              'Content-Type': 'application/json',
+              for (final entry in request.headers.entries)
+                if (const {
+                  'authorization',
+                  'apikey',
+                }.contains(entry.key.toLowerCase()))
+                  entry.key: entry.value,
+            })
+            ..body = jsonEncode({
+              'method': request.method,
+              'path': request.url.path.substring('/rest/v1'.length),
+              'query': request.url.query,
+              'headers': headers,
+              'body': utf8.decode(body),
+            });
+    }
+    final response = await _inner.send(outgoing);
     if (!const [401, 403].contains(response.statusCode)) return response;
     final bytes = await response.stream.toBytes();
     try {

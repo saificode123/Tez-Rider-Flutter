@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import { createHandler, type Job } from './handler.ts';
 import { digest, sendBrevo } from '../_shared/fr32-brevo.ts';
 import { invoicePdf } from '../_shared/fr32-invoice.ts';
@@ -10,7 +11,7 @@ function target(): void {
 }
 async function rpc(name: string, body: unknown): Promise<unknown> {
   target();
-  const r = await fetch(`${base}/rest/v1/rpc/${name}`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(12000) });
+  const r = await applicationFetch(`${base}/rest/v1/rpc/${name}`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(12000) });
   if (!r.ok) throw Error('DATABASE_UNCONFIRMED'); return await r.json();
 }
 function objectUrl(job: Job): string {
@@ -19,7 +20,7 @@ function objectUrl(job: Job): string {
   return `${base}/storage/v1/object/invoices/${path}`;
 }
 async function download(url: string): Promise<Uint8Array | null> {
-  const r = await fetch(url, { headers, signal: AbortSignal.timeout(12000) });
+  const r = await applicationFetch(url, { headers, signal: AbortSignal.timeout(12000) });
   if (r.status === 404) return null;
   // Storage commonly returns400 for a missing object. Recognize only its safe code.
   if (r.status === 400) {
@@ -36,7 +37,7 @@ async function pdf(job: Job): Promise<Uint8Array> {
   if (!bytes) {
     if (meta.status === 'ready') throw Error('INVOICE_READY_OBJECT_MISSING');
     bytes = await invoicePdf(job.invoice!);
-    const r = await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/pdf', 'x-upsert': 'false' }, body: new Uint8Array(bytes), signal: AbortSignal.timeout(12000) });
+    const r = await applicationFetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/pdf', 'x-upsert': 'false' }, body: new Uint8Array(bytes), signal: AbortSignal.timeout(12000) });
     if (!r.ok) {
       if (![400, 409].includes(r.status)) throw Error('STORAGE_UNCONFIRMED');
       // A crashed upload may already exist. Never overwrite invoice history.
@@ -51,7 +52,7 @@ async function pdf(job: Job): Promise<Uint8Array> {
   if (result.code !== 'READY') throw Error('DATABASE_UNCONFIRMED');
   return bytes;
 }
-Deno.serve(async (req) => {
+serveSecurity('fr32-email-worker', async (req) => {
   try {
     return await createHandler({
       workerSecret: Deno.env.get('FR32_EMAIL_WORKER_KEY') ?? '', sender: Deno.env.get('BREVO_SENDER_EMAIL') ?? '', testRecipient: Deno.env.get('BREVO_TEST_RECIPIENT') ?? '',

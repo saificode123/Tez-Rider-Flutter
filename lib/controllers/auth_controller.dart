@@ -9,7 +9,10 @@ import '../services/account_session_service.dart';
 import '../services/android_broadcast_push_service.dart';
 
 class AuthController extends GetxController {
-  final LocalAuthentication _auth = LocalAuthentication();
+  AuthController({LocalAuthentication? localAuthentication})
+    : _auth = localAuthentication ?? LocalAuthentication();
+
+  final LocalAuthentication _auth;
   final _storage = const FlutterSecureStorage();
 
   late final AccountSessionGate accountGate;
@@ -79,7 +82,9 @@ class AuthController extends GetxController {
     try {
       final canCheck = await _auth.canCheckBiometrics;
       final isDeviceSupported = await _auth.isDeviceSupported();
-      isBioSupported.value = canCheck && isDeviceSupported;
+      final enrolled = await _auth.getAvailableBiometrics();
+      isBioSupported.value =
+          canCheck && isDeviceSupported && enrolled.isNotEmpty;
     } catch (_) {
       isBioSupported.value = false;
     }
@@ -97,11 +102,14 @@ class AuthController extends GetxController {
 
   Future<bool> authenticateWithBiometrics() async {
     try {
-      if (!isBioSupported.value) return false;
+      if (!isBioSupported.value ||
+          (await _auth.getAvailableBiometrics()).isEmpty)
+        return false;
       return await _auth.authenticate(
-        localizedReason: 'Scan your fingerprint to login to TezRider',
+        localizedReason:
+            'Verify your identity with biometrics to sign in to TezRider',
         options: const AuthenticationOptions(
-          biometricOnly: false,
+          biometricOnly: true,
           stickyAuth: true,
           useErrorDialogs: true,
         ),

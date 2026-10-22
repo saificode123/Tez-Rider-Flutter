@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import postgres from 'npm:postgres@3.4.9';
 import {createHandler,type Outcome}from './handler.ts';
 import {updateAuthState,synchronizeAuth}from './sync.ts';
@@ -17,12 +18,12 @@ if(local&&!['127.0.0.1','localhost','db'].includes(db.hostname))throw Error('Iso
 // final SQL transition. Completed request replay never calls Auth again.
 const sql=(()=>{try{return postgres(url,{max:1,prepare:false,connect_timeout:8,idle_timeout:5,onnotice:()=>{}});}catch{throw Error('Server database client configuration invalid');}})();
 async function rpc(name:string,body:unknown):Promise<Outcome>{
- const response=await fetch(base+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(12000)});
+ const response=await applicationFetch(base+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(12000)});
  if(response.status===403)return{code:'FORBIDDEN'};
  if(!response.ok)throw Error('Unconfirmed database operation');return await response.json();
 }
 const handler=createHandler({
- async authenticate(jwt){const r=await fetch(base+'/auth/v1/user',{headers:{apikey:anon,Authorization:'Bearer '+jwt},signal:AbortSignal.timeout(10000)});if(r.status===401||r.status===403)return null;if(!r.ok)throw Error('Auth access could not be confirmed');const user=await r.json();return typeof user.id==='string'?user.id:null;},
+ async authenticate(jwt){const r=await applicationFetch(base+'/auth/v1/user',{headers:{apikey:anon,Authorization:'Bearer '+jwt},signal:AbortSignal.timeout(10000)});if(r.status===401||r.status===403)return null;if(!r.ok)throw Error('Auth access could not be confirmed');const user=await r.json();return typeof user.id==='string'?user.id:null;},
  reserve:(actor,target,blocked,request)=>rpc('admin_set_user_blocked',{p_actor:actor,p_target:target,p_blocked:blocked,p_request:request}),
  async synchronize(request,target){
   try{return await sql.begin(async tx=>{
@@ -41,7 +42,7 @@ const handler=createHandler({
  },
 });
 let active=0;
-Deno.serve(async req=>{
+serveSecurity('admin-user-status', async req=>{
  const denied=await accountBoundary(req,base,anon,true);if(denied)return denied;
  if(active>=4)return Response.json({code:'RATE_LIMIT'},{status:429,headers:{'Access-Control-Allow-Origin':'*','Retry-After':'2','Cache-Control':'no-store'}});
  active++;try{return await handler(req);}finally{active--;}

@@ -16,3 +16,7 @@ verify_jwt = false
 [functions.shopping-assistant]
 # Handler validates the real session/canonical account before credential lookup.
 verify_jwt = false
+
+[functions.security-gateway]
+# Verified JWT/canonical session, shared quota, server-only proof, user RLS.
+verify_jwt = false

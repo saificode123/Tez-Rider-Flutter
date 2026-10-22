@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import '../../services/inventory_service.dart';
+import '../../services/storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -29,7 +30,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _thresholdCtrl = TextEditingController(text: '5');
   final _inventory = InventoryWriteFlow();
   int _stockVersion = 0;
-  String? _uploadedImageUrl;
 
   String _category = 'Food';
   bool _available = true;
@@ -112,7 +112,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     if (image != null) {
       setState(() {
         _selectedImage = image;
-        _uploadedImageUrl = null;
       });
     }
   }
@@ -136,17 +135,16 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     }
     setState(() => _saving = true);
     try {
-      var imageUrl = _uploadedImageUrl ?? _imageCtrl.text.trim();
-      if (_selectedImage != null && _uploadedImageUrl == null) {
-        final filePath =
-            'products/${DateTime.now().millisecondsSinceEpoch}_${_selectedImage!.name}';
-        await _supabase.storage
-            .from('product-images')
-            .uploadBinary(filePath, await _selectedImage!.readAsBytes());
-        imageUrl = _supabase.storage
-            .from('product-images')
-            .getPublicUrl(filePath);
-        _uploadedImageUrl = imageUrl;
+      final imageUrl = _imageCtrl.text.trim();
+      final previousImage = (widget.existing?['image_url'] as String? ?? '')
+          .trim();
+      // Preserve existing records; new media needs a trusted private pipeline.
+      if (!legacyProductMediaAllowed(
+        existing: previousImage,
+        proposed: imageUrl,
+        pickedFile: _selectedImage != null,
+      )) {
+        throw const LegacyMediaUnavailable();
       }
       final result = await _inventory.save('fr17_save_product', {
         'p_product_id': widget.existing?['id'],
@@ -189,7 +187,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     } catch (e) {
       Get.snackbar(
         'Save not confirmed',
-        e is StateError
+        e is LegacyMediaUnavailable
+            ? e.toString()
+            : e is StateError
             ? e.message.toString()
             : 'Check your connection and retry the same values.',
       );

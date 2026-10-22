@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch, sessionMediaTtl} from '../_shared/security-runtime.ts';
 import {accountBoundary}from '../_shared/fr28-access.ts';
 const base = Deno.env.get("SUPABASE_URL") ?? "";
 const anon = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
@@ -24,7 +25,7 @@ function reply(status: number, value: unknown, timings?: Record<string, number>)
 }
 async function api(path: string, token: string, method = "GET", body?: unknown): Promise<any> {
   const key = token === service ? service : anon;
-  const result = await fetch(base + path, { method,
+  const result = await applicationFetch(base + path, { method,
     headers: { apikey: key, Authorization: "Bearer " + token, "Content-Type": "application/json" },
     body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15000) });
   const data = await result.json();
@@ -82,7 +83,7 @@ async function validateImage(bytes: Uint8Array, mime: string): Promise<string> {
 }
 
 async function authenticatedIdentity(token: string): Promise<any> {
-  const auth = await fetch(base + "/auth/v1/user", { headers: { apikey: anon, Authorization: "Bearer " + token },
+  const auth = await applicationFetch(base + "/auth/v1/user", { headers: { apikey: anon, Authorization: "Bearer " + token },
     signal: AbortSignal.timeout(10000) });
   if (!auth.ok) throw new Failure(401, "Your session expired. Sign in again.");
   const identity = await auth.json();
@@ -90,7 +91,7 @@ async function authenticatedIdentity(token: string): Promise<any> {
   return identity;
 }
 
-Deno.serve(async (req) => {
+serveSecurity('fr04-cnic', async (req) => {
   const denied=await accountBoundary(req,base,anon);if(denied)return denied;
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   if (req.method !== "POST") return reply(405, { error: "Use POST." });
@@ -119,12 +120,12 @@ Deno.serve(async (req) => {
         })),
       ]);
       const signed = await measured("signing", () => api("/storage/v1/object/sign/" + bucket + "/" + authority.path,
-        service, "POST", { expiresIn: 900 }));
+        service, "POST", { expiresIn: sessionMediaTtl() }));
       const url = signed.signedURL ?? signed.signedUrl;
       if (typeof url !== "string") throw new Failure(503, "Document viewing is temporarily unavailable.");
       timings.handler = performance.now() - started;
       // Numeric stage durations only: no identity, token, document path or link.
-      return reply(200, { url: publicBase + "/storage/v1" + url, expires_in: 900 }, timings);
+      return reply(200, { url: publicBase + "/storage/v1" + url, expires_in: sessionMediaTtl() }, timings);
     }
     if (input.action !== "upload") throw new Failure(400, "Unknown CNIC operation.");
     const identity = await authenticatedIdentity(token);
@@ -139,17 +140,17 @@ Deno.serve(async (req) => {
     try { bytes = Uint8Array.from(atob(input.image_base64), (c) => c.charCodeAt(0)); }
     catch (_) { throw new Failure(422, "Invalid image encoding."); }
     const extension = await validateImage(bytes, input.mime_type);
-    const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)))
+    const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new Uint8Array(bytes))))
       .map((b) => b.toString(16).padStart(2, "0")).join("");
     const lease = await api("/rest/v1/rpc/fr04_begin_upload", service, "POST", {
       p_auth_uid: identity.id, p_request_id: input.request_id, p_digest: digest,
       p_extension: extension, p_cnic: input.cnic,
     });
     if (!lease.complete) {
-      const upload = await fetch(base + "/storage/v1/object/" + bucket + "/" + lease.path, {
+      const upload = await applicationFetch(base + "/storage/v1/object/" + bucket + "/" + lease.path, {
         method: "POST", headers: { apikey: service, Authorization: "Bearer " + service,
           "Content-Type": input.mime_type, "x-upsert": "true", "cache-control": "0" },
-        body: bytes, signal: AbortSignal.timeout(30000),
+        body: new Uint8Array(bytes), signal: AbortSignal.timeout(30000),
       });
       if (!upload.ok) throw new Failure(503, "Upload was not confirmed. Retry this submission.");
       await api("/rest/v1/rpc/fr04_finish_upload", service, "POST", {

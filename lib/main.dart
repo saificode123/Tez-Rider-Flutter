@@ -35,7 +35,7 @@ void main() async {
     httpClient: AccountHttpClient((code) {
       if (Get.isRegistered<AuthController>())
         Get.find<AuthController>().handleAccountFailure(code);
-    }),
+    }, gatewayBase: config.isolatedTest ? Uri.parse(config.url) : null),
   );
 
   Supabase.instance.client.auth.onAuthStateChange.listen((data) {

@@ -45,3 +45,47 @@ Static source and diagrams now better classified, but complete four-role rendere
 **PARTIAL — SECURITY ACCEPTANCE PENDING.** Baseline evidence in FINAL-security-audit.md/evidence/FINAL-security-results.json remains applicable unless changed boundaries invalidate it. Existing40TEST migration versions,80inspectedtables,170functions/143definers; old79SQL/86HTTP and279Flutter/143Deno are inherited results, not new runs. Security acceptance requires missing exact controls or explicit deviation plus actual mandatory hosted/Android evidence.
 
 Android device initially absent, then user connected it and adb reported AESWNRBAEUPNTGJZ / CPH2285 authorized, with TEST package installed. This is connectivity/package evidence only; no app behavior pass inferred. Current-source APK identification/build and security journeys must be recorded separately.
+
+
+## Security decisionC: concrete zero-cost proposal, pending approval
+
+Authoritative SEC03 says accessJWT1hour, refresh tokens7days and SDK silent refresh. This is not merely an inactivity timeout. Existing real JWT evidence is3600seconds; existing synthetic auth.sessions records have no not_after bound. A read-only config pull --dry-run on TEST succeeded with wrote:false; the supported config diff contains no explicit refresh-lifetime/gateway-limit values, so it is not treated as full Auth/session configuration proof. No settings changed. No current project-plan entitlement was inferred from the global documentation.
+
+[Supabase session documentation](https://supabase.com/docs/guides/auth/sessions) says default sessions can continue indefinitely and built-in lifetime controls require Pro+. [Auth rate-limit documentation](https://supabase.com/docs/guides/auth/rate-limits) assigns signup/login/recovery/refresh limits to the Auth service. [Data API security documentation](https://supabase.com/docs/guides/api/securing-your-api) explicitly limits pre_request to PostgREST, excludingStorage/Realtime. Setting a database flag or Flutter timer cannot establish universal gateway enforcement.
+
+Recommended free deviation for explicit consideration: enforce an absolute seven-day authorization deadline using the canonical server session-created timestamp across all application RPC/RLS/Edge boundaries; require password reauthentication after it. Keep SDK silent refresh only inside that authorized interval. This is NOT provider refresh-token expiry. Add a shared concurrency-safe100/minute budget for authenticated application REST/Edge requests, preserving lower expensive-provider quotas; provider-owned Auth limits remain separate, and Storage/Realtime retain independent authorization/feature limits. This is NOT a combined API-Gateway100/minute guarantee. Every bypassable direct path must be included/denied and tested before claiming this alternative implemented.
+
+Alternative: preserve exact SEC03/SEC06 acceptance clauses and leave security acceptance pending until supported provider Auth controls and a gateway covering all required services are available. No paid plan/external gateway purchase is authorized. No unsupported auth.sessions trigger or private managed-auth change is proposed as a way around provider plan restrictions.
+
+C approval is a material SRDS deviation required by AGENTS.md sections3/4/11 and this completion requestB2/B3/acceptance rules; it is not inferred. This document is a reviewable proposal only. A and B remain the prepared consolidated roadmap decisions, not implementation permission for later stages.
+
+
+## C approval and implementation checkpoint
+
+The user explicitly selected **Approve the zero-cost deviation** on2026-10-22 in this chat. Preserve that approval; do not ask for policy approval again. Exact provider-level seven-day refresh expiry/gateway-wide limits are replaced only by the stated alternative scope, not by an implementation-complete claim.
+
+Automatic approval review subsequently rejected the specific broad client/Edge transport integration edit, citing outage and authorization-regression risk and insufficient exact implementation authorization. The rejected edit did not run. Prototype source/migration is isolated under docs/proposals/final01-security, outside active migrations/functions;26mocked/pure tests and type-check pass, SQL/integration/hosted controls unexecuted. See itsREADME for exact scope, phased rollout and recovery. No new migration applied; TEST remains40versions. This is a genuine execution-approval blocker, independent of the approved deviation policy.
+
+An unrelated external commit a4df14a (everything push) committed precisely the298previously reported worktree deletions while this task was running; no other paths were in that commit. It is preserved unchanged. Stage0 documentation commit1458b2a descends from it and553039d; this task did not create that commit, push or merge. The298deletions are consequently no longer pending in the current worktree.
+
+Android recheck: the device disconnected before hash-verified APK installation; installation failed with device-not-found. No physical login/restoration/block/logout/isolation pass is claimed from connectivity or a successful build. Reconnection requested one action at a time.
+
+
+## Recorded user approvals — current authority
+
+2026-10-22 chat responses:
+- C policy: **Approve the zero-cost deviation** (seven-day server authorization/re-login; shared application REST/Edge100/min; provider Auth/Storage/Realtime limits separate).
+- C implementation: **Approve this phased TEST integration** after the automatic review rejection and reviewable README. This explicitly includes the coordinated client/shared/10Edge entrypoints, phased TEST migrations and30-day retention restricted to newly introduced API-failure records. The earlier execution-approval blocker is resolved; all implementation/deployment still requires the documented tests and staged activation.
+- A/B: **Approve A and the stated B dispositions**. Truthful COD-only plus the identified digital-payment/callback/automatic-refund SRDS deviations approved; optional sandbox not started. MandatoryIMPLEMENT/optionalHIDE are approved dispositions for later stages, not permission to begin those stages here. NEEDS BUSINESS DECISION entries remain explicitly deferred, not silently assigned invented rules. No Stage4 hide/change implemented.
+
+These approvals supersede earlier pending labels only for the stated scopes; they do not turn missing tests or undeployed code into accepted functionality.
+
+## Current verification and genuine external blocker — 2026-10-22
+
+**Stage0 PARTIAL; Stage1 PARTIAL — SECURITY ACCEPTANCE PENDING; Stage2 readiness NO.** The approvals above are granted, not outstanding. Deferred business-rule rows remain explicit future decisions. The current security implementation and all current test/deployment results are documented in FINAL01-security-verification.md and evidence/FINAL01-security-results.json; earlier checkpoint numbers remain historical.
+
+TEST now has41migration versions,83inspected RLS-enabled tables and174functions (146definers). Prerequisites0003 applied once. Compatible gateway plus10existing Edge entrypoints deployed and reported ACTIVE. Current real-hosted checks173PASS:25prerequisites,108compatibility/authorization,18synthetic COD workflow,13controlled boundary/media and9lifecycle. No provider sending or destructive fixture cleanup. Current full Flutter290PASS/2inherited skips; Deno175PASS;11Edge entrypoints type-check; analysis0errors/14warnings/46infos (exit1). Current-source isolated TEST APK built and hashed privately.
+
+**Pending activation is deliberate, not successful enforcement.** Approved rollout phase3 requires compatible TEST client installation and physical role/read/write/isolation/block/revocation/security-error journeys. DeviceAESWNRBAEUPNTGJZ remains absent at the latest check. Migration0004 reviewed with25metadata/pure checks inside a rolled-back transaction only. Direct REST is still compatible; missing-proof bypass denial is therefore NOT established. Seven-day cross-service RLS/Realtime/installation-secret expiry and full shared-budget enforcement remain pending. Controlled clock tests prove gateway authorization refusal and inability of provider refresh to extend it, not provider refresh-token expiry or seven-day wall-clock behavior.
+
+Stage0 material rendered/evidence limits remain classified; universal FR42/43/44 and retained-body lifecycle evidence remain incomplete. Legacy media fails explicitly before file/network access; it is not a completed Stage2 upload feature. Biometric-only verification and role restoration are unit-tested; physical secure-storage/fault/enrollment checks remain pending. FR14 road behavior remains NOT FUNCTIONALLY ACCEPTED. Production untouched; no push/merge or Stage2–5 work.

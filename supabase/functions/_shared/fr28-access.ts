@@ -1,8 +1,14 @@
+import {currentSecurityContext} from './security-runtime.ts';
 export const blockedMessage = 'Your account has been blocked. Please contact support.';
 // This trusted RPC uses the verified JWT subject even after Auth bans a user.
 // It discloses only that subject's account status; no directory access is granted.
 export async function accountBoundary(req: Request, base: string, anon: string, adminOnly=false): Promise<Response | null> {
  if(req.method==='OPTIONS')return null;
+ const current=currentSecurityContext();
+ if(current?.code==='OK'&&req.headers.get('Authorization')==='Bearer '+current.jwt){
+  if(adminOnly&&(current.role!=='admin'||current.verification_status!=='approved'))return Response.json({code:'FORBIDDEN'},{status:403,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});
+  return null;
+ }
  const authorization=req.headers.get('Authorization')??'';
  if(!/^Bearer \S+$/.test(authorization))return null; // Existing handler emits its 401.
  try {

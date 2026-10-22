@@ -1,3 +1,4 @@
+import {serveSecurity, applicationFetch, sessionMediaTtl} from '../_shared/security-runtime.ts';
 import {accountBoundary}from '../_shared/fr28-access.ts';
 // Isolated private evidence boundary. No credentials, paths or links are logged.
 const base = Deno.env.get('SUPABASE_URL') ?? '';
@@ -10,7 +11,7 @@ const cors = {'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'
 class Failure extends Error { constructor(public status:number,message:string) {super(message);} }
 function reply(status:number,body:unknown) {return new Response(JSON.stringify(body),{status,headers:{...cors,'Content-Type':'application/json','Cache-Control':'no-store'}});}
 async function api(path:string,token:string,method='POST',body?:unknown) {
- const response=await fetch(base+path,{method,headers:{apikey:token===service?service:anon,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
+ const response=await applicationFetch(base+path,{method,headers:{apikey:token===service?service:anon,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
  const data=await response.json();
  if(!response.ok) {
   const status=data.code==='42501'?403:data.code==='PT409'?409:data.code==='PT422'||data.code==='22023'?422:response.status>=500?503:400;
@@ -44,8 +45,8 @@ async function validate(bytes:Uint8Array,mime:string) {
   }
  }catch(_){throw new Failure(422,'This file is not a valid JPEG or PNG image.');}
 }
-const digest=async(bytes:Uint8Array)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(v=>v.toString(16).padStart(2,'0')).join('');
-Deno.serve(async(req)=>{
+const digest=async(bytes:Uint8Array)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new Uint8Array(bytes)))).map(v=>v.toString(16).padStart(2,'0')).join('');
+serveSecurity('fr25-evidence', async(req)=>{
  const denied=await accountBoundary(req,base,anon);if(denied)return denied;
  if(req.method==='OPTIONS')return new Response(null,{headers:cors});
  if(req.method!=='POST')return reply(405,{error:'Use POST.'});
@@ -59,10 +60,10 @@ Deno.serve(async(req)=>{
   if(input.action==='view') {
    if(!Number.isSafeInteger(input.dispute_id)||!Number.isInteger(input.index))throw new Failure(400,'Invalid evidence reference.');
    const path=await api('/rest/v1/rpc/fr25_evidence_authority',token,'POST',{p_dispute_id:input.dispute_id,p_index:input.index});
-   const signed=await api('/storage/v1/object/sign/'+bucket+'/'+path,service,'POST',{expiresIn:900});
+   const signed=await api('/storage/v1/object/sign/'+bucket+'/'+path,service,'POST',{expiresIn:sessionMediaTtl()});
    const url=signed.signedURL??signed.signedUrl;
    if(typeof url!=='string')throw new Failure(503,'Evidence unavailable. Retry.');
-   return reply(200,{url:publicBase+'/storage/v1'+url,expires_in:900});
+   return reply(200,{url:publicBase+'/storage/v1'+url,expires_in:sessionMediaTtl()});
   }
   if(typeof input.request_id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(input.request_id))throw new Failure(400,'Invalid submission identifier.');
   if(input.action==='cleanup') {
@@ -81,12 +82,12 @@ Deno.serve(async(req)=>{
   // Use the database's canonical UUID path, including uppercase UUID retries.
   const path=await api('/rest/v1/rpc/fr25_begin_evidence',service,'POST',{p_auth_id:identity.id,p_request_id:input.request_id,p_digest:hash,p_mime:input.mime_type,p_size:bytes.length});
   if(typeof path!=='string')throw new Failure(503,'Evidence reservation was not confirmed. Retry.');
-  const upload=await fetch(base+'/storage/v1/object/'+bucket+'/'+path,{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':input.mime_type,'x-upsert':'false','cache-control':'0'},body:bytes,signal:AbortSignal.timeout(30000)});
+  const upload=await applicationFetch(base+'/storage/v1/object/'+bucket+'/'+path,{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':input.mime_type,'x-upsert':'false','cache-control':'0'},body:new Uint8Array(bytes),signal:AbortSignal.timeout(30000)});
   if(!upload.ok) {
    const data=await upload.json();
    if(![409,'409','Duplicate'].includes(data.statusCode)&&upload.status!==409)throw new Failure(503,'Upload was not confirmed. Retry.');
    // Ambiguous/repeated upload: compare actual immutable bytes, not a MIME claim.
-   const existing=await fetch(base+'/storage/v1/object/authenticated/'+bucket+'/'+path,{headers:{apikey:service,Authorization:'Bearer '+service},signal:AbortSignal.timeout(15000)});
+   const existing=await applicationFetch(base+'/storage/v1/object/authenticated/'+bucket+'/'+path,{headers:{apikey:service,Authorization:'Bearer '+service},signal:AbortSignal.timeout(15000)});
    if(!existing.ok||await digest(new Uint8Array(await existing.arrayBuffer()))!==hash)throw new Failure(409,'Evidence conflict. Retry.');
   }
   const confirmed=await api('/rest/v1/rpc/fr25_finish_upload',service,'POST',{p_auth_id:identity.id,p_request_id:input.request_id,p_digest:hash,p_mime:input.mime_type,p_size:bytes.length});
