@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-23",
+  "affected_serial_passed": 18,
+  "overlapping_additional_run_passed": 16,
+  "scoped_analyzer_errors": 0,
+  "scoped_analyzer_issues": 0,
+  "new_full_suite": false,
+  "python_helpers_parsed": 11,
+  "protected_scan": {
+    "changed_files_checked": 33,
+    "protected_credential_matches": 0,
+    "scope": "actual TEST service key and protected FR28/FR04/FINAL01 fixture passwords; separate bounded pattern/history scan"
+  },
+  "bounded_pattern_scan": {
+    "current_text_files": 786,
+    "historical_small_blobs": 1058,
+    "current_candidate_types": [
+      "firebase_client_config_key"
+    ],
+    "historical_candidate_count": 6,
+    "scope": "Reachable local/cached remote history only; UTF-8 blobs<=2MB; no credential use/rotation/history rewrite."
+  }
+}

@@ -1,5 +1,7 @@
 # Stage 0 audit progress
 
+> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+
 > Latest work: Stage1 was explicitly authorized on2026-10-22. Historical Stage0 statements/counts below are preserved; current Stage1 status is recorded in the dated addendum at the end.
 
 Date: 2026-10-21 (Asia/Karachi).
@@ -100,3 +102,13 @@ Stage0 remainsPARTIAL pending material rendered/evidence gaps and approvalsA/B; 
 ### Current superseding completion checkpoint
 
 A/B dispositions and C's zero-cost policy plus exact phased TEST integration are explicitly approved; no repeat approval needed. TEST prerequisites0003 applied once (41versions),11compatible Edge Functions ACTIVE.173current bounded hosted checks PASS; Flutter290PASS/2inherited skips; Deno175PASS;11entrypoints type-check; analyzer0errors/14warnings/46infos. Current-source isolated TEST APK built, source/package/hash verified. Device is absent again, so physical installation/security journeys remain NOT EXECUTED. Enforcement0004 reviewed/rolled back only; direct REST compatibility remains and global application limit/session enforcement is not accepted. Stage0/1 remainPARTIAL; Stage2 readinessNO. Detailed current findings, evidence, scope and remaining checks: FINAL01-security-verification.md and evidence/FINAL01-security-results.json. The unrelated298deletions were externally committed in a4df14a; no such deletions remain pending and no external commit was rewritten.
+
+## FINAL02 current checkpoint — 2026-10-23 (Asia/Karachi)
+
+Stage0 PARTIAL; Stage1 PARTIAL — SECURITY ACCEPTANCE PENDING; Stage2 readiness NO. This supersedes earlier pending-approval/device/activation labels while preserving their history. A/B/C approvals remain granted within their exact scopes.
+
+Canonical inventory:56files,410source templates,295noncontrol references,707historical crosswalk rows. Corrects the earlier406/297checkpoint for three interactive maps/PageView; passive map preview remains composition. Source-template counts are not runtime pass counts. See [canonical controls](FINAL02-ui-canonical.md) and [rendered-state evidence](FINAL02-rendered-states.md).
+
+TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
+
+See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.

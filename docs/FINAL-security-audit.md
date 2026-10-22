@@ -1,5 +1,7 @@
 # Stage 1 — Security and data foundation
 
+> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+
 Date:2026-10-22, Asia/Karachi. Branch `feature/final-1-security`, base `c0a8da1`.
 
 **STAGE 1 PARTIAL — SECURITY ACCEPTANCE PENDING.** The two historical HIGH findings have security remediations with passing automated tests. Whole-SRDS security acceptance is not established. No Stage2–5 implementation, production modification, Docker, hosted stress,1000-user test, credential rotation, push or merge.
@@ -846,3 +848,13 @@ Generated from the current worktree/index, excluding all preserved .kilo deletio
 - `tests/integration/FINAL-security-report.py`
 - `tests/integration/FINAL-security-run.ps1`
 - `tests/integration/FINAL-security.py`
+
+## FINAL02 current checkpoint — 2026-10-23 (Asia/Karachi)
+
+Stage0 PARTIAL; Stage1 PARTIAL — SECURITY ACCEPTANCE PENDING; Stage2 readiness NO. This supersedes earlier pending-approval/device/activation labels while preserving their history. A/B/C approvals remain granted within their exact scopes.
+
+Canonical inventory:56files,410source templates,295noncontrol references,707historical crosswalk rows. Corrects the earlier406/297checkpoint for three interactive maps/PageView; passive map preview remains composition. Source-template counts are not runtime pass counts. See [canonical controls](FINAL02-ui-canonical.md) and [rendered-state evidence](FINAL02-rendered-states.md).
+
+TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
+
+See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.

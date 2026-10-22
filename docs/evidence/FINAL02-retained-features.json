@@ -1,0 +1,128 @@
+[
+  {
+    "feature": "FR-21",
+    "report": "docs/FR-21-acceptance.md",
+    "sha256": "33b87abd42e3565efe8b9c11771e913ba2afb9725599ad2284ba4ba41a975a94",
+    "checkpoint": "1173736",
+    "ancestor": true,
+    "retained_disposition": "See exact bounded acceptance criteria in retained report",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-04",
+    "report": "docs/FR-04-acceptance.md",
+    "sha256": "2a24651a20e9119df66b61adefef6003af4f9dc1c187f604c8640285af8e2dfa",
+    "checkpoint": "fd478a4",
+    "ancestor": true,
+    "retained_disposition": "**FR-04 FUNCTIONALLY ACCEPTED \u2014 performance/scalability qualification outstanding.** All mandatory FR-04 functional/security workflows and the requested fresh email-confirmation flow have actual evidence. Full system scale is not certified. `E` below means ignored `.fr21-local/fr04/`; no private identity image or credential is committed.",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-25",
+    "report": "docs/FR-25-acceptance.md",
+    "sha256": "4ccfc64e1d4fa78da6c2ffc848c57183aa04d3c4857baad3a96efcbb5f4a6a45",
+    "checkpoint": "281c8a8",
+    "ancestor": true,
+    "retained_disposition": "**FR-25 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.** Mandatory functional/security criteria have actual hosted and physical Android evidence. Performance/scalability remains unqualified; no full performance acceptance, push or merge.",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-26",
+    "report": "docs/FR-26-acceptance.md",
+    "sha256": "b505c81118d931b368c0f4477e4b5a6891435419aafd54e3db78f1062dab86e0",
+    "checkpoint": "aabd6ca",
+    "ancestor": true,
+    "retained_disposition": "**FR-26 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.** Every mandatory functional/security criterion below passed. Implemented and deployed only to TEST `igeisilhtmglgnqvllrx`. No push or merge. Full performance/scalability qualification remains outstanding.",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-33",
+    "report": "docs/FR-33-acceptance.md",
+    "sha256": "92666227950be37db2c425d1961e954c3f33c8bcaf056daee22f7e1a2afeebd0",
+    "checkpoint": "ec1c63b",
+    "ancestor": true,
+    "retained_disposition": "**FR-33 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-28",
+    "report": "docs/FR-28-acceptance.md",
+    "sha256": "d1b784612aae1867cc5bb9747a54c0849f8c76c080a3ab13c19cad2e1315abb9",
+    "checkpoint": "7e809fd",
+    "ancestor": true,
+    "retained_disposition": "**FR-28 FUNCTIONALLY ACCEPTED - Ready for the next functional requirement.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-20",
+    "report": "docs/FR-20-acceptance.md",
+    "sha256": "96986569b25f87f10fb44e8e8db7e9b9c0bbb3d98fd77e0ccd77a269e8604f74",
+    "checkpoint": "fa29b4c",
+    "ancestor": true,
+    "retained_disposition": "**FR-20 FUNCTIONALLY ACCEPTED - Ready for the next functional requirement.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-30",
+    "report": "docs/FR-30-acceptance.md",
+    "sha256": "fb480e9bfe8bbbea6db4266f56c3115bc5ea1538ad7f5a7d05a1e5c0be39eb69",
+    "checkpoint": "fed835f",
+    "ancestor": true,
+    "retained_disposition": "**FR-30 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement (authorized Android TEST scope).**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-10",
+    "report": "docs/FR-10-acceptance.md",
+    "sha256": "1eb0cc96ada4625bad929819e9d4e0c74eb42b3e018258acce608e279ab823a5",
+    "checkpoint": "76960fa",
+    "ancestor": true,
+    "retained_disposition": "**FR-10 FUNCTIONALLY ACCEPTED on isolated TEST.** Security and refund-initiation checks passed. Optional 1,000-VU qualification NOT EXECUTED. No push or merge.",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-17",
+    "report": "docs/FR-17-acceptance.md",
+    "sha256": "888cbd2499b1ab778c6cecf23b0bcc1e82f829925d41daa931df6895ac67f651",
+    "checkpoint": "57914e2",
+    "ancestor": true,
+    "retained_disposition": "**FR-17 FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-32",
+    "report": "docs/FR-32-acceptance.md",
+    "sha256": "bada363b8ab9afe0550c26ddef979f1aba83de47b411c93c4f3a6a9416af3545",
+    "checkpoint": "569e8c6",
+    "ancestor": true,
+    "retained_disposition": "# FR-32 acceptance \u2014 FUNCTIONALLY ACCEPTED",
+    "new_full_regression": false
+  },
+  {
+    "feature": "CHECKLIST",
+    "report": "docs/CHECKLIST-acceptance.md",
+    "sha256": "7cd1bfb528e9cf4a51066ea3aa20d724151f5ca19a939b6d0be95d52e1d6c5b2",
+    "checkpoint": "7cf80fe",
+    "ancestor": true,
+    "retained_disposition": "**PRE-DELIVERY CHECKLIST FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-13",
+    "report": "docs/FR-13-acceptance.md",
+    "sha256": "4652bb87e96935a4c3ccefa18dc68144296480437f2582c0e1b57fa14c7e976d",
+    "checkpoint": "3408790",
+    "ancestor": true,
+    "retained_disposition": "- Functional: **PASS \u2014 FR-13 FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+    "new_full_regression": false
+  },
+  {
+    "feature": "FR-14",
+    "report": "docs/FR-14-acceptance.md",
+    "sha256": "8d522498671c67cc3e3c2427f5d486e974bb6308577bf79d650edf35a7a8fc7c",
+    "checkpoint": "f8bce53",
+    "ancestor": true,
+    "retained_disposition": "**FR-14 NOT YET FUNCTIONALLY ACCEPTED.** Nonzero physical road-route/progression/deviation remains NOT TESTED. Controlled network-only stale handling and automatic recovery passed on the fixed APK. Physical map-pin confirmation/persistence passed on follow-up. Automated accepted-FR regression reruns passed; latency qualification failed. No production modification, push or merge. Commits do not imply acceptance.",
+    "new_full_regression": false
+  }
+]
