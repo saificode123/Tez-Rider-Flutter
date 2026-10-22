@@ -124,8 +124,10 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             child: Row(children: [
               const Icon(Icons.check_circle_rounded, color: _kGreen, size: 20),
               const SizedBox(width: 10),
-              Text('No online payment method is configured.',
-                  style: TextStyle(color: _kGreen, fontSize: 13, fontWeight: FontWeight.w600)),
+              Expanded(
+                child: Text('No online payment method is configured.',
+                    style: TextStyle(color: _kGreen, fontSize: 13, fontWeight: FontWeight.w600)),
+              ),
             ]),
           ),
 

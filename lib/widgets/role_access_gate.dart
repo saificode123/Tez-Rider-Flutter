@@ -49,7 +49,11 @@ class _RoleAccessGateState extends State<RoleAccessGate>
   }
 
   void _reload() {
-    if (mounted) setState(() => _access = _check());
+    if (!mounted) return;
+    final access = _check();
+    setState(() {
+      _access = access;
+    });
   }
 
   @override

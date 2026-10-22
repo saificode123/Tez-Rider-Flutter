@@ -1,5 +1,7 @@
 # Stage 0 UI/control inventory
 
+> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+
 2026-10-21. Audit base `f8bce53`. **PARTIAL source audit; no physical every-button run.**
 
 Scope: all40 Dart screen files and15 widget files enumerated. The source-site ledger below lists317 explicit callback declarations matched across those55 files. A reusable declaration can render many controls; a helper invocation may have no named callback. Therefore317 is not a unique rendered-control count. Implicit TextField editing, default navigation, TabBar switching, generated star/category/menu instances and helper expansions are not fully enumerated. No claim every control is accepted or that every handler was followed through all branches.
@@ -502,3 +504,13 @@ Historical findings for fake reviews, analytics, instruments, rewards, instant r
 Additional discovered issues: About hardcodes5-minute average delivery/4.8rating/500+riders and an unverified Up-to-date/version claim; QRPickupScreen constructs an unsigned timestamp QR with no discovered verification flow/caller; unused RateOrderSheet writes reviews directly; duplicate CartScreen source should not be treated as two accepted screens. Missing platform launch destinations/privacy/terms ownership and FAQ promises remain unverified. MockData is unreferenced by current production source after Stage1 removals (data declaration only); image shimmer/error placeholders are legitimate loading/error UI, not fake backend records.
 
 Known literal empty chat attachment handler remains EMPTY-HANDLER. Coming-soon vendor earnings/reviews/settings, rider vehicle/bank/reviews/settings and Admin reports/platform settings remain incomplete controls. Actual mounted conditional rows/keyboard/OS picker/navigation interactions remain IMPLEMENTED-UNVERIFIED until observed. This static pass makes no fabricated visual-verification claim. Dispositions and newly discovered proposals are consolidated in ApprovalB in the roadmap.
+
+## FINAL02 current checkpoint — 2026-10-23 (Asia/Karachi)
+
+Stage0 PARTIAL; Stage1 PARTIAL — SECURITY ACCEPTANCE PENDING; Stage2 readiness NO. This supersedes earlier pending-approval/device/activation labels while preserving their history. A/B/C approvals remain granted within their exact scopes.
+
+Canonical inventory:56files,410source templates,295noncontrol references,707historical crosswalk rows. Corrects the earlier406/297checkpoint for three interactive maps/PageView; passive map preview remains composition. Source-template counts are not runtime pass counts. See [canonical controls](FINAL02-ui-canonical.md) and [rendered-state evidence](FINAL02-rendered-states.md).
+
+TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
+
+See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.

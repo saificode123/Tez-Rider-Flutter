@@ -1,5 +1,7 @@
 # Completion audit: source control reconciliation
 
+> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+
 2026-10-22. Source baseline553039d. This is a static inventory of templates and invocation sites, not a count of runtime instances or a claim of visual/interaction verification. Row-level source evidence is the listed path/line; the handler reference or argument preview states the observed source behavior. Conditional list/map instances inherit the runtime collection cardinality and authorization; empty/error/permission states need device coverage. Status stays IMPLEMENTED-UNVERIFIED unless a specific defect is established.
 
 The original317callback census remains historical. This broader pass also includes validation/integration callbacks, helper invocations, fields, forms, built-in tab switching and default back/menu behavior. These categories overlap and MUST NOT be added as unique rendered-control counts. onConflict database options are excluded. No audit count is a pass count.
@@ -784,3 +786,13 @@ Inspected56source files:40screens and16widgets. Recorded categories:{'callbacks'
 No external constructor caller at baseline: OrderPickedScreen, PaymentScreen, ProductScreen, QRPickupScreen, VendorPrescriptionReviewScreen, RateOrderSheet. cart_screen_new.dart duplicates the CartScreen class but current dashboard imports cart_screen.dart. Unused EmptyState/shimmer/OrderStatusCard variants remain source templates, not live controls. Do not delete them or call them accepted.
 
 Dynamic cases include catalogue/category/featured cards, product ratings/stars, order rows, notifications, admin queues, rider requests/checklist rows, review dialogs, FAQ expansion, language/role choices and platform image/map/phone/email launchers. Domain is current authorized collection; an unbounded cardinality cannot be reduced to a fixed control count. Explicit template/invocation coverage is static; physical every-role rendered coverage remains pending.
+
+## FINAL02 current checkpoint — 2026-10-23 (Asia/Karachi)
+
+Stage0 PARTIAL; Stage1 PARTIAL — SECURITY ACCEPTANCE PENDING; Stage2 readiness NO. This supersedes earlier pending-approval/device/activation labels while preserving their history. A/B/C approvals remain granted within their exact scopes.
+
+Canonical inventory:56files,410source templates,295noncontrol references,707historical crosswalk rows. Corrects the earlier406/297checkpoint for three interactive maps/PageView; passive map preview remains composition. Source-template counts are not runtime pass counts. See [canonical controls](FINAL02-ui-canonical.md) and [rendered-state evidence](FINAL02-rendered-states.md).
+
+TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
+
+See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.
