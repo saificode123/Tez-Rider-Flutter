@@ -1,4 +1,4 @@
-param([ValidateSet('onboarding','catalogue')][string]$Kind='onboarding',[string]$Action='status')
+param([ValidateSet('onboarding','catalogue','cart','native')][string]$Kind='onboarding',[string]$Action='status')
 $ErrorActionPreference='Stop'
 $repo=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location -LiteralPath $repo

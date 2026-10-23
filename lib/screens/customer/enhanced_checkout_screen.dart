@@ -441,6 +441,13 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
   }
 
   Future<void> _placeValidatedOrder() async {
+    if (!widget.cart.synchronizationReady) {
+      Get.snackbar(
+        'Cart synchronization required',
+        'Restore or retry your saved cart before placing an order.',
+      );
+      return;
+    }
     if (widget.cart.cartItems.isEmpty) {
       Get.snackbar('Error', 'Cart is empty');
       return;
@@ -633,12 +640,14 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
           ..._destination.provenance,
         },
       );
-      widget.cart.clear();
+      final cartCleared = await widget.cart.clear();
       if (mounted) {
         Get.back();
         Get.snackbar(
           'Order placed',
-          'Order placed! Awaiting vendor confirmation.',
+          cartCleared
+              ? 'Order placed! Awaiting vendor confirmation.'
+              : 'Order placed. Cart synchronization is pending; retry it before placing another order.',
         );
       }
     } catch (e) {
@@ -671,7 +680,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
             ],
           ),
         );
-        if (adjust == true) widget.cart.applyShortages(e.products);
+        if (adjust == true) await widget.cart.applyShortages(e.products);
         if (mounted) Get.back(); // Return to the existing cart for review.
         return;
       }

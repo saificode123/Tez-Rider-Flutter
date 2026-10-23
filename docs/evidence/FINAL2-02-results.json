@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-23",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "FR07 persistence subset and product deletion confirmation; reservation policy still pending",
+  "production_modified": false,
+  "cart-review-results": [
+    {
+      "check": "vendor cannot use customer cart APIs",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer saves canonical fractional price and quantity; caller cannot supply identity or price",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "separate cart read restores actual persisted rows",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "uncertain-result retry preserves request UUID, payload and revision exactly once",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "same UUID cannot be rebound to a different payload",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "stale concurrent device receives current cart instead of overwriting it",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "duplicate products, untrusted fields and invalid quantities rejected before replacement",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "insufficient stock leaves prior saved cart and revision unchanged",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct cart mutation denied; revision protocol cannot be bypassed",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated customer cannot observe another saved cart",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "explicit clear removes only the current customer cart and is restorable",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous cart APIs denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "cart-post-results": [
+    {
+      "check": "vendor cannot use customer cart APIs",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer saves canonical fractional price and quantity; caller cannot supply identity or price",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "separate cart read restores actual persisted rows",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "uncertain-result retry preserves request UUID, payload and revision exactly once",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "same UUID cannot be rebound to a different payload",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "stale concurrent device receives current cart instead of overwriting it",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "duplicate products, untrusted fields and invalid quantities rejected before replacement",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "insufficient stock leaves prior saved cart and revision unchanged",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct cart mutation denied; revision protocol cannot be bypassed",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated customer cannot observe another saved cart",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "explicit clear removes only the current customer cart and is restorable",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous cart APIs denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "cart-hosted-results": [
+    {
+      "check": "two concurrent real requests apply a cart replacement once",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "separate HTTP read confirms actual quantity and fractional canonical price",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "fresh Auth login restores the same account cart",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "distinct real customer cannot observe the saved cart",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "stale device cannot overwrite actual saved state",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "same request UUID with altered payload denied over real HTTP",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "insufficient stock cannot partly replace persisted cart",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "vendor cannot enter customer cart APIs",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "Admin cannot enter customer cart APIs",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous direct cart read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "direct client write cannot bypass validated revision protocol",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "synthetic saved cart cleared and fixture stock retired through real owner APIs; history preserved",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "cart-deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610230006",
+    "versions": 48,
+    "review_passes": 12,
+    "production_modified": false,
+    "replayed": false
+  },
+  "flutter": {
+    "cart_cohort_pass": 79,
+    "cart_cohort_fail": 0,
+    "cart_final_unit_pass": 30,
+    "cart_final_unit_fail": 0,
+    "overlap": "Final30 are the same seven persistence and23inventory tests already included in79; do not add counts.",
+    "initial_failures": "Two widget failures from one new snackbar cleanup leaving an active test ticker; cleanup corrected and affected79-test cohort passed. No test assertions removed."
+  },
+  "analyzer": {
+    "errors": 0,
+    "warnings": 14,
+    "infos": 34,
+    "log_sha256": "0c8744dfc9974b6675f689e100b13b729dbc2f7969b9701f029f2af6f18635d5",
+    "baseline": "0errors/14warnings/43infos before Stage2; no newly introduced diagnostics remain."
+  },
+  "android": {
+    "build": "PASS",
+    "installation": "PASS",
+    "journeys": "PENDING",
+    "package": "com.example.flutter_application_1.fr21test",
+    "sources_and_apk": "Hashes recorded in ignored build-evidence.json; no APK committed."
+  }
+}

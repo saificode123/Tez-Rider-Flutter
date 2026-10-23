@@ -5,6 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_controller.dart';
+import 'cart_controller.dart';
 import '../services/account_session_service.dart';
 import '../services/android_broadcast_push_service.dart';
 import '../services/session_credentials.dart';
@@ -141,6 +142,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout({bool navigate = true}) async {
+    if (Get.isRegistered<CartController>()) {
+      Get.find<CartController>().forgetSession();
+    }
     final invalidation = credentials.invalidate();
     Future<void> attempt(Future<void> Function() action) async {
       try {

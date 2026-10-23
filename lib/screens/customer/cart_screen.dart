@@ -87,10 +87,21 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _showCheckoutSheet() {
+    if (!cart.synchronizationReady) {
+      Get.snackbar(
+        'Cart synchronization required',
+        'Restore or retry your saved cart before checkout.',
+      );
+      return;
+    }
     if (_isGift) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Gift delivery is not configured. No gift order was submitted.'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Gift delivery is not configured. No gift order was submitted.',
+          ),
+        ),
+      );
       return;
     }
     Get.to(
@@ -119,6 +130,12 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
       ),
       body: Obx(() {
+        if (cart.syncing.value && cart.cartItems.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (cart.lastError.value.isNotEmpty && cart.cartItems.isEmpty) {
+          return Center(child: _syncNotice());
+        }
         if (cart.cartItems.isEmpty) {
           return Center(
             child: Column(
@@ -144,6 +161,8 @@ class _CartScreenState extends State<CartScreen> {
 
         return Column(
           children: [
+            if (cart.syncing.value) const LinearProgressIndicator(),
+            if (cart.lastError.value.isNotEmpty) _syncNotice(),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -378,20 +397,23 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Material(color: Colors.transparent, child: SwitchListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      'send_as_gift'.tr,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                  Material(
+                    color: Colors.transparent,
+                    child: SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        'send_as_gift'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: const Text(
+                        'Perfect for overseas users surprising loved ones.',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      value: _isGift,
+                      activeThumbColor: _purple,
+                      onChanged: (val) => setState(() => _isGift = val),
                     ),
-                    subtitle: const Text(
-                      'Perfect for overseas users surprising loved ones.',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    value: _isGift,
-                    activeThumbColor: _purple,
-                    onChanged: (val) => setState(() => _isGift = val),
-                  )),
+                  ),
 
                   if (_isGift) ...[
                     const SizedBox(height: 12),
@@ -475,6 +497,28 @@ class _CartScreenState extends State<CartScreen> {
       }),
     );
   }
+
+  Widget _syncNotice() => Padding(
+    padding: const EdgeInsets.all(12),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(cart.lastError.value),
+        TextButton(
+          onPressed: cart.syncing.value
+              ? null
+              : () async {
+                  if (cart.synchronizationReady) {
+                    await cart.refreshAvailability();
+                  } else {
+                    await cart.retrySync();
+                  }
+                },
+          child: const Text('Retry cart synchronization'),
+        ),
+      ],
+    ),
+  );
 
   @override
   void dispose() {
