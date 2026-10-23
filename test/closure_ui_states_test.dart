@@ -618,6 +618,104 @@ void main() {
   );
 
   testWidgets(
+    'product deletion: Cancel never writes; zero affected rows never claim success',
+    (tester) async {
+      var deletes = 0;
+      transport.respond = (request) async {
+        if (request.url.path.endsWith('/users')) {
+          return UiTransport.jsonResponse([
+            {'id': 10},
+          ]);
+        }
+        if (request.method == 'DELETE') {
+          deletes++;
+          return UiTransport.jsonResponse([]);
+        }
+        return UiTransport.jsonResponse([
+          {
+            'id': 1,
+            'vendor_id': 10,
+            'name': 'Owned product',
+            'price': 25,
+            'category': 'Food',
+            'is_available': true,
+          },
+        ]);
+      };
+      await show(tester, const VendorProductsScreen());
+      await settle(tester);
+      await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+      await settle(tester);
+      await tester.tap(find.text('Cancel'));
+      await settle(tester);
+      expect(deletes, 0);
+      await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+      await settle(tester);
+      await tester.tap(find.text('Delete'));
+      await settle(tester);
+      expect(deletes, 1);
+      expect(find.text('Deletion not confirmed'), findsOneWidget);
+      expect(find.text('Deleted'), findsNothing);
+      expect(find.text('Owned product'), findsOneWidget);
+      Get.closeAllSnackbars();
+      await tester.pump();
+      await tester.pumpAndSettle();
+    },
+  );
+
+  testWidgets(
+    'product deletion: pending mutation disables repeats; confirmed row removes actual item',
+    (tester) async {
+      final deletion = Completer<http.Response>();
+      var deletes = 0;
+      transport.respond = (request) async {
+        if (request.url.path.endsWith('/users')) {
+          return UiTransport.jsonResponse([
+            {'id': 10},
+          ]);
+        }
+        if (request.method == 'DELETE') {
+          deletes++;
+          return deletion.future;
+        }
+        return UiTransport.jsonResponse([
+          {
+            'id': 1,
+            'vendor_id': 10,
+            'name': 'Owned product',
+            'price': 25,
+            'category': 'Food',
+            'is_available': true,
+          },
+        ]);
+      };
+      await show(tester, const VendorProductsScreen());
+      await settle(tester);
+      await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+      await settle(tester);
+      await tester.tap(find.text('Delete'));
+      await settle(tester);
+      expect(deletes, 1);
+      final button = tester.widget<IconButton>(
+        find.widgetWithIcon(IconButton, Icons.delete_outline_rounded),
+      );
+      expect(button.onPressed, isNull);
+      expect(find.text('Deleted'), findsNothing);
+      deletion.complete(
+        UiTransport.jsonResponse([
+          {'id': 1},
+        ]),
+      );
+      await settle(tester);
+      expect(find.text('Owned product'), findsNothing);
+      expect(find.text('Deleted'), findsOneWidget);
+      Get.closeAllSnackbars();
+      await tester.pump();
+      await tester.pumpAndSettle();
+    },
+  );
+
+  testWidgets(
     'profile failure renders Retry rather than private/default account data',
     (tester) async {
       transport.respond = (_) async => UiTransport.jsonResponse({

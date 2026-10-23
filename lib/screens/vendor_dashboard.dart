@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/vendor_controller.dart';
 import '../theme/app_theme.dart';
+import '../widgets/vendor_order_rejection.dart';
 import 'vendor/vendor_products_screen.dart';
 import 'vendor/vendor_analytics_screen.dart';
 import 'splash_screen.dart';
@@ -828,9 +829,12 @@ class _VendorDashboardState extends State<VendorDashboard> {
                             false,
                             busy
                                 ? null
-                                : () => vendorCtrl.updateOrderStatus(
-                                    o['id'],
-                                    'cancelled',
+                                : () => confirmVendorOrderRejection(
+                                    context,
+                                    () => vendorCtrl.updateOrderStatus(
+                                      o['id'],
+                                      'cancelled',
+                                    ),
                                   ),
                           ),
                         ),

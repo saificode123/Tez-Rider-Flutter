@@ -24,6 +24,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
   bool _hasMore = false;
   bool _loadingMore = false;
   String? _loadError;
+  final Set<int> _deleting = {};
 
   @override
   void initState() {
@@ -122,19 +123,23 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
     }
   }
 
-  // 👇 ISI JAGAH DELETE FUNCTION
   Future<void> _delete(Map<String, dynamic> p) async {
+    final id = (p['id'] as num).toInt();
+    if (!_deleting.add(id)) return;
+    setState(() {});
     try {
-      print("🗑️ DELETE START");
-      print("Product ID = ${p['id']}");
-      print("Vendor ID = ${p['vendor_id']}");
-
-      await _supabase.from('products').delete().eq('id', p['id']);
-
-      print("✅ DELETE SUCCESS");
-
-      await _loadProducts();
-
+      final removed = await _supabase
+          .from('products')
+          .delete()
+          .eq('id', id)
+          .eq('vendor_id', _vendorId!)
+          .select('id')
+          .timeout(const Duration(seconds: 12));
+      if (removed.length != 1 || removed.single['id'] != id) {
+        throw StateError('Deletion was not confirmed. Refresh your inventory.');
+      }
+      if (!mounted) return;
+      setState(() => _products.removeWhere((row) => row['id'] == id));
       Get.snackbar(
         'Deleted',
         '"${p['name']}" removed.',
@@ -142,8 +147,16 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-    } catch (e) {
-      print("❌ DELETE ERROR = $e");
+    } catch (_) {
+      if (mounted) {
+        Get.snackbar(
+          'Deletion not confirmed',
+          'The product may be referenced by an order or access may have changed. Refresh and retry.',
+        );
+      }
+    } finally {
+      _deleting.remove(id);
+      if (mounted) setState(() {});
     }
   }
 
@@ -387,38 +400,42 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                       size: 18,
                       color: Colors.redAccent,
                     ),
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        title: const Text(
-                          'Delete?',
-                          style: TextStyle(fontWeight: FontWeight.w800),
-                        ),
-                        content: Text('Remove "${p['name']}" permanently?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              _delete(p);
-                            },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.w700,
+                    onPressed: _deleting.contains((p['id'] as num).toInt())
+                        ? null
+                        : () => showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
+                              title: const Text(
+                                'Delete?',
+                                style: TextStyle(fontWeight: FontWeight.w800),
+                              ),
+                              content: Text(
+                                'Remove "${p['name']}" permanently?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    _delete(p);
+                                  },
+                                  child: const Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
