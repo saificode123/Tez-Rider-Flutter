@@ -404,7 +404,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       ),
       child: Scaffold(
         backgroundColor: _kBg,
-        drawer: const AppDrawer(),
+        drawer: const AppDrawer(role: 'customer'),
         extendBody: true,
         body: IndexedStack(
           index: _tab,

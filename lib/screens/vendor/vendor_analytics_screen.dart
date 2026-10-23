@@ -163,8 +163,8 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsScreen> {
                     const SizedBox(height: 12),
                     _card(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                        const Text('Orders delivered successfully',
-                            style: TextStyle(color: _kTextSub, fontSize: 13)),
+                        const Expanded(child: Text('Orders delivered successfully',
+                            style: TextStyle(color: _kTextSub, fontSize: 13))),
                         Text('${(_deliveredCount / _totalOrders * 100).toStringAsFixed(0)}%',
                             style: const TextStyle(color: _kGreen, fontWeight: FontWeight.w900, fontSize: 15)),
                       ]),

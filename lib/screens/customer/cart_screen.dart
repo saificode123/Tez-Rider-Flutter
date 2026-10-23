@@ -87,6 +87,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _showCheckoutSheet() {
+    if (_isGift) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Gift delivery is not configured. No gift order was submitted.'),
+      ));
+      return;
+    }
     Get.to(
       () => EnhancedCheckoutScreen(
         cart: cart,
@@ -372,7 +378,7 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SwitchListTile(
+                  Material(color: Colors.transparent, child: SwitchListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
                       'send_as_gift'.tr,
@@ -385,7 +391,7 @@ class _CartScreenState extends State<CartScreen> {
                     value: _isGift,
                     activeThumbColor: _purple,
                     onChanged: (val) => setState(() => _isGift = val),
-                  ),
+                  )),
 
                   if (_isGift) ...[
                     const SizedBox(height: 12),

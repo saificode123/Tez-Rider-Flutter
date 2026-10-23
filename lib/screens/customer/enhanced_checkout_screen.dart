@@ -1048,7 +1048,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Delivery Charges"),
+                          const Expanded(child: Text("Delivery Charges")),
                           Text("PKR ${_baseDeliveryFee.toStringAsFixed(0)}"),
                         ],
                       ),
@@ -1060,7 +1060,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text("Express Delivery"),
+                            const Expanded(child: Text("Express Delivery")),
                             Text("PKR ${_speedFee.toStringAsFixed(0)}"),
                           ],
                         ),

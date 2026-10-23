@@ -21,6 +21,8 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
   final _supabase = Supabase.instance.client;
   List<Map<String, dynamic>> _addresses = [];
   bool _loading = true;
+  String? _loadError;
+  bool _savingAddress = false;
 
   @override
   void initState() {
@@ -29,19 +31,21 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
   }
 
   Future<void> _loadAddresses() async {
-    setState(() => _loading = true);
+    setState(() { _loading = true; _loadError = null; });
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
       final userRecord = await _supabase.from('users').select('id').eq('email', user.email!).maybeSingle();
-      if (userRecord == null) return;
+      if (userRecord == null) throw StateError('Account unavailable');
       final data = await _supabase
           .from('addresses')
           .select()
           .eq('user_id', userRecord['id'])
           .order('created_at', ascending: false) as List;
-      setState(() => _addresses = data.cast<Map<String, dynamic>>());
-    } catch (_) {}
+      if (mounted) setState(() => _addresses = data.cast<Map<String, dynamic>>());
+    } catch (_) {
+      if (mounted) setState(() => _loadError = 'Saved addresses could not be loaded. Retry.');
+    }
     finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -49,7 +53,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
 
   Future<void> _deleteAddress(String id) async {
     try {
-      await _supabase.from('addresses').delete().eq('id', id);
+      await _supabase.from('addresses').delete().eq('id', id).select('id').single();
       _loadAddresses();
       Get.snackbar('Deleted', 'Address removed.',
           backgroundColor: _kPurple,
@@ -116,26 +120,33 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
+                    if (_savingAddress) return;
                     if (!formKey.currentState!.validate()) return;
-                    Navigator.pop(context);
+                    _savingAddress = true;
                     try {
                       final user = _supabase.auth.currentUser!;
                       final userRecord = await _supabase.from('users').select('id').eq('email', user.email!).maybeSingle();
-                      if (userRecord == null) return;
+                      if (userRecord == null) throw StateError('Account unavailable');
                       if (existing == null) {
                         await _supabase.from('addresses').insert({
                           'user_id': userRecord['id'],
                           'label':   labelCtrl.text.trim(),
                           'address': addressCtrl.text.trim(),
-                        });
+                        }).select('id').single();
                       } else {
                         await _supabase.from('addresses').update({
                           'label':   labelCtrl.text.trim(),
                           'address': addressCtrl.text.trim(),
-                        }).eq('id', existing['id']);
+                        }).eq('id', existing['id']).select('id').single();
                       }
-                      _loadAddresses();
-                    } catch (_) {}
+                      if (mounted) { Navigator.pop(context); await _loadAddresses(); }
+                    } catch (_) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Address changes were not confirmed. Please retry.')),
+                        );
+                      }
+                    } finally { _savingAddress = false; }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _kPurple,
@@ -199,6 +210,10 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2))
+          : _loadError != null
+              ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Text(_loadError!), TextButton(onPressed: _loadAddresses, child: const Text('Retry addresses')),
+                ]))
           : _addresses.isEmpty
               ? _buildEmpty()
               : ListView.builder(

@@ -42,7 +42,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
     },
     {
       'q': 'What payment methods are accepted?',
-      'a': 'We accept Cash on Delivery, EasyPaisa, JazzCash, and major credit/debit cards (Visa, Mastercard).',
+      'a': 'Only Cash on Delivery is currently available. Online payments are not configured.',
       'icon': '💳',
     },
     {
@@ -174,7 +174,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [BoxShadow(color: _kPurple.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, 3))],
       ),
-      child: ExpansionTile(
+      child: Material(color: Colors.transparent, child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         leading: Text(faq['icon'] as String, style: const TextStyle(fontSize: 22)),
@@ -186,7 +186,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
           Text(faq['a'] as String,
               style: TextStyle(color: _kTextSub, fontSize: 13, height: 1.5)),
         ],
-      ),
+      )),
     );
   }
 

@@ -14,7 +14,9 @@ const _kGreen = Color(0xFF1B5E20);
 const _kGreenL = Color(0xFF388E3C);
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  const AppDrawer({super.key, required this.role});
+  // Supplied by the canonically guarded dashboard, never editable metadata.
+  final String role;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,6 @@ class AppDrawer extends StatelessWidget {
     final name = user?.userMetadata?['name'] as String? ?? 'User';
     final email = user?.email ?? 'No email';
     final initial = name.isNotEmpty ? name[0].toUpperCase() : 'U';
-    final role = user?.userMetadata?['role'] as String? ?? 'customer';
 
     return Drawer(
       backgroundColor: Colors.white,

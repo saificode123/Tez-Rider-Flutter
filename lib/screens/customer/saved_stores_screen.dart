@@ -26,6 +26,7 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   final _supabase = Supabase.instance.client;
   List<Map<String, dynamic>> _favourites = [];
   bool _loading = true;
+  String? _loadError;
   int? _userId;
 
   @override
@@ -35,16 +36,16 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    setState(() { _loading = true; _loadError = null; });
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
       final rec = await _supabase
           .from('users')
           .select('id')
           .eq('email', user.email!)
           .maybeSingle();
-      if (rec == null) return;
+      if (rec == null) throw StateError('Account unavailable');
       _userId = rec['id'];
 
       final data =
@@ -56,15 +57,17 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                   .eq('user_id', _userId!)
                   .order('created_at', ascending: false)
               as List;
-      setState(() => _favourites = data.cast<Map<String, dynamic>>());
+      if (mounted) setState(() => _favourites = data.cast<Map<String, dynamic>>());
     } catch (_) {
+      if (mounted) setState(() => _loadError = 'Favourites could not be loaded. Retry.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _remove(dynamic favId, String name) async {
-    await _supabase.from('favourite').delete().eq('id', favId);
+    try {
+    await _supabase.from('favourite').delete().eq('id', favId).select('id').single();
     _load();
     Get.snackbar(
       'Removed',
@@ -75,6 +78,9 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
       borderRadius: 14,
     );
+    } catch (_) {
+      Get.snackbar('Not removed', 'Removal was not confirmed. Please retry.');
+    }
   }
 
   @override
@@ -112,6 +118,10 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
           ? const Center(
               child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2),
             )
+          : _loadError != null
+          ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(_loadError!), TextButton(onPressed: _load, child: const Text('Retry favourites')),
+            ]))
           : _favourites.isEmpty
           ? _buildEmpty()
           : RefreshIndicator(

@@ -17,7 +17,6 @@ class _TailoringScreenState extends State<TailoringScreen> {
   final _shoulderCtrl = TextEditingController();
   final _chestCtrl = TextEditingController();
 
-  bool _imageSelected = false;
 
   static const _purple = Color(0xFF1B5E20);
 
@@ -107,10 +106,9 @@ class _TailoringScreenState extends State<TailoringScreen> {
                   const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () {
-                      setState(() { _imageSelected = !_imageSelected; });
-                      if (_imageSelected) {
-                        Get.snackbar('Image Attached', 'Reference image added successfully!', backgroundColor: Colors.green, colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Reference-image upload is not configured. No image was attached.'),
+                      ));
                     },
                     child: Container(
                       width: double.infinity,
@@ -119,12 +117,7 @@ class _TailoringScreenState extends State<TailoringScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: _imageSelected 
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.network('https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=400', fit: BoxFit.cover),
-                          )
-                        : Column(
+                      child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Icon(Icons.add_photo_alternate_rounded, size: 40, color: Colors.grey),

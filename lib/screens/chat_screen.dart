@@ -208,7 +208,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       Icons.attach_file_rounded,
                       color: Colors.grey,
                     ),
-                    onPressed: () {},
+                    onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Secure attachments are not configured. No file was attached.')),
+                    ),
                   ),
                   Expanded(
                     child: TextField(
