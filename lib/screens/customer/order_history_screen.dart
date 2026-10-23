@@ -254,46 +254,55 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: col.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Text(
-                  sd['icon'] as String,
-                  style: const TextStyle(fontSize: 22),
-                ),
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Order #$id',
-                    style: const TextStyle(
-                      color: _kText,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 15,
+            Row(
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: col.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Text(
+                      sd['icon'] as String,
+                      style: const TextStyle(fontSize: 22),
                     ),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    'PKR $amount  •  $dateStr',
-                    style: TextStyle(color: _kTextSub, fontSize: 12),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Order #$id',
+                        style: const TextStyle(
+                          color: _kText,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        'PKR $amount  •  $dateStr',
+                        style: TextStyle(color: _kTextSub, fontSize: 12),
+                      ),
+                      OrderTimeoutSummary(order: order),
+                    ],
                   ),
-                  OrderTimeoutSummary(order: order),
-                ],
-              ),
+                ),
+              ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            const SizedBox(height: 8),
+            Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 6,
+              runSpacing: 4,
               children: [
                 InvoiceButton(orderId: order['id'] as int),
                 TextButton(
@@ -335,7 +344,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     child: const Text('Dispute'),
                   ),
                 if (status == 'delivered') ...[
-                  const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () => Get.dialog(
                       RatingScreen(

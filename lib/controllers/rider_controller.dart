@@ -41,9 +41,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   final requestsLoading = false.obs;
   final requestsError = RxnString();
 
-  RxString todayEarnings = 'PKR 0'.obs;
-  RxString weeklyEarnings = 'PKR 0'.obs;
-  RxString monthlyEarnings = 'PKR 0'.obs;
+  RxString todayEarnings = '—'.obs;
+  RxString weeklyEarnings = '—'.obs;
+  RxString monthlyEarnings = '—'.obs;
   RxInt tripsToday = 0.obs;
   RxInt totalDeliveries = 0.obs;
 
@@ -149,19 +149,26 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> loadEarnings() async {
+    final identity = _supabase.auth.currentUser?.id;
+    if (identity == null) throw StateError('Sign in required');
     final response = await _supabase
         .rpc('fr21_dashboard_stats')
         .timeout(const Duration(seconds: 8));
-    if (isClosed) return;
+    if (isClosed || identity != _supabase.auth.currentUser?.id) return;
     final stats = Map<String, dynamic>.from(response as Map);
-    todayEarnings.value =
-        'PKR ${((stats['today'] as num?) ?? 0).toStringAsFixed(0)}';
-    weeklyEarnings.value =
-        'PKR ${((stats['week'] as num?) ?? 0).toStringAsFixed(0)}';
-    monthlyEarnings.value =
-        'PKR ${((stats['month'] as num?) ?? 0).toStringAsFixed(0)}';
-    tripsToday.value = (stats['trips_today'] as num?)?.toInt() ?? 0;
-    totalDeliveries.value = (stats['total_deliveries'] as num?)?.toInt() ?? 0;
+    if (stats['trips_today'] is! int ||
+        stats['trips_today'] < 0 ||
+        stats['total_deliveries'] is! int ||
+        stats['total_deliveries'] < 0) {
+      throw const FormatException('Delivery counts were not confirmed.');
+    }
+    // Order totals are not earned Rider fees. No compensation rule is approved.
+    // Keep these unknown until a trusted earned-fee ledger is configured.
+    todayEarnings.value = '—';
+    weeklyEarnings.value = '—';
+    monthlyEarnings.value = '—';
+    tripsToday.value = stats['trips_today'];
+    totalDeliveries.value = stats['total_deliveries'];
   }
 
   Future<void> _listenToDashboard() async {

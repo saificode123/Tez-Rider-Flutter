@@ -87,13 +87,13 @@ class VendorReport {
 }
 
 class VendorReportService {
-  VendorReportService({VendorReportReader? reader})
+  VendorReportService({VendorReportReader? reader, int pageSize = 20})
     : _reader =
           reader ??
           ((after) => Supabase.instance.client
               .rpc(
                 'final2_vendor_report',
-                params: {'p_after': after, 'p_limit': 20},
+                params: {'p_after': after, 'p_limit': pageSize},
               )
               .timeout(const Duration(seconds: 15)));
   final VendorReportReader _reader;

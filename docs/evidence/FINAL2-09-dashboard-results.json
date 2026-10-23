@@ -1,0 +1,621 @@
+{
+  "date": "2026-10-24",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "refreshed Vendor dashboard/profile entry, truthful unapproved Rider fees, narrow Customer history cards",
+  "flutter": {
+    "affected_pass": 30,
+    "fail": 0,
+    "files": [
+      "test/vendor_dashboard_stats_test.dart",
+      "test/vendor_report_test.dart",
+      "test/closure_remaining_states_test.dart",
+      "test/session_storage_fault_test.dart"
+    ],
+    "additional_layout_pass": 1,
+    "additional_layout_file": "test/order_history_layout_test.dart",
+    "overlap": "includes retained cases; do not add prior overlapping runs"
+  },
+  "analysis": {
+    "items": 7,
+    "errors": 0,
+    "new_warnings": 0,
+    "inherited_warnings": 1,
+    "infos": 0,
+    "inherited_warning": "unused _miniOrderCard in vendor_dashboard.dart"
+  },
+  "native_observations": [
+    {
+      "check": "current-source TEST APK installed with package and source-hash checks",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:24:31.686291+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Store Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:27:10.997054+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "refreshed physical Vendor dashboard uses exact canonical delivered-sales cents instead of rounded older earnings totals",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:27:54.672853+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Analytics",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:28:09.703140+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Vendor profile Payment & Earnings opens the actual authorized report with exact server totals",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:28:17.817819+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Rider Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:30:46.322488+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Fee policy pending approval",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:30:56.903375+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "refreshed physical Rider summary labels earned fees as unknown/policy-pending and does not present delivered order totals as wages; FR22 acceptance remains pending",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T21:31:03.166820+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "observation_count": 8,
+  "counts_are_observations_not_unique_tests": true,
+  "build": {
+    "apk_sha256": "2A7E5BEDBB8F3B50EA373D0C8912D4C990940491C8320CB76CBABFCD1951F355",
+    "package": "com.example.flutter_application_1.fr21test",
+    "sources": [
+      {
+        "sha256": "22ADBF532FEB4615649272F1BF23B78E7180B75266D559AB5222E41D287E71F4",
+        "path": "lib/controllers/admin_broadcast_controller.dart"
+      },
+      {
+        "sha256": "810CC18113220BFF21A257030274A6A8F2FF2A105FB66C5BEFAAD324F54A90EC",
+        "path": "lib/controllers/admin_controller.dart"
+      },
+      {
+        "sha256": "56232652271BEA740303E238B8E91F7AD9E73042022C0027A935F005DAA5199C",
+        "path": "lib/controllers/admin_dispute_state.dart"
+      },
+      {
+        "sha256": "2C8ADA241C1765EAC21C217D9431F4050D5205AE7D39442FBAE41BCC06166603",
+        "path": "lib/controllers/auth_controller.dart"
+      },
+      {
+        "sha256": "4365101B242B6651916FBA57F27C2D3CF93A07DD231417B928B040241EEA50B3",
+        "path": "lib/controllers/cart_controller.dart"
+      },
+      {
+        "sha256": "4A2BEE51EBD039490458A5FF274EFA3D5B1A07C803A9CD92C4BC151302DC1BA0",
+        "path": "lib/controllers/chat_controller.dart"
+      },
+      {
+        "sha256": "2351345AE6E5BE93669114B3ECA9720DFFE2C72F690C62BC7F658985842CC6A2",
+        "path": "lib/controllers/cnic_document_controller.dart"
+      },
+      {
+        "sha256": "245F2AF87F1448B83D88E51DCE19E0B7ABD2F0B77DD83CDE28FE414785719183",
+        "path": "lib/controllers/dispute_controller.dart"
+      },
+      {
+        "sha256": "644E1EF53749F53802400C4EFC3C5FE3130B35A07F88F32CB63BA936A4996564",
+        "path": "lib/controllers/language_controller.dart"
+      },
+      {
+        "sha256": "5689165C70B961C6882A044B99D6F8FC85BD464AEA1073C9D92FF7B72853AF19",
+        "path": "lib/controllers/notification_controller.dart"
+      },
+      {
+        "sha256": "936DEA140FEA46933B4BE4F29E96C26AAEF632F3576942B3A56C9F941B4256D1",
+        "path": "lib/controllers/prescription_controller.dart"
+      },
+      {
+        "sha256": "07C4C958AB4C8790D53EF3CD7E056ECA01DD4A8953FEC6007C80694A7A50826C",
+        "path": "lib/controllers/product_controller.dart"
+      },
+      {
+        "sha256": "912CFBDA0FB6BB60912FBEEE963AFAF644647B6598E7AFD2BADD9890ABFD26F8",
+        "path": "lib/controllers/recommendation_controller.dart"
+      },
+      {
+        "sha256": "D2744AD6A257391E105F4F97954ACAE5F271A3044F3F431E97EEF9B159212D61",
+        "path": "lib/controllers/rider_assignment_controller.dart"
+      },
+      {
+        "sha256": "7E0A02E29EA68BB60DC5B6FE880DAE486447D7B034317AFDB053C0F9C5190756",
+        "path": "lib/controllers/rider_controller.dart"
+      },
+      {
+        "sha256": "910EFF197405BD68AA92AF6D3DF2E95DD32C064C2AF58F489B44DA34C17384C8",
+        "path": "lib/controllers/tailoring_controller.dart"
+      },
+      {
+        "sha256": "A5647DD1710DABC9A9C52A16CCC8CDBEAE75255C81FDB565FC8977ADBA3C8A8B",
+        "path": "lib/controllers/tez_order_controller.dart"
+      },
+      {
+        "sha256": "1E5A76DEDBC17740A7055A87B6A24CF75D77A5E13714559E375C445D0FDA4F0F",
+        "path": "lib/controllers/vendor_controller.dart"
+      },
+      {
+        "sha256": "63DD5BDBAD396C4AA2AEB2945AB63F260BADA3FDE5C868F04ADB9DF683B44495",
+        "path": "lib/controllers/vendor_info_controller.dart"
+      },
+      {
+        "sha256": "F7144F81F4898FF37DDBE31C81AFDF8E9B483C8A2CDE092DB69B27C8B5A86CCB",
+        "path": "lib/core/app_translations.dart"
+      },
+      {
+        "sha256": "AF67ED140A70E5F3EBF4358D5F9CEF951314524EDDA1209B518A546181471D77",
+        "path": "lib/data/mock_data.dart"
+      },
+      {
+        "sha256": "72F92F12861C3843781AE0452808EAD62BE91A46420C29DF43DF8685B5050A2D",
+        "path": "lib/main.dart"
+      },
+      {
+        "sha256": "E1EF5A1DA2038399F220B9F321E2385DE3F7DCAB145EBBE199E8CC61CDB51FD7",
+        "path": "lib/middleware/admin_middleware.dart"
+      },
+      {
+        "sha256": "3E556A492F35A3E0F0026999414A6D0A6BAC35A7883D00138C06F24D7E3842D6",
+        "path": "lib/middleware/auth_middleware.dart"
+      },
+      {
+        "sha256": "89607211ADB8A19CAB6B55F2D0B83222FCA7B4D1CDCB0013E447DFA3C837C53C",
+        "path": "lib/models/chat_model.dart"
+      },
+      {
+        "sha256": "C187C16A2B106FB0FD557D18B64BF6F1ECAB5B2929CE7DF5CFD7B96DB68DE594",
+        "path": "lib/models/order_model.dart"
+      },
+      {
+        "sha256": "FD0342BC425AFF60E49CA2CB190C04C2C3F4A3A561763FD1CDE8824D981E9137",
+        "path": "lib/models/prescription_model.dart"
+      },
+      {
+        "sha256": "1DDCE8C7CC450C0C7A4300E0A7BE127714C5EFB290A59AF219AA6C8C5BAE3D9A",
+        "path": "lib/models/product_model.dart"
+      },
+      {
+        "sha256": "1145EFF3054A5AF625F8A48544A91AB4AC1CA3235731E355CAFA1350B7CBAAC5",
+        "path": "lib/models/recommendation_model.dart"
+      },
+      {
+        "sha256": "C0E8FDA9EB91136D13B8E1EAEE359AA1FF0BB2F115971B19AA2DC3BD90D02169",
+        "path": "lib/models/review_model.dart"
+      },
+      {
+        "sha256": "744427010F4A11768B9A1287FC72FEACA4238BBD109FB7E3ECF6518AAACAD30C",
+        "path": "lib/models/user_model.dart"
+      },
+      {
+        "sha256": "8BC51387237B56BDCC15B701496655BD394DEF15AB8218ECF9AFB4CD6F523327",
+        "path": "lib/routes/app_routes.dart"
+      },
+      {
+        "sha256": "553F3A25CA45CDDEB36399ED50136899BA3F0262EDBFA241EC6B9374A4601C9F",
+        "path": "lib/screens/admin_broadcasts_screen.dart"
+      },
+      {
+        "sha256": "3543E987D0E50F909207B633DE1264B84CA4AC69C6FCBBB9111CE94CF79C251A",
+        "path": "lib/screens/admin_dashboard.dart"
+      },
+      {
+        "sha256": "8BD0C3759D99CA7BF80E446FB58403ECF907556752AB0ABA902F505D62119AE5",
+        "path": "lib/screens/admin_disputes_screen.dart"
+      },
+      {
+        "sha256": "3785AD1C0E83384C9F7A21247EEFC7F5AF7ECF5663D73A3895C8DCB30EC363A4",
+        "path": "lib/screens/admin_orders_screen.dart"
+      },
+      {
+        "sha256": "63D1C60BCAAE9563ECFF7991DB0854387DDC069C91D33B30414B46B82AB68BC8",
+        "path": "lib/screens/admin_users_screen.dart"
+      },
+      {
+        "sha256": "02D4A7F3D599FD420FBA4A5485162781779CAEA99C2629E0F4DF72D70CE7F0E6",
+        "path": "lib/screens/ai_assistant_screen.dart"
+      },
+      {
+        "sha256": "44429AB6565259D73EC45CCE5C1F5500E833579211A038D31B778EAE364921A9",
+        "path": "lib/screens/chat_rooms_screen.dart"
+      },
+      {
+        "sha256": "6F0ECAD33A8D86558F40D6B3C1769BF3378D3A907A4C07F6E7A5CED77CB3064A",
+        "path": "lib/screens/chat_screen.dart"
+      },
+      {
+        "sha256": "914FA1D3FD3494CE4600FA7F0D2039A23B6CA7032117E97AAB6581BB300EC597",
+        "path": "lib/screens/cnic_document_screen.dart"
+      },
+      {
+        "sha256": "7D0BC8E373E3BFB2424F144E4F0BCAA2639EBABBA779C9C6E18E3A8CC22A2D3A",
+        "path": "lib/screens/customer/about_tezrider_screen.dart"
+      },
+      {
+        "sha256": "727D8CC5D52F8A90352A2531CA9BE2547D30AF26CAF09BC472FEDEE042044981",
+        "path": "lib/screens/customer/cart_screen.dart"
+      },
+      {
+        "sha256": "763DD821D17CB2AC7691C682B5E985C59EFC3D553A1D59BD11ED1494C28BDC0C",
+        "path": "lib/screens/customer/cart_screen_new.dart"
+      },
+      {
+        "sha256": "F97AF657569DD45BBC29BD108CB9F186AA751A346AE0001E52461017266D4A08",
+        "path": "lib/screens/customer/dispute_screen.dart"
+      },
+      {
+        "sha256": "7E295E17985BE24EF2B15726E609AD6038EBAA4731DA581C6E3483C4BE8639E9",
+        "path": "lib/screens/customer/enhanced_checkout_screen.dart"
+      },
+      {
+        "sha256": "3C2F6A971081023ED2030C3679FDBB26A6506916EBA8603DF20E8A4EA7C27D6B",
+        "path": "lib/screens/customer/help_center_screen.dart"
+      },
+      {
+        "sha256": "3D4724C8E8FCB5385FB93BB88DCAABD54489C2875D66907D8FB8313F513A3D45",
+        "path": "lib/screens/customer/notifications_screen.dart"
+      },
+      {
+        "sha256": "6CA29FCC0B0126358CF3F2A3D4D8D59B186D3FBB88280DC8B37B9FC4A2BC0ABB",
+        "path": "lib/screens/customer/order_history_screen.dart"
+      },
+      {
+        "sha256": "D3612C5F38ABD98C138106AE58ADC3CD3B4CDF483F0FC6B6CCDF8851FE956650",
+        "path": "lib/screens/customer/payment_methods_screen.dart"
+      },
+      {
+        "sha256": "E9F6499326921289E61685A2F2B8D0037B3F33164911D1711E5DC67CD6976254",
+        "path": "lib/screens/customer/profile_screen.dart"
+      },
+      {
+        "sha256": "AED57536F47DC7D9AF30401EC88D6AA4AEB2E641EB1DA8903D2C7D30A5D24AEE",
+        "path": "lib/screens/customer/rating_screen.dart"
+      },
+      {
+        "sha256": "AAE0C4E674A932F994482DEDB04CBBFDB6AD4A2D235AD5C4B67480BAAE355E6A",
+        "path": "lib/screens/customer/saved_addresses_screen.dart"
+      },
+      {
+        "sha256": "2C2E7B2E9FBDA208DD4A0EC38E8C6A35701D39F7DD9EA6B95F926E071ACA0C58",
+        "path": "lib/screens/customer/saved_stores_screen.dart"
+      },
+      {
+        "sha256": "F9A1D1035B060443AFFC57C2BBC463318A96FD1461B75E13AA7E54C9213997B3",
+        "path": "lib/screens/customer/tailoring_screen.dart"
+      },
+      {
+        "sha256": "21C4179517D85A7D8D532E75B6C219D32B11D5A670BE930A61D03EDC044E903C",
+        "path": "lib/screens/customer_dashboard.dart"
+      },
+      {
+        "sha256": "58508466173295D6E5A1DCD6FBF97AAF0C4799906B05AF695A2772089E94E99E",
+        "path": "lib/screens/login_screen.dart"
+      },
+      {
+        "sha256": "E60EEC2AEA08AC5089FFF5B9BA805CBBF971D12747B292E4160DD7BB084121E2",
+        "path": "lib/screens/map_screen.dart"
+      },
+      {
+        "sha256": "0D706A36310CBE69D91DA2D0686A5E0EC2D235430180B2559814D58A3F4D8252",
+        "path": "lib/screens/order_picked_screen.dart"
+      },
+      {
+        "sha256": "DEC0EAA79DD2E2A8A6749953129207E85DFEB5B3109A623265B4F7EE50EAFD02",
+        "path": "lib/screens/payment_screen.dart"
+      },
+      {
+        "sha256": "BE3A3E3B7C94E631E5AF54EBB33CCD46A04B8DBA64099D376AA456B9204A4217",
+        "path": "lib/screens/pending_verification_screen.dart"
+      },
+      {
+        "sha256": "7B4E1F35CD58DCA783E1ACE0F792233F75C39E4593F4A88C0A3B11BBDE422889",
+        "path": "lib/screens/product_detail_screen.dart"
+      },
+      {
+        "sha256": "751CBB1297E566F387E3CD75EF73568FCB3C93A86D2FAB0D92DBC2DD9CF0944E",
+        "path": "lib/screens/product_screen.dart"
+      },
+      {
+        "sha256": "AC9611187A592105DD763939F364FB6CBBFCBF3757C0C7BEC6377779E9DCD530",
+        "path": "lib/screens/qr_pickup_screen.dart"
+      },
+      {
+        "sha256": "9DDE146709FAE9170A74FBA16213C44B161BFB61443D9F3846E8D28FCED7A0C5",
+        "path": "lib/screens/rider_dashboard.dart"
+      },
+      {
+        "sha256": "7B2091CBC9A0CAE3149851A240FCCF4F78EBC7CBC31369A3913E3EDB7A0007E6",
+        "path": "lib/screens/search_screen.dart"
+      },
+      {
+        "sha256": "8A5450D52616DBFEBB08E62E066D76C72AAF6073C27504D77DB30FBD9B0A0364",
+        "path": "lib/screens/signup_screen.dart"
+      },
+      {
+        "sha256": "5D196DAE0CC5E8FF13D29F23D93AB120B418E3B0EC9C832EFB73BFCFD10DCD1F",
+        "path": "lib/screens/splash_screen.dart"
+      },
+      {
+        "sha256": "3CB14476A3DF005BC08938B87D28AE23824EDAEC239C8489EC346F35DFDC224F",
+        "path": "lib/screens/vendor/prescription_review_screen.dart"
+      },
+      {
+        "sha256": "050EB597C713A53622FF3170239CB38266857AB8DB0F6586DC8B5F8B08A70170",
+        "path": "lib/screens/vendor/product_form_screen.dart"
+      },
+      {
+        "sha256": "493C966938BA7C03C1D601E5A32541C685620E51AAC2B594CE091ABEB8299D42",
+        "path": "lib/screens/vendor/vendor_analytics_screen.dart"
+      },
+      {
+        "sha256": "F466AFA3B7FBE4244E31774D428EBC8CA0C7229926B8AB943C43F8B1A1F21D6B",
+        "path": "lib/screens/vendor/vendor_products_screen.dart"
+      },
+      {
+        "sha256": "82BA52512D517A8DAD2F93CB99FD50B85ECA7CE37D3B33DA8CF6DF8C7B8BFB77",
+        "path": "lib/screens/vendor_dashboard.dart"
+      },
+      {
+        "sha256": "EB2EFECA6E30768ED8335AFA01B6B310EC2904E75CB77AB953F7F2B466413C46",
+        "path": "lib/services/account_access.dart"
+      },
+      {
+        "sha256": "114E86C8C88F6EA6CBA3D6421846018BC5F6CEEB7056DEF6D37751028879D4F8",
+        "path": "lib/services/account_session_service.dart"
+      },
+      {
+        "sha256": "5501D6890D5E4B9E78139513697571286B2C6F54E04978F11359D723FB5893EC",
+        "path": "lib/services/admin_broadcast_service.dart"
+      },
+      {
+        "sha256": "A56CE9E0ED0F4483D480D411FFFFF5E6BD1A7AF61AA3A91FC8876AB49DA50014",
+        "path": "lib/services/admin_dispute_service.dart"
+      },
+      {
+        "sha256": "CF75CF87E713F3255C2651F703D5C1A4AB8EF3D1857D217C4CCE07426ED7FCC4",
+        "path": "lib/services/admin_users_service.dart"
+      },
+      {
+        "sha256": "8B67C9EB0C06747B614DC5C72765177BD75075FE5B13437457EE02C215A69DC8",
+        "path": "lib/services/ai_service.dart"
+      },
+      {
+        "sha256": "B0485B2728DBED4444A1CDF301EF21FC3EDE8ACD3C98C6134B0BEB2EA827CBD5",
+        "path": "lib/services/android_broadcast_push_service.dart"
+      },
+      {
+        "sha256": "56846A0D6BE593D4E62CC9EA6E48AC1E0BE3E67A29AB4E23C3CB3E7659138D69",
+        "path": "lib/services/backend_config.dart"
+      },
+      {
+        "sha256": "02900D2E42058BFB8C8372989FB2814702184E9651D1D859B2B22AF649215ECE",
+        "path": "lib/services/broadcast_push_delivery.dart"
+      },
+      {
+        "sha256": "7BBF1ABAFA30051F6A8EF82104E4D53452F1DF97B701D3BBFB742C6AF34B5A3C",
+        "path": "lib/services/cart_persistence.dart"
+      },
+      {
+        "sha256": "ADF5ABCAF8D8C46E121A24742EE583598F2CE371607691889F339820BA1BD78C",
+        "path": "lib/services/cash_ledger_service.dart"
+      },
+      {
+        "sha256": "241C9C6294BCB3E5E85A66A451862047B8A7E6A234BC5F321F5DDEBDC554E381",
+        "path": "lib/services/catalogue_service.dart"
+      },
+      {
+        "sha256": "318DA5D9B6F4CF82947C6D44ACF7A51EED3943E0555EF81D46EE425509DFA1E8",
+        "path": "lib/services/cnic_document.dart"
+      },
+      {
+        "sha256": "220E8FF8CFDB026D7565C43BA67E548136C6C60124A5E28EDEC1AAC43BD96F42",
+        "path": "lib/services/delivery_destination.dart"
+      },
+      {
+        "sha256": "9F2DE9B7A09592E1FF1AC848B4DC334EBD4BCA6FF6EC255571A105F797E32047",
+        "path": "lib/services/delivery_location.dart"
+      },
+      {
+        "sha256": "82824A680456EFBBC83D5E49337ACE1087BA94A9B0BF1031FA9AA303603F437B",
+        "path": "lib/services/delivery_location_platform.dart"
+      },
+      {
+        "sha256": "60F4CAD5F86DFABB20B58345C583606F095C33E6153E92CFE7D6EB11739D4B6D",
+        "path": "lib/services/delivery_otp_service.dart"
+      },
+      {
+        "sha256": "A82E111FC84B6DE752054994D1AAD40B49C063C0EF3B3FE6FDDE1C4FC7451609",
+        "path": "lib/services/delivery_route.dart"
+      },
+      {
+        "sha256": "52FB2A386758FD29B032FD2AF59727F225D317931EE8B13149D7432129917ADD",
+        "path": "lib/services/diagnostic_backend.dart"
+      },
+      {
+        "sha256": "041273BA57741ED6D51E5EF62DFF1FEB4C7210C6F79A1D831BFF17AA99854456",
+        "path": "lib/services/dispute_service.dart"
+      },
+      {
+        "sha256": "F2B4637CBB869581F4FB967EEA43508D463FCDC1CBF70AE465C68332BEA8F3C6",
+        "path": "lib/services/inventory_service.dart"
+      },
+      {
+        "sha256": "132DC42F859045029E4BDE285478317E135F429B5709E2BAA297109E1759BD68",
+        "path": "lib/services/invoice_service.dart"
+      },
+      {
+        "sha256": "1A60DE1E93B3B5877E97FB8C28C289A5D0F0B9D3A9D9817430F456215FFFF4C9",
+        "path": "lib/services/ios_rider_location_source.dart"
+      },
+      {
+        "sha256": "21CBE1773B9E7FB9B0DFFEC791D360AB6E2DCC2D536BFF83EFA1D39FE70EDC13",
+        "path": "lib/services/onboarding_service.dart"
+      },
+      {
+        "sha256": "A66305A77596B1E1A28AE9E5626D33D33BB16EC9A682182280E9404A7B5FA1C2",
+        "path": "lib/services/order_timeout_service.dart"
+      },
+      {
+        "sha256": "09B48159156258C4007A8E9DCF990188353B50271E8F31372D48A788140C7D3A",
+        "path": "lib/services/pre_delivery_checklist_service.dart"
+      },
+      {
+        "sha256": "CF88104D26061B47A34FA2821D650F1E8DB42FFA9BA3015D187D23C8D4BEACAB",
+        "path": "lib/services/prescription_service.dart"
+      },
+      {
+        "sha256": "F682D48270202AE798FC81E042BC3B8AD8A1AFEEC6DF6E18B72A0B48080483B1",
+        "path": "lib/services/recommendation_service.dart"
+      },
+      {
+        "sha256": "CC57AD2802BBAF043E6CFDCA95CBD6BCB1BC9944D22C7A98120316E8B93AE1A1",
+        "path": "lib/services/rider_assignment_service.dart"
+      },
+      {
+        "sha256": "7141D5230717FDDE1985421022C2DDFC49B558FC5014899A3A0611AB640787B8",
+        "path": "lib/services/rider_presence.dart"
+      },
+      {
+        "sha256": "E697ACE48BD14700D38DBE194DE1632158F8931B8202F60D2C97A1D99B184F7A",
+        "path": "lib/services/routing_service.dart"
+      },
+      {
+        "sha256": "9EE4DBD3F14CDE3046043489EB92B4522FC13CD47DDC0ACC681A8C3C669DA200",
+        "path": "lib/services/session_credentials.dart"
+      },
+      {
+        "sha256": "E3CC90C35576D721BA0B3BE5346C78795DC35F2FC50C62B87712BFFCAC13D0C9",
+        "path": "lib/services/storage_service.dart"
+      },
+      {
+        "sha256": "9C8B693F134A7CE5E774B26EB24F27B298D27AC83D282C6B3D3BF0B827EE1988",
+        "path": "lib/services/vendor_report_service.dart"
+      },
+      {
+        "sha256": "25279F006F3C2A156D68CBDA684C3A3B9F3F596172411096FEE4A845AEFB1288",
+        "path": "lib/theme/app_theme.dart"
+      },
+      {
+        "sha256": "68B25486E6EFFAFB637DED74FC29313AFD41A14C23F86D28E87681C35535320A",
+        "path": "lib/utils/responsive.dart"
+      },
+      {
+        "sha256": "EB678BC3695BD2A1D18DD8BD276665D31A3EB59720AE4B4C6B974734CCA5306A",
+        "path": "lib/widgets/account_review_dialog.dart"
+      },
+      {
+        "sha256": "A1A77179BD343EFC6076D3E57450D0643DA6BD91E43369FF33155225EE62F16B",
+        "path": "lib/widgets/app_drawer.dart"
+      },
+      {
+        "sha256": "C3E786D0F2D587AA7A9B02DEF73699D39D8DC38C12DA20CC27CE8547E0417CF7",
+        "path": "lib/widgets/cnic_document_viewer.dart"
+      },
+      {
+        "sha256": "5C7221067B633244D7199BFB18CD3443CAECEFB8B908C9144128AE139BE6D3A1",
+        "path": "lib/widgets/dispute_evidence_viewer.dart"
+      },
+      {
+        "sha256": "9A47DC944A1DB37694C6A019AF594FA03E23121354B320EF09A674E88CC7C38A",
+        "path": "lib/widgets/empty_state.dart"
+      },
+      {
+        "sha256": "5A384BB95CA12FC4677756450657F884B04296828F16F86D944D1183E64FB819",
+        "path": "lib/widgets/invoice_button.dart"
+      },
+      {
+        "sha256": "005AE6B75443FD8C661B07B61E5F5427958789547E00D112DD8D1EBC16000957",
+        "path": "lib/widgets/order_payment_panel.dart"
+      },
+      {
+        "sha256": "A679766AE7BB1D99940EC12D9409B76AB0CC2BA885196C550336F8320D18C194",
+        "path": "lib/widgets/order_timeline.dart"
+      },
+      {
+        "sha256": "D87BD9F6DE07DB621A8612D69536773736CA2D0C3CAC779F7C6221FB38422720",
+        "path": "lib/widgets/order_timeout_summary.dart"
+      },
+      {
+        "sha256": "E07CC098016240D99912C9EB38AFB2D91C332B6A81BBAE59758EFD203F8B7FFB",
+        "path": "lib/widgets/pre_delivery_checklist_card.dart"
+      },
+      {
+        "sha256": "D6038C4FA6D1DD9DE0B0B7AC597FB5E2CED448370D739F235B78DE421E5FDE71",
+        "path": "lib/widgets/prescription_upload_widget.dart"
+      },
+      {
+        "sha256": "D5B6A7428495422E739DEAE7E68AC95EA21EA0EAFD3606604DA1A03C3CF6EBA1",
+        "path": "lib/widgets/rate_order_sheet.dart"
+      },
+      {
+        "sha256": "EC64593C1CA5332E00AC29861165AA8BD73A3C34C3F795A786C60D3F5159B087",
+        "path": "lib/widgets/recommendation_card.dart"
+      },
+      {
+        "sha256": "50B2ED1189CE7EB31A810841D7631415485C4705C5D80CB7026816081E6EE4C7",
+        "path": "lib/widgets/role_access_gate.dart"
+      },
+      {
+        "sha256": "480413ADD78E90B5F8C8A2FD7E548782DEB1DE408FFE6DC09FB6A767CD61AF92",
+        "path": "lib/widgets/shimmer_cards.dart"
+      },
+      {
+        "sha256": "2E16BD1C5D79AC177F2CC3DDCDA70994450637C992A967B449598103D751BABE",
+        "path": "lib/widgets/stock_adjustment_dialog.dart"
+      },
+      {
+        "sha256": "7831E2E18207A62440B45C81B2E01C6B763ACDACBA0AD182237B32DE409E1D22",
+        "path": "lib/widgets/stock_indicator.dart"
+      },
+      {
+        "sha256": "52924DBF048ED1D5BF2996B298615FA93474117F8055F819CF4185785EF79E7F",
+        "path": "lib/widgets/tez_map_tiles.dart"
+      },
+      {
+        "sha256": "965C25F5A4AA71DE474583E320D8EF3D8F5429398AFED91376EB71B208BCD18B",
+        "path": "lib/widgets/vendor_order_rejection.dart"
+      }
+    ]
+  },
+  "fr18": "ACCEPTED within documented delivered-gross/itemized/performance scope",
+  "fr22": "NOT ACCEPTED; no fee formula inferred; earned fee ledger/duration/completion metrics still pending",
+  "feedback": "candidate202610240001 only;19rollback cases passed; not deployed by this checkpoint",
+  "production_modified": false,
+  "screenshot": {
+    "file": "docs/evidence/FINAL2-09-rider-fee-pending.png",
+    "sha256": "cda5f2a0c13bd2651fc98d79a2fdb706e484d927cfe55ed3a5633ec1327504e6",
+    "visually_inspected": true
+  }
+}

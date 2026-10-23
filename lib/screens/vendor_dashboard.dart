@@ -272,7 +272,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   () => Row(
                     children: [
                       _statCard(
-                        'Earnings',
+                        'Delivered sales',
                         vendorCtrl.totalEarnings.value,
                         Icons.account_balance_wallet_rounded,
                         AppColors.success,
@@ -286,6 +286,22 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       ),
                     ],
                   ),
+                ),
+
+                Obx(
+                  () => vendorCtrl.statsError.value == null
+                      ? const SizedBox.shrink()
+                      : Row(
+                          children: [
+                            Expanded(child: Text(vendorCtrl.statsError.value!)),
+                            TextButton(
+                              onPressed: vendorCtrl.statsLoading.value
+                                  ? null
+                                  : vendorCtrl.loadStats,
+                              child: const Text('Retry sales'),
+                            ),
+                          ],
+                        ),
                 ),
 
                 const SizedBox(height: 24),
@@ -1143,17 +1159,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 Icons.payments_outlined,
                 'Payment & Earnings',
                 AppColors.success,
-                () {
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Payment & earnings details will be available in a future update.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
+                () => Get.to(() => const VendorAnalyticsScreen()),
               ),
               _profileTile(
                 Icons.star_outline,
@@ -1730,7 +1736,12 @@ class _VendorDashboardState extends State<VendorDashboard> {
               ),
             ],
           ),
-          child: Column(children: tiles),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+            clipBehavior: Clip.antiAlias,
+            child: Column(children: tiles),
+          ),
         ),
       ],
     );

@@ -22,6 +22,12 @@ def test_nodes():
  (n.OUT/'ui.private.xml').write_text(n.ET.tostring(safe,encoding='unicode'),encoding='utf-8')
  return allowed
 n.nodes=test_nodes
+original_safe=n.safe
+def safe_label(value):
+ value=original_safe(value)
+ value=n.re.sub(r'\b\d{5}-?\d{7}-?\d\b','[CNIC]',value)
+ return n.re.sub(r'(?<!\d)\+?\d{10,15}(?!\d)','[phone]',value)
+n.safe=safe_label
 original_picture=n.picture
 def picture(name):
  nodes=test_nodes()
@@ -59,7 +65,112 @@ def form(name,value):
 action=sys.argv[2];assert sys.argv[1]=='native'
 def gateway(name,token,data):
  return n.b.api('/functions/v1/security-gateway','POST',{'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json'},'body':n.json.dumps(data)},token)
-if action=='scan-changed':
+if action=='verify-customer-cash':
+ labels=[n.label(node)for node in n.nodes()]
+ oid=state['cash_invoice_fixture']['order_id']
+ assert 'Order #'+str(oid)+' payment'in labels
+ assert 'COD · Cash collection recorded'in labels and 'Order amount: PKR 130.00'in labels
+ assert 'Cash receipt · recorded by rider'in labels
+ assert 'Cash acknowledgements are manual records. The app does not transfer money.'in labels
+ assert not any(label.startswith('Record cash')or label=='Record unsuccessful refund attempt'for label in labels)
+ n.picture('cohort08-customer-cash')
+ record('physical owning Customer sees the actual committed COD amount/Rider acknowledgement and manual-record disclaimer; cash/refund write controls are absent')
+elif action=='verify-customer-refund':
+ labels=[n.label(node)for node in n.nodes()]
+ oid=state['cod_fixture']['cancelled_order_id']
+ assert 'Order #'+str(oid)+' payment'in labels
+ assert 'Confirmed manual return: PKR 31.50'in labels and 'Manual refund confirmed'in labels
+ assert 'Cash return receipt · recorded by admin'in labels
+ assert not any('return is not confirmed'in label or label.startswith('Record cash')for label in labels)
+ n.picture('cohort08-customer-refund')
+ record('physical owning Customer sees actual confirmed manual refund amount/Admin receipt; no pending-return or customer cash-write claim')
+elif action in('verify-vendor-report','verify-vendor-profile-report'):
+ token=n.b.login(state['accounts']['live-vendor'])
+ code,value=gateway('final2_vendor_report',token,{'p_after':None,'p_limit':20})
+ assert code==200 and value['vendor_id']==state['live_vendor_profile_id']
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'Analytics'in labels and 'Delivered sales'in labels
+ assert 'PKR '+format(value['summary']['delivered_sales'],'.2f')in labels
+ assert 'Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation.'in labels
+ n.picture('cohort08-vendor-report')
+ record('physical Vendor profile Payment & Earnings opens the actual authorized report with exact server totals'if action=='verify-vendor-profile-report'else'physical owning Vendor report displays exact server delivered-sales cents and gross/no-payout/no-invented-refund-allocation explanation')
+elif action=='verify-vendor-dashboard-sales':
+ token=n.b.login(state['accounts']['live-vendor']);code,value=gateway('final2_vendor_report',token,{'p_after':None,'p_limit':1})
+ assert code==200
+ labels=[n.label(node)for node in n.nodes()]
+ expected='PKR '+format(value['summary']['delivered_sales'],'.2f')
+ assert 'Store Dashboard'in labels and any(expected in label and'Delivered sales'in label for label in labels)
+ n.picture('cohort09-vendor-dashboard')
+ record('refreshed physical Vendor dashboard uses exact canonical delivered-sales cents instead of rounded older earnings totals')
+elif action=='verify-vendor-breakdown':
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'Payment: UNPAID'in labels
+ assert state['native_cash_fixture']['marker']+' × 2 at PKR 5.00'in labels
+ assert any('Order #'+str(state['native_cash_fixture']['order_id'])in label and'Expanded'in label for label in labels)
+ n.picture('cohort08-vendor-breakdown')
+ record('physical Vendor expands the actual delivered portion, sees two items at canonical unit price and UNPAID before any cash acknowledgement')
+elif action=='verify-rider-unpaid':
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'Order #'+str(state['native_cash_fixture']['order_id'])+' payment'in labels
+ assert 'COD · No cash collection is recorded'in labels
+ assert 'Record cash already received'in labels and 'Record cash already returned'not in labels
+ record('physical assigned Rider sees unpaid COD and own collection action, without Admin refund controls')
+elif action=='fill-native-cash-reference':
+ current=n.nodes();labels=[n.label(node)for node in current]
+ assert 'Record a manual cash acknowledgement'in labels
+ button=[node for node in current if n.label(node)=='Record acknowledgement'];assert len(button)==1 and button[0].get('clickable')!='true'
+ token=n.b.login(n.accounts['rider']);code,value=gateway('final2_order_payment',token,{'p_order_id':state['native_cash_fixture']['order_id']})
+ assert code==200 and value['state']=='UNPAID'and value['events']==[]
+ record('Cancel left the actual synthetic order unpaid with no cash event; unchecked/empty acknowledgement cannot submit','real authenticated TEST HTTP plus physical controls')
+ fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==1
+ fill(fields[0],'FINAL2-SYNTHETIC-NATIVE-ACK')
+ n.click('I confirm that the exact order cash was already received.')
+ button=[node for node in n.nodes()if n.label(node)=='Record acknowledgement'];assert len(button)==1 and button[0].get('clickable')=='true'
+ record('physical acknowledgement requires a reference and explicit checkbox before the real submit control becomes available; synthetic TEST record only')
+elif action=='cash-network-retry':
+ assert any(n.label(node)=='Record a manual cash acknowledgement'for node in n.nodes())
+ wifi=n.adb('shell','settings','get','global','wifi_on').strip();mobile=n.adb('shell','settings','get','global','mobile_data').strip()
+ assert wifi in('0','1')and mobile in('0','1')and(wifi=='1'or mobile=='1')
+ (n.OUT/'cash-connectivity-original.json').write_text(n.json.dumps({'wifi_on':wifi,'mobile_data':mobile}),encoding='utf-8')
+ try:
+  n.adb('shell','svc','wifi','disable');n.adb('shell','svc','data','disable');n.time.sleep(2)
+  n.click('Record acknowledgement');n.main('assert:Retry unchanged record')
+  labels=[n.label(node)for node in n.nodes()]
+  assert 'Record a manual cash acknowledgement'in labels
+  record('physical cash request network failure retains an unchanged-record retry and no fabricated successful acknowledgement')
+ finally:
+  n.adb('shell','svc','wifi','enable'if wifi=='1'else'disable')
+  n.adb('shell','svc','data','enable'if mobile=='1'else'disable')
+  assert n.adb('shell','settings','get','global','wifi_on').strip()==wifi
+  assert n.adb('shell','settings','get','global','mobile_data').strip()==mobile
+  record('exact original Wi-Fi/mobile-data settings restored after physical cash fault injection')
+ n.time.sleep(3);n.click('Retry unchanged record');n.main('assert:Cash collection recorded')
+ record('physical Rider unchanged-record retry after connectivity recovery displays committed synthetic cash acknowledgement; no real cash transfer asserted')
+elif action=='verify-native-cash-persistence':
+ token=n.b.login(n.accounts['rider']);oid=state['native_cash_fixture']['order_id']
+ code,value=gateway('final2_order_payment',token,{'p_order_id':oid})
+ assert code==200 and value['state']=='CASH_RECORDED'and len(value['events'])==1
+ event=value['events'][0];assert event['event_kind']=='COLLECTED'and event['actor_role']=='rider'and event['reference']=='FINAL2-SYNTHETIC-NATIVE-ACK'
+ code,rows=n.b.api('/rest/v1/security_audit_log?target_type=eq.cod_cash_event&target_id=eq.'+str(event['id'])+'&select=actor_id,action',admin=True)
+ assert code==200 and len(rows)==1 and rows[0]['actor_id']==n.accounts['rider']['profile_id']
+ state['native_cash_fixture']['physically_recorded_synthetic_ack']=True;save()
+ record('real persisted result after physical offline/retry is exactly one synthetic cash event and one canonical Rider audit','real authenticated TEST HTTP/persistence')
+elif action=='verify-admin-cash':
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'Order #'+str(state['native_cash_fixture']['order_id'])+' payment'in labels
+ assert 'COD · Cash collection recorded'in labels
+ assert 'Reference: FINAL2-SYNTHETIC-NATIVE-ACK'in labels and 'Cash receipt · recorded by rider'in labels
+ assert 'Record cash already received'not in labels
+ n.picture('cohort08-admin-cash')
+ record('physical Admin order-list navigation reads the Rider committed acknowledgement/reference and offers no duplicate collection action')
+elif action=='verify-rider-fee-pending':
+ labels=[n.label(node)for node in n.nodes()]
+ cards=[label for label in labels if'Earned delivery fees'in label]
+ assert cards and all('PKR'not in label for label in cards)
+ assert any('Fee policy pending approval. Order totals are not Rider earnings.'in label for label in labels)
+ n.picture('cohort09-rider-fee-pending')
+ record('refreshed physical Rider summary labels earned fees as unknown/policy-pending and does not present delivered order totals as wages; FR22 acceptance remains pending')
+elif action=='scan-changed':
  protected=[n.b.SERVICE]
  for accounts in (state['accounts'],n.accounts,n.b.fr04['accounts']):
   protected.extend(account['password']for account in accounts.values()if isinstance(account,dict)and'password'in account)
@@ -181,7 +292,12 @@ elif action=='refill-customer-password':
 elif action=='collapse-system-overlay':
  n.adb('shell','cmd','statusbar','collapse')
 elif action=='role-picker':
- choices=[node for node in n.nodes()if node.get('clickable')=='true'and n.label(node).split('\n')[0]in('Customer','Vendor','Rider','Admin')]
+ deadline=n.time.monotonic()+25
+ while True:
+  choices=[node for node in n.nodes()if node.get('clickable')=='true'and n.label(node).split('\n')[0]in('Customer','Vendor','Rider','Admin')]
+  if len(choices)==1:break
+  assert n.time.monotonic()<deadline,'Observed login role picker required after completed logout'
+  n.time.sleep(.5)
  assert len(choices)==1,'Observed login role picker required';n.tap(choices[0])
 elif action.startswith('choose-role:'):
  role=action.split(':',1)[1];assert role in('customer','vendor','rider','admin')
@@ -191,8 +307,10 @@ elif action in('scroll:down','scroll:up'):
  n.nodes()
  down=action.endswith('down')
  n.adb('shell','input','swipe','500','1900'if down else'1000','500','1000'if down else'1900','450');n.time.sleep(.5)
-elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor','other-customer'):
- label=action[6:];account=n.accounts['customer']if label=='other-customer'else state['accounts'][label];role='customer'if label in('review-customer','other-customer')else'vendor'
+elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor','other-customer','rider','admin'):
+ label=action[6:]
+ account=n.accounts[label]if label in('rider','admin')else n.accounts['customer']if label=='other-customer'else state['accounts'][label]
+ role=label if label in('rider','admin')else'customer'if label in('review-customer','other-customer')else'vendor'
  assert any(n.label(node)=='Sign in as '+role.title()for node in n.nodes())
  for index,value in enumerate([account['email'],account['password']]):
   fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==2

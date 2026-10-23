@@ -6,7 +6,7 @@ def module(name,file):
  s=importlib.util.spec_from_file_location(name,Path(__file__).with_name(file));m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 b=module('fixture_backend','FR-04-hosted.py');db=module('guarded_db','FINAL-security.py');db.OUT=OUT
 b.target();assert b.REF==REF and sys.argv[1]=='cash-invoices'
-action=sys.argv[2];assert action in('review','deploy','post','fixture','hosted')
+action=sys.argv[2];assert action in('review','deploy','post','fixture','native-fixture','hosted')
 state=json.loads(b.crypt((OUT/'onboarding-accounts.dpapi').read_bytes(),True))
 legacy=json.loads(b.crypt((b.PRIVATE/'fr28-accounts.bin').read_bytes(),True))['accounts'];admin=legacy['admin']
 vendor=b.login(state['accounts']['live-vendor']);customer=b.login(state['accounts']['review-customer']);admin_token=b.login(admin);other=b.login(legacy['customer']);other_vendor=b.login(legacy['vendor']);rider=b.login(legacy['rider'])
@@ -50,8 +50,9 @@ elif action=='deploy':
  print(json.dumps({'deployment':'confirmed','project':REF,'versions':len(expected)}))
 
 
-elif action=='fixture':
- fixture=state.setdefault('cash_invoice_fixture',{'marker':'FINAL2 SYNTHETIC CASH RECEIPT '+uuid.uuid4().hex,'product_request':str(uuid.uuid4()),'checkout_request':str(uuid.uuid4()),'cash_request':str(uuid.uuid4())})
+elif action in('fixture','native-fixture'):
+ fixture_key='native_cash_fixture'if action=='native-fixture'else'cash_invoice_fixture'
+ fixture=state.setdefault(fixture_key,{'marker':'FINAL2 SYNTHETIC CASH RECEIPT '+uuid.uuid4().hex,'product_request':str(uuid.uuid4()),'checkout_request':str(uuid.uuid4()),'cash_request':str(uuid.uuid4())})
  private=OUT/'onboarding-accounts.dpapi'
  def save():private.write_bytes(b.crypt(json.dumps(state).encode()))
  save()

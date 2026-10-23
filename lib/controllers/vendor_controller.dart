@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/rider_assignment_service.dart';
 import '../services/order_timeout_service.dart';
+import '../services/vendor_report_service.dart';
 
 class VendorController extends GetxController {
   final _supabase = Supabase.instance.client;
@@ -12,8 +13,12 @@ class VendorController extends GetxController {
   RxList<Map<String, dynamic>> tailoringJobs = <Map<String, dynamic>>[].obs;
   RxBool isLoadingOrders = true.obs;
 
-  RxString totalEarnings = 'PKR 0'.obs;
+  RxString totalEarnings = '—'.obs;
   RxString averageRating = '—'.obs;
+  final statsError = RxnString();
+  final statsLoading = false.obs;
+  final _reports = VendorReportService(pageSize: 1);
+  bool _statsRefreshPending = false;
 
   final ordersError = RxnString();
   final hasMoreOrders = false.obs;
@@ -33,19 +38,45 @@ class VendorController extends GetxController {
   }
 
   Future<void> loadStats() async {
+    if (isClosed) return;
+    if (statsLoading.value) {
+      _statsRefreshPending = true;
+      return;
+    }
+    final identity = _supabase.auth.currentUser?.id;
+    if (identity == null) return;
+    statsLoading.value = true;
     try {
-      final response = await _supabase
-          .rpc('fr21_dashboard_stats')
-          .timeout(const Duration(seconds: 8));
-      if (isClosed) return;
-      final stats = Map<String, dynamic>.from(response as Map);
+      final results = await Future.wait<dynamic>([
+        _reports.load(),
+        _supabase
+            .rpc('fr21_dashboard_stats')
+            .timeout(const Duration(seconds: 8)),
+      ]);
+      if (isClosed || identity != _supabase.auth.currentUser?.id) return;
+      final report = results[0] as VendorReport;
+      if (_vendorId != null && report.vendorId != _vendorId) {
+        throw StateError('Vendor identity changed');
+      }
+      final stats = Map<String, dynamic>.from(results[1] as Map);
       totalEarnings.value =
-          'PKR ${((stats['total'] as num?) ?? 0).toStringAsFixed(0)}';
+          'PKR ${(report.summary['delivered_sales'] as num).toStringAsFixed(2)}';
       averageRating.value = stats['rating'] == null
           ? '—'
           : '${stats['rating']} ★';
+      statsError.value = null;
     } catch (_) {
-      if (!isClosed) ordersError.value = 'Could not load vendor statistics.';
+      if (!isClosed && identity == _supabase.auth.currentUser?.id) {
+        statsError.value = 'Sales and rating could not be refreshed.';
+      }
+    } finally {
+      statsLoading.value = false;
+      if (_statsRefreshPending) {
+        _statsRefreshPending = false;
+        if (!isClosed && identity == _supabase.auth.currentUser?.id) {
+          unawaited(loadStats());
+        }
+      }
     }
   }
 
@@ -190,6 +221,7 @@ class VendorController extends GetxController {
       _orderPage = page;
       hasMoreOrders.value = rows.length == 100;
       ordersError.value = null;
+      if (!loadMore) await loadStats();
     } catch (_) {
       if (!isClosed) {
         ordersError.value =

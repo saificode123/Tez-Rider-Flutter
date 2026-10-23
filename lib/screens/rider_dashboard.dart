@@ -1224,7 +1224,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Today's Balance",
+                          'Earned delivery fees',
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.70),
                             fontSize: 13,
@@ -1238,6 +1238,11 @@ class _RiderDashboardState extends State<RiderDashboard> {
                             fontSize: 38,
                             fontWeight: FontWeight.w900,
                           ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Fee policy pending approval. Order totals are not Rider earnings.',
+                          style: TextStyle(color: Colors.white70),
                         ),
                         const SizedBox(height: 22),
                         const Divider(color: Colors.white24, height: 1),
