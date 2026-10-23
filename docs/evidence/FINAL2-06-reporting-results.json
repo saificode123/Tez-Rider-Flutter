@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-23",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "FR18 delivered gross and private per-order reporting",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610230009",
+    "versions": 51,
+    "review_passes": 11,
+    "production_modified": false,
+    "replayed": false
+  },
+  "review": [
+    {
+      "check": "delivered gross sales require parent and portion delivery; cancelled and pending excluded; legacy fee excluded",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "top products count delivered quantities only; no invented fallback quantities",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "bounded composite keyset pages return all four actual portions exactly once",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "own itemized prices retained; whole-parent amounts/private references masked",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "unknown cursor fields, overflow, wrong shape, negative IDs and oversized pages rejected",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "private reporting helper cannot bypass canonical Vendor authorization",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct approved Vendor cannot observe another Vendor portions",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Customer cannot invoke Vendor financial report",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Admin cannot implicitly impersonate a Vendor report",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "blocked Vendor loses reporting access under existing live session",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous report denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "post": [
+    {
+      "check": "delivered gross sales require parent and portion delivery; cancelled and pending excluded; legacy fee excluded",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "top products count delivered quantities only; no invented fallback quantities",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "bounded composite keyset pages return all four actual portions exactly once",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "own itemized prices retained; whole-parent amounts/private references masked",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "unknown cursor fields, overflow, wrong shape, negative IDs and oversized pages rejected",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "private reporting helper cannot bypass canonical Vendor authorization",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct approved Vendor cannot observe another Vendor portions",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Customer cannot invoke Vendor financial report",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Admin cannot implicitly impersonate a Vendor report",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "blocked Vendor loses reporting access under existing live session",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous report denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "hosted": [
+    {
+      "check": "real Vendor receives canonical own report and bounded page",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real keyset follow-up has no duplicate portions",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real Customer cannot impersonate Vendor reporting",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real Rider cannot impersonate Vendor reporting",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real Admin cannot impersonate Vendor reporting",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated real Vendor gets own scope only",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real report rejects oversized page",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real report rejects unknown cursor field",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous real report cannot read finance",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real report masks all whole-parent finance amounts",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "review_post_overlap": true,
+  "flutter": {
+    "passed": 15,
+    "failed": 0,
+    "files": [
+      "test/vendor_report_test.dart",
+      "test/closure_remaining_states_test.dart"
+    ]
+  },
+  "scoped_analyzer_issues": 0,
+  "history_read_timeout": "post-run initial history read timed out; safe rollback retry passed",
+  "android": "current-source TEST APK built/installed; workflow pending physical unlock",
+  "production_modified": false
+}

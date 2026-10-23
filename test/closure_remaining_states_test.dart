@@ -221,24 +221,37 @@ void main() {
     (t) async {
       var failed = true, populated = true;
       transport.respond = (r) async {
-        if (r.url.path.endsWith('/users')) {
-          return UiTransport.jsonResponse([
-            {'id': 10},
-          ]);
+        if (r.url.path.endsWith('/fr28_account_status')) {
+          return UiTransport.jsonResponse({
+            'code': 'OK',
+            'id': 10,
+            'role': 'vendor',
+            'verification_status': 'approved',
+            'is_blocked': false,
+          });
         }
-        if (r.url.path.endsWith('/vendor_orders')) {
+        if (r.url.path.endsWith('/final2_vendor_report')) {
           return failed
               ? UiTransport.jsonResponse({
                   'code': '42501',
                   'message': 'denied',
                 }, 403)
-              : UiTransport.jsonResponse(
-                  populated
-                      ? [
-                          {'id': 1, 'sub_total': 42, 'status': 'delivered'},
-                        ]
-                      : [],
-                );
+              : UiTransport.jsonResponse({
+                  'code': 'OK',
+                  'vendor_id': 10,
+                  'currency': 'PKR',
+                  'summary': {
+                    'total_orders': populated ? 1 : 0,
+                    'delivered_orders': populated ? 1 : 0,
+                    'delivered_sales': populated ? 42 : 0,
+                    'amounts_requiring_review': 0,
+                    'status_counts': populated ? {'delivered': 1} : {},
+                  },
+                  'top_products': [],
+                  'items': [],
+                  'has_more': false,
+                  'next_cursor': null,
+                });
         }
         return UiTransport.jsonResponse([]);
       };
@@ -247,16 +260,16 @@ void main() {
         find.text('Analytics could not be loaded. Retry when connected.'),
         findsOneWidget,
       );
-      expect(find.text('Total Revenue'), findsNothing);
+      expect(find.text('Delivered sales'), findsNothing);
       failed = false;
       await t.tap(find.text('Retry'));
       await tick(t);
-      expect(find.text('PKR 42'), findsOneWidget);
+      expect(find.text('PKR 42.00'), findsOneWidget);
       expect(find.text('Fulfillment Rate'), findsOneWidget);
       populated = false;
       await t.tap(find.byIcon(Icons.refresh_rounded));
       await tick(t);
-      expect(find.text('PKR 0'), findsOneWidget);
+      expect(find.text('PKR 0.00'), findsOneWidget);
       expect(find.text('Fulfillment Rate'), findsNothing);
     },
   );
