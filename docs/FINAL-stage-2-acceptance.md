@@ -49,11 +49,11 @@ Current bounded acceptance: S2-01, S2-05 and S2-17. Historical checkpoints below
 | S2-03 | FR15 full identity card | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-04 | FR07 persistent multivendor cart | Persistence implemented | Applied006 | Owner/role/direct-write denial; revision and stock validation | 79PASS affected cohort; final30overlap | 12SQL review/post +12HTTP | Two-Vendor/restart/account isolation PASS | Reservation policy pending; not fully accepted |
 | S2-05 | FR06 catalogue/search | Implemented | Applied005 | Rejected merchant direct/API denied; anon denied | Included92PASS cohort | 8SQL review/post +11HTTP | Keyword/category-only/native Add and offline Retry PASS | ACCEPTED |
-| S2-06 | FR08/UC06 payment and refund | Manual ledger integrated | Applied008 | Role/ownership/idempotency/audit guards | 62PASS affected cohort | 27SQL review/post +27realHTTP | Not executed for new UI | Invoice integration/native pending |
+| S2-06 | FR08/UC06 payment and refund | Manual ledger integrated | Applied008 | Role/ownership/idempotency/audit guards | 62PASS affected cohort +30Deno | 27SQL review/post +27realHTTP;0108SQL/15HTTP | Not executed for new UI | Invoice integration verified; native pending |
 | S2-07 | FR10/26 refund settlement | Manual outcome integrated | Applied008 | Retained FR26 guards; no duplicate/over-refund | Included62PASS | Included27SQL/27HTTP | Not executed for new UI | Native acceptance pending |
 | S2-08 | FR11/12 timeline/history | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-09 | FR16 product images/full CRUD | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
-| S2-10 | FR18 vendor reporting | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
+| S2-10 | FR18 vendor reporting | Server aggregate/itemized pages integrated | Applied009 | Canonical Vendor-only; private helper and masked parent finance | 15PASS affected cohort; analysis0issues | 11SQL review/post +10HTTP | Current APK installed; unlock requested | Native pending |
 | S2-11 | FR22 rider metrics/earnings | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-12 | Photo proof | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-13 | FR23/24 dual feedback | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
@@ -82,3 +82,7 @@ TEST49migrations after007. Real owning-Vendor raw DELETE was denied as intended 
 ## COD ledger checkpoint05
 
 Migration008 applied once after27matching-hash rolled-back SQL checks;27post checks and27real authenticated HTTP/persistence checks passed. TEST50migrations/86RLS-enabled public tables/186public functions verified.62affected Flutter PASS; scoped analyzer0issues. See `FINAL2-cod-ledger.md` and `evidence/FINAL2-05-cod-results.json`. Synthetic financial records explicitly do not prove real cash movement or physical delivery. New UI physical verification and FR32 invoice integration remain pending; S2-06/07 and Stage2 are not signed off.
+
+## Reporting06 and cash invoice07 checkpoints
+
+FR18 delivered-only gross/top products and bounded private itemized transactions:11SQL review/post,10realHTTP,15Flutter PASS, scoped analysis0issues. Cash invoice integration010 and compatible worker deployed:8SQL review/post,27affected cash SQL regression,30Deno,15realHTTP/private PDF checks PASS. See `FINAL2-vendor-reporting.md`, `FINAL2-cash-invoices.md`, `evidence/FINAL2-06-reporting-results.json`, `evidence/FINAL2-07-cash-invoice-results.json`. Source-hash-verified current TEST APK built/installed; physical journeys pending one requested unlock. Readback52migrations/86RLS-enabled inspected tables/190public-private functions;57tables/135functions are public. Earlier Stage2 public-scope labels were too broad; this corrects the label, not historical tests. No overall Stage2 or FR14 acceptance.

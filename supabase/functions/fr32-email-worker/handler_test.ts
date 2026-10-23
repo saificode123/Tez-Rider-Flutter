@@ -124,6 +124,25 @@ Deno.test('invoice: unpaid COD and altered totals rejected', () => {
     let rejected = false; try { validateInvoice(s); } catch { rejected = true; } ok(rejected);
   }
 });
+Deno.test('invoice: committed manual COD receipt requires canonical event evidence', async () => {
+  const cash = { ...sample, payment_status: 'CASH_RECORDED', cash_event_id: 7,
+    cash_actor_role: 'rider' as const, payment_reference: 'COD-CASH-7' };
+  validateInvoice(cash);
+  for (const altered of [
+    { ...cash, cash_event_id: undefined }, { ...cash, cash_event_id: 0 },
+    { ...cash, cash_actor_role: undefined }, { ...cash, payment_reference: 'invented' },
+  ]) {
+    let rejected = false; try { validateInvoice(altered); } catch { rejected = true; } ok(rejected);
+  }
+  const a = await invoicePdf(cash), b = await invoicePdf(cash);
+  ok(new TextDecoder().decode(a.subarray(0, 5)) === '%PDF-');
+  ok(await digest(a) === await digest(b));
+  ok((await PDFDocument.load(a)).getPageCount() >= 1);
+  const copy = template('paid_invoice', '123', true);
+  ok(copy.subject.includes('COD cash receipt') && copy.text.includes('did not transfer funds'));
+  ok(!copy.text.includes('refunded'));
+  await Deno.writeFile('.fr21-local/final2/cash-invoice-sample.pdf', a);
+});
 Deno.test('invoice: actual pdf-lib runtime, valid PDF pages, deterministic repeat bytes', async () => {
   const a = await invoicePdf(sample), b = await invoicePdf(sample);
   ok(new TextDecoder().decode(a.subarray(0, 5)) === '%PDF-');

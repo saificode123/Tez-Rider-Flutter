@@ -18,6 +18,39 @@ foreach($relative in @(git -C $repo ls-files --cached --others --exclude-standar
  if((Get-FileHash -LiteralPath $source).Hash -cne (Get-FileHash -LiteralPath $destination).Hash){throw 'Mirror source mismatch'}
  $manifest+=@{path=$relative;sha256=(Get-FileHash -LiteralPath $source).Hash}
 }
+# Storage cleanup removed older temporary mirror files. Restore missing sources
+# from the existing project; retain the accepted low-memory/local Gradle setup.
+foreach($directory in @('assets','android')){
+ foreach($sourceDirectory in Get-ChildItem -LiteralPath (Join-Path $repo $directory) -Directory -Recurse){
+  $relativeDirectory=[IO.Path]::GetRelativePath($repo,$sourceDirectory.FullName).Replace('\','/')
+  if($relativeDirectory -match '(^|/)(\.gradle|\.kotlin|build)(/|$)'){continue}
+  New-Item -ItemType Directory -Force -Path (Join-Path $mirror $relativeDirectory) | Out-Null
+ }
+ foreach($source in Get-ChildItem -LiteralPath (Join-Path $repo $directory) -File -Recurse){
+  $relative=[IO.Path]::GetRelativePath($repo,$source.FullName).Replace('\','/')
+  if($relative -match '(^|/)(\.gradle|\.kotlin|build)/' -or $relative -in @('android/gradle.properties','android/local.properties')){continue}
+  $destination=Join-Path $mirror $relative
+  if(-not(Test-Path -LiteralPath $destination)){
+   New-Item -ItemType Directory -Force -Path (Split-Path $destination -Parent) | Out-Null
+   Copy-Item -LiteralPath $source.FullName -Destination $destination
+  }
+ }
+}
+foreach($name in @('pubspec.yaml','pubspec.lock')){
+ if(-not(Test-Path -LiteralPath (Join-Path $mirror $name))){Copy-Item -LiteralPath (Join-Path $repo $name) -Destination (Join-Path $mirror $name)}
+}
+# Recreate only missing temporary configuration after OS cleanup.
+foreach($name in @('gradle.properties','local.properties')){
+ $destination=Join-Path $mirror ('android/'+$name)
+ if(-not(Test-Path -LiteralPath $destination)){
+  Copy-Item -LiteralPath (Join-Path $repo ('android/'+$name)) -Destination $destination
+  if($name -eq 'gradle.properties'){
+   $text=(Get-Content -LiteralPath $destination -Raw) -replace 'org.gradle.jvmargs=.*','org.gradle.jvmargs=-Xmx2G -XX:MaxMetaspaceSize=768m -XX:+HeapDumpOnOutOfMemoryError'
+   $text+="`norg.gradle.workers.max=2`n"
+   Set-Content -LiteralPath $destination -Value $text -Encoding utf8
+  }
+ }
+}
 $log=Join-Path $repo '.fr21-local/final2/build.log'
 Push-Location -LiteralPath $mirror
 try {

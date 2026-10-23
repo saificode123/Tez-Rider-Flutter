@@ -7,11 +7,11 @@ def test_nodes():
  active=n.adb('shell','dumpsys','activity','activities')
  assert n.re.search(r'topResumedActivity=ActivityRecord\{[^}]*'+n.re.escape(n.PKG)+'/',active),'TEST app must be foreground'
  for attempt in range(3):
-  n.adb('shell','uiautomator','dump','/data/local/tmp/final2-ui.xml')
-  raw=n.adb('exec-out','cat','/data/local/tmp/final2-ui.xml')
   try:
+   n.adb('shell','uiautomator','dump','/data/local/tmp/final2-ui.xml')
+   raw=n.adb('exec-out','cat','/data/local/tmp/final2-ui.xml')
    root=n.ET.fromstring(raw);break
-  except n.ET.ParseError:
+  except (n.ET.ParseError,AssertionError):
    if attempt==2:raise
    n.time.sleep(.5)
  allowed=[node for node in root.iter('node')if node.get('package')==n.PKG]

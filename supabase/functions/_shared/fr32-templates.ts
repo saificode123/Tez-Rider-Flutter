@@ -6,12 +6,13 @@ export type EmailType = typeof emailTypes[number];
 export function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
-export function template(type: EmailType, order: string): { subject: string; text: string; html: string } {
+export function template(type: EmailType, order: string, manualCash = false): { subject: string; text: string; html: string } {
   if (!emailTypes.includes(type)) throw Error('UNSUPPORTED_EMAIL_TYPE');
   if (!/^[A-Za-z0-9# _-]{1,80}$/.test(order)) throw Error('INVALID_ENTITY_REFERENCE');
   const content: Record<EmailType, [string, string]> = {
     order_confirmation: ['Order confirmation', `Your Order #${order} has been confirmed.`],
-    paid_invoice: ['Your paid invoice', `Your invoice for Order #${order} is attached.`],
+    paid_invoice: manualCash ? ['Your COD cash receipt', `A manual cash receipt was recorded for Order #${order}. Your itemized receipt is attached. The app did not transfer funds.`]
+      : ['Your paid invoice', `Your invoice for Order #${order} is attached.`],
     vendor_approved: ['Account approved', 'Your account has been approved.'],
     vendor_rejected: ['Account review', 'Account not approved. Contact support.'],
     rider_approved: ['Account approved', 'Your account has been approved.'],

@@ -46,7 +46,8 @@ export function createHandler(d: Dependencies): (req: Request) => Promise<Respon
         if (invoice && (!job.invoice || !job.invoice_metadata || job.invoice_metadata.status === 'failed')) {
           await d.finish(job, { outcome: 'failed', error: 'INVOICE_SOURCE_REVIEW_REQUIRED' }); processed++; return;
         }
-        const copy = template(job.type, invoice ? String(job.invoice!.order_id) : job.entity_id);
+        const copy = template(job.type, invoice ? String(job.invoice!.order_id) : job.entity_id,
+          invoice && job.invoice!.payment_status === 'CASH_RECORDED');
         const attachment = invoice ? await d.pdf(job) : null;
         if (attachment && (attachment.length > 5242880 || new TextDecoder().decode(attachment.subarray(0, 5)) !== '%PDF-')) throw Error('INVOICE_INVALID_PDF');
         // Invoice access must work even when TEST email delivery is not approved.

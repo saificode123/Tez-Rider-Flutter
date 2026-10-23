@@ -9,6 +9,7 @@ export interface InvoiceSnapshot {
   invoice_id: string; invoice_number: string; order_id: number; customer_id: number; customer: string;
   paid_at: string; payment_reference: string; payment_status: string; currency: 'PKR';
   subtotal_cents: string; delivery_cents: string; total_cents: string; items: InvoiceItem[];
+  cash_event_id?: number; cash_actor_role?: 'admin' | 'rider';
 }
 export function cents(value: string): bigint {
   if (typeof value !== 'string' || !/^\d{1,15}$/.test(value)) throw Error('INVOICE_INVALID_MONEY');
@@ -25,9 +26,13 @@ function text(value: string): string {
 export function validateInvoice(s: InvoiceSnapshot): void {
   if (!s || !Number.isSafeInteger(s.order_id) || !Number.isSafeInteger(s.customer_id) || s.currency !== 'PKR' ||
     !/^TR-\d{1,20}$/.test(s.invoice_number) || !Number.isFinite(Date.parse(s.paid_at)) ||
-    !['PAID', 'SUCCESS', 'COMPLETED', 'SUCCEEDED'].includes(s.payment_status) ||
+    !['PAID', 'SUCCESS', 'COMPLETED', 'SUCCEEDED', 'CASH_RECORDED'].includes(s.payment_status) ||
     !Array.isArray(s.items) || s.items.length < 1 || s.items.length > 100) throw Error('INVOICE_SOURCE_REVIEW_REQUIRED');
   text(s.customer); text(s.payment_reference);
+  if (s.payment_status === 'CASH_RECORDED' && (!Number.isSafeInteger(s.cash_event_id) || s.cash_event_id! <= 0 ||
+    !['admin', 'rider'].includes(s.cash_actor_role ?? '') || s.payment_reference !== `COD-CASH-${s.cash_event_id}`)) {
+    throw Error('INVOICE_SOURCE_REVIEW_REQUIRED');
+  }
   let sum = 0n;
   for (const i of s.items) {
     text(i.product); text(i.vendor);
@@ -72,7 +77,8 @@ export async function invoicePdf(s: InvoiceSnapshot): Promise<Uint8Array> {
     if (line) { ensure(18); page.drawText(line, { x, y, size, font, color }); y -= 17; }
   }
   draw('TezRider', 44, 22, 507, rgb(0.1, 0.37, 0.13)); y -= 8;
-  draw(`PAID INVOICE ${s.invoice_number}`, 44, 14);
+  const manualCash = s.payment_status === 'CASH_RECORDED';
+  draw(`${manualCash ? 'COD CASH RECEIPT' : 'PAID INVOICE'} ${s.invoice_number}`, 44, 14);
   draw(`Order #${s.order_id}  |  Date ${date.toISOString().slice(0, 10)} (UTC)`);
   draw(`Customer #${s.customer_id}`); draw(s.customer); y -= 12;
   const groups = new Map<number, InvoiceItem[]>();
@@ -95,7 +101,11 @@ export async function invoicePdf(s: InvoiceSnapshot): Promise<Uint8Array> {
   ensure(160);
   draw(`Items subtotal: PKR ${money(s.subtotal_cents)}`, 285, 10, 266);
   draw(`Shared delivery fee: PKR ${money(s.delivery_cents)}`, 285, 10, 266);
-  draw(`Total paid: PKR ${money(s.total_cents)}`, 285, 12, 266); y -= 12;
+  draw(`${manualCash ? 'Cash recorded' : 'Total paid'}: PKR ${money(s.total_cents)}`, 285, 12, 266); y -= 12;
+  if (manualCash) {
+    draw(`Manual cash acknowledgement recorded by an authorized ${s.cash_actor_role}.`);
+    draw('The app did not perform a payment-provider transfer.');
+  }
   draw(`Payment status: ${s.payment_status}`); draw('Payment reference:'); draw(s.payment_reference);
   const pages = doc.getPages();
   pages.forEach((p, i) => p.drawText(`TezRider | ${s.invoice_number} | Page ${i + 1}/${pages.length}`, { x: 44, y: 30, size: 8, font: latin, color: rgb(0.4, 0.4, 0.4) }));
