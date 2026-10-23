@@ -5,6 +5,7 @@ import '../models/user_model.dart';
 import '../widgets/app_drawer.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cnic_document_viewer.dart';
+import '../widgets/account_review_dialog.dart';
 import 'admin_disputes_screen.dart';
 import 'admin_users_screen.dart';
 import 'admin_broadcasts_screen.dart';
@@ -652,30 +653,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Future<void> _confirmReview(UserModel item, String status) async {
     if (adminCtrl.reviewing.value != null) return;
-    final confirmed = await Get.dialog<bool>(
-      AlertDialog(
-        title: Text(
-          status == 'approved'
-              ? 'Approve this account?'
-              : 'Reject this account?',
-        ),
-        content: const Text(
-          'The account status will change only after server confirmation.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(result: false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Get.back(result: true),
-            child: const Text('Confirm'),
-          ),
-        ],
+    final reason = await Get.dialog<String>(
+      AccountReviewDialog(
+        approved: status == 'approved',
+        requireReason: status == 'rejected' && item.role == 'vendor',
       ),
     );
-    if (!mounted || confirmed != true) return;
-    await adminCtrl.updateStatus('users', item.id, status);
+    if (!mounted || reason == null) return;
+    await adminCtrl.updateStatus('users', item.id, status, reason: reason);
   }
 
   Widget _ridersTab() {

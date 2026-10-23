@@ -5,16 +5,22 @@ import '../theme/app_theme.dart';
 import 'login_screen.dart';
 import 'cnic_document_screen.dart';
 import '../services/cnic_document.dart';
+import '../services/onboarding_service.dart';
+import '../controllers/auth_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 const _kBg = Color(0xFFF5F0E8);
 const _kText = Color(0xFF1A1340);
 const _kTextSub = Color(0xFF6B6B8A);
-const _kGreen = Color(0xFF10B981);
 
 class SignupScreen extends StatefulWidget {
   final String? initialRole;
-  const SignupScreen({super.key, this.initialRole});
+  final bool completeExisting;
+  const SignupScreen({
+    super.key,
+    this.initialRole,
+    this.completeExisting = false,
+  });
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
@@ -26,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _pass = TextEditingController();
   final _cnic = TextEditingController();
   final _storeName = TextEditingController();
+  final _storeAddress = TextEditingController();
 
   bool _loading = false;
   bool _obscure = true;
@@ -68,6 +75,15 @@ class _SignupScreenState extends State<SignupScreen> {
     _role = const {'customer', 'vendor', 'rider'}.contains(widget.initialRole)
         ? widget.initialRole!
         : 'customer';
+    if (widget.completeExisting) {
+      final user = Supabase.instance.client.auth.currentUser;
+      final data = OnboardingService.fromMetadata(user?.userMetadata ?? {});
+      _name.text = data.name;
+      _phone.text = data.phone;
+      _email.text = user?.email ?? '';
+      _storeName.text = data.storeName;
+      _storeAddress.text = data.storeAddress;
+    }
   }
 
   @override
@@ -78,6 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _pass.dispose();
     _cnic.dispose();
     _storeName.dispose();
+    _storeAddress.dispose();
     super.dispose();
   }
 
@@ -86,11 +103,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<void> _signup() async {
     if (_loading) return;
-    final name = _name.text.trim();
     final email = _email.text.trim();
     final pass = _pass.text;
-
-    if (name.isEmpty || email.isEmpty || pass.isEmpty) {
+    if (_name.text.trim().isEmpty ||
+        email.isEmpty ||
+        (!widget.completeExisting && pass.isEmpty)) {
       _err('Please fill all required fields');
       return;
     }
@@ -98,19 +115,22 @@ class _SignupScreenState extends State<SignupScreen> {
       _err('Enter a valid email address');
       return;
     }
-    if (pass.length < 6) {
+    if (!widget.completeExisting && pass.length < 6) {
       _err('Password must be at least 6 characters');
       return;
     }
-    if ((_role == 'rider' || _role == 'vendor') && _cnic.text.trim().isEmpty) {
-      _err('CNIC is required for ${_role}s');
+    final data = RegistrationData(
+      name: _name.text,
+      phone: _phone.text,
+      role: _role,
+      storeName: _storeName.text,
+      storeAddress: _storeAddress.text,
+    );
+    if (data.error != null) {
+      _err(data.error!);
       return;
     }
-    if (_role == 'vendor' && _storeName.text.trim().isEmpty) {
-      _err('Shop/store name is required for vendors');
-      return;
-    }
-    if (_role == 'rider') {
+    if (_role == 'rider' && !widget.completeExisting) {
       try {
         normalizeCnic(_cnic.text.trim());
       } on FormatException catch (e) {
@@ -122,9 +142,19 @@ class _SignupScreenState extends State<SignupScreen> {
         return;
       }
     }
-
     setState(() => _loading = true);
     try {
+      final client = Supabase.instance.client;
+      if (widget.completeExisting) {
+        await OnboardingService().complete(data, updateProfile: true);
+        await Get.find<AuthController>().logout(navigate: false);
+        Get.offAll(() => const LoginScreen());
+        Get.snackbar(
+          'Profile saved',
+          'Sign in to check your account approval.',
+        );
+        return;
+      }
       if (_role == 'rider') {
         await _cnicDraft.save(
           email,
@@ -133,143 +163,51 @@ class _SignupScreenState extends State<SignupScreen> {
           _cnicRequest,
         );
       }
-      final res = await Supabase.instance.client.auth.signUp(
+      final res = await client.auth.signUp(
         email: email,
         password: pass,
-        data: {'name': name, 'role': _role, 'phone': _phone.text.trim()},
+        data: data.metadata,
       );
-
       if (res.user == null) {
-        _err('Sign up failed. Please try again.');
+        _err('Sign up was not confirmed. Please retry.');
         return;
       }
-
-      if (_role == 'rider') {
-        if (res.session == null) {
-          Get.snackbar(
-            'Verify your email',
-            'Verify the email, then sign in as Rider to finish your CNIC submission. Registration remains incomplete until the document is uploaded.',
-            snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 8),
-          );
-          Get.off(() => const LoginScreen());
-        } else {
-          try {
-            await Supabase.instance.client.from('users').insert({
-              'name': name,
-              'email': res.user!.email,
-              'phone': _phone.text.trim(),
-              'role': 'rider',
-              'verification_status': 'pending',
-            });
-          } on PostgrestException catch (e) {
-            if (e.code != '23505') rethrow;
-          }
-          Get.off(() => const CnicDocumentScreen());
-        }
-        return;
-      }
-
-      // Always insert profile — regardless of whether email confirmation is required.
-      // If session is null (email not yet confirmed), the upsert runs anyway so the
-      // record exists the moment the user verifies and signs in.
-      // Customers/admins are auto-approved. Riders & vendors must be
-      // reviewed by an admin before they can access their dashboard —
-      // this is enforced regardless of the table's default value.
-      final needsAdminApproval = _role == 'rider' || _role == 'vendor';
-
-      final Map<String, dynamic> profileData = {
-        'name': name,
-        'email': email,
-        'phone': _phone.text.trim(),
-        'role': _role,
-        'verification_status': needsAdminApproval ? 'pending' : 'approved',
-      };
-      if (_role == 'rider' || _role == 'vendor') {
-        profileData['cnic'] = _cnic.text.trim();
-      }
-
-      try {
-        await Supabase.instance.client
-            .from('users')
-            .upsert(profileData, onConflict: 'email');
-      } catch (insertErr) {
-        debugPrint('users table upsert error: $insertErr');
-      }
-
-      // Vendors also get a row in the `vendors` table (store_name) —
-      // this is what shows up as the shop name on customer product cards.
-      if (_role == 'vendor') {
-        try {
-          final userRecord = await Supabase.instance.client
-              .from('users')
-              .select('id')
-              .eq('email', email)
-              .maybeSingle();
-          if (userRecord != null) {
-            await Supabase.instance.client.from('vendors').upsert({
-              'user_id': userRecord['id'],
-              'store_name': _storeName.text.trim(),
-              'is_active': true,
-            }, onConflict: 'user_id');
-          }
-        } catch (vendorErr) {
-          debugPrint('vendors table upsert error: $vendorErr');
-        }
-      }
-
-      final needsConfirmation = res.session == null;
-
-      if (needsConfirmation) {
+      if (res.session == null) {
+        Get.off(() => const LoginScreen());
         Get.snackbar(
-          'Verify Your Email',
-          'A confirmation link has been sent to $email. Please verify before signing in.',
-          backgroundColor: const Color(0xFF1565C0),
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-          borderRadius: 14,
-          duration: const Duration(seconds: 6),
-          icon: const Icon(
-            Icons.mark_email_unread_rounded,
-            color: Colors.white,
-          ),
+          'Verify your email',
+          'Verify your email, then sign in to finish registration. Vendor and Rider access remains pending Admin approval.',
+          duration: const Duration(seconds: 8),
         );
+        return;
+      }
+      final completed = await OnboardingService().complete(data);
+      if (completed['role'] == 'rider') {
+        final auth = Get.find<AuthController>();
+        await auth.accountGate.reset();
+        if (!await auth.enforceAccountAccess(passwordLogin: true)) {
+          throw StateError('Account access was not confirmed.');
+        }
+        await auth.credentials.remember(client.auth.currentSession!, 'rider');
+        Get.off(() => const CnicDocumentScreen());
       } else {
+        await Get.find<AuthController>().logout(navigate: false);
+        Get.offAll(() => const LoginScreen());
         Get.snackbar(
-          'Account Created!',
-          'Please sign in to continue.',
-          backgroundColor: _kGreen,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-          borderRadius: 14,
-          icon: const Icon(
-            Icons.check_circle_outline_rounded,
-            color: Colors.white,
-          ),
+          'Profile saved',
+          'Sign in to continue. Vendor accounts require Admin approval.',
         );
       }
-      Get.off(() => const LoginScreen());
     } on AuthApiException catch (e) {
       _handleAuthError(e.statusCode?.toString() ?? '', e.message);
     } on AuthException catch (e) {
       _handleAuthError('', e.message);
-    } catch (e) {
-      final msg = e.toString();
-      debugPrint('Signup unknown error: $msg');
-      if (msg.contains('already registered') ||
-          msg.contains('already exists') ||
-          msg.contains('duplicate')) {
-        _err('This email is already registered. Try signing in instead.');
-      } else if (msg.contains('network') ||
-          msg.contains('socket') ||
-          msg.contains('connection') ||
-          msg.contains('SocketException')) {
-        _err('No internet connection. Please check your network.');
-      } else {
-        _err('Sign up failed: $msg');
-      }
+    } on RegistrationRequired {
+      _err('Complete your profile and store details, then retry.');
+    } catch (_) {
+      _err(
+        'Registration was not fully confirmed. Verify your email and sign in to resume, or retry when connected.',
+      );
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -393,6 +331,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Icons.email_outlined,
                       'you@example.com',
                       type: TextInputType.emailAddress,
+                      readOnly: widget.completeExisting,
                     ),
                     const SizedBox(height: 16),
 
@@ -405,7 +344,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    if (_role == 'rider' || _role == 'vendor') ...[
+                    if (_role == 'rider' && !widget.completeExisting) ...[
                       _buildField(
                         'CNIC Number',
                         _cnic,
@@ -416,7 +355,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SizedBox(height: 16),
                     ],
 
-                    if (_role == 'rider') ...[
+                    if (_role == 'rider' && !widget.completeExisting) ...[
                       _label('CNIC document image'),
                       if (_cnicImage != null)
                         Padding(
@@ -463,11 +402,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         'e.g. Hot N Spicy',
                       ),
                       const SizedBox(height: 16),
+                      _buildField(
+                        'Store Address',
+                        _storeAddress,
+                        Icons.location_on_outlined,
+                        'Street and city',
+                      ),
+                      const SizedBox(height: 16),
                     ],
 
-                    _label('Password'),
-                    const SizedBox(height: 8),
-                    _buildPasswordField(),
+                    if (!widget.completeExisting) ...[
+                      _label('Password'),
+                      const SizedBox(height: 8),
+                      _buildPasswordField(),
+                    ],
                     const SizedBox(height: 28),
 
                     _buildPrimaryButton(),
@@ -594,8 +542,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        const Text(
-                          'Create Account',
+                        Text(
+                          widget.completeExisting
+                              ? 'Complete Registration'
+                              : 'Create Account',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
@@ -699,6 +649,7 @@ class _SignupScreenState extends State<SignupScreen> {
     IconData icon,
     String hint, {
     TextInputType type = TextInputType.text,
+    bool readOnly = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -707,6 +658,8 @@ class _SignupScreenState extends State<SignupScreen> {
         const SizedBox(height: 8),
         TextField(
           controller: ctrl,
+          enabled: !_loading,
+          readOnly: readOnly,
           keyboardType: type,
           style: const TextStyle(
             fontSize: 14,
@@ -860,8 +813,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       strokeWidth: 2.5,
                     ),
                   )
-                : const Text(
-                    'Create Account',
+                : Text(
+                    widget.completeExisting
+                        ? 'Complete Registration'
+                        : 'Create Account',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,

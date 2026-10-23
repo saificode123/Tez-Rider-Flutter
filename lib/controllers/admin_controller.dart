@@ -186,7 +186,12 @@ class AdminController extends GetxController
         );
   }
 
-  Future<void> updateStatus(String table, String id, String newStatus) async {
+  Future<void> updateStatus(
+    String table,
+    String id,
+    String newStatus, {
+    String? reason,
+  }) async {
     if (reviewing.value != null) return;
     reviewing.value = id;
     try {
@@ -205,8 +210,12 @@ class AdminController extends GetxController
         } else {
           final changed = await _supabase
               .rpc(
-                'final1_review_vendor',
-                params: {'p_user_id': int.parse(id), 'p_status': newStatus},
+                'final2_review_vendor',
+                params: {
+                  'p_user_id': int.parse(id),
+                  'p_status': newStatus,
+                  'p_reason': reason,
+                },
               )
               .timeout(const Duration(seconds: 10));
           if (changed['verification_status'] != newStatus) {

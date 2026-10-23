@@ -13,6 +13,7 @@ class PendingVerificationScreen extends StatelessWidget {
     final String status = args?['status'] ?? 'pending';
 
     final bool isRejected = status == 'rejected';
+    final reason = args?['reason'] as String?;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -25,9 +26,12 @@ class PendingVerificationScreen extends StatelessWidget {
             icon: const Icon(Icons.logout, color: Colors.black87),
             onPressed: () async {
               await Get.find<AuthController>().logout(navigate: false);
-              Get.offAll(() => const SplashScreen(showCyclist: false), transition: Transition.fadeIn);
+              Get.offAll(
+                () => const SplashScreen(showCyclist: false),
+                transition: Transition.fadeIn,
+              );
             },
-          )
+          ),
         ],
       ),
       body: Center(
@@ -37,9 +41,16 @@ class PendingVerificationScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               isRejected
-                  ? const Icon(Icons.cancel_rounded, size: 80, color: Colors.redAccent)
-                  : Lottie.asset('assets/lottie/otp_verification.json',
-                      width: 180, height: 180),
+                  ? const Icon(
+                      Icons.cancel_rounded,
+                      size: 80,
+                      color: Colors.redAccent,
+                    )
+                  : Lottie.asset(
+                      'assets/lottie/otp_verification.json',
+                      width: 180,
+                      height: 180,
+                    ),
               const SizedBox(height: 24),
               Text(
                 isRejected ? 'Account Rejected' : 'Verification Pending',
@@ -52,8 +63,10 @@ class PendingVerificationScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 isRejected
-                  ? 'Unfortunately, your account application has been rejected by the admin. Please contact support for more details.'
-                  : 'Your account is currently under review by the admin. You will be able to access your dashboard once you are approved.',
+                    ? (reason?.trim().isNotEmpty == true
+                          ? reason!
+                          : 'Your application was rejected. Please contact support for details.')
+                    : 'Your account is currently under review by the admin. You will be able to access your dashboard once you are approved.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -61,7 +74,13 @@ class PendingVerificationScreen extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () =>
+                    Get.offAll(() => const SplashScreen(showCyclist: false)),
+                child: const Text('Check approval status'),
+              ),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -74,11 +93,17 @@ class PendingVerificationScreen extends StatelessWidget {
                   ),
                   onPressed: () async {
                     await Get.find<AuthController>().logout(navigate: false);
-                    Get.offAll(() => const SplashScreen(showCyclist: false), transition: Transition.fadeIn);
+                    Get.offAll(
+                      () => const SplashScreen(showCyclist: false),
+                      transition: Transition.fadeIn,
+                    );
                   },
-                  child: const Text('Return to Login', style: TextStyle(fontSize: 16, color: Colors.white)),
+                  child: const Text(
+                    'Return to Login',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),

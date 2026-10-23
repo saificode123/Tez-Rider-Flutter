@@ -28,6 +28,7 @@ class _RoleAccessGateState extends State<RoleAccessGate>
     with WidgetsBindingObserver {
   Future<bool>? _access;
   StreamSubscription<AuthState>? _changes;
+  StreamSubscription<void>? _accessChanges;
   final _client = Supabase.instance.client;
 
   @override
@@ -36,6 +37,10 @@ class _RoleAccessGateState extends State<RoleAccessGate>
     WidgetsBinding.instance.addObserver(this);
     _access = _check();
     _changes = _client.auth.onAuthStateChange.listen((_) => _reload());
+    if (Get.isRegistered<AuthController>()) {
+      _accessChanges = Get.find<AuthController>().accountGate.accessChanges
+          .listen((_) => _reload());
+    }
   }
 
   Future<bool> _check() async {
@@ -70,6 +75,7 @@ class _RoleAccessGateState extends State<RoleAccessGate>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     unawaited(_changes?.cancel());
+    unawaited(_accessChanges?.cancel());
     super.dispose();
   }
 

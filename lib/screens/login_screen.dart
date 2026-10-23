@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/account_session_service.dart';
 import '../services/account_access.dart';
+import '../services/onboarding_service.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/session_credentials.dart';
@@ -146,40 +147,27 @@ class _LoginScreenState extends State<LoginScreen>
         }
         return;
       }
-      final authenticatedEmail = res.user?.email ?? email;
-      var userRecord = await Supabase.instance.client
-          .from('users')
-          .select('*')
-          .eq('email', authenticatedEmail)
-          .maybeSingle();
-
-      // Recovery: user exists in Auth but has no profile row (e.g. signed up
-      // before the insert-always fix). Create the row now so the app works.
-      if (userRecord == null) {
-        final meta = res.user?.userMetadata;
-        final recoveryData = <String, dynamic>{
-          'email': authenticatedEmail,
-          'role': const {'customer', 'vendor', 'rider'}.contains(meta?['role'])
-              ? meta!['role']
-              : _role,
-          'name': meta?['name'] ?? '',
-          'phone': meta?['phone'],
-          'verification_status': 'pending',
-        };
-        try {
-          // RLS permits creating an own pending profile. An upsert also needs
-          // UPDATE on email/role, which are deliberately protected columns.
-          await Supabase.instance.client.from('users').insert(recoveryData);
-        } on PostgrestException catch (error) {
-          // Another sign-in can create the same profile concurrently.
-          if (error.code != '23505') rethrow;
-        }
-        userRecord = await Supabase.instance.client
-            .from('users')
-            .select('*')
-            .eq('email', authenticatedEmail)
-            .maybeSingle();
+      try {
+        await OnboardingService().completeFromMetadata(res.user!);
+      } on RegistrationRequired catch (required) {
+        Get.off(
+          () =>
+              SignupScreen(initialRole: required.role, completeExisting: true),
+        );
+        return;
       }
+      // The first check may have seen PROFILE_MISSING. Bind the live account
+      // watcher to the now-confirmed profile before any dashboard is opened.
+      await authController.accountGate.reset();
+      if (!await authController.enforceAccountAccess(passwordLogin: true)) {
+        _showError('Account access could not be confirmed. Please retry.');
+        return;
+      }
+      final userRecord = await Supabase.instance.client
+          .from('users')
+          .select('id,role,verification_status,is_blocked,rejection_reason')
+          .eq('auth_user_id', res.user!.id)
+          .single();
 
       final access = AccountAccess.fromProfile(userRecord);
       final realRole = access.role;
@@ -200,7 +188,10 @@ class _LoginScreenState extends State<LoginScreen>
         }
         Get.offAllNamed(
           '/pending_verification',
-          arguments: {'status': vStatus},
+          arguments: {
+            'status': vStatus,
+            'reason': userRecord['rejection_reason'],
+          },
         );
       } else {
         _goTo(realRole);

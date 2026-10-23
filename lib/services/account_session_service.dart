@@ -62,6 +62,9 @@ class SupabaseAccountSessionBackend implements AccountSessionBackend {
 class AccountSessionGate {
   AccountSessionGate(this.backend, this.onDenied);
   final AccountSessionBackend backend;
+  final _accessChanges = StreamController<void>.broadcast(sync: true);
+  Stream<void> get accessChanges => _accessChanges.stream;
+  String? _accessSignature;
   final Future<void> Function(AccountDisposition) onDenied;
   Timer? _coalesce;
   String? _account;
@@ -92,6 +95,13 @@ class AccountSessionGate {
           generation != _generation ||
           account != backend.accountId) {
         return AccountDisposition.expired;
+      }
+      final signature =
+          '${value['code']}:${value['id']}:${value['role']}:'
+          '${value['verification_status']}:${value['is_blocked']}';
+      if (signature != _accessSignature) {
+        _accessSignature = signature;
+        _accessChanges.add(null);
       }
       current = switch (value['code']) {
         'OK' => AccountDisposition.allowed,
@@ -154,6 +164,7 @@ class AccountSessionGate {
     _pending = null;
     _account = null;
     _profile = null;
+    _accessSignature = null;
     _coalesce?.cancel();
     await backend.unsubscribe();
   }
@@ -161,6 +172,7 @@ class AccountSessionGate {
   Future<void> dispose() async {
     _closed = true;
     await reset();
+    await _accessChanges.close();
   }
 }
 

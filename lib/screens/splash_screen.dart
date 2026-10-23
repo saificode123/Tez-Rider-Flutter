@@ -119,7 +119,7 @@ class _SplashScreenState extends State<SplashScreen>
         if (account != null) {
           final profile = await client
               .from('users')
-              .select('role,verification_status,is_blocked')
+              .select('role,verification_status,is_blocked,rejection_reason')
               .eq('auth_user_id', account.id)
               .maybeSingle()
               .timeout(const Duration(seconds: 8));
@@ -132,7 +132,10 @@ class _SplashScreenState extends State<SplashScreen>
           } else {
             Get.offAllNamed(
               '/pending_verification',
-              arguments: {'status': access.status},
+              arguments: {
+                'status': access.status,
+                'reason': profile?['rejection_reason'],
+              },
             );
           }
           return;
