@@ -1,0 +1,3195 @@
+{
+  "functions": [
+    {
+      "schema": "public",
+      "name": "update_timestamp",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": null,
+      "definition_sha256": "ac8a9436bc4b7758965840d9df7d0ec5df68911159594d0d2b7b43ca0b1a5d2c",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "rls_auto_enable",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=pg_catalog"
+      ],
+      "definition_sha256": "b21d88816c445d14cef5032c3cd4abaebc1db2001fcb3435022ab6b496182ca4",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "vendor_can_insert_product",
+      "signature": "p_vendor_id integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "59e77d08a33755321ac62d7dc623b613c54c732d0bbad26a360263356332e5d7",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_append_only",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "09cc1a3817588a737546bfb16b69e547eec029b78d9d26c9d2406ec309c428c9",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "is_admin",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "d5dde9de0d135cd15419985271fe66265c15d6a51f128139343e816dfb57bf85",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_role",
+        "is_admin"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "assign_available_rider",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": null,
+      "definition_sha256": "e2bcb20fd16d93a7fa236a4bdd1af2b5d0913706c1431222394008dd3828eb52",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "get_vendor_ratings",
+      "signature": "p_vendor_ids bigint[]",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": null,
+      "definition_sha256": "12a3de8c1d10d67b0fbca542923710f5480d24df73a2864911b695053cf03fb7",
+      "app_source_references": [
+        "lib/controllers/vendor_info_controller.dart"
+      ],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "notify_new_order",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": null,
+      "definition_sha256": "55f3c2cf81e2a5bc982f75e6b7849a2d91bf24413894199db80404a69a633026",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "is_current_vendor",
+      "signature": "p_vendor_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "3411bf8fccea30fbff9108fc2a7a52ff8dcbd9df330ec2bb1715f9b5fd4aa366",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "encrypt_cnic",
+      "signature": "p_value text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "423672afd64c818dcfc8097a3f1ea48f92b9deb6c7064e959dd45b4bb8efacfe",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "decrypt_cnic",
+      "signature": "p_value text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e49cfc5764a1d7efe25ec4dd1e1cc6a5e23d419ced7bedc0bedaf19afb434a9c",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "mask_cnic",
+      "signature": "p_value text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ed0b7c5a65e3921d21cbb6342812a0260d8b777134228a3ec9e7288e0b0a44ec",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "document_exists",
+      "signature": "p_user bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1570c2c4b52f020cc5171b5863df377103c7d5e55d13b1fbe60bd22b6460b925",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "guard_user",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1b37baff890e6f3af7a2ae1d568fa17a1edec0f3d65652dd4b038cc4be815004",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_role",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "225712fb5a1ee7d7e1ef4ef02dce87f20590290fbd2e2821921d8f7c54a382c9",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_approved_rider",
+      "signature": "p_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e009ae637e35641d3e70770abcc71c3f94362cb374510293278f42a4faa43083",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_delivery_timestamp",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6534074c8a86e273a2ebdc671a6539cba5ca804abe471eac7955ab58a59f3af8",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_actor",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "607fdb8972fb68a40fc90529a1389ae9f76c0f080f29b9c2f04e68209f345090",
+      "app_source_references": [
+        "lib/controllers/notification_controller.dart",
+        "lib/controllers/rider_controller.dart",
+        "lib/controllers/vendor_controller.dart",
+        "lib/screens/map_screen.dart"
+      ],
+      "guard_references": [
+        "auth.uid",
+        "fr21_actor",
+        "fr28_token_live"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_order_visible",
+      "signature": "p_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1c181f2a8fe0d9b818368e4f896ad812a515ba645faa916e0d3d7ec344db9312",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_begin_presence",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9ffd0c3c944e2e16ba453c4ea91361b429c5383f4c2b62edb57daa33adc22cb7",
+      "app_source_references": [
+        "lib/services/rider_presence.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_rider",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1a6500dec8da97912179306445ba85ec62f28a72ae7d26bae2f3b584763366df",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_identity",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "36d90124f89cce539ed19011422769b6525cdebe81df041f3aad86eae11b3146",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_assignment",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "80268f9c5e2f2b5a410dd83f5c57f55e6ec1a262e3a6f1a7768db146ba36b07e",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_order_assignment",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9c4f723061dde1b06b28c38ebb5e1bd5a7b2b2bbdd827c97c35c4dbe7e10f3c1",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_vendor_order",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "befcb6daf186e399528fa398a4214e9d271bdc4082ac0f8a6d394e5e9f75adcf",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_release_cancelled",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "00b916299c73de9ad5be453d4af61dd631b7c6bc1dee5ae1c12bdd3250f4907e",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "notify_vendor_on_new_order",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5b354038bdf1e2659466f2cc2c60b64c8fd33fc00a3196ae962e17e05479c339",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_order_contacts",
+      "signature": "p_order_ids bigint[]",
+      "definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "fecca1fce086e75359ee6b557768e7d2357cf5d1e94941928393db3ab592f008",
+      "app_source_references": [
+        "lib/controllers/vendor_controller.dart"
+      ],
+      "guard_references": [
+        "auth.uid"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_document_authority",
+      "signature": "p_user_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6d00d0d9d7873f80621aca631d5304f589789797429485d6a44988ef04810c53",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_dashboard_stats",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "d07147a815ed5b800a9cb0a07464006271549f1fbcceb6a564204855d582c3a3",
+      "app_source_references": [
+        "lib/controllers/rider_controller.dart",
+        "lib/controllers/vendor_controller.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_upload_authority",
+      "signature": "p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7bd9f0c3cf174ee2da53b1d4fdeefd547384ffcee058582b76a02f73a2be01c3",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_set_presence",
+      "signature": "p_online boolean, p_epoch bigint, p_sequence bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e70be84808813d5b942213ee416d2591e9c9746bde9b275ecfe508bb0693f666",
+      "app_source_references": [
+        "lib/services/rider_presence.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_guard_vendor_transition",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "8af8169c744d2d68f83db49c93b2a776c2555874de4f3656eee62687434c78bb",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_options",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9e02ad36568530fbf8acdee69dc3c6e23c3fcc5e61b9a0ee437756587fa4bd80",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_request_status",
+      "signature": "p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9d69d21dd1d15403995f689bba92fe0c3b5296f6b7062d0f425a791f723df840",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr04_private",
+      "name": "normalize_cnic",
+      "signature": "p_value text",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ea0db9ed14423921aad952e7397d25ee98dd09418210e42d0c7eb01fcfef42db",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_complete_delivery",
+      "signature": "p_order_id bigint, p_otp text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "041d88de3d6429ea8ecc2a794ad1c8cdf907437efdb02049d508f2a073ddda23",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_eligible_orders",
+      "signature": "p_before bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5f575a43610923aa006d66987f2eb9dd8e286e3927dc37e943a1a198e72053ac",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_history",
+      "signature": "p_before bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "892313ec46515b9b179907bbe37ad589cf4dd7052b0b057e82f70befa016acde",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_application_status",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "62549c9de805075846ed0dd8cbc342c276afca520b9782199ebeefb123552eb0",
+      "app_source_references": [
+        "lib/services/cnic_document.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_chat_owned",
+      "signature": "p_room bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "83942f3b6613f13b23e55784f5e0cc886ef15010ad241924a6bb4af9c7d01de4",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_detail",
+      "signature": "p_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "eb5a9db13634915e80a82c8f23c9b2f748e4e4c7f0702196679ea77073190ccc",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_admin_riders",
+      "signature": "p_before bigint, p_limit integer, p_status text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4dd8b845adb394324326fc6881756112661d8bc15db32c5bc4ca3ea56380c6ca",
+      "app_source_references": [
+        "lib/controllers/admin_controller.dart"
+      ],
+      "guard_references": [
+        "fr21_role",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_review_rider",
+      "signature": "p_user_id bigint, p_status text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e88b441b18abca5d29c9d07dd7f8977a634d328eb128adcf64e4f370ed4f6f5b",
+      "app_source_references": [
+        "lib/controllers/admin_controller.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_order_rider_identity",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "bad5dfbb09cd882dbd73bee31711acac127357bb62ed8d7f61bec8bff324afb8",
+      "app_source_references": [
+        "lib/screens/map_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_require_unblocked",
+      "signature": "p_uid uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "19c45d12d293615f6612f65fc4cbc376e0c7818243b73d93e2d9ba3b9de698b4",
+      "app_source_references": [],
+      "guard_references": [
+        "fr28_require_unblocked"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_guard_identity",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4760f026947e94a78498800ac924e7a22e9167353e88913ab61792e6004a4c45",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr25_private",
+      "name": "check_order",
+      "signature": "p_order_id bigint, p_actor bigint",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "99df5f0715089c1bbdc51c9d58facff321fdd3fcac9d73d6ab842eb89c068926",
+      "app_source_references": [],
+      "guard_references": [
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_active_orders",
+      "signature": "p_target bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "97d6022698edd670e63641a22981f4fbb4b3fecd7899b0e969a85149184ebca0",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_evidence_authority",
+      "signature": "p_dispute_id bigint, p_index integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c17515d6c9f983beb91f0dc62a3e911a7bebd2748343f9e74f1ea423f17b0d8a",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_identity",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "f92e2f47da0646d469f78c315458b02df959ae9904ee2941470ab5c9db7cdc41",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "is_current_user_allowed",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "29d34fe09aa286b67c30fe70d5f34d530f4a6a30260c47206e7f891b690ab91c",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "fr28_token_live",
+        "is_current_user_allowed"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_prepare",
+      "signature": "p_request_id uuid, p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9bc5c8d709578071b72855bc519d541009fb80ed2aa60ff4f1c1f4a9445e1323",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "auth.uid",
+        "fr21_actor",
+        "fr21_role",
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_account_status",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c9a7a7c361de614e04582c26c238c1f013d4eadb9fc146eb2925fc2c44a2e4e4",
+      "app_source_references": [
+        "lib/services/account_session_service.dart",
+        "lib/widgets/role_access_gate.dart"
+      ],
+      "guard_references": [
+        "auth.uid",
+        "fr28_token_live"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_revoke_sessions",
+      "signature": "p_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6b7b934d5f46b87f0a34be07fc952fab7520bcfde43f3fd096a070c0a72326eb",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_support_chat",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5e9bf05cba5f4bd24849a2adff4d8c5974ae698e69fea5eb0358f6f91f9a0b29",
+      "app_source_references": [
+        "lib/screens/chat_rooms_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_chat_list",
+      "signature": "p_before bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7f42f1f1cff7924cac3fd32d3e8172621e2303e6da7b6e046ce70e996ecb5d9c",
+      "app_source_references": [
+        "lib/screens/chat_rooms_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_user_list",
+      "signature": "p_search text, p_role text, p_blocked boolean, p_before_at timestamp with time zone, p_before_id bigint, p_limit integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "f90ac8149b1879a85f11f92730e8f4e974f6e602a7ae53c3a4c661122d036bea",
+      "app_source_references": [
+        "lib/services/admin_users_service.dart"
+      ],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_vendor_visible",
+      "signature": "p_vendor bigint",
+      "definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "3a829fe12ebd658cb1cd9cc04a7861a3de71d5e2df4b9e8504bcbaa157567bbd",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "admin_set_user_blocked",
+      "signature": "p_actor uuid, p_target bigint, p_blocked boolean, p_request uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5b6854c367989600f682e95409b73cf3c7bc39496104004925ccdb0930509510",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_sync_context",
+      "signature": "p_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "737f1276e7fa78f8c3d9e10d53386a4b18dbb3bd1f36d0043ef1e6ec9d42bacf",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_finish",
+      "signature": "p_id uuid, p_failure text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "cd5c49c796e40c816ee5bdd1bb7756c3ae52c4ef680a4ed8de0492ba0c272c26",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_begin_evidence",
+      "signature": "p_auth_id uuid, p_request_id uuid, p_digest text, p_mime text, p_size integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "13994b764f6a9a0d053a2fdbe6e6e7e577adf9f04bbc804280f3db75d9fd157d",
+      "app_source_references": [],
+      "guard_references": [
+        "fr28_require_unblocked",
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_begin_upload",
+      "signature": "p_auth_uid uuid, p_request_id uuid, p_digest text, p_extension text, p_cnic text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6ed966e64672f8436eeb872a9e83e7f0c018e261cbd530bfbc871266f80fdbad",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr28_require_unblocked",
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_finish_upload",
+      "signature": "p_auth_id uuid, p_request_id uuid, p_digest text, p_mime text, p_size integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a051ce541a8d847ea67c103261b059e34a4e6cfb6e4aaa593cdaef32dadfb187",
+      "app_source_references": [],
+      "guard_references": [
+        "fr28_require_unblocked",
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "create_dispute",
+      "signature": "p_order_id bigint, p_reason text, p_description text, p_evidence_paths text[], p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "b4d98b630a2f84839ed16019422b9f52dc31f4f0958ca40a04c1b380c7c99d41",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr25_private.check_order"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_abandon",
+      "signature": "p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "2e007a902ca8d221e234454268f5707235920f9233c120b5b52a863b00c511ca",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_options",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4455f7675535511f4fc4c0329b8d88ee8daba51dc75497ebd1b2eccfa382743b",
+      "app_source_references": [
+        "lib/services/admin_dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_queue",
+      "signature": "p_status text, p_before_at timestamp with time zone, p_before_id bigint, p_limit integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "91e91ff2a0830e5ed9e15a6ada4c993e8bc90126ea8fe053650d2f589df8da4e",
+      "app_source_references": [
+        "lib/services/admin_dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_vendors",
+      "signature": "p_id bigint, p_before bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "b27f717e818102ce75fe3d835f75e43d9ff80ceaa6169b2205173b89f3dfc0a1",
+      "app_source_references": [
+        "lib/services/admin_dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_vendor_owns_order",
+      "signature": "p_order bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "79f33bf88f3ccf234f5ef2d823bdbdb899cbfc964f89e97aafef4ed97a6cec52",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_final_immutable",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e8467b1e617eb35002b08a82b8b7d6f2ab35ff6f76688e7e4703c5b21d63c259",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_accept_order",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "8eec2a36d6bc66afa16dc69310bab8138a3032756089115a416f6bd462aa9640",
+      "app_source_references": [
+        "lib/controllers/rider_controller.dart"
+      ],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr26_detail",
+      "signature": "p_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "61518670fe496241ac678c3f6163bdf4fe08d20dd576744f97b4e86a29efb45a",
+      "app_source_references": [
+        "lib/services/admin_dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr20_guard_manual_flag",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "661ad7033978bf384aa8daea03962924abbefc52d0770dc2dbde26425a5a5a0f",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_ready_and_assign",
+      "signature": "p_vendor_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4fc6a10820e00943303aee7645bfa4b62ea74105a8cc998cda02b6ea29891bf0",
+      "app_source_references": [
+        "lib/services/rider_assignment_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "admin_resolve_dispute",
+      "signature": "p_dispute_id bigint, p_decision text, p_note text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "99135358dce2d2b1d33ed101278d943eb796662ac9338706e92d47802935c980",
+      "app_source_references": [
+        "lib/services/admin_dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr21_update_location",
+      "signature": "p_lat numeric, p_lng numeric",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a83cf2ce595c82513b839fd2bc5f24e8d9f87dabf67a79acea876feac7e07e1d",
+      "app_source_references": [
+        "lib/controllers/rider_controller.dart",
+        "lib/services/delivery_location_platform.dart"
+      ],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_estimate",
+      "signature": "p_audience text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "82ec0fa6a861a399d9bbff45cdc75ffcb08b3a6d71f0a133e94925bf4d3f8cea",
+      "app_source_references": [
+        "lib/services/admin_broadcast_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "admin_send_broadcast",
+      "signature": "p_request_id uuid, p_title text, p_message text, p_audience text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7ab18622fc802f5187c386b4d7da6f8083ac062e25b385ec5c705f18a1a1eab0",
+      "app_source_references": [
+        "lib/services/admin_broadcast_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "is_current_user_allowed"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr04_finish_upload",
+      "signature": "p_auth_uid uuid, p_request_id uuid, p_path text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "b9145a828507a1f31f6b06b75722d9537dc11e4fbb0145825697e9be01e02605",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr28_require_unblocked"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr20_assignment_status",
+      "signature": "p_vendor_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "13fa114ae71777e7d48919634a443f33d975af973d7fd832b9b1bb85bf245056",
+      "app_source_references": [
+        "lib/services/rider_assignment_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "timeline",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "805ec18cf7dd36845357c8029d7593aa5ec82fd92a05118d433b3215cfebd03b",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "sync_order_status_from_vendor_order",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "abbbf31e3f48097c3733965d99573e9b9a9169278300f4d0f4be41cba149ad82",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "issue_delivery_otp",
+      "signature": "p_order_id bigint, p_request_id uuid, p_actor uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c141196fae48efe83d3c74d2ef76c17c989bcfe6814ff64f99bb5414112bf7c4",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr28_require_unblocked"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr33_equal",
+      "signature": "a bytea, b bytea",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "346e89db25155241138d18d1c293ae2dd7302b6a2c9d6513bdbf8aeb71bb5611",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "cancel_batch",
+      "signature": "p_ids bigint[], p_reason text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4910fa4a41952b1e88831a1e525c77501b17fda4a282e9e9c46a5de7e0faed30",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "checkout_base",
+      "signature": "p_request_id uuid, p_items jsonb, p_delivery jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "88169d1bf3f00dfebafb38bda03e2c354ddf8cf6c30107a3be32cbbb4ef0f44b",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "protect_item",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "0ac55cda4686d199d4662aa9a31c34e3bc01f33a939c0e4e98f96c06c5c4cc7e",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "payment_failed",
+      "signature": "p_order bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "3133849ce9690d28536a21a16cca10ade6ea827839c7310d19c8ff51fae22521",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr33_tag",
+      "signature": "p_order bigint, p_nonce text, p_code text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a4a07ede78eb10d605b2bf1c49785e311af033c5bed3830954b3a10f8f79715a",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr33_guard_client_order",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e65013b69b50a408cc1fcf2d74b82946b5ecfd4fd0c2936487465dfcd79f537a",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr33_finish_send",
+      "signature": "p_id uuid, p_result text, p_provider_id text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "79ff9baa8f69b83646aa15cc9fc714015905dbb706ab944226b106ffe73a4b5e",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr33_start_send",
+      "signature": "p_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "f6b13eab9ee7d059a405b22b67ca8db0505d1e8fee768c278684b6ce338e4e97",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "delivery_otp_status",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6a8a958ffab7406800259f363e148777c9f3325c1cbd5cabc44322ac27714eed",
+      "app_source_references": [
+        "lib/services/delivery_otp_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "verify_delivery_otp",
+      "signature": "p_order_id bigint, p_otp text, p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1e2e7d7204fc2689f519ed579aa9195abee3de690707ed990def06e9c5fbb5a1",
+      "app_source_references": [
+        "lib/services/delivery_otp_service.dart"
+      ],
+      "guard_references": [
+        "auth.uid",
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "vendor_adjust_stock",
+      "signature": "p_product_id bigint, p_quantity integer, p_mode text, p_reason text, p_request_id uuid, p_threshold integer, p_expected_version bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "102ebb752a465beb3278667476323713245c82e5cbac7b16d678f7272e93191b",
+      "app_source_references": [
+        "lib/widgets/stock_adjustment_dialog.dart"
+      ],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "checkout_base",
+      "signature": "p_request_id uuid, p_items jsonb, p_delivery jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "12a5cc29a5145657ec8e170a7dfc2866bfd98b7d5192c960cb025ae75ecefc45",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "final1_private",
+      "name": "session_deadline",
+      "signature": "p_created timestamp with time zone, p_not_after timestamp with time zone",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c65e938ff2a4c707f92b575284ed2822e79c5a4bceb17f0fe8b39372cc0e945f",
+      "app_source_references": [],
+      "guard_references": [
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_register_push",
+      "signature": "p_installation uuid, p_token text, p_secret text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5e56add86bad111f0dd4bf352247e09e3093d736908de5e0512edff37b431432",
+      "app_source_references": [
+        "lib/services/android_broadcast_push_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "is_current_user_allowed"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_unregister_push",
+      "signature": "p_installation uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "0eb8bc09ebfa4fe0b6fd0126439ab1a2dd2da47b85a3808157db22559ff55923",
+      "app_source_references": [
+        "lib/services/android_broadcast_push_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "server_only",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "0c00a2934068b082664fd83a5de5fb585859f6cdce353864215c689a91ded75e",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_resolve_push",
+      "signature": "p_installation uuid, p_secret text, p_broadcast uuid",
+      "definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "786e284abbf76a84f02020cd4c38945c0f4f7c60d186296a395b3c9d3c1ac29f",
+      "app_source_references": [],
+      "guard_references": [
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_finish_push",
+      "signature": "p_job uuid, p_lease uuid, p_outcome text, p_provider_message text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "be0a3bc80e4a50fd92e7ea81334693882a9dcf2531c13bdca0709597356c17f4",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_push_eligible",
+      "signature": "p_job uuid, p_lease uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "807dd530cb7a646a9d2a57be230780b416fa01fb327b38493c102f65f98461ef",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr30_private",
+      "name": "block_push",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "8a32ce636b51e1c6675d72362efe75b797930c6d0325c09fc2e6d954d662fa8c",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr30_private",
+      "name": "queue_push",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e2425f1cecd873f45bb742527568440b27ee9dc98a9b1b3f21258ab789de7cb2",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr30_private",
+      "name": "dispatch_push",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "2284f282b3d1fbe9c41c27f74aefba30e020248bc4d154828fb371364125db76",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "notify_customer_on_order_status",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6792f2bc32945c659e67d039e240d085055e5be5c49579be5c0ad3e382f89d11",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "notify_vendor_on_status_change",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9e210e5beb38a3873c8aaca990991a900ae15c3304455ac1a7dd2fabbbbd1ea6",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr30_claim_push",
+      "signature": "p_limit integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ca995f182fd6e7b90a5667a7eb03937506af2f4cbeb039462f1856be5790a36d",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr25_order_history",
+      "signature": "p_before bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "f8d72a7eadb71c3e26508748c9285c299e9fe496ad58ddedbd29683d351044dd",
+      "app_source_references": [
+        "lib/screens/customer/order_history_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "cancel_locked",
+      "signature": "p_order bigint, p_reason text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c0782ba6a00040cc11cc5b54d127fc81ef2619534aafc870a058283e11011bf6",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "before_deadline",
+      "signature": "p_deadline timestamp with time zone, p_now timestamp with time zone",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "25bec9de728fb81e38700fa69c0988976637cf19539d5e1a543e7da02c1116c9",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "guard_order",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ec5c73927507fc179b86aa8b15d3199ae780a131afa2c1df5dcc8e4bbe48f0be",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr10_private",
+      "name": "guard_vendor",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "acafefbab173af0d74c711873bfa436c714d03e8a244f146a3f4b19efd9a414d",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "cancel_timed_out_orders",
+      "signature": "p_limit integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "58788fad5e0be6426e9fa85b36b768c92924e4d9753298780d4a5f52daea2984",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr10_vendor_transition",
+      "signature": "p_vendor_order_id bigint, p_status text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a5655f749ef31bef8ead02f7b86dda17974aa1420d34cf044d7c5b0e01d7dea8",
+      "app_source_references": [
+        "lib/services/order_timeout_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "low_stock",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9eeb2df4243d5f9f2b7d6e49c83ac09c90c6c678b3fbdb0ead274d34f701e563",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "adjust",
+      "signature": "p_product bigint, p_quantity integer, p_mode text, p_reason text, p_request uuid, p_threshold integer, p_version bigint, p_payload jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "2f873bea6ab622d3d125cc4aef43f7f745d72f87e763340790963eabeadddcfd",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "lock_inventory",
+      "signature": "p_orders bigint[]",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "df9542dcf90f3f023f3637a14c3dca5f785cb5a41f319a5a05d2addf4ba58785",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr17_private",
+      "name": "restore_cancelled",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "966cb946ffd5abf0ae38e7f6c89d0f3223b0b78a62fec2d4e689bd634d783b4e",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr17_save_product",
+      "signature": "p_request_id uuid, p_product_id bigint, p_data jsonb, p_stock integer, p_threshold integer, p_expected_version bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "801d3ff9db52f568c732793d41f0ea041f12b432c87ded8542df141f669f980a",
+      "app_source_references": [
+        "lib/screens/vendor/product_form_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "order_finalized",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "03127d9f9dc4eeff8e45c7efad6909fd6802b49e9b73db8e4635a7d62ecc906a",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "recipient",
+      "signature": "p_user bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "d27edc10f6d24881174b6d55b883ce6ce3fefbadfceca5360df50487521b2654",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "enqueue",
+      "signature": "p_type text, p_user bigint, p_entity text, p_id text, p_key text, p_payload jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9fa7f2ac340600bfb7108afafd24c13132d4d8224bd4183012f7db6fd49ad3f8",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "account_event",
+      "signature": "p_user bigint, p_kind text, p_source uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "bb2964eda0e3d8468883dbbe4ff3228636f4bf2080ce7df0a591249de834de5d",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "account_transition",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "d1ce6522618206a51c9a6684aaec492b7f3790ef2a39c0c3f9c3851455e5f47a",
+      "app_source_references": [],
+      "guard_references": [
+        "fr04_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "block_transition",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4c5a6f62be751f50235e146a3b3278e94f0edfbf443ce755380d4cb62c533a76",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "snapshot_order",
+      "signature": "p_order bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "b9855ffe6d711baae1992abafb1a490ed9e3461d7809053c89f67f91064aa260",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "payment_captured",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6306967b870d64409719ee6a457808e80e1b7c9f6bb1967d9cb053a343fb84f1",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "reserve_quota",
+      "signature": "p_kind text, p_key uuid, p_now timestamp with time zone",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "cc98a24a0ba0e13a48f5d1181a15b250d2e373eaf71b08edb60a9188b785c246",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "claim",
+      "signature": "p_limit integer, p_now timestamp with time zone",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "b932769a569f1e1f74b6cdfe2206f2ad5d7990cc5c7fca13a53e0ab918062c6a",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr32_private",
+      "name": "dispatch",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "3c8eeafb4bdcb3ffc00e2c6bece32346a70ffb6215ddd64d0c1bbbe1bc381653",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_claim_email",
+      "signature": "p_limit integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1aee2a0b95035900e33abb087f7bde8cc4867f269128f77fa267fc2c63b4b19f",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_begin_email",
+      "signature": "p_id uuid, p_lease uuid, p_fingerprint text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ea03f9dfe2c84cf8d27a882690831bd707021451a422bb2b674f4dbd9f4d73de",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_test_allow_email",
+      "signature": "p_ids uuid[]",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "053c21ea977c3db913e49a3c141debda8005866fccde387ceed352f07eea904a",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_finish_email",
+      "signature": "p_id uuid, p_lease uuid, p_outcome text, p_provider text, p_retry_seconds integer, p_error text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e49b3bea5da44f5cf12ffa0abd611bac7caa07a33c27db4541ccc81af98d0f0e",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_register_invoice_pdf",
+      "signature": "p_job uuid, p_lease uuid, p_sha256 text, p_bytes integer",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7161f8cce687b55308c2d37a43f230156d6bddd186bb0c91e445a5bb906397eb",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr32_invoice_authority",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "737e1ad4301895ca83527c1932b43422eb3900a2958d5b2e57fcc99035156098",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "is_current_user_allowed"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr13_can_receive",
+      "signature": "p_topic text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1e74630aaf463d9445b6bcfeb11d4785afc2e737bd334a97eb03a9d9399a3389",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr13_submit_location",
+      "signature": "p_order_id bigint, p_lat double precision, p_lng double precision, p_accuracy double precision, p_device_at timestamp with time zone, p_request_id uuid",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a4e6b0846400f6e358aa14bb5e59a609bff9cefef2e5b41c0a9e04824b9daef3",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr13_tracking_context",
+      "signature": "p_order_id bigint, p_enable boolean",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "122e1001c46d0e83c6d914f95c54c2294b302d9ac7748d0a486fe81d3839735d",
+      "app_source_references": [
+        "lib/services/delivery_location_platform.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role",
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "checklist_private",
+      "name": "guard_delivery",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "df0850e25f857674038fb087edb778307afa0e5de52e4c03cf25960bd1206509",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "checklist_private",
+      "name": "legacy",
+      "signature": "p_order bigint, p_rider bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "2e069ed39287c7a1f0b1a6e9b3e8cd53a99ade4fe0416937b40baa6d8f68aa8d",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "checklist_private",
+      "name": "allowed",
+      "signature": "p_order bigint, p_rider bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7ad6938ee1eb54ec9e37539cee651f8a6c30b5896b181bb43bc8e32de8eb1a39",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "checklist_private",
+      "name": "guard_assignment",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7aa5518dba562620b4fa8748b218c741f585617241e1567aa47af1e92a3a27f7",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "pre_delivery_checklist",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "bc41b8ccaf68938926e3c2ba3e749652af6d67091f2972d0fbb801dbc85a5223",
+      "app_source_references": [
+        "lib/services/pre_delivery_checklist_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "submit_pre_delivery_checklist",
+      "signature": "p_assignment_id bigint, p_version integer, p_confirmations jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "0ec40f006073a469ada025dd6ba3dbbed1835b2df7637f9616e642c635cae3a7",
+      "app_source_references": [
+        "lib/services/pre_delivery_checklist_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "start_checklisted_delivery",
+      "signature": "p_assignment_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "a406e86def9a1ac63afc5e44e663e5db629ad49c47d4292b522da9a0c73522a5",
+      "app_source_references": [
+        "lib/services/pre_delivery_checklist_service.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr13_private",
+      "name": "eligible",
+      "signature": "oid bigint, aid bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "6efe9df9233f81a06c376dc2b5ff9c54886e1023c9e0a8acb0fd51287b95a98e",
+      "app_source_references": [],
+      "guard_references": [
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr13_private",
+      "name": "close_session",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c5523c152b8d9d56f0d0aff2c4df1a527b2752ac7cddcb45110ef75374460e43",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr13_private",
+      "name": "cleanup",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9437f1fab6171dd278c1a3a5de79a93a80b4ab85a545630adad864a1bf994ab4",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr13_can_read",
+      "signature": "p_assignment bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "11e746d73be36e32aa20cbbef444d91a15a1310a15e02f6afe1c6db753f28e58",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "guard_destination",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "d80c36485a55e8d1661d3b9d071664e8ef63f253775b257ce777ac74b09676ad",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "invalidate",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "37184a85f39f105e5e6c4a5da69b86d8bf17d775eeaf7698e2fd17734c2a28d2",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr14_can_read",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "33b94109bbd30610ffcab8168b2a88654df6a33de6b7d12ef599fe2d133a4b7d",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr14_route_context",
+      "signature": "p_order_id bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "58a665cf801db1ad6b7a75b7f01e535734c29c0ae245b23952a2c9ff27a08abf",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "cleanup",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "1a2019edb2d3269096269d8f234aa02af13e3d5ce1a12e1b9f48fcbd41cc2ad5",
+      "app_source_references": [
+        "lib/services/dispute_service.dart"
+      ],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final01_authorize_request",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "640c80b95e433669c6a8d9cb35e73e192ca320c22d4f11131ed5245377a612b2",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "auth.role",
+        "fr28_token_live",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final01_request_ticket",
+      "signature": "p_actor uuid, p_session uuid, p_method text, p_path text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7fbed136d535659714ec77712b3a2954db255d9624d64df18d04e5ff9580c96a",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "allowed",
+      "signature": "oid bigint, actor bigint",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "ac78f6151d5730c349bc69a466d5dce04c4debaaf1de1b4cb779da1268243e86",
+      "app_source_references": [],
+      "guard_references": [
+        "fr13_private.eligible"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr10_checkout",
+      "signature": "p_request_id uuid, p_items jsonb, p_delivery jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c73ef4a81ef0d8011d6ae262095a06b4553e33d3ed3a1f4f0b8ad868448bfda0",
+      "app_source_references": [
+        "lib/screens/customer/enhanced_checkout_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr14_finish",
+      "signature": "p_order_id bigint, p_actor bigint, p_lease uuid, p_route jsonb",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "97f12ddeba1d2199aa0e49aeaaf8d97130c9f6fcbb05614092f90d524377f0a1",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "fr14_private",
+      "name": "prepare_locked",
+      "signature": "p_order_id bigint, p_actor bigint, p_configured boolean",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "127fffed1f83b1fedc92268a72d2c866ae246491a4c051a558a4695531348deb",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr14_prepare",
+      "signature": "p_order_id bigint, p_actor bigint, p_configured boolean",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "9d05d27a6e79f2f473f100fe865555f35f6a666445014bfe71595fcfbcbff0ea",
+      "app_source_references": [],
+      "guard_references": [],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final1_claim_assistant",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "526a24eb38ea62f689630130e4a54f5f7e950ebfcadf11c18e5ede063de669cd",
+      "app_source_references": [],
+      "guard_references": [
+        "fr21_actor",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "final1_private",
+      "name": "validate_profile",
+      "signature": "",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e9401054c3626f7f7a41c4770de3eda4f234ee0b61513ae9f6393bc3335ddeb4",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "final1_private",
+      "name": "audit_vendor_review",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "c76b1fcdd420dcb596b3d139fa6670cc7f1bf34814e9ffb6eebfef385044ed1d",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr21_actor",
+        "fr21_role",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final1_review_vendor",
+      "signature": "p_user_id bigint, p_status text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "5d072c697a03d608b798337ac95608fae9879cbb52ef309f2dbd8186098918d0",
+      "app_source_references": [
+        "lib/controllers/admin_controller.dart"
+      ],
+      "guard_references": [
+        "fr21_actor",
+        "fr21_role"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final1_search_products",
+      "signature": "p_query text",
+      "definer": false,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "bc28c358d847a95b149bae106bc3bdde29966688df93b2c746b81debbee8ebb2",
+      "app_source_references": [
+        "lib/screens/search_screen.dart"
+      ],
+      "guard_references": [
+        "fr21_actor"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "final01_record_failure",
+      "signature": "p_actor uuid, p_endpoint text, p_kind text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "2a4a20524065ab52bd36759c16b58ce4d2930d175a7dde003d4eaf31efa4b958",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_token_live",
+      "signature": "",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "74137090a2ddb393421b514ab84e6b4882f3056f99f1d54672333e223eb27f8e",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "fr28_token_live",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr28_pre_request",
+      "signature": "",
+      "definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "99d49cb1c878e9d72a25f7882c49b40e0e47d1edd65182379a4e8985a1f82e67",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.uid",
+        "auth.role",
+        "fr28_token_live",
+        "fr28_require_unblocked",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    },
+    {
+      "schema": "public",
+      "name": "fr13_live_topics",
+      "signature": "p_sender_topic text",
+      "definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "4a134f9c351b394155446ca448f3c29a9d1c6acbe53c3f5c601fecbbf7c5ef50",
+      "app_source_references": [],
+      "guard_references": [
+        "auth.role",
+        "fr13_private.eligible",
+        "final1_private"
+      ],
+      "method": "guard references are review aids, not an authorization test result"
+    }
+  ],
+  "table_references": {
+    "users": [
+      "lib/controllers/admin_controller.dart",
+      "lib/controllers/chat_controller.dart",
+      "lib/controllers/product_controller.dart",
+      "lib/controllers/rider_controller.dart",
+      "lib/controllers/tailoring_controller.dart",
+      "lib/screens/customer/enhanced_checkout_screen.dart",
+      "lib/screens/customer/profile_screen.dart",
+      "lib/screens/customer/saved_addresses_screen.dart",
+      "lib/screens/customer/saved_stores_screen.dart",
+      "lib/screens/customer_dashboard.dart",
+      "lib/screens/login_screen.dart",
+      "lib/screens/product_detail_screen.dart",
+      "lib/screens/rider_dashboard.dart",
+      "lib/screens/signup_screen.dart",
+      "lib/screens/splash_screen.dart",
+      "lib/screens/vendor/vendor_analytics_screen.dart",
+      "lib/screens/vendor/vendor_products_screen.dart",
+      "lib/screens/vendor_dashboard.dart"
+    ],
+    "orders": [
+      "lib/controllers/admin_controller.dart",
+      "lib/controllers/rider_controller.dart",
+      "lib/screens/customer_dashboard.dart",
+      "lib/screens/map_screen.dart",
+      "lib/screens/rider_dashboard.dart",
+      "lib/services/delivery_location_platform.dart"
+    ],
+    "chat_messages": [
+      "lib/controllers/chat_controller.dart"
+    ],
+    "notifications": [
+      "lib/controllers/notification_controller.dart"
+    ],
+    "products": [
+      "lib/controllers/product_controller.dart",
+      "lib/screens/customer_dashboard.dart",
+      "lib/screens/vendor/vendor_products_screen.dart",
+      "lib/services/inventory_service.dart"
+    ],
+    "rider_assignments": [
+      "lib/controllers/rider_assignment_controller.dart"
+    ],
+    "tailoring_requests": [
+      "lib/controllers/rider_controller.dart",
+      "lib/controllers/tailoring_controller.dart",
+      "lib/controllers/vendor_controller.dart"
+    ],
+    "vendor_orders": [
+      "lib/controllers/vendor_controller.dart",
+      "lib/screens/vendor/vendor_analytics_screen.dart",
+      "lib/services/order_timeout_service.dart",
+      "lib/services/prescription_service.dart"
+    ],
+    "vendors": [
+      "lib/controllers/vendor_info_controller.dart",
+      "lib/screens/signup_screen.dart",
+      "lib/screens/vendor_dashboard.dart"
+    ],
+    "stores": [
+      "lib/controllers/vendor_info_controller.dart"
+    ],
+    "reviews": [
+      "lib/screens/customer/rating_screen.dart",
+      "lib/screens/product_detail_screen.dart"
+    ],
+    "addresses": [
+      "lib/screens/customer/saved_addresses_screen.dart"
+    ],
+    "favourite": [
+      "lib/screens/customer/saved_stores_screen.dart",
+      "lib/screens/customer_dashboard.dart",
+      "lib/screens/product_detail_screen.dart"
+    ],
+    "categories": [
+      "lib/screens/customer_dashboard.dart",
+      "lib/screens/vendor/product_form_screen.dart"
+    ],
+    "order_items": [
+      "lib/screens/vendor/vendor_analytics_screen.dart"
+    ],
+    "admin_broadcasts": [
+      "lib/services/admin_broadcast_service.dart"
+    ],
+    "prescriptions": [
+      "lib/services/prescription_service.dart"
+    ]
+  },
+  "edge_references": {
+    "get-delivery-route": [
+      "lib/screens/map_screen.dart"
+    ],
+    "fr30-dispatch-push": [
+      "lib/services/admin_broadcast_service.dart"
+    ],
+    "admin-user-status": [
+      "lib/services/admin_users_service.dart"
+    ],
+    "shopping-assistant": [
+      "lib/services/ai_service.dart"
+    ],
+    "fr04-cnic": [
+      "lib/services/cnic_document.dart"
+    ],
+    "fr13-location": [
+      "lib/services/delivery_location_platform.dart"
+    ],
+    "send-delivery-otp": [
+      "lib/services/delivery_otp_service.dart"
+    ],
+    "fr25-evidence": [
+      "lib/services/dispute_service.dart"
+    ],
+    "fr32-invoice-url": [
+      "lib/services/invoice_service.dart"
+    ]
+  },
+  "channel_sites": [
+    {
+      "source": "lib/controllers/chat_controller.dart",
+      "line": 120
+    },
+    {
+      "source": "lib/controllers/notification_controller.dart",
+      "line": 58
+    },
+    {
+      "source": "lib/controllers/rider_controller.dart",
+      "line": 175
+    },
+    {
+      "source": "lib/controllers/vendor_controller.dart",
+      "line": 61
+    },
+    {
+      "source": "lib/services/account_session_service.dart",
+      "line": 38
+    },
+    {
+      "source": "lib/services/admin_dispute_service.dart",
+      "line": 99
+    },
+    {
+      "source": "lib/services/delivery_location_platform.dart",
+      "line": 194
+    }
+  ],
+  "counts": {
+    "functions": 175,
+    "app_referenced_function_names": 48,
+    "table_names": 17,
+    "edge_names": 9,
+    "channel_creation_sites": 7
+  },
+  "limits": "Lexical inventory includes unused variants and helper references; it does not infer runtime reachability or count patterns as passing checks. Explicit risk review and runtime mapping in FINAL03-legacy-security-review.md."
+}

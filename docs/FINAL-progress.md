@@ -1,6 +1,6 @@
 # Stage 0 audit progress
 
-> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+> Current status: FINAL03 final closure at the end and FINAL-stage-0-1-signoff.md. Earlier checkpoints are historical.
 
 > Latest work: Stage1 was explicitly authorized on2026-10-22. Historical Stage0 statements/counts below are preserved; current Stage1 status is recorded in the dated addendum at the end.
 
@@ -112,3 +112,14 @@ Canonical inventory:56files,410source templates,295noncontrol references,707hist
 TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
 
 See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.
+
+
+## FINAL03 final closure — 2026-10-23 (Asia/Karachi)
+
+Stage0 **COMPLETE at the audit/classification standard**; Stage1 **SECURITY ACCEPTED on isolated TEST**; Stage2 readinessYES, execution stopped until explicit approval.
+
+Actual final affected Flutter74PASS/0FAIL/0SKIP; Deno17PASS/0FAIL;176bounded hosted assertion records (HTTP, actual user websockets, live-claim rollback SQL and catalog comparison kept distinct). These totals do not add overlapping earlier attempts or historical290Flutter/2inherited skips/175Deno. Final whole analysis0errors/14inherited warnings/43infos, exit1; focused new security/test scope0issues. Final TEST APK built/source-hash checked, installed, actual customer login/restart, offline read/visible failure/Retry, logout/restart signed out passed. Prior Vendor account switching and four-role/block/revoke evidence retained. Storage corruption/unavailability is ten mocked cases, not phone corruption.
+
+Confirmed fixes: cached private tracking revocation, legacy product-media reference bypass, fail-closed account-bound credentials/logout fence, chat stale-room/account callbacks, role-safe drawer and truthful unavailable attachment/gift states; rendering overflow/Material and persistence-confirmation defects fixed. TEST45versions/84RLS tables/175functions,0004retained once. FR14 still NOT FUNCTIONALLY ACCEPTED. Production untouched; no Stage2, paid dependency, Docker, excluded scale test, push or merge. Phone left signed out; original connectivity restored.
+
+See final signoff and new FINAL03 evidence. Failed intermediate attempts remain recorded and are not final passes. Earlier PARTIAL text is historical.

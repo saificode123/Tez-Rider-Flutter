@@ -1,6 +1,6 @@
 # Stage 0 SRDS traceability
 
-> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+> Current status: FINAL03 final closure at the end and FINAL-stage-0-1-signoff.md. Earlier checkpoints are historical.
 
 > Historical Stage0 matrix retained below. Stage1 evidence update (2026-10-22): see the dated addendum at the end and FINAL-security-audit.md. Stage1 remains PARTIAL; the131-row historical counts are not rewritten.
 
@@ -703,3 +703,21 @@ Canonical inventory:56files,410source templates,295noncontrol references,707hist
 TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
 
 See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.
+
+
+## FINAL03 final closure — 2026-10-23 (Asia/Karachi)
+
+The131 audited requirement rows and their explicit stage ownership remain retained. Stage0 **COMPLETE (audit/classification)**; Stage1 **SECURITY ACCEPTED on isolated TEST**. This supersedes the preceding PARTIAL checkpoint for these stages only. It does not mark131 requirements functionally complete.
+
+| Requirement / audit scope | Current status | Evidence / scope |
+|---|---|---|
+| Stage0 controls/conditions/handlers |Audit complete; focused named runtime evidence and future owners reconciled |FINAL03-ui-canonical.md; FINAL03-rendered-states.md;412templates/56files/295references/707historical rows;37new UI cases plus retained reports |
+| FR02/03/05 active session/role boundary |Stage1 security accepted |10storage faults; canonical four-role gate; FINAL02 four-role physical; final-source customer login/restart/logout and Vendor switching retained |
+| FR42 |Accepted for active access paths and deny-default deferred resources |FINAL03-security-matrix.md;84table/336operation metadata scope; real user policy, media, websocket and session tests |
+| FR43 |Accepted for active trusted validation |Product media guard migration0001; retained transactional/byte validation; current74Flutter/17Deno and176hosted assertions |
+| FR44 |Accepted for active critical Admin actions |Current audit4; retained rider/block/dispute/broadcast/assignment accounting; mutation/tamper denials |
+| Retained FR04/10/13/17/20/21/25/26/28/30/32/33/checklist |Prior bounded acceptance preserved, affected integrations verified |14report hashes/ancestry revalidated including unacceptedFR14; current private-media/Realtimesecurity and lifecycle tests |
+| FR14 |NOT FUNCTIONALLY ACCEPTED |Road-route/ETA/physical movement outstanding; no waiver, not a Stage0/1 security blocker |
+| Later-stage implementation |Unchanged approved stage owners |A/B/C remain exact; no Stage2 or Stage3 biometric implementation begun |
+
+No production/iOS/scale/provider acceptance inferred. Final signoff records actual levels and limitations.

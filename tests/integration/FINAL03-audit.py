@@ -99,4 +99,3 @@ lines=['# Canonical source-control inventory','','Supersedes additive counting o
 for r in rows:lines.append('| '+' | '.join(str(r[k]).replace('|','/').replace('\n',' ')for k in('role','screen','control','source','status','evidence','next_stage'))+' |')
 (ROOT/'docs/FINAL03-ui-canonical.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print(json.dumps(evidence['counts']))
-

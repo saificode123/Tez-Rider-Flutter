@@ -29,4 +29,3 @@ $apk=Join-Path $mirror 'build/app/outputs/flutter-apk/app-fr21test-debug.apk'
 $evidence=@{project='igeisilhtmglgnqvllrx';package='com.example.flutter_application_1.fr21test';apk=$apk;sha256=(Get-FileHash -LiteralPath $apk).Hash;sources=$manifest;head=(git -C $repo rev-parse HEAD)}
 $evidence | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $repo '.fr21-local/final03/build-evidence.json') -Encoding utf8
 Write-Output 'Current-source isolated TEST APK built; source and APK hashes recorded privately.'
-

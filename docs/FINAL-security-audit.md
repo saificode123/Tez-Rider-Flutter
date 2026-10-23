@@ -1,6 +1,6 @@
 # Stage 1 — Security and data foundation
 
-> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+> Current status: FINAL03 final closure at the end and FINAL-stage-0-1-signoff.md. Earlier checkpoints are historical.
 
 Date:2026-10-22, Asia/Karachi. Branch `feature/final-1-security`, base `c0a8da1`.
 
@@ -858,3 +858,14 @@ Canonical inventory:56files,410source templates,295noncontrol references,707hist
 TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
 
 See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.
+
+
+## FINAL03 final closure — 2026-10-23 (Asia/Karachi)
+
+Stage1 **SECURITY ACCEPTED on isolated TEST** for the active/deny-default scope in FINAL03-security-matrix.md. Stage0 audit/classification complete. This supersedes earlier open media/lifecycle/legacy acceptance findings without certifying unfinished later-stage workflows.
+
+New confirmed findings fixed: HIGH cached private tracking subscriber received location after local session revocation; MEDIUM legacy product RPC accepted arbitrary new media references; MEDIUM secure-storage/logout fault handling; MEDIUM chat stale async/batch state; LOW editable-metadata Admin menu. Actual final27private tracking checks and10reader-registry rollback probes verify revocation/reconnect/role/block/expiry;53row-stream+6chat checks cover remaining active subscriptions. Media60real authenticated signing/bytes/list/unsigned reads plus6blocked-owner live-claim rollback probes; retained actual45second expiry remains valid. Current legacy5/audit4/catalog5 checks and independent risk-based family review reconcile FR42/43/44. No open confirmed critical/high in reviewed active TEST paths.
+
+Three TEST-only migrations202610230001/2/3 and fr13-location publication deploy;45versions,84RLS tables,175functions. Only four reviewed function bodies changed, one service-only recipient helper added; old83table policies/table+column grants preserved. No production modification, object rewrite/delete, duplicate0004, Docker, provider send, paid dependency or1000-user test.
+
+Final affected74Flutter/17Deno PASS; full analysis0errors/57inherited diagnostics, focused scope0issues. Actual final APK install/login/restart/offline/retry/logout/restart passed; storage faults remain ten mocked tests. Exact resource/role positive and negative coverage, findings, evidence levels and limits: FINAL03-security-matrix.md, FINAL03-legacy-security-review.md, evidence/FINAL03-acceptance.json and FINAL-stage-0-1-signoff.md.

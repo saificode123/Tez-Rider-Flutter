@@ -1,0 +1,1790 @@
+{
+  "iteration": "FINAL03",
+  "status": {
+    "stage0": "COMPLETE: audit/classification; bounded named runtime evidence, not whole-app implementation",
+    "stage1": "SECURITY ACCEPTED: active/deny-default TEST scope",
+    "stage2_ready": true,
+    "stage2_started": false
+  },
+  "date": "2026-10-23 Asia/Karachi",
+  "baseline": "cb18c2b",
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "scope": "Stage0/1; no Stage2 implementation, Docker, load test, push or merge",
+  "flutter": {
+    "pass": 74,
+    "fail": 0,
+    "skip": 0,
+    "method": "final serial ten-file affected suite",
+    "log_sha256": "b0f97d9c1862beb7ac44183cd309309a9ed2e64751b8a107bac36c4b768d9bb2"
+  },
+  "deno": {
+    "pass": 17,
+    "fail": 0,
+    "skip": 0,
+    "scope": "fr13-location handler and publication",
+    "log_sha256": "4f2e21cd32149afb48fb868a8d2e76f04a362d2b9654397ce8cfe8f3f0902f8f"
+  },
+  "analyzer": {
+    "errors": 0,
+    "warnings": 14,
+    "infos": 43,
+    "exit": 1,
+    "status": "57 inherited diagnostics; not a clean analyzer pass",
+    "focused_issues": 0,
+    "focused_log_sha256": "195db522d94e4519fb5d0d97b3f1e8e133446e341567997a1185ad90981f92b5",
+    "log_sha256": "9170b9f060b78fdd6a94bc682926283377f40a4fe22ea61c1bc32028a066024b"
+  },
+  "checks": {
+    "media": [
+      {
+        "check": "CNIC: owner may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: owner retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: approved Admin may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: approved Admin retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated customer denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated customer cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated customer denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated vendor denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated vendor cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated vendor denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated rider denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated rider cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: unrelated rider denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: anonymous denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: anonymous cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: anonymous denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "CNIC: owner cannot bypass server lifetime through direct Storage signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: owner may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: owner retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: approved Admin may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: approved Admin retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated customer denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated customer cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated customer denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated vendor denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated vendor cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated vendor denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated rider denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated rider cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: unrelated rider denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: anonymous denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: anonymous cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: anonymous denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "evidence: owner cannot bypass server lifetime through direct Storage signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: owner may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: owner retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: approved Admin may sign existing legitimate object",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: signed lifetime bounded to at most900seconds",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: approved Admin retrieves real protected bytes",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated customer denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated customer cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated customer denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated vendor denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated vendor cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated vendor denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated rider denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated rider cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: unrelated rider denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: anonymous denied signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: anonymous cannot list object metadata",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: anonymous denied unsigned object read",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "invoice: owner cannot bypass server lifetime through direct Storage signing",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "trusted media boundary rejects malformed reference: fr25-evidence",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "trusted media boundary rejects malformed reference: fr32-invoice-url",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "trusted media boundary rejects malformed reference: fr04-cnic",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      }
+    ],
+    "chat": [
+      {
+        "check": "participant real gateway message INSERT confirms a row; temporary synthetic message removed in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "participant: actual chat INSERT delivery respects room ownership",
+        "result": "PASS",
+        "surface": "actual user websocket; bounded denial observation"
+      },
+      {
+        "check": "unrelated customer: actual chat INSERT delivery respects room ownership",
+        "result": "PASS",
+        "surface": "actual user websocket; bounded denial observation"
+      },
+      {
+        "check": "trusted chat validation denies unrelated sender",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "trusted chat validation denies forged identity",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "trusted chat validation denies private media bypass",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      }
+    ],
+    "legacy": [
+      {
+        "check": "new product media reference rejected on trusted RPC",
+        "result": "PASS",
+        "surface": "authenticated SQL with real live user claims; full rollback"
+      },
+      {
+        "check": "product save without media still confirmed (rolled back)",
+        "result": "PASS",
+        "surface": "authenticated SQL with real live user claims; full rollback"
+      },
+      {
+        "check": "existing product cannot introduce unvalidated replacement media",
+        "result": "PASS",
+        "surface": "authenticated SQL with real live user claims; full rollback"
+      },
+      {
+        "check": "unchanged/empty existing reference remains compatible (rolled back)",
+        "result": "PASS",
+        "surface": "authenticated SQL with real live user claims; full rollback"
+      },
+      {
+        "check": "real vendor gateway request cannot bypass product media validation",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      }
+    ],
+    "audit": [
+      {
+        "check": "Admin review records exactly one correct actor/target/result event; invalid review adds none",
+        "result": "PASS",
+        "surface": "real live user claims in authenticated SQL; rollback"
+      },
+      {
+        "check": "even approved Admin cannot INSERT/UPDATE/DELETE immutable audit history",
+        "result": "PASS",
+        "surface": "three authenticated SQL permission assertions; rollback"
+      },
+      {
+        "check": "real Admin gateway rejects invalid moderation state",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "real customer cannot use legacy Admin moderation RPC",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      }
+    ],
+    "tracking": [
+      {
+        "check": "customer: own session-bound private topic join allowed",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: own session-bound private topic join allowed",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: own session-bound private topic join allowed",
+        "result": "PASS"
+      },
+      {
+        "check": "authorized roles have distinct session-bound topics",
+        "result": "PASS"
+      },
+      {
+        "check": "other-customer: customer private session topic denied",
+        "result": "PASS"
+      },
+      {
+        "check": "other-rider: customer private session topic denied",
+        "result": "PASS"
+      },
+      {
+        "check": "vendor: customer private session topic denied",
+        "result": "PASS"
+      },
+      {
+        "check": "anonymous private session topic denied",
+        "result": "PASS"
+      },
+      {
+        "check": "even related Admin cannot join another session topic",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted location publication confirmed",
+        "result": "PASS"
+      },
+      {
+        "check": "customer: actual permitted fix received",
+        "result": "PASS"
+      },
+      {
+        "check": "rider: actual permitted fix received",
+        "result": "PASS"
+      },
+      {
+        "check": "admin: actual permitted fix received",
+        "result": "PASS"
+      },
+      {
+        "check": "public decoy receives no private session fix",
+        "result": "PASS"
+      },
+      {
+        "check": "separate private customer reader local revocation confirmed",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted location publication confirmed",
+        "result": "PASS"
+      },
+      {
+        "check": "already subscribed revoked private reader receives no subsequent trusted fix",
+        "result": "PASS"
+      },
+      {
+        "check": "unrevoked Admin still receives after peer revocation",
+        "result": "PASS"
+      },
+      {
+        "check": "revoked private reader cannot reconnect to its previous topic",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh password session receives a new topic",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh customer session reconnects through current authorization",
+        "result": "PASS"
+      },
+      {
+        "check": "trusted location publication confirmed",
+        "result": "PASS"
+      },
+      {
+        "check": "fresh customer session receives after recovery",
+        "result": "PASS"
+      },
+      {
+        "check": "direct authenticated REST publish cannot inject a fix",
+        "result": "PASS"
+      },
+      {
+        "check": "cancelled delivery cannot publish",
+        "result": "PASS"
+      },
+      {
+        "check": "cached subscriber receives no location after delivery cancellation",
+        "result": "PASS"
+      },
+      {
+        "check": "cancelled delivery topic cannot regain private access",
+        "result": "PASS"
+      }
+    ],
+    "notifications": [
+      {
+        "check": "notifications: allowed row stream registers for baseline-admin",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "notifications: bounded synthetic signal confirmed; original restored in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "notifications: permitted actual UPDATE received",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "notifications: customer-a receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: customer-b receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: admin receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: fr32-vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: fr32-rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: fr32-customer receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: acknowledged unsubscribe receives no subsequent row event",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "notifications: reconnect requires registration and receives permitted event",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      }
+    ],
+    "vendor_orders": [
+      {
+        "check": "vendor_orders: allowed row stream registers for fr32-vendor",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "vendor_orders: bounded synthetic signal confirmed; original restored in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "vendor_orders: permitted actual UPDATE received",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "vendor_orders: customer-a receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: customer-b receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: fr32-rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: fr13-rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: fr13-customer receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: acknowledged unsubscribe receives no subsequent row event",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "vendor_orders: reconnect requires registration and receives permitted event",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      }
+    ],
+    "rider_assignments": [
+      {
+        "check": "rider_assignments: allowed row stream registers for fr13-rider",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "rider_assignments: bounded synthetic signal confirmed; original restored in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "rider_assignments: permitted actual UPDATE received",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "rider_assignments: customer-a receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: customer-b receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: fr32-vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: fr32-rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: fr32-customer receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: acknowledged unsubscribe receives no subsequent row event",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "rider_assignments: reconnect requires registration and receives permitted event",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      }
+    ],
+    "catalog": [
+      {
+        "check": "45 migration versions exactly match source; 0004 retained once",
+        "result": "PASS",
+        "surface": "read-only TEST catalog"
+      },
+      {
+        "check": "all84 inspected tables including private reader registry retain RLS",
+        "result": "PASS",
+        "surface": "read-only TEST catalog"
+      },
+      {
+        "check": "only four reviewed function bodies changed; one service-only recipient function added",
+        "result": "PASS",
+        "surface": "catalog preservation plus focused independent review"
+      },
+      {
+        "check": "all83 previous table grants, operation policies and column privileges preserved",
+        "result": "PASS",
+        "surface": "operation-level catalog comparison"
+      },
+      {
+        "check": "new recipient RPC has fixed search_path and no anonymous/application execute grants",
+        "result": "PASS",
+        "surface": "read-only TEST catalog"
+      }
+    ],
+    "blocked_media": [
+      {
+        "check": "CNIC: existing live owner authority confirmed before block",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "CNIC: same authenticated owner denied after blocked-account fault",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback; no Auth ban or persistent change"
+      },
+      {
+        "check": "evidence: existing live owner authority confirmed before block",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "evidence: same authenticated owner denied after blocked-account fault",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback; no Auth ban or persistent change"
+      },
+      {
+        "check": "invoice: existing live owner authority confirmed before block",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "invoice: same authenticated owner denied after blocked-account fault",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback; no Auth ban or persistent change"
+      }
+    ],
+    "disputes_and_orders": [
+      {
+        "check": "disputes: allowed row stream registers for customer-a",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "disputes: bounded synthetic signal confirmed; original restored in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "disputes: permitted actual UPDATE received",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "disputes: customer-b receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "disputes: vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "disputes: rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "disputes: acknowledged unsubscribe receives no subsequent row event",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "disputes: reconnect requires registration and receives permitted event",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "orders: allowed row stream registers for customer-a",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "orders: bounded synthetic signal confirmed; original restored in finally",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP"
+      },
+      {
+        "check": "orders: permitted actual UPDATE received",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      },
+      {
+        "check": "orders: customer-b receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "orders: vendor receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "orders: rider receives no forbidden row within2seconds",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "orders: acknowledged unsubscribe receives no subsequent row event",
+        "result": "PASS",
+        "surface": "bounded actual user websocket"
+      },
+      {
+        "check": "orders: reconnect requires registration and receives permitted event",
+        "result": "PASS",
+        "surface": "actual user websocket"
+      }
+    ]
+  },
+  "evidence_source_hashes": {
+    "android-network.log": "e4a996a2ae6575f3fede4dd437b991e419d57a381a0df76b13dcc52ec26ff3c9",
+    "audit.log": "efbf1464f7f0e9d1f0eda4b2ad55363d380b0a24a8f452fb1bd78a4114999116",
+    "catalog-final.log": "1e2a71682fac64c4ab4abba032d9b828659ada912a676ee128578a8e9f8753bc",
+    "chat.log": "75f2e1f73d2dbd3936615bf964a3d20bd644a4bc8d65b2f246d9bc5a285d6898",
+    "legacy-post.log": "67b840af6b458b133f4e5a22d082cc4c69f08670e627658643f6636240d6e0c6",
+    "media-faults.log": "311fb35419f86cde7b6dca764260a32d396b6c5df4dc71bd649478104b5921d5",
+    "media.log": "108d786c2feb678752aa9457c718e4a7c1d86200c790ca31f20961cc0cd6eb79",
+    "native-results.jsonl": "deb946793f318474848271e107816aaab304ce6d80b939c447ba382529a44de1",
+    "realtime-attempt2.log": "7a0e123ec465d00cea876266a28719dbe05661e1bca54b6d993a6cd5d8fc0ab5",
+    "realtime-notifications.log": "ea50b81edca4075f8870ea14d17c5ba9f24148bb0290e8bde41ee21c468a42c4",
+    "realtime-rider.log": "87631b0b5807bb7466d120e525cb15b7ce95875f84caea4b659a505ccf4b5211",
+    "realtime-vendor.log": "479175ffbcc9a633913fc266b348640ed90ccc02edde8f630c2236064474cd61",
+    "tracking-registry-post.log": "91bf5d2be6cf6c4231923a927a27cfc45877e7435bbf6d03e4c959ae5287a9bf",
+    "tracking-session-topics.log": "642488d9a835525a580bedfd69d4f74ae7c9a155ed0a1fa10c2242790c1b9123"
+  },
+  "registry_post": {
+    "project": "igeisilhtmglgnqvllrx",
+    "action": "post",
+    "passed": 10,
+    "rolled_back": true
+  },
+  "check_counts": {
+    "media": 60,
+    "chat": 6,
+    "legacy": 5,
+    "audit": 4,
+    "tracking": 27,
+    "notifications": 13,
+    "vendor_orders": 12,
+    "rider_assignments": 12,
+    "catalog": 5,
+    "blocked_media": 6,
+    "disputes_and_orders": 16,
+    "reader_registry_rollback": 10
+  },
+  "hosted_assertion_records": 176,
+  "integrity": {
+    "python_helper_ast": "PASS",
+    "powershell_helper_parser": "PASS",
+    "historical_FINAL01_FINAL02_unchanged": true,
+    "diff_check": "PASS: git -c core.whitespace=cr-at-eol diff cb18c2b --check; Windows migration CRLF retained"
+  },
+  "protected_scan": {
+    "files_checked": 53,
+    "protected_credential_matches": 0,
+    "scope": "actual TEST service key and protected FR04/13/25/28/32/FINAL01 fixture passwords; current iteration text/files only"
+  },
+  "android": {
+    "observations": [
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:26:42.636049+00:00"
+      },
+      {
+        "check": "observed native Orders could not be loaded. Retry.",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:48.088616+00:00"
+      },
+      {
+        "check": "network disabled: actual authenticated order read shows failure and Retry, no fabricated empty success",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:50.660676+00:00"
+      },
+      {
+        "check": "original Android Wi-Fi and mobile-data settings restored in finally",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:51.063411+00:00"
+      },
+      {
+        "check": "connectivity recovery: actual Retry returns confirmed order-list state without a critical write",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:30:02.729074+00:00"
+      },
+      {
+        "check": "observed native My Location",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:31:16.331269+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:33:01.268432+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:33:15.005173+00:00"
+      },
+      {
+        "check": "observed native Store Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:34:06.640205+00:00"
+      },
+      {
+        "check": "observed native Store Dashboard",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:34:24.706896+00:00"
+      },
+      {
+        "check": "observed native Vendor Partner",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:46:13.868904+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:46:31.104947+00:00"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:54:15.478268+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:54:34.724369+00:00"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:37:13.948448+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:01.250887+00:00"
+      },
+      {
+        "check": "observed native My Location",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:32.381435+00:00"
+      },
+      {
+        "check": "observed native My Location",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:53.849877+00:00"
+      },
+      {
+        "check": "observed native Orders could not be loaded. Retry.",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:23.446587+00:00"
+      },
+      {
+        "check": "network disabled: actual authenticated order read shows failure and Retry, no fabricated empty success",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:26.058124+00:00"
+      },
+      {
+        "check": "original Android Wi-Fi and mobile-data settings restored in finally",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:26.451987+00:00"
+      },
+      {
+        "check": "connectivity recovery: actual Retry returns confirmed order-list state without a critical write",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:38.537216+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:43:25.192913+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:43:38.828855+00:00"
+      }
+    ],
+    "network_recovery": [
+      {
+        "check": "observed native Orders could not be loaded. Retry.",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:48.088616+00:00"
+      },
+      {
+        "check": "network disabled: actual authenticated order read shows failure and Retry, no fabricated empty success",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:50.660676+00:00"
+      },
+      {
+        "check": "original Android Wi-Fi and mobile-data settings restored in finally",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:29:51.063411+00:00"
+      },
+      {
+        "check": "connectivity recovery: actual Retry returns confirmed order-list state without a critical write",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-22T20:30:02.729074+00:00"
+      }
+    ],
+    "storage_fault_level": "10 mocked fault cases; no phone storage corruption",
+    "final_install": "PASS: final source-verified APK installed; customer login/restart, physical offline/retry, logout and restart signed-out observed",
+    "final_build_observations": [
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:37:13.948448+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:01.250887+00:00"
+      },
+      {
+        "check": "observed native My Location",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:32.381435+00:00"
+      },
+      {
+        "check": "observed native My Location",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:38:53.849877+00:00"
+      },
+      {
+        "check": "observed native Orders could not be loaded. Retry.",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:23.446587+00:00"
+      },
+      {
+        "check": "network disabled: actual authenticated order read shows failure and Retry, no fabricated empty success",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:26.058124+00:00"
+      },
+      {
+        "check": "original Android Wi-Fi and mobile-data settings restored in finally",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:26.451987+00:00"
+      },
+      {
+        "check": "connectivity recovery: actual Retry returns confirmed order-list state without a critical write",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:40:38.537216+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:43:25.192913+00:00"
+      },
+      {
+        "check": "observed native Sign in as Customer",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-23T05:43:38.828855+00:00"
+      }
+    ],
+    "final_build": {
+      "package": "com.example.flutter_application_1.fr21test",
+      "sha256": "DC7EFA479739B3CC5E5EB8628BD79D8BEF5CB75707E4ECC92383C97E88A81275",
+      "sources": [
+        {
+          "path": "lib/services/session_credentials.dart",
+          "sha256": "9EE4DBD3F14CDE3046043489EB92B4522FC13CD47DDC0ACC681A8C3C669DA200"
+        },
+        {
+          "path": "lib/controllers/admin_broadcast_controller.dart",
+          "sha256": "22ADBF532FEB4615649272F1BF23B78E7180B75266D559AB5222E41D287E71F4"
+        },
+        {
+          "path": "lib/controllers/admin_controller.dart",
+          "sha256": "545251BEE3EBCE172DF25D859F7887F4DFD2A4F6309E19B61DEDAE3CC785557A"
+        },
+        {
+          "path": "lib/controllers/admin_dispute_state.dart",
+          "sha256": "56232652271BEA740303E238B8E91F7AD9E73042022C0027A935F005DAA5199C"
+        },
+        {
+          "path": "lib/controllers/auth_controller.dart",
+          "sha256": "1AA28EC26763C8506AD5CBB0ED6071C9F2CE55A614AEF90F038D238226015F08"
+        },
+        {
+          "path": "lib/controllers/cart_controller.dart",
+          "sha256": "C8DB788487C109CBDCC09A919F2FD3103D9D45338DE21CE4B95E70542A6242DC"
+        },
+        {
+          "path": "lib/controllers/chat_controller.dart",
+          "sha256": "4A2BEE51EBD039490458A5FF274EFA3D5B1A07C803A9CD92C4BC151302DC1BA0"
+        },
+        {
+          "path": "lib/controllers/cnic_document_controller.dart",
+          "sha256": "2351345AE6E5BE93669114B3ECA9720DFFE2C72F690C62BC7F658985842CC6A2"
+        },
+        {
+          "path": "lib/controllers/dispute_controller.dart",
+          "sha256": "245F2AF87F1448B83D88E51DCE19E0B7ABD2F0B77DD83CDE28FE414785719183"
+        },
+        {
+          "path": "lib/controllers/language_controller.dart",
+          "sha256": "644E1EF53749F53802400C4EFC3C5FE3130B35A07F88F32CB63BA936A4996564"
+        },
+        {
+          "path": "lib/controllers/notification_controller.dart",
+          "sha256": "5689165C70B961C6882A044B99D6F8FC85BD464AEA1073C9D92FF7B72853AF19"
+        },
+        {
+          "path": "lib/controllers/prescription_controller.dart",
+          "sha256": "936DEA140FEA46933B4BE4F29E96C26AAEF632F3576942B3A56C9F941B4256D1"
+        },
+        {
+          "path": "lib/controllers/product_controller.dart",
+          "sha256": "61532F19C54611CC9C033BF675EB7A29E4B00F4EB818D94B8DFEE23FCB5A2293"
+        },
+        {
+          "path": "lib/controllers/recommendation_controller.dart",
+          "sha256": "912CFBDA0FB6BB60912FBEEE963AFAF644647B6598E7AFD2BADD9890ABFD26F8"
+        },
+        {
+          "path": "lib/controllers/rider_assignment_controller.dart",
+          "sha256": "D2744AD6A257391E105F4F97954ACAE5F271A3044F3F431E97EEF9B159212D61"
+        },
+        {
+          "path": "lib/controllers/rider_controller.dart",
+          "sha256": "6134393AE15FECB16E1781A00090BB8AD68EEAE3A3D04E64F95239DD184F8F90"
+        },
+        {
+          "path": "lib/controllers/tailoring_controller.dart",
+          "sha256": "910EFF197405BD68AA92AF6D3DF2E95DD32C064C2AF58F489B44DA34C17384C8"
+        },
+        {
+          "path": "lib/controllers/tez_order_controller.dart",
+          "sha256": "A5647DD1710DABC9A9C52A16CCC8CDBEAE75255C81FDB565FC8977ADBA3C8A8B"
+        },
+        {
+          "path": "lib/controllers/vendor_controller.dart",
+          "sha256": "A760E534853A68BDE768AD047958812F4B2FECB9968BB4FAD4761F77CBBD11A6"
+        },
+        {
+          "path": "lib/controllers/vendor_info_controller.dart",
+          "sha256": "63DD5BDBAD396C4AA2AEB2945AB63F260BADA3FDE5C868F04ADB9DF683B44495"
+        },
+        {
+          "path": "lib/core/app_translations.dart",
+          "sha256": "F7144F81F4898FF37DDBE31C81AFDF8E9B483C8A2CDE092DB69B27C8B5A86CCB"
+        },
+        {
+          "path": "lib/data/mock_data.dart",
+          "sha256": "AF67ED140A70E5F3EBF4358D5F9CEF951314524EDDA1209B518A546181471D77"
+        },
+        {
+          "path": "lib/main.dart",
+          "sha256": "72F92F12861C3843781AE0452808EAD62BE91A46420C29DF43DF8685B5050A2D"
+        },
+        {
+          "path": "lib/middleware/admin_middleware.dart",
+          "sha256": "E1EF5A1DA2038399F220B9F321E2385DE3F7DCAB145EBBE199E8CC61CDB51FD7"
+        },
+        {
+          "path": "lib/middleware/auth_middleware.dart",
+          "sha256": "3E556A492F35A3E0F0026999414A6D0A6BAC35A7883D00138C06F24D7E3842D6"
+        },
+        {
+          "path": "lib/models/chat_model.dart",
+          "sha256": "89607211ADB8A19CAB6B55F2D0B83222FCA7B4D1CDCB0013E447DFA3C837C53C"
+        },
+        {
+          "path": "lib/models/order_model.dart",
+          "sha256": "C187C16A2B106FB0FD557D18B64BF6F1ECAB5B2929CE7DF5CFD7B96DB68DE594"
+        },
+        {
+          "path": "lib/models/prescription_model.dart",
+          "sha256": "FD0342BC425AFF60E49CA2CB190C04C2C3F4A3A561763FD1CDE8824D981E9137"
+        },
+        {
+          "path": "lib/models/product_model.dart",
+          "sha256": "1DDCE8C7CC450C0C7A4300E0A7BE127714C5EFB290A59AF219AA6C8C5BAE3D9A"
+        },
+        {
+          "path": "lib/models/recommendation_model.dart",
+          "sha256": "1145EFF3054A5AF625F8A48544A91AB4AC1CA3235731E355CAFA1350B7CBAAC5"
+        },
+        {
+          "path": "lib/models/review_model.dart",
+          "sha256": "C0E8FDA9EB91136D13B8E1EAEE359AA1FF0BB2F115971B19AA2DC3BD90D02169"
+        },
+        {
+          "path": "lib/models/user_model.dart",
+          "sha256": "744427010F4A11768B9A1287FC72FEACA4238BBD109FB7E3ECF6518AAACAD30C"
+        },
+        {
+          "path": "lib/routes/app_routes.dart",
+          "sha256": "8BC51387237B56BDCC15B701496655BD394DEF15AB8218ECF9AFB4CD6F523327"
+        },
+        {
+          "path": "lib/screens/admin_broadcasts_screen.dart",
+          "sha256": "553F3A25CA45CDDEB36399ED50136899BA3F0262EDBFA241EC6B9374A4601C9F"
+        },
+        {
+          "path": "lib/screens/admin_dashboard.dart",
+          "sha256": "46A6BD97F8FD21F368F8C602A191A8A398AB9F949EF9EBC085ADE4FD51F90435"
+        },
+        {
+          "path": "lib/screens/admin_disputes_screen.dart",
+          "sha256": "82EFDB588363C1A35DE54931411E37D803538001A08C367CBA121055D13F4CDE"
+        },
+        {
+          "path": "lib/screens/admin_users_screen.dart",
+          "sha256": "63D1C60BCAAE9563ECFF7991DB0854387DDC069C91D33B30414B46B82AB68BC8"
+        },
+        {
+          "path": "lib/screens/ai_assistant_screen.dart",
+          "sha256": "02D4A7F3D599FD420FBA4A5485162781779CAEA99C2629E0F4DF72D70CE7F0E6"
+        },
+        {
+          "path": "lib/screens/chat_rooms_screen.dart",
+          "sha256": "44429AB6565259D73EC45CCE5C1F5500E833579211A038D31B778EAE364921A9"
+        },
+        {
+          "path": "lib/screens/chat_screen.dart",
+          "sha256": "6F0ECAD33A8D86558F40D6B3C1769BF3378D3A907A4C07F6E7A5CED77CB3064A"
+        },
+        {
+          "path": "lib/screens/cnic_document_screen.dart",
+          "sha256": "914FA1D3FD3494CE4600FA7F0D2039A23B6CA7032117E97AAB6581BB300EC597"
+        },
+        {
+          "path": "lib/screens/customer/about_tezrider_screen.dart",
+          "sha256": "7D0BC8E373E3BFB2424F144E4F0BCAA2639EBABBA779C9C6E18E3A8CC22A2D3A"
+        },
+        {
+          "path": "lib/screens/customer/cart_screen.dart",
+          "sha256": "41CD4D39DBA3417CB7DF1611D5F9A2BA3370670F1433CB9AE8ED9B03F2DE3D0B"
+        },
+        {
+          "path": "lib/screens/customer/cart_screen_new.dart",
+          "sha256": "763DD821D17CB2AC7691C682B5E985C59EFC3D553A1D59BD11ED1494C28BDC0C"
+        },
+        {
+          "path": "lib/screens/customer/dispute_screen.dart",
+          "sha256": "95CAA6DECBBC291E2C6DF9CF77108C2B8CB702FF086AE20551F999EEB42D3BA3"
+        },
+        {
+          "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+          "sha256": "8C3FF71B159DF74E98328CF456856D47763C6263666B6034269F3F917B665750"
+        },
+        {
+          "path": "lib/screens/customer/help_center_screen.dart",
+          "sha256": "3C2F6A971081023ED2030C3679FDBB26A6506916EBA8603DF20E8A4EA7C27D6B"
+        },
+        {
+          "path": "lib/screens/customer/notifications_screen.dart",
+          "sha256": "3D4724C8E8FCB5385FB93BB88DCAABD54489C2875D66907D8FB8313F513A3D45"
+        },
+        {
+          "path": "lib/screens/customer/order_history_screen.dart",
+          "sha256": "B377D7255505CF730BB41F5D96FD421E10EF1E17A98EDCCB516B67A4D115E394"
+        },
+        {
+          "path": "lib/screens/customer/payment_methods_screen.dart",
+          "sha256": "D3612C5F38ABD98C138106AE58ADC3CD3B4CDF483F0FC6B6CCDF8851FE956650"
+        },
+        {
+          "path": "lib/screens/customer/profile_screen.dart",
+          "sha256": "E9F6499326921289E61685A2F2B8D0037B3F33164911D1711E5DC67CD6976254"
+        },
+        {
+          "path": "lib/screens/customer/rating_screen.dart",
+          "sha256": "AED57536F47DC7D9AF30401EC88D6AA4AEB2E641EB1DA8903D2C7D30A5D24AEE"
+        },
+        {
+          "path": "lib/screens/customer/saved_addresses_screen.dart",
+          "sha256": "AAE0C4E674A932F994482DEDB04CBBFDB6AD4A2D235AD5C4B67480BAAE355E6A"
+        },
+        {
+          "path": "lib/screens/customer/saved_stores_screen.dart",
+          "sha256": "2C2E7B2E9FBDA208DD4A0EC38E8C6A35701D39F7DD9EA6B95F926E071ACA0C58"
+        },
+        {
+          "path": "lib/screens/customer/tailoring_screen.dart",
+          "sha256": "F9A1D1035B060443AFFC57C2BBC463318A96FD1461B75E13AA7E54C9213997B3"
+        },
+        {
+          "path": "lib/screens/customer_dashboard.dart",
+          "sha256": "E3F0C6D3673426DCB7C479A3177A031958B2D2EA316483D77E2B0E95AC4E898F"
+        },
+        {
+          "path": "lib/screens/login_screen.dart",
+          "sha256": "86CC8E6BC719B83A3E558092D090B2E0EC55ECFFD7B90E6A738EF512F4FD135A"
+        },
+        {
+          "path": "lib/screens/map_screen.dart",
+          "sha256": "E60EEC2AEA08AC5089FFF5B9BA805CBBF971D12747B292E4160DD7BB084121E2"
+        },
+        {
+          "path": "lib/screens/order_picked_screen.dart",
+          "sha256": "0D706A36310CBE69D91DA2D0686A5E0EC2D235430180B2559814D58A3F4D8252"
+        },
+        {
+          "path": "lib/screens/payment_screen.dart",
+          "sha256": "DEC0EAA79DD2E2A8A6749953129207E85DFEB5B3109A623265B4F7EE50EAFD02"
+        },
+        {
+          "path": "lib/screens/pending_verification_screen.dart",
+          "sha256": "93873BC377205BDF75175DDB0A0E573D8875FF765568F55B40E17FC63E7659F7"
+        },
+        {
+          "path": "lib/screens/product_detail_screen.dart",
+          "sha256": "7B4E1F35CD58DCA783E1ACE0F792233F75C39E4593F4A88C0A3B11BBDE422889"
+        },
+        {
+          "path": "lib/screens/product_screen.dart",
+          "sha256": "751CBB1297E566F387E3CD75EF73568FCB3C93A86D2FAB0D92DBC2DD9CF0944E"
+        },
+        {
+          "path": "lib/screens/qr_pickup_screen.dart",
+          "sha256": "AC9611187A592105DD763939F364FB6CBBFCBF3757C0C7BEC6377779E9DCD530"
+        },
+        {
+          "path": "lib/screens/rider_dashboard.dart",
+          "sha256": "8FA683A66911585F61B57689E6678A69E441C0CE072F01D445F9A20ACB7C2446"
+        },
+        {
+          "path": "lib/screens/search_screen.dart",
+          "sha256": "6D4527F604730F2C32B50B3D8A659A9338F8B0BB22BEEADD793D40CBD73BD030"
+        },
+        {
+          "path": "lib/screens/signup_screen.dart",
+          "sha256": "A500B9CAF910F8823AC67CDBE4B8397BF44BCCF3DFEFCDA3A6628E89D53A4AB6"
+        },
+        {
+          "path": "lib/screens/splash_screen.dart",
+          "sha256": "EE9DF9DC3FFFB2966C9950B19A7AE4DDF8E1956E6AC143A344187A12D76E454C"
+        },
+        {
+          "path": "lib/screens/vendor/prescription_review_screen.dart",
+          "sha256": "3CB14476A3DF005BC08938B87D28AE23824EDAEC239C8489EC346F35DFDC224F"
+        },
+        {
+          "path": "lib/screens/vendor/product_form_screen.dart",
+          "sha256": "050EB597C713A53622FF3170239CB38266857AB8DB0F6586DC8B5F8B08A70170"
+        },
+        {
+          "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+          "sha256": "5D1CDDD8DD2BB4E7EFB461959466A522B2D2403F190D7FD59745929FE1BC5133"
+        },
+        {
+          "path": "lib/screens/vendor/vendor_products_screen.dart",
+          "sha256": "2E53A25188670F87ACD7C3D6B90218562E4EF12C7413BBF5D20DA61770DB5F4B"
+        },
+        {
+          "path": "lib/screens/vendor_dashboard.dart",
+          "sha256": "B822E444C2B3FA4D5BE5A0F241413B04A63777209CC236B6BEEDED71A365BB1D"
+        },
+        {
+          "path": "lib/services/account_access.dart",
+          "sha256": "EB2EFECA6E30768ED8335AFA01B6B310EC2904E75CB77AB953F7F2B466413C46"
+        },
+        {
+          "path": "lib/services/account_session_service.dart",
+          "sha256": "D5C9889258B773DB80B966CDCD1D9E503FC50619BD4871DEF97A321CA7279A75"
+        },
+        {
+          "path": "lib/services/admin_broadcast_service.dart",
+          "sha256": "5501D6890D5E4B9E78139513697571286B2C6F54E04978F11359D723FB5893EC"
+        },
+        {
+          "path": "lib/services/admin_dispute_service.dart",
+          "sha256": "A56CE9E0ED0F4483D480D411FFFFF5E6BD1A7AF61AA3A91FC8876AB49DA50014"
+        },
+        {
+          "path": "lib/services/admin_users_service.dart",
+          "sha256": "CF75CF87E713F3255C2651F703D5C1A4AB8EF3D1857D217C4CCE07426ED7FCC4"
+        },
+        {
+          "path": "lib/services/ai_service.dart",
+          "sha256": "8B67C9EB0C06747B614DC5C72765177BD75075FE5B13437457EE02C215A69DC8"
+        },
+        {
+          "path": "lib/services/android_broadcast_push_service.dart",
+          "sha256": "B0485B2728DBED4444A1CDF301EF21FC3EDE8ACD3C98C6134B0BEB2EA827CBD5"
+        },
+        {
+          "path": "lib/services/backend_config.dart",
+          "sha256": "56846A0D6BE593D4E62CC9EA6E48AC1E0BE3E67A29AB4E23C3CB3E7659138D69"
+        },
+        {
+          "path": "lib/services/broadcast_push_delivery.dart",
+          "sha256": "02900D2E42058BFB8C8372989FB2814702184E9651D1D859B2B22AF649215ECE"
+        },
+        {
+          "path": "lib/services/cnic_document.dart",
+          "sha256": "318DA5D9B6F4CF82947C6D44ACF7A51EED3943E0555EF81D46EE425509DFA1E8"
+        },
+        {
+          "path": "lib/services/delivery_destination.dart",
+          "sha256": "220E8FF8CFDB026D7565C43BA67E548136C6C60124A5E28EDEC1AAC43BD96F42"
+        },
+        {
+          "path": "lib/services/delivery_location.dart",
+          "sha256": "9F2DE9B7A09592E1FF1AC848B4DC334EBD4BCA6FF6EC255571A105F797E32047"
+        },
+        {
+          "path": "lib/services/delivery_location_platform.dart",
+          "sha256": "82824A680456EFBBC83D5E49337ACE1087BA94A9B0BF1031FA9AA303603F437B"
+        },
+        {
+          "path": "lib/services/delivery_otp_service.dart",
+          "sha256": "60F4CAD5F86DFABB20B58345C583606F095C33E6153E92CFE7D6EB11739D4B6D"
+        },
+        {
+          "path": "lib/services/delivery_route.dart",
+          "sha256": "A82E111FC84B6DE752054994D1AAD40B49C063C0EF3B3FE6FDDE1C4FC7451609"
+        },
+        {
+          "path": "lib/services/diagnostic_backend.dart",
+          "sha256": "52FB2A386758FD29B032FD2AF59727F225D317931EE8B13149D7432129917ADD"
+        },
+        {
+          "path": "lib/services/dispute_service.dart",
+          "sha256": "041273BA57741ED6D51E5EF62DFF1FEB4C7210C6F79A1D831BFF17AA99854456"
+        },
+        {
+          "path": "lib/services/inventory_service.dart",
+          "sha256": "F2B4637CBB869581F4FB967EEA43508D463FCDC1CBF70AE465C68332BEA8F3C6"
+        },
+        {
+          "path": "lib/services/invoice_service.dart",
+          "sha256": "132DC42F859045029E4BDE285478317E135F429B5709E2BAA297109E1759BD68"
+        },
+        {
+          "path": "lib/services/ios_rider_location_source.dart",
+          "sha256": "1A60DE1E93B3B5877E97FB8C28C289A5D0F0B9D3A9D9817430F456215FFFF4C9"
+        },
+        {
+          "path": "lib/services/order_timeout_service.dart",
+          "sha256": "A66305A77596B1E1A28AE9E5626D33D33BB16EC9A682182280E9404A7B5FA1C2"
+        },
+        {
+          "path": "lib/services/pre_delivery_checklist_service.dart",
+          "sha256": "09B48159156258C4007A8E9DCF990188353B50271E8F31372D48A788140C7D3A"
+        },
+        {
+          "path": "lib/services/prescription_service.dart",
+          "sha256": "CF88104D26061B47A34FA2821D650F1E8DB42FFA9BA3015D187D23C8D4BEACAB"
+        },
+        {
+          "path": "lib/services/recommendation_service.dart",
+          "sha256": "F682D48270202AE798FC81E042BC3B8AD8A1AFEEC6DF6E18B72A0B48080483B1"
+        },
+        {
+          "path": "lib/services/rider_assignment_service.dart",
+          "sha256": "CC57AD2802BBAF043E6CFDCA95CBD6BCB1BC9944D22C7A98120316E8B93AE1A1"
+        },
+        {
+          "path": "lib/services/rider_presence.dart",
+          "sha256": "7141D5230717FDDE1985421022C2DDFC49B558FC5014899A3A0611AB640787B8"
+        },
+        {
+          "path": "lib/services/routing_service.dart",
+          "sha256": "E697ACE48BD14700D38DBE194DE1632158F8931B8202F60D2C97A1D99B184F7A"
+        },
+        {
+          "path": "lib/services/storage_service.dart",
+          "sha256": "E3CC90C35576D721BA0B3BE5346C78795DC35F2FC50C62B87712BFFCAC13D0C9"
+        },
+        {
+          "path": "lib/theme/app_theme.dart",
+          "sha256": "25279F006F3C2A156D68CBDA684C3A3B9F3F596172411096FEE4A845AEFB1288"
+        },
+        {
+          "path": "lib/utils/responsive.dart",
+          "sha256": "68B25486E6EFFAFB637DED74FC29313AFD41A14C23F86D28E87681C35535320A"
+        },
+        {
+          "path": "lib/widgets/app_drawer.dart",
+          "sha256": "A1A77179BD343EFC6076D3E57450D0643DA6BD91E43369FF33155225EE62F16B"
+        },
+        {
+          "path": "lib/widgets/cnic_document_viewer.dart",
+          "sha256": "C3E786D0F2D587AA7A9B02DEF73699D39D8DC38C12DA20CC27CE8547E0417CF7"
+        },
+        {
+          "path": "lib/widgets/dispute_evidence_viewer.dart",
+          "sha256": "5C7221067B633244D7199BFB18CD3443CAECEFB8B908C9144128AE139BE6D3A1"
+        },
+        {
+          "path": "lib/widgets/empty_state.dart",
+          "sha256": "9A47DC944A1DB37694C6A019AF594FA03E23121354B320EF09A674E88CC7C38A"
+        },
+        {
+          "path": "lib/widgets/invoice_button.dart",
+          "sha256": "5A384BB95CA12FC4677756450657F884B04296828F16F86D944D1183E64FB819"
+        },
+        {
+          "path": "lib/widgets/order_timeline.dart",
+          "sha256": "A679766AE7BB1D99940EC12D9409B76AB0CC2BA885196C550336F8320D18C194"
+        },
+        {
+          "path": "lib/widgets/order_timeout_summary.dart",
+          "sha256": "90707F78515DB34560DD020C09AF55C69BEEF8AEB8D7DEC020C28F2694745DDF"
+        },
+        {
+          "path": "lib/widgets/pre_delivery_checklist_card.dart",
+          "sha256": "E07CC098016240D99912C9EB38AFB2D91C332B6A81BBAE59758EFD203F8B7FFB"
+        },
+        {
+          "path": "lib/widgets/prescription_upload_widget.dart",
+          "sha256": "D6038C4FA6D1DD9DE0B0B7AC597FB5E2CED448370D739F235B78DE421E5FDE71"
+        },
+        {
+          "path": "lib/widgets/rate_order_sheet.dart",
+          "sha256": "D5B6A7428495422E739DEAE7E68AC95EA21EA0EAFD3606604DA1A03C3CF6EBA1"
+        },
+        {
+          "path": "lib/widgets/recommendation_card.dart",
+          "sha256": "EC64593C1CA5332E00AC29861165AA8BD73A3C34C3F795A786C60D3F5159B087"
+        },
+        {
+          "path": "lib/widgets/role_access_gate.dart",
+          "sha256": "19B40CC128DF723DE370E96E35D0BD521476C8A6D46C9FE28A3679F052BCBDF3"
+        },
+        {
+          "path": "lib/widgets/shimmer_cards.dart",
+          "sha256": "480413ADD78E90B5F8C8A2FD7E548782DEB1DE408FFE6DC09FB6A767CD61AF92"
+        },
+        {
+          "path": "lib/widgets/stock_adjustment_dialog.dart",
+          "sha256": "2E16BD1C5D79AC177F2CC3DDCDA70994450637C992A967B449598103D751BABE"
+        },
+        {
+          "path": "lib/widgets/stock_indicator.dart",
+          "sha256": "7831E2E18207A62440B45C81B2E01C6B763ACDACBA0AD182237B32DE409E1D22"
+        },
+        {
+          "path": "lib/widgets/tez_map_tiles.dart",
+          "sha256": "52924DBF048ED1D5BF2996B298615FA93474117F8055F819CF4185785EF79E7F"
+        }
+      ]
+    }
+  },
+  "deployment": {
+    "versions": 45,
+    "rls_tables": 84,
+    "functions": 175,
+    "new_versions": [
+      "202610230001",
+      "202610230002",
+      "202610230003"
+    ],
+    "0004_replayed": false,
+    "edge": "fr13-location via hosted API; no Docker",
+    "prior_grants_and_policies_preserved": true
+  },
+  "retained_reports": [
+    {
+      "feature": "FR-21",
+      "report": "docs/FR-21-acceptance.md",
+      "sha256": "33b87abd42e3565efe8b9c11771e913ba2afb9725599ad2284ba4ba41a975a94",
+      "checkpoint": "1173736",
+      "ancestor": true,
+      "retained_disposition": "See exact bounded acceptance criteria in retained report",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-04",
+      "report": "docs/FR-04-acceptance.md",
+      "sha256": "2a24651a20e9119df66b61adefef6003af4f9dc1c187f604c8640285af8e2dfa",
+      "checkpoint": "fd478a4",
+      "ancestor": true,
+      "retained_disposition": "**FR-04 FUNCTIONALLY ACCEPTED \u2014 performance/scalability qualification outstanding.** All mandatory FR-04 functional/security workflows and the requested fresh email-confirmation flow have actual evidence. Full system scale is not certified. `E` below means ignored `.fr21-local/fr04/`; no private identity image or credential is committed.",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-25",
+      "report": "docs/FR-25-acceptance.md",
+      "sha256": "4ccfc64e1d4fa78da6c2ffc848c57183aa04d3c4857baad3a96efcbb5f4a6a45",
+      "checkpoint": "281c8a8",
+      "ancestor": true,
+      "retained_disposition": "**FR-25 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.** Mandatory functional/security criteria have actual hosted and physical Android evidence. Performance/scalability remains unqualified; no full performance acceptance, push or merge.",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-26",
+      "report": "docs/FR-26-acceptance.md",
+      "sha256": "b505c81118d931b368c0f4477e4b5a6891435419aafd54e3db78f1062dab86e0",
+      "checkpoint": "aabd6ca",
+      "ancestor": true,
+      "retained_disposition": "**FR-26 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.** Every mandatory functional/security criterion below passed. Implemented and deployed only to TEST `igeisilhtmglgnqvllrx`. No push or merge. Full performance/scalability qualification remains outstanding.",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-33",
+      "report": "docs/FR-33-acceptance.md",
+      "sha256": "92666227950be37db2c425d1961e954c3f33c8bcaf056daee22f7e1a2afeebd0",
+      "checkpoint": "ec1c63b",
+      "ancestor": true,
+      "retained_disposition": "**FR-33 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-28",
+      "report": "docs/FR-28-acceptance.md",
+      "sha256": "d1b784612aae1867cc5bb9747a54c0849f8c76c080a3ab13c19cad2e1315abb9",
+      "checkpoint": "7e809fd",
+      "ancestor": true,
+      "retained_disposition": "**FR-28 FUNCTIONALLY ACCEPTED - Ready for the next functional requirement.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-20",
+      "report": "docs/FR-20-acceptance.md",
+      "sha256": "96986569b25f87f10fb44e8e8db7e9b9c0bbb3d98fd77e0ccd77a269e8604f74",
+      "checkpoint": "fa29b4c",
+      "ancestor": true,
+      "retained_disposition": "**FR-20 FUNCTIONALLY ACCEPTED - Ready for the next functional requirement.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-30",
+      "report": "docs/FR-30-acceptance.md",
+      "sha256": "fb480e9bfe8bbbea6db4266f56c3115bc5ea1538ad7f5a7d05a1e5c0be39eb69",
+      "checkpoint": "fed835f",
+      "ancestor": true,
+      "retained_disposition": "**FR-30 FUNCTIONALLY ACCEPTED \u2014 Ready for the next functional requirement (authorized Android TEST scope).**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-10",
+      "report": "docs/FR-10-acceptance.md",
+      "sha256": "1eb0cc96ada4625bad929819e9d4e0c74eb42b3e018258acce608e279ab823a5",
+      "checkpoint": "76960fa",
+      "ancestor": true,
+      "retained_disposition": "**FR-10 FUNCTIONALLY ACCEPTED on isolated TEST.** Security and refund-initiation checks passed. Optional 1,000-VU qualification NOT EXECUTED. No push or merge.",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-17",
+      "report": "docs/FR-17-acceptance.md",
+      "sha256": "888cbd2499b1ab778c6cecf23b0bcc1e82f829925d41daa931df6895ac67f651",
+      "checkpoint": "57914e2",
+      "ancestor": true,
+      "retained_disposition": "**FR-17 FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-32",
+      "report": "docs/FR-32-acceptance.md",
+      "sha256": "bada363b8ab9afe0550c26ddef979f1aba83de47b411c93c4f3a6a9416af3545",
+      "checkpoint": "569e8c6",
+      "ancestor": true,
+      "retained_disposition": "# FR-32 acceptance \u2014 FUNCTIONALLY ACCEPTED",
+      "new_full_regression": false
+    },
+    {
+      "feature": "CHECKLIST",
+      "report": "docs/CHECKLIST-acceptance.md",
+      "sha256": "7cd1bfb528e9cf4a51066ea3aa20d724151f5ca19a939b6d0be95d52e1d6c5b2",
+      "checkpoint": "7cf80fe",
+      "ancestor": true,
+      "retained_disposition": "**PRE-DELIVERY CHECKLIST FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-13",
+      "report": "docs/FR-13-acceptance.md",
+      "sha256": "4652bb87e96935a4c3ccefa18dc68144296480437f2582c0e1b57fa14c7e976d",
+      "checkpoint": "3408790",
+      "ancestor": true,
+      "retained_disposition": "- Functional: **PASS \u2014 FR-13 FUNCTIONALLY ACCEPTED \u2014 Ready for the next FR.**",
+      "new_full_regression": false
+    },
+    {
+      "feature": "FR-14",
+      "report": "docs/FR-14-acceptance.md",
+      "sha256": "8d522498671c67cc3e3c2427f5d486e974bb6308577bf79d650edf35a7a8fc7c",
+      "checkpoint": "f8bce53",
+      "ancestor": true,
+      "retained_disposition": "**FR-14 NOT YET FUNCTIONALLY ACCEPTED.** Nonzero physical road-route/progression/deviation remains NOT TESTED. Controlled network-only stale handling and automatic recovery passed on the fixed APK. Physical map-pin confirmation/persistence passed on follow-up. Automated accepted-FR regression reruns passed; latency qualification failed. No production modification, push or merge. Commits do not imply acceptance.",
+      "new_full_regression": false
+    }
+  ],
+  "attempts": [
+    "Original tracking revocation test FAILED: cached private shared channel leaked subsequent events. Fixed with session topics and fresh publication authorization; final27 PASS.",
+    "First session fanout included dormant synthetic Admin sessions and timed out. Added private reader registry; final27 websocket plus10 rollback PASS.",
+    "Initial Realtime no-op signal did not emit; bounded description signal restored in finally. Missing notification participant fixture corrected; final scope-specific runs pass.",
+    "UI tests exposed Material ancestors and narrow-screen overflows; source fixed. Gift test had expected SnackBar covering next tap; dismissed it explicitly. Final74 PASS.",
+    "Vendor logout assertion initially checked before confirmation. Cancel and confirmed logout then verified separately.",
+    "Default diff whitespace check treated Windows SQL CRLF as trailing whitespace. Windows-aware check passes; extra new-helper EOF blank lines removed. No SQL behavior or deployment changed.",
+    "Final APK installation first failed because target device was absent. After user USB debugging reconnection, final installation and native lifecycle/network checks passed. Failed attempts are not passes."
+  ],
+  "limits": [
+    "Bounded denied websocket windows, not an SLA or scale guarantee.",
+    "Retained290 Flutter/2 inherited skips and175 Deno are historical overlapping baselines, not current totals.",
+    "FR14 road-route, ETA and physical movement remain NOT FUNCTIONALLY ACCEPTED.",
+    "No production/iOS/paid-provider/1000-user acceptance.",
+    "Private evidence remains ignored; published rows omit tokens, private links and document paths."
+  ]
+}

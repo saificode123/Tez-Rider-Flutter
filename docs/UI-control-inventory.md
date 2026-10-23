@@ -1,6 +1,6 @@
 # Stage 0 UI/control inventory
 
-> Current status: see the FINAL02 current checkpoint at the end and docs/evidence/FINAL02-acceptance.json. Earlier checkpoints are historical.
+> Current status: FINAL03 final closure at the end and FINAL-stage-0-1-signoff.md. Earlier checkpoints are historical.
 
 2026-10-21. Audit base `f8bce53`. **PARTIAL source audit; no physical every-button run.**
 
@@ -514,3 +514,12 @@ Canonical inventory:56files,410source templates,295noncontrol references,707hist
 TEST0004applied once after successful readiness/25rollback checks;25post checks passed. Current42versions/83RLS-enabled tables/174functions. Post-activation108four-role,13boundary,20targeted,5real signed-CNIC deadline,12own-profile Realtime,8rollback-only and10actual anonymous installation-capability,11physical/hosted lifecycle checks passed within their named scopes. Installed TEST APK/source hashes match; four-role routing/restoration, blocked/re-login and revoked/logout observations recorded individually. Marked customer confirmed active; phone logged out. Final affected18PASS; scoped analysis0issues. Historical290Flutter/2skips,175Deno and173hosted results are not new full-suite runs or additive totals.
 
 See [current acceptance checkpoint](FINAL-stage-0-1-acceptance.md#final02-current-checkpoint--2026-10-23-asiakarachi), [policy/validation/Admin-audit matrix](FINAL02-security-matrix.md), [current evidence](evidence/FINAL02-acceptance.json) and [retained feature reconciliation](evidence/FINAL02-retained-features.json). Remaining evidence: full conditional rendering/handlers, other private Realtime topics/media paths, physical error/retry and secure-storage faults, independent retained-definer/legacy-operation proof. FR42/43/44 PARTIAL; FR14 NOT FUNCTIONALLY ACCEPTED. No Stage2–5 work, production modification, reset/replay, push or merge.
+
+
+## FINAL03 final closure — 2026-10-23 (Asia/Karachi)
+
+Current source census: **412 unique templates,56files (40screens/16widgets),295 noncontrol references,707 historical rows retained**. All410 preceding templates align to constructor/callback sequences; two explicit Retry controls added. Distinct runtime widget count is data-dependent and not inferred.
+
+Source-level classes remain340connected/rendering-unverified,32unreachable and40shared; these labels are not converted into412runtime passes. Stage0 audit acceptance instead uses the explicit56-file evidence/disposition matrix,37new widget cases and retained accepted feature evidence. New handlers verify actual requests/state effects, including denied/confirmed favourite removal and confirmed address reload; secure-storage/chat race tests remain distinct. Later-stage source-only workflows retain approved B owners and no functional PASS. Conditional template markers are lexical hints, not a branch-coverage total.
+
+References: FINAL03-ui-canonical.md; FINAL03-rendered-states.md; evidence/FINAL03-ui-inventory.json; evidence/FINAL03-acceptance.json. Stage0 **COMPLETE at the audit/classification standard**; later-stage application implementation remains incomplete.
