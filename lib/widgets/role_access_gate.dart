@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/account_access.dart';
+import '../controllers/auth_controller.dart';
 
 bool roleAccessAllowed(Map<String, dynamic> status, String role) {
   if (status['code'] != 'OK' || status['is_blocked'] == true) return false;
@@ -40,6 +41,10 @@ class _RoleAccessGateState extends State<RoleAccessGate>
   Future<bool> _check() async {
     final account = _client.auth.currentUser?.id;
     if (account == null) return false;
+    if (Get.isRegistered<AuthController>() &&
+        !await Get.find<AuthController>().credentials.restorationAllowed()) {
+      return false;
+    }
     final status = await _client
         .rpc('fr28_account_status')
         .timeout(const Duration(seconds: 10));

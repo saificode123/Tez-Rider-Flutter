@@ -1,3 +1,4 @@
+import {publishToLiveSessions} from './publication.ts';
 import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import {accountBoundary} from '../_shared/fr28-access.ts';
 import {createHandler, type Data} from './handler.ts';
@@ -20,14 +21,7 @@ const handler = createHandler({
     p_accuracy: v.accuracy, p_device_at: v.device_at, p_request_id: v.request_id,
   }),
   context: (jwt, order) => rpc(jwt, 'fr13_tracking_context', {p_order_id: order}),
-  async publish(topic, payload) {
-    const response = await applicationFetch(base + '/realtime/v1/api/broadcast', {
-      method: 'POST', headers: {apikey: service, Authorization: 'Bearer ' + service, 'Content-Type': 'application/json'},
-      body: JSON.stringify({messages: [{topic, event: 'location', payload, private: true}]}),
-      signal: AbortSignal.timeout(5000),
-    });
-    return response.ok;
-  },
+  publish: (topic, payload) => publishToLiveSessions(applicationFetch, base, service, topic, payload),
 });
 serveSecurity('fr13-location', {hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54328 : 8000}, async req => {
   const denial = await accountBoundary(req, base, anon);

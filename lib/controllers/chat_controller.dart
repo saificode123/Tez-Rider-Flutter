@@ -4,7 +4,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/chat_model.dart';
 
 class ChatController extends GetxController {
-  final _supabase = Supabase.instance.client;
+  ChatController({SupabaseClient? client})
+    : _supabase = client ?? Supabase.instance.client;
+  final SupabaseClient _supabase;
+  StreamSubscription<AuthState>? _auth;
+  String? _account;
+  int _generation = 0;
 
   var messages = <ChatMessage>[].obs;
   var isLoading = true.obs;
@@ -22,25 +27,67 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _account = _supabase.auth.currentUser?.id;
+    _auth = _supabase.auth.onAuthStateChange.listen((_) {
+      final account = _supabase.auth.currentUser?.id;
+      if (account != _account) {
+        _account = account;
+        _clearRoom();
+        currentUserBigintId = null;
+      }
+    });
     _fetchCurrentUserBigintId();
+  }
+
+  void _clearRoom() {
+    _generation++;
+    currentRoomId = null;
+    _flush?.cancel();
+    _flush = null;
+    _pending.clear();
+    messages.clear();
+    hasOlder.value = false;
+    sending.value = false;
+    isLoading.value = false;
+    error.value = '';
+    final old = _subscription;
+    _subscription = null;
+    if (old != null) unawaited(_removeChannel(old));
+  }
+
+  Future<void> _removeChannel(RealtimeChannel channel) async {
+    try {
+      await _supabase.removeChannel(channel);
+    } catch (_) {}
   }
 
   Future<void> _fetchCurrentUserBigintId() async {
     try {
-      final email = _supabase.auth.currentUser?.email;
-      if (email == null) return;
+      final account = _supabase.auth.currentUser?.id;
+      final generation = _generation;
+      if (account == null) return;
       final record = await _supabase
           .from('users')
           .select('id')
-          .eq('email', email)
+          .eq('auth_user_id', account)
           .maybeSingle();
-      if (record != null) {
+      if (!_closed &&
+          generation == _generation &&
+          account == _supabase.auth.currentUser?.id &&
+          record != null) {
         currentUserBigintId = record['id'] as int;
       }
     } catch (_) {}
   }
 
   Future<void> joinRoom(int roomId) async {
+    _clearRoom();
+    final generation = _generation;
+    final account = _supabase.auth.currentUser?.id;
+    if (account == null) {
+      error.value = 'Sign in to view messages.';
+      return;
+    }
     currentRoomId = roomId;
     isLoading.value = true;
     messages.clear();
@@ -57,14 +104,18 @@ class ChatController extends GetxController {
           .limit(100)
           .timeout(const Duration(seconds: 15));
 
-      if (_closed || currentRoomId != roomId) return;
+      if (_closed ||
+          generation != _generation ||
+          account != _supabase.auth.currentUser?.id ||
+          currentRoomId != roomId) {
+        return;
+      }
       messages.value = data.reversed
           .map((e) => ChatMessage.fromJson(e))
           .toList();
       hasOlder.value = data.length == 100;
       isLoading.value = false;
 
-      _subscription?.unsubscribe();
       _subscription = _supabase
           .channel('chat_messages:room_id=eq.$roomId')
           .onPostgresChanges(
@@ -77,12 +128,19 @@ class ChatController extends GetxController {
               value: roomId,
             ),
             callback: (payload) {
-              final newMsg = ChatMessage.fromJson(payload.newRecord);
-              if (!_closed && currentRoomId == roomId) {
+              if (!_closed &&
+                  generation == _generation &&
+                  account == _supabase.auth.currentUser?.id &&
+                  currentRoomId == roomId) {
+                final newMsg = ChatMessage.fromJson(payload.newRecord);
                 _pending.add(newMsg);
                 _flush ??= Timer(const Duration(milliseconds: 150), () {
                   _flush = null;
-                  if (_closed) return;
+                  if (_closed ||
+                      generation != _generation ||
+                      account != _supabase.auth.currentUser?.id) {
+                    return;
+                  }
                   final ids = messages.map((message) => message.id).toSet();
                   messages.addAll(
                     _pending.where((message) => ids.add(message.id)),
@@ -94,9 +152,11 @@ class ChatController extends GetxController {
           )
           .subscribe();
     } catch (_) {
-      if (!_closed) error.value = 'Messages could not be loaded. Retry.';
+      if (!_closed && generation == _generation) {
+        error.value = 'Messages could not be loaded. Retry.';
+      }
     } finally {
-      if (!_closed) isLoading.value = false;
+      if (!_closed && generation == _generation) isLoading.value = false;
     }
   }
 
@@ -108,16 +168,18 @@ class ChatController extends GetxController {
       return;
     }
     isLoading.value = true;
+    final generation = _generation;
+    final room = currentRoomId;
     try {
       final data = await _supabase
           .from('chat_messages')
           .select('id,room_id,sender_id,message,image_url,created_at,is_read')
-          .eq('room_id', currentRoomId!)
+          .eq('room_id', room!)
           .lt('id', messages.first.id)
           .order('id', ascending: false)
           .limit(50)
           .timeout(const Duration(seconds: 15));
-      if (!_closed) {
+      if (!_closed && generation == _generation) {
         messages.insertAll(
           0,
           data.reversed.map((e) => ChatMessage.fromJson(e)),
@@ -125,9 +187,11 @@ class ChatController extends GetxController {
         hasOlder.value = data.length == 50;
       }
     } catch (_) {
-      if (!_closed) error.value = 'Older messages could not be loaded. Retry.';
+      if (!_closed && generation == _generation) {
+        error.value = 'Older messages could not be loaded. Retry.';
+      }
     } finally {
-      if (!_closed) isLoading.value = false;
+      if (!_closed && generation == _generation) isLoading.value = false;
     }
   }
 
@@ -139,36 +203,45 @@ class ChatController extends GetxController {
       return false;
     }
     sending.value = true;
+    final generation = _generation;
+    final room = currentRoomId;
+    final account = _supabase.auth.currentUser?.id;
     error.value = '';
     try {
       if (currentUserBigintId == null) await _fetchCurrentUserBigintId();
-      if (currentUserBigintId == null) return false;
+      if (currentUserBigintId == null ||
+          _closed ||
+          generation != _generation ||
+          account != _supabase.auth.currentUser?.id) {
+        return false;
+      }
       await _supabase
           .from('chat_messages')
           .insert({
-            'room_id': currentRoomId,
+            'room_id': room,
             'sender_id': currentUserBigintId,
             'message': text.trim(),
           })
           .timeout(const Duration(seconds: 15));
-      return true;
+      return !_closed &&
+          generation == _generation &&
+          account == _supabase.auth.currentUser?.id;
     } catch (_) {
-      if (!_closed) {
+      if (!_closed && generation == _generation) {
         error.value =
             'Message was not confirmed. Check the conversation before retrying.';
       }
       return false;
     } finally {
-      if (!_closed) sending.value = false;
+      if (!_closed && generation == _generation) sending.value = false;
     }
   }
 
   @override
   void onClose() {
     _closed = true;
-    _flush?.cancel();
-    _pending.clear();
-    _subscription?.unsubscribe();
+    _clearRoom();
+    unawaited(_auth?.cancel());
     super.onClose();
   }
 }

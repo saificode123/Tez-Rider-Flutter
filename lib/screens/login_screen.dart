@@ -3,7 +3,7 @@ import '../services/account_session_service.dart';
 import '../services/account_access.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/session_credentials.dart';
 import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
 import 'signup_screen.dart';
@@ -20,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen>
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final AuthController authController = Get.find<AuthController>();
-  final _storage = const FlutterSecureStorage();
 
   bool _loading = false;
   bool _obscure = true;
@@ -138,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen>
         return;
       }
 
-      if (!await authController.enforceAccountAccess()) {
+      if (!await authController.enforceAccountAccess(passwordLogin: true)) {
         if (authController.accountGate.current ==
             AccountDisposition.unavailable) {
           _showError(
@@ -186,13 +185,13 @@ class _LoginScreenState extends State<LoginScreen>
       final realRole = access.role;
       final vStatus = access.status;
 
-      await _storage.write(
-        key: 'tr_refresh',
-        value: res.session!.refreshToken ?? '',
-      );
-      await _storage.write(key: 'tr_role', value: realRole);
-      await _storage.write(key: 'user_logged_in', value: 'true');
-      await authController.setBioPreference(authController.isBioEnabled.value);
+      try {
+        await authController.credentials.remember(res.session!, realRole);
+      } catch (_) {
+        await authController.logout(navigate: false);
+        _showError(secureSessionUnavailable);
+        return;
+      }
 
       if (access.needsApproval) {
         if (realRole == 'rider') {
@@ -228,19 +227,18 @@ class _LoginScreenState extends State<LoginScreen>
         default:
           _showError('Sign in failed: ${e.message}');
       }
-    } catch (error) {
-      _showError(
-        // 'Something went wrong. Please check your internet and try again.',
-        error.toString(),
-      );
+    } catch (_) {
+      _showError('Sign in was not confirmed. Check your connection and Retry.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _biometricLogin() async {
-    final refreshToken = await _storage.read(key: 'tr_refresh');
-    if (refreshToken == null || refreshToken.isEmpty) {
+    final saved = await authController.credentials.read(
+      currentAccount: Supabase.instance.client.auth.currentUser?.id,
+    );
+    if (saved == null) {
       _showError(
         'Please sign in with your password first to enable biometrics.',
       );
@@ -251,13 +249,18 @@ class _LoginScreenState extends State<LoginScreen>
       return;
     }
     setState(() => _loading = true);
-    final ok = await authController.authenticateWithBiometrics();
-    if (ok) {
-      try {
+    try {
+      final ok = await authController.authenticateWithBiometrics();
+      if (ok) {
         final res = await Supabase.instance.client.auth.setSession(
-          refreshToken,
+          saved.refreshToken,
         );
         if (res.session != null) {
+          if (res.user?.id != saved.account) {
+            await authController.logout(navigate: false);
+            _showError('Please sign in with your password.');
+            return;
+          }
           if (!await authController.enforceAccountAccess()) {
             _showError(
               authController.accountGate.current == AccountDisposition.blocked
@@ -266,17 +269,13 @@ class _LoginScreenState extends State<LoginScreen>
             );
             return;
           }
-          await _storage.write(
-            key: 'tr_refresh',
-            value: res.session!.refreshToken ?? refreshToken,
-          );
           final profile = await Supabase.instance.client
               .from('users')
               .select('role,verification_status')
               .eq('email', res.user!.email!)
               .maybeSingle();
           final access = AccountAccess.fromProfile(profile);
-          await _storage.write(key: 'tr_role', value: access.role);
+          await authController.credentials.remember(res.session!, access.role);
           if (access.needsApproval) {
             if (access.role == 'rider') {
               Get.offAll(() => const CnicDocumentScreen());
@@ -292,11 +291,12 @@ class _LoginScreenState extends State<LoginScreen>
         } else {
           _showError('Session expired. Please sign in with your password.');
         }
-      } catch (_) {
-        _showError('Session expired. Please sign in with your password.');
       }
+    } catch (_) {
+      _showError('Session expired. Please sign in with your password.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
-    if (mounted) setState(() => _loading = false);
   }
 
   void _showError(String msg) {

@@ -7,28 +7,36 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_controller.dart';
 import '../services/account_session_service.dart';
 import '../services/android_broadcast_push_service.dart';
+import '../services/session_credentials.dart';
 
 class AuthController extends GetxController {
-  AuthController({LocalAuthentication? localAuthentication})
-    : _auth = localAuthentication ?? LocalAuthentication();
+  AuthController({
+    LocalAuthentication? localAuthentication,
+    SessionCredentials? sessionCredentials,
+  }) : _auth = localAuthentication ?? LocalAuthentication(),
+       credentials = sessionCredentials ?? SessionCredentials();
+  final SessionCredentials credentials;
 
   final LocalAuthentication _auth;
-  final _storage = const FlutterSecureStorage();
+  FlutterSecureStorage get _storage => credentials.storage;
 
   late final AccountSessionGate accountGate;
   StreamSubscription<AuthState>? _sessionChanges;
   bool _denying = false;
-  Future<bool> enforceAccountAccess() async {
+  Future<bool> enforceAccountAccess({bool passwordLogin = false}) async {
+    if (!passwordLogin && !await credentials.restorationAllowed()) return false;
     final result = await accountGate.check();
     return result == AccountDisposition.allowed ||
         result == AccountDisposition.missing;
   }
 
   void handleAccountFailure(String code) {
-    if (code == 'FR28_ACCOUNT_BLOCKED')
+    if (code == 'FR28_ACCOUNT_BLOCKED') {
       unawaited(_denyAccount(AccountDisposition.blocked));
-    if (code == 'FR28_SESSION_REVOKED')
+    }
+    if (code == 'FR28_SESSION_REVOKED') {
       unawaited(_denyAccount(AccountDisposition.expired));
+    }
   }
 
   Future<void> _denyAccount(AccountDisposition disposition) async {
@@ -91,8 +99,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> _loadBioPreference() async {
-    final val = await _storage.read(key: 'bio_enabled');
-    isBioEnabled.value = val == 'true';
+    try {
+      final val = await _storage.read(key: 'bio_enabled');
+      isBioEnabled.value = val == 'true';
+    } catch (_) {
+      isBioEnabled.value = false;
+    }
   }
 
   Future<void> setBioPreference(bool val) async {
@@ -103,8 +115,9 @@ class AuthController extends GetxController {
   Future<bool> authenticateWithBiometrics() async {
     try {
       if (!isBioSupported.value ||
-          (await _auth.getAvailableBiometrics()).isEmpty)
+          (await _auth.getAvailableBiometrics()).isEmpty) {
         return false;
+      }
       return await _auth.authenticate(
         localizedReason:
             'Verify your identity with biometrics to sign in to TezRider',
@@ -128,19 +141,25 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout({bool navigate = true}) async {
+    final invalidation = credentials.invalidate();
+    Future<void> attempt(Future<void> Function() action) async {
+      try {
+        await action().timeout(const Duration(seconds: 5));
+      } catch (_) {}
+    }
+
     if (Get.isRegistered<AndroidBroadcastPushService>()) {
-      await Get.find<AndroidBroadcastPushService>().unregisterBeforeLogout();
+      await attempt(
+        () => Get.find<AndroidBroadcastPushService>().unregisterBeforeLogout(),
+      );
     }
-    await accountGate.reset();
+    await attempt(() => accountGate.reset());
     if (Get.isRegistered<RiderController>()) {
-      await Get.find<RiderController>().goOffline();
+      await attempt(() => Get.find<RiderController>().goOffline());
     }
-    try {
-      await Supabase.instance.client.auth.signOut();
-    } catch (_) {}
-    await _storage.delete(key: 'tr_refresh');
-    await _storage.delete(key: 'tr_role');
-    await _storage.write(key: 'user_logged_in', value: 'false');
+    await attempt(() => Supabase.instance.client.auth.signOut());
+    await invalidation;
+    isBioEnabled.value = false;
     if (navigate) Get.offAllNamed('/login');
   }
 }
