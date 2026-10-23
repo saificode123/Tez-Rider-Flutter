@@ -473,15 +473,21 @@ void main() {
       final old = Completer<http.Response>();
       var failing = true;
       transport.respond = (request) async {
+        if (request.url.path.endsWith('/final2_catalog_categories')) {
+          return UiTransport.jsonResponse([]);
+        }
         final query = (jsonDecode(request.body) as Map)['p_query'];
         if (query == 'old') return old.future;
         return UiTransport.jsonResponse(
-          failing ? {'code': '22023', 'message': 'Unit rejected'} : [],
+          failing
+              ? {'code': '22023', 'message': 'Unit rejected'}
+              : {'items': [], 'has_more': false, 'next_cursor': null},
           failing ? 400 : 200,
         );
       };
       await show(tester, const SearchScreen());
       await tester.enterText(find.byType(TextField), 'old');
+      await tester.pump(const Duration(milliseconds: 350));
       await tester.enterText(find.byType(TextField), 'literal,*()');
       await settle(tester);
       expect(
@@ -493,9 +499,18 @@ void main() {
       await settle(tester);
       expect(transport.requests.last.body, contains('literal,*()'));
       old.complete(
-        UiTransport.jsonResponse([
-          {'id': 99, 'name': 'STALE UNIT PRODUCT'},
-        ]),
+        UiTransport.jsonResponse({
+          'items': [
+            {
+              'id': 99,
+              'vendor_id': 10,
+              'name': 'STALE UNIT PRODUCT',
+              'price': 25,
+            },
+          ],
+          'has_more': false,
+          'next_cursor': null,
+        }),
       );
       await settle(tester);
       expect(find.text('STALE UNIT PRODUCT'), findsNothing);
@@ -505,6 +520,49 @@ void main() {
         find.textContaining('Search could not be completed.'),
         findsNothing,
       );
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'search: real category selection, keyset paging and duplicate suppression',
+    (tester) async {
+      final requests = <Map>[];
+      transport.respond = (request) async {
+        if (request.url.path.endsWith('/final2_catalog_categories')) {
+          return UiTransport.jsonResponse([
+            {'name': 'Books', 'image_url': null},
+          ]);
+        }
+        final body = jsonDecode(request.body) as Map;
+        requests.add(body);
+        final more = body['p_after'] == null;
+        return UiTransport.jsonResponse({
+          'items': [
+            {
+              'id': more ? 1 : 2,
+              'vendor_id': 10,
+              'name': more ? 'First real book' : 'Second real book',
+              'price': 25,
+            },
+          ],
+          'has_more': more,
+          'next_cursor': more ? {'id': 1, 'name': 'First real book'} : null,
+        });
+      };
+      await show(tester, const SearchScreen());
+      await settle(tester);
+      await tester.tap(find.text('Books').last);
+      await settle(tester);
+      expect(requests.single['p_category'], 'Books');
+      expect(find.text('First real book'), findsOneWidget);
+      await tester.ensureVisible(find.text('Load more products'));
+      await tester.tap(find.text('Load more products'));
+      await settle(tester);
+      expect(requests.last['p_after'], {'id': 1, 'name': 'First real book'});
+      expect(find.text('Second real book'), findsOneWidget);
+      expect(find.text('First real book'), findsOneWidget);
+      expect(find.text('Load more products'), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );

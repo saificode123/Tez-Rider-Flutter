@@ -2,7 +2,8 @@ import '../widgets/stock_indicator.dart';
 import '../services/inventory_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
+import '../services/catalogue_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/cart_controller.dart';
 import 'product_detail_screen.dart';
@@ -22,7 +23,13 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final _supabase = Supabase.instance.client;
+  final _catalogue = CatalogueService();
+  Timer? _debounce;
+  List<Map<String, dynamic>> _categories = [];
+  bool _categoriesLoading = true, _categoriesFailed = false;
+  String? _category;
+  bool _hasMore = false, _loadingMore = false;
+  Map<String, dynamic>? _cursor;
   final _searchCtrl = TextEditingController();
   final _focusNode = FocusNode();
 
@@ -35,44 +42,94 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _focusNode.requestFocus(),
-    );
+    unawaited(_loadCategories());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _focusNode.requestFocus();
+    });
   }
 
   @override
   void dispose() {
     _request++;
+    _debounce?.cancel();
     _searchCtrl.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
-  Future<void> _search(String query) async {
-    final request = ++_request;
-    final q = query.trim();
-    if (q.isEmpty) {
-      setState(() {
-        _results = [];
-        _searched = false;
-        _loading = false;
-        _error = null;
-      });
+  Future<void> _loadCategories() async {
+    setState(() {
+      _categoriesLoading = true;
+      _categoriesFailed = false;
+    });
+    try {
+      final rows = await _catalogue.categories();
+      if (mounted) setState(() => _categories = rows);
+    } catch (_) {
+      if (mounted) setState(() => _categoriesFailed = true);
+    } finally {
+      if (mounted) setState(() => _categoriesLoading = false);
+    }
+  }
+
+  void _queueSearch(String query) {
+    _debounce?.cancel();
+    _request++;
+    if (query.trim().isEmpty) {
+      unawaited(_search(query));
       return;
     }
     setState(() {
       _loading = true;
-      _searched = true;
       _error = null;
     });
+    _debounce = Timer(const Duration(milliseconds: 300), () => _search(query));
+  }
+
+  Future<void> _search(String query, {bool loadMore = false}) async {
+    _debounce?.cancel();
+    if (loadMore && (_loading || _loadingMore || !_hasMore)) return;
+    final request = loadMore ? _request : ++_request;
+    final q = query.trim();
+    if (q.isEmpty && _category == null) {
+      setState(() {
+        _results = [];
+        _searched = false;
+        _loading = false;
+        _loadingMore = false;
+        _error = null;
+        _hasMore = false;
+        _cursor = null;
+      });
+      return;
+    }
+    setState(() {
+      _loading = !loadMore;
+      _loadingMore = loadMore;
+      _searched = true;
+      _error = null;
+      if (!loadMore) {
+        _hasMore = false;
+        _cursor = null;
+      }
+    });
     try {
-      final data =
-          await _supabase
-                  .rpc('final1_search_products', params: {'p_query': q})
-                  .timeout(const Duration(seconds: 12))
-              as List;
+      final page = await _catalogue.load(
+        query: q,
+        category: _category,
+        after: loadMore ? _cursor : null,
+      );
       if (!mounted || request != _request) return;
-      setState(() => _results = data.cast<Map<String, dynamic>>());
+      setState(() {
+        if (loadMore) {
+          final ids = _results.map((p) => p['id']).toSet();
+          _results.addAll(page.items.where((p) => ids.add(p['id'])));
+        } else {
+          _results = page.items;
+        }
+        _cursor = page.cursor;
+        _hasMore = page.hasMore;
+      });
     } catch (_) {
       if (!mounted || request != _request) return;
       setState(
@@ -80,9 +137,57 @@ class _SearchScreenState extends State<SearchScreen> {
             'Search could not be completed. Use up to 120 characters and retry.',
       );
     } finally {
-      if (mounted && request == _request) setState(() => _loading = false);
+      if (mounted && request == _request) {
+        setState(() {
+          _loading = false;
+          _loadingMore = false;
+        });
+      }
     }
   }
+
+  Widget _buildFilters() => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Row(
+      children: [
+        if (_categoriesLoading)
+          const SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(),
+          ),
+        if (_categoriesFailed)
+          TextButton(
+            onPressed: _loadCategories,
+            child: const Text('Retry categories'),
+          ),
+        Expanded(
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: _category ?? '',
+            items: [
+              const DropdownMenuItem(value: '', child: Text('All categories')),
+              ..._categories.map(
+                (row) => DropdownMenuItem(
+                  value: row['name'] as String,
+                  child: Text(
+                    row['name'] as String,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+            onChanged: (value) {
+              setState(
+                () => _category = value?.isNotEmpty == true ? value : null,
+              );
+              unawaited(_search(_searchCtrl.text));
+            },
+          ),
+        ),
+      ],
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -127,44 +232,47 @@ class _SearchScreenState extends State<SearchScreen> {
                   )
                 : null,
           ),
-          onChanged: _search,
+          onChanged: _queueSearch,
           onSubmitted: _search,
         ),
       ),
-      body: _loading
-          ? const Center(
-              child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2),
-            )
-          : _error != null
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(_error!),
-                  TextButton(
-                    onPressed: () => _search(_searchCtrl.text),
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
-            )
-          : !_searched
-          ? _buildSuggestions()
-          : _results.isEmpty
-          ? _buildEmpty()
-          : _buildResults(cart),
+      body: Column(
+        children: [
+          _buildFilters(),
+          Expanded(
+            child: _loading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: _kPurple,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : _error != null
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(_error!),
+                        TextButton(
+                          onPressed: () => _search(_searchCtrl.text),
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : !_searched
+                ? _buildSuggestions()
+                : _results.isEmpty
+                ? _buildEmpty()
+                : _buildResults(cart),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildSuggestions() {
-    final chips = [
-      'Food',
-      'Grocery',
-      'Pharmacy',
-      'Thrift',
-      'Preloved',
-      'Tailoring',
-    ];
+    final chips = _categories.map((row) => row['name'] as String).toList();
     return Padding(
       padding: const EdgeInsets.all(22),
       child: Column(
@@ -186,8 +294,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 .map(
                   (c) => GestureDetector(
                     onTap: () {
-                      _searchCtrl.text = c;
-                      _search(c);
+                      setState(() => _category = c);
+                      _searchCtrl.clear();
+                      _search('');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -258,7 +367,7 @@ class _SearchScreenState extends State<SearchScreen> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
           child: Text(
-            '${_results.length} result${_results.length == 1 ? '' : 's'}',
+            '${_results.length}${_hasMore ? '+' : ''} result${_results.length == 1 ? '' : 's'}',
             style: const TextStyle(
               color: _kTextSub,
               fontSize: 13,
@@ -269,8 +378,19 @@ class _SearchScreenState extends State<SearchScreen> {
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-            itemCount: _results.length,
-            itemBuilder: (_, i) => _buildProductTile(_results[i], cart),
+            itemCount: _results.length + (_hasMore ? 1 : 0),
+            itemBuilder: (_, i) => i == _results.length
+                ? TextButton(
+                    onPressed: _loadingMore
+                        ? null
+                        : () => _search(_searchCtrl.text, loadMore: true),
+                    child: Text(
+                      _loadingMore
+                          ? 'Loading products...'
+                          : 'Load more products',
+                    ),
+                  )
+                : _buildProductTile(_results[i], cart),
           ),
         ),
       ],

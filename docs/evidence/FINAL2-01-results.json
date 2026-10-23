@@ -1,0 +1,521 @@
+{
+  "date": "2026-10-23",
+  "baseline": "b19dc24",
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "scope": "S2-01/S2-05 implementation cohort; not Stage2 acceptance",
+  "checks": {
+    "onboarding-review-results": [
+      {
+        "check": "missing profile fields remain recoverably incomplete; no success claim",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "self-registration cannot create an Admin",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "trusted registration rejects invalid phone",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "missing store address does not partially create a vendor profile",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "actual live vendor claim creates one pending profile and persisted inactive store",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "registration replay preserves canonical role, original profile/store and identifiers",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "explicit profile completion updates only owned name/phone; metadata-only restoration cannot overwrite them",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "pending vendor cannot review or approve itself",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "direct self approval remains denied",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "Admin approval and exact replay confirm the existing legacy signature",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "new and legacy review APIs cannot introduce a reasonless rejection",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "reasoned rejection persists and deactivates store; replay is idempotent",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "changed rejection reason cannot silently rewrite an already-recorded decision",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "subsequent explicit approval clears stale rejection reason",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "customer profile completion stays approved without an invented Admin review",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "ordinary customer cannot review another account",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "anonymous/PUBLIC cannot execute registration or review APIs",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "three actual decisions have exactly three canonical Admin actor/target audits",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "recipient-only in-app approval/rejection notices created once per actual decision",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      }
+    ],
+    "onboarding-post-results": [
+      {
+        "check": "missing profile fields remain recoverably incomplete; no success claim",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "self-registration cannot create an Admin",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "trusted registration rejects invalid phone",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "missing store address does not partially create a vendor profile",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "actual live vendor claim creates one pending profile and persisted inactive store",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "registration replay preserves canonical role, original profile/store and identifiers",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "explicit profile completion updates only owned name/phone; metadata-only restoration cannot overwrite them",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "pending vendor cannot review or approve itself",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "direct self approval remains denied",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "Admin approval and exact replay confirm the existing legacy signature",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "new and legacy review APIs cannot introduce a reasonless rejection",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "reasoned rejection persists and deactivates store; replay is idempotent",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "changed rejection reason cannot silently rewrite an already-recorded decision",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "subsequent explicit approval clears stale rejection reason",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "customer profile completion stays approved without an invented Admin review",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "ordinary customer cannot review another account",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "anonymous/PUBLIC cannot execute registration or review APIs",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "three actual decisions have exactly three canonical Admin actor/target audits",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      },
+      {
+        "check": "recipient-only in-app approval/rejection notices created once per actual decision",
+        "result": "PASS",
+        "surface": "real live-claim SQL; full rollback"
+      }
+    ],
+    "onboarding-hosted-results": [
+      {
+        "check": "fresh verified Auth identity cannot self-register as Admin",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real gateway registration rejects malformed phone before persistence",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "missing store address returns explicit incompletion",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "incomplete store leaves no partly-created vendor profile",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "two concurrent real registration requests produce the same profile and store",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "actual persisted store address and unique owner verified by TEST read",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "new vendor remains pending with an inactive store",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "pending vendor cannot operate inventory before Admin approval",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "editable metadata cannot replace canonical vendor role or saved name",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "explicit owner name and phone update is actually persisted",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "later login metadata cannot overwrite the explicit profile update",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "actual customer completion does not invent an Admin-approval requirement",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real unrelated customer cannot approve a vendor",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous direct registration RPC remains denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real Admin cannot reject without a reason",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "legacy HTTP review signature cannot bypass rejection validation",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real Admin reasoned rejection confirms the canonical target",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "owner: actual review notice Realtime delivery respects ownership",
+        "result": "PASS",
+        "surface": "actual authenticated user websocket; bounded denial observation"
+      },
+      {
+        "check": "unrelated customer: actual review notice Realtime delivery respects ownership",
+        "result": "PASS",
+        "surface": "actual authenticated user websocket; bounded denial observation"
+      },
+      {
+        "check": "identical real rejection replay is safely reconciled",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "affected vendor reads the actual persisted rejection notice",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated customer cannot read the affected vendor private notices",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "subsequent real approval clears the rejection reason",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "approved owner store is actually active in TEST",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "existing session/role guard observes actual vendor approval",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "exactly two committed decisions carry the correct canonical Admin actor and target",
+        "result": "PASS",
+        "surface": "service accounting after real user actions; not an authorization test"
+      },
+      {
+        "check": "replay and validation failures do not duplicate recipient notices",
+        "result": "PASS",
+        "surface": "service accounting after real user actions"
+      }
+    ],
+    "onboarding-deployment": {
+      "project": "igeisilhtmglgnqvllrx",
+      "version": "202610230004",
+      "versions": 46,
+      "review_passes": 19,
+      "production_modified": false,
+      "replayed": false
+    },
+    "catalogue-review-results": [
+      {
+        "check": "approved vendor creates actual inventory through retained FR17 API",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "customer keyset pages return all matching rows without overlap",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "punctuation is literal keyword data",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "exact normalized server category filtering independent of first page",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "categories include real visible inventory labels",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "server rejects oversized query/page and malformed/overflow cursor",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "rejected merchant disappears from catalogue, category projection and direct product SELECT",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous catalogue APIs denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ],
+    "catalogue-post-results": [
+      {
+        "check": "approved vendor creates actual inventory through retained FR17 API",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "customer keyset pages return all matching rows without overlap",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "punctuation is literal keyword data",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "exact normalized server category filtering independent of first page",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "categories include real visible inventory labels",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "server rejects oversized query/page and malformed/overflow cursor",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "rejected merchant disappears from catalogue, category projection and direct product SELECT",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous catalogue APIs denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ],
+    "catalogue-hosted-results": [
+      {
+        "check": "three real synthetic inventory records created through approved vendor API",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real customer receives bounded first page",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real keyset follow-up returns exact persisted products without overlap",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real HTTP query treats filter punctuation literally",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real category-only request finds persisted category",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real category projection includes actual inventory",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server denies oversized page",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server denies oversized keyword",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server denies unknown cursor key",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous direct catalogue RPC denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "synthetic fixtures retired with actual stock ledger, no historical deletion",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "catalogue-deployment": {
+      "project": "igeisilhtmglgnqvllrx",
+      "version": "202610230005",
+      "versions": 47,
+      "review_passes": 8,
+      "production_modified": false,
+      "replayed": false
+    }
+  },
+  "flutter": {
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "log_sha256": "a9811eb5a4461382c686e5b26a86801c3f9c85a7e794583bd3235ea9247729ff",
+    "files": [
+      "catalogue_test.dart",
+      "closure_ui_states_test.dart",
+      "onboarding_test.dart",
+      "onboarding_access_test.dart",
+      "account_access_test.dart",
+      "account_session_test.dart",
+      "session_storage_fault_test.dart",
+      "stage0_rendered_audit_test.dart",
+      "final_security_test.dart",
+      "final_completion_security_test.dart"
+    ]
+  },
+  "limitations": [
+    "SQL candidate/post executions cover the same eight catalogue cases and same nineteen onboarding cases; do not count them as separate unique coverage.",
+    "Admin-confirmed synthetic Auth fixtures do not establish fresh real inbox confirmation.",
+    "No Stage2 physical journeys executed in this cohort.",
+    "FR14 physical movement remains unaccepted."
+  ]
+}

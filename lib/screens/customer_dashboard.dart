@@ -1,4 +1,5 @@
 import '../widgets/stock_indicator.dart';
+import '../services/catalogue_service.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,6 +58,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   int _selectedCatIndex = 0;
   List<Map<String, dynamic>> _orders = [];
   List<Map<String, dynamic>> _dbCategories = [];
+  bool _categoriesLoading = true;
+  String? _categoriesError;
   bool _ordersLoading = true;
   Worker? _orderRefresh;
   bool _ordersBusy = false, _ordersDirty = false;
@@ -87,46 +90,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   late PageController _pageCtrl;
   Timer? _carouselTimer;
 
-  final List<Map<String, dynamic>> _categories = [
-    {'name': 'All', 'icon': '🛍️', 'color': _kPurple},
-    {'name': 'Food', 'icon': '🍔', 'color': _kSaffron},
-    {'name': 'Grocery', 'icon': '🥦', 'color': _kGreen},
-    {'name': 'Pharmacy', 'icon': '💊', 'color': _kTeal},
-    {'name': 'Thrift', 'icon': '👗', 'color': _kPink},
-    {'name': 'Preloved', 'icon': '♻️', 'color': Color(0xFF8B5CF6)},
-    {'name': 'Tailoring', 'icon': '✂️', 'color': Color(0xFFEF4444)},
-  ];
-
-  List<Map<String, dynamic>> _featured = [
-    {
-      'title': 'Crispy Fried Chicken',
-      'sub': '🔥 Trending Today',
-      'price': '799',
-      'emoji': '🍗',
-      'gradient': [Color(0xFFFF6B35), Color(0xFFFF3B00)],
-    },
-    {
-      'title': 'Fresh Garden Salad',
-      'sub': '🥗 Healthy Choice',
-      'price': '499',
-      'emoji': '🥗',
-      'gradient': [Color(0xFF10B981), Color(0xFF059669)],
-    },
-    {
-      'title': 'Margherita Pizza',
-      'sub': '⭐ Chef\'s Special',
-      'price': '1299',
-      'emoji': '🍕',
-      'gradient': [Color(0xFF1B5E20), Color(0xFF2E7D32)],
-    },
-    {
-      'title': 'Spicy Beef Burger',
-      'sub': '🏆 Best Seller',
-      'price': '899',
-      'emoji': '🍔',
-      'gradient': [Color(0xFFF59E0B), Color(0xFFD97706)],
-    },
-  ];
+  List<Map<String, dynamic>> _featured = [];
+  bool _featuredLoading = true;
+  String? _featuredError;
 
   @override
   void initState() {
@@ -211,50 +177,48 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Future<void> _loadFeatured() async {
+    if (mounted) {
+      setState(() {
+        _featuredLoading = true;
+        _featuredError = null;
+      });
+    }
     try {
-      final data =
-          await _supabase
-                  .from('products')
-                  .select('id, name, price, category, image_url')
-                  .order('created_at', ascending: false)
-                  .limit(4)
-              as List;
-
-      if (data.isEmpty) return;
-
+      final page = await CatalogueService().load(limit: 4);
       const gradients = [
         [Color(0xFFFF6B35), Color(0xFFFF3B00)],
         [Color(0xFF10B981), Color(0xFF059669)],
         [Color(0xFF1B5E20), Color(0xFF2E7D32)],
         [Color(0xFFF59E0B), Color(0xFFD97706)],
       ];
-      const subs = [
-        '🔥 Trending Today',
-        '🥗 Healthy Choice',
-        '⭐ Chef\'s Special',
-        '🏆 Best Seller',
-      ];
-
-      final mapped = data.asMap().entries.map((e) {
-        final i = e.key % 4;
-        final p = e.value as Map<String, dynamic>;
-        final price = p['price'];
-        final category = (p['category'] as String?) ?? 'Food';
-        return {
-          'title': p['name'] ?? 'Featured Item',
-          'sub': subs[i],
-          'price': price is num
-              ? price.toStringAsFixed(0)
-              : (price?.toString() ?? '0'),
-          'emoji': _catEmoji(category), // fallback if the product has no photo
-          'imageUrl': (p['image_url'] as String?) ?? '',
-          'gradient': gradients[i],
+      final mapped = page.items.asMap().entries.map((entry) {
+        final product = entry.value;
+        return <String, dynamic>{
+          'title': product['name'],
+          'sub': 'From the catalogue',
+          'price': (product['price'] as num).toStringAsFixed(2),
+          'emoji': _catEmoji(product['category']?.toString() ?? ''),
+          'imageUrl': product['image_url']?.toString() ?? '',
+          'gradient': gradients[entry.key % gradients.length],
+          'product': product,
         };
       }).toList();
-
-      if (mounted)
-        setState(() => _featured = List<Map<String, dynamic>>.from(mapped));
-    } catch (_) {}
+      if (mounted) {
+        setState(() {
+          _featured = mapped;
+          _featuredIndex = 0;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () =>
+              _featuredError = 'Featured products could not be loaded. Retry.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _featuredLoading = false);
+    }
   }
 
   Future<void> _loadFavourites() async {
@@ -274,8 +238,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   .select('product_id')
                   .eq('user_id', _userId!)
               as List;
-      if (mounted)
+      if (mounted) {
         setState(() => _favIds = favs.map((f) => f['product_id']).toSet());
+      }
     } catch (_) {}
   }
 
@@ -351,11 +316,12 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               as List;
       if (mounted) setState(() => _orders = data.cast<Map<String, dynamic>>());
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
           () => _ordersError =
               'Order status could not be refreshed. Retry when connected.',
         );
+      }
     } finally {
       _ordersBusy = false;
       if (_ordersDirty && mounted) {
@@ -367,17 +333,35 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Future<void> _loadCategories() async {
+    if (mounted) {
+      setState(() {
+        _categoriesLoading = true;
+        _categoriesError = null;
+      });
+    }
     try {
-      final data =
-          await _supabase
-                  .from('categories')
-                  .select('name, image_url')
-                  .order('sort_order')
-              as List;
-      if (data.isNotEmpty && mounted) {
-        setState(() => _dbCategories = data.cast<Map<String, dynamic>>());
+      final data = await CatalogueService().categories();
+      if (mounted) {
+        final selected = productCtrl.category.value;
+        final names = ['All', ...data.map((c) => c['name'] as String)];
+        final index = names.indexWhere(
+          (name) => name.toLowerCase().trim() == selected.toLowerCase().trim(),
+        );
+        setState(() {
+          _dbCategories = data;
+          _selectedCatIndex = index < 0 ? 0 : index;
+        });
+        if (index < 0) unawaited(productCtrl.selectCategory('All'));
       }
-    } catch (_) {}
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _categoriesError = 'Categories could not be loaded. Retry.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _categoriesLoading = false);
+    }
   }
 
   String get _userName =>
@@ -386,13 +370,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           .first;
 
   String get _selectedCatName {
-    if (_dbCategories.isNotEmpty) {
-      final all = ['All', ..._dbCategories.map((c) => c['name'] as String)];
-      return _selectedCatIndex < all.length ? all[_selectedCatIndex] : 'All';
-    }
-    return _selectedCatIndex < _categories.length
-        ? _categories[_selectedCatIndex]['name'] as String
-        : 'All';
+    final names = ['All', ..._dbCategories.map((c) => c['name'] as String)];
+    return _selectedCatIndex < names.length ? names[_selectedCatIndex] : 'All';
   }
 
   @override
@@ -887,6 +866,29 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Widget _buildFeaturedSection() {
+    if (_featuredLoading) {
+      return const SizedBox(
+        height: 196,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (_featuredError != null) {
+      return Column(
+        children: [
+          Text(_featuredError!),
+          TextButton(
+            onPressed: _loadFeatured,
+            child: const Text('Retry featured products'),
+          ),
+        ],
+      );
+    }
+    if (_featured.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(24),
+        child: Text('No featured products available.'),
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -913,7 +915,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
-                  'HOT',
+                  'CATALOGUE',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 9,
@@ -983,183 +985,201 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _buildFeaturedCard(Map<String, dynamic> item, int index) {
     final gradColors = item['gradient'] as List<Color>;
-    return AnimatedScale(
-      scale: _featuredIndex == index ? 1.0 : 0.95,
-      duration: const Duration(milliseconds: 300),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: LinearGradient(
-            colors: gradColors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: gradColors[0].withValues(alpha: 0.35),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () => Get.to(
+        () => ProductDetailScreen(
+          product: Map<String, dynamic>.from(item['product'] as Map),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              right: -30,
-              top: -30,
-              child: Container(
-                width: 130,
-                height: 130,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.10),
+      ),
+      child: AnimatedScale(
+        scale: _featuredIndex == index ? 1.0 : 0.95,
+        duration: const Duration(milliseconds: 300),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: LinearGradient(
+              colors: gradColors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: gradColors[0].withValues(alpha: 0.35),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                right: -30,
+                top: -30,
+                child: Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.10),
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 16,
-              top: 0,
-              bottom: 0,
-              child: Center(
-                child: Builder(
-                  builder: (_) {
-                    final imageUrl = (item['imageUrl'] as String?) ?? '';
-                    if (imageUrl.isEmpty) {
-                      return Text(
-                        item['emoji'] as String,
-                        style: const TextStyle(fontSize: 72),
-                      );
-                    }
-                    return Container(
-                      width: 118,
-                      height: 118,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.20),
-                            blurRadius: 14,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          fit: BoxFit
-                              .contain, // shows the real product photo, never crops
-                          errorWidget: (_, __, ___) => Text(
-                            item['emoji'] as String,
-                            style: const TextStyle(fontSize: 60),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.22),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      item['sub'] as String,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 170,
-                    child: Text(
-                      item['title'] as String,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        height: 1.2,
-                      ),
-                      maxLines: 2,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Text(
-                        'PKR ${item['price']}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 7,
-                        ),
+              Positioned(
+                right: 16,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Builder(
+                    builder: (_) {
+                      final imageUrl = (item['imageUrl'] as String?) ?? '';
+                      if (imageUrl.isEmpty) {
+                        return Text(
+                          item['emoji'] as String,
+                          style: const TextStyle(fontSize: 72),
+                        );
+                      }
+                      return Container(
+                        width: 118,
+                        height: 118,
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.add_rounded, size: 13),
-                            const SizedBox(width: 3),
-                            Text(
-                              'Order',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                color: gradColors[0],
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.20),
+                              blurRadius: 14,
+                              offset: const Offset(0, 6),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit
+                                .contain, // shows the real product photo, never crops
+                            errorWidget: (_, __, ___) => Text(
+                              item['emoji'] as String,
+                              style: const TextStyle(fontSize: 60),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        item['sub'] as String,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: 170,
+                      child: Text(
+                        item['title'] as String,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          height: 1.2,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Text(
+                          'PKR ${item['price']}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.add_rounded, size: 13),
+                              const SizedBox(width: 3),
+                              Text(
+                                'View',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: gradColors[0],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildCategoriesSection() {
-    final cats = _dbCategories.isNotEmpty
-        ? [
-            <String, dynamic>{'name': 'All', 'image_url': null},
-            ..._dbCategories,
-          ]
-        : _categories
-              .map(
-                (c) => <String, dynamic>{'name': c['name'], 'image_url': null},
-              )
-              .toList();
+    if (_categoriesLoading) {
+      return const SizedBox(
+        height: 100,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (_categoriesError != null) {
+      return Column(
+        children: [
+          Text(_categoriesError!),
+          TextButton(
+            onPressed: _loadCategories,
+            child: const Text('Retry categories'),
+          ),
+        ],
+      );
+    }
+    final cats = [
+      <String, dynamic>{'name': 'All', 'image_url': null},
+      ..._dbCategories,
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1196,6 +1216,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     return;
                   }
                   setState(() => _selectedCatIndex = i);
+                  unawaited(productCtrl.selectCategory(name));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 16),
@@ -1322,7 +1343,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           const SizedBox(height: 16),
           Obx(() {
             if (productCtrl.isLoading.value) return _buildShimmerGrid();
-            if (productCtrl.error.value != null)
+            if (productCtrl.error.value != null) {
               return Column(
                 children: [
                   Text(productCtrl.error.value!),
@@ -1332,6 +1353,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   ),
                 ],
               );
+            }
             final products = productCtrl.getProductsByCategory(
               _selectedCatName,
             );
@@ -1342,8 +1364,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     : _buildProductGrid(products),
                 if (productCtrl.hasMore.value)
                   TextButton(
-                    onPressed: () =>
-                        productCtrl.refreshProducts(loadMore: true),
+                    onPressed: productCtrl.loadingMore.value
+                        ? null
+                        : () => productCtrl.refreshProducts(loadMore: true),
                     child: const Text('Load more products'),
                   ),
               ],

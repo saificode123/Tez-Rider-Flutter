@@ -1,0 +1,11 @@
+# Stage2 catalogue (S2-05 / FR06)
+
+Migration `202610230005_final2_catalogue.sql` applied once to TEST after eight authenticated rollback SQL cases. The same eight cases passed post-deployment; eleven real HTTP checks passed. Combined onboarding/catalogue and affected regression cohort:92Flutter PASS,0FAIL,0SKIP. Detailed sanitized evidence is appended in `evidence/FINAL2-01-results.json`.
+
+Catalogue APIs validate query/category bounds, page size and strict cursor fields. Keywords use literal substring matching across product text/category/store name. Categories match normalized exact labels; pagination uses stable name/id keys. Categories derive from real configured categories and authorized products. A restrictive product SELECT policy prevents customers seeing products belonging to rejected/unverified/blocked merchants while preserving authorized owner inventory and Admin reads. No broad grants were added.
+
+ProductController fetches each category from the server, supports keyset continuation, coalesces duplicate requests and ignores obsolete category responses. Search debounces input, ignores earlier responses, preserves literal punctuation, and supports actual category selection/paging/retry. Dashboard featured cards now use actual persisted products and open product detail; hardcoded foods, prices, popularity and decorative Order controls were removed. Loading/empty/error states cannot become fabricated listings.
+
+Tests: `test/catalogue_test.dart`; search handler cases in `test/closure_ui_states_test.dart`; hosted `supabase/tests/FINAL2-catalogue.sql`, `tests/integration/FINAL2-catalogue.py`. Real synthetic inventory was retired by setting its stock to zero through the retained stock ledger API. No business history was deleted.
+
+Native gallery, product detail/cart and full customer journey acceptance remain pending. This checkpoint does not accept all Stage2 functionality. Recovery requires a reviewed corrective migration and compatible client; preserve all records/history and never replay previous migrations. Production untouched.
