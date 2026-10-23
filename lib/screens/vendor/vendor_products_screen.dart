@@ -129,14 +129,26 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
     setState(() {});
     try {
       final removed = await _supabase
-          .from('products')
-          .delete()
-          .eq('id', id)
-          .eq('vendor_id', _vendorId!)
-          .select('id')
+          .rpc(
+            'final2_delete_product',
+            params: {
+              'p_product_id': id,
+              'p_expected_version': p['stock_version'],
+            },
+          )
           .timeout(const Duration(seconds: 12));
-      if (removed.length != 1 || removed.single['id'] != id) {
-        throw StateError('Deletion was not confirmed. Refresh your inventory.');
+      if (removed is! Map ||
+          removed['code'] != 'DELETED' ||
+          removed['product_id'] != id) {
+        throw StateError(switch (removed is Map ? removed['code'] : null) {
+          'VERSION_CHANGED' =>
+            'This product or its stock changed. Refresh before deleting.',
+          'PRODUCT_IN_USE' =>
+            'This product belongs to an order and cannot be removed. Turn off availability instead.',
+          'NOT_FOUND' =>
+            'This product is no longer present. Refresh your inventory.',
+          _ => 'Deletion was not confirmed. Refresh your inventory.',
+        });
       }
       if (!mounted) return;
       setState(() => _products.removeWhere((row) => row['id'] == id));
@@ -147,11 +159,13 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-    } catch (_) {
+    } catch (e) {
       if (mounted) {
         Get.snackbar(
           'Deletion not confirmed',
-          'The product may be referenced by an order or access may have changed. Refresh and retry.',
+          e is StateError
+              ? e.message.toString()
+              : 'Access or connectivity changed. Refresh your inventory and retry.',
         );
       }
     } finally {

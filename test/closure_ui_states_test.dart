@@ -618,7 +618,7 @@ void main() {
   );
 
   testWidgets(
-    'product deletion: Cancel never writes; zero affected rows never claim success',
+    'product deletion: Cancel never writes; unconfirmed server result never claims success',
     (tester) async {
       var deletes = 0;
       transport.respond = (request) async {
@@ -627,9 +627,9 @@ void main() {
             {'id': 10},
           ]);
         }
-        if (request.method == 'DELETE') {
+        if (request.url.path.endsWith('/final2_delete_product')) {
           deletes++;
-          return UiTransport.jsonResponse([]);
+          return UiTransport.jsonResponse({'code': 'NOT_FOUND'});
         }
         return UiTransport.jsonResponse([
           {
@@ -639,6 +639,7 @@ void main() {
             'price': 25,
             'category': 'Food',
             'is_available': true,
+            'stock_version': 1,
           },
         ]);
       };
@@ -664,7 +665,7 @@ void main() {
   );
 
   testWidgets(
-    'product deletion: pending mutation disables repeats; confirmed row removes actual item',
+    'product deletion: pending mutation disables repeats; confirmed server result removes actual item',
     (tester) async {
       final deletion = Completer<http.Response>();
       var deletes = 0;
@@ -674,7 +675,7 @@ void main() {
             {'id': 10},
           ]);
         }
-        if (request.method == 'DELETE') {
+        if (request.url.path.endsWith('/final2_delete_product')) {
           deletes++;
           return deletion.future;
         }
@@ -686,6 +687,7 @@ void main() {
             'price': 25,
             'category': 'Food',
             'is_available': true,
+            'stock_version': 1,
           },
         ]);
       };
@@ -702,9 +704,7 @@ void main() {
       expect(button.onPressed, isNull);
       expect(find.text('Deleted'), findsNothing);
       deletion.complete(
-        UiTransport.jsonResponse([
-          {'id': 1},
-        ]),
+        UiTransport.jsonResponse({'code': 'DELETED', 'product_id': 1}),
       );
       await settle(tester);
       expect(find.text('Owned product'), findsNothing);

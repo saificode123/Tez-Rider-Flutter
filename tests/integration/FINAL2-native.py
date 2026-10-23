@@ -70,6 +70,44 @@ if action=='scan-changed':
  assert all(not any(value.encode()in path.read_bytes()for value in protected if value)for path in paths),'Protected credential detected; values withheld'
  result={'files_checked':len(paths),'protected_credential_matches':0,'scope':'actual TEST service key and protected Stage2/FR28/FR04 fixture passwords; changed/new files since b19dc24'}
  (n.OUT/'protected-scan.json').write_text(n.json.dumps(result,indent=2)+'\n',encoding='utf-8');print(n.json.dumps(result))
+elif action=='verify-delete-protocol':
+ token=n.b.login(state['accounts']['live-vendor']);owner=state['live_vendor_profile_id']
+ if 'delete_fixture'not in state:
+  code,existing=n.b.api('/rest/v1/products?vendor_id=eq.'+str(owner)+'&name=like.FINAL2%20delete%20protocol*&select=id,name&order=id.desc&limit=2',admin=True)
+  assert code==200 and len(existing)<=1,'Do not infer ambiguous fixture ownership'
+  if existing:
+   pid=existing[0]['id'];name=existing[0]['name']
+   code,moves=n.b.api('/rest/v1/inventory_movements?product_id=eq.'+str(pid)+'&select=request_id,product_name',admin=True)
+   assert code==200 and len(moves)==1 and moves[0]['product_name']==name
+   request=moves[0]['request_id']
+  else:
+   request=str(uuid.uuid4());name='FINAL2 delete protocol '+uuid.uuid4().hex[:8]
+   code,value=gateway('fr17_save_product',token,{'p_request_id':request,'p_product_id':None,'p_data':{'name':name,'price':1,'category':'Food'},'p_stock':1,'p_threshold':0,'p_expected_version':None})
+   assert code==200 and value['code']=='UPDATED';pid=value['product_id']
+  state['delete_fixture']={'id':pid,'name':name,'request':request};save()
+ fixture=state['delete_fixture'];pid=fixture['id'];request=fixture['request'];name=fixture['name']
+ def remove(jwt):
+  return n.b.api('/functions/v1/security-gateway','POST',{'method':'DELETE','path':'/products','query':'id=eq.'+str(pid)+'&vendor_id=eq.'+str(owner)+'&select=id','headers':{'prefer':'return=representation','content-type':'application/json'},'body':''},jwt)
+ assert not fixture.get('deleted'),'Verified fixture already removed; do not replay this cohort'
+ code,value=remove(token);assert code==403
+ record('real owning Vendor direct DELETE remains denied; trusted deletion does not relax table grants','real authenticated TEST HTTP')
+ code,rows=n.b.api('/rest/v1/products?id=eq.'+str(pid)+'&vendor_id=eq.'+str(owner)+'&select=stock_version',admin=True)
+ assert code==200 and len(rows)==1;params={'p_product_id':pid,'p_expected_version':rows[0]['stock_version']}
+ other=n.b.login(state['accounts']['review-customer']);code,value=gateway('final2_delete_product',other,params)
+ assert code==403
+ record('real unrelated customer cannot invoke the owning Vendor deletion API','real authenticated TEST HTTP')
+ code,value=gateway('final2_delete_product',token,params);assert code==200 and value=={'code':'DELETED','product_id':pid}
+ fixture['deleted']=True;save()
+ code,rows=n.b.api('/rest/v1/products?id=eq.'+str(pid)+'&select=id',admin=True);assert code==200 and rows==[]
+ record('real owning Vendor guarded deletion returns the confirmed removed ID and actual record is absent','real authenticated TEST HTTP')
+ code,value=gateway('final2_delete_product',token,params);assert code==200 and value=={'code':'NOT_FOUND'}
+ record('real repeated deletion reports NOT_FOUND, which cannot become fabricated widget success','real authenticated TEST HTTP')
+ code,ledger=n.b.api('/rest/v1/inventory_movements?vendor_id=eq.'+str(owner)+'&request_id=eq.'+request+'&select=product_id,product_name',admin=True)
+ assert code==200 and len(ledger)==1 and ledger[0]['product_id']==pid and ledger[0]['product_name']==name
+ record('synthetic unsold-product deletion preserves the accepted inventory audit history','real TEST persistence read')
+ code,audit=n.b.api('/rest/v1/security_audit_log?action=eq.product_deleted&target_type=eq.product&target_id=eq.'+str(pid)+'&select=actor_id',admin=True)
+ assert code==200 and audit==[{'actor_id':owner}]
+ record('actual owning Vendor deletion records one canonical actor audit and replay adds none','real TEST persistence read')
 elif action=='prepare-native-cart':
  customer=n.b.login(state['accounts']['review-customer']);code,cart=gateway('final2_cart_get',customer,{})
  assert code==200 and cart['items']==[],'Empty synthetic account cart required'
@@ -88,9 +126,41 @@ elif action=='verify-native-cart':
  assert len({row['vendor_id']for row in cart['items']})==2 and all(row['qty']==1 for row in cart['items'])
  assert sum(row['price']for row in cart['items'])==33.75
  record('actual native Add controls persisted a two-Vendor cart with exact canonical prices and quantities','real TEST persistence read')
+elif action=='retire-native-cart':
+ fixture=state['native_cart'];assert not fixture.get('retired'),'Already retired; never replay stock changes'
+ customer=n.b.login(state['accounts']['review-customer']);code,current=gateway('final2_cart_get',customer,{})
+ assert code==200 and{int(row['product_id'])for row in current['items']}=={p['id']for p in fixture['products']}
+ code,cleared=gateway('final2_cart_replace',customer,{'p_revision':current['revision'],'p_request_id':str(uuid.uuid4()),'p_items':[]})
+ assert code==200 and cleared['code']=='OK'and cleared['items']==[]
+ for product in fixture['products']:
+  if product.get('retired'):continue
+  token=n.b.login(state['accounts'][product['owner']])
+  code,value=gateway('vendor_adjust_stock',token,{'p_product_id':product['id'],'p_quantity':-3,'p_mode':'delta','p_reason':'FINAL2 native cart fixture retirement','p_request_id':str(uuid.uuid4()),'p_threshold':None,'p_expected_version':None})
+  assert code==200 and value['code']=='UPDATED'and value['stock_qty']==0
+  product['retired']=True;save()
+ fixture['retired']=True;save()
+ record('native cart synthetic saved rows cleared and both Vendor fixture stocks retired through authenticated APIs; business history preserved','real authenticated TEST HTTP')
 elif action=='search-native-cart':
  fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==1
  fill(fields[0],state['native_cart']['marker']);n.time.sleep(2)
+elif action=='network-search-recovery':
+ fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==1,'Observed search screen required'
+ wifi=n.adb('shell','settings','get','global','wifi_on').strip();mobile=n.adb('shell','settings','get','global','mobile_data').strip()
+ assert wifi in('0','1')and mobile in('0','1')and(wifi=='1'or mobile=='1'),'Exact connected original network state required'
+ (n.OUT/'connectivity-original.json').write_text(n.json.dumps({'wifi_on':wifi,'mobile_data':mobile}),encoding='utf-8')
+ try:
+  n.adb('shell','svc','wifi','disable');n.adb('shell','svc','data','disable');n.time.sleep(2)
+  fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==1
+  fill(fields[0],state['native_cart']['marker'])
+  n.main('assert:Search could not be completed.')
+  record('physical network interruption: actual authenticated catalogue request renders persistent failure and Retry; no success or mutation fabricated')
+ finally:
+  n.adb('shell','svc','wifi','enable'if wifi=='1'else'disable');n.adb('shell','svc','data','enable'if mobile=='1'else'disable')
+  assert n.adb('shell','settings','get','global','wifi_on').strip()==wifi
+  assert n.adb('shell','settings','get','global','mobile_data').strip()==mobile
+  record('exact original Android Wi-Fi/mobile-data states restored in finally')
+ n.time.sleep(3);n.click('Retry');n.main('assert:2 results')
+ record('physical catalogue Retry after restored connectivity returns actual authorized results')
 elif action.startswith('submit-login:'):
  role=action.split(':',1)[1];assert role in('customer','vendor','rider','admin')
  n.nodes()
@@ -121,8 +191,8 @@ elif action in('scroll:down','scroll:up'):
  n.nodes()
  down=action.endswith('down')
  n.adb('shell','input','swipe','500','1900'if down else'1000','500','1000'if down else'1900','450');n.time.sleep(.5)
-elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor'):
- label=action[6:];account=state['accounts'][label];role='customer'if label=='review-customer'else'vendor'
+elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor','other-customer'):
+ label=action[6:];account=n.accounts['customer']if label=='other-customer'else state['accounts'][label];role='customer'if label in('review-customer','other-customer')else'vendor'
  assert any(n.label(node)=='Sign in as '+role.title()for node in n.nodes())
  for index,value in enumerate([account['email'],account['password']]):
   fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==2

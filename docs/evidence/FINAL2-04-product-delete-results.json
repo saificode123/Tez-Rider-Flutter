@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-23",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "guarded product deletion follow-up; no new physical action claimed",
+  "findings": [
+    {
+      "finding": "Direct authenticated owning-Vendor DELETE is intentionally denied by Stage1; prior UI could not delete an unsold own product",
+      "classification": "functional gap in FR16/S01, not a loosened-security requirement",
+      "fix": "final2_delete_product approved owner/version/order-history/audit guard; direct table DELETE remains denied",
+      "status": "RESOLVED in TEST API; source UI integrated; current native APK predates fix"
+    }
+  ],
+  "review": [
+    {
+      "check": "stale product snapshot cannot delete a newer stock version",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "authenticated customer cannot invoke owning Vendor deletion",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated Vendor cannot delete another Vendor product",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct product DELETE remains denied; no broad grants restored",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory audit failure rolls back deletion and preserves product/ledger",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "approved owning Vendor RPC returns actual deleted ID and record is absent",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "unsold listing removal preserves immutable inventory movement history",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "repeated deletion reports NOT_FOUND rather than fabricated success",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "referenced product and order history remain intact; API reports PRODUCT_IN_USE",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "exactly one product deletion audit records the canonical owning actor",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous product deletion API denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "post": [
+    {
+      "check": "stale product snapshot cannot delete a newer stock version",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "authenticated customer cannot invoke owning Vendor deletion",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated Vendor cannot delete another Vendor product",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct product DELETE remains denied; no broad grants restored",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory audit failure rolls back deletion and preserves product/ledger",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "approved owning Vendor RPC returns actual deleted ID and record is absent",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "unsold listing removal preserves immutable inventory movement history",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "repeated deletion reports NOT_FOUND rather than fabricated success",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "referenced product and order history remain intact; API reports PRODUCT_IN_USE",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "exactly one product deletion audit records the canonical owning actor",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous product deletion API denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610230007",
+    "versions": 49,
+    "review_passes": 11,
+    "production_modified": false,
+    "replayed": false
+  },
+  "hosted_observations": [
+    {
+      "check": "real owning Vendor direct DELETE remains denied; trusted deletion does not relax table grants",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T11:05:21.372573+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "real unrelated customer cannot invoke the owning Vendor deletion API",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T11:05:24.021784+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "real owning Vendor guarded deletion returns the confirmed removed ID and actual record is absent",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T11:05:25.363471+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "real repeated deletion reports NOT_FOUND, which cannot become fabricated widget success",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T11:05:26.141555+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "synthetic unsold-product deletion preserves the accepted inventory audit history",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T11:05:26.462459+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual owning Vendor deletion records one canonical actor audit and replay adds none",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T11:05:26.761941+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "flutter": {
+    "passed": 32,
+    "failed": 0,
+    "note": "Final guarded-RPC contract and user-visible error mapping:32PASS/0FAIL."
+  },
+  "analyzer": {
+    "errors": 0,
+    "issues": 0,
+    "scope": "vendor_products_screen.dart and closure_ui_states_test.dart"
+  },
+  "limitations": [
+    "Candidate/post executions cover the same11cases; do not add them.",
+    "Hosted financial and delivery functions are not accepted by these delete checks.",
+    "The original failed raw-DELETE probes are retained in ignored diagnostics; failure was investigated and the actual trusted path implemented."
+  ]
+}

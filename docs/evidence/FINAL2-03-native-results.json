@@ -1,0 +1,272 @@
+{
+  "date": "2026-10-23",
+  "project": "igeisilhtmglgnqvllrx",
+  "package": "com.example.flutter_application_1.fr21test",
+  "device": "AESWNRBAEUPNTGJZ",
+  "record_type": "bounded observations, not distinct requirement count",
+  "observations": [
+    {
+      "check": "current-source TEST APK installed with package and source-hash checks",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T07:51:20.852181+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "fresh native Vendor Auth signup has durable store metadata and cannot log in before real email confirmation",
+      "result": "PASS",
+      "surface": "real TEST Auth HTTP",
+      "observed_at": "2026-10-23T10:19:11.900789+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "fresh native Vendor real inbox confirmation recorded by Auth",
+      "result": "PASS",
+      "surface": "real TEST Auth HTTP",
+      "observed_at": "2026-10-23T10:20:51.898610+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Verification Pending",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:22:52.357113+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual first native Vendor login persisted exactly one pending profile and inactive store with real signup name/address",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T10:23:01.243117+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "authenticated Admin confirmed native fixture Vendor rejected; phone rendering checked separately",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T10:23:08.195994+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native FINAL2 native review test",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:23:36.869229+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "authenticated Admin confirmed native fixture Vendor approved; phone rendering checked separately",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T10:23:54.331519+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Store Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:24:35.793471+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Store Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:25:00.937718+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Vendor registration approved",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:26:01.234984+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Vendor registration rejected",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:26:10.720835+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "native signup/restart retained one approved active store, exactly two canonical-actor decision audits and two owned notices",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T10:26:46.690349+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "two real native-cart fixture products created by distinct approved Vendor sessions",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T10:27:55.543293+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native Add controls persisted a two-Vendor cart with exact canonical prices and quantities",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T10:35:50.163262+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native PKR 33.75",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:37:01.839845+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Hello, FINAL2",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:37:36.730200+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native PKR 33.75",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:38:21.961787+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Sign in as Customer",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:39:42.729511+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Your cart is empty",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:41:22.153196+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native Add controls persisted a two-Vendor cart with exact canonical prices and quantities",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-23T10:41:30.760294+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native 2 results",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:20.860500+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Search could not be completed.",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:44.401717+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical network interruption: actual authenticated catalogue request renders persistent failure and Retry; no success or mutation fabricated",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:44.408700+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "exact original Android Wi-Fi/mobile-data states restored in finally",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:44.785981+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native 2 results",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:56.649628+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical catalogue Retry after restored connectivity returns actual authorized results",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T10:43:56.650628+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "native cart synthetic saved rows cleared and both Vendor fixture stocks retired through authenticated APIs; business history preserved",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T10:45:36.685897+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "counts_by_surface": {
+    "android": 18,
+    "real TEST Auth HTTP": 2,
+    "real TEST persistence read": 4,
+    "real authenticated TEST HTTP": 4
+  },
+  "build_sha256": "09176E5A9259679315BD1B1056046C7CF5D065BD447B8DFA35D2E4C66AF40D04",
+  "limitations": [
+    "Installed cohort predates the later vendor-order rejection dialog; that dialog has widget evidence only.",
+    "Auth/persistence/Admin API probes are HTTP evidence, not physical actions.",
+    "FR14 actual road movement and ETA remain unaccepted.",
+    "Cart reservation policy is still unspecified; no reservation acceptance claimed.",
+    "Transient native automation typing, keyboard and startup waits were corrected; no passing observation was recorded for failed helper actions.",
+    "One system overlay interrupted an early dump; tooling now filters package nodes and no other app was operated."
+  ],
+  "confirmations": {
+    "flutter_pass": 32,
+    "flutter_fail": 0,
+    "analyzer_errors": 0,
+    "analyzer_warnings": 1,
+    "analyzer_note": "Inherited unused _miniOrderCard; no new diagnostics."
+  },
+  "secret_scan": {
+    "files_checked": 47,
+    "protected_credential_matches": 0,
+    "scope": "actual TEST service key and protected Stage2/FR28/FR04 fixture passwords; changed/new files since b19dc24"
+  },
+  "screenshots": [
+    {
+      "file": "FINAL2-03-cart-restored.png",
+      "sha256": "36ff448a5c4a799c403909857b63b767ce5fd5c010e85f9f7c890bd755a124e4",
+      "inspection": "visual inspection of TEST-only synthetic data, no credentials or private documents"
+    },
+    {
+      "file": "FINAL2-03-other-account-cart.png",
+      "sha256": "ca3986c9d46db68d766ef6767aa6601b5d3333da932d0213b8304ba47770e408",
+      "inspection": "visual inspection of TEST-only synthetic data, no credentials or private documents"
+    }
+  ]
+}
