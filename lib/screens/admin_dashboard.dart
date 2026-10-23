@@ -9,6 +9,7 @@ import '../widgets/account_review_dialog.dart';
 import 'admin_disputes_screen.dart';
 import 'admin_users_screen.dart';
 import 'admin_broadcasts_screen.dart';
+import 'admin_orders_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -66,6 +67,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          FloatingActionButton.extended(
+            heroTag: 'admin-orders',
+            onPressed: () => Get.to(() => const AdminOrdersScreen()),
+            icon: const Icon(Icons.receipt_long),
+            label: const Text('Orders and cash records'),
+          ),
+          const SizedBox(height: 12),
           FloatingActionButton.extended(
             heroTag: 'admin-broadcasts',
             onPressed: () => Get.to(() => const AdminBroadcastsScreen()),

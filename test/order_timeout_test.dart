@@ -155,7 +155,9 @@ void main() {
     );
     expect(find.text('Order cancelled — vendor unavailable.'), findsOneWidget);
     expect(
-      find.text('Refund pending — money has not yet been returned.'),
+      find.text(
+        'A refund action was recorded. Check payment status for any confirmed cash return.',
+      ),
       findsOneWidget,
     );
     await tester.tap(find.text('Order timeline'));
@@ -178,7 +180,7 @@ void main() {
         ),
       ),
     );
-    expect(find.textContaining('Refund pending'), findsNothing);
+    expect(find.textContaining('A refund action was recorded'), findsNothing);
     expect(find.text('Order cancelled — vendor unavailable.'), findsOneWidget);
   });
 }

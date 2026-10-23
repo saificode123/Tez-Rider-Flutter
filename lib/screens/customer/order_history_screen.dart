@@ -1,5 +1,6 @@
 import '../../widgets/order_timeout_summary.dart';
 import '../../widgets/invoice_button.dart';
+import '../../widgets/order_payment_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -295,6 +296,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 InvoiceButton(orderId: order['id'] as int),
+                TextButton(
+                  onPressed: () =>
+                      showOrderPayment(context, order['id'] as int),
+                  child: const Text('Payment / refunds'),
+                ),
                 if (status == 'on_the_way')
                   TextButton(
                     onPressed: () =>

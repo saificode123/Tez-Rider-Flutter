@@ -1,0 +1,473 @@
+{
+  "date": "2026-10-23",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "approved COD manual receipt/refund records; synthetic financial fixtures; no real money or physical delivery claim",
+  "migration": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610230008",
+    "versions": 50,
+    "review_passes": 27,
+    "production_modified": false,
+    "replayed": false
+  },
+  "review": [
+    {
+      "check": "delivered/OTP-like fixture alone never marks pending COD collected",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer cannot self-claim collection or manual refund",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Vendor cannot forge whole-order cash collection",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Rider must be assigned to this exact order",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "job discovery never grants an unassigned Rider private financial state",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "collection requires actual recorded terminal delivery state/time",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "explicit acknowledgement, bounded receipt reference, precision and exact canonical amount enforced",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory audit-failure rolls back cash event, audit and notification atomically",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory notice-failure rolls back cash event, audit and notification atomically",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Rider explicit acknowledgement records once; UUID and new-request retries cannot duplicate collection",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "same financial request UUID cannot be rebound to changed evidence",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Rider collection privilege never grants Admin refund privilege",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "retained FR26 rejects null/unpaid/unreceipted/future/mismatched/ambiguous legacy payments",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "retained canonical PAID and SUCCESS receipts still authorize pending dispute refund action",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "real FR26 resolution recognizes committed COD evidence but pending action never means returned money",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "manual failed refund attempt stays unreturned and explicitly retryable",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "authorized manual cash return with receipt records exactly once and changes read model only after commit",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "late failed/out-of-order attempt cannot reverse a confirmed refund",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "refund cannot exceed canonical collected/legacy settled payment",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated customer cannot read private payment snapshot or cash ledger",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Vendor sees payment/refund state without another Vendor whole-order amounts or private receipt references",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct client insertion cannot forge privileged cash evidence",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct Vendor cannot read another Vendor legacy order finances",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "three exact critical results retain canonical actor IDs and role-at-event evidence; replays add no audit",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "append-only cash evidence resists UPDATE even under trusted SQL role",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "original pending payment and immutable pending refund action history remain unmodified",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous cash write and payment snapshot APIs denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "post": [
+    {
+      "check": "delivered/OTP-like fixture alone never marks pending COD collected",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer cannot self-claim collection or manual refund",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Vendor cannot forge whole-order cash collection",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "Rider must be assigned to this exact order",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "job discovery never grants an unassigned Rider private financial state",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "collection requires actual recorded terminal delivery state/time",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "explicit acknowledgement, bounded receipt reference, precision and exact canonical amount enforced",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory audit-failure rolls back cash event, audit and notification atomically",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "mandatory notice-failure rolls back cash event, audit and notification atomically",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Rider explicit acknowledgement records once; UUID and new-request retries cannot duplicate collection",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "same financial request UUID cannot be rebound to changed evidence",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Rider collection privilege never grants Admin refund privilege",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "retained FR26 rejects null/unpaid/unreceipted/future/mismatched/ambiguous legacy payments",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "retained canonical PAID and SUCCESS receipts still authorize pending dispute refund action",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "real FR26 resolution recognizes committed COD evidence but pending action never means returned money",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "manual failed refund attempt stays unreturned and explicitly retryable",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "authorized manual cash return with receipt records exactly once and changes read model only after commit",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "late failed/out-of-order attempt cannot reverse a confirmed refund",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "refund cannot exceed canonical collected/legacy settled payment",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct authenticated customer cannot read private payment snapshot or cash ledger",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "assigned Vendor sees payment/refund state without another Vendor whole-order amounts or private receipt references",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "direct client insertion cannot forge privileged cash evidence",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "distinct Vendor cannot read another Vendor legacy order finances",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "three exact critical results retain canonical actor IDs and role-at-event evidence; replays add no audit",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "append-only cash evidence resists UPDATE even under trusted SQL role",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "original pending payment and immutable pending refund action history remain unmodified",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous cash write and payment snapshot APIs denied",
+      "result": "PASS",
+      "surface": "authenticated TEST SQL rollback"
+    }
+  ],
+  "hosted": [
+    {
+      "check": "real customer snapshot keeps delivered synthetic COD unpaid until explicit receipt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real customer cannot forge collection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real Vendor cannot forge collection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "direct authenticated cash RPC cannot bypass mandatory gateway authorization/budget",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real server rejects non-finite amount",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real server rejects missing explicit acknowledgement",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real server rejects wrong canonical amount",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "two real Rider acknowledgements with the same UUID produce one committed receipt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "new-request duplicate cannot collect twice or replace original receipt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "actual customer read observes committed canonical Rider cash evidence",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "original immutable pending-payment history remains intact",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real retained FR26 decision creates refund eligibility from the committed COD receipt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "actual pending refund action never reports returned cash",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "authorized Admin records a synthetic unsuccessful refund attempt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "failed attempt is retryable and still records no cash return",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "concurrent Admin confirmation/retry commits one refund record",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "a fresh request cannot duplicate an already confirmed refund",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "late unsuccessful attempt cannot reverse a confirmed cash refund",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer sees the exact committed manual refund and three immutable result events",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "participating Vendor sees state without private whole-order amounts/receipt references",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated customer cannot read private finance snapshot",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated Vendor cannot read private finance snapshot",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "legacy settled cancelled COD remains available for actual order-refund reconciliation",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "authorized Admin reconciles the retained order-refund action without overwriting its history",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer reads the actual committed order-refund outcome",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "four real critical results have exactly four canonical actor audits; retries add none",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "bounded existing authorization-failure audit retains the real denying actor without payload data",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "review_post_overlap": true,
+  "flutter": {
+    "pass": 62,
+    "fail": 0,
+    "files": [
+      "test/cash_ledger_test.dart",
+      "test/order_timeout_test.dart",
+      "test/admin_dispute_test.dart",
+      "test/dispute_test.dart"
+    ]
+  },
+  "analyzer": {
+    "scope": "11 affected source/test files",
+    "issues": 0
+  },
+  "current_metadata": {
+    "migrations": 50,
+    "rls_public_tables": 86,
+    "public_functions": 186
+  },
+  "android": "NOT EXECUTED for this new UI; installed APK predates cash UI",
+  "pending": [
+    "FR32 integration of cash events with invoices/outbox",
+    "current APK physical journey",
+    "remaining Stage2 workstreams"
+  ],
+  "production_modified": false,
+  "files": [
+    {
+      "path": "supabase/migrations/202610230008_final2_cod_ledger.sql",
+      "sha256": "9dc0fd07d54f2c67ca11a40f5674999559f832c0e6fb3f4de72bf3ba4ccf5cff"
+    },
+    {
+      "path": "supabase/tests/FINAL2-cod-ledger.sql",
+      "sha256": "b6ea9f14ee9a5d2cce7c8facd58e84b460b052935fb455548cae2f23763d8233"
+    },
+    {
+      "path": "lib/services/cash_ledger_service.dart",
+      "sha256": "adf5abcaf8d8c46e121a24742ee583598f2ce371607691889f339820ba1bd78c"
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "sha256": "005ae6b75443fd8c661b07b61e5f5427958789547e00d112dd8d1ebc16000957"
+    },
+    {
+      "path": "test/cash_ledger_test.dart",
+      "sha256": "759c1db48544544b5e469809c84b2a8dbb1e995715710c7b21d4699956afba69"
+    }
+  ]
+}

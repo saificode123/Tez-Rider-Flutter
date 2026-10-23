@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../widgets/order_payment_panel.dart';
 import 'package:get/get.dart';
 import '../controllers/admin_controller.dart';
 import '../services/admin_dispute_service.dart';
@@ -297,11 +298,22 @@ class _AdminDisputeDetailsState extends State<AdminDisputeDetails> {
           ],
           if (d['refund_pending'] == true)
             Text(
-              '$refundInitiated Pending manual processing: PKR ${d['refund_amount']}. Money has not been returned.',
+              'Refund eligibility recorded: PKR ${d['refund_amount']}. Check the current cash/refund status below.',
+            ),
+          if (d['order_id'] is int)
+            OrderPaymentPanel(
+              key: ValueKey(
+                'payment-${d['order_id']}-${d['decision']}-${d['refund_pending']}',
+              ),
+              orderId: d['order_id'] as int,
+              allowCollection: true,
+              allowRefund: true,
             ),
           if (controller.decisionMessage.value != null)
             Text(
-              controller.decisionMessage.value!,
+              d['refund_pending'] == true
+                  ? 'Decision recorded. Current settlement status is shown above.'
+                  : controller.decisionMessage.value!,
               style: const TextStyle(color: Colors.green),
             ),
           if (controller.decisionError.value != null)

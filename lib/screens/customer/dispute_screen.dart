@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../widgets/order_payment_panel.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controllers/dispute_controller.dart';
@@ -415,9 +416,15 @@ class _DisputeDetailScreenState extends State<DisputeDetailScreen> {
                 Text('Decided: ${detail!['decided_at']}'),
                 if (detail!['refund_pending'] == true)
                   const Text(
-                    'Refund has been initiated. Pending manual processing; money has not been returned.',
+                    'Refund eligibility was recorded. Check payment status for any confirmed cash return.',
                   ),
               ],
+              if (detail!['order_id'] is int)
+                TextButton(
+                  onPressed: () =>
+                      showOrderPayment(context, detail!['order_id'] as int),
+                  child: const Text('Payment / refund status'),
+                ),
               for (var i = 1; i <= (detail!['evidence_count'] as int); i++)
                 TextButton.icon(
                   onPressed: () => showDialog<void>(

@@ -2,17 +2,17 @@
 
 Baseline b19dc24 verified clean; branch feature/final-2-functional. SRDS PDF and approved roadmap govern scope. Stage0/1 reports remain unchanged. TEST igeisilhtmglgnqvllrx only;45existing migrations/84tables/175functions verified before implementation. Android AESWNRBAEUPNTGJZ connected on initial check. No production modifications, Docker, load test, push or merge.
 
-Assigned scope: 18 roadmap workstreams. None is newly accepted by this matrix. Retained accepted subfeatures are reused within their exact scope.
+Assigned scope:18roadmap workstreams. S2-01 vendor onboarding/review, S2-05 catalogue/search and S2-17 destructive confirmations are accepted within their documented scopes; Stage2 overall remains in progress. Retained accepted subfeatures are reused within their exact scope.
 
 ## Execution matrix
 
 | Requirement ID | SRDS requirement / roadmap workstream | Current implementation | Missing functionality | Backend work | Flutter work | Tests | Acceptance status |
 |---|---|---|---|---|---|---|---|
-| S2-01 | FR01/03/27 vendor onboarding/review | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Confirm idempotent app profile/vendor store after Auth; validate address/name; pending until approval; reasoned rejection and notices | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Fresh confirmed vendor signup/retry/rejection/approval/native login | IN PROGRESS |
+| S2-01 | FR01/03/27 vendor onboarding/review | Implemented and verified; see FINAL2-onboarding.md | None in this workstream | Applied004; validated idempotent registration/review | Actual signup/login/pending/rejection/approval/inbox/restart | 19SQL cases,27HTTP/Realtime checks, native and widget evidence | ACCEPTED |
 | S2-02 | FR14 physical route acceptance | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Nonzero actual road route, meaningful GPS progression/ETA, off-route recompute and terminal cleanup; preserve quota guards | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Authorized Android lifecycle with real movement/screenshots/state; no quota reset/manufactured coordinates | PENDING |
 | S2-03 | FR15 full identity card | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Add authorized rider photo/rating alongside name/maskedCNIC; required status stepper | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Customer own/unassigned/reassigned/terminal/error flows | PENDING |
 | S2-04 | FR07 persistent multivendor cart | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Account-scoped persistence/restore, stock refresh and concurrency; decide Table5.6 add-time reservation policy | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Restart/logout/account-switch/multi-vendor/out-of-stock/concurrent checkout | POLICY INPUT PENDING; independent implementation continues |
-| S2-05 | FR06 catalogue/search | Implemented real catalogue, exact server categories, bounded keyset pages; removed fabricated featured products | Native journey pending | Applied005; restrictive merchant visibility; validated invoker APIs | Dashboard/Search/ProductController integrated; no stale-response overwrite | 8SQL cases review/post;11real HTTP checks;92combined Flutter | IMPLEMENTED; native pending |
+| S2-05 | FR06 catalogue/search | Implemented real catalogue, exact server categories, bounded keyset pages; removed fabricated featured products | None in this workstream | Applied005; restrictive merchant visibility; validated invoker APIs | Dashboard/Search/ProductController integrated; no stale-response overwrite | 8SQL cases review/post;11real HTTP checks;92combined Flutter | ACCEPTED |
 | S2-06 | FR08/UC06 payment and refund | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Truthful COD records; approved A COD-only scope; confirmed manual cash/refund ledgers; no provider integration or card handling | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Confirmed cash/refund success/failure/replay and COD ledgers | PENDING |
 | S2-07 | FR10/26 refund settlement | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Reconcile pending refund actions with confirmed provider/manual outcomes; preserve dedup and whole-parent cancellation | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Duplicate/out-of-order/failure/partial-write reconciliation | PENDING |
 | S2-08 | FR11/12 timeline/history | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Complete normal/shared/legacy lifecycle, per-vendor items and payment/refund context | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Every transition/itemization/history paging | PENDING |
@@ -24,7 +24,7 @@ Assigned scope: 18 roadmap workstreams. None is newly accepted by this matrix. R
 | S2-14 | Automatic low-rating blocking | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Configurable trusted computation/decision/audit and notification; preserve active-delivery safety | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Threshold boundaries/repeated events/low sample/unblock/recompute | POLICY INPUT PENDING; independent implementation continues |
 | S2-15 | FR29 monitoring/manual assignment | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Live counts/map/order detail; nearest eligible candidate/manual assignment after escalation; full KPIs and export | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Four-role denials/live changes/conflicts/replay/export reconciliation | PENDING |
 | S2-16 | Profile/Urdu/notifications | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Name/phone/email/address/avatar/role fields; vendor settings; Urdu/RTL; required event push/inbox/iOS compatibility | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Four-role profile/relogin/locale/RTL/notification permission/reconnect tests | PENDING |
-| S2-17 | S01 confirmations | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Confirm/cancel on cancellation/account deletion if present/block/review/delete as applicable | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Cancel/no-change, duplicate/in-flight, confirmed server result | PENDING |
+| S2-17 | S01 confirmations | Verified current reachable action inventory | No current mandatory confirmation gap | Applied007 approved owner/version/audit delete; unchanged FR10/Admin boundaries | Cancel/Confirm and pending states verified | 32Flutter;11SQL review/post;6realHTTP/persistence | ACCEPTED |
 | S2-18 | Existing non-SRDS module integration | Retained accepted subset and gaps in SRDS-traceability; inspect before editing | Preserve tailoring/prescription/chat/AI; restore only approved scoped server paths, no new features | Reuse current schema/RPCs; trusted validation and role/session guards | Reuse existing GetX screens/controllers | Ownership/network/validation/result checks | DEFERRED where B says NEEDS BUSINESS DECISION; preserve secured existing scope |
 
 ## Recorded scope decisions
@@ -38,19 +38,19 @@ Assigned scope: 18 roadmap workstreams. None is newly accepted by this matrix. R
 
 ## Evidence status
 
-No new functional acceptance yet. Read-only TEST schema and migration inspection completed; app implementation and positive/negative hosted/device evidence will be recorded per workstream.
+Current bounded acceptance: S2-01, S2-05 and S2-17. Historical checkpoints below preserve the sequence; later evidence supersedes their earlier pending observations without erasing them.
 
 ## Final acceptance matrix (updated from executed evidence)
 
 | ID | Feature | Flutter | Backend | Security | Automated tests | Hosted TEST | Android | Status |
 |---|---|---|---|---|---|---|---|---|
-| S2-01 | FR01/03/27 vendor onboarding/review | Implemented | Applied004 | Owned live sessions/roles, exact-once audit/notices | Included92PASS cohort | 19SQL review/post +27HTTP/Realtime | Fresh email/native pending | PARTIAL |
+| S2-01 | FR01/03/27 vendor onboarding/review | Implemented | Applied004 | Owned live sessions/roles, exact-once audit/notices | Included92PASS cohort | 19SQL review/post +27HTTP/Realtime | Fresh real email/signup; pending/reasoned rejection/approval/inbox/restart PASS | ACCEPTED for this workstream |
 | S2-02 | FR14 physical route acceptance | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-03 | FR15 full identity card | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
-| S2-04 | FR07 persistent multivendor cart | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
-| S2-05 | FR06 catalogue/search | Implemented | Applied005 | Rejected merchant direct/API denied; anon denied | Included92PASS cohort | 8SQL review/post +11HTTP | Pending | PARTIAL |
-| S2-06 | FR08/UC06 payment and refund | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
-| S2-07 | FR10/26 refund settlement | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
+| S2-04 | FR07 persistent multivendor cart | Persistence implemented | Applied006 | Owner/role/direct-write denial; revision and stock validation | 79PASS affected cohort; final30overlap | 12SQL review/post +12HTTP | Two-Vendor/restart/account isolation PASS | Reservation policy pending; not fully accepted |
+| S2-05 | FR06 catalogue/search | Implemented | Applied005 | Rejected merchant direct/API denied; anon denied | Included92PASS cohort | 8SQL review/post +11HTTP | Keyword/category-only/native Add and offline Retry PASS | ACCEPTED |
+| S2-06 | FR08/UC06 payment and refund | Manual ledger integrated | Applied008 | Role/ownership/idempotency/audit guards | 62PASS affected cohort | 27SQL review/post +27realHTTP | Not executed for new UI | Invoice integration/native pending |
+| S2-07 | FR10/26 refund settlement | Manual outcome integrated | Applied008 | Retained FR26 guards; no duplicate/over-refund | Included62PASS | Included27SQL/27HTTP | Not executed for new UI | Native acceptance pending |
 | S2-08 | FR11/12 timeline/history | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-09 | FR16 product images/full CRUD | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-10 | FR18 vendor reporting | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
@@ -60,9 +60,25 @@ No new functional acceptance yet. Read-only TEST schema and migration inspection
 | S2-14 | Automatic low-rating blocking | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-15 | FR29 monitoring/manual assignment | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 | S2-16 | Profile/Urdu/notifications | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
-| S2-17 | S01 confirmations | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
+| S2-17 | S01 confirmations | Current reachable actions confirmed | Applied007 guarded product delete; existing FR10/Admin unchanged | Owner/version/history/audit guard; direct DELETE denied | 32PASS UI/confirmation cases | 11SQL review/post +6HTTP/persistence | Existing native onboarding scope; later reject/delete UI covered deterministically | ACCEPTED for current actions |
 | S2-18 | Existing non-SRDS module integration | Pending | Pending | Preserve Stage1 | Not executed | Not executed | Not executed | Not accepted |
 
 ## Cohort 01 — verified implementation checkpoint (2026-10-23)
 
 TEST now47migration versions after004and005, each applied once after matching-hash rollback review. Evidence: `evidence/FINAL2-01-results.json`; implementation notes: `FINAL2-onboarding.md`, `FINAL2-catalogue.md`.92Flutter PASS/0FAIL/0SKIP. Onboarding19SQL cases and27realHTTP/Realtime checks; catalogue8SQL cases and11HTTP checks. Candidate/post runs overlap and are not summed. No new physical acceptance or full workstream signoff is claimed.
+
+## Cohort 02 — cart and native onboarding
+
+TEST48migrations/85RLS-enabled tables/183functions verified after006. Cart12SQL cases passed review/post and12realHTTP checks passed;79affected Flutter PASS, final30overlapping unit cases PASS. Full analysis0errors/14inherited warnings/34infos. Native source-hash-checked TEST build compiled and installed. The user completed real Vendor email confirmation; first native login persisted one pending profile/inactive store, rejection rendered its actual reason, approval routed to Store Dashboard, restart restored that role, and both owned decision notices rendered. Final hosted reads confirmed one active store, exactly two canonical Admin decision audits and two notices. See `FINAL2-cart.md` and evidence records. Additional cart-native/confirmation work remains in progress.
+
+## Native cohort03 — bounded functional acceptance
+
+`evidence/FINAL2-03-native-results.json` preserves physical observations separately from Auth/HTTP/persistence probes. S2-01 accepted: fresh actual email confirmation, native signup/profile/store/pending/rejection/approval/inbox and restart routing. S2-05 accepted: real native keyword/category results and product Add handlers, plus physical offline-error/Retry/recovery; source/widget/SQL/HTTP paging and denial evidence retained. Cart two-Vendor additions, canonical fractional total, full restart restoration, account-B empty cart and account-A retained remote rows passed. Test fixtures retired through real owner APIs with history preserved. FR07 remains policy-dependent; other workstreams are not accepted by this cohort.
+
+## Guarded deletion follow-up04
+
+TEST49migrations after007. Real owning-Vendor raw DELETE was denied as intended by Stage1; a minimal trusted owner/version/history/audit RPC now enables the approved operation.11SQL cases passed review/post,6real HTTP/persistence observations passed, and32Flutter handler/confirmation cases passed. `FINAL2-confirmations.md` and `evidence/FINAL2-04-product-delete-results.json` bound S2-17 acceptance. No broad table permission or historical-data deletion. FR16 images, COD candidate008 and remaining functional workstreams are not accepted here.
+
+## COD ledger checkpoint05
+
+Migration008 applied once after27matching-hash rolled-back SQL checks;27post checks and27real authenticated HTTP/persistence checks passed. TEST50migrations/86RLS-enabled public tables/186public functions verified.62affected Flutter PASS; scoped analyzer0issues. See `FINAL2-cod-ledger.md` and `evidence/FINAL2-05-cod-results.json`. Synthetic financial records explicitly do not prove real cash movement or physical delivery. New UI physical verification and FR32 invoice integration remain pending; S2-06/07 and Stage2 are not signed off.

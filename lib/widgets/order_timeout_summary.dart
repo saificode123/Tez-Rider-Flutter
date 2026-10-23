@@ -21,7 +21,9 @@ class OrderTimeoutSummary extends StatelessWidget {
         if (order['timeout_review_reason'] != null)
           const Text('This order needs review. Check its latest status.'),
         if (refunds.any((r) => r['status'] == 'PENDING'))
-          const Text('Refund pending — money has not yet been returned.'),
+          const Text(
+            'A refund action was recorded. Check payment status for any confirmed cash return.',
+          ),
         if (events.isNotEmpty)
           ExpansionTile(
             title: const Text('Order timeline'),

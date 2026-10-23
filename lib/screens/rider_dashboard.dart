@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/rider_controller.dart';
 import '../widgets/pre_delivery_checklist_card.dart';
+import '../widgets/order_payment_panel.dart';
 import '../theme/app_theme.dart';
 import 'splash_screen.dart';
 import 'chat_rooms_screen.dart';
@@ -1969,7 +1970,7 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'PKR $amount',
+                    'Order total: PKR $amount',
                     style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       color: AppColors.primary,
@@ -1984,6 +1985,15 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
                       fontSize: 11,
                     ),
                   ),
+                  if (int.tryParse(rawId) case final orderId?)
+                    TextButton(
+                      onPressed: () => showOrderPayment(
+                        context,
+                        orderId,
+                        allowCollection: true,
+                      ),
+                      child: const Text('Cash receipt'),
+                    ),
                 ],
               ),
             ],
