@@ -92,6 +92,7 @@ elif action=='verify-cohort14-rider-performance':
  labels='\n'.join(n.label(node)for node in n.nodes())
  assert 'Delivery performance'in labels and 'Completed:'in labels and 'accepted assignments'in labels
  assert 'Performance could not be loaded'not in labels
+ n.picture('cohort14-rider-performance')
  record('latest TEST Rider earnings page renders actual stored completion metrics and explicit missing-history information; compensation remains unknown')
 elif action=='scan-stage2-changed':
  import subprocess

@@ -1,0 +1,398 @@
+{
+  "date": "2026-10-24",
+  "project": "igeisilhtmglgnqvllrx",
+  "status": "EXECUTION IN PROGRESS; not overall Stage2 signoff",
+  "accepted_workstreams": 9,
+  "assigned_workstreams": 18,
+  "image_closure": {
+    "status": "ACCEPTED in documented TEST scope",
+    "retained_evidence": "FINAL2-12-product-images-results.json",
+    "final_retry_image_source_verified_on_device": true,
+    "fixture_cleanup_completed": true,
+    "original_synthetic_stock_retired": true,
+    "only_hash_matched_synthetic_Downloads_file_removed": true,
+    "uploaded_objects_and_history_retained": true
+  },
+  "flutter": {
+    "final_focused_pass": 29,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/rider_performance_test.dart",
+      "test/role_language_test.dart",
+      "test/language_settings_test.dart",
+      "test/profile_screen_test.dart",
+      "test/profile_service_test.dart"
+    ],
+    "last_profile_notice_rerun_pass": 3,
+    "rerun_overlaps_final_cohort": true,
+    "retained_affected_image_history_reporting_pass": 14,
+    "earlier_image_cohort_pass": 97,
+    "historical_and_rerun_counts_not_added": true
+  },
+  "analysis": {
+    "full_errors": 0,
+    "full_warnings": 13,
+    "full_infos": 26,
+    "full_exit_code": 1,
+    "full_exit_due_to_existing_findings": true,
+    "new_profile_metrics_scope_issues": 0,
+    "final_profile_notice_scope_issues": 0
+  },
+  "metrics": {
+    "status": "stored performance implemented and device rendered; fee policy and overall S2-11 pending",
+    "deployment": {
+      "project": "igeisilhtmglgnqvllrx",
+      "version": "202610240004",
+      "versions": 56,
+      "review_passes": 28,
+      "production_modified": false,
+      "replayed": false
+    },
+    "migration_sha256": "5df5ee4b9cfc479c881c084eaf0e145dc3388e17d298bf5e9b84ca5f741a5a75",
+    "sql_review_cases": 28,
+    "sql_post_cases": 28,
+    "review_and_post_overlap": true,
+    "hosted": [
+      {
+        "check": "approved authenticated Rider reads own actually stored performance",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unknown compensation is not fabricated from order amounts",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "stored metrics reconcile count bounds without invented legacy timing",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "actual Admin selected-Rider read agrees with own-role stored counters",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Customer cannot inspect private Rider performance",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Vendor cannot inspect private Rider performance",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot select a foreign canonical identity",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous metrics denied at actual hosted gateway",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "synthetic_SQL_completion_not_physical_delivery": true,
+    "earned_fee_remains_unknown": true
+  },
+  "profiles": {
+    "project": "igeisilhtmglgnqvllrx",
+    "pass": 29,
+    "fail": 0,
+    "checks": [
+      {
+        "check": "customer reads exactly its canonical profile",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:46.384896+00:00"
+      },
+      {
+        "check": "customer trusted idempotent profile Save confirms actual persisted fields without role change",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:47.152930+00:00"
+      },
+      {
+        "check": "customer server rejects control-character name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:48.218648+00:00"
+      },
+      {
+        "check": "customer server rejects invalid phone",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:49.127362+00:00"
+      },
+      {
+        "check": "customer server rejects oversized name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:50.351006+00:00"
+      },
+      {
+        "check": "customer cannot change canonical role through profile payload",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:51.185609+00:00"
+      },
+      {
+        "check": "customer negative checks preserve name/phone/email/role exactly",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:51.899908+00:00"
+      },
+      {
+        "check": "vendor reads exactly its canonical profile",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:53.438816+00:00"
+      },
+      {
+        "check": "vendor trusted idempotent profile Save confirms actual persisted fields without role change",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:54.575119+00:00"
+      },
+      {
+        "check": "vendor server rejects control-character name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:55.744956+00:00"
+      },
+      {
+        "check": "vendor server rejects invalid phone",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:56.592062+00:00"
+      },
+      {
+        "check": "vendor server rejects oversized name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:57.598958+00:00"
+      },
+      {
+        "check": "vendor cannot change canonical role through profile payload",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:58.640156+00:00"
+      },
+      {
+        "check": "vendor negative checks preserve name/phone/email/role exactly",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:08:59.974980+00:00"
+      },
+      {
+        "check": "rider reads exactly its canonical profile",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:01.389309+00:00"
+      },
+      {
+        "check": "rider legacy missing phone requires valid details instead of fabricated saved success",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:02.350889+00:00"
+      },
+      {
+        "check": "rider server rejects control-character name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:03.475604+00:00"
+      },
+      {
+        "check": "rider server rejects invalid phone",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:04.502224+00:00"
+      },
+      {
+        "check": "rider server rejects oversized name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:05.335172+00:00"
+      },
+      {
+        "check": "rider cannot change canonical role through profile payload",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:06.133413+00:00"
+      },
+      {
+        "check": "rider negative checks preserve name/phone/email/role exactly",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:06.867958+00:00"
+      },
+      {
+        "check": "admin reads exactly its canonical profile",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:08.312545+00:00"
+      },
+      {
+        "check": "admin legacy missing phone requires valid details instead of fabricated saved success",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:09.144753+00:00"
+      },
+      {
+        "check": "admin server rejects control-character name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:10.031213+00:00"
+      },
+      {
+        "check": "admin server rejects invalid phone",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:11.243188+00:00"
+      },
+      {
+        "check": "admin server rejects oversized name",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:12.161074+00:00"
+      },
+      {
+        "check": "admin cannot change canonical role through profile payload",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:13.046632+00:00"
+      },
+      {
+        "check": "admin negative checks preserve name/phone/email/role exactly",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:13.835600+00:00"
+      },
+      {
+        "check": "anonymous profile mutation denied",
+        "result": "PASS",
+        "surface": "authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:09:14.741790+00:00"
+      }
+    ],
+    "fixtures_unchanged": true,
+    "new_migration": false,
+    "production_modified": false
+  },
+  "android": {
+    "observations": [
+      {
+        "check": "remaining synthetic product stock retired through actual owner API; only the hash-verified newly created Downloads test file removed; uploaded history and personal files untouched",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP + scoped Android fixture cleanup",
+        "observed_at": "2026-10-24T15:31:43.189444+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:05:35.262871+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:19:39.652888+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "latest TEST build restores saved Urdu and existing Vendor session; actual dashboard title and selected navigation translate after restart",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:21:12.155701+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "final source-hash-verified TEST build restores Vendor role and renders the actual product image through the bounded-lifetime client/server path",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP",
+        "observed_at": "2026-10-24T16:25:39.236276+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:28:21.630134+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "actual Vendor Account Settings opens the shared canonical profile editor and unchanged Save receives confirmed server success; no screenshot of personal fields",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:29:49.949971+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "latest TEST Rider earnings page renders actual stored completion metrics and explicit missing-history information; compensation remains unknown",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T16:36:37.063133+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "counts_are_observations_not_unique_tests": true,
+    "screenshots": [
+      "FINAL2-14-urdu-startup.png",
+      "FINAL2-14-vendor-image.png",
+      "FINAL2-14-rider-performance.png"
+    ],
+    "profile_fields_not_screenshotted": true,
+    "full_four_role_and_Rider_metrics_native_pending": false,
+    "full_four_role_regression_new_cohort_not_claimed": true,
+    "Rider_metrics_native": "PASS"
+  },
+  "metadata": {
+    "migration_versions": 56,
+    "inspected_tables": 92,
+    "all_inspected_RLS": true,
+    "public_tables": 58,
+    "functions": 209,
+    "public_functions": 145
+  },
+  "policy_reference": "../FINAL2-policy-reference.md",
+  "remaining": [
+    "FR14 actual route/GPS movement/ETA/cleanup",
+    "FR15 complete identity card/status stepper",
+    "Add-time cart reservation policy activation",
+    "Rider earned-fee calculation/policy",
+    "Private delivery photo proof",
+    "Low-rating blocking policy/implementation",
+    "Admin monitoring/manual assignment/KPIs/export",
+    "Other profile/settings/notification/iOS scope",
+    "B optional-module disposition reconciliation"
+  ],
+  "production_modified": false,
+  "pushed_or_merged": false,
+  "stage3_started": false,
+  "local_scoped_secret_scan": {
+    "project": "igeisilhtmglgnqvllrx",
+    "files_checked": 69,
+    "protected_values_compared": 27,
+    "matches": 0,
+    "unreadable_protected_files": 0,
+    "network_used": false
+  },
+  "git_implementation_commits": [
+    "80faba3",
+    "54181dc"
+  ]
+}
