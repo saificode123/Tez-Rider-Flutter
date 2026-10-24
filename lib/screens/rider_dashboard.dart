@@ -1,3 +1,4 @@
+import 'rating_summary_screen.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -1589,17 +1590,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 Icons.star_outline_rounded,
                 'Ratings & Reviews',
                 AppColors.warning,
-                () {
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Ratings & reviews will be available in a future update.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
+                () => Get.to(() => const RatingSummaryScreen()),
               ),
             ]),
             const SizedBox(height: 14),

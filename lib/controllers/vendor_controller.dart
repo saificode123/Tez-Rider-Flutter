@@ -1,3 +1,5 @@
+import '../services/feedback_service.dart';
+import '../services/rating_watch.dart';
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,6 +27,7 @@ class VendorController extends GetxController {
   final ordersRefreshing = false.obs;
   RealtimeChannel? _channel;
   Timer? _refreshTimer;
+  RatingWatch? _ratingWatch;
   Object? _vendorId;
   int _orderPage = 0;
   bool _refreshing = false;
@@ -47,23 +50,17 @@ class VendorController extends GetxController {
     if (identity == null) return;
     statsLoading.value = true;
     try {
-      final results = await Future.wait<dynamic>([
-        _reports.load(),
-        _supabase
-            .rpc('fr21_dashboard_stats')
-            .timeout(const Duration(seconds: 8)),
-      ]);
+      final report = await _reports.load();
+      final rating = await FeedbackService().summary(report.vendorId);
       if (isClosed || identity != _supabase.auth.currentUser?.id) return;
-      final report = results[0] as VendorReport;
       if (_vendorId != null && report.vendorId != _vendorId) {
         throw StateError('Vendor identity changed');
       }
-      final stats = Map<String, dynamic>.from(results[1] as Map);
       totalEarnings.value =
           'PKR ${(report.summary['delivered_sales'] as num).toStringAsFixed(2)}';
-      averageRating.value = stats['rating'] == null
+      averageRating.value = rating['average'] == null
           ? '—'
-          : '${stats['rating']} ★';
+          : '${rating['average']} ★';
       statsError.value = null;
     } catch (_) {
       if (!isClosed && identity == _supabase.auth.currentUser?.id) {
@@ -88,6 +85,8 @@ class VendorController extends GetxController {
       if (id == null) throw StateError('Sign in required');
       if (isClosed) return;
       _vendorId = id;
+      _ratingWatch?.dispose();
+      _ratingWatch = RatingWatch(loadStats, targetId: id as int);
       _channel = _supabase
           .channel('vendor-dashboard-$id')
           .onPostgresChanges(
@@ -242,6 +241,7 @@ class VendorController extends GetxController {
 
   @override
   void onClose() {
+    _ratingWatch?.dispose();
     _refreshTimer?.cancel();
     if (_channel != null) unawaited(_supabase.removeChannel(_channel!));
     super.onClose();

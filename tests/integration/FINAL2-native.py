@@ -3,6 +3,17 @@ import importlib.util,secrets,sys,uuid
 from pathlib import Path
 s=importlib.util.spec_from_file_location('native',Path(__file__).with_name('FINAL01-native.py'));n=importlib.util.module_from_spec(s);s.loader.exec_module(n)
 n.OUT=n.ROOT/'.fr21-local/final2'
+original_adb=n.adb
+def guarded_adb(*args,input=None):
+ # Retry only reads after transient USB failures. Never replay an input, install,
+ # network change, logout or business mutation whose outcome may be uncertain.
+ read_only=args[:2]in(('shell','dumpsys'),('shell','uiautomator'),('exec-out','cat'))
+ for attempt in range(3 if read_only else 1):
+  try:return original_adb(*args,input=input)
+  except AssertionError:
+   if not read_only or attempt==2:raise
+   n.time.sleep(1)
+n.adb=guarded_adb
 def test_nodes():
  active=n.adb('shell','dumpsys','activity','activities')
  assert n.re.search(r'topResumedActivity=ActivityRecord\{[^}]*'+n.re.escape(n.PKG)+'/',active),'TEST app must be foreground'
@@ -65,7 +76,69 @@ def form(name,value):
 action=sys.argv[2];assert sys.argv[1]=='native'
 def gateway(name,token,data):
  return n.b.api('/functions/v1/security-gateway','POST',{'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json'},'body':n.json.dumps(data)},token)
-if action=='verify-customer-cash':
+if action=='open-native-feedback':
+ oid=state['native_cash_fixture']['order_id']
+ for attempt in range(8):
+  nodes=n.nodes();orders=[node for node in nodes if n.label(node)=='Order #'+str(oid)]
+  if orders:
+   top=int(n.re.findall(r'\d+',orders[0].get('bounds',''))[1]);other_tops=[int(n.re.findall(r'\d+',node.get('bounds',''))[1])for node in nodes if n.label(node).startswith('Order #')and n.label(node)!='Order #'+str(oid)]
+   bottom=min([y for y in other_tops if y>top]+[2200])
+   choices=[node for node in nodes if n.label(node)=='Rate'and top<int(n.re.findall(r'\d+',node.get('bounds',''))[1])<bottom]
+   if len(choices)==1:n.tap(choices[0]);n.main('assert:Delivery feedback');record('physical Customer opens delivered-order canonical dual-feedback page from actual Rate handler');break
+  n.adb('shell','input','swipe','500','1900','500','1000','450');n.time.sleep(.5)
+ else:raise AssertionError('Exact owned native fixture order and visible Rate action required')
+elif action.startswith('submit-native-feedback:'):
+ role=action.split(':')[1];assert role in('vendor','rider')
+ token=n.b.login(state['accounts']['review-customer']);oid=state['native_cash_fixture']['order_id']
+ code,context=gateway('final2_feedback_context',token,{'p_order_id':oid});assert code==200
+ target=next(t for t in context['targets']if t['role']==role);assert target['review']is None,'No repeated physical submission of an already rated target'
+ stars=5 if role=='vendor'else 3
+ # Native accessibility omits these plain headings although the inspected TEST
+ # screenshot visibly shows Rider then Vendor. Match star rows to the same
+ # canonical ordered unreviewed target array, and verify the saved target by RPC.
+ pending=[t for t in context['targets']if t['review']is None]
+ assert [t['role']for t in context['targets']]==['rider','vendor']
+ nodes=n.nodes();choices=[node for node in nodes if n.label(node)==str(stars)+' stars'and node.get('clickable')=='true']
+ choices.sort(key=lambda node:int(n.re.findall(r'\d+',node.get('bounds',''))[1]))
+ assert len(choices)==len(pending),'All canonical unreviewed star rows must be visible'
+ index=next(i for i,t in enumerate(pending)if t['target_id']==target['target_id'])
+ n.tap(choices[index])
+ nodes=n.nodes();buttons=[node for node in nodes if n.label(node)=='Submit feedback'and node.get('enabled')!='false'and node.get('clickable')=='true']
+ assert len(buttons)==1,'Only explicitly selected target can submit';n.tap(buttons[0]);n.main('assert:Saved rating: '+str(stars)+'/5')
+ code,context=gateway('final2_feedback_context',token,{'p_order_id':oid});assert code==200
+ saved=next(t for t in context['targets']if t['target_id']==target['target_id'])['review'];assert saved['rating']==stars
+ n.picture('cohort10-'+role+'-feedback')
+ record('physical Customer selects '+role+' stars and actual Submit handler persists canonical saved feedback','android + real authenticated TEST HTTP')
+elif action.startswith('live-feedback-signal:'):
+ role=action.split(':')[1];assert role in('vendor','rider')
+ assert any('Ratings & reviews'in n.label(node)for node in n.nodes()),'Actual profile summary must already be open before external event'
+ customer=n.b.login(state['accounts']['review-customer']);oid=state['cod_fixture']['order_id']
+ code,context=gateway('final2_feedback_context',customer,{'p_order_id':oid});assert code==200,'Existing explicitly synthetic delivered financial fixture required'
+ target=next(t for t in context['targets']if t['role']==role);assert target['review']is None,'Do not replay a consumed live-event fixture'
+ fixture=state.setdefault('feedback_live_signal',{});request=fixture.setdefault(role+'_request',str(uuid.uuid4()));save()
+ stars=3 if role=='vendor'else 4
+ code,value=gateway('final2_submit_feedback',customer,{'p_order_id':oid,'p_target_id':target['target_id'],'p_rating':stars,'p_comment':'FINAL2 SYNTHETIC LIVE PROFILE SIGNAL','p_request_id':request})
+ assert code==200 and value['code']=='SUBMITTED';fixture[role+'_submitted']=True;save()
+ expected=('4.0'if role=='vendor'else'3.0')+' / 5 · 3 verified ratings'
+ n.main('assert:'+expected)
+ n.picture('cohort10-'+role+'-live-summary')
+ fixture[role+'_native_live_verified']=True;save()
+ record('already-open physical '+role+' profile updates exact average/count from separate authenticated Customer API feedback event without tapping Refresh; synthetic financial fixture only','android + real authenticated TEST HTTP + live Realtime')
+elif action.startswith('verify-own-rating:'):
+ role=action.split(':')[1];assert role in('vendor','rider')
+ token=n.b.login(state['accounts']['live-vendor']if role=='vendor'else n.accounts['rider'])
+ customer=n.b.login(state['accounts']['review-customer']);code,context=gateway('final2_feedback_context',customer,{'p_order_id':state['native_cash_fixture']['order_id']});assert code==200
+ target=next(t for t in context['targets']if t['role']==role)
+ code,value=gateway('final2_rating_summary',token,{'p_target_id':target['target_id']});assert code==200
+ labels=[n.label(node)for node in n.nodes()];expected=str(float(value['average']))+' / 5 · '+str(value['count'])+' verified ratings'
+ assert any(expected in label for label in labels)and value['count']in(2,3)and value['average']==((4.5 if role=='vendor'else 2.5)if value['count']==2 else(4 if role=='vendor'else 3))
+ n.picture('cohort10-'+role+'-summary');record('physical '+role+' profile Ratings handler shows exact server-computed own average/count and actual saved feedback')
+elif action=='verify-feedback-restored':
+ labels=[n.label(node)for node in n.nodes()]
+ assert any('Saved rating: 5/5'in label for label in labels)and any('Saved rating: 3/5'in label for label in labels)
+ assert 'Submit feedback'not in labels
+ record('physical Customer reopened feedback restores separate saved Vendor/Rider ratings and removes duplicate submission controls')
+elif action=='verify-customer-cash':
  labels=[n.label(node)for node in n.nodes()]
  oid=state['cash_invoice_fixture']['order_id']
  assert 'Order #'+str(oid)+' payment'in labels

@@ -59,7 +59,14 @@ void main() {
     transport.respond = (r) async => UiTransport.jsonResponse(
       r.url.path.endsWith('/final2_vendor_report')
           ? statsReport()
-          : {'total': 9999, 'rating': null},
+          : {
+              'code': 'OK',
+              'target_id': 10,
+              'role': 'vendor',
+              'count': 0,
+              'average': null,
+              'recent': [],
+            },
     );
     await Supabase.instance.client.auth.recoverSession(
       jsonEncode(unitSession().toJson()),
@@ -81,6 +88,31 @@ void main() {
         (r) => r.url.path.endsWith('/final2_vendor_report'),
       );
       expect(jsonDecode(request.body)['p_limit'], 1);
+    },
+  );
+  test(
+    'Vendor dashboard displays canonical feedback average instead of older mixed ratings',
+    () async {
+      transport.respond = (r) async => UiTransport.jsonResponse(
+        r.url.path.endsWith('/final2_vendor_report')
+            ? statsReport()
+            : {
+                'code': 'OK',
+                'target_id': 10,
+                'role': 'vendor',
+                'count': 2,
+                'average': 4.5,
+                'recent': [],
+              },
+      );
+      await controller.loadStats();
+      expect(controller.averageRating.value, '4.5 ★');
+      expect(
+        transport.requests.any(
+          (r) => r.url.path.endsWith('/fr21_dashboard_stats'),
+        ),
+        false,
+      );
     },
   );
   test(
@@ -112,7 +144,14 @@ void main() {
               fail ? {'code': 'unavailable'} : statsReport(),
               fail ? 503 : 200,
             )
-          : UiTransport.jsonResponse({'total': 9999, 'rating': null});
+          : UiTransport.jsonResponse({
+              'code': 'OK',
+              'target_id': 10,
+              'role': 'vendor',
+              'count': 0,
+              'average': null,
+              'recent': [],
+            });
       await controller.loadStats();
       expect(controller.totalEarnings.value, '—');
       expect(controller.statsError.value, isNotNull);
@@ -129,7 +168,14 @@ void main() {
       transport.respond = (r) => r.url.path.endsWith('/final2_vendor_report')
           ? pending.future
           : Future.value(
-              UiTransport.jsonResponse({'total': 9999, 'rating': null}),
+              UiTransport.jsonResponse({
+                'code': 'OK',
+                'target_id': 10,
+                'role': 'vendor',
+                'count': 0,
+                'average': null,
+                'recent': [],
+              }),
             );
       final loading = controller.loadStats();
       await Future<void>.delayed(Duration.zero);

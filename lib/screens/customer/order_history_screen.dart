@@ -345,13 +345,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                   ),
                 if (status == 'delivered') ...[
                   GestureDetector(
-                    onTap: () => Get.dialog(
-                      RatingScreen(
-                        orderId: order['id'].toString(),
-                        revieweeId: order['rider_id']?.toString() ?? '',
-                        title: 'Rate your delivery',
-                      ),
-                    ),
+                    onTap: () =>
+                        Get.to(() => RatingScreen(orderId: order['id'] as int)),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,

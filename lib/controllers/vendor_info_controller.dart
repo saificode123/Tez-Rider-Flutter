@@ -1,3 +1,4 @@
+import '../services/rating_watch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -49,13 +50,19 @@ class VendorInfo {
   /// Nearest branch to [fromLat]/[fromLng], with its distance in km.
   /// Returns null if this vendor has no branches with coordinates.
   ({VendorBranch branch, double distanceKm})? nearestBranch(
-      double? fromLat, double? fromLng) {
+    double? fromLat,
+    double? fromLng,
+  ) {
     if (fromLat == null || fromLng == null) return null;
     ({VendorBranch branch, double distanceKm})? best;
     for (final b in branches) {
       if (b.latitude == null || b.longitude == null) continue;
       final distMeters = Geolocator.distanceBetween(
-          fromLat, fromLng, b.latitude!, b.longitude!);
+        fromLat,
+        fromLng,
+        b.latitude!,
+        b.longitude!,
+      );
       final distKm = distMeters / 1000;
       if (best == null || distKm < best.distanceKm) {
         best = (branch: b, distanceKm: distKm);
@@ -66,11 +73,22 @@ class VendorInfo {
 }
 
 class VendorInfoController extends GetxController {
+  VendorInfoController({RatingWatcher? watchRatings})
+    : _watchRatings = watchRatings ?? RatingWatch.new;
+  final RatingWatcher _watchRatings;
   final _supabase = Supabase.instance.client;
 
   final RxMap<String, VendorInfo> vendorInfoMap = <String, VendorInfo>{}.obs;
   final Rx<Position?> customerPosition = Rx<Position?>(null);
   final RxBool isLoadingLocation = false.obs;
+
+  RatingSubscription? _ratingWatch;
+  final _visibleVendors = <String>{};
+  @override
+  void onClose() {
+    _ratingWatch?.dispose();
+    super.onClose();
+  }
 
   VendorInfo? infoFor(String vendorId) => vendorInfoMap[vendorId];
 
@@ -110,6 +128,17 @@ class VendorInfoController extends GetxController {
   Future<void> loadVendorInfo(Iterable<String> vendorIds) async {
     final ids = vendorIds.where((id) => id.isNotEmpty).toSet().toList();
     if (ids.isEmpty) return;
+    _visibleVendors.addAll(ids);
+    if (_ratingWatch == null || _ratingWatch!.isClosed) {
+      _ratingWatch = _watchRatings(() {
+        vendorInfoMap.clear();
+        if (_supabase.auth.currentUser != null) {
+          loadVendorInfo(_visibleVendors.toList());
+        }
+      });
+    }
+    final account = _supabase.auth.currentUser?.id;
+    if (account == null) return;
 
     final numericIds = ids
         .map((id) => int.tryParse(id))
@@ -131,20 +160,30 @@ class VendorInfoController extends GetxController {
       Map<int, double> ratingByVendor = {};
       Map<int, int> reviewCountByVendor = {};
       try {
-        final ratingRows = await _supabase.rpc(
-          'get_vendor_ratings',
-          params: {'p_vendor_ids': numericIds},
-        ) as List;
-        for (final r in ratingRows) {
-          final vid = r['vendor_id'];
-          if (vid == null) continue;
-          final vidInt = vid is int ? vid : int.tryParse(vid.toString());
-          if (vidInt == null) continue;
-          final avg = r['avg_rating'];
-          ratingByVendor[vidInt] =
-              avg is num ? avg.toDouble() : double.tryParse(avg?.toString() ?? '') ?? 0;
-          reviewCountByVendor[vidInt] =
-              int.tryParse(r['review_count']?.toString() ?? '0') ?? 0;
+        for (var offset = 0; offset < numericIds.length; offset += 100) {
+          final ratingRows =
+              await _supabase.rpc(
+                    'get_vendor_ratings',
+                    params: {
+                      'p_vendor_ids': numericIds
+                          .skip(offset)
+                          .take(100)
+                          .toList(),
+                    },
+                  )
+                  as List;
+          for (final r in ratingRows) {
+            final vid = r['vendor_id'];
+            if (vid == null) continue;
+            final vidInt = vid is int ? vid : int.tryParse(vid.toString());
+            if (vidInt == null) continue;
+            final avg = r['avg_rating'];
+            ratingByVendor[vidInt] = avg is num
+                ? avg.toDouble()
+                : double.tryParse(avg?.toString() ?? '') ?? 0;
+            reviewCountByVendor[vidInt] =
+                int.tryParse(r['review_count']?.toString() ?? '0') ?? 0;
+          }
         }
       } catch (e) {
         // RPC missing (migration not run yet) — carry on without ratings.
@@ -156,9 +195,12 @@ class VendorInfoController extends GetxController {
         final vid = row['vendor_id'];
         final vidInt = vid is int ? vid : int.tryParse(vid?.toString() ?? '');
         if (vidInt == null) continue;
-        branchesByVendor.putIfAbsent(vidInt, () => []).add(VendorBranch.fromJson(row));
+        branchesByVendor
+            .putIfAbsent(vidInt, () => [])
+            .add(VendorBranch.fromJson(row));
       }
 
+      if (isClosed || account != _supabase.auth.currentUser?.id) return;
       for (final row in vendorRows) {
         final vid = row['user_id'];
         final vidInt = vid is int ? vid : int.tryParse(vid?.toString() ?? '');

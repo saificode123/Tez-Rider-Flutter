@@ -1,3 +1,4 @@
+import '../services/rating_watch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../controllers/cart_controller.dart';
 import '../controllers/vendor_info_controller.dart';
 
 import '../services/inventory_service.dart';
+import '../services/feedback_service.dart';
 import '../widgets/stock_indicator.dart';
 
 const _kGreen = Color(0xFF1B5E20);
@@ -21,7 +23,12 @@ const _kBg = Color(0xFFF5F6FA);
 
 class ProductDetailScreen extends StatefulWidget {
   final Map<String, dynamic> product;
-  const ProductDetailScreen({super.key, required this.product});
+  const ProductDetailScreen({
+    super.key,
+    required this.product,
+    this.watchRatings,
+  });
+  final RatingWatcher? watchRatings;
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -30,7 +37,9 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final _supabase = Supabase.instance.client;
   final cartCtrl = Get.find<CartController>();
-  final vendorInfoCtrl = Get.put(VendorInfoController());
+  late final vendorInfoCtrl = Get.put(
+    VendorInfoController(watchRatings: widget.watchRatings),
+  );
 
   bool _isFav = false;
   bool _favLoading = false;
@@ -44,6 +53,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   // Only confirmed backend reviews are displayed.
   List<Map<String, dynamic>> _reviews = [];
   String? _ratingError;
+  RatingSubscription? _ratingWatch;
 
   @override
   void initState() {
@@ -52,6 +62,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     _refreshStock();
     _loadFavStatus();
     _loadRating();
+    final ratingTarget = int.tryParse(widget.product['vendor_id'].toString());
+    if (ratingTarget != null) {
+      _ratingWatch = (widget.watchRatings ?? RatingWatch.new)(
+        _loadRating,
+        targetId: ratingTarget,
+      );
+    }
     final vendorId = widget.product['vendor_id']?.toString() ?? '';
     if (vendorId.isNotEmpty) {
       vendorInfoCtrl.loadVendorInfo([vendorId]);
@@ -72,69 +89,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         if (rows.isEmpty) _currentProduct['is_available'] = false;
       });
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
           () => _stockError =
               'Availability could not be refreshed. Retry when connected.',
         );
+      }
     } finally {
       if (mounted) setState(() => _stockLoading = false);
     }
+  }
+
+  @override
+  void dispose() {
+    _ratingWatch?.dispose();
+    super.dispose();
   }
 
   Future<void> _loadRating() async {
     try {
       final vendorId = widget.product['vendor_id'];
       if (vendorId == null) return;
-      final rows =
-          await _supabase
-                  .from('reviews')
-                  .select('rating, comment, reviewer_id, created_at')
-                  .eq('reviewee_id', vendorId.toString())
-              as List;
-
-      if (rows.isEmpty) return;
-
-      final count = rows.length;
-      final avg =
-          rows.fold<double>(0, (s, r) => s + (r['rating'] as num).toDouble()) /
-          count;
-
-      // Resolve reviewer names for real reviews.
-      final List<Map<String, dynamic>> enriched = [];
-      for (final r in rows) {
-        String reviewer = 'Customer';
-        try {
-          final rec = await _supabase
-              .from('users')
-              .select('name')
-              .eq('id', r['reviewer_id'])
-              .maybeSingle();
-          reviewer = rec?['name'] ?? 'Customer';
-        } catch (_) {}
-        final dt = r['created_at'] != null
-            ? DateTime.tryParse(r['created_at'].toString())
-            : null;
+      final summary = await FeedbackService().summary(
+        int.parse(vendorId.toString()),
+      );
+      final count = summary['count'] as int;
+      final avg = (summary['average'] as num?)?.toDouble() ?? 0;
+      final enriched = <Map<String, dynamic>>[];
+      for (final r in summary['recent']) {
+        final dt = DateTime.tryParse(r['created_at']);
         enriched.add({
-          'reviewer': reviewer,
-          'avatar': reviewer.isNotEmpty ? reviewer[0].toUpperCase() : 'C',
-          'rating': (r['rating'] as num).toInt(),
+          'reviewer': 'Customer',
+          'avatar': 'C',
+          'rating': r['rating'],
           'comment': r['comment'] ?? '',
-          'date': dt != null
-              ? '${dt.day} ${_monthName(dt.month)} ${dt.year}'
-              : '',
+          'date': dt == null
+              ? ''
+              : '${dt.day} ${_monthName(dt.month)} ${dt.year}',
         });
       }
-
       if (mounted) {
         setState(() {
+          _ratingError = null;
           _rating = avg;
           _reviewCount = count;
           _reviews = enriched;
         });
       }
     } catch (_) {
-      if (mounted) setState(() => _ratingError = 'Reviews are unavailable.');
+      if (mounted) {
+        setState(() {
+          _ratingError = 'Reviews are unavailable.';
+          _reviews = [];
+          _rating = 0;
+          _reviewCount = 0;
+        });
+      }
     }
   }
 
@@ -405,8 +415,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     final info = vendorId.isNotEmpty
                         ? vendorInfoCtrl.infoFor(vendorId)
                         : null;
-                    if (info == null || info.storeName.isEmpty)
+                    if (info == null || info.storeName.isEmpty) {
                       return const SizedBox.shrink();
+                    }
 
                     final pos = vendorInfoCtrl.customerPosition.value;
                     final nearest = info.nearestBranch(
@@ -582,11 +593,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ProductStock(p).purchasable &&
                                 !cartCtrl.checking.contains(p['id'].toString())
                             ? () async {
-                                print("========== ADD TO CART ==========");
-                                print("Product ID: ${p['id']}");
-                                print("Vendor ID: ${p['vendor_id']}");
-                                print("Complete Product: $p");
-
                                 final added = await cartCtrl.addItem({
                                   'name': name,
                                   'price': price,
@@ -680,14 +686,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       children: [
         Row(
           children: [
-            const Expanded(child: Text(
-              'Customer Reviews',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: _kText,
+            const Expanded(
+              child: Text(
+                'Customer Reviews',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: _kText,
+                ),
               ),
-            )),
+            ),
             const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

@@ -1,0 +1,447 @@
+{
+  "date": "2026-10-24",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "S2-13 FR23/24 canonical dual feedback and live role-profile averages",
+  "status": "ACCEPTED within documented TEST scope",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610240001",
+    "versions": 53,
+    "review_passes": 19,
+    "production_modified": false,
+    "replayed": false
+  },
+  "metadata": {
+    "migrations": 53,
+    "inspected_tables": 87,
+    "public_tables": 58,
+    "inspected_public_private_functions": 196,
+    "public_functions": 139,
+    "all_inspected_tables_rls": true
+  },
+  "sql": {
+    "review_pass": 19,
+    "post_pass": 19,
+    "post_with_existing_ratings_pass": 19,
+    "review_post_overlap": true,
+    "all_fixture_changes_rolled_back": true,
+    "cases": [
+      {
+        "check": "own delivered multi-Vendor order exposes two actual Vendors and assigned Rider; UUID/numeric identities resolved server-side",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "pending/nonterminal delivery cannot be rated",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "star bounds, oversize comments and unsafe control characters enforced on server",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "current valid Vendor from another order is not an authorized feedback target",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "direct authenticated review INSERT remains denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "independent delivered Vendor/Rider ratings commit through real canonical authenticated APIs",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "same-request replay is idempotent; changed payload conflicts; fresh duplicate returns actual original feedback",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "exact target averages, legacy direct-order feedback and compatible Vendor card API exclude unrelated/Rider ratings",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "public-in-app summary omits reviewer/order identity; raw private review rows stay deny-default",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "mandatory audit failure atomically rolls back review and aggregate",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "clients cannot modify stored reputation totals",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "unrelated Customer cannot read owned feedback context or submit against another order",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Vendor cannot forge Customer feedback or self-rating",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Rider cannot forge Customer feedback",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "five committed reviews produce five canonical actor/target audits; retries add none",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "verified review history remains immutable even under trusted SQL role",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "only safe aggregate rows join Realtime publication; private review rows stay unpublished",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "blocked live Customer cannot submit or read rating summaries",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous feedback/context/summary APIs denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ]
+  },
+  "hosted": {
+    "checks": [
+      {
+        "check": "real owning Customer resolves delivered Vendor and assigned Rider separately",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "server returns canonical distinct numeric identities",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Customer cannot read owning-Customer feedback context",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Vendor cannot read owning-Customer feedback context",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot read owning-Customer feedback context",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Admin cannot read owning-Customer feedback context",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server rejects invalid stars",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server rejects oversized comment",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Customer cannot forge Customer feedback",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Vendor cannot forge Customer feedback",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot forge Customer feedback",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "direct authenticated REST cannot bypass shared gateway budget",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real approved Vendor registers aggregate Postgres Changes subscription",
+        "result": "PASS",
+        "surface": "real authenticated TEST WebSocket"
+      },
+      {
+        "check": "real owning Customer submits canonical Vendor feedback",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real Vendor receives committed aggregate update",
+        "result": "PASS",
+        "surface": "real authenticated TEST WebSocket"
+      },
+      {
+        "check": "actual Realtime payload contains no private review or Customer identity",
+        "result": "PASS",
+        "surface": "real authenticated TEST WebSocket"
+      },
+      {
+        "check": "identical real request UUID safely restores committed feedback",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "changed payload with existing UUID is rejected",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "new UUID cannot overwrite or duplicate original review",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real separate Rider feedback succeeds",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real app-visible summary has exact separate Vendor average",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real summary omits Customer identity and order links",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real app-visible summary has exact separate Rider average",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real summary omits Customer identity and order links",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "legacy Vendor-card API excludes Rider rating from Vendor average",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous summary request is denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "persisted synthetic fixture has exactly two reviews and canonical actor/target audits",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "http_persistence_pass": 24,
+    "actual_websocket_pass": 3,
+    "subsequent_native_signal_checks_in_native_list": true
+  },
+  "flutter": {
+    "pass": 35,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/feedback_test.dart",
+      "test/vendor_dashboard_stats_test.dart",
+      "test/vendor_report_test.dart",
+      "test/closure_remaining_states_test.dart",
+      "test/order_history_layout_test.dart"
+    ],
+    "overlaps_prior_cohorts": true,
+    "earlier_failures_resolved": [
+      "updated rating API fixture and waited for visible retry layout",
+      "injected deterministic widget-test subscription; real WebSocket remains separately verified"
+    ]
+  },
+  "analysis": {
+    "scoped_items": 13,
+    "errors": 0,
+    "infos": 0,
+    "new_warnings": 0,
+    "inherited_warnings": 1,
+    "inherited_warning": "unused _miniOrderCard in vendor_dashboard.dart"
+  },
+  "native_observations": [
+    {
+      "check": "current-source TEST APK installed with package and source-hash checks",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:03:57.296742+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Delivery feedback",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:12:12.028672+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Customer opens delivered-order canonical dual-feedback page from actual Rate handler",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:12:12.032311+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Saved rating: 5/5",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:14:59.021692+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Customer selects vendor stars and actual Submit handler persists canonical saved feedback",
+      "result": "PASS",
+      "surface": "android + real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T22:15:03.395619+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Saved rating: 3/5",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:15:50.385059+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Customer selects rider stars and actual Submit handler persists canonical saved feedback",
+      "result": "PASS",
+      "surface": "android + real authenticated TEST HTTP",
+      "observed_at": "2026-10-23T22:15:54.436478+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Delivery feedback",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:16:26.152288+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Customer opens delivered-order canonical dual-feedback page from actual Rate handler",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:16:26.153326+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical Customer reopened feedback restores separate saved Vendor/Rider ratings and removes duplicate submission controls",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:17:06.662791+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Store Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:20:38.044001+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical vendor profile Ratings handler shows exact server-computed own average/count and actual saved feedback",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:21:52.378816+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native 4.0 / 5 \u00b7 3 verified ratings",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-23T22:22:40.449528+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "already-open physical vendor profile updates exact average/count from separate authenticated Customer API feedback event without tapping Refresh; synthetic financial fixture only",
+      "result": "PASS",
+      "surface": "android + real authenticated TEST HTTP + live Realtime",
+      "observed_at": "2026-10-23T22:22:43.680387+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native Rider Dashboard",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-24T09:02:25.998623+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "physical rider profile Ratings handler shows exact server-computed own average/count and actual saved feedback",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-24T09:03:03.148061+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "observed native 3.0 / 5 \u00b7 3 verified ratings",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-24T09:03:49.376742+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "already-open physical rider profile updates exact average/count from separate authenticated Customer API feedback event without tapping Refresh; synthetic financial fixture only",
+      "result": "PASS",
+      "surface": "android + real authenticated TEST HTTP + live Realtime",
+      "observed_at": "2026-10-24T09:03:52.638907+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "native_observation_count": 18,
+  "native_counts_are_observations_not_unique_tests": true,
+  "source_package_apk_hashes_checked": true,
+  "synthetic_financial_delivery_fixtures_only": true,
+  "real_cash_physical_delivery_OTP_GPS_or_FR14_acceptance_asserted": false,
+  "automatic_low_rating_policy_activated": false,
+  "production_modified": false,
+  "stage2_overall_complete": false
+}

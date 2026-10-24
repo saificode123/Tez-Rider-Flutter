@@ -20,6 +20,16 @@ import 'package:flutter_application_1/screens/chat_screen.dart';
 import 'package:flutter_application_1/controllers/chat_controller.dart';
 import 'package:flutter_application_1/services/ai_service.dart';
 import 'support/closure_harness.dart';
+import 'package:flutter_application_1/services/rating_watch.dart';
+
+class QuietRatingSubscription implements RatingSubscription {
+  @override
+  bool isClosed = false;
+  @override
+  void dispose() {
+    isClosed = true;
+  }
+}
 
 class QuietProducts extends ProductController {
   @override
@@ -344,6 +354,16 @@ void main() {
     (t) async {
       var failed = true;
       transport.respond = (r) async {
+        if (r.url.path.endsWith('/final2_rating_summary')) {
+          return UiTransport.jsonResponse({
+            'code': 'OK',
+            'target_id': stock['vendor_id'],
+            'role': 'vendor',
+            'count': 0,
+            'average': null,
+            'recent': [],
+          });
+        }
         if (r.url.path.endsWith('/products')) {
           return failed
               ? UiTransport.jsonResponse({
@@ -359,13 +379,20 @@ void main() {
         }
         return UiTransport.jsonResponse([]);
       };
-      await show(t, ProductDetailScreen(product: stock));
+      await show(
+        t,
+        ProductDetailScreen(
+          product: stock,
+          watchRatings: (_, {targetId}) => QuietRatingSubscription(),
+        ),
+      );
       final add = find.widgetWithText(ElevatedButton, 'Add to Cart');
       expect(t.widget<ElevatedButton>(add).onPressed, isNull);
       final retry = find.text(
         'Availability could not be refreshed. Retry when connected.',
       );
       await t.ensureVisible(retry);
+      await t.pumpAndSettle();
       failed = false;
       await t.tap(retry);
       await tick(t);

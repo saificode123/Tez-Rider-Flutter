@@ -1,3 +1,4 @@
+import 'rating_summary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -1165,17 +1166,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 Icons.star_outline,
                 'Reviews & Ratings',
                 AppColors.warning,
-                () {
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Reviews & ratings will be available in a future update.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
+                () => Get.to(() => const RatingSummaryScreen()),
               ),
             ]),
             const SizedBox(height: 14),
