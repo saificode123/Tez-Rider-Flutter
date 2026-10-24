@@ -1,0 +1,327 @@
+{
+  "date": "2026-10-24",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "S2-08 FR11/12 owned itemized history and actual timelines",
+  "status": "ACCEPTED within documented TEST scope; historical missing data explicitly disclosed",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610240002",
+    "versions": 54,
+    "review_passes": 17,
+    "production_modified": false,
+    "replayed": false
+  },
+  "metadata": {
+    "migrations": 54,
+    "inspected_tables": 88,
+    "public_tables": 58,
+    "inspected_public_private_functions": 199,
+    "public_functions": 140,
+    "all_inspected_tables_rls": true
+  },
+  "sql": {
+    "review_pass": 17,
+    "post_pass": 17,
+    "review_post_overlap": true,
+    "all_fixture_changes_rolled_back": true,
+    "migration_sha256": "b51ee48cce0ef063f784e320265c7505b51714274a6bee1128388523a446a8ee",
+    "cases": [
+      {
+        "check": "real owned multi-Vendor stock-aware checkout returns immutable fractional items, exact delivery/total cents, initial milestones and unpaid COD context",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "missing and invalid order identities fail without exposing another order",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "one Vendor acceptance leaves required shared parent pending; later catalogue name/price edits cannot rewrite checkout history",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Customer cannot directly read/write private Vendor event ledger or forge timeline completion",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "both real Vendor transition RPCs record pending/accepted/preparing once; duplicate acknowledgement adds no fake milestone",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "shared pickup reservation does not fabricate departure; checklist gate and actual secured start produce ready/on-the-way milestones",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "secured synthetic OTP verification records delivered terminal/portion histories and timestamp without falsely claiming COD collection",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy order lacking item/milestone records explicitly reports unavailable detail; no fabricated backfill",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy recorded item price is preserved separately from current catalogue name and price",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy subtotal/delivery/total mismatch remains review-required instead of inventing financial reconciliation",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "unrelated real Customer cannot read another complete order or payment context",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Vendor/Rider/Admin cannot impersonate the owning Customer detail endpoint; existing role-specific workflows remain separate",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "captured Vendor transitions remain append-only even under trusted SQL",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "private Vendor event ledger remains unpublished; detail changes do not broaden existing Realtime boundaries",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "real Vendor rejection produces exact terminal parent/portion events and preserves unpaid COD rather than inventing a refund",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "blocked owning Customer loses full detail access",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous full detail access denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ],
+    "synthetic_OTP_challenge_only_no_actual_email_or_delivery": true
+  },
+  "hosted": {
+    "pass": 18,
+    "fail": 0,
+    "checks": [
+      {
+        "check": "real owning Customer reads exact shared immutable checkout items",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real fractional quantities and per-Vendor lines remain exact",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real trusted subtotal/delivery/total reconciliation uses exact cents",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real private Vendor transitions project through owned endpoint",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real history does not confuse checkout/cancellation with cash collection or refund",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Customer cannot impersonate owning Customer detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Vendor cannot impersonate owning Customer detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Vendor cannot impersonate owning Customer detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot impersonate owning Customer detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Admin cannot impersonate owning Customer detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real detail rejects invalid order identity",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "missing order returns no private existence/detail",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "direct authenticated detail cannot bypass mandatory gateway budget",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous real detail denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real legacy records disclose missing item/milestone history honestly",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real legacy committed manual refund context is preserved",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "earlier legitimate immutable receipt checkout remains readable with exact recorded cash context",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "retained owned history paging includes new detail without changing its cursor contract",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "fixture_stock_retired_via_owner_APIs": true,
+    "immutable_checkout_preserved_after_actual_catalogue_edit": true
+  },
+  "flutter": {
+    "pass": 28,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/order_detail_test.dart",
+      "test/order_history_layout_test.dart",
+      "test/order_timeout_test.dart"
+    ],
+    "analysis": {
+      "items": 7,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "aborted_runner_not_counted_as_complete": true
+  },
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "apk_sha256": "BE7CC4A359874B36FF5E7BCF1AD318A1A5B9B0F56AF0FC0CF98C04B91D9E0D6F",
+    "source_package_hashes_checked": true,
+    "observations": [
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T09:54:48.128487+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Order #2661 details",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:02:35.008354+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Customer opens exact owned fixture order through actual history details handler",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:02:35.012209+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical shared detail shows original per-Vendor items, fractional unit/line amounts and exact subtotal/delivery/total cents",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:02:56.673045+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Cancelled:",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:03:50.683112+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "already-open physical Customer detail receives real Vendor rejection live without Refresh, retains exact items and displays cancellation rather than delivery or cash success",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP + live Realtime",
+        "observed_at": "2026-10-24T10:03:55.332076+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Order #2585 details",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:06:01.197547+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Customer opens exact owned legacy order through actual history details handler",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:06:01.197547+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical legacy detail explicitly labels absent item/milestone history instead of fabricating earlier steps or products",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:06:08.109334+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "observation_count": 9,
+    "counts_are_observations_not_unique_tests": true,
+    "screenshots_visually_inspected": [
+      "FINAL2-11-shared-history.png",
+      "FINAL2-11-live-cancel.png",
+      "FINAL2-11-legacy-limits.png"
+    ],
+    "actual_live_realtime_cancellation_without_refresh": true
+  },
+  "limitations": [
+    "Legacy missing item/milestone records are explicitly unavailable, never reconstructed or backfilled.",
+    "SQL completion used controlled synthetic OTP fixture; no real OTP email, cash, delivery, GPS or FR14 acceptance.",
+    "Selector failure on Android merged labels was corrected; failed attempts are not passing evidence."
+  ],
+  "production_modified": false,
+  "stage2_overall_complete": false
+}

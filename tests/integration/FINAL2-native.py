@@ -76,12 +76,59 @@ def form(name,value):
 action=sys.argv[2];assert sys.argv[1]=='native'
 def gateway(name,token,data):
  return n.b.api('/functions/v1/security-gateway','POST',{'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json'},'body':n.json.dumps(data)},token)
-if action=='open-native-feedback':
+if action.startswith('open-history-detail:'):
+ kind=action.split(':')[1];assert kind in('fixture','legacy','receipt')
+ oid=state['history_fixture']['order_id']if kind=='fixture'else state['cod_fixture']['order_id']if kind=='legacy'else state['cash_invoice_fixture']['order_id']
+ for attempt in range(15):
+  nodes=n.nodes();orders=[node for node in nodes if 'Order #'+str(oid) in n.label(node).splitlines()]
+  if orders:
+   top=int(n.re.findall(r'\d+',orders[0].get('bounds',''))[1]);tops=[int(n.re.findall(r'\d+',node.get('bounds',''))[1])for node in nodes if any(n.re.fullmatch(r'Order #[0-9]+',line)for line in n.label(node).splitlines())and 'Order #'+str(oid)not in n.label(node).splitlines()]
+   bottom=min([y for y in tops if y>top]+[2200])
+   choices=[node for node in nodes if n.label(node)=='Order details'and top<int(n.re.findall(r'\d+',node.get('bounds',''))[1])<bottom]
+   if len(choices)==1:n.tap(choices[0]);n.main('assert:Order #'+str(oid)+' details');record('physical Customer opens exact owned '+kind+' order through actual history details handler');break
+  more=[node for node in nodes if n.label(node)=='Load more orders'and node.get('clickable')=='true']
+  if more:n.tap(more[0])
+  else:n.adb('shell','input','swipe','500','1900','500','1100','450');n.time.sleep(.4)
+ else:raise AssertionError('Exact owned order and observed details action required')
+elif action=='verify-history-items':
+ token=n.b.login(state['accounts']['review-customer']);oid=state['history_fixture']['order_id']
+ code,value=gateway('final2_order_detail',token,{'p_order_id':oid});assert code==200 and value['item_source']=='CHECKOUT_SNAPSHOT'and value['totals']['total_cents']=='22975'
+ required=['Order total: PKR 229.75','Item subtotal: PKR 29.75','Delivery fee: PKR 200.00','2 × PKR 11.25','1 × PKR 7.25']
+ for attempt in range(6):
+  labels=[n.label(node)for node in n.nodes()]
+  if all(any(text in label for label in labels)for text in required):break
+  n.adb('shell','input','swipe','500','1900','500','1100','450');n.time.sleep(.4)
+ else:raise AssertionError('Exact shared items/quantity/totals must render on the TEST detail page')
+ assert all(any(item['product']in label for label in labels)for item in value['items'])
+ n.picture('cohort11-shared-history');record('physical shared detail shows original per-Vendor items, fractional unit/line amounts and exact subtotal/delivery/total cents')
+elif action=='history-live-cancel':
+ oid=state['history_fixture']['order_id'];assert any('Order #'+str(oid)+' details'in n.label(node)for node in n.nodes())
+ token=n.b.login(state['accounts']['live-vendor'])
+ code,value=gateway('fr10_vendor_transition',token,{'p_vendor_order_id':state['history_fixture']['portion_A'],'p_status':'cancelled'})
+ assert code==200 and value['code']=='ORDER_CANCELLED','Do not replay a consumed live-cancellation fixture'
+ state['history_fixture']['cancelled']=True;save()
+ n.main('assert:Cancelled:')
+ token=n.b.login(state['accounts']['review-customer']);code,value=gateway('final2_order_detail',token,{'p_order_id':oid})
+ assert code==200 and value['status']=='cancelled'and value['delivered_at']is None and value['payment']['state']=='UNPAID'
+ assert len(value['events'])==3 and all(v['status']=='cancelled'and len(v['events'])==3 for v in value['vendor_orders'])
+ state['history_fixture']['native_live_cancel_verified']=True;save()
+ n.picture('cohort11-live-cancel');record('already-open physical Customer detail receives real Vendor rejection live without Refresh, retains exact items and displays cancellation rather than delivery or cash success','android + real authenticated TEST HTTP + live Realtime')
+elif action=='verify-history-legacy':
+ required=['Itemized records are unavailable for this older order.','Earlier status history is unavailable. Only recorded events and dates are shown.']
+ seen=set()
+ for attempt in range(8):
+  labels=[n.label(node)for node in n.nodes()]
+  seen.update(text for text in required if any(text in label for label in labels))
+  if len(seen)==len(required):break
+  n.adb('shell','input','swipe','500','1900','500','1100','450');n.time.sleep(.4)
+ assert len(seen)==len(required),'Missing legacy history must be labelled explicitly'
+ n.picture('cohort11-legacy-limits');record('physical legacy detail explicitly labels absent item/milestone history instead of fabricating earlier steps or products')
+elif action=='open-native-feedback':
  oid=state['native_cash_fixture']['order_id']
  for attempt in range(8):
-  nodes=n.nodes();orders=[node for node in nodes if n.label(node)=='Order #'+str(oid)]
+  nodes=n.nodes();orders=[node for node in nodes if 'Order #'+str(oid) in n.label(node).splitlines()]
   if orders:
-   top=int(n.re.findall(r'\d+',orders[0].get('bounds',''))[1]);other_tops=[int(n.re.findall(r'\d+',node.get('bounds',''))[1])for node in nodes if n.label(node).startswith('Order #')and n.label(node)!='Order #'+str(oid)]
+   top=int(n.re.findall(r'\d+',orders[0].get('bounds',''))[1]);other_tops=[int(n.re.findall(r'\d+',node.get('bounds',''))[1])for node in nodes if any(n.re.fullmatch(r'Order #[0-9]+',line)for line in n.label(node).splitlines())and 'Order #'+str(oid)not in n.label(node).splitlines()]
    bottom=min([y for y in other_tops if y>top]+[2200])
    choices=[node for node in nodes if n.label(node)=='Rate'and top<int(n.re.findall(r'\d+',node.get('bounds',''))[1])<bottom]
    if len(choices)==1:n.tap(choices[0]);n.main('assert:Delivery feedback');record('physical Customer opens delivered-order canonical dual-feedback page from actual Rate handler');break

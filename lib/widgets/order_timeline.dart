@@ -51,11 +51,22 @@ class _OrderTimelineState extends State<OrderTimeline>
     _pulseCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
-    )..repeat(reverse: true);
+    );
+    if (widget.events == null) _pulseCtrl.repeat(reverse: true);
     _pulseAnim = Tween<double>(
       begin: 1.0,
       end: 1.18,
     ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
+  }
+
+  @override
+  void didUpdateWidget(covariant OrderTimeline oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.events != null) {
+      _pulseCtrl.stop();
+    } else if (!_pulseCtrl.isAnimating) {
+      _pulseCtrl.repeat(reverse: true);
+    }
   }
 
   @override

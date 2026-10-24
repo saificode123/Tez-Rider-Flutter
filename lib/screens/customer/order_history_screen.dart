@@ -1,4 +1,6 @@
+import 'dart:async';
 import '../../widgets/order_timeout_summary.dart';
+import 'order_detail_screen.dart';
 import '../../widgets/invoice_button.dart';
 import '../../widgets/order_payment_panel.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   bool _loading = true;
   String? _error;
   bool _hasMore = true;
+  int _generation = 0;
+  String? _account;
+  StreamSubscription<AuthState>? _authChanges;
 
   late final AnimationController _fadeCtrl;
   late final Animation<double> _fadeAnim;
@@ -47,11 +52,28 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     );
     _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut);
     _fadeCtrl.forward();
+    _account = _supabase.auth.currentUser?.id;
+    _authChanges = _supabase.auth.onAuthStateChange.listen((state) {
+      if (state.session?.user.id != _account) {
+        _account = state.session?.user.id;
+        ++_generation;
+        if (!mounted) return;
+        setState(() {
+          _orders.clear();
+          _loading = false;
+          _hasMore = false;
+          _error = 'Sign in again to view your orders.';
+        });
+        if (_account != null) _loadOrders();
+      }
+    });
     _loadOrders();
   }
 
   Future<void> _loadOrders({bool more = false}) async {
     if (more && _loading) return;
+    final request = ++_generation;
+    final account = _supabase.auth.currentUser?.id;
     setState(() {
       _loading = true;
       _error = null;
@@ -70,7 +92,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                 .timeout(const Duration(seconds: 15))
             as List,
       );
-      if (mounted) {
+      if (mounted &&
+          request == _generation &&
+          account == _supabase.auth.currentUser?.id) {
         setState(() {
           if (!more) _orders.clear();
           _orders.addAll(data);
@@ -78,11 +102,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
         });
       }
     } catch (_) {
-      if (mounted) {
+      if (mounted &&
+          request == _generation &&
+          account == _supabase.auth.currentUser?.id) {
         setState(() => _error = 'Orders could not be loaded. Retry.');
       }
     } finally {
-      if (mounted) {
+      if (mounted &&
+          request == _generation &&
+          account == _supabase.auth.currentUser?.id) {
         setState(() {
           _loading = false;
           _fadeCtrl.forward(from: 0);
@@ -304,6 +332,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               spacing: 6,
               runSpacing: 4,
               children: [
+                TextButton(
+                  onPressed: () => Get.to(
+                    () => OrderDetailScreen(orderId: order['id'] as int),
+                  ),
+                  child: const Text('Order details'),
+                ),
                 InvoiceButton(orderId: order['id'] as int),
                 TextButton(
                   onPressed: () =>
@@ -384,6 +418,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   @override
   void dispose() {
+    ++_generation;
+    unawaited(_authChanges?.cancel());
     _fadeCtrl.dispose();
     super.dispose();
   }

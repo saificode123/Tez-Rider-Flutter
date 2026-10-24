@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,6 +11,12 @@ void main() {
   final transport = UiTransport();
   setUpAll(() => initializeClosureClient(transport));
   tearDownAll(() => Supabase.instance.dispose());
+  setUp(() async {
+    transport.requests.clear();
+    await Supabase.instance.client.auth.recoverSession(
+      jsonEncode(unitSession().toJson()),
+    );
+  });
   testWidgets(
     'narrow order cards retain readable details and payment actions open confirmed state',
     (t) async {
@@ -74,6 +81,89 @@ void main() {
       expect(find.text('Order amount: PKR 130.00'), findsOneWidget);
       expect(find.text('Record cash already received'), findsNothing);
       expect(t.takeException(), isNull);
+      await t.pumpWidget(const SizedBox());
+      await t.pumpAndSettle();
+    },
+  );
+  Map<String, dynamic> order(int id) => {
+    'id': id,
+    'amount': 1,
+    'created_at': DateTime.now().toUtc().toIso8601String(),
+    'order_status': 'pending',
+    'rider_id': null,
+  };
+  testWidgets(
+    'old account history response cannot replace the newly signed-in Customer list',
+    (t) async {
+      final pending = Completer<dynamic>();
+      var calls = 0;
+      transport.respond = (r) async {
+        if (r.url.path.endsWith('/fr25_order_history')) {
+          if (++calls == 1) return await pending.future;
+          return UiTransport.jsonResponse([order(50000)]);
+        }
+        return UiTransport.jsonResponse([]);
+      };
+      await t.pumpWidget(const MaterialApp(home: OrderHistoryScreen()));
+      await t.pump();
+      expect(calls, 1);
+      await Supabase.instance.client.auth.recoverSession(
+        jsonEncode(
+          unitSession('00000000-0000-0000-0000-000000000002').toJson(),
+        ),
+      );
+      await t.pumpAndSettle();
+      pending.complete(UiTransport.jsonResponse([order(90)]));
+      await t.pumpAndSettle();
+      expect(find.text('Order #50000'), findsOneWidget);
+      expect(find.text('Order #90'), findsNothing);
+      await t.pumpWidget(const SizedBox());
+      await t.pumpAndSettle();
+    },
+  );
+  testWidgets(
+    'Load more uses the retained cursor and discards an in-flight older account page',
+    (t) async {
+      final pending = Completer<dynamic>();
+      var calls = 0;
+      dynamic cursor;
+      transport.respond = (r) async {
+        if (r.url.path.endsWith('/fr25_order_history')) {
+          calls++;
+          if (calls == 1) {
+            return UiTransport.jsonResponse([
+              for (var id = 90; id >= 61; id--) order(id),
+            ]);
+          }
+          if (calls == 2) {
+            cursor = jsonDecode(r.body)['p_before'];
+            return await pending.future;
+          }
+          return UiTransport.jsonResponse([order(50000)]);
+        }
+        return UiTransport.jsonResponse([]);
+      };
+      await t.pumpWidget(const MaterialApp(home: OrderHistoryScreen()));
+      await t.pumpAndSettle();
+      await t.scrollUntilVisible(
+        find.text('Load more orders'),
+        600,
+        scrollable: find.byType(Scrollable).first,
+        maxScrolls: 50,
+      );
+      await t.tap(find.text('Load more orders'));
+      await t.pump();
+      expect(cursor, 61);
+      await Supabase.instance.client.auth.recoverSession(
+        jsonEncode(
+          unitSession('00000000-0000-0000-0000-000000000002').toJson(),
+        ),
+      );
+      await t.pumpAndSettle();
+      pending.complete(UiTransport.jsonResponse([order(60)]));
+      await t.pumpAndSettle();
+      expect(find.text('Order #50000'), findsOneWidget);
+      expect(find.text('Order #60'), findsNothing);
       await t.pumpWidget(const SizedBox());
       await t.pumpAndSettle();
     },
