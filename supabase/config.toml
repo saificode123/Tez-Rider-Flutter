@@ -24,3 +24,7 @@ verify_jwt = false
 [functions.final2-product-image]
 # Runtime verifies JWT, live canonical account and shared request budget.
 verify_jwt = false
+
+[functions.final2-private-photo]
+# Verified live account, shared quota, server-decoded private photos.
+verify_jwt = false

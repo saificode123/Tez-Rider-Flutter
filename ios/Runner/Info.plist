@@ -35,9 +35,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>We use Face ID to let you log in quickly and securely.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Take a photo of your CNIC document for rider verification.</string>
+	<string>Take a profile, delivery proof, product or CNIC document photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Select your CNIC document image for rider verification.</string>
+	<string>Select a profile, delivery proof, product or CNIC document image.</string>
 
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

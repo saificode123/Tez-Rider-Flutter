@@ -7,6 +7,8 @@ import '../../services/cash_ledger_service.dart';
 import '../../widgets/order_timeline.dart';
 import '../../widgets/order_payment_panel.dart';
 import '../../widgets/invoice_button.dart';
+import '../../widgets/delivery_photo_panel.dart';
+import '../../widgets/rider_identity_card.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({
@@ -247,6 +249,16 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ],
                         ),
                     ]),
+                  if (widget.service == null)
+                    RiderIdentityCard(
+                      key: ValueKey('identity-${widget.orderId}'),
+                      orderId: widget.orderId,
+                    ),
+                  if (widget.service == null)
+                    DeliveryPhotoPanel(
+                      key: ValueKey('proof-${widget.orderId}'),
+                      orderId: widget.orderId,
+                    ),
                   section('Payment & refunds', [
                     if (current.value['payment']['code'] == 'REVIEW_REQUIRED')
                       const Text(

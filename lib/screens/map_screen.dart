@@ -10,6 +10,7 @@ import '../services/delivery_location.dart';
 import '../services/delivery_location_platform.dart';
 import '../services/delivery_route.dart';
 import '../widgets/tez_map_tiles.dart';
+import '../widgets/rider_identity_card.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key, this.orderId});
@@ -28,8 +29,7 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _userLocation;
   bool _loading = true;
   int _generation = 0;
-  String _riderName = 'Your Rider';
-  String? _riderCnicMasked;
+  int? _identityOrder;
   double? _fare;
   @override
   void initState() {
@@ -56,8 +56,7 @@ class _MapScreenState extends State<MapScreen> {
     if (!mounted || generation != _generation) return;
     setState(() {
       _loading = true;
-      _riderName = 'Your Rider';
-      _riderCnicMasked = null;
+      _identityOrder = null;
       _fare = null;
     });
     try {
@@ -82,25 +81,7 @@ class _MapScreenState extends State<MapScreen> {
                 .timeout(const Duration(seconds: 8));
       if (!mounted || generation != _generation || order == null) return;
       _fare = (order['fare'] as num?)?.toDouble();
-      if (order['rider_id'] != null) {
-        // Preserve the accepted FR04 order-scoped masked identity integration.
-        try {
-          final identity = await _client
-              .rpc(
-                'fr04_order_rider_identity',
-                params: {'p_order_id': order['id']},
-              )
-              .timeout(const Duration(seconds: 8));
-          if (!mounted || generation != _generation) return;
-          if (identity is Map) {
-            _riderName = identity['name']?.toString() ?? 'Your Rider';
-            _riderCnicMasked = identity['cnic_masked'] as String?;
-          }
-        } catch (_) {
-          /* Identity failure does not authorize another rider. */
-        }
-      }
-      if (!mounted || generation != _generation) return;
+      _identityOrder = order['id'] as int;
       final feed = CustomerLocationFeed(order['id'] as int);
       _feed = feed;
       _route = DeliveryRouteController(order['id'] as int, feed.state, (
@@ -304,71 +285,75 @@ class _MapScreenState extends State<MapScreen> {
                         BoxShadow(color: Colors.black12, blurRadius: 12),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _riderName,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        if (_riderCnicMasked != null)
-                          Text(
-                            'CNIC: $_riderCnicMasked',
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        if (_feed != null)
-                          Obx(() {
-                            final state = _feed!.state;
-                            return Text(
-                              state.stale.value
-                                  ? unavailableRiderLocation
-                                  : 'Live rider location • accuracy ±${state.position.value!.accuracy.round()} m',
-                              style: const TextStyle(fontSize: 12),
-                            );
-                          })
-                        else
-                          const Text(unavailableRiderLocation),
-                        if (_route != null)
-                          Obx(
-                            () => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Chip(
-                                  label: Text(
-                                    _route!.loading.value &&
-                                            _route!.route.value == null &&
-                                            !_feed!.state.stale.value
-                                        ? 'Calculating ETA…'
-                                        : _route!.label.value,
-                                  ),
-                                ),
-                                if (_route!.notice.value.isNotEmpty &&
-                                    !_feed!.state.stale.value)
-                                  Text(
-                                    _route!.notice.value,
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                if (_route!.route.value?.source == 'geoapify' &&
-                                    !_feed!.state.stale.value)
-                                  InkWell(
-                                    onTap: () => launchUrl(
-                                      Uri.parse('https://www.geoapify.com/'),
-                                    ),
-                                    child: const Text(
-                                      'Powered by Geoapify | © OpenStreetMap contributors',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        decoration: TextDecoration.underline,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.sizeOf(context).height * 0.45,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (_identityOrder != null)
+                              RiderIdentityCard(
+                                key: ValueKey(_identityOrder),
+                                orderId: _identityOrder!,
+                              ),
+                            if (_feed != null)
+                              Obx(() {
+                                final state = _feed!.state;
+                                return Text(
+                                  state.stale.value
+                                      ? unavailableRiderLocation
+                                      : 'Live rider location • accuracy ±${state.position.value!.accuracy.round()} m',
+                                  style: const TextStyle(fontSize: 12),
+                                );
+                              })
+                            else
+                              const Text(unavailableRiderLocation),
+                            if (_route != null)
+                              Obx(
+                                () => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Chip(
+                                      label: Text(
+                                        _route!.loading.value &&
+                                                _route!.route.value == null &&
+                                                !_feed!.state.stale.value
+                                            ? 'Calculating ETA…'
+                                            : _route!.label.value,
                                       ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                      ],
+                                    if (_route!.notice.value.isNotEmpty &&
+                                        !_feed!.state.stale.value)
+                                      Text(
+                                        _route!.notice.value,
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    if (_route!.route.value?.source ==
+                                            'geoapify' &&
+                                        !_feed!.state.stale.value)
+                                      InkWell(
+                                        onTap: () => launchUrl(
+                                          Uri.parse(
+                                            'https://www.geoapify.com/',
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          'Powered by Geoapify | © OpenStreetMap contributors',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -153,6 +153,33 @@ elif action=='copy-admin-monitor-csv':
   assert n.time.monotonic()<deadline,'Native clipboard operation must confirm completion; no success inferred'
   n.time.sleep(.3)
  record('actual Admin Copy CSV receives platform-confirmed complete filtered export; raw clipboard contents are not read')
+elif action in('verify-private-customer-photos','verify-private-customer-photos-final'):
+ fixture=state['private_photo_fixture'];assert fixture['hosted_verified']and not fixture.get('cleaned')
+ labels=[n.label(x)for x in n.nodes()]
+ assert any('Order #'+str(fixture['order_id'])+' details'in x for x in labels)
+ assert any('Rating 'in x and 'Approved Rider'in x and 'Order status: delivered'in x for x in labels)
+ assert 'Refresh delivery photo'in labels and not any('Retry private photo'in x for x in labels)
+ assert not any(x in labels for x in ['Choose delivery photo','Camera','Retry original photo'])
+ if action.endswith('-final'):assert any('CNIC unavailable in this record.'in x for x in labels)
+ n.picture('cohort16-customer-private-photos-final'if action.endswith('-final')else'cohort16-customer-private-photos')
+ record('actual owning Customer receipt renders assigned Rider photo/rating/current status stepper and private delivery photo; upload controls absent; legacy absent CNIC/OTP is not fabricated')
+elif action=='verify-private-profile-photo':
+ current=n.nodes();labels=[n.label(x)for x in current]
+ assert 'My Profile'in labels and 'Choose profile photo'in labels and 'Camera'in labels
+ fixture=state['private_photo_fixture'];assert fixture['hosted_verified']and not fixture.get('cleaned')
+ code,rows=n.b.api('/rest/v1/users?id=eq.'+str(fixture['rider_id'])+'&select=profile_image',admin=True)
+ assert code==200 and rows==[{'profile_image':'tezphoto:'+fixture['avatar']}]
+ # Crop only the observed new synthetic image area in memory. No personal
+ # fields, full profile screenshot, other app or photo library is persisted.
+ import io
+ from PIL import Image
+ capture=n.subprocess.run([n.ADB,'-s',n.SERIAL,'exec-out','screencap','-p'],capture_output=True,timeout=30)
+ assert capture.returncode==0
+ image=Image.open(io.BytesIO(capture.stdout)).convert('RGB');assert image.size==(1080,2400)
+ crop=image.crop((390,630,690,930));pixels=list(crop.getdata())
+ assert sum(1 for r,g,b in pixels if r<8 and 120<=g<=136 and b<8)>len(pixels)*.7,'Actual new synthetic green photo must render in the observed image area'
+ crop.save(n.OUT/'cohort16-private-profile-crop.png')
+ record('actual Rider Settings renders the server-authorized synthetic private avatar and actual gallery/camera controls; only synthetic image crop retained, no personal fields')
 elif action=='verify-cohort14-urdu-startup':
  labels=[n.label(node)for node in n.nodes()]
  assert 'دکان کا ڈیش بورڈ'in labels and 'ڈیش بورڈ'in labels and 'Store Dashboard'not in labels
@@ -301,6 +328,9 @@ elif action in('capture-image-vendor','capture-image-vendor-final'):
   assert not any('Retry product image'in n.label(node)for node in n.nodes())
   n.picture('cohort12-final-vendor-image');record('final source-hash-verified TEST build restores Vendor role and renders the actual product image through the bounded-lifetime client/server path','android + real authenticated TEST HTTP')
  else:n.picture('cohort12-vendor-image');record('physical owning Vendor My Products lists actual image fixture and product controls; screenshot retained for visual image verification')
+elif action=='open-customer-order-history':
+ choices=[x for x in n.nodes()if n.label(x).split('\n')[-1]=='Order History'and x.get('clickable')=='true']
+ assert len(choices)==1,'Observed Customer profile history tile required';n.tap(choices[0]);n.time.sleep(2)
 elif action.startswith('open-history-detail:'):
  kind=action.split(':')[1];assert kind in('fixture','legacy','receipt')
  oid=state['history_fixture']['order_id']if kind=='fixture'else state['cod_fixture']['order_id']if kind=='legacy'else state['cash_invoice_fixture']['order_id']

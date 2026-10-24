@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../services/profile_service.dart';
+import '../../widgets/private_photo_editor.dart';
 import '../../widgets/language_settings_tile.dart';
 
 const _kPurple = Color(0xFF1B5E20);
@@ -30,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   String? _profileError;
   String? _saveNotice;
   String _email = '';
+  String? _photo;
   String _role = 'customer';
   late final AnimationController _rewardPulseCtrl;
   late final Animation<double> _rewardPulseAnim;
@@ -47,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       _phoneCtrl.clear();
       setState(() {
         _email = '';
+        _photo = null;
         _role = '';
         _saveNotice = null;
         _loading = false;
@@ -87,6 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         _nameCtrl.text = rec['name'];
         _phoneCtrl.text = rec['phone'] ?? '';
         _email = rec['email'];
+        _photo = rec['profile_image'] as String?;
         _role = rec['role'];
       }
     } catch (_) {
@@ -252,6 +256,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ),
                   ),
+                  if (widget.service == null)
+                    PrivatePhotoEditor(
+                      key: ValueKey(_account),
+                      reference: _photo,
+                      canUpload: !_saving && !_loading && _profileError == null,
+                      onSaved: (value) => setState(() => _photo = value),
+                    ),
                   const SizedBox(height: 10),
                   Text(
                     _email,

@@ -17,7 +17,7 @@ class ProfileService {
            read ??
            ((id) => Supabase.instance.client
                .from('users')
-               .select('id,name,phone,email,role')
+               .select('id,name,phone,email,role,profile_image')
                .eq('auth_user_id', id)
                .single()
                .timeout(const Duration(seconds: 15))),

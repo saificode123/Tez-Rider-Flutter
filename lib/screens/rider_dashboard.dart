@@ -1,4 +1,5 @@
 import '../widgets/rider_performance_panel.dart';
+import '../widgets/delivery_photo_panel.dart';
 import 'customer/profile_screen.dart';
 import '../widgets/language_settings_tile.dart';
 import 'rating_summary_screen.dart';
@@ -1042,6 +1043,12 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                         const SizedBox(height: 12),
                       ],
+                      if (order['type'] == 'order' &&
+                          order['order_status'] == 'on_the_way')
+                        DeliveryPhotoPanel(
+                          key: ValueKey('proof-${order['id']}'),
+                          orderId: int.parse(order['id'].toString()),
+                        ),
                       Row(
                         children: [
                           Container(
