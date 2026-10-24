@@ -1,3 +1,4 @@
+import '../widgets/product_image.dart';
 import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -116,12 +117,12 @@ class ProductScreen extends StatelessWidget {
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
-                    child: Image.network(
-                      p.imageUrl,
+                    child: ProductImage(
+                      imageUrl: p.imageUrl,
                       width: 110,
                       height: 110,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
+                      errorWidget: (context, error, stackTrace) => Container(
                         width: 110,
                         height: 110,
                         color: Colors.grey.shade200,

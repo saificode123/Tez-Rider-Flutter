@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import '../services/catalogue_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../widgets/product_image.dart';
 import '../controllers/cart_controller.dart';
 import 'product_detail_screen.dart';
 
@@ -423,7 +423,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 left: Radius.circular(16),
               ),
               child: imageUrl.isNotEmpty
-                  ? CachedNetworkImage(
+                  ? ProductImage(
                       imageUrl: imageUrl,
                       width: 80,
                       height: 80,

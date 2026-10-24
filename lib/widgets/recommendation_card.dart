@@ -1,7 +1,7 @@
 import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../widgets/product_image.dart';
 import '../../models/product_model.dart';
 import '../../controllers/cart_controller.dart';
 
@@ -38,7 +38,7 @@ class RecommendationCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             child: product.imageUrl.isNotEmpty
-                ? CachedNetworkImage(
+                ? ProductImage(
                     imageUrl: product.imageUrl,
                     width: double.infinity,
                     height: 100,

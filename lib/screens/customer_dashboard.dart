@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../widgets/product_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import 'customer/cart_screen.dart';
@@ -376,6 +376,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe this route to locale changes as Get translation lookups are global.
+    Localizations.localeOf(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -1056,7 +1058,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(14),
-                          child: CachedNetworkImage(
+                          child: ProductImage(
                             imageUrl: imageUrl,
                             fit: BoxFit
                                 .contain, // shows the real product photo, never crops
@@ -1248,7 +1250,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         ),
                         child: ClipOval(
                           child: imageUrl != null && imageUrl.isNotEmpty
-                              ? CachedNetworkImage(
+                              ? ProductImage(
                                   imageUrl: imageUrl,
                                   fit: BoxFit.cover,
                                   placeholder: (_, __) => _shimmerBox(64, 64),
@@ -1475,7 +1477,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           width: double.infinity,
                           color: accent.withValues(alpha: 0.06),
                           child: p.imageUrl.isNotEmpty
-                              ? CachedNetworkImage(
+                              ? ProductImage(
                                   imageUrl: p.imageUrl,
                                   fit: BoxFit
                                       .contain, // never crops — always shows the full photo

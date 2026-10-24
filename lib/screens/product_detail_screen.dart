@@ -2,7 +2,7 @@ import '../services/rating_watch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../widgets/product_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -303,7 +303,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               background: Container(
                 color: _kGreen.withValues(alpha: 0.08),
                 child: imageUrl.isNotEmpty
-                    ? CachedNetworkImage(
+                    ? ProductImage(
                         imageUrl: imageUrl,
                         fit: BoxFit
                             .contain, // never crops or over-zooms, whatever the window size

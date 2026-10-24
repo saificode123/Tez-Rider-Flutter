@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/product_image.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/recommendation_controller.dart';
 import '../../controllers/product_controller.dart';
@@ -188,7 +188,7 @@ class _CartScreenState extends State<CartScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: item['image_url'] != null
-                                ? CachedNetworkImage(
+                                ? ProductImage(
                                     imageUrl: item['image_url'],
                                     width: 60,
                                     height: 60,

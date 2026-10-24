@@ -3,7 +3,7 @@ import '../../services/inventory_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/product_image.dart';
 import '../../controllers/cart_controller.dart';
 import '../product_detail_screen.dart';
 
@@ -191,7 +191,7 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                 left: Radius.circular(18),
               ),
               child: imageUrl.isNotEmpty
-                  ? CachedNetworkImage(
+                  ? ProductImage(
                       imageUrl: imageUrl,
                       width: 88,
                       height: 88,

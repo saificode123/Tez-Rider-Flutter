@@ -20,3 +20,7 @@ verify_jwt = false
 [functions.security-gateway]
 # Verified JWT/canonical session, shared quota, server-only proof, user RLS.
 verify_jwt = false
+
+[functions.final2-product-image]
+# Runtime verifies JWT, live canonical account and shared request budget.
+verify_jwt = false

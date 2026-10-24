@@ -1,0 +1,2192 @@
+{
+  "date": "2026-10-24",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "S2-09 FR16 validated product image upload/read and actual product CRUD",
+  "status": "IMPLEMENTED; final retry-fix APK installation/readback and fixture cleanup pending external approval-review availability",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610240003",
+    "versions": 55,
+    "review_passes": 15,
+    "production_modified": false,
+    "replayed": false
+  },
+  "edge_deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "function": "final2-product-image",
+    "deployment": "PASS",
+    "deno_passed": 16,
+    "files": [
+      {
+        "file": "supabase/functions/final2-product-image/index.ts",
+        "sha256": "47a8dfc1bc1f14c4b377fb4541e209936cb0381290e012a8115842c34eef8514"
+      },
+      {
+        "file": "supabase/functions/_shared/validated-image.ts",
+        "sha256": "697f912a79184b045ca41d7e2f7ab5480e3e9d504cd9dfe2c528ab086095b207"
+      },
+      {
+        "file": "supabase/functions/_shared/security-runtime.ts",
+        "sha256": "f11d5c8f6e65f13ad21d73e0dab4aae8cf2d037e19c808e197ae7d1024671e10"
+      },
+      {
+        "file": "supabase/functions/_shared/fr28-access.ts",
+        "sha256": "016689f93b1a01b32f73f2b50a115107e31ff5751fc8875d2dd6cb62708a029d"
+      }
+    ],
+    "docker_used": false,
+    "production_modified": false
+  },
+  "edge_initial_and_lifetime_revisions_distinct": true,
+  "metadata": {
+    "migrations": 55,
+    "inspected_tables": 89,
+    "public_tables": 58,
+    "inspected_public_private_functions": 204,
+    "public_functions": 144,
+    "all_inspected_tables_rls": true
+  },
+  "sql": {
+    "review_pass": 15,
+    "post_pass": 15,
+    "review_post_overlap": true,
+    "fixtures_rolled_back": true,
+    "migration_sha256": "9cac206c842d78649d4e5960aa0dc95d2cfc9345b8f516c7b3dd528d4ad77f2c",
+    "cases": [
+      {
+        "check": "approved owning Vendor authorized; client cannot call trusted upload begin",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "trusted metadata bounds reject invalid digest, MIME and oversize payload",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "immutable owner/UUID upload reservation retries exact bytes and rejects changed payload",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "missing Storage object cannot become a completed image",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "confirmed Storage metadata completes exactly one canonical owner audit; identical finish adds none",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "owner previews only completed image; unfinished reservation cannot be viewed",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "own validated image attaches via real product API; arbitrary new URL rejected server-side",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "existing legitimate legacy image reference survives unchanged owner product edit",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "private ledger and trusted finish deny clients; raw object listing reveals no product object",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "another Vendor cannot adopt an owned validated image into its own listing",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "approved Customer sees published commercial product image, never foreign draft; upload authority denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "clearing the product reference removes Customer image authority without deleting historical objects",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "blocked Vendor loses upload and owned-image viewing authority",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "dedicated bucket remains private and image ledger is unpublished",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous upload and view APIs denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ],
+    "synthetic_SQL_storage_metadata_is_not_actual_byte_upload_evidence": true
+  },
+  "hosted": {
+    "core_pass": 28,
+    "lifetime_revocation_pass": 3,
+    "size_dimension_persistence_pass": 3,
+    "fail": 0,
+    "checks": [
+      {
+        "check": "own approved Vendor uploads actual decoded PNG through real guarded Edge endpoint",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "same actual bytes and request retry return identical completed reference",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "changed actual image bytes with same request are rejected",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "owner draft preview returns actual byte-identical image without private URL",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Customer cannot view unpublished Vendor draft image",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Vendor cannot view unpublished Vendor draft image",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot view unpublished Vendor draft image",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Admin cannot view unpublished Vendor draft image",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Customer cannot become a product-image uploader",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot become a product-image uploader",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Admin cannot become a product-image uploader",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous product upload denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous image view denied",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server decoder rejects forged PNG contents",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server decoder rejects forged MIME",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real server decoder rejects truncated PNG",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real owning Vendor stock-aware product creation accepts its completed image reference",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Customer can view approved published commercial product image through real authorization",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated Customer can view approved published commercial product image through real authorization",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Vendor can view approved published commercial product image through real authorization",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider can view approved published commercial product image through real authorization",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "Admin can view approved published commercial product image through real authorization",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real product write rejects arbitrary new external URL",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real product write rejects unfinished or unknown media reference",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "unrelated real Vendor cannot attach another owner image",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "raw authenticated object listing exposes no private product objects",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real Customer cannot forge trusted image completion",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real image upload and same-request retry commit exactly one canonical owning Vendor audit",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "lifetime_checks": [
+      {
+        "check": "real authorized image view is bounded by the trusted session deadline and maximum 900 seconds",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real image view returns verified bytes and lifetime, never a reusable private URL",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "actual provider logout revokes otherwise valid Customer JWT access to the product-image endpoint",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "limit_checks": [
+      {
+        "check": "real trusted endpoint rejects actual 5 MB plus one decoded byte before Storage reservation",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "real trusted endpoint rejects valid PNG with excessive decoded dimensions",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      },
+      {
+        "check": "invalid real file size/dimensions create no upload reservation or object reference",
+        "result": "PASS",
+        "surface": "real authenticated TEST HTTP"
+      }
+    ],
+    "actual_file_bytes_uploaded_and_read": true,
+    "invalid_limit_attempts_created_no_reservation": true,
+    "actual_provider_logout_used_separate_non_phone_session": true,
+    "private_storage_URLs_issued": false
+  },
+  "flutter": {
+    "pass": 97,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/product_image_test.dart",
+      "test/product_image_form_test.dart",
+      "test/inventory_test.dart",
+      "test/catalogue_test.dart",
+      "test/stock_adjustment_dialog_test.dart",
+      "test/closure_ui_states_test.dart",
+      "test/closure_remaining_states_test.dart"
+    ],
+    "uncertain_retry_affected_subset_pass": 42,
+    "subset_overlaps_final_cohort": true,
+    "native_sdk_JSON_isolate_uses_injected_boundary_under_virtual_test_clock": true,
+    "viewing_expiry_test_uses_virtual_clock_not_physical_15_minute_wait": true,
+    "final_local_dart_analysis": {
+      "items": 6,
+      "issues": 0
+    },
+    "earlier_flutter_analysis_had_two_test_brace_infos_corrected_before_local_analysis": true
+  },
+  "deno": {
+    "pass": 16,
+    "fail": 0,
+    "decoder_cases": 10,
+    "shared_runtime_cases": 6,
+    "full_endpoint_typecheck": "PASS"
+  },
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "gallery_build": {
+      "sha256": "EC39724A9519BA54EC7A78CDB0D3B15107E40A4BD0313B1B1F826CD565B89A36",
+      "sources": [
+        {
+          "sha256": "83347F6B88BEE73032FC31838ACED02377F8EC3C3CFE0C37111EE236696C8B62",
+          "path": "lib/services/product_image_service.dart"
+        },
+        {
+          "sha256": "222F5516E7AE786EEC811F3A9CEC90DCC48A7E67CD8828FE7DBAF7D9EACBB4AB",
+          "path": "lib/widgets/product_image.dart"
+        },
+        {
+          "sha256": "22ADBF532FEB4615649272F1BF23B78E7180B75266D559AB5222E41D287E71F4",
+          "path": "lib/controllers/admin_broadcast_controller.dart"
+        },
+        {
+          "sha256": "810CC18113220BFF21A257030274A6A8F2FF2A105FB66C5BEFAAD324F54A90EC",
+          "path": "lib/controllers/admin_controller.dart"
+        },
+        {
+          "sha256": "56232652271BEA740303E238B8E91F7AD9E73042022C0027A935F005DAA5199C",
+          "path": "lib/controllers/admin_dispute_state.dart"
+        },
+        {
+          "sha256": "2C8ADA241C1765EAC21C217D9431F4050D5205AE7D39442FBAE41BCC06166603",
+          "path": "lib/controllers/auth_controller.dart"
+        },
+        {
+          "sha256": "4365101B242B6651916FBA57F27C2D3CF93A07DD231417B928B040241EEA50B3",
+          "path": "lib/controllers/cart_controller.dart"
+        },
+        {
+          "sha256": "4A2BEE51EBD039490458A5FF274EFA3D5B1A07C803A9CD92C4BC151302DC1BA0",
+          "path": "lib/controllers/chat_controller.dart"
+        },
+        {
+          "sha256": "2351345AE6E5BE93669114B3ECA9720DFFE2C72F690C62BC7F658985842CC6A2",
+          "path": "lib/controllers/cnic_document_controller.dart"
+        },
+        {
+          "sha256": "245F2AF87F1448B83D88E51DCE19E0B7ABD2F0B77DD83CDE28FE414785719183",
+          "path": "lib/controllers/dispute_controller.dart"
+        },
+        {
+          "sha256": "644E1EF53749F53802400C4EFC3C5FE3130B35A07F88F32CB63BA936A4996564",
+          "path": "lib/controllers/language_controller.dart"
+        },
+        {
+          "sha256": "5689165C70B961C6882A044B99D6F8FC85BD464AEA1073C9D92FF7B72853AF19",
+          "path": "lib/controllers/notification_controller.dart"
+        },
+        {
+          "sha256": "936DEA140FEA46933B4BE4F29E96C26AAEF632F3576942B3A56C9F941B4256D1",
+          "path": "lib/controllers/prescription_controller.dart"
+        },
+        {
+          "sha256": "07C4C958AB4C8790D53EF3CD7E056ECA01DD4A8953FEC6007C80694A7A50826C",
+          "path": "lib/controllers/product_controller.dart"
+        },
+        {
+          "sha256": "912CFBDA0FB6BB60912FBEEE963AFAF644647B6598E7AFD2BADD9890ABFD26F8",
+          "path": "lib/controllers/recommendation_controller.dart"
+        },
+        {
+          "sha256": "D2744AD6A257391E105F4F97954ACAE5F271A3044F3F431E97EEF9B159212D61",
+          "path": "lib/controllers/rider_assignment_controller.dart"
+        },
+        {
+          "sha256": "7E0A02E29EA68BB60DC5B6FE880DAE486447D7B034317AFDB053C0F9C5190756",
+          "path": "lib/controllers/rider_controller.dart"
+        },
+        {
+          "sha256": "910EFF197405BD68AA92AF6D3DF2E95DD32C064C2AF58F489B44DA34C17384C8",
+          "path": "lib/controllers/tailoring_controller.dart"
+        },
+        {
+          "sha256": "A5647DD1710DABC9A9C52A16CCC8CDBEAE75255C81FDB565FC8977ADBA3C8A8B",
+          "path": "lib/controllers/tez_order_controller.dart"
+        },
+        {
+          "sha256": "ED08474BE65D625C26F12CAB793DA6B4C72DE8143516AF9C3FAF7766F53C145A",
+          "path": "lib/controllers/vendor_controller.dart"
+        },
+        {
+          "sha256": "7A12843DE1961AB6E8387880D5937B6DC860486E7355D7F612FC6529D829D44C",
+          "path": "lib/controllers/vendor_info_controller.dart"
+        },
+        {
+          "sha256": "F7144F81F4898FF37DDBE31C81AFDF8E9B483C8A2CDE092DB69B27C8B5A86CCB",
+          "path": "lib/core/app_translations.dart"
+        },
+        {
+          "sha256": "AF67ED140A70E5F3EBF4358D5F9CEF951314524EDDA1209B518A546181471D77",
+          "path": "lib/data/mock_data.dart"
+        },
+        {
+          "sha256": "72F92F12861C3843781AE0452808EAD62BE91A46420C29DF43DF8685B5050A2D",
+          "path": "lib/main.dart"
+        },
+        {
+          "sha256": "E1EF5A1DA2038399F220B9F321E2385DE3F7DCAB145EBBE199E8CC61CDB51FD7",
+          "path": "lib/middleware/admin_middleware.dart"
+        },
+        {
+          "sha256": "3E556A492F35A3E0F0026999414A6D0A6BAC35A7883D00138C06F24D7E3842D6",
+          "path": "lib/middleware/auth_middleware.dart"
+        },
+        {
+          "sha256": "89607211ADB8A19CAB6B55F2D0B83222FCA7B4D1CDCB0013E447DFA3C837C53C",
+          "path": "lib/models/chat_model.dart"
+        },
+        {
+          "sha256": "C187C16A2B106FB0FD557D18B64BF6F1ECAB5B2929CE7DF5CFD7B96DB68DE594",
+          "path": "lib/models/order_model.dart"
+        },
+        {
+          "sha256": "FD0342BC425AFF60E49CA2CB190C04C2C3F4A3A561763FD1CDE8824D981E9137",
+          "path": "lib/models/prescription_model.dart"
+        },
+        {
+          "sha256": "1DDCE8C7CC450C0C7A4300E0A7BE127714C5EFB290A59AF219AA6C8C5BAE3D9A",
+          "path": "lib/models/product_model.dart"
+        },
+        {
+          "sha256": "1145EFF3054A5AF625F8A48544A91AB4AC1CA3235731E355CAFA1350B7CBAAC5",
+          "path": "lib/models/recommendation_model.dart"
+        },
+        {
+          "sha256": "C0E8FDA9EB91136D13B8E1EAEE359AA1FF0BB2F115971B19AA2DC3BD90D02169",
+          "path": "lib/models/review_model.dart"
+        },
+        {
+          "sha256": "744427010F4A11768B9A1287FC72FEACA4238BBD109FB7E3ECF6518AAACAD30C",
+          "path": "lib/models/user_model.dart"
+        },
+        {
+          "sha256": "8BC51387237B56BDCC15B701496655BD394DEF15AB8218ECF9AFB4CD6F523327",
+          "path": "lib/routes/app_routes.dart"
+        },
+        {
+          "sha256": "553F3A25CA45CDDEB36399ED50136899BA3F0262EDBFA241EC6B9374A4601C9F",
+          "path": "lib/screens/admin_broadcasts_screen.dart"
+        },
+        {
+          "sha256": "3543E987D0E50F909207B633DE1264B84CA4AC69C6FCBBB9111CE94CF79C251A",
+          "path": "lib/screens/admin_dashboard.dart"
+        },
+        {
+          "sha256": "8BD0C3759D99CA7BF80E446FB58403ECF907556752AB0ABA902F505D62119AE5",
+          "path": "lib/screens/admin_disputes_screen.dart"
+        },
+        {
+          "sha256": "3785AD1C0E83384C9F7A21247EEFC7F5AF7ECF5663D73A3895C8DCB30EC363A4",
+          "path": "lib/screens/admin_orders_screen.dart"
+        },
+        {
+          "sha256": "63D1C60BCAAE9563ECFF7991DB0854387DDC069C91D33B30414B46B82AB68BC8",
+          "path": "lib/screens/admin_users_screen.dart"
+        },
+        {
+          "sha256": "02D4A7F3D599FD420FBA4A5485162781779CAEA99C2629E0F4DF72D70CE7F0E6",
+          "path": "lib/screens/ai_assistant_screen.dart"
+        },
+        {
+          "sha256": "44429AB6565259D73EC45CCE5C1F5500E833579211A038D31B778EAE364921A9",
+          "path": "lib/screens/chat_rooms_screen.dart"
+        },
+        {
+          "sha256": "6F0ECAD33A8D86558F40D6B3C1769BF3378D3A907A4C07F6E7A5CED77CB3064A",
+          "path": "lib/screens/chat_screen.dart"
+        },
+        {
+          "sha256": "914FA1D3FD3494CE4600FA7F0D2039A23B6CA7032117E97AAB6581BB300EC597",
+          "path": "lib/screens/cnic_document_screen.dart"
+        },
+        {
+          "sha256": "7D0BC8E373E3BFB2424F144E4F0BCAA2639EBABBA779C9C6E18E3A8CC22A2D3A",
+          "path": "lib/screens/customer/about_tezrider_screen.dart"
+        },
+        {
+          "sha256": "BEE05B1501E6B1276F960D8D30463F7FADE4D67025958D45B4D40135A8D4B679",
+          "path": "lib/screens/customer/cart_screen.dart"
+        },
+        {
+          "sha256": "86372CF13E7476FEF7837F456BB118B793A4C190A8BEB58B1365E6F8B135D56A",
+          "path": "lib/screens/customer/cart_screen_new.dart"
+        },
+        {
+          "sha256": "F97AF657569DD45BBC29BD108CB9F186AA751A346AE0001E52461017266D4A08",
+          "path": "lib/screens/customer/dispute_screen.dart"
+        },
+        {
+          "sha256": "7E295E17985BE24EF2B15726E609AD6038EBAA4731DA581C6E3483C4BE8639E9",
+          "path": "lib/screens/customer/enhanced_checkout_screen.dart"
+        },
+        {
+          "sha256": "3C2F6A971081023ED2030C3679FDBB26A6506916EBA8603DF20E8A4EA7C27D6B",
+          "path": "lib/screens/customer/help_center_screen.dart"
+        },
+        {
+          "sha256": "3D4724C8E8FCB5385FB93BB88DCAABD54489C2875D66907D8FB8313F513A3D45",
+          "path": "lib/screens/customer/notifications_screen.dart"
+        },
+        {
+          "sha256": "B954FA32E01AECBE312D6EF9DE9C6D19AD434EF0EA1F1A0C4BFE56E9C52E11B5",
+          "path": "lib/screens/customer/order_detail_screen.dart"
+        },
+        {
+          "sha256": "546599302A658EFF09A22C6FB7B730D98D4075561A1004385B9EE85AC092E8F6",
+          "path": "lib/screens/customer/order_history_screen.dart"
+        },
+        {
+          "sha256": "D3612C5F38ABD98C138106AE58ADC3CD3B4CDF483F0FC6B6CCDF8851FE956650",
+          "path": "lib/screens/customer/payment_methods_screen.dart"
+        },
+        {
+          "sha256": "E9F6499326921289E61685A2F2B8D0037B3F33164911D1711E5DC67CD6976254",
+          "path": "lib/screens/customer/profile_screen.dart"
+        },
+        {
+          "sha256": "1C9C3DBC28C7B91F335859C00F89142BEC6FDA39B216B3BC2133C9EE1A834571",
+          "path": "lib/screens/customer/rating_screen.dart"
+        },
+        {
+          "sha256": "AAE0C4E674A932F994482DEDB04CBBFDB6AD4A2D235AD5C4B67480BAAE355E6A",
+          "path": "lib/screens/customer/saved_addresses_screen.dart"
+        },
+        {
+          "sha256": "1ED0BB62DCFDCBFBC473EAB16DC0A9F10C341A632693F0AB8D5C6FFF9FE3B666",
+          "path": "lib/screens/customer/saved_stores_screen.dart"
+        },
+        {
+          "sha256": "F9A1D1035B060443AFFC57C2BBC463318A96FD1461B75E13AA7E54C9213997B3",
+          "path": "lib/screens/customer/tailoring_screen.dart"
+        },
+        {
+          "sha256": "897BDCE1AC198C4CFEEE027E48F93CFC6EB15ACC7431649CC716B95E834717D3",
+          "path": "lib/screens/customer_dashboard.dart"
+        },
+        {
+          "sha256": "58508466173295D6E5A1DCD6FBF97AAF0C4799906B05AF695A2772089E94E99E",
+          "path": "lib/screens/login_screen.dart"
+        },
+        {
+          "sha256": "E60EEC2AEA08AC5089FFF5B9BA805CBBF971D12747B292E4160DD7BB084121E2",
+          "path": "lib/screens/map_screen.dart"
+        },
+        {
+          "sha256": "0D706A36310CBE69D91DA2D0686A5E0EC2D235430180B2559814D58A3F4D8252",
+          "path": "lib/screens/order_picked_screen.dart"
+        },
+        {
+          "sha256": "DEC0EAA79DD2E2A8A6749953129207E85DFEB5B3109A623265B4F7EE50EAFD02",
+          "path": "lib/screens/payment_screen.dart"
+        },
+        {
+          "sha256": "BE3A3E3B7C94E631E5AF54EBB33CCD46A04B8DBA64099D376AA456B9204A4217",
+          "path": "lib/screens/pending_verification_screen.dart"
+        },
+        {
+          "sha256": "DD5A09F6E183110671146141A62F7963C3296C2EBD75C15DE35891C68A8F37EC",
+          "path": "lib/screens/product_detail_screen.dart"
+        },
+        {
+          "sha256": "B70D88F69A54B937384F25FF45840E16F15557EE4B5783707D3837FBA95C78B1",
+          "path": "lib/screens/product_screen.dart"
+        },
+        {
+          "sha256": "AC9611187A592105DD763939F364FB6CBBFCBF3757C0C7BEC6377779E9DCD530",
+          "path": "lib/screens/qr_pickup_screen.dart"
+        },
+        {
+          "sha256": "AA7B011D102C7CBD523CAB74F60ECF320C94580E8C9133C8D9D57BDC02C0FAE0",
+          "path": "lib/screens/rating_summary_screen.dart"
+        },
+        {
+          "sha256": "2BF67D6465FE9D003D80D44E6EC3AFDC09BE9590167FD3961FE99671EB4FD660",
+          "path": "lib/screens/rider_dashboard.dart"
+        },
+        {
+          "sha256": "3B5D2F9F1BDD0E9379F93FE07E5A8C8D047198B9C9C1D9660C1DCAE83633DCCD",
+          "path": "lib/screens/search_screen.dart"
+        },
+        {
+          "sha256": "8A5450D52616DBFEBB08E62E066D76C72AAF6073C27504D77DB30FBD9B0A0364",
+          "path": "lib/screens/signup_screen.dart"
+        },
+        {
+          "sha256": "5D196DAE0CC5E8FF13D29F23D93AB120B418E3B0EC9C832EFB73BFCFD10DCD1F",
+          "path": "lib/screens/splash_screen.dart"
+        },
+        {
+          "sha256": "3CB14476A3DF005BC08938B87D28AE23824EDAEC239C8489EC346F35DFDC224F",
+          "path": "lib/screens/vendor/prescription_review_screen.dart"
+        },
+        {
+          "sha256": "28E12AFB61D6155F7AC244898BA96B592CFF199E41AC85122384BC9DBA381395",
+          "path": "lib/screens/vendor/product_form_screen.dart"
+        },
+        {
+          "sha256": "493C966938BA7C03C1D601E5A32541C685620E51AAC2B594CE091ABEB8299D42",
+          "path": "lib/screens/vendor/vendor_analytics_screen.dart"
+        },
+        {
+          "sha256": "FA44618CC4CA848E6290E68E05B9D0BAE3AEBF2C8C381A28AF7C0B1C8BE24C69",
+          "path": "lib/screens/vendor/vendor_products_screen.dart"
+        },
+        {
+          "sha256": "D6E72EA81CA7EB79DF417829B0DF2102D594F45C529F1605579C57C4A53457A8",
+          "path": "lib/screens/vendor_dashboard.dart"
+        },
+        {
+          "sha256": "EB2EFECA6E30768ED8335AFA01B6B310EC2904E75CB77AB953F7F2B466413C46",
+          "path": "lib/services/account_access.dart"
+        },
+        {
+          "sha256": "114E86C8C88F6EA6CBA3D6421846018BC5F6CEEB7056DEF6D37751028879D4F8",
+          "path": "lib/services/account_session_service.dart"
+        },
+        {
+          "sha256": "5501D6890D5E4B9E78139513697571286B2C6F54E04978F11359D723FB5893EC",
+          "path": "lib/services/admin_broadcast_service.dart"
+        },
+        {
+          "sha256": "A56CE9E0ED0F4483D480D411FFFFF5E6BD1A7AF61AA3A91FC8876AB49DA50014",
+          "path": "lib/services/admin_dispute_service.dart"
+        },
+        {
+          "sha256": "CF75CF87E713F3255C2651F703D5C1A4AB8EF3D1857D217C4CCE07426ED7FCC4",
+          "path": "lib/services/admin_users_service.dart"
+        },
+        {
+          "sha256": "8B67C9EB0C06747B614DC5C72765177BD75075FE5B13437457EE02C215A69DC8",
+          "path": "lib/services/ai_service.dart"
+        },
+        {
+          "sha256": "B0485B2728DBED4444A1CDF301EF21FC3EDE8ACD3C98C6134B0BEB2EA827CBD5",
+          "path": "lib/services/android_broadcast_push_service.dart"
+        },
+        {
+          "sha256": "56846A0D6BE593D4E62CC9EA6E48AC1E0BE3E67A29AB4E23C3CB3E7659138D69",
+          "path": "lib/services/backend_config.dart"
+        },
+        {
+          "sha256": "02900D2E42058BFB8C8372989FB2814702184E9651D1D859B2B22AF649215ECE",
+          "path": "lib/services/broadcast_push_delivery.dart"
+        },
+        {
+          "sha256": "7BBF1ABAFA30051F6A8EF82104E4D53452F1DF97B701D3BBFB742C6AF34B5A3C",
+          "path": "lib/services/cart_persistence.dart"
+        },
+        {
+          "sha256": "ADF5ABCAF8D8C46E121A24742EE583598F2CE371607691889F339820BA1BD78C",
+          "path": "lib/services/cash_ledger_service.dart"
+        },
+        {
+          "sha256": "241C9C6294BCB3E5E85A66A451862047B8A7E6A234BC5F321F5DDEBDC554E381",
+          "path": "lib/services/catalogue_service.dart"
+        },
+        {
+          "sha256": "318DA5D9B6F4CF82947C6D44ACF7A51EED3943E0555EF81D46EE425509DFA1E8",
+          "path": "lib/services/cnic_document.dart"
+        },
+        {
+          "sha256": "220E8FF8CFDB026D7565C43BA67E548136C6C60124A5E28EDEC1AAC43BD96F42",
+          "path": "lib/services/delivery_destination.dart"
+        },
+        {
+          "sha256": "9F2DE9B7A09592E1FF1AC848B4DC334EBD4BCA6FF6EC255571A105F797E32047",
+          "path": "lib/services/delivery_location.dart"
+        },
+        {
+          "sha256": "82824A680456EFBBC83D5E49337ACE1087BA94A9B0BF1031FA9AA303603F437B",
+          "path": "lib/services/delivery_location_platform.dart"
+        },
+        {
+          "sha256": "60F4CAD5F86DFABB20B58345C583606F095C33E6153E92CFE7D6EB11739D4B6D",
+          "path": "lib/services/delivery_otp_service.dart"
+        },
+        {
+          "sha256": "A82E111FC84B6DE752054994D1AAD40B49C063C0EF3B3FE6FDDE1C4FC7451609",
+          "path": "lib/services/delivery_route.dart"
+        },
+        {
+          "sha256": "52FB2A386758FD29B032FD2AF59727F225D317931EE8B13149D7432129917ADD",
+          "path": "lib/services/diagnostic_backend.dart"
+        },
+        {
+          "sha256": "041273BA57741ED6D51E5EF62DFF1FEB4C7210C6F79A1D831BFF17AA99854456",
+          "path": "lib/services/dispute_service.dart"
+        },
+        {
+          "sha256": "F9F6B3CBD0EF82256236160EEC4B548A42240E8DA8300922468E1EA79AB319E8",
+          "path": "lib/services/feedback_service.dart"
+        },
+        {
+          "sha256": "F2B4637CBB869581F4FB967EEA43508D463FCDC1CBF70AE465C68332BEA8F3C6",
+          "path": "lib/services/inventory_service.dart"
+        },
+        {
+          "sha256": "132DC42F859045029E4BDE285478317E135F429B5709E2BAA297109E1759BD68",
+          "path": "lib/services/invoice_service.dart"
+        },
+        {
+          "sha256": "1A60DE1E93B3B5877E97FB8C28C289A5D0F0B9D3A9D9817430F456215FFFF4C9",
+          "path": "lib/services/ios_rider_location_source.dart"
+        },
+        {
+          "sha256": "21CBE1773B9E7FB9B0DFFEC791D360AB6E2DCC2D536BFF83EFA1D39FE70EDC13",
+          "path": "lib/services/onboarding_service.dart"
+        },
+        {
+          "sha256": "E9491DB1DB4EB4D09A4F2CEB3AFC1EA7183B4C0BB982783FE829C8D56CAAE43D",
+          "path": "lib/services/order_detail_service.dart"
+        },
+        {
+          "sha256": "AB3C47D0F4B57917F91FB618208661C9AC592C0EBC650DACADF572858B37749B",
+          "path": "lib/services/order_detail_watch.dart"
+        },
+        {
+          "sha256": "A66305A77596B1E1A28AE9E5626D33D33BB16EC9A682182280E9404A7B5FA1C2",
+          "path": "lib/services/order_timeout_service.dart"
+        },
+        {
+          "sha256": "09B48159156258C4007A8E9DCF990188353B50271E8F31372D48A788140C7D3A",
+          "path": "lib/services/pre_delivery_checklist_service.dart"
+        },
+        {
+          "sha256": "CF88104D26061B47A34FA2821D650F1E8DB42FFA9BA3015D187D23C8D4BEACAB",
+          "path": "lib/services/prescription_service.dart"
+        },
+        {
+          "sha256": "45F7C9566BCBD6713AA717B31FD7AD6C99899D00EA3BD1DDF0AAC7D8BAB3A955",
+          "path": "lib/services/rating_watch.dart"
+        },
+        {
+          "sha256": "F682D48270202AE798FC81E042BC3B8AD8A1AFEEC6DF6E18B72A0B48080483B1",
+          "path": "lib/services/recommendation_service.dart"
+        },
+        {
+          "sha256": "CC57AD2802BBAF043E6CFDCA95CBD6BCB1BC9944D22C7A98120316E8B93AE1A1",
+          "path": "lib/services/rider_assignment_service.dart"
+        },
+        {
+          "sha256": "7141D5230717FDDE1985421022C2DDFC49B558FC5014899A3A0611AB640787B8",
+          "path": "lib/services/rider_presence.dart"
+        },
+        {
+          "sha256": "E697ACE48BD14700D38DBE194DE1632158F8931B8202F60D2C97A1D99B184F7A",
+          "path": "lib/services/routing_service.dart"
+        },
+        {
+          "sha256": "9EE4DBD3F14CDE3046043489EB92B4522FC13CD47DDC0ACC681A8C3C669DA200",
+          "path": "lib/services/session_credentials.dart"
+        },
+        {
+          "sha256": "E3CC90C35576D721BA0B3BE5346C78795DC35F2FC50C62B87712BFFCAC13D0C9",
+          "path": "lib/services/storage_service.dart"
+        },
+        {
+          "sha256": "9C8B693F134A7CE5E774B26EB24F27B298D27AC83D282C6B3D3BF0B827EE1988",
+          "path": "lib/services/vendor_report_service.dart"
+        },
+        {
+          "sha256": "25279F006F3C2A156D68CBDA684C3A3B9F3F596172411096FEE4A845AEFB1288",
+          "path": "lib/theme/app_theme.dart"
+        },
+        {
+          "sha256": "68B25486E6EFFAFB637DED74FC29313AFD41A14C23F86D28E87681C35535320A",
+          "path": "lib/utils/responsive.dart"
+        },
+        {
+          "sha256": "EB678BC3695BD2A1D18DD8BD276665D31A3EB59720AE4B4C6B974734CCA5306A",
+          "path": "lib/widgets/account_review_dialog.dart"
+        },
+        {
+          "sha256": "A1A77179BD343EFC6076D3E57450D0643DA6BD91E43369FF33155225EE62F16B",
+          "path": "lib/widgets/app_drawer.dart"
+        },
+        {
+          "sha256": "C3E786D0F2D587AA7A9B02DEF73699D39D8DC38C12DA20CC27CE8547E0417CF7",
+          "path": "lib/widgets/cnic_document_viewer.dart"
+        },
+        {
+          "sha256": "5C7221067B633244D7199BFB18CD3443CAECEFB8B908C9144128AE139BE6D3A1",
+          "path": "lib/widgets/dispute_evidence_viewer.dart"
+        },
+        {
+          "sha256": "9A47DC944A1DB37694C6A019AF594FA03E23121354B320EF09A674E88CC7C38A",
+          "path": "lib/widgets/empty_state.dart"
+        },
+        {
+          "sha256": "5A384BB95CA12FC4677756450657F884B04296828F16F86D944D1183E64FB819",
+          "path": "lib/widgets/invoice_button.dart"
+        },
+        {
+          "sha256": "005AE6B75443FD8C661B07B61E5F5427958789547E00D112DD8D1EBC16000957",
+          "path": "lib/widgets/order_payment_panel.dart"
+        },
+        {
+          "sha256": "0BEBF36FC97B521D388DCDC4317872F9A520CFD700963B8079E4881DB570ABCB",
+          "path": "lib/widgets/order_timeline.dart"
+        },
+        {
+          "sha256": "D87BD9F6DE07DB621A8612D69536773736CA2D0C3CAC779F7C6221FB38422720",
+          "path": "lib/widgets/order_timeout_summary.dart"
+        },
+        {
+          "sha256": "E07CC098016240D99912C9EB38AFB2D91C332B6A81BBAE59758EFD203F8B7FFB",
+          "path": "lib/widgets/pre_delivery_checklist_card.dart"
+        },
+        {
+          "sha256": "D6038C4FA6D1DD9DE0B0B7AC597FB5E2CED448370D739F235B78DE421E5FDE71",
+          "path": "lib/widgets/prescription_upload_widget.dart"
+        },
+        {
+          "sha256": "D5B6A7428495422E739DEAE7E68AC95EA21EA0EAFD3606604DA1A03C3CF6EBA1",
+          "path": "lib/widgets/rate_order_sheet.dart"
+        },
+        {
+          "sha256": "C0B942911EA55D889F9C1BC4928BF7459DA9170B592A6C2F16B65A9287F32918",
+          "path": "lib/widgets/recommendation_card.dart"
+        },
+        {
+          "sha256": "50B2ED1189CE7EB31A810841D7631415485C4705C5D80CB7026816081E6EE4C7",
+          "path": "lib/widgets/role_access_gate.dart"
+        },
+        {
+          "sha256": "480413ADD78E90B5F8C8A2FD7E548782DEB1DE408FFE6DC09FB6A767CD61AF92",
+          "path": "lib/widgets/shimmer_cards.dart"
+        },
+        {
+          "sha256": "2E16BD1C5D79AC177F2CC3DDCDA70994450637C992A967B449598103D751BABE",
+          "path": "lib/widgets/stock_adjustment_dialog.dart"
+        },
+        {
+          "sha256": "7831E2E18207A62440B45C81B2E01C6B763ACDACBA0AD182237B32DE409E1D22",
+          "path": "lib/widgets/stock_indicator.dart"
+        },
+        {
+          "sha256": "52924DBF048ED1D5BF2996B298615FA93474117F8055F819CF4185785EF79E7F",
+          "path": "lib/widgets/tez_map_tiles.dart"
+        },
+        {
+          "sha256": "965C25F5A4AA71DE474583E320D8EF3D8F5429398AFED91376EB71B208BCD18B",
+          "path": "lib/widgets/vendor_order_rejection.dart"
+        }
+      ],
+      "project": "igeisilhtmglgnqvllrx",
+      "package": "com.example.flutter_application_1.fr21test",
+      "head": "99a649c31eca78ae7f7997eae8d6ce01c247cb8f"
+    },
+    "lifetime_build": {
+      "sources": [
+        {
+          "sha256": "B30C78BD15FA883A8EFBF2D0ACE58280A0DD9C949478E45952B2D77F6523D024",
+          "path": "lib/services/product_image_service.dart"
+        },
+        {
+          "sha256": "0171133200A8A4A036BABDECE2251519C3A64EC314E30E29566D6F7A5DF92326",
+          "path": "lib/widgets/product_image.dart"
+        },
+        {
+          "sha256": "22ADBF532FEB4615649272F1BF23B78E7180B75266D559AB5222E41D287E71F4",
+          "path": "lib/controllers/admin_broadcast_controller.dart"
+        },
+        {
+          "sha256": "810CC18113220BFF21A257030274A6A8F2FF2A105FB66C5BEFAAD324F54A90EC",
+          "path": "lib/controllers/admin_controller.dart"
+        },
+        {
+          "sha256": "56232652271BEA740303E238B8E91F7AD9E73042022C0027A935F005DAA5199C",
+          "path": "lib/controllers/admin_dispute_state.dart"
+        },
+        {
+          "sha256": "2C8ADA241C1765EAC21C217D9431F4050D5205AE7D39442FBAE41BCC06166603",
+          "path": "lib/controllers/auth_controller.dart"
+        },
+        {
+          "sha256": "4365101B242B6651916FBA57F27C2D3CF93A07DD231417B928B040241EEA50B3",
+          "path": "lib/controllers/cart_controller.dart"
+        },
+        {
+          "sha256": "4A2BEE51EBD039490458A5FF274EFA3D5B1A07C803A9CD92C4BC151302DC1BA0",
+          "path": "lib/controllers/chat_controller.dart"
+        },
+        {
+          "sha256": "2351345AE6E5BE93669114B3ECA9720DFFE2C72F690C62BC7F658985842CC6A2",
+          "path": "lib/controllers/cnic_document_controller.dart"
+        },
+        {
+          "sha256": "245F2AF87F1448B83D88E51DCE19E0B7ABD2F0B77DD83CDE28FE414785719183",
+          "path": "lib/controllers/dispute_controller.dart"
+        },
+        {
+          "sha256": "644E1EF53749F53802400C4EFC3C5FE3130B35A07F88F32CB63BA936A4996564",
+          "path": "lib/controllers/language_controller.dart"
+        },
+        {
+          "sha256": "5689165C70B961C6882A044B99D6F8FC85BD464AEA1073C9D92FF7B72853AF19",
+          "path": "lib/controllers/notification_controller.dart"
+        },
+        {
+          "sha256": "936DEA140FEA46933B4BE4F29E96C26AAEF632F3576942B3A56C9F941B4256D1",
+          "path": "lib/controllers/prescription_controller.dart"
+        },
+        {
+          "sha256": "07C4C958AB4C8790D53EF3CD7E056ECA01DD4A8953FEC6007C80694A7A50826C",
+          "path": "lib/controllers/product_controller.dart"
+        },
+        {
+          "sha256": "912CFBDA0FB6BB60912FBEEE963AFAF644647B6598E7AFD2BADD9890ABFD26F8",
+          "path": "lib/controllers/recommendation_controller.dart"
+        },
+        {
+          "sha256": "D2744AD6A257391E105F4F97954ACAE5F271A3044F3F431E97EEF9B159212D61",
+          "path": "lib/controllers/rider_assignment_controller.dart"
+        },
+        {
+          "sha256": "7E0A02E29EA68BB60DC5B6FE880DAE486447D7B034317AFDB053C0F9C5190756",
+          "path": "lib/controllers/rider_controller.dart"
+        },
+        {
+          "sha256": "910EFF197405BD68AA92AF6D3DF2E95DD32C064C2AF58F489B44DA34C17384C8",
+          "path": "lib/controllers/tailoring_controller.dart"
+        },
+        {
+          "sha256": "A5647DD1710DABC9A9C52A16CCC8CDBEAE75255C81FDB565FC8977ADBA3C8A8B",
+          "path": "lib/controllers/tez_order_controller.dart"
+        },
+        {
+          "sha256": "ED08474BE65D625C26F12CAB793DA6B4C72DE8143516AF9C3FAF7766F53C145A",
+          "path": "lib/controllers/vendor_controller.dart"
+        },
+        {
+          "sha256": "7A12843DE1961AB6E8387880D5937B6DC860486E7355D7F612FC6529D829D44C",
+          "path": "lib/controllers/vendor_info_controller.dart"
+        },
+        {
+          "sha256": "F7144F81F4898FF37DDBE31C81AFDF8E9B483C8A2CDE092DB69B27C8B5A86CCB",
+          "path": "lib/core/app_translations.dart"
+        },
+        {
+          "sha256": "AF67ED140A70E5F3EBF4358D5F9CEF951314524EDDA1209B518A546181471D77",
+          "path": "lib/data/mock_data.dart"
+        },
+        {
+          "sha256": "72F92F12861C3843781AE0452808EAD62BE91A46420C29DF43DF8685B5050A2D",
+          "path": "lib/main.dart"
+        },
+        {
+          "sha256": "E1EF5A1DA2038399F220B9F321E2385DE3F7DCAB145EBBE199E8CC61CDB51FD7",
+          "path": "lib/middleware/admin_middleware.dart"
+        },
+        {
+          "sha256": "3E556A492F35A3E0F0026999414A6D0A6BAC35A7883D00138C06F24D7E3842D6",
+          "path": "lib/middleware/auth_middleware.dart"
+        },
+        {
+          "sha256": "89607211ADB8A19CAB6B55F2D0B83222FCA7B4D1CDCB0013E447DFA3C837C53C",
+          "path": "lib/models/chat_model.dart"
+        },
+        {
+          "sha256": "C187C16A2B106FB0FD557D18B64BF6F1ECAB5B2929CE7DF5CFD7B96DB68DE594",
+          "path": "lib/models/order_model.dart"
+        },
+        {
+          "sha256": "FD0342BC425AFF60E49CA2CB190C04C2C3F4A3A561763FD1CDE8824D981E9137",
+          "path": "lib/models/prescription_model.dart"
+        },
+        {
+          "sha256": "1DDCE8C7CC450C0C7A4300E0A7BE127714C5EFB290A59AF219AA6C8C5BAE3D9A",
+          "path": "lib/models/product_model.dart"
+        },
+        {
+          "sha256": "1145EFF3054A5AF625F8A48544A91AB4AC1CA3235731E355CAFA1350B7CBAAC5",
+          "path": "lib/models/recommendation_model.dart"
+        },
+        {
+          "sha256": "C0E8FDA9EB91136D13B8E1EAEE359AA1FF0BB2F115971B19AA2DC3BD90D02169",
+          "path": "lib/models/review_model.dart"
+        },
+        {
+          "sha256": "744427010F4A11768B9A1287FC72FEACA4238BBD109FB7E3ECF6518AAACAD30C",
+          "path": "lib/models/user_model.dart"
+        },
+        {
+          "sha256": "8BC51387237B56BDCC15B701496655BD394DEF15AB8218ECF9AFB4CD6F523327",
+          "path": "lib/routes/app_routes.dart"
+        },
+        {
+          "sha256": "553F3A25CA45CDDEB36399ED50136899BA3F0262EDBFA241EC6B9374A4601C9F",
+          "path": "lib/screens/admin_broadcasts_screen.dart"
+        },
+        {
+          "sha256": "3543E987D0E50F909207B633DE1264B84CA4AC69C6FCBBB9111CE94CF79C251A",
+          "path": "lib/screens/admin_dashboard.dart"
+        },
+        {
+          "sha256": "8BD0C3759D99CA7BF80E446FB58403ECF907556752AB0ABA902F505D62119AE5",
+          "path": "lib/screens/admin_disputes_screen.dart"
+        },
+        {
+          "sha256": "3785AD1C0E83384C9F7A21247EEFC7F5AF7ECF5663D73A3895C8DCB30EC363A4",
+          "path": "lib/screens/admin_orders_screen.dart"
+        },
+        {
+          "sha256": "63D1C60BCAAE9563ECFF7991DB0854387DDC069C91D33B30414B46B82AB68BC8",
+          "path": "lib/screens/admin_users_screen.dart"
+        },
+        {
+          "sha256": "02D4A7F3D599FD420FBA4A5485162781779CAEA99C2629E0F4DF72D70CE7F0E6",
+          "path": "lib/screens/ai_assistant_screen.dart"
+        },
+        {
+          "sha256": "44429AB6565259D73EC45CCE5C1F5500E833579211A038D31B778EAE364921A9",
+          "path": "lib/screens/chat_rooms_screen.dart"
+        },
+        {
+          "sha256": "6F0ECAD33A8D86558F40D6B3C1769BF3378D3A907A4C07F6E7A5CED77CB3064A",
+          "path": "lib/screens/chat_screen.dart"
+        },
+        {
+          "sha256": "914FA1D3FD3494CE4600FA7F0D2039A23B6CA7032117E97AAB6581BB300EC597",
+          "path": "lib/screens/cnic_document_screen.dart"
+        },
+        {
+          "sha256": "7D0BC8E373E3BFB2424F144E4F0BCAA2639EBABBA779C9C6E18E3A8CC22A2D3A",
+          "path": "lib/screens/customer/about_tezrider_screen.dart"
+        },
+        {
+          "sha256": "BEE05B1501E6B1276F960D8D30463F7FADE4D67025958D45B4D40135A8D4B679",
+          "path": "lib/screens/customer/cart_screen.dart"
+        },
+        {
+          "sha256": "86372CF13E7476FEF7837F456BB118B793A4C190A8BEB58B1365E6F8B135D56A",
+          "path": "lib/screens/customer/cart_screen_new.dart"
+        },
+        {
+          "sha256": "F97AF657569DD45BBC29BD108CB9F186AA751A346AE0001E52461017266D4A08",
+          "path": "lib/screens/customer/dispute_screen.dart"
+        },
+        {
+          "sha256": "7E295E17985BE24EF2B15726E609AD6038EBAA4731DA581C6E3483C4BE8639E9",
+          "path": "lib/screens/customer/enhanced_checkout_screen.dart"
+        },
+        {
+          "sha256": "3C2F6A971081023ED2030C3679FDBB26A6506916EBA8603DF20E8A4EA7C27D6B",
+          "path": "lib/screens/customer/help_center_screen.dart"
+        },
+        {
+          "sha256": "3D4724C8E8FCB5385FB93BB88DCAABD54489C2875D66907D8FB8313F513A3D45",
+          "path": "lib/screens/customer/notifications_screen.dart"
+        },
+        {
+          "sha256": "B954FA32E01AECBE312D6EF9DE9C6D19AD434EF0EA1F1A0C4BFE56E9C52E11B5",
+          "path": "lib/screens/customer/order_detail_screen.dart"
+        },
+        {
+          "sha256": "546599302A658EFF09A22C6FB7B730D98D4075561A1004385B9EE85AC092E8F6",
+          "path": "lib/screens/customer/order_history_screen.dart"
+        },
+        {
+          "sha256": "D3612C5F38ABD98C138106AE58ADC3CD3B4CDF483F0FC6B6CCDF8851FE956650",
+          "path": "lib/screens/customer/payment_methods_screen.dart"
+        },
+        {
+          "sha256": "E9F6499326921289E61685A2F2B8D0037B3F33164911D1711E5DC67CD6976254",
+          "path": "lib/screens/customer/profile_screen.dart"
+        },
+        {
+          "sha256": "1C9C3DBC28C7B91F335859C00F89142BEC6FDA39B216B3BC2133C9EE1A834571",
+          "path": "lib/screens/customer/rating_screen.dart"
+        },
+        {
+          "sha256": "AAE0C4E674A932F994482DEDB04CBBFDB6AD4A2D235AD5C4B67480BAAE355E6A",
+          "path": "lib/screens/customer/saved_addresses_screen.dart"
+        },
+        {
+          "sha256": "1D3FC00BA7A4C93955D963232D94D508BC42C4432A8F1F39486ABFEEA5CA635B",
+          "path": "lib/screens/customer/saved_stores_screen.dart"
+        },
+        {
+          "sha256": "F9A1D1035B060443AFFC57C2BBC463318A96FD1461B75E13AA7E54C9213997B3",
+          "path": "lib/screens/customer/tailoring_screen.dart"
+        },
+        {
+          "sha256": "897BDCE1AC198C4CFEEE027E48F93CFC6EB15ACC7431649CC716B95E834717D3",
+          "path": "lib/screens/customer_dashboard.dart"
+        },
+        {
+          "sha256": "58508466173295D6E5A1DCD6FBF97AAF0C4799906B05AF695A2772089E94E99E",
+          "path": "lib/screens/login_screen.dart"
+        },
+        {
+          "sha256": "E60EEC2AEA08AC5089FFF5B9BA805CBBF971D12747B292E4160DD7BB084121E2",
+          "path": "lib/screens/map_screen.dart"
+        },
+        {
+          "sha256": "0D706A36310CBE69D91DA2D0686A5E0EC2D235430180B2559814D58A3F4D8252",
+          "path": "lib/screens/order_picked_screen.dart"
+        },
+        {
+          "sha256": "DEC0EAA79DD2E2A8A6749953129207E85DFEB5B3109A623265B4F7EE50EAFD02",
+          "path": "lib/screens/payment_screen.dart"
+        },
+        {
+          "sha256": "BE3A3E3B7C94E631E5AF54EBB33CCD46A04B8DBA64099D376AA456B9204A4217",
+          "path": "lib/screens/pending_verification_screen.dart"
+        },
+        {
+          "sha256": "DD5A09F6E183110671146141A62F7963C3296C2EBD75C15DE35891C68A8F37EC",
+          "path": "lib/screens/product_detail_screen.dart"
+        },
+        {
+          "sha256": "B70D88F69A54B937384F25FF45840E16F15557EE4B5783707D3837FBA95C78B1",
+          "path": "lib/screens/product_screen.dart"
+        },
+        {
+          "sha256": "AC9611187A592105DD763939F364FB6CBBFCBF3757C0C7BEC6377779E9DCD530",
+          "path": "lib/screens/qr_pickup_screen.dart"
+        },
+        {
+          "sha256": "AA7B011D102C7CBD523CAB74F60ECF320C94580E8C9133C8D9D57BDC02C0FAE0",
+          "path": "lib/screens/rating_summary_screen.dart"
+        },
+        {
+          "sha256": "2BF67D6465FE9D003D80D44E6EC3AFDC09BE9590167FD3961FE99671EB4FD660",
+          "path": "lib/screens/rider_dashboard.dart"
+        },
+        {
+          "sha256": "3B5D2F9F1BDD0E9379F93FE07E5A8C8D047198B9C9C1D9660C1DCAE83633DCCD",
+          "path": "lib/screens/search_screen.dart"
+        },
+        {
+          "sha256": "8A5450D52616DBFEBB08E62E066D76C72AAF6073C27504D77DB30FBD9B0A0364",
+          "path": "lib/screens/signup_screen.dart"
+        },
+        {
+          "sha256": "5D196DAE0CC5E8FF13D29F23D93AB120B418E3B0EC9C832EFB73BFCFD10DCD1F",
+          "path": "lib/screens/splash_screen.dart"
+        },
+        {
+          "sha256": "3CB14476A3DF005BC08938B87D28AE23824EDAEC239C8489EC346F35DFDC224F",
+          "path": "lib/screens/vendor/prescription_review_screen.dart"
+        },
+        {
+          "sha256": "28E12AFB61D6155F7AC244898BA96B592CFF199E41AC85122384BC9DBA381395",
+          "path": "lib/screens/vendor/product_form_screen.dart"
+        },
+        {
+          "sha256": "493C966938BA7C03C1D601E5A32541C685620E51AAC2B594CE091ABEB8299D42",
+          "path": "lib/screens/vendor/vendor_analytics_screen.dart"
+        },
+        {
+          "sha256": "FA44618CC4CA848E6290E68E05B9D0BAE3AEBF2C8C381A28AF7C0B1C8BE24C69",
+          "path": "lib/screens/vendor/vendor_products_screen.dart"
+        },
+        {
+          "sha256": "D6E72EA81CA7EB79DF417829B0DF2102D594F45C529F1605579C57C4A53457A8",
+          "path": "lib/screens/vendor_dashboard.dart"
+        },
+        {
+          "sha256": "EB2EFECA6E30768ED8335AFA01B6B310EC2904E75CB77AB953F7F2B466413C46",
+          "path": "lib/services/account_access.dart"
+        },
+        {
+          "sha256": "114E86C8C88F6EA6CBA3D6421846018BC5F6CEEB7056DEF6D37751028879D4F8",
+          "path": "lib/services/account_session_service.dart"
+        },
+        {
+          "sha256": "5501D6890D5E4B9E78139513697571286B2C6F54E04978F11359D723FB5893EC",
+          "path": "lib/services/admin_broadcast_service.dart"
+        },
+        {
+          "sha256": "A56CE9E0ED0F4483D480D411FFFFF5E6BD1A7AF61AA3A91FC8876AB49DA50014",
+          "path": "lib/services/admin_dispute_service.dart"
+        },
+        {
+          "sha256": "CF75CF87E713F3255C2651F703D5C1A4AB8EF3D1857D217C4CCE07426ED7FCC4",
+          "path": "lib/services/admin_users_service.dart"
+        },
+        {
+          "sha256": "8B67C9EB0C06747B614DC5C72765177BD75075FE5B13437457EE02C215A69DC8",
+          "path": "lib/services/ai_service.dart"
+        },
+        {
+          "sha256": "B0485B2728DBED4444A1CDF301EF21FC3EDE8ACD3C98C6134B0BEB2EA827CBD5",
+          "path": "lib/services/android_broadcast_push_service.dart"
+        },
+        {
+          "sha256": "56846A0D6BE593D4E62CC9EA6E48AC1E0BE3E67A29AB4E23C3CB3E7659138D69",
+          "path": "lib/services/backend_config.dart"
+        },
+        {
+          "sha256": "02900D2E42058BFB8C8372989FB2814702184E9651D1D859B2B22AF649215ECE",
+          "path": "lib/services/broadcast_push_delivery.dart"
+        },
+        {
+          "sha256": "7BBF1ABAFA30051F6A8EF82104E4D53452F1DF97B701D3BBFB742C6AF34B5A3C",
+          "path": "lib/services/cart_persistence.dart"
+        },
+        {
+          "sha256": "ADF5ABCAF8D8C46E121A24742EE583598F2CE371607691889F339820BA1BD78C",
+          "path": "lib/services/cash_ledger_service.dart"
+        },
+        {
+          "sha256": "241C9C6294BCB3E5E85A66A451862047B8A7E6A234BC5F321F5DDEBDC554E381",
+          "path": "lib/services/catalogue_service.dart"
+        },
+        {
+          "sha256": "318DA5D9B6F4CF82947C6D44ACF7A51EED3943E0555EF81D46EE425509DFA1E8",
+          "path": "lib/services/cnic_document.dart"
+        },
+        {
+          "sha256": "220E8FF8CFDB026D7565C43BA67E548136C6C60124A5E28EDEC1AAC43BD96F42",
+          "path": "lib/services/delivery_destination.dart"
+        },
+        {
+          "sha256": "9F2DE9B7A09592E1FF1AC848B4DC334EBD4BCA6FF6EC255571A105F797E32047",
+          "path": "lib/services/delivery_location.dart"
+        },
+        {
+          "sha256": "82824A680456EFBBC83D5E49337ACE1087BA94A9B0BF1031FA9AA303603F437B",
+          "path": "lib/services/delivery_location_platform.dart"
+        },
+        {
+          "sha256": "60F4CAD5F86DFABB20B58345C583606F095C33E6153E92CFE7D6EB11739D4B6D",
+          "path": "lib/services/delivery_otp_service.dart"
+        },
+        {
+          "sha256": "A82E111FC84B6DE752054994D1AAD40B49C063C0EF3B3FE6FDDE1C4FC7451609",
+          "path": "lib/services/delivery_route.dart"
+        },
+        {
+          "sha256": "52FB2A386758FD29B032FD2AF59727F225D317931EE8B13149D7432129917ADD",
+          "path": "lib/services/diagnostic_backend.dart"
+        },
+        {
+          "sha256": "041273BA57741ED6D51E5EF62DFF1FEB4C7210C6F79A1D831BFF17AA99854456",
+          "path": "lib/services/dispute_service.dart"
+        },
+        {
+          "sha256": "F9F6B3CBD0EF82256236160EEC4B548A42240E8DA8300922468E1EA79AB319E8",
+          "path": "lib/services/feedback_service.dart"
+        },
+        {
+          "sha256": "F2B4637CBB869581F4FB967EEA43508D463FCDC1CBF70AE465C68332BEA8F3C6",
+          "path": "lib/services/inventory_service.dart"
+        },
+        {
+          "sha256": "132DC42F859045029E4BDE285478317E135F429B5709E2BAA297109E1759BD68",
+          "path": "lib/services/invoice_service.dart"
+        },
+        {
+          "sha256": "1A60DE1E93B3B5877E97FB8C28C289A5D0F0B9D3A9D9817430F456215FFFF4C9",
+          "path": "lib/services/ios_rider_location_source.dart"
+        },
+        {
+          "sha256": "21CBE1773B9E7FB9B0DFFEC791D360AB6E2DCC2D536BFF83EFA1D39FE70EDC13",
+          "path": "lib/services/onboarding_service.dart"
+        },
+        {
+          "sha256": "E9491DB1DB4EB4D09A4F2CEB3AFC1EA7183B4C0BB982783FE829C8D56CAAE43D",
+          "path": "lib/services/order_detail_service.dart"
+        },
+        {
+          "sha256": "AB3C47D0F4B57917F91FB618208661C9AC592C0EBC650DACADF572858B37749B",
+          "path": "lib/services/order_detail_watch.dart"
+        },
+        {
+          "sha256": "A66305A77596B1E1A28AE9E5626D33D33BB16EC9A682182280E9404A7B5FA1C2",
+          "path": "lib/services/order_timeout_service.dart"
+        },
+        {
+          "sha256": "09B48159156258C4007A8E9DCF990188353B50271E8F31372D48A788140C7D3A",
+          "path": "lib/services/pre_delivery_checklist_service.dart"
+        },
+        {
+          "sha256": "CF88104D26061B47A34FA2821D650F1E8DB42FFA9BA3015D187D23C8D4BEACAB",
+          "path": "lib/services/prescription_service.dart"
+        },
+        {
+          "sha256": "45F7C9566BCBD6713AA717B31FD7AD6C99899D00EA3BD1DDF0AAC7D8BAB3A955",
+          "path": "lib/services/rating_watch.dart"
+        },
+        {
+          "sha256": "F682D48270202AE798FC81E042BC3B8AD8A1AFEEC6DF6E18B72A0B48080483B1",
+          "path": "lib/services/recommendation_service.dart"
+        },
+        {
+          "sha256": "CC57AD2802BBAF043E6CFDCA95CBD6BCB1BC9944D22C7A98120316E8B93AE1A1",
+          "path": "lib/services/rider_assignment_service.dart"
+        },
+        {
+          "sha256": "7141D5230717FDDE1985421022C2DDFC49B558FC5014899A3A0611AB640787B8",
+          "path": "lib/services/rider_presence.dart"
+        },
+        {
+          "sha256": "E697ACE48BD14700D38DBE194DE1632158F8931B8202F60D2C97A1D99B184F7A",
+          "path": "lib/services/routing_service.dart"
+        },
+        {
+          "sha256": "9EE4DBD3F14CDE3046043489EB92B4522FC13CD47DDC0ACC681A8C3C669DA200",
+          "path": "lib/services/session_credentials.dart"
+        },
+        {
+          "sha256": "E3CC90C35576D721BA0B3BE5346C78795DC35F2FC50C62B87712BFFCAC13D0C9",
+          "path": "lib/services/storage_service.dart"
+        },
+        {
+          "sha256": "9C8B693F134A7CE5E774B26EB24F27B298D27AC83D282C6B3D3BF0B827EE1988",
+          "path": "lib/services/vendor_report_service.dart"
+        },
+        {
+          "sha256": "25279F006F3C2A156D68CBDA684C3A3B9F3F596172411096FEE4A845AEFB1288",
+          "path": "lib/theme/app_theme.dart"
+        },
+        {
+          "sha256": "68B25486E6EFFAFB637DED74FC29313AFD41A14C23F86D28E87681C35535320A",
+          "path": "lib/utils/responsive.dart"
+        },
+        {
+          "sha256": "EB678BC3695BD2A1D18DD8BD276665D31A3EB59720AE4B4C6B974734CCA5306A",
+          "path": "lib/widgets/account_review_dialog.dart"
+        },
+        {
+          "sha256": "A1A77179BD343EFC6076D3E57450D0643DA6BD91E43369FF33155225EE62F16B",
+          "path": "lib/widgets/app_drawer.dart"
+        },
+        {
+          "sha256": "C3E786D0F2D587AA7A9B02DEF73699D39D8DC38C12DA20CC27CE8547E0417CF7",
+          "path": "lib/widgets/cnic_document_viewer.dart"
+        },
+        {
+          "sha256": "5C7221067B633244D7199BFB18CD3443CAECEFB8B908C9144128AE139BE6D3A1",
+          "path": "lib/widgets/dispute_evidence_viewer.dart"
+        },
+        {
+          "sha256": "9A47DC944A1DB37694C6A019AF594FA03E23121354B320EF09A674E88CC7C38A",
+          "path": "lib/widgets/empty_state.dart"
+        },
+        {
+          "sha256": "5A384BB95CA12FC4677756450657F884B04296828F16F86D944D1183E64FB819",
+          "path": "lib/widgets/invoice_button.dart"
+        },
+        {
+          "sha256": "005AE6B75443FD8C661B07B61E5F5427958789547E00D112DD8D1EBC16000957",
+          "path": "lib/widgets/order_payment_panel.dart"
+        },
+        {
+          "sha256": "0BEBF36FC97B521D388DCDC4317872F9A520CFD700963B8079E4881DB570ABCB",
+          "path": "lib/widgets/order_timeline.dart"
+        },
+        {
+          "sha256": "D87BD9F6DE07DB621A8612D69536773736CA2D0C3CAC779F7C6221FB38422720",
+          "path": "lib/widgets/order_timeout_summary.dart"
+        },
+        {
+          "sha256": "E07CC098016240D99912C9EB38AFB2D91C332B6A81BBAE59758EFD203F8B7FFB",
+          "path": "lib/widgets/pre_delivery_checklist_card.dart"
+        },
+        {
+          "sha256": "D6038C4FA6D1DD9DE0B0B7AC597FB5E2CED448370D739F235B78DE421E5FDE71",
+          "path": "lib/widgets/prescription_upload_widget.dart"
+        },
+        {
+          "sha256": "D5B6A7428495422E739DEAE7E68AC95EA21EA0EAFD3606604DA1A03C3CF6EBA1",
+          "path": "lib/widgets/rate_order_sheet.dart"
+        },
+        {
+          "sha256": "C0B942911EA55D889F9C1BC4928BF7459DA9170B592A6C2F16B65A9287F32918",
+          "path": "lib/widgets/recommendation_card.dart"
+        },
+        {
+          "sha256": "50B2ED1189CE7EB31A810841D7631415485C4705C5D80CB7026816081E6EE4C7",
+          "path": "lib/widgets/role_access_gate.dart"
+        },
+        {
+          "sha256": "480413ADD78E90B5F8C8A2FD7E548782DEB1DE408FFE6DC09FB6A767CD61AF92",
+          "path": "lib/widgets/shimmer_cards.dart"
+        },
+        {
+          "sha256": "2E16BD1C5D79AC177F2CC3DDCDA70994450637C992A967B449598103D751BABE",
+          "path": "lib/widgets/stock_adjustment_dialog.dart"
+        },
+        {
+          "sha256": "7831E2E18207A62440B45C81B2E01C6B763ACDACBA0AD182237B32DE409E1D22",
+          "path": "lib/widgets/stock_indicator.dart"
+        },
+        {
+          "sha256": "52924DBF048ED1D5BF2996B298615FA93474117F8055F819CF4185785EF79E7F",
+          "path": "lib/widgets/tez_map_tiles.dart"
+        },
+        {
+          "sha256": "965C25F5A4AA71DE474583E320D8EF3D8F5429398AFED91376EB71B208BCD18B",
+          "path": "lib/widgets/vendor_order_rejection.dart"
+        }
+      ],
+      "sha256": "E5B8E80E4EDF59EA5CAB08638004DEFCE19AE89998F2F0BE59FCFB0017D88619",
+      "project": "igeisilhtmglgnqvllrx",
+      "head": "99a649c31eca78ae7f7997eae8d6ce01c247cb8f",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    "latest_built_retry_fix": {
+      "head": "99a649c31eca78ae7f7997eae8d6ce01c247cb8f",
+      "package": "com.example.flutter_application_1.fr21test",
+      "project": "igeisilhtmglgnqvllrx",
+      "sources": [
+        {
+          "sha256": "BBD032BD1DB40D130175C90CACD532E11AB8C78307C0AACCFBF0CF242A94E37A",
+          "path": "lib/services/product_image_service.dart"
+        },
+        {
+          "sha256": "0171133200A8A4A036BABDECE2251519C3A64EC314E30E29566D6F7A5DF92326",
+          "path": "lib/widgets/product_image.dart"
+        },
+        {
+          "sha256": "22ADBF532FEB4615649272F1BF23B78E7180B75266D559AB5222E41D287E71F4",
+          "path": "lib/controllers/admin_broadcast_controller.dart"
+        },
+        {
+          "sha256": "810CC18113220BFF21A257030274A6A8F2FF2A105FB66C5BEFAAD324F54A90EC",
+          "path": "lib/controllers/admin_controller.dart"
+        },
+        {
+          "sha256": "56232652271BEA740303E238B8E91F7AD9E73042022C0027A935F005DAA5199C",
+          "path": "lib/controllers/admin_dispute_state.dart"
+        },
+        {
+          "sha256": "2C8ADA241C1765EAC21C217D9431F4050D5205AE7D39442FBAE41BCC06166603",
+          "path": "lib/controllers/auth_controller.dart"
+        },
+        {
+          "sha256": "4365101B242B6651916FBA57F27C2D3CF93A07DD231417B928B040241EEA50B3",
+          "path": "lib/controllers/cart_controller.dart"
+        },
+        {
+          "sha256": "4A2BEE51EBD039490458A5FF274EFA3D5B1A07C803A9CD92C4BC151302DC1BA0",
+          "path": "lib/controllers/chat_controller.dart"
+        },
+        {
+          "sha256": "2351345AE6E5BE93669114B3ECA9720DFFE2C72F690C62BC7F658985842CC6A2",
+          "path": "lib/controllers/cnic_document_controller.dart"
+        },
+        {
+          "sha256": "245F2AF87F1448B83D88E51DCE19E0B7ABD2F0B77DD83CDE28FE414785719183",
+          "path": "lib/controllers/dispute_controller.dart"
+        },
+        {
+          "sha256": "644E1EF53749F53802400C4EFC3C5FE3130B35A07F88F32CB63BA936A4996564",
+          "path": "lib/controllers/language_controller.dart"
+        },
+        {
+          "sha256": "5689165C70B961C6882A044B99D6F8FC85BD464AEA1073C9D92FF7B72853AF19",
+          "path": "lib/controllers/notification_controller.dart"
+        },
+        {
+          "sha256": "936DEA140FEA46933B4BE4F29E96C26AAEF632F3576942B3A56C9F941B4256D1",
+          "path": "lib/controllers/prescription_controller.dart"
+        },
+        {
+          "sha256": "07C4C958AB4C8790D53EF3CD7E056ECA01DD4A8953FEC6007C80694A7A50826C",
+          "path": "lib/controllers/product_controller.dart"
+        },
+        {
+          "sha256": "912CFBDA0FB6BB60912FBEEE963AFAF644647B6598E7AFD2BADD9890ABFD26F8",
+          "path": "lib/controllers/recommendation_controller.dart"
+        },
+        {
+          "sha256": "D2744AD6A257391E105F4F97954ACAE5F271A3044F3F431E97EEF9B159212D61",
+          "path": "lib/controllers/rider_assignment_controller.dart"
+        },
+        {
+          "sha256": "7E0A02E29EA68BB60DC5B6FE880DAE486447D7B034317AFDB053C0F9C5190756",
+          "path": "lib/controllers/rider_controller.dart"
+        },
+        {
+          "sha256": "910EFF197405BD68AA92AF6D3DF2E95DD32C064C2AF58F489B44DA34C17384C8",
+          "path": "lib/controllers/tailoring_controller.dart"
+        },
+        {
+          "sha256": "A5647DD1710DABC9A9C52A16CCC8CDBEAE75255C81FDB565FC8977ADBA3C8A8B",
+          "path": "lib/controllers/tez_order_controller.dart"
+        },
+        {
+          "sha256": "ED08474BE65D625C26F12CAB793DA6B4C72DE8143516AF9C3FAF7766F53C145A",
+          "path": "lib/controllers/vendor_controller.dart"
+        },
+        {
+          "sha256": "7A12843DE1961AB6E8387880D5937B6DC860486E7355D7F612FC6529D829D44C",
+          "path": "lib/controllers/vendor_info_controller.dart"
+        },
+        {
+          "sha256": "F7144F81F4898FF37DDBE31C81AFDF8E9B483C8A2CDE092DB69B27C8B5A86CCB",
+          "path": "lib/core/app_translations.dart"
+        },
+        {
+          "sha256": "AF67ED140A70E5F3EBF4358D5F9CEF951314524EDDA1209B518A546181471D77",
+          "path": "lib/data/mock_data.dart"
+        },
+        {
+          "sha256": "72F92F12861C3843781AE0452808EAD62BE91A46420C29DF43DF8685B5050A2D",
+          "path": "lib/main.dart"
+        },
+        {
+          "sha256": "E1EF5A1DA2038399F220B9F321E2385DE3F7DCAB145EBBE199E8CC61CDB51FD7",
+          "path": "lib/middleware/admin_middleware.dart"
+        },
+        {
+          "sha256": "3E556A492F35A3E0F0026999414A6D0A6BAC35A7883D00138C06F24D7E3842D6",
+          "path": "lib/middleware/auth_middleware.dart"
+        },
+        {
+          "sha256": "89607211ADB8A19CAB6B55F2D0B83222FCA7B4D1CDCB0013E447DFA3C837C53C",
+          "path": "lib/models/chat_model.dart"
+        },
+        {
+          "sha256": "C187C16A2B106FB0FD557D18B64BF6F1ECAB5B2929CE7DF5CFD7B96DB68DE594",
+          "path": "lib/models/order_model.dart"
+        },
+        {
+          "sha256": "FD0342BC425AFF60E49CA2CB190C04C2C3F4A3A561763FD1CDE8824D981E9137",
+          "path": "lib/models/prescription_model.dart"
+        },
+        {
+          "sha256": "1DDCE8C7CC450C0C7A4300E0A7BE127714C5EFB290A59AF219AA6C8C5BAE3D9A",
+          "path": "lib/models/product_model.dart"
+        },
+        {
+          "sha256": "1145EFF3054A5AF625F8A48544A91AB4AC1CA3235731E355CAFA1350B7CBAAC5",
+          "path": "lib/models/recommendation_model.dart"
+        },
+        {
+          "sha256": "C0E8FDA9EB91136D13B8E1EAEE359AA1FF0BB2F115971B19AA2DC3BD90D02169",
+          "path": "lib/models/review_model.dart"
+        },
+        {
+          "sha256": "744427010F4A11768B9A1287FC72FEACA4238BBD109FB7E3ECF6518AAACAD30C",
+          "path": "lib/models/user_model.dart"
+        },
+        {
+          "sha256": "8BC51387237B56BDCC15B701496655BD394DEF15AB8218ECF9AFB4CD6F523327",
+          "path": "lib/routes/app_routes.dart"
+        },
+        {
+          "sha256": "553F3A25CA45CDDEB36399ED50136899BA3F0262EDBFA241EC6B9374A4601C9F",
+          "path": "lib/screens/admin_broadcasts_screen.dart"
+        },
+        {
+          "sha256": "3543E987D0E50F909207B633DE1264B84CA4AC69C6FCBBB9111CE94CF79C251A",
+          "path": "lib/screens/admin_dashboard.dart"
+        },
+        {
+          "sha256": "8BD0C3759D99CA7BF80E446FB58403ECF907556752AB0ABA902F505D62119AE5",
+          "path": "lib/screens/admin_disputes_screen.dart"
+        },
+        {
+          "sha256": "3785AD1C0E83384C9F7A21247EEFC7F5AF7ECF5663D73A3895C8DCB30EC363A4",
+          "path": "lib/screens/admin_orders_screen.dart"
+        },
+        {
+          "sha256": "63D1C60BCAAE9563ECFF7991DB0854387DDC069C91D33B30414B46B82AB68BC8",
+          "path": "lib/screens/admin_users_screen.dart"
+        },
+        {
+          "sha256": "02D4A7F3D599FD420FBA4A5485162781779CAEA99C2629E0F4DF72D70CE7F0E6",
+          "path": "lib/screens/ai_assistant_screen.dart"
+        },
+        {
+          "sha256": "44429AB6565259D73EC45CCE5C1F5500E833579211A038D31B778EAE364921A9",
+          "path": "lib/screens/chat_rooms_screen.dart"
+        },
+        {
+          "sha256": "6F0ECAD33A8D86558F40D6B3C1769BF3378D3A907A4C07F6E7A5CED77CB3064A",
+          "path": "lib/screens/chat_screen.dart"
+        },
+        {
+          "sha256": "914FA1D3FD3494CE4600FA7F0D2039A23B6CA7032117E97AAB6581BB300EC597",
+          "path": "lib/screens/cnic_document_screen.dart"
+        },
+        {
+          "sha256": "7D0BC8E373E3BFB2424F144E4F0BCAA2639EBABBA779C9C6E18E3A8CC22A2D3A",
+          "path": "lib/screens/customer/about_tezrider_screen.dart"
+        },
+        {
+          "sha256": "BEE05B1501E6B1276F960D8D30463F7FADE4D67025958D45B4D40135A8D4B679",
+          "path": "lib/screens/customer/cart_screen.dart"
+        },
+        {
+          "sha256": "86372CF13E7476FEF7837F456BB118B793A4C190A8BEB58B1365E6F8B135D56A",
+          "path": "lib/screens/customer/cart_screen_new.dart"
+        },
+        {
+          "sha256": "F97AF657569DD45BBC29BD108CB9F186AA751A346AE0001E52461017266D4A08",
+          "path": "lib/screens/customer/dispute_screen.dart"
+        },
+        {
+          "sha256": "7E295E17985BE24EF2B15726E609AD6038EBAA4731DA581C6E3483C4BE8639E9",
+          "path": "lib/screens/customer/enhanced_checkout_screen.dart"
+        },
+        {
+          "sha256": "3C2F6A971081023ED2030C3679FDBB26A6506916EBA8603DF20E8A4EA7C27D6B",
+          "path": "lib/screens/customer/help_center_screen.dart"
+        },
+        {
+          "sha256": "3D4724C8E8FCB5385FB93BB88DCAABD54489C2875D66907D8FB8313F513A3D45",
+          "path": "lib/screens/customer/notifications_screen.dart"
+        },
+        {
+          "sha256": "B954FA32E01AECBE312D6EF9DE9C6D19AD434EF0EA1F1A0C4BFE56E9C52E11B5",
+          "path": "lib/screens/customer/order_detail_screen.dart"
+        },
+        {
+          "sha256": "546599302A658EFF09A22C6FB7B730D98D4075561A1004385B9EE85AC092E8F6",
+          "path": "lib/screens/customer/order_history_screen.dart"
+        },
+        {
+          "sha256": "D3612C5F38ABD98C138106AE58ADC3CD3B4CDF483F0FC6B6CCDF8851FE956650",
+          "path": "lib/screens/customer/payment_methods_screen.dart"
+        },
+        {
+          "sha256": "E9F6499326921289E61685A2F2B8D0037B3F33164911D1711E5DC67CD6976254",
+          "path": "lib/screens/customer/profile_screen.dart"
+        },
+        {
+          "sha256": "1C9C3DBC28C7B91F335859C00F89142BEC6FDA39B216B3BC2133C9EE1A834571",
+          "path": "lib/screens/customer/rating_screen.dart"
+        },
+        {
+          "sha256": "AAE0C4E674A932F994482DEDB04CBBFDB6AD4A2D235AD5C4B67480BAAE355E6A",
+          "path": "lib/screens/customer/saved_addresses_screen.dart"
+        },
+        {
+          "sha256": "1D3FC00BA7A4C93955D963232D94D508BC42C4432A8F1F39486ABFEEA5CA635B",
+          "path": "lib/screens/customer/saved_stores_screen.dart"
+        },
+        {
+          "sha256": "F9A1D1035B060443AFFC57C2BBC463318A96FD1461B75E13AA7E54C9213997B3",
+          "path": "lib/screens/customer/tailoring_screen.dart"
+        },
+        {
+          "sha256": "897BDCE1AC198C4CFEEE027E48F93CFC6EB15ACC7431649CC716B95E834717D3",
+          "path": "lib/screens/customer_dashboard.dart"
+        },
+        {
+          "sha256": "58508466173295D6E5A1DCD6FBF97AAF0C4799906B05AF695A2772089E94E99E",
+          "path": "lib/screens/login_screen.dart"
+        },
+        {
+          "sha256": "E60EEC2AEA08AC5089FFF5B9BA805CBBF971D12747B292E4160DD7BB084121E2",
+          "path": "lib/screens/map_screen.dart"
+        },
+        {
+          "sha256": "0D706A36310CBE69D91DA2D0686A5E0EC2D235430180B2559814D58A3F4D8252",
+          "path": "lib/screens/order_picked_screen.dart"
+        },
+        {
+          "sha256": "DEC0EAA79DD2E2A8A6749953129207E85DFEB5B3109A623265B4F7EE50EAFD02",
+          "path": "lib/screens/payment_screen.dart"
+        },
+        {
+          "sha256": "BE3A3E3B7C94E631E5AF54EBB33CCD46A04B8DBA64099D376AA456B9204A4217",
+          "path": "lib/screens/pending_verification_screen.dart"
+        },
+        {
+          "sha256": "DD5A09F6E183110671146141A62F7963C3296C2EBD75C15DE35891C68A8F37EC",
+          "path": "lib/screens/product_detail_screen.dart"
+        },
+        {
+          "sha256": "B70D88F69A54B937384F25FF45840E16F15557EE4B5783707D3837FBA95C78B1",
+          "path": "lib/screens/product_screen.dart"
+        },
+        {
+          "sha256": "AC9611187A592105DD763939F364FB6CBBFCBF3757C0C7BEC6377779E9DCD530",
+          "path": "lib/screens/qr_pickup_screen.dart"
+        },
+        {
+          "sha256": "AA7B011D102C7CBD523CAB74F60ECF320C94580E8C9133C8D9D57BDC02C0FAE0",
+          "path": "lib/screens/rating_summary_screen.dart"
+        },
+        {
+          "sha256": "2BF67D6465FE9D003D80D44E6EC3AFDC09BE9590167FD3961FE99671EB4FD660",
+          "path": "lib/screens/rider_dashboard.dart"
+        },
+        {
+          "sha256": "3B5D2F9F1BDD0E9379F93FE07E5A8C8D047198B9C9C1D9660C1DCAE83633DCCD",
+          "path": "lib/screens/search_screen.dart"
+        },
+        {
+          "sha256": "8A5450D52616DBFEBB08E62E066D76C72AAF6073C27504D77DB30FBD9B0A0364",
+          "path": "lib/screens/signup_screen.dart"
+        },
+        {
+          "sha256": "5D196DAE0CC5E8FF13D29F23D93AB120B418E3B0EC9C832EFB73BFCFD10DCD1F",
+          "path": "lib/screens/splash_screen.dart"
+        },
+        {
+          "sha256": "3CB14476A3DF005BC08938B87D28AE23824EDAEC239C8489EC346F35DFDC224F",
+          "path": "lib/screens/vendor/prescription_review_screen.dart"
+        },
+        {
+          "sha256": "7518AD027D651F58FAD6E1DB3319534D33A9E1962C945DF2C3EA8C1755559A15",
+          "path": "lib/screens/vendor/product_form_screen.dart"
+        },
+        {
+          "sha256": "493C966938BA7C03C1D601E5A32541C685620E51AAC2B594CE091ABEB8299D42",
+          "path": "lib/screens/vendor/vendor_analytics_screen.dart"
+        },
+        {
+          "sha256": "FA44618CC4CA848E6290E68E05B9D0BAE3AEBF2C8C381A28AF7C0B1C8BE24C69",
+          "path": "lib/screens/vendor/vendor_products_screen.dart"
+        },
+        {
+          "sha256": "D6E72EA81CA7EB79DF417829B0DF2102D594F45C529F1605579C57C4A53457A8",
+          "path": "lib/screens/vendor_dashboard.dart"
+        },
+        {
+          "sha256": "EB2EFECA6E30768ED8335AFA01B6B310EC2904E75CB77AB953F7F2B466413C46",
+          "path": "lib/services/account_access.dart"
+        },
+        {
+          "sha256": "114E86C8C88F6EA6CBA3D6421846018BC5F6CEEB7056DEF6D37751028879D4F8",
+          "path": "lib/services/account_session_service.dart"
+        },
+        {
+          "sha256": "5501D6890D5E4B9E78139513697571286B2C6F54E04978F11359D723FB5893EC",
+          "path": "lib/services/admin_broadcast_service.dart"
+        },
+        {
+          "sha256": "A56CE9E0ED0F4483D480D411FFFFF5E6BD1A7AF61AA3A91FC8876AB49DA50014",
+          "path": "lib/services/admin_dispute_service.dart"
+        },
+        {
+          "sha256": "CF75CF87E713F3255C2651F703D5C1A4AB8EF3D1857D217C4CCE07426ED7FCC4",
+          "path": "lib/services/admin_users_service.dart"
+        },
+        {
+          "sha256": "8B67C9EB0C06747B614DC5C72765177BD75075FE5B13437457EE02C215A69DC8",
+          "path": "lib/services/ai_service.dart"
+        },
+        {
+          "sha256": "B0485B2728DBED4444A1CDF301EF21FC3EDE8ACD3C98C6134B0BEB2EA827CBD5",
+          "path": "lib/services/android_broadcast_push_service.dart"
+        },
+        {
+          "sha256": "56846A0D6BE593D4E62CC9EA6E48AC1E0BE3E67A29AB4E23C3CB3E7659138D69",
+          "path": "lib/services/backend_config.dart"
+        },
+        {
+          "sha256": "02900D2E42058BFB8C8372989FB2814702184E9651D1D859B2B22AF649215ECE",
+          "path": "lib/services/broadcast_push_delivery.dart"
+        },
+        {
+          "sha256": "7BBF1ABAFA30051F6A8EF82104E4D53452F1DF97B701D3BBFB742C6AF34B5A3C",
+          "path": "lib/services/cart_persistence.dart"
+        },
+        {
+          "sha256": "ADF5ABCAF8D8C46E121A24742EE583598F2CE371607691889F339820BA1BD78C",
+          "path": "lib/services/cash_ledger_service.dart"
+        },
+        {
+          "sha256": "241C9C6294BCB3E5E85A66A451862047B8A7E6A234BC5F321F5DDEBDC554E381",
+          "path": "lib/services/catalogue_service.dart"
+        },
+        {
+          "sha256": "318DA5D9B6F4CF82947C6D44ACF7A51EED3943E0555EF81D46EE425509DFA1E8",
+          "path": "lib/services/cnic_document.dart"
+        },
+        {
+          "sha256": "220E8FF8CFDB026D7565C43BA67E548136C6C60124A5E28EDEC1AAC43BD96F42",
+          "path": "lib/services/delivery_destination.dart"
+        },
+        {
+          "sha256": "9F2DE9B7A09592E1FF1AC848B4DC334EBD4BCA6FF6EC255571A105F797E32047",
+          "path": "lib/services/delivery_location.dart"
+        },
+        {
+          "sha256": "82824A680456EFBBC83D5E49337ACE1087BA94A9B0BF1031FA9AA303603F437B",
+          "path": "lib/services/delivery_location_platform.dart"
+        },
+        {
+          "sha256": "60F4CAD5F86DFABB20B58345C583606F095C33E6153E92CFE7D6EB11739D4B6D",
+          "path": "lib/services/delivery_otp_service.dart"
+        },
+        {
+          "sha256": "A82E111FC84B6DE752054994D1AAD40B49C063C0EF3B3FE6FDDE1C4FC7451609",
+          "path": "lib/services/delivery_route.dart"
+        },
+        {
+          "sha256": "52FB2A386758FD29B032FD2AF59727F225D317931EE8B13149D7432129917ADD",
+          "path": "lib/services/diagnostic_backend.dart"
+        },
+        {
+          "sha256": "041273BA57741ED6D51E5EF62DFF1FEB4C7210C6F79A1D831BFF17AA99854456",
+          "path": "lib/services/dispute_service.dart"
+        },
+        {
+          "sha256": "F9F6B3CBD0EF82256236160EEC4B548A42240E8DA8300922468E1EA79AB319E8",
+          "path": "lib/services/feedback_service.dart"
+        },
+        {
+          "sha256": "56763956A1E4FF152AAACEB489B44D2F4988B5FCD48B633FB7F05FA67244428A",
+          "path": "lib/services/inventory_service.dart"
+        },
+        {
+          "sha256": "132DC42F859045029E4BDE285478317E135F429B5709E2BAA297109E1759BD68",
+          "path": "lib/services/invoice_service.dart"
+        },
+        {
+          "sha256": "1A60DE1E93B3B5877E97FB8C28C289A5D0F0B9D3A9D9817430F456215FFFF4C9",
+          "path": "lib/services/ios_rider_location_source.dart"
+        },
+        {
+          "sha256": "21CBE1773B9E7FB9B0DFFEC791D360AB6E2DCC2D536BFF83EFA1D39FE70EDC13",
+          "path": "lib/services/onboarding_service.dart"
+        },
+        {
+          "sha256": "E9491DB1DB4EB4D09A4F2CEB3AFC1EA7183B4C0BB982783FE829C8D56CAAE43D",
+          "path": "lib/services/order_detail_service.dart"
+        },
+        {
+          "sha256": "AB3C47D0F4B57917F91FB618208661C9AC592C0EBC650DACADF572858B37749B",
+          "path": "lib/services/order_detail_watch.dart"
+        },
+        {
+          "sha256": "A66305A77596B1E1A28AE9E5626D33D33BB16EC9A682182280E9404A7B5FA1C2",
+          "path": "lib/services/order_timeout_service.dart"
+        },
+        {
+          "sha256": "09B48159156258C4007A8E9DCF990188353B50271E8F31372D48A788140C7D3A",
+          "path": "lib/services/pre_delivery_checklist_service.dart"
+        },
+        {
+          "sha256": "CF88104D26061B47A34FA2821D650F1E8DB42FFA9BA3015D187D23C8D4BEACAB",
+          "path": "lib/services/prescription_service.dart"
+        },
+        {
+          "sha256": "45F7C9566BCBD6713AA717B31FD7AD6C99899D00EA3BD1DDF0AAC7D8BAB3A955",
+          "path": "lib/services/rating_watch.dart"
+        },
+        {
+          "sha256": "F682D48270202AE798FC81E042BC3B8AD8A1AFEEC6DF6E18B72A0B48080483B1",
+          "path": "lib/services/recommendation_service.dart"
+        },
+        {
+          "sha256": "CC57AD2802BBAF043E6CFDCA95CBD6BCB1BC9944D22C7A98120316E8B93AE1A1",
+          "path": "lib/services/rider_assignment_service.dart"
+        },
+        {
+          "sha256": "7141D5230717FDDE1985421022C2DDFC49B558FC5014899A3A0611AB640787B8",
+          "path": "lib/services/rider_presence.dart"
+        },
+        {
+          "sha256": "E697ACE48BD14700D38DBE194DE1632158F8931B8202F60D2C97A1D99B184F7A",
+          "path": "lib/services/routing_service.dart"
+        },
+        {
+          "sha256": "9EE4DBD3F14CDE3046043489EB92B4522FC13CD47DDC0ACC681A8C3C669DA200",
+          "path": "lib/services/session_credentials.dart"
+        },
+        {
+          "sha256": "E3CC90C35576D721BA0B3BE5346C78795DC35F2FC50C62B87712BFFCAC13D0C9",
+          "path": "lib/services/storage_service.dart"
+        },
+        {
+          "sha256": "9C8B693F134A7CE5E774B26EB24F27B298D27AC83D282C6B3D3BF0B827EE1988",
+          "path": "lib/services/vendor_report_service.dart"
+        },
+        {
+          "sha256": "25279F006F3C2A156D68CBDA684C3A3B9F3F596172411096FEE4A845AEFB1288",
+          "path": "lib/theme/app_theme.dart"
+        },
+        {
+          "sha256": "68B25486E6EFFAFB637DED74FC29313AFD41A14C23F86D28E87681C35535320A",
+          "path": "lib/utils/responsive.dart"
+        },
+        {
+          "sha256": "EB678BC3695BD2A1D18DD8BD276665D31A3EB59720AE4B4C6B974734CCA5306A",
+          "path": "lib/widgets/account_review_dialog.dart"
+        },
+        {
+          "sha256": "A1A77179BD343EFC6076D3E57450D0643DA6BD91E43369FF33155225EE62F16B",
+          "path": "lib/widgets/app_drawer.dart"
+        },
+        {
+          "sha256": "C3E786D0F2D587AA7A9B02DEF73699D39D8DC38C12DA20CC27CE8547E0417CF7",
+          "path": "lib/widgets/cnic_document_viewer.dart"
+        },
+        {
+          "sha256": "5C7221067B633244D7199BFB18CD3443CAECEFB8B908C9144128AE139BE6D3A1",
+          "path": "lib/widgets/dispute_evidence_viewer.dart"
+        },
+        {
+          "sha256": "9A47DC944A1DB37694C6A019AF594FA03E23121354B320EF09A674E88CC7C38A",
+          "path": "lib/widgets/empty_state.dart"
+        },
+        {
+          "sha256": "5A384BB95CA12FC4677756450657F884B04296828F16F86D944D1183E64FB819",
+          "path": "lib/widgets/invoice_button.dart"
+        },
+        {
+          "sha256": "005AE6B75443FD8C661B07B61E5F5427958789547E00D112DD8D1EBC16000957",
+          "path": "lib/widgets/order_payment_panel.dart"
+        },
+        {
+          "sha256": "0BEBF36FC97B521D388DCDC4317872F9A520CFD700963B8079E4881DB570ABCB",
+          "path": "lib/widgets/order_timeline.dart"
+        },
+        {
+          "sha256": "D87BD9F6DE07DB621A8612D69536773736CA2D0C3CAC779F7C6221FB38422720",
+          "path": "lib/widgets/order_timeout_summary.dart"
+        },
+        {
+          "sha256": "E07CC098016240D99912C9EB38AFB2D91C332B6A81BBAE59758EFD203F8B7FFB",
+          "path": "lib/widgets/pre_delivery_checklist_card.dart"
+        },
+        {
+          "sha256": "D6038C4FA6D1DD9DE0B0B7AC597FB5E2CED448370D739F235B78DE421E5FDE71",
+          "path": "lib/widgets/prescription_upload_widget.dart"
+        },
+        {
+          "sha256": "D5B6A7428495422E739DEAE7E68AC95EA21EA0EAFD3606604DA1A03C3CF6EBA1",
+          "path": "lib/widgets/rate_order_sheet.dart"
+        },
+        {
+          "sha256": "C0B942911EA55D889F9C1BC4928BF7459DA9170B592A6C2F16B65A9287F32918",
+          "path": "lib/widgets/recommendation_card.dart"
+        },
+        {
+          "sha256": "50B2ED1189CE7EB31A810841D7631415485C4705C5D80CB7026816081E6EE4C7",
+          "path": "lib/widgets/role_access_gate.dart"
+        },
+        {
+          "sha256": "480413ADD78E90B5F8C8A2FD7E548782DEB1DE408FFE6DC09FB6A767CD61AF92",
+          "path": "lib/widgets/shimmer_cards.dart"
+        },
+        {
+          "sha256": "2E16BD1C5D79AC177F2CC3DDCDA70994450637C992A967B449598103D751BABE",
+          "path": "lib/widgets/stock_adjustment_dialog.dart"
+        },
+        {
+          "sha256": "7831E2E18207A62440B45C81B2E01C6B763ACDACBA0AD182237B32DE409E1D22",
+          "path": "lib/widgets/stock_indicator.dart"
+        },
+        {
+          "sha256": "52924DBF048ED1D5BF2996B298615FA93474117F8055F819CF4185785EF79E7F",
+          "path": "lib/widgets/tez_map_tiles.dart"
+        },
+        {
+          "sha256": "965C25F5A4AA71DE474583E320D8EF3D8F5429398AFED91376EB71B208BCD18B",
+          "path": "lib/widgets/vendor_order_rejection.dart"
+        }
+      ],
+      "sha256": "1D8D167498A06CE565DBA3C9A108A42A851AB518CB8923D44A5AA98D5B38A600"
+    },
+    "latest_retry_fix_installed": false,
+    "physical_gallery_create_edit_cancel_confirm_delete_passed": true,
+    "later_lifetime_build_install_restore_and_actual_image_read_passed": true,
+    "gallery_upload_was_natively_reencoded_as_JPEG": true,
+    "native_JPEG_vs_original_mean_absolute_RGB_difference": [
+      1.3423004150390625,
+      0.5234832763671875,
+      2.2099609375
+    ],
+    "observations": [
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:41:48.515613+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native FINAL2 IMAGE 3214a5018c",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:45:09.548032+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native FINAL2 IMAGE 3214a5018c",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:45:20.426473+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Customer Search opens real published image fixture through the actual product-detail handler; screenshot retained for visual image verification",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:45:27.441891+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Customer product-detail image capture refreshed after transient system banner disappeared; actual green uploaded fixture visually verified",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:46:25.514017+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical owning Vendor My Products lists actual image fixture and product controls; screenshot retained for visual image verification",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:50:15.257288+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native My Products",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:55:21.792350+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "actual Android system-gallery selection and physical Vendor Save persist one owned product with original 13.75 price/two stock and a distinct server-decoded green TEST photo",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP + actual image bytes",
+        "observed_at": "2026-10-24T10:57:10.246061+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Edit Product",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:58:50.715724+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native My Products",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T10:59:22.945486+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Vendor Edit and Save update actual owned product name/price to 14.25, preserving confirmed image reference and two stock",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP",
+        "observed_at": "2026-10-24T10:59:28.691924+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Delete?",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T11:01:14.222534+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Vendor delete Cancel leaves the exact owned image product persisted",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP",
+        "observed_at": "2026-10-24T11:01:28.752637+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "observed native Delete?",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T11:01:39.003793+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "physical Vendor delete Confirm removes only the synthetic product; other Customer image authority is revoked while uploaded object/history is retained",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP",
+        "observed_at": "2026-10-24T11:01:57.741427+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-24T11:07:44.280064+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "final source-hash-verified TEST build restores Vendor role and renders the actual product image through the bounded-lifetime client/server path",
+        "result": "PASS",
+        "surface": "android + real authenticated TEST HTTP",
+        "observed_at": "2026-10-24T11:09:48.325065+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "observation_count": 17,
+    "counts_are_observations_not_unique_tests": true,
+    "visually_inspected_screenshots": [
+      "FINAL2-12-customer-image.png",
+      "FINAL2-12-gallery-created.png",
+      "FINAL2-12-gallery-edited.png",
+      "FINAL2-12-gallery-deleted.png",
+      "FINAL2-12-final-vendor-image.png"
+    ],
+    "gallery_image_was_user_selected": true,
+    "current_source_newer_than_last_built_APK": true,
+    "later_language_dependency_changes_not_in_any_recorded_APK": true
+  },
+  "remaining": [
+    "Install/read back latest retry-fix APK once approval review is available.",
+    "Run prepared scoped fixture cleanup: retire original synthetic stock and remove only the hash-verified test Downloads file.",
+    "Complete scoped secret scan and local commit when Git write approval is available.",
+    "Rebuild current source after the later language/intl changes and rerun affected startup/date/navigation regressions."
+  ],
+  "external_block": {
+    "operation": "final TEST APK installation",
+    "executed": false,
+    "source": "automatic approval review",
+    "reason": "review failed due reported usage limit, not an unsafe-action finding",
+    "reported_retry_time": "19:00 Asia/Karachi on 2026-10-24; availability not independently confirmed",
+    "no_approval_bypass_attempted": true
+  },
+  "production_modified": false,
+  "stage2_overall_complete": false,
+  "local_scoped_secret_scan": {
+    "files_checked": 45,
+    "protected_values_compared": 8,
+    "matches": 0,
+    "unreadable_protected_files": 1,
+    "network_used": false
+  }
+}

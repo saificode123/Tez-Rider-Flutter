@@ -1,8 +1,10 @@
+import 'dart:async';
+import '../../services/product_image_service.dart';
+import '../../widgets/product_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import '../../services/inventory_service.dart';
-import '../../services/storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,8 +15,16 @@ const _kTextSub = Color(0xFF6B6B8A);
 class ProductFormScreen extends StatefulWidget {
   final int? vendorId;
   final Map<String, dynamic>? existing;
+  final Future<XFile?> Function()? imagePicker;
+  final ProductImageService? imageService;
 
-  const ProductFormScreen({super.key, required this.vendorId, this.existing});
+  const ProductFormScreen({
+    super.key,
+    required this.vendorId,
+    this.existing,
+    this.imagePicker,
+    this.imageService,
+  });
 
   @override
   State<ProductFormScreen> createState() => _ProductFormScreenState();
@@ -29,6 +39,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _stockCtrl = TextEditingController();
   final _thresholdCtrl = TextEditingController(text: '5');
   final _inventory = InventoryWriteFlow();
+  late final _images = widget.imageService ?? ProductImageService();
+  String? _account;
+  bool _accountChanged = false;
+  StreamSubscription<AuthState>? _auth;
   int _stockVersion = 0;
 
   String _category = 'Food';
@@ -37,6 +51,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   XFile? _selectedImage;
 
   bool get _isEditing => widget.existing != null;
+  bool get _productLocked => _saving || _inventory.hasPending;
+  bool get _imageLocked => _productLocked || _images.hasPendingUpload;
 
   List<Map<String, dynamic>> _dbCategories = [];
   bool _loadingCategories = true;
@@ -44,6 +60,25 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   @override
   void initState() {
     super.initState();
+    _account = _supabase.auth.currentUser?.id;
+    _auth = _supabase.auth.onAuthStateChange.listen((_) {
+      if (_supabase.auth.currentUser?.id != _account && mounted) {
+        for (final ctrl in [
+          _nameCtrl,
+          _descCtrl,
+          _priceCtrl,
+          _imageCtrl,
+          _stockCtrl,
+          _thresholdCtrl,
+        ]) {
+          ctrl.clear();
+        }
+        setState(() {
+          _accountChanged = true;
+          _selectedImage = null;
+        });
+      }
+    });
     _loadCategories();
 
     if (_isEditing) {
@@ -68,7 +103,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           .from('categories')
           .select('name, image_url')
           .order('sort_order');
-      print("Categories from DB: $data");
 
       if (mounted) {
         setState(() {
@@ -83,7 +117,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         }
       }
     } catch (e) {
-      print(e);
       if (mounted) {
         setState(() => _loadingCategories = false);
       }
@@ -92,6 +125,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   @override
   void dispose() {
+    unawaited(_auth?.cancel());
     _nameCtrl.dispose();
     _descCtrl.dispose();
     _priceCtrl.dispose();
@@ -102,22 +136,35 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   }
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-
-    final image = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-
-    if (image != null) {
-      setState(() {
-        _selectedImage = image;
-      });
+    try {
+      final image = widget.imagePicker != null
+          ? await widget.imagePicker!()
+          : await ImagePicker().pickImage(
+              source: ImageSource.gallery,
+              imageQuality: 80,
+              maxWidth: 2048,
+              maxHeight: 2048,
+            );
+      if (image != null && mounted && !_accountChanged) {
+        setState(() => _selectedImage = image);
+      }
+    } catch (_) {
+      if (mounted) {
+        Get.snackbar(
+          'Image not selected',
+          'Allow photo access or choose another image, then retry.',
+        );
+      }
     }
   }
 
   Future<void> _save() async {
-    if (_saving) return;
+    if (_saving ||
+        _accountChanged ||
+        _account == null ||
+        _supabase.auth.currentUser?.id != _account) {
+      return;
+    }
     final stock = ProductStock.nonnegativeInteger(_stockCtrl.text);
     final threshold = ProductStock.nonnegativeInteger(_thresholdCtrl.text);
     final price = double.tryParse(_priceCtrl.text.trim());
@@ -135,16 +182,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     }
     setState(() => _saving = true);
     try {
-      final imageUrl = _imageCtrl.text.trim();
-      final previousImage = (widget.existing?['image_url'] as String? ?? '')
-          .trim();
-      // Preserve existing records; new media needs a trusted private pipeline.
-      if (!legacyProductMediaAllowed(
-        existing: previousImage,
-        proposed: imageUrl,
-        pickedFile: _selectedImage != null,
-      )) {
-        throw const LegacyMediaUnavailable();
+      var imageUrl = _imageCtrl.text.trim();
+      if (_selectedImage != null) {
+        imageUrl = await _images.upload(await _selectedImage!.readAsBytes());
+      }
+      if (_accountChanged || _supabase.auth.currentUser?.id != _account) {
+        throw StateError('Account changed. Open the product again.');
       }
       final result = await _inventory.save('fr17_save_product', {
         'p_product_id': widget.existing?['id'],
@@ -160,7 +203,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         'p_threshold': threshold,
         'p_expected_version': _isEditing ? _stockVersion : null,
       });
-      if (!mounted) return;
+      if (!mounted ||
+          _accountChanged ||
+          _supabase.auth.currentUser?.id != _account) {
+        return;
+      }
       if (result['code'] == 'STOCK_CHANGED') {
         setState(() {
           _stockCtrl.text = result['stock_qty'].toString();
@@ -185,11 +232,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         'Product and stock saved successfully.',
       );
     } catch (e) {
+      if (!mounted ||
+          _accountChanged ||
+          _supabase.auth.currentUser?.id != _account) {
+        return;
+      }
       Get.snackbar(
         'Save not confirmed',
-        e is LegacyMediaUnavailable
-            ? e.toString()
-            : e is StateError
+        e is StateError
             ? e.message.toString()
             : 'Check your connection and retry the same values.',
       );
@@ -244,222 +294,261 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (_imageCtrl.text.isNotEmpty)
-              Container(
-                height: 160,
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Image.network(
-                  _imageCtrl.text,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                ),
-              ),
+      body: _accountChanged
+          ? const Center(
+              child: Text('Account changed. Open the product again.'),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (_loadingCategories) const LinearProgressIndicator(),
+                  if (_inventory.hasPending)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        'Product save is unconfirmed. Retry Save with the same values.',
+                      ),
+                    ),
+                  if (_images.hasPendingUpload)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        'Image upload is unconfirmed. Retry Save with the selected image.',
+                      ),
+                    ),
+                  if (_selectedImage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Text('Selected image: ${_selectedImage!.name}'),
+                    ),
+                  if (_imageCtrl.text.isNotEmpty)
+                    Container(
+                      height: 160,
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: ProductImage(
+                        imageUrl: _imageCtrl.text,
+                        fit: BoxFit.cover,
+                        errorWidget: (_, __, ___) => const SizedBox.shrink(),
+                      ),
+                    ),
 
-            _card(
-              children: [
-                _field(
-                  _nameCtrl,
-                  'Product Name',
-                  Icons.shopping_bag_outlined,
-                  TextInputType.text,
-                ),
-                const SizedBox(height: 14),
-                _field(
-                  _descCtrl,
-                  'Description (optional)',
-                  Icons.notes_rounded,
-                  TextInputType.multiline,
-                  maxLines: 3,
-                ),
-                const SizedBox(height: 14),
-                _field(
-                  _priceCtrl,
-                  'Price (PKR)',
-                  Icons.monetization_on_outlined,
-                  TextInputType.number,
-                ),
-                const SizedBox(height: 14),
-                _field(
-                  _stockCtrl,
-                  'Confirmed stock quantity',
-                  Icons.inventory_2_outlined,
-                  TextInputType.number,
-                  integer: true,
-                ),
-                const SizedBox(height: 14),
-                _field(
-                  _thresholdCtrl,
-                  'Low-stock threshold',
-                  Icons.notifications_outlined,
-                  TextInputType.number,
-                  integer: true,
-                ),
-                const SizedBox(height: 14),
-                const SizedBox(height: 12),
+                  _card(
+                    children: [
+                      _field(
+                        _nameCtrl,
+                        'Product Name',
+                        Icons.shopping_bag_outlined,
+                        TextInputType.text,
+                      ),
+                      const SizedBox(height: 14),
+                      _field(
+                        _descCtrl,
+                        'Description (optional)',
+                        Icons.notes_rounded,
+                        TextInputType.multiline,
+                        maxLines: 3,
+                      ),
+                      const SizedBox(height: 14),
+                      _field(
+                        _priceCtrl,
+                        'Price (PKR)',
+                        Icons.monetization_on_outlined,
+                        TextInputType.number,
+                      ),
+                      const SizedBox(height: 14),
+                      _field(
+                        _stockCtrl,
+                        'Confirmed stock quantity',
+                        Icons.inventory_2_outlined,
+                        TextInputType.number,
+                        integer: true,
+                      ),
+                      const SizedBox(height: 14),
+                      _field(
+                        _thresholdCtrl,
+                        'Low-stock threshold',
+                        Icons.notifications_outlined,
+                        TextInputType.number,
+                        integer: true,
+                      ),
+                      const SizedBox(height: 14),
+                      const SizedBox(height: 12),
 
-                OutlinedButton.icon(
-                  onPressed: _saving ? null : _pickImage,
-                  icon: const Icon(Icons.photo_library_outlined),
-                  label: Text(
-                    _selectedImage == null
-                        ? 'Choose Product Image'
-                        : 'Change Product Image',
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            _card(
-              children: [
-                const Text(
-                  'Category',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
-                    color: Color(0xFF1A1340),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _dbCategories.map((cat) {
-                    final name = cat['name'];
-                    final sel = _category == name;
-
-                    return GestureDetector(
-                      onTap: _saving
-                          ? null
-                          : () => setState(() => _category = name),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: sel ? _kPurple : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: sel
-                                ? _kPurple
-                                : _kPurple.withValues(alpha: 0.20),
-                          ),
-                          boxShadow: sel
-                              ? [
-                                  BoxShadow(
-                                    color: _kPurple.withValues(alpha: 0.25),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ]
-                              : [],
-                        ),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                            color: sel ? Colors.white : _kTextSub,
-                            fontWeight: sel ? FontWeight.w800 : FontWeight.w600,
-                            fontSize: 13,
-                          ),
+                      OutlinedButton.icon(
+                        onPressed: _imageLocked ? null : _pickImage,
+                        icon: const Icon(Icons.photo_library_outlined),
+                        label: Text(
+                          _selectedImage == null
+                              ? 'Choose Product Image'
+                              : 'Change Product Image',
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
+                    ],
+                  ),
 
-            const SizedBox(height: 16),
+                  if (_selectedImage != null || _imageCtrl.text.isNotEmpty)
+                    TextButton.icon(
+                      onPressed: _imageLocked
+                          ? null
+                          : () => setState(() {
+                              _selectedImage = null;
+                              _imageCtrl.clear();
+                            }),
+                      icon: const Icon(Icons.clear),
+                      label: const Text('Remove product image'),
+                    ),
+                  const SizedBox(height: 16),
 
-            _card(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  _card(
+                    children: [
+                      const Text(
+                        'Category',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                          color: Color(0xFF1A1340),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: _dbCategories.map((cat) {
+                          final name = cat['name'];
+                          final sel = _category == name;
+
+                          return GestureDetector(
+                            onTap: _productLocked
+                                ? null
+                                : () => setState(() => _category = name),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: sel ? _kPurple : Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: sel
+                                      ? _kPurple
+                                      : _kPurple.withValues(alpha: 0.20),
+                                ),
+                                boxShadow: sel
+                                    ? [
+                                        BoxShadow(
+                                          color: _kPurple.withValues(
+                                            alpha: 0.25,
+                                          ),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  color: sel ? Colors.white : _kTextSub,
+                                  fontWeight: sel
+                                      ? FontWeight.w800
+                                      : FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  _card(
+                    children: [
+                      Row(
                         children: [
-                          const Text(
-                            'Available for order',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 14,
-                              color: Color(0xFF1A1340),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Available for order',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 14,
+                                    color: Color(0xFF1A1340),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  _available
+                                      ? 'Visible to customers'
+                                      : 'Hidden from store',
+                                  style: const TextStyle(
+                                    color: _kTextSub,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            _available
-                                ? 'Visible to customers'
-                                : 'Hidden from store',
-                            style: const TextStyle(
-                              color: _kTextSub,
-                              fontSize: 12,
-                            ),
+                          Switch(
+                            value: _available,
+                            activeThumbColor: Colors.white,
+                            activeTrackColor: _kPurple,
+                            onChanged: _productLocked
+                                ? null
+                                : (v) => setState(() => _available = v),
                           ),
                         ],
                       ),
-                    ),
-                    Switch(
-                      value: _available,
-                      activeThumbColor: Colors.white,
-                      activeTrackColor: _kPurple,
-                      onChanged: _saving
-                          ? null
-                          : (v) => setState(() => _available = v),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 28),
-
-            SizedBox(
-              width: double.infinity,
-              height: 54,
-              child: ElevatedButton(
-                onPressed: _saving ? null : _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _kPurple,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    ],
                   ),
-                  elevation: 0,
-                ),
-                child: _saving
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      )
-                    : Text(
-                        _isEditing ? 'Save Changes' : 'Add Product',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
+
+                  const SizedBox(height: 28),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      onPressed: _saving ? null : _save,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _kPurple,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
+                        elevation: 0,
                       ),
+                      child: _saving
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            )
+                          : Text(
+                              _isEditing ? 'Save Changes' : 'Add Product',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
     );
   }
 
@@ -495,7 +584,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     void Function(String)? onChanged,
   }) {
     return TextField(
-      enabled: !_saving,
+      enabled: !_productLocked,
       controller: ctrl,
       keyboardType: type,
       inputFormatters: integer

@@ -4,7 +4,7 @@ import '../../widgets/stock_adjustment_dialog.dart';
 import '../../services/inventory_service.dart';
 import '../../widgets/stock_indicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/product_image.dart';
 import 'product_form_screen.dart';
 
 const _kPurple = Color(0xFF1B5E20);
@@ -303,7 +303,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
               left: Radius.circular(16),
             ),
             child: imageUrl.isNotEmpty
-                ? CachedNetworkImage(
+                ? ProductImage(
                     imageUrl: imageUrl,
                     width: 80,
                     height: 80,

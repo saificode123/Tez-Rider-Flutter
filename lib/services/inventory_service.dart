@@ -75,6 +75,7 @@ class InventoryWriteFlow {
   final InventoryWriter writer;
   bool busy = false;
   Map<String, dynamic>? _pending;
+  bool get hasPending => _pending != null;
   Future<Map<String, dynamic>> save(
     String rpc,
     Map<String, dynamic> params,
