@@ -1,0 +1,336 @@
+{
+  "date": "2026-10-25",
+  "project": "igeisilhtmglgnqvllrx",
+  "status": "S2-03 and S2-12 ACCEPTED within documented TEST scope; S2-16 remains partial",
+  "accepted_workstreams": 12,
+  "assigned_workstreams": 18,
+  "deployments": [
+    {
+      "project": "igeisilhtmglgnqvllrx",
+      "version": "202610250001",
+      "versions": 58,
+      "migration_sha256": "fc98c7e7c174ccb9a768bc51130421c0ad7c18aa0dbfe91b54a98b993c0aa5c4",
+      "review_passes": 25,
+      "replayed": false,
+      "production_modified": false
+    },
+    {
+      "project": "igeisilhtmglgnqvllrx",
+      "version": "202610250002",
+      "versions": 59,
+      "migration_sha256": "8c971f23451d577ab9254e88e6dca729d1a693bfaefacf4448173a9d33dbc524",
+      "review_passes": 26,
+      "replayed": false,
+      "production_modified": false
+    }
+  ],
+  "sql": {
+    "foundation_review_pass": 25,
+    "foundation_post_pass": 25,
+    "deadline_review_pass": 26,
+    "deadline_post_pass": 26,
+    "review_post_and_foundation_overlap": true,
+    "new_deadline_case": 1,
+    "no_summed_reruns": true
+  },
+  "flutter": {
+    "final_pass": 63,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/private_photo_test.dart",
+      "test/private_photo_flow_test.dart",
+      "test/profile_service_test.dart",
+      "test/profile_screen_test.dart",
+      "test/order_detail_test.dart",
+      "test/delivery_route_test.dart"
+    ],
+    "prior_62_and_five_case_rerun_overlap": true,
+    "superseded_harness_failures": [
+      "incorrect existing test filename; corrected",
+      "generated Flutter cache copy collision; preserved cache and sequential run passed"
+    ]
+  },
+  "deno": {
+    "pass": 16,
+    "fail": 0,
+    "endpoint_typecheck": "PASS",
+    "tests": [
+      "supabase/functions/_shared/validated-image_test.ts",
+      "supabase/functions/_shared/security-runtime_test.ts"
+    ]
+  },
+  "analysis": {
+    "full_errors": 0,
+    "full_existing_warnings": 13,
+    "full_infos": 26,
+    "full_exit": 1,
+    "final_12_item_scope_issues": 0,
+    "last_status_widget_test_scope_issues": 0
+  },
+  "hosted": [
+    {
+      "check": "assigned Rider actual decoded avatar upload is confirmed",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "avatar unchanged retry returns identical reference",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider reads only permitted avatar exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider avatar view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer reads only permitted avatar exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer avatar view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin reads only permitted avatar exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin avatar view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated other private avatar read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated vendor private avatar read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated other_rider private avatar read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous private avatar read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "assigned Rider actual decoded delivery upload is confirmed",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "delivery unchanged retry returns identical reference",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider reads only permitted delivery exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider delivery view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer reads only permitted delivery exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer delivery view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin reads only permitted delivery exact bytes",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin delivery view has bounded lifetime and no URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated other private delivery read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated vendor private delivery read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated other_rider private delivery read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous private delivery read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "changed-byte UUID retry is rejected",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "forged PNG contents rejected server-side",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "Customer cannot fabricate Rider proof",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "raw private object listing reveals nothing",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "valid existing private object cannot mint a raw signed URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "valid existing private object raw download denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "valid existing private object cannot mint a raw signed URL",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "valid existing private object raw download denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "owning Customer identity has actual assigned photo/rating/status",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "owned delivered proof context returns actual photo without upload rights",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "photo persists with one audit; existing OTP linked if present, missing legacy OTP never fabricated; no status mutation",
+      "result": "PASS",
+      "surface": "real TEST persistence read"
+    },
+    {
+      "check": "provider-revoked session cannot reach private photo",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "additional_identity_upload_denials": [
+    {
+      "check": "unrelated Customer cannot read customer-only assigned identity",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "Vendor cannot read customer-only assigned identity",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "Vendor cannot upload another assignment photo before byte validation",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated Rider cannot read customer-only assigned identity",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "unrelated Rider cannot upload another assignment photo before byte validation",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "Admin cannot read customer-only assigned identity",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous assigned identity denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "final_source_hash_verified_install": "PASS 2026-10-24T22:15:42Z",
+    "restored_Admin_Customer_Rider_routes": "PASS",
+    "Rider_Settings_private_avatar_and_gallery_camera_controls": "PASS; synthetic image crop only",
+    "Customer_own_receipt_identity_photo_rating_and_current_status": "PASS",
+    "Customer_private_delivery_photo_readonly_controls": "PASS",
+    "final_visual_inspection": "PASS; low contrast and invented earlier milestone checkmarks corrected",
+    "legacy_CNIC": "Absent on physical fixture, explicitly disclosed; positive masked rendering widget test and retained canonical FR04 mask",
+    "new_delivery_picker_upload": "Not executed physically in this cohort; new handler effect/retry tested in widgets and actual Edge bytes/persistence verified hosted",
+    "retained_platform_gallery": "FINAL2-12-product-images-results.json actual user-selected Android gallery using unchanged image_picker implementation",
+    "camera_capture": "NOT EXECUTED physically",
+    "iOS_runtime": "NOT EXECUTED; Windows host"
+  },
+  "legacy_fixture": {
+    "existing_labelled_synthetic_cash_receipt_reused": true,
+    "no_existing_OTP_proof": true,
+    "no_OTP_receipt_created": true,
+    "no_order_state_or_cash_mutation": true,
+    "canonical_OTP_photo_attachment": "PASS in isolated rollback SQL, not physical delivery"
+  },
+  "cleanup": {
+    "result": "PASS",
+    "exact_original_avatar_and_proof_references_restored": true,
+    "objects_and_registry_and_audits_retained": true,
+    "tokens_local_logout": true,
+    "phone_session_untouched_by_backend_cleanup": true
+  },
+  "catalog": {
+    "migrations": 59,
+    "inspected_rls_tables": 94,
+    "public_tables": 58,
+    "functions": 222,
+    "public_functions": 154
+  },
+  "secret_scan": {
+    "project": "igeisilhtmglgnqvllrx",
+    "files_checked": 22,
+    "protected_values_compared": 33,
+    "matches": 0,
+    "unreadable_protected_files": 0,
+    "network_used": false
+  },
+  "production_modified": false,
+  "no_push_merge_or_stage3": true
+}
