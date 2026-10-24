@@ -1,0 +1,275 @@
+{
+  "date": "2026-10-25",
+  "project": "igeisilhtmglgnqvllrx",
+  "workstream": "S2-15",
+  "status": "ACCEPTED in bounded TEST scope; overall Stage2 incomplete",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610240005",
+    "versions": 57,
+    "migration_sha256": "d1f01b6a99f7e64da51070b6aebca1c2fa5394613ea63396d164cdfc23b53d5e",
+    "review_passes": 33,
+    "replayed": false,
+    "production_modified": false
+  },
+  "sql": {
+    "review_pass": 33,
+    "post_pass": 33,
+    "overlap": true
+  },
+  "flutter": {
+    "pass": 15,
+    "fail": 0,
+    "skip": 0,
+    "includes_retained_role_language_case": true
+  },
+  "hosted": [
+    {
+      "check": "race real checkout/accept/prepare/radius search reaches ready escalation without pickup or financial success",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:12.277586+00:00"
+    },
+    {
+      "check": "native real checkout/accept/prepare/radius search reaches ready escalation without pickup or financial success",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:20.155356+00:00"
+    },
+    {
+      "check": "Customer cannot impersonate the hosted Admin monitor",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:21.404779+00:00"
+    },
+    {
+      "check": "Customer cannot inspect Admin candidate selection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:22.208159+00:00"
+    },
+    {
+      "check": "Customer cannot forge manual assignment",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:23.991241+00:00"
+    },
+    {
+      "check": "Vendor cannot impersonate the hosted Admin monitor",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:25.080259+00:00"
+    },
+    {
+      "check": "Vendor cannot inspect Admin candidate selection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:26.020546+00:00"
+    },
+    {
+      "check": "Vendor cannot forge manual assignment",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:27.036111+00:00"
+    },
+    {
+      "check": "Rider cannot impersonate the hosted Admin monitor",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:28.479188+00:00"
+    },
+    {
+      "check": "Rider cannot inspect Admin candidate selection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:29.704677+00:00"
+    },
+    {
+      "check": "Rider cannot forge manual assignment",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:31.306927+00:00"
+    },
+    {
+      "check": "anonymous hosted monitoring denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:31.834251+00:00"
+    },
+    {
+      "check": "Admin complete filtered export reconciles with actual server counts and includes both owned fixtures",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:33.165718+00:00"
+    },
+    {
+      "check": "Admin sees actual nearest eligible dedicated Rider beyond the automatic search radius",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:34.094439+00:00"
+    },
+    {
+      "check": "two concurrent authenticated Admin choices produce exactly one canonical assignment receipt",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:35.471743+00:00"
+    },
+    {
+      "check": "actual uncertain-result replay returns the same assignment",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:36.262962+00:00"
+    },
+    {
+      "check": "same request UUID with changed Rider is rejected by hosted API",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:37.658659+00:00"
+    },
+    {
+      "check": "busy winning Rider cannot be assigned to a second real ready order",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T17:14:38.320912+00:00"
+    },
+    {
+      "check": "real assignment race/replay persists exactly one private receipt, Pending assignment, critical audit and notice",
+      "result": "PASS",
+      "surface": "real TEST persistence read",
+      "observed_at": "2026-10-24T17:14:48.476764+00:00"
+    }
+  ],
+  "realtime_continuation": [
+    {
+      "check": "retained actual HTTP/race cohort remains valid before independent Realtime verification",
+      "result": "PASS",
+      "surface": "real TEST persistence read; prior19HTTP cases retained",
+      "observed_at": "2026-10-24T20:32:43.360338+00:00"
+    },
+    {
+      "check": "actual approved Admin and owning Rider register Rider Postgres Changes subscriptions",
+      "result": "PASS",
+      "surface": "real authenticated TEST WebSocket",
+      "observed_at": "2026-10-24T20:32:48.590600+00:00"
+    },
+    {
+      "check": "Admin actually receives its permitted committed Rider update",
+      "result": "PASS",
+      "surface": "real authenticated TEST WebSocket",
+      "observed_at": "2026-10-24T20:32:59.019966+00:00"
+    },
+    {
+      "check": "own Rider actually receives its permitted committed Rider update",
+      "result": "PASS",
+      "surface": "real authenticated TEST WebSocket",
+      "observed_at": "2026-10-24T20:32:59.022913+00:00"
+    },
+    {
+      "check": "unrelated Rider receives no protected Rider update during the same committed event window",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:32:59.026141+00:00"
+    },
+    {
+      "check": "Customer receives no protected Rider update during the same committed event window",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:32:59.028522+00:00"
+    },
+    {
+      "check": "Vendor receives no protected Rider update during the same committed event window",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:32:59.030534+00:00"
+    },
+    {
+      "check": "anonymous receives no protected Rider update during the same committed event window",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:32:59.030534+00:00"
+    },
+    {
+      "check": "actual owning Rider unsubscribe is acknowledged",
+      "result": "PASS",
+      "surface": "real authenticated TEST WebSocket",
+      "observed_at": "2026-10-24T20:32:59.126315+00:00"
+    },
+    {
+      "check": "unsubscribed owning Rider receives no subsequent private update",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:33:09.074158+00:00"
+    },
+    {
+      "check": "blocked real Admin session loses hosted monitoring authority",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP",
+      "observed_at": "2026-10-24T20:33:16.757802+00:00"
+    },
+    {
+      "check": "already-subscribed Admin receives no Rider events after actual account blocking",
+      "result": "PASS",
+      "surface": "real TEST WebSocket + scoped synthetic-account block",
+      "observed_at": "2026-10-24T20:33:27.696881+00:00"
+    },
+    {
+      "check": "actual provider local logout revokes only the synthetic WebSocket test session",
+      "result": "PASS",
+      "surface": "real TEST Auth provider HTTP",
+      "observed_at": "2026-10-24T20:33:32.792538+00:00"
+    },
+    {
+      "check": "already-subscribed revoked Admin session receives no subsequent Rider event",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:33:42.609873+00:00"
+    },
+    {
+      "check": "reconnecting with the actually revoked JWT cannot regain Rider publication data",
+      "result": "PASS",
+      "surface": "real TEST WebSocket negative observation",
+      "observed_at": "2026-10-24T20:33:53.136229+00:00"
+    }
+  ],
+  "counts_note": "19 HTTP/persistence cases; 12 actual WebSocket checks +2 lifecycle HTTP checks; one retained receipt recheck overlaps. Never sum reruns.",
+  "analysis": {
+    "full_errors": 0,
+    "full_existing_warnings": 13,
+    "full_infos": 26,
+    "final_scoped": "0 issues"
+  },
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "monitor_filters_charts_csv": "PASS",
+    "fresh_and_expired_synthetic_pins": "PASS; stored synthetic positions, not phone GPS",
+    "cancel_no_mutation": "PASS",
+    "confirm_once_pending_assignment_audit_notice": "PASS; persistence reconciled after brief snackbar was missed",
+    "latest_source_hash_verified_install": "PASS 2026-10-24T21:31:48Z",
+    "latest_postinstall_launch": "NOT VERIFIED; TEST foreground assertion failed",
+    "helper": "Fresh unique hierarchy path per read; stale fixed-file snapshots rejected"
+  },
+  "cleanup": {
+    "result": "PASS",
+    "observed_at": "2026-10-24T21:13:46.861396Z",
+    "tagged_orders_cancelled": 2,
+    "test_stock_retired": true,
+    "original_synthetic_rider_presence_restored_exactly": true,
+    "receipts_audits_history_retained": true,
+    "no_rider_acceptance_otp_cash_or_delivery_fabricated": true
+  },
+  "catalog": {
+    "migrations": 57,
+    "inspected_rls_tables": 93,
+    "public_tables": 58,
+    "functions": 213,
+    "public_functions": 148
+  },
+  "security_scan": {
+    "files": 12,
+    "protected_values": 33,
+    "matches": 0,
+    "unreadable_files": 0
+  },
+  "production_modified": false
+}
