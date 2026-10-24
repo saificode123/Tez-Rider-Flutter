@@ -73,6 +73,7 @@ do $$declare img uuid;begin foreach img in array array[(select avatar from photo
  begin perform public.final2_photo_view(img);raise exception 'unexpected allow';exception when insufficient_privilege then perform pg_temp.photo_ok(true,'unrelated Rider private photo denied');end;end loop;end$$;
 select pg_temp.photo_ok((select count(*)from storage.objects where bucket_id='final2-private-photos')=0,'raw Storage listing denied');
 do $$begin begin perform public.final2_photo_begin(null,null,null,'avatar',null,null,null,null);raise exception 'unexpected allow';exception when insufficient_privilege then perform pg_temp.photo_ok(true,'authenticated cannot call trusted upload finalizer');end;end$$;
+-- FINAL2_COMPLETION_ORDER
 reset role;
 select set_config('request.jwt.claims','{"role":"service_role"}',true);
 update public.users set is_blocked=true where id=(select id from photo_people where label='customer');

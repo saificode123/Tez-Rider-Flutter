@@ -6,11 +6,14 @@ def module(name,file):
  s=importlib.util.spec_from_file_location(name,Path(__file__).with_name(file));m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 db=module('guarded_db','FINAL-security.py');db.OUT=OUT
 assert(ROOT/'supabase/.temp/project-ref').read_text().strip()==REF and sys.argv[1]=='private-photos'
-action=sys.argv[2];assert action in('review','deploy','post','fixture-status','hosted','hosted-tail','identity-denials','cleanup','deadline-review','deadline-deploy','deadline-post')
+action=sys.argv[2];assert action in('review','deploy','post','fixture-status','hosted','hosted-tail','identity-denials','order-hosted','cleanup','deadline-review','deadline-deploy','deadline-post','order-review','order-deploy','order-post')
+completion_order=action in('order-review','order-deploy','order-post')
+if completion_order:action=action.removeprefix('order-')
 deadline=action.startswith('deadline-')
 if deadline:action=action.removeprefix('deadline-')
 version='202610250002'if deadline else'202610250001';migration=ROOT/('supabase/migrations/202610250002_final2_photo_session_deadline.sql'if deadline else'supabase/migrations/202610250001_final2_private_photos.sql')
-record_prefix='private-photos-deadline'if deadline else'private-photos'
+if completion_order:version='202610250003';migration=ROOT/'supabase/migrations/202610250003_final2_photo_completion_order.sql'
+record_prefix='private-photos-order'if completion_order else'private-photos-deadline'if deadline else'private-photos'
 digest=hashlib.sha256(migration.read_bytes()).hexdigest()
 history=OUT/'private-photos-history.sql';history.write_text('begin read only;select version from supabase_migrations.schema_migrations order by version;rollback;',encoding='utf-8')
 known=sorted(p.name.split('_')[0]for p in(ROOT/'supabase/migrations').glob('*.sql'))
@@ -19,7 +22,8 @@ assert actual==([v for v in expected if v!=version]if action in('review','deploy
 if action in('review','post'):
  source=(ROOT/'supabase/tests/FINAL2-private-photos.sql').read_text(encoding='utf-8-sig')
  if action=='review':source=source.replace('-- FINAL2_CANDIDATE',re.sub(r'(?m)^(begin|commit);\s*$','',migration.read_text(encoding='utf-8-sig')))
- source=source.replace('-- FINAL2_DEADLINE',"update auth.sessions set created_at=clock_timestamp()-interval '169 hours'where id=(select session_id from photo_people where label='rider');\ndo $$begin begin perform public.final2_photo_begin((select auth_id from photo_people where label='rider'),(select session_id from photo_people where label='rider'),gen_random_uuid(),'avatar',null,repeat('a',64),'image/png',68);raise exception 'unexpected allow';exception when insufficient_privilege then perform pg_temp.photo_ok(true,'trusted finish rechecks accepted 168-hour application deadline');end;end$$;\nupdate auth.sessions set created_at=clock_timestamp()where id=(select session_id from photo_people where label='rider');"if deadline else'')
+ source=source.replace('-- FINAL2_DEADLINE',"update auth.sessions set created_at=clock_timestamp()-interval '169 hours'where id=(select session_id from photo_people where label='rider');\ndo $$begin begin perform public.final2_photo_begin((select auth_id from photo_people where label='rider'),(select session_id from photo_people where label='rider'),gen_random_uuid(),'avatar',null,repeat('a',64),'image/png',68);raise exception 'unexpected allow';exception when insufficient_privilege then perform pg_temp.photo_ok(true,'trusted finish rechecks accepted 168-hour application deadline');end;end$$;\nupdate auth.sessions set created_at=clock_timestamp()where id=(select session_id from photo_people where label='rider');"if deadline or completion_order else'')
+ source=source.replace('-- FINAL2_COMPLETION_ORDER','reset role;\nselect pg_temp.photo_claim(\'rider\');\nalter table photo_state add column earlier uuid default gen_random_uuid(),add column later uuid default gen_random_uuid();\ndo $$declare sid uuid:=(select session_id from photo_people where label=\'rider\');aid uuid:=(select auth_id from photo_people where label=\'rider\');s photo_state;p text;img uuid;begin\n select *into s from photo_state;\n foreach img in array array[s.earlier,s.later]loop\n p:=public.final2_photo_begin(aid,sid,img,\'delivery\',s.oid,repeat(\'c\',64),\'image/png\',68);\n insert into storage.objects(bucket_id,name,metadata)values(\'final2-private-photos\',p,\'{"mimetype":"image/png","size":68}\');\n end loop;\n perform public.final2_photo_finish(aid,sid,s.later,\'delivery\',s.oid,repeat(\'c\',64),\'image/png\',68);\n perform public.final2_photo_finish(aid,sid,s.earlier,\'delivery\',s.oid,repeat(\'c\',64),\'image/png\',68);\n perform pg_temp.photo_ok(public.final2_delivery_photo(s.oid)->>\'reference\'=\'tezphoto:\'||s.earlier\n and(select photourl from public.delivery_proof where orderid=s.oid::text)=\'tezphoto:\'||s.earlier,\n \'reverse completion order selects the same latest confirmed photo in viewer and canonical OTP receipt\');\n end$$;'if completion_order else'')
  assert source.rstrip().endswith('rollback;')
  path=OUT/'private-photos-check.private.sql';path.write_text(source,encoding='utf-8')
  checks=db.query(path)[0]['results'];assert checks and all(r['result']=='PASS'for r in checks)
@@ -36,7 +40,7 @@ elif action=='deploy':
  proof={'project':REF,'version':version,'versions':len(expected),'migration_sha256':digest,'review_passes':proof['passed'],'replayed':False,'production_modified':False}
  (OUT/(record_prefix+'-deployment.json')).write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8');print(json.dumps(proof))
 
-elif action in('fixture-status','hosted','hosted-tail','identity-denials','cleanup'):
+elif action in('fixture-status','hosted','hosted-tail','identity-denials','order-hosted','cleanup'):
  b=module('fixture_backend','FR-04-hosted.py');b.target()
  state=json.loads(b.crypt((OUT/'onboarding-accounts.dpapi').read_bytes(),True))
  if action=='fixture-status':

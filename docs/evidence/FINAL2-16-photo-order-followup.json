@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-25",
+  "project": "igeisilhtmglgnqvllrx",
+  "fix": "Completion order rather than upload-reservation order selects the current delivery photo",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610250003",
+    "versions": 60,
+    "migration_sha256": "35d141f05c3732b9f52f648683cf1a62ec6a5e60d4f9563c18942d10b9a6edce",
+    "review_passes": 27,
+    "replayed": false,
+    "production_modified": false
+  },
+  "sql_review_pass": 27,
+  "sql_post_pass": 27,
+  "overlap": true,
+  "new_reverse_completion_case": 1,
+  "retained_deadline_and_foundation_cases": 26,
+  "hosted": [
+    {
+      "check": "completion-order projection preserves authorized legacy photo and readonly Customer rights",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "completion-order follow-up retains actual authorized private photo byte access",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "existing unknown completion timestamps remain null; no historical time backfill fabricated",
+      "result": "PASS",
+      "surface": "real TEST persistence read"
+    }
+  ],
+  "historical_completion_times": "Remain NULL; no fabricated backfill",
+  "flutter_changed": false,
+  "edge_changed": false,
+  "Android_APK_changed": false,
+  "prior_fixture_cleanup_retained": true,
+  "production_modified": false
+}

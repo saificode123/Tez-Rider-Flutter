@@ -26,6 +26,17 @@ if action=='cleanup':
   assert rows[0]['profile_image']==fixture['original_avatar']
   fixture['cleaned']=True;save()
  check(True,'exact synthetic profile/proof references restored; immutable uploaded history and audit retained','guarded fixture SQL restoration')
+elif action=='order-hosted':
+ assert fixture.get('cleaned')
+ token=b.login(state['accounts']['review-customer'])
+ try:
+  code,value=gateway('final2_delivery_photo',token,{'p_order_id':fixture['order_id']})
+  check(code==200 and value['reference']=='tezphoto:'+fixture['delivery']and not value['can_upload'],'completion-order projection preserves authorized legacy photo and readonly Customer rights')
+  code,value=b.api('/functions/v1/final2-private-photo','POST',{'action':'view','image_id':fixture['delivery']},token)
+  check(code==200 and 1<=value['expires_in']<=900,'completion-order follow-up retains actual authorized private photo byte access')
+  rows=query("begin read only;select count(*)as n,count(uploaded_at)as timed from final2_private.photos where id in('"+fixture['avatar']+"','"+fixture['delivery']+"');rollback;")
+  check(int(rows[0]['n'])==2 and int(rows[0]['timed'])==0,'existing unknown completion timestamps remain null; no historical time backfill fabricated','real TEST persistence read')
+ finally:b.api('/auth/v1/logout?scope=local','POST',token=token)
 elif action=='identity-denials':
  assert fixture.get('hosted_verified')and not fixture.get('cleaned')
  fr20=json.loads(b.crypt((b.PRIVATE/'fr20-accounts.bin').read_bytes(),True))['accounts']
