@@ -10,6 +10,7 @@ import '../screens/customer/about_tezrider_screen.dart';
 import '../screens/customer/order_history_screen.dart';
 import '../screens/chat_rooms_screen.dart';
 import '../screens/customer/notifications_screen.dart';
+import '../screens/admin_monitor_screen.dart';
 
 const _kGreen = Color(0xFF1B5E20);
 const _kGreenL = Color(0xFF388E3C);
@@ -119,11 +120,7 @@ class AppDrawer extends StatelessWidget {
                     text: 'Reports'.tr,
                     onTap: () {
                       Get.back();
-                      Get.snackbar(
-                        'Coming Soon',
-                        'Analytics reports will be available in a future update.',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
+                      Get.to(() => const AdminMonitorScreen());
                     },
                   ),
                 ],

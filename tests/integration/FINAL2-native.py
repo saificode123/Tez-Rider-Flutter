@@ -18,13 +18,19 @@ def test_nodes():
  active=n.adb('shell','dumpsys','activity','activities')
  assert n.re.search(r'topResumedActivity=ActivityRecord\{[^}]*'+n.re.escape(n.PKG)+'/',active),'TEST app must be foreground'
  for attempt in range(3):
+  remote='/data/local/tmp/final2-ui-'+uuid.uuid4().hex+'.xml'
   try:
-   n.adb('shell','uiautomator','dump','/data/local/tmp/final2-ui.xml')
-   raw=n.adb('exec-out','cat','/data/local/tmp/final2-ui.xml')
+   # A failed Android dump can leave its previous output file intact. Never
+   # accept that cached hierarchy as evidence of the current screen.
+   n.adb('shell','uiautomator','dump',remote)
+   raw=n.adb('exec-out','cat',remote)
    root=n.ET.fromstring(raw);break
   except (n.ET.ParseError,AssertionError):
    if attempt==2:raise
    n.time.sleep(.5)
+  finally:
+   try:n.adb('shell','rm','-f',remote)
+   except AssertionError:pass # Only this unique helper-owned temporary file.
  allowed=[node for node in root.iter('node')if node.get('package')==n.PKG]
  assert allowed,'TEST controls obscured by a system overlay; no other controls inspected'
  # Persist only flat TEST nodes, never another app/system window's contents.
@@ -76,7 +82,78 @@ def form(name,value):
 action=sys.argv[2];assert sys.argv[1]=='native'
 def gateway(name,token,data):
  return n.b.api('/functions/v1/security-gateway','POST',{'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json'},'body':n.json.dumps(data)},token)
-if action=='verify-cohort14-urdu-startup':
+if action=='admin-monitor-top':
+ assert any(n.label(node)=='Order monitoring'for node in n.nodes())
+ for _ in range(3):n.adb('shell','input','swipe','30','600','30','1900','400');n.time.sleep(.3)
+elif action=='verify-admin-fresh-map':
+ deadline=n.time.monotonic()+20
+ while True:
+  labels='\n'.join(n.label(node)for node in n.nodes())
+  match=n.re.search(r'Fresh online Riders: (\d+)',labels)
+  if match and int(match[1])>=2 and 'Rider #'in labels:break
+  assert n.time.monotonic()<deadline,'Both refreshed synthetic Rider map markers must render'
+  n.time.sleep(.4)
+ n.picture('cohort15-admin-fresh-map')
+ record('physical Admin map receives and renders both actual committed synthetic Rider position records live; this is not phone GPS or FR14 movement evidence')
+elif action=='verify-admin-monitor-screen':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'Order monitoring'in labels and 'Filtered orders:'in labels and 'Copy CSV'in labels and 'Fresh online Riders:'in labels
+ assert 'Monitoring could not be refreshed'not in labels
+ n.picture('cohort15-admin-monitor')
+ record('actual Admin monitoring renders server counts/status chart, bounded fresh Rider map, filters and CSV control; map fixtures are synthetic stored coordinates, not physical GPS')
+elif action=='open-admin-native-assignment':
+ fixture=state['admin_monitor_fixture'];oid=fixture['orders']['native']['order_id']
+ assert fixture.get('hosted_verified')and not fixture.get('cleaned')
+ for attempt in range(10):
+  nodes=n.nodes();titles=[node for node in nodes if n.re.search(r'Order #'+str(oid)+r'\b',n.label(node))]
+  if titles:
+   bounds=list(map(int,n.re.findall(r'\d+',titles[0].get('bounds',''))));choices=[]
+   other_tops=[int(n.re.findall(r'\d+',node.get('bounds',''))[1])for node in nodes if n.re.search(r'Order #\d+',n.label(node))and node not in titles]
+   limit=min([y for y in other_tops if y>bounds[1]]or[bounds[3]+500])
+   for node in nodes:
+    xy=list(map(int,n.re.findall(r'\d+',node.get('bounds',''))))
+    if n.label(node)=='Assign Rider'and node.get('clickable')=='true'and bounds[1]<=xy[1]<limit:choices.append(node)
+   if len(choices)==1:n.click('Assign Rider');break
+  # Scroll the page padding rather than panning its interactive map.
+  n.adb('shell','input','swipe','30','1850','30','950','450');n.time.sleep(.5)
+ else:raise AssertionError('Only the exact stored synthetic native order may be selected')
+ deadline=n.time.monotonic()+20
+ while not any(n.label(node)=='Assign Rider to order #'+str(oid)+'?'for node in n.nodes()):
+  assert n.time.monotonic()<deadline,'Exact synthetic order candidate dialog must finish loading'
+  n.time.sleep(.3)
+ record('physical Admin opens manual assignment only for the exact owned ready/escalated synthetic order')
+elif action=='confirm-admin-native-assignment':
+ fixture=state['admin_monitor_fixture'];oid=fixture['orders']['native']['order_id']
+ expected='FR20 synthetic '+('rider2'if fixture['winner']=='rider'else'rider')
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'Assign Rider to order #'+str(oid)+'?'in labels and expected in labels
+ n.click('Confirm assignment')
+ deadline=n.time.monotonic()+20
+ while True:
+  labels='\n'.join(n.label(node)for node in n.nodes())
+  if 'Assignment confirmed. Rider acceptance is pending.'in labels:break
+  assert n.time.monotonic()<deadline,'Actual confirmed assignment state required; no automatic replay'
+  n.time.sleep(.3)
+ record('actual Admin Confirm receives server-confirmed Pending assignment; unchanged original Rider acceptance/checklist/OTP remain required')
+elif action=='verify-admin-native-assigned-state':
+ fixture=state['admin_monitor_fixture'];oid=fixture['orders']['native']['order_id']
+ assert fixture.get('native_verified'),'Read-only hosted receipt/actor reconciliation must pass first'
+ accounts=n.json.loads(n.b.crypt((n.b.PRIVATE/'fr20-accounts.bin').read_bytes(),True))['accounts']
+ rider=int(accounts['rider2'if fixture['winner']=='rider'else'rider']['profile_id'])
+ cards=[n.label(node)for node in n.nodes()if n.re.search(r'Order #'+str(oid)+r'\b',n.label(node))]
+ assert any('Rider: '+str(rider)in card and 'ready'in card for card in cards)
+ n.picture('cohort15-admin-assigned')
+ record('physical exact TEST order shows the confirmed assigned Rider with ready status; hosted canonical receipt/actor verified; no second confirmation sent and no delivery or cash claimed')
+elif action=='copy-admin-monitor-csv':
+ assert any(n.label(node)=='Order monitoring'for node in n.nodes())
+ n.click('Copy CSV');deadline=n.time.monotonic()+20
+ while True:
+  labels='\n'.join(n.label(node)for node in n.nodes())
+  if n.re.search(r'Copied all \d+ filtered orders as CSV\.',labels):break
+  assert n.time.monotonic()<deadline,'Native clipboard operation must confirm completion; no success inferred'
+  n.time.sleep(.3)
+ record('actual Admin Copy CSV receives platform-confirmed complete filtered export; raw clipboard contents are not read')
+elif action=='verify-cohort14-urdu-startup':
  labels=[n.label(node)for node in n.nodes()]
  assert 'دکان کا ڈیش بورڈ'in labels and 'ڈیش بورڈ'in labels and 'Store Dashboard'not in labels
  n.picture('cohort14-urdu-vendor-startup')
@@ -105,7 +182,7 @@ elif action=='scan-stage2-changed':
   elif isinstance(value,list):
    for item in value:collect(item)
  collect(state);collect(n.accounts);collect(n.b.fr04)
- for name in ('accounts.bin','final01-workflow.bin'):
+ for name in ('accounts.bin','final01-workflow.bin','fr20-accounts.bin'):
   collect(n.json.loads(n.b.crypt((n.b.PRIVATE/name).read_bytes(),True)))
  dotenv=n.ROOT/'supabase/functions/.env.test.local'
  for line in dotenv.read_text(encoding='utf-8-sig').splitlines():

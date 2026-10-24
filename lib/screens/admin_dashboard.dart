@@ -9,7 +9,7 @@ import '../widgets/account_review_dialog.dart';
 import 'admin_disputes_screen.dart';
 import 'admin_users_screen.dart';
 import 'admin_broadcasts_screen.dart';
-import 'admin_orders_screen.dart';
+import 'admin_monitor_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -71,9 +71,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
         children: [
           FloatingActionButton.extended(
             heroTag: 'admin-orders',
-            onPressed: () => Get.to(() => const AdminOrdersScreen()),
+            onPressed: () => Get.to(() => const AdminMonitorScreen()),
             icon: const Icon(Icons.receipt_long),
-            label: const Text('Orders and cash records'),
+            label: const Text('Orders and monitoring'),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
@@ -374,7 +374,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       AppColors.info,
                     ),
                     _statCard(
-                      'Active Riders',
+                      'Approved Riders',
                       activeRiders,
                       Icons.moped_rounded,
                       AppColors.success,
