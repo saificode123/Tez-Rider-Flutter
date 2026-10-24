@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
 import 'controllers/auth_controller.dart';
+import 'controllers/language_controller.dart';
 import 'routes/app_routes.dart';
 import 'core/app_translations.dart';
 import 'services/backend_config.dart';
@@ -48,6 +50,8 @@ void main() async {
     }
   });
 
+  final language = Get.put(LanguageController(), permanent: true);
+  await language.restore();
   Get.put(AuthController(), permanent: true);
   if (androidTestPushEnabled) {
     final push = Get.put(AndroidBroadcastPushService(), permanent: true);
@@ -68,8 +72,12 @@ class MyApp extends StatelessWidget {
           : 'TezRider',
       debugShowCheckedModeBanner: false,
       translations: AppTranslations(),
-      locale: const Locale('en', 'US'),
+      locale: Get.isRegistered<LanguageController>()
+          ? LanguageController.to.locale
+          : const Locale('en', 'US'),
       fallbackLocale: const Locale('en', 'US'),
+      supportedLocales: const [Locale('en', 'US'), Locale('ur', 'PK')],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.light,

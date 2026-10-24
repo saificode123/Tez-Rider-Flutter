@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/auth_controller.dart';
+import '../controllers/language_controller.dart';
 import '../screens/splash_screen.dart';
 import '../screens/customer/saved_stores_screen.dart';
 import '../screens/customer/help_center_screen.dart';
@@ -20,6 +21,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe this route to locale changes as Get translation lookups are global.
+    Localizations.localeOf(context);
     final authController = Get.find<AuthController>();
     final user = Supabase.instance.client.auth.currentUser;
     final name = user?.userMetadata?['name'] as String? ?? 'User';
@@ -84,7 +87,7 @@ class AppDrawer extends StatelessWidget {
                 ],
                 _drawerItem(
                   icon: Icons.chat_bubble_outline_rounded,
-                  text: 'Inbox',
+                  text: 'Inbox'.tr,
                   onTap: () {
                     Get.back();
                     Get.to(() => const ChatRoomsScreen());
@@ -92,7 +95,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _drawerItem(
                   icon: Icons.notifications_outlined,
-                  text: 'Notifications',
+                  text: 'Notifications'.tr,
                   onTap: () {
                     Get.back();
                     Get.to(() => NotificationsScreen());
@@ -101,7 +104,7 @@ class AppDrawer extends StatelessWidget {
                 if (role == 'admin') ...[
                   _drawerItem(
                     icon: Icons.settings_rounded,
-                    text: 'Platform Settings',
+                    text: 'Platform Settings'.tr,
                     onTap: () {
                       Get.back();
                       Get.snackbar(
@@ -113,7 +116,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _drawerItem(
                     icon: Icons.report_rounded,
-                    text: 'Reports',
+                    text: 'Reports'.tr,
                     onTap: () {
                       Get.back();
                       Get.snackbar(
@@ -128,13 +131,19 @@ class AppDrawer extends StatelessWidget {
                 _drawerItem(
                   icon: Icons.language_rounded,
                   text: 'language'.tr,
-                  onTap: () {
-                    if (Get.locale?.languageCode == 'ur') {
-                      Get.updateLocale(const Locale('en', 'US'));
-                    } else {
-                      Get.updateLocale(const Locale('ur', 'PK'));
-                    }
+                  onTap: () async {
+                    final language = Get.isRegistered<LanguageController>()
+                        ? LanguageController.to
+                        : Get.put(LanguageController(), permanent: true);
                     Get.back();
+                    final saved = await language.toggle();
+                    if (!saved) {
+                      Get.snackbar(
+                        'Language preference not saved'.tr,
+                        'Please retry the language setting.'.tr,
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
                   },
                 ),
                 _drawerItem(

@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-24",
+  "scope": "S2-16 existing language startup/persistence and Urdu RTL foundation",
+  "status": "IMPLEMENTED FOUNDATION; widget/physical execution pending, not accepted",
+  "implementation": [
+    "Existing tr_language preference restored before initial application rendering.",
+    "Missing/corrupt/unavailable preference safely uses English; restoration is bounded and late reads cannot override user choice.",
+    "Locale application and serialized preference writes handle errors and out-of-order async completion without claiming saved success.",
+    "Drawer toggle uses the existing controller and reports an unconfirmed setting truthfully.",
+    "SDK Material/Widgets/Cupertino localization delegates and English/Urdu supported locales enable actual RTL framework behavior.",
+    "TEST build helper now synchronizes and hashes both dependency manifests, preventing stale mirror dependencies."
+  ],
+  "dependencies": {
+    "resolution": "PASS, offline existing cache",
+    "flutter_localizations": "existing Flutter SDK dependency",
+    "intl_before": "0.19.0",
+    "intl_after": "0.20.3",
+    "changed_dependencies": 2,
+    "new_SDK_installation": false,
+    "network_used_for_resolution": false,
+    "paid_dependency": false
+  },
+  "analysis": {
+    "files": [
+      "lib/controllers/language_controller.dart",
+      "lib/main.dart",
+      "lib/widgets/app_drawer.dart",
+      "lib/core/app_translations.dart",
+      "test/language_settings_test.dart"
+    ],
+    "errors": 0,
+    "warnings": 0,
+    "infos": 3,
+    "infos_are_retained_main_bootstrap_brace_and_debug_prints": true
+  },
+  "flutter": {
+    "executed": 0,
+    "pass": 0,
+    "fail": 0,
+    "skip": 0,
+    "not_executed": 10,
+    "test_file": "test/language_settings_test.dart",
+    "reason": "Flutter could not open the SDK cache lockfile inside the workspace sandbox; test runner did not start.",
+    "cases": [
+      "startup saved Urdu restoration once",
+      "absent navigator safe startup",
+      "unreadable preference fallback",
+      "corrupt/unsupported preference fallback",
+      "late restore vs newer choice",
+      "serialized writes after slow locale application",
+      "persistence error and recovery",
+      "locale application error does not persist",
+      "real Urdu Material localization and RTL",
+      "actual toggle back to English LTR"
+    ]
+  },
+  "build_helper": {
+    "PowerShell_AST_syntax_errors": 0,
+    "new_dependency_mirror_sync_executed": false
+  },
+  "local_scoped_secret_scan": {
+    "files_checked": 45,
+    "protected_values_compared": 8,
+    "matches": 0,
+    "unreadable_protected_files": 1,
+    "network_used": false
+  },
+  "remaining": [
+    "Execute language widget tests and affected startup/date/navigation regressions after the intl update.",
+    "Build/install current source and verify actual English/Urdu restoration and relevant four-role routing.",
+    "Complete other S2-16 profile/settings/notifications/iOS scope independently; this foundation is not full acceptance.",
+    "Complete full protected-store scan and scoped commits when approval execution is restored."
+  ],
+  "approval_review_block": {
+    "operation": "elevated final TEST APK installation",
+    "executed": false,
+    "reason": "automatic review reported a usage-limit failure; no unsafe-action finding and no bypass used"
+  },
+  "production_modified": false,
+  "new_backend_deployment": false,
+  "stage2_overall_complete": false
+}

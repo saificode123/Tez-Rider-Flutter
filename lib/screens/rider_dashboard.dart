@@ -1,3 +1,6 @@
+import '../widgets/rider_performance_panel.dart';
+import 'customer/profile_screen.dart';
+import '../widgets/language_settings_tile.dart';
 import 'rating_summary_screen.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -143,6 +146,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe this route to locale changes as Get translation lookups are global.
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       body: IndexedStack(
@@ -224,7 +229,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             if (isSel) ...[
               const SizedBox(width: 7),
               Text(
-                label,
+                label.tr,
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w700,
@@ -249,9 +254,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
               floating: true,
               snap: true,
               automaticallyImplyLeading: false,
-              title: const Text(
-                'Rider Dashboard',
-                style: TextStyle(
+              title: Text(
+                'Rider Dashboard'.tr,
+                style: const TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 20,
                   color: AppColors.textPrimary,
@@ -1191,9 +1196,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
               floating: true,
               snap: true,
               automaticallyImplyLeading: false,
-              title: const Text(
-                'My Earnings',
-                style: TextStyle(
+              title: Text(
+                'My Earnings'.tr,
+                style: const TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 20,
                   color: AppColors.textPrimary,
@@ -1204,6 +1209,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
+                  const RiderPerformancePanel(),
+                  const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
@@ -1595,6 +1602,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             ]),
             const SizedBox(height: 14),
             _profileSection('Support', [
+              const LanguageSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
                 'Inbox / Chat',
@@ -1615,17 +1623,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 Icons.settings_outlined,
                 'Settings',
                 AppColors.textHint,
-                () {
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Settings will be available in a future update.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
+                () => Get.to(() => const ProfileScreen()),
               ),
             ]),
 

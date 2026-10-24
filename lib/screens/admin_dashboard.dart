@@ -60,6 +60,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe this route to locale changes as Get translation lookups are global.
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       drawer: const AppDrawer(role: 'admin'),
@@ -188,7 +190,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             if (isSel) ...[
               const SizedBox(width: 6),
               Text(
-                label,
+                label.tr,
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w700,
@@ -233,9 +235,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ),
           ),
-          title: const Text(
-            'Admin Panel',
-            style: TextStyle(
+          title: Text(
+            'Admin Panel'.tr,
+            style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 20,
               color: AppColors.textPrimary,

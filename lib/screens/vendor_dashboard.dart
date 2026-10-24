@@ -1,3 +1,5 @@
+import 'customer/profile_screen.dart';
+import '../widgets/language_settings_tile.dart';
 import 'rating_summary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -91,6 +93,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe this route to locale changes as Get translation lookups are global.
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       body: IndexedStack(
@@ -177,7 +181,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
             if (isSel) ...[
               const SizedBox(width: 7),
               Text(
-                label,
+                label.tr,
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w700,
@@ -205,9 +209,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
             floating: true,
             snap: true,
             automaticallyImplyLeading: false,
-            title: const Text(
-              'Store Dashboard',
-              style: TextStyle(
+            title: Text(
+              'Store Dashboard'.tr,
+              style: const TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 20,
                 color: AppColors.textPrimary,
@@ -1171,6 +1175,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
             ]),
             const SizedBox(height: 14),
             _profileSection('Support', [
+              const LanguageSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
                 'Inbox / Chat',
@@ -1191,17 +1196,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 Icons.settings_outlined,
                 'Account Settings',
                 AppColors.textHint,
-                () {
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Account settings will be available in a future update.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
+                () => Get.to(() => const ProfileScreen()),
               ),
             ]),
 

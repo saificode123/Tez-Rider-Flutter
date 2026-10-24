@@ -76,7 +76,154 @@ def form(name,value):
 action=sys.argv[2];assert sys.argv[1]=='native'
 def gateway(name,token,data):
  return n.b.api('/functions/v1/security-gateway','POST',{'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json'},'body':n.json.dumps(data)},token)
-if action.startswith('open-history-detail:'):
+if action=='verify-cohort14-urdu-startup':
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'دکان کا ڈیش بورڈ'in labels and 'ڈیش بورڈ'in labels and 'Store Dashboard'not in labels
+ n.picture('cohort14-urdu-vendor-startup')
+ record('latest TEST build restores saved Urdu and existing Vendor session; actual dashboard title and selected navigation translate after restart')
+elif action=='verify-cohort14-profile-save':
+ current=n.nodes()
+ assert 'My Profile'in[n.label(node)for node in current]and len([node for node in current if node.get('class')=='android.widget.EditText'])==2
+ n.click('Save')
+ labels=[n.label(node)for node in n.nodes()]
+ assert 'Profile updated successfully.'in labels
+ record('actual Vendor Account Settings opens the shared canonical profile editor and unchanged Save receives confirmed server success; no screenshot of personal fields')
+elif action=='verify-cohort14-rider-performance':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'Delivery performance'in labels and 'Completed:'in labels and 'accepted assignments'in labels
+ assert 'Performance could not be loaded'not in labels
+ record('latest TEST Rider earnings page renders actual stored completion metrics and explicit missing-history information; compensation remains unknown')
+elif action=='scan-stage2-changed':
+ import subprocess
+ protected={n.b.SERVICE,n.b.ANON}
+ def collect(value):
+  if isinstance(value,dict):
+   for key,item in value.items():
+    if isinstance(item,str) and any(part in key.lower() for part in ('password','secret','token','api_key')) and len(item)>=8:protected.add(item)
+    else:collect(item)
+  elif isinstance(value,list):
+   for item in value:collect(item)
+ collect(state);collect(n.accounts);collect(n.b.fr04)
+ for name in ('accounts.bin','final01-workflow.bin'):
+  collect(n.json.loads(n.b.crypt((n.b.PRIVATE/name).read_bytes(),True)))
+ dotenv=n.ROOT/'supabase/functions/.env.test.local'
+ for line in dotenv.read_text(encoding='utf-8-sig').splitlines():
+  if '='in line and not line.lstrip().startswith('#'):
+   key,value=line.split('=',1)
+   if any(part in key.lower()for part in('key','password','secret','token')) and len(value.strip())>=8:protected.add(value.strip().strip('\"\''))
+ names=set()
+ for args in [('diff','--name-only','-z','HEAD'),('ls-files','--others','--exclude-standard','-z')]:
+  names.update(subprocess.check_output(['git',*args],cwd=n.ROOT).decode().split('\0'))
+ paths=[n.ROOT/name for name in names if name and(n.ROOT/name).is_file()]
+ assert all(not any(value.encode()in path.read_bytes()for value in protected if value)for path in paths),'Protected value found; content withheld'
+ result={'project':'igeisilhtmglgnqvllrx','files_checked':len(paths),'protected_values_compared':len(protected),'matches':0,'unreadable_protected_files':0,'network_used':False}
+ (n.OUT/'stage2-protected-scan.json').write_text(n.json.dumps(result,indent=2)+'\n',encoding='utf-8');print(n.json.dumps(result))
+elif action=='prepare-image-gallery':
+ fixture=state['product_image_fixture'];fixture.setdefault('native_marker','FINAL2 NATIVE IMAGE '+uuid.uuid4().hex[:10]);fixture.setdefault('native_file','TezRider-TEST-'+uuid.uuid4().hex[:8]+'.png');save()
+ assert any(n.label(node)=='Add Product'for node in n.nodes());assert len([node for node in n.nodes()if node.get('class')=='android.widget.EditText'])==5
+ for index,value in [(0,fixture['native_marker']),(2,'13.75'),(3,'2'),(4,'0')]:
+  fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==5;fill(fields[index],value)
+ from PIL import Image,ImageDraw
+ path=n.OUT/fixture['native_file'];image=Image.new('RGB',(256,256),(0,128,0));draw=ImageDraw.Draw(image);draw.rectangle((16,16,239,239),outline='white',width=6);draw.text((88,118),'TEST',fill='white');image.save(path,format='PNG')
+ remote='/sdcard/Download/'+fixture['native_file'];fixture['native_device_path']=remote;save()
+ existing=n.adb('shell','sh','-c',n.shlex.quote('if test -e '+remote+'; then echo EXISTS; else echo MISSING; fi')).strip()
+ if existing=='MISSING':n.adb('push',str(path),remote)
+ else:assert existing=='EXISTS'
+ actual=n.adb('shell','sha256sum',remote).split()[0];assert actual==n.hashlib.sha256(path.read_bytes()).hexdigest(),'Do not overwrite an existing device file'
+ fixture['native_file_pushed']=True;save()
+ n.adb('shell','am','broadcast','-a','android.intent.action.MEDIA_SCANNER_SCAN_FILE','-d','file://'+remote)
+ n.click('Choose Product Image')
+ print(n.json.dumps({'physical_action_required':'Select the synthetic green TEST image in the Android system photo picker','file':fixture['native_file'],'folder':'Downloads','package':n.PKG,'personal_images_inspected':False}),flush=True)
+elif action in('submit-image-gallery','verify-image-gallery'):
+ fixture=state['product_image_fixture']
+ if action=='submit-image-gallery':
+  assert any('Selected image:'in n.label(node)for node in n.nodes()),'Physical gallery selection required before submission'
+  assert not fixture.get('native_saved')and not fixture.get('native_product_id'),'Do not replay a committed native create'
+  n.click('Save');n.main('assert:My Products')
+ token=n.b.login(state['accounts']['live-vendor'])
+ query='name=eq.'+n.b.urllib.parse.quote(fixture['native_marker'],safe='')+'&select=id,name,price,image_url,stock_qty,stock_version,vendor_id'
+ code,rows=n.b.api('/functions/v1/security-gateway','POST',{'method':'GET','path':'/products','query':query,'headers':{},'body':''},token)
+ assert code==200 and len(rows)==1 and rows[0]['vendor_id']==state['live_vendor_profile_id']and rows[0]['price']==13.75 and rows[0]['stock_qty']==2
+ product=rows[0];fixture['native_product_id']=product['id'];save();assert product['image_url'].startswith('tezproduct:')and product['image_url']!=fixture['reference']
+ code,value=n.b.api('/functions/v1/final2-product-image','POST',{'action':'view','image_id':product['image_url'][11:]},token)
+ assert code==200
+ import base64,io
+ from PIL import Image
+ image=Image.open(io.BytesIO(base64.b64decode(value['image_base64']))).convert('RGB')
+ from PIL import ImageChops,ImageStat
+ expected=Image.open(n.OUT/fixture['native_file']).convert('RGB');assert image.size==expected.size==(256,256)
+ delta=ImageStat.Stat(ImageChops.difference(image,expected)).mean
+ assert max(delta)<12 and all(abs(a-b)<=5 for a,b in zip(image.getpixel((128,80)),(0,128,0))),'Actual synthetic image must survive Android JPEG compression; never compare lossy bytes as identical'
+ print(n.json.dumps({'observed_test_image_size':image.size,'mime':value['mime_type'],'mean_absolute_RGB_difference_after_native_compression':delta}),flush=True)
+
+ fixture.update({'native_saved':True,'native_product_id':product['id'],'native_image_reference':product['image_url'],'native_stock_version':product['stock_version']});save()
+ n.picture('cohort12-gallery-created');record('actual Android system-gallery selection and physical Vendor Save persist one owned product with original 13.75 price/two stock and a distinct server-decoded green TEST photo','android + real authenticated TEST HTTP + actual image bytes')
+elif action.startswith('native-image-control:'):
+ fixture=state['product_image_fixture'];which=action.split(':')[1];assert which in('edit','delete')and fixture['native_saved']and not fixture.get('native_deleted')
+ nodes=n.nodes();assert any(n.label(node)=='My Products'for node in nodes)
+ cards=[node for node in nodes if fixture['native_marker']in n.label(node)];assert len(cards)==1
+ box=list(map(int,n.re.findall(r'\d+',cards[0].get('bounds',''))));buttons=[]
+ for node in nodes:
+  xy=list(map(int,n.re.findall(r'\d+',node.get('bounds',''))))
+  if node.get('class')=='android.widget.Button'and not n.label(node)and node.get('clickable')=='true'and len(xy)==4 and box[1]<xy[1]<xy[3]<=box[3]and xy[0]>600:buttons.append(node)
+ assert len(buttons)==2,'Only the exact owned fixture card edit/delete pair may be selected'
+ buttons.sort(key=lambda node:int(n.re.findall(r'\d+',node.get('bounds',''))[0]));n.tap(buttons[0 if which=='edit'else 1]);n.main('assert:' +('Edit Product'if which=='edit'else'Delete?'))
+elif action=='submit-native-image-edit':
+ fixture=state['product_image_fixture'];assert fixture['native_saved']and not fixture.get('native_edited');assert any(n.label(node)=='Edit Product'for node in n.nodes())
+ for index,value in [(0,fixture['native_marker']+' edited'),(2,'14.25')]:
+  fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==5;fill(fields[index],value)
+ n.click('Save');n.main('assert:My Products')
+ token=n.b.login(state['accounts']['live-vendor']);code,rows=n.b.api('/functions/v1/security-gateway','POST',{'method':'GET','path':'/products','query':'id=eq.'+str(fixture['native_product_id'])+'&select=id,name,price,image_url,stock_qty,stock_version','headers':{},'body':''},token)
+ assert code==200 and len(rows)==1 and rows[0]['name']==fixture['native_marker']+' edited'and rows[0]['price']==14.25 and rows[0]['image_url']==fixture['native_image_reference']and rows[0]['stock_qty']==2
+ fixture['native_edited']=True;fixture['native_stock_version']=rows[0]['stock_version'];save()
+ n.picture('cohort12-gallery-edited');record('physical Vendor Edit and Save update actual owned product name/price to 14.25, preserving confirmed image reference and two stock','android + real authenticated TEST HTTP')
+elif action.startswith('native-image-delete:'):
+ fixture=state['product_image_fixture'];confirm=action.split(':')[1];assert confirm in('cancel','confirm')and fixture['native_edited']and not fixture.get('native_deleted')
+ assert any(n.label(node)=='Delete?'for node in n.nodes());assert any(fixture['native_marker']+' edited'in n.label(node)for node in n.nodes())
+ n.click('Delete'if confirm=='confirm'else'Cancel');n.time.sleep(2)
+ token=n.b.login(state['accounts']['live-vendor']);query='id=eq.'+str(fixture['native_product_id'])+'&select=id,image_url'
+ code,rows=n.b.api('/functions/v1/security-gateway','POST',{'method':'GET','path':'/products','query':query,'headers':{},'body':''},token)
+ assert code==200 and (rows==[]if confirm=='confirm'else len(rows)==1)
+ if confirm=='cancel':
+  record('physical Vendor delete Cancel leaves the exact owned image product persisted','android + real authenticated TEST HTTP')
+ else:
+  fixture['native_deleted']=True;save()
+  customer=n.b.login(state['accounts']['review-customer']);code,_=n.b.api('/functions/v1/final2-product-image','POST',{'action':'view','image_id':fixture['native_image_reference'][11:]},customer);assert code==403
+  n.picture('cohort12-gallery-deleted');record('physical Vendor delete Confirm removes only the synthetic product; other Customer image authority is revoked while uploaded object/history is retained','android + real authenticated TEST HTTP')
+elif action=='cleanup-image-fixtures':
+ fixture=state['product_image_fixture'];assert fixture['native_deleted']and fixture['hosted_verified']
+ if not fixture.get('retired'):
+  token=n.b.login(state['accounts']['live-vendor'])
+  if 'retire_params'not in fixture:
+   code,rows=n.b.api('/functions/v1/security-gateway','POST',{'method':'GET','path':'/products','query':'id=eq.'+str(fixture['product_id'])+'&select=id,stock_version','headers':{},'body':''},token);assert code==200 and len(rows)==1
+   fixture['retire_params']={'p_request_id':str(uuid.uuid4()),'p_product_id':fixture['product_id'],'p_data':{'name':fixture['marker']+' retired','price':12.25,'image_url':fixture['reference'],'category':'FINAL2 TEST only','is_available':False},'p_stock':0,'p_threshold':0,'p_expected_version':rows[0]['stock_version']};save()
+  code,value=gateway('fr17_save_product',token,fixture['retire_params']);assert code==200 and value['code']in('UPDATED','ALREADY_UPDATED')and value['stock_qty']==0
+  fixture['retired']=True;save()
+ if not fixture.get('native_file_removed'):
+  remote=fixture['native_device_path'];assert remote=='/sdcard/Download/'+fixture['native_file']and n.re.fullmatch(r'TezRider-TEST-[a-f0-9]{8}\.png',fixture['native_file'])
+  actual=n.adb('shell','sha256sum',remote).split()[0];assert actual==n.hashlib.sha256((n.OUT/fixture['native_file']).read_bytes()).hexdigest(),'Only the unchanged uniquely created TEST file may be removed'
+  n.adb('shell','rm',remote)
+  assert n.adb('shell','sh','-c',n.shlex.quote('if test -e '+remote+'; then echo EXISTS; else echo MISSING; fi')).strip()=='MISSING'
+  fixture['native_file_removed']=True;save()
+ record('remaining synthetic product stock retired through actual owner API; only the hash-verified newly created Downloads test file removed; uploaded history and personal files untouched','real authenticated TEST HTTP + scoped Android fixture cleanup')
+elif action=='open-image-customer':
+ fixture=state['product_image_fixture'];fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==1
+ fill(fields[0],fixture['marker']);n.main('assert:'+fixture['marker'])
+ choices=[node for node in n.nodes()if fixture['marker']in n.label(node)and node.get('clickable')=='true'and node.get('class')!='android.widget.EditText']
+ assert len(choices)==1,'Exact observed commercial product card required';n.tap(choices[0]);n.main('assert:'+fixture['marker']);n.time.sleep(3)
+ n.picture('cohort12-customer-image');record('physical Customer Search opens real published image fixture through the actual product-detail handler; screenshot retained for visual image verification')
+elif action=='capture-image-customer':
+ fixture=state['product_image_fixture'];assert any(fixture['marker']in n.label(node)for node in n.nodes());assert not any(node.get('class')=='android.widget.EditText'for node in n.nodes())
+ n.picture('cohort12-customer-image');record('physical Customer product-detail image capture refreshed after transient system banner disappeared; actual green uploaded fixture visually verified')
+elif action in('capture-image-vendor','capture-image-vendor-final'):
+ fixture=state['product_image_fixture'];assert any(fixture['marker']in n.label(node)for node in n.nodes());assert any('My Products'in n.label(node)for node in n.nodes())
+ n.time.sleep(2)
+ if action.endswith('-final'):
+  token=n.b.login(state['accounts']['live-vendor']);code,value=n.b.api('/functions/v1/final2-product-image','POST',{'action':'view','image_id':fixture['request_id']},token);assert code==200 and 1<=value['expires_in']<=900
+  assert not any('Retry product image'in n.label(node)for node in n.nodes())
+  n.picture('cohort12-final-vendor-image');record('final source-hash-verified TEST build restores Vendor role and renders the actual product image through the bounded-lifetime client/server path','android + real authenticated TEST HTTP')
+ else:n.picture('cohort12-vendor-image');record('physical owning Vendor My Products lists actual image fixture and product controls; screenshot retained for visual image verification')
+elif action.startswith('open-history-detail:'):
  kind=action.split(':')[1];assert kind in('fixture','legacy','receipt')
  oid=state['history_fixture']['order_id']if kind=='fixture'else state['cod_fixture']['order_id']if kind=='legacy'else state['cash_invoice_fixture']['order_id']
  for attempt in range(15):

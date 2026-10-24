@@ -37,7 +37,13 @@ foreach($directory in @('assets','android')){
  }
 }
 foreach($name in @('pubspec.yaml','pubspec.lock')){
- if(-not(Test-Path -LiteralPath (Join-Path $mirror $name))){Copy-Item -LiteralPath (Join-Path $repo $name) -Destination (Join-Path $mirror $name)}
+ $source=Join-Path $repo $name
+ $destination=Join-Path $mirror $name
+ if(-not(Test-Path -LiteralPath $destination) -or (Get-FileHash -LiteralPath $source).Hash -cne (Get-FileHash -LiteralPath $destination).Hash){
+  Copy-Item -LiteralPath $source -Destination $destination -Force
+ }
+ if((Get-FileHash -LiteralPath $source).Hash -cne (Get-FileHash -LiteralPath $destination).Hash){throw 'Mirror dependency manifest mismatch'}
+ $manifest+=@{path=$name;sha256=(Get-FileHash -LiteralPath $source).Hash}
 }
 # Recreate only missing temporary configuration after OS cleanup.
 foreach($name in @('gradle.properties','local.properties')){
