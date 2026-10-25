@@ -1,0 +1,313 @@
+{
+  "iteration": 20,
+  "recorded_at": "2026-10-25T16:55:22.244594+00:00",
+  "baseline": "5d27db8",
+  "stage2_status": "PARTIAL",
+  "accepted_workstreams": 12,
+  "total_workstreams": 18,
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "implementation": "Render cached English client state through current locale; six strict numeric templates, retained Admin account/broadcast controls, known dispute states/reasons",
+  "catalogue": {
+    "total_keys": 966,
+    "added_since_cohort19": 180,
+    "duplicate_keys": 0,
+    "placeholder_mismatches": 0
+  },
+  "source_manifest": [
+    {
+      "path": "lib/core/stage2_ui_strings.dart",
+      "sha256": "cc13ded56144d2f26d539aabe892c4e5a1ad7ca98bd686787d55a30be510730b"
+    },
+    {
+      "path": "lib/core/stage2_ui_translations.dart",
+      "sha256": "59a5cfa5dc4b0cb707ba72fa8809d59b17e4aaf70edf90aef0d7e3069810344e"
+    },
+    {
+      "path": "lib/screens/admin_broadcasts_screen.dart",
+      "sha256": "c55bb43b3ee5a1d527c8a68a557e03b5f728fd84d3b3ff4881ed2792e1961bb2"
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "sha256": "b4c169d2028c405eb0f7407acf8efeff1eab1883b21b75cd9686a7c4e1c4c78b"
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "sha256": "d37fd70957910b10ebf547af57e107bb8422fd811a856d3245183ef8780c8893"
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "sha256": "3f39ed1a6366a44ff4279e37b71359e15bf14261553f6a269c3ac9bd6478a932"
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "sha256": "88ec30717a830322c64d7ecfedd1767f36629afc2b42062a6893c8b9dcc16e67"
+    },
+    {
+      "path": "lib/screens/admin_users_screen.dart",
+      "sha256": "e3f399d8add186ef527f660fa0c1cc21192eda80422fa41ae617a12fbe4c5870"
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "sha256": "2ca8242591e64f63024836a5a99301e6f84207f2d8a208f1356bb69128989861"
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "sha256": "51e793a040163af0e4b0cf73652fafef3fad8c97e865c5aad39b0e973cd0ed86"
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "sha256": "5f98e88075d456e81d2150ae64c8bf9d337cf202e755a84d1f77478395aec582"
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "sha256": "f517263660d045b2ff031695cd15898f17f1c052bc8cd258edc72f2894bf5604"
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "sha256": "166754576b2a7033b0080832cba90b63df3e6a6b7e93d6eaf2d726a13c2b2f9b"
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "sha256": "b4e134f33619d6f22ace7220e18665f727618a5b462e01a613a2eecc907c6ca0"
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "sha256": "e574c37b9f966d19205f51b523f8fe080ea69661b1907a8bc1cebd44f293f44d"
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "sha256": "e07ba7c067ec85b55ed14d953cf3e344d59baed4053b31e632965b4a19fa9bd3"
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "sha256": "957ad9ea24b91d62513b5fc127c795a3afc58f0b61894a98b7099796a4469ec9"
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "sha256": "6b33608005990fa39ea29177a08eaade0d3cb1f5635420711d4f1b4497bb205d"
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "sha256": "943bb13216c2944eedfbf460b46057fb3ab2df15177c433c4e623f2aed43dc3a"
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "sha256": "1d7c70020b7a9745fd5c45b98b0dc124e9e904ca0b93ce46f5872d1e06414865"
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "sha256": "518000c3d6124f977fd040c1ba46dd3751c58e09b7a7d2c55ad9a63b7c522b60"
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "sha256": "81415a848f3773e5a0c0b0b152712fa1568a819c5182e933ae2d64bd7fdcb92b"
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "sha256": "609ca48a31d4856d4194ff3b82446ce8a319ebb3119ec336ecaf347dac539554"
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "sha256": "baf75ec9d3fb8dd8e14a70e4aaf1b9e378dabbacd0317e5b535d4d810c5c2875"
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "sha256": "8bdcad25457a9f997407ce505cbb9e8c8f923e40d7472dbd9bbfa85cbfbb2c5b"
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "sha256": "b55e40bbd1070026dec1dc055855f1cb076354af978eddb5e50d9cefdffa755d"
+    },
+    {
+      "path": "test/stage2_state_language_test.dart",
+      "sha256": "6fc8a243de78a780540dd9a600af75eab5518202dfa4ba4b3fd969f54371456e"
+    }
+  ],
+  "local_static_analysis": {
+    "method": "Existing analyzer package resolving selected project units read-only; no Flutter SDK cache modification",
+    "resolved_files": 27,
+    "errors": 0,
+    "warnings": 2,
+    "infos": 0,
+    "scope": "Not full flutter analyze and not test execution"
+  },
+  "tests": {
+    "new_cases_passed": 6,
+    "affected_run_passed": 260,
+    "failed": 0,
+    "skipped": 0,
+    "log_sha256": "85d6e3831a23aa0185d2cbd069e5f438b11db6237f1a86faf707ab9ea74578ed",
+    "retained_cohort19_passes": 194,
+    "overlap_not_summed": true,
+    "development_failure": "The broadcast title finder matched both the input and confirmation; restricted to AlertDialog and final complete run passed"
+  },
+  "android": {
+    "installed_snapshot": "cohort19 source/hash-verified build, 2026-10-25T10:10:17Z",
+    "cohort20_build_install_readback": "BUILD_RUNNING",
+    "phone_unlocked": "USER_REPORTED_READY",
+    "stay_awake_restoration": {
+      "original_stay_awake_value": 0,
+      "attempted_temporary_change": "ADB returned a nonzero result; current value was not verified",
+      "restoration": "USER_REPORTED_OFF",
+      "source": "Human reply to the explicit restoration question",
+      "recorded_at": "2026-10-25T13:50:05.899136+00:00",
+      "adb_readback": "PASS: setting read as 0 after recovery"
+    }
+  },
+  "configuration": {
+    "new_dependencies": 0,
+    "database_changes": 0,
+    "edge_changes": 0,
+    "hosted_mutations": 0,
+    "business_fixtures_created_or_deleted": 0
+  },
+  "security": {
+    "API_argument_comparison": {
+      "scope": "Static backend/query/named-navigation arguments, not hosted authorization execution",
+      "calls": 206,
+      "unchanged": true,
+      "files": 64
+    },
+    "current_protected_value_comparison": "NOT_EXECUTED; prior cohort19 33-value comparison retained only for that snapshot",
+    "request_values_and_service_state": "Original role/audience IDs, OTP counters, request UUIDs and state outcomes retained; display changes only"
+  },
+  "blocking_dependency": {
+    "status": "RECOVERED",
+    "previous_rejected_action_executed": false
+  },
+  "required_next_steps": [
+    "Install and verify cohort21 follow-up build; retain cohort20 four-role scope separately",
+    "Complete FR14 movement/deviation and performance qualification",
+    "Resolve remaining policy/platform/approved optional-module dependencies"
+  ],
+  "stage3_started": false,
+  "pre_recovery_checkpoint": {
+    "tests": {
+      "new_cases_written": 6,
+      "new_cases_result": "NOT_EXECUTED",
+      "current_affected_regressions": "NOT_EXECUTED",
+      "retained_cohort19_distinct_passes": 194,
+      "retained_scope": "Only the previously executed a1b4428 snapshot; not a PASS for cohort20"
+    },
+    "blocking_dependency": {
+      "action": "Privileged Android readback, subsequent SDK runtime checks and local Git writes requiring approval",
+      "reason": "Automatic approval review unavailable due account usage allowance; rejected Android check did not execute",
+      "bypass_attempted": false
+    },
+    "android": {
+      "installed_snapshot": "cohort19 source/hash-verified build, 2026-10-25T10:10:17Z",
+      "cohort20_build_install_readback": "BUILD_RUNNING",
+      "phone_unlocked": "USER_REPORTED_READY",
+      "stay_awake_restoration": {
+        "original_stay_awake_value": 0,
+        "attempted_temporary_change": "ADB returned a nonzero result; current value was not verified",
+        "restoration": "USER_REPORTED_OFF",
+        "source": "Human reply to the explicit restoration question",
+        "recorded_at": "2026-10-25T13:50:05.899136+00:00",
+        "adb_readback": "PASS: setting read as 0 after recovery"
+      }
+    }
+  },
+  "execution_after_recovery": {
+    "source_commit": "7605f39",
+    "flutter": {
+      "pass": 260,
+      "fail": 0,
+      "skip": 0,
+      "suite_files": 28,
+      "log": ".fr21-local/final2/state-final-regressions.log"
+    },
+    "full_analyzer": {
+      "errors": 0,
+      "warnings": 13,
+      "infos": 26,
+      "log": ".fr21-local/final2/state-final-flutter-analyze.log"
+    },
+    "android": [
+      {
+        "check": "final TEST Customer restores Urdu, renders translated catalogue captions and retains actual product names/prices",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T16:56:53.952185+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "final TEST deferred booking panel shows Urdu unavailable states without fabricated ETA/rating/verification",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T16:57:31.326683+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Vendor authenticates after Customer logout and renders Urdu dashboard with actual stored sales/rating",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:03:11.561584+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Vendor switches open profile to English with preserved actual store identity and visible shared language setting",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:05:27.188699+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Vendor restores original Urdu on the same profile through the actual language menu",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:05:39.773287+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Rider authenticates after Vendor logout, retains actual ongoing delivery and renders Urdu offline/availability controls",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:09:27.348257+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Admin authenticates after Rider logout and renders authorized Urdu monitoring/account/broadcast entry controls with actual counts",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:13:07.924604+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Admin Vendor filter renders Urdu role labels; actual Block dialog Cancel leaves the exact synthetic Vendor account unchanged",
+        "result": "PASS",
+        "surface": "physical UI and TEST persistence read",
+        "observed_at": "2026-10-25T17:18:11.939493+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "current TEST Admin broadcast renders Urdu audience/review controls, two empty editable fields and actual authorized recipient estimate; field labels/validators have widget evidence; no message sent",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T17:24:28.287793+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "protected_scan": {
+      "values": 40,
+      "matches": 0,
+      "unreadable": 0,
+      "scope": "source/evidence checkpoint before 7605f39"
+    },
+    "phone_setting": {
+      "original": 0,
+      "actual_adb_readback": 0
+    },
+    "supersedes": "Earlier pending fields are historical checkpoints, not current execution status."
+  }
+}

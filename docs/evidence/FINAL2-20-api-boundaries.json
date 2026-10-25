@@ -1,0 +1,326 @@
+{
+  "base": "5d27db8",
+  "scope": "static API arguments and named navigation; not execution evidence",
+  "results": [
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "boundary_calls": 13,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/auth_controller.dart",
+      "boundary_calls": 2,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/language_controller.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/product_controller.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "boundary_calls": 42,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/tez_order_controller.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "boundary_calls": 15,
+      "unchanged": true
+    },
+    {
+      "path": "lib/controllers/vendor_info_controller.dart",
+      "boundary_calls": 7,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_broadcasts_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "boundary_calls": 5,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "boundary_calls": 5,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/admin_users_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "boundary_calls": 3,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "boundary_calls": 4,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "boundary_calls": 4,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "boundary_calls": 11,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "boundary_calls": 20,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "boundary_calls": 9,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "boundary_calls": 9,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "boundary_calls": 13,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "boundary_calls": 3,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "boundary_calls": 10,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/splash_screen.dart",
+      "boundary_calls": 7,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "boundary_calls": 3,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "boundary_calls": 13,
+      "unchanged": true
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/app_drawer.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/invoice_button.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/language_settings_tile.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/order_timeline.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/order_timeout_summary.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/private_photo.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/product_image.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "boundary_calls": 1,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/role_access_gate.dart",
+      "boundary_calls": 2,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/stock_indicator.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    },
+    {
+      "path": "lib/widgets/vendor_order_rejection.dart",
+      "boundary_calls": 0,
+      "unchanged": true
+    }
+  ]
+}

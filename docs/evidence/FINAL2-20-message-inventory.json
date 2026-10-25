@@ -1,0 +1,1068 @@
+{
+  "baseline": "5d27db8",
+  "scope": "Known message formatters and named client error/notice assignments; source evidence only",
+  "entries": [
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 2594,
+      "length": 38,
+      "key": "Could not load approvals. Tap Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 5196,
+      "length": 39,
+      "key": "Could not load more approvals. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 2489,
+      "length": 57,
+      "key": "Saved cart could not be restored. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 3022,
+      "length": 80,
+      "key": "Your cart changed on another device. Review the restored cart before retrying.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 3135,
+      "length": 68,
+      "key": "A product or its requested stock is unavailable. Review your cart.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 3540,
+      "length": 58,
+      "key": "Finish restoring or retrying cart synchronization first.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 4471,
+      "length": 73,
+      "key": "Cart save was not confirmed. Retry cart synchronization before editing.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 5190,
+      "length": 63,
+      "key": "Restore or retry cart synchronization before adding products.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 5363,
+      "length": 32,
+      "key": "Availability is being checked.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 7040,
+      "length": 68,
+      "key": "Product availability could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/cart_controller.dart",
+      "offset": 8609,
+      "length": 65,
+      "key": "Cart availability could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/language_controller.dart",
+      "offset": 2636,
+      "length": 44,
+      "key": "Language preference could not be restored.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/language_controller.dart",
+      "offset": 3089,
+      "length": 32,
+      "key": "Language could not be changed.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/language_controller.dart",
+      "offset": 3656,
+      "length": 41,
+      "key": "Language preference could not be saved.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/product_controller.dart",
+      "offset": 3060,
+      "length": 56,
+      "key": "Products could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 4757,
+      "length": 34,
+      "key": "Could not load rider deliveries.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 8289,
+      "length": 42,
+      "key": "Live updates disconnected. Reconnecting…",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 8476,
+      "length": 35,
+      "key": "Could not load delivery requests.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 10964,
+      "length": 49,
+      "key": "Could not refresh delivery requests. Tap Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 2343,
+      "length": 42,
+      "key": "Sales and rating could not be refreshed.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 4197,
+      "length": 42,
+      "key": "Live updates disconnected. Reconnecting…",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 4395,
+      "length": 53,
+      "key": "Could not load your orders. Retry after signing in.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 7668,
+      "length": 60,
+      "key": "Could not refresh orders. Check your connection and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 2626,
+      "length": 41,
+      "key": "Account changed. Open monitoring again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 4207,
+      "length": 50,
+      "key": "Monitoring could not be refreshed. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 12443,
+      "length": 45,
+      "key": "Assignment is busy. Retry the same request.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 12763,
+      "length": 63,
+      "key": "Result not confirmed. Retry uses the same assignment request.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 1891,
+      "length": 54,
+      "key": "Orders could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 1885,
+      "length": 68,
+      "key": "Select your document again to continue the interrupted submission.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 2129,
+      "length": 41,
+      "key": "Please select your CNIC document image.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 2565,
+      "length": 47,
+      "key": "Could not save your submission. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 2065,
+      "length": 92,
+      "key": "Order details could not be verified. Check your connection and account access, then retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 2162,
+      "length": 36,
+      "key": "Sign in again to view your orders.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 3405,
+      "length": 36,
+      "key": "Orders could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 1797,
+      "length": 43,
+      "key": "Account changed. Open your profile again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 2997,
+      "length": 44,
+      "key": "Profile could not be loaded. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 1474,
+      "length": 77,
+      "key": "Could not load delivery feedback. Check your connection and account access.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 4136,
+      "length": 78,
+      "key": "Result not confirmed. Retry the same feedback to check whether it was saved.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 4231,
+      "length": 77,
+      "key": "Feedback was not saved. Check your account and delivered order, then retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "offset": 1831,
+      "length": 46,
+      "key": "Account changed. Open saved addresses again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "offset": 3008,
+      "length": 45,
+      "key": "Saved addresses could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "offset": 4188,
+      "length": 62,
+      "key": "Address change was not confirmed. Retry the original change.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "offset": 4268,
+      "length": 54,
+      "key": "Address could not be changed. Reload before editing.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "offset": 9416,
+      "length": 62,
+      "key": "Address change was not confirmed. Retry the original change.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 2318,
+      "length": 40,
+      "key": "Favourites could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 7525,
+      "length": 47,
+      "key": "Featured products could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 10575,
+      "length": 60,
+      "key": "Order status could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 11712,
+      "length": 40,
+      "key": "Categories could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 2954,
+      "length": 60,
+      "key": "Availability could not be refreshed. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 4258,
+      "length": 26,
+      "key": "Reviews are unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 1657,
+      "length": 72,
+      "key": "Ratings could not be loaded. Check your connection and account access.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 3804,
+      "length": 68,
+      "key": "Search could not be completed. Use up to 120 characters and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 1776,
+      "length": 45,
+      "key": "Account changed. Open store settings again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 2611,
+      "length": 43,
+      "key": "Store details unavailable. Retry loading.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 3596,
+      "length": 56,
+      "key": "Original save confirmed. Current store details loaded.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 3668,
+      "length": 22,
+      "key": "Store details saved.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 3846,
+      "length": 49,
+      "key": "Save not confirmed. Retry the original details.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 3913,
+      "length": 50,
+      "key": "Store could not be saved. Reload before editing.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/store_settings_screen.dart",
+      "offset": 5522,
+      "length": 67,
+      "key": "Pickup location unavailable. Check location permission and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 2701,
+      "length": 54,
+      "key": "Analytics could not be loaded. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 2459,
+      "length": 54,
+      "key": "Inventory could not be loaded. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 1898,
+      "length": 60,
+      "key": "Enter a rejection reason (one line, up to 500 characters).",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 1329,
+      "length": 46,
+      "key": "The private viewing link expired. Tap Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 1565,
+      "length": 38,
+      "key": "Document could not be loaded. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 1041,
+      "length": 40,
+      "key": "Account changed. Open the order again.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 2041,
+      "length": 36,
+      "key": "Delivery photo unavailable. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 1367,
+      "length": 46,
+      "key": "The private viewing link expired. Tap Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 2471,
+      "length": 70,
+      "key": "Payment status could not be verified. Retry or ask an administrator.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5235,
+      "length": 25,
+      "key": "Manual refund confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5310,
+      "length": 60,
+      "key": "Refund attempt unsuccessful; money return is not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5390,
+      "length": 47,
+      "key": "Refund pending; money return is not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9021,
+      "length": 109,
+      "key": "This record is uncertain. Do not repeat the cash transfer. Retry the unchanged receipt to check the server.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9210,
+      "length": 54,
+      "key": "This account is not authorized for this cash record.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9282,
+      "length": 81,
+      "key": "The record was not accepted. Review the receipt or close and refresh the order.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 2120,
+      "length": 41,
+      "key": "Account changed. Open this photo again.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 3682,
+      "length": 14,
+      "key": "Photo saved.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 3902,
+      "length": 33,
+      "key": "Photo was not confirmed. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 3770,
+      "length": 36,
+      "key": "Rider identity unavailable. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 1174,
+      "length": 42,
+      "key": "Account changed. Open performance again.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 1695,
+      "length": 48,
+      "key": "Performance could not be loaded. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 1472,
+      "length": 40,
+      "key": "Enter a whole-number count and reason.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 2182,
+      "length": 50,
+      "key": "Stock changed. Review this count and save again.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 2458,
+      "length": 57,
+      "key": "Stock update was not confirmed. Refresh your inventory.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 2637,
+      "length": 65,
+      "key": "Update could not be confirmed. Retry the same count and reason.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 713,
+      "length": 32,
+      "key": "Your order has been delivered.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 763,
+      "length": 59,
+      "key": "Incorrect OTP. @slot0end attempts remaining.",
+      "params": {
+        "slot0end": "result['remaining']"
+      }
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 852,
+      "length": 34,
+      "key": "OTP expired. Request a new code.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 903,
+      "length": 32,
+      "key": "Request a delivery code first.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 955,
+      "length": 60,
+      "key": "Only the assigned approved rider can verify this delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1039,
+      "length": 77,
+      "key": "Wait @slot0end seconds before requesting another code.",
+      "params": {
+        "slot0end": "result['retry_after'] ?? 60"
+      }
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1146,
+      "length": 69,
+      "key": "The five-code limit for this order has been reached. Contact Admin.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1245,
+      "length": 62,
+      "key": "Daily email limit reached. Contact Admin; no email was sent.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1328,
+      "length": 36,
+      "key": "Too many requests. Wait and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1394,
+      "length": 80,
+      "key": "Email request accepted. Ask the customer to check their inbox and spam folder.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1503,
+      "length": 68,
+      "key": "Email request is pending. Retry this request to check its outcome.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1600,
+      "length": 75,
+      "key": "Email outcome is unconfirmed. Retry this request; it will not send twice.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1703,
+      "length": 80,
+      "key": "Email provider rejected the request. A previous unexpired code remains usable.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1816,
+      "length": 55,
+      "key": "Admin review routing is unavailable. Contact support.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1904,
+      "length": 65,
+      "key": "The customer needs a confirmed registered email. Contact Admin.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 1991,
+      "length": 55,
+      "key": "This order is not eligible for delivery verification.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 2080,
+      "length": 90,
+      "key": "Complete and submit the pickup checklist, then start delivery before confirming the OTP.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 2187,
+      "length": 35,
+      "key": "Enter exactly six numeric digits.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 2254,
+      "length": 68,
+      "key": "Retry the unchanged verification before entering a different code.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_otp_service.dart",
+      "offset": 2332,
+      "length": 67,
+      "key": "The operation was not confirmed. Check your connection and Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 680,
+      "length": 52,
+      "key": "Account blocked. Auth access and sessions revoked.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 743,
+      "length": 48,
+      "key": "Account unblocked. The user can sign in again.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 835,
+      "length": 58,
+      "key": "Request already applied. Current server status restored.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 937,
+      "length": 88,
+      "key": "Account remains blocked. Auth synchronization is not confirmed. Retry synchronization.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1043,
+      "length": 75,
+      "key": "Another account change is pending. Refresh and retry its synchronization.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1142,
+      "length": 36,
+      "key": "You cannot block your own account.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1203,
+      "length": 43,
+      "key": "Administrator accounts cannot be blocked.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1265,
+      "length": 20,
+      "key": "Account not found.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1304,
+      "length": 55,
+      "key": "Only an authorized administrator can manage accounts.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1389,
+      "length": 56,
+      "key": "The request does not match the pending account change.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1480,
+      "length": 59,
+      "key": "The Auth identity is missing. No account change was made.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 1548,
+      "length": 63,
+      "key": "The account change was not confirmed. Retry the same request.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_users_service.dart",
+      "offset": 5257,
+      "length": 33,
+      "key": "Could not load accounts. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 2521,
+      "length": 103,
+      "key": "Accepted for @slot0end recipients. In-app delivery is available when they connect.",
+      "params": {
+        "slot0end": "result['recipient_count']"
+      }
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 2646,
+      "length": 86,
+      "key": "Please wait @slot0end seconds before another broadcast.",
+      "params": {
+        "slot0end": "result['retry_after_seconds'] ?? 60"
+      }
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 2757,
+      "length": 72,
+      "key": "The rolling 24-hour broadcast limit has been reached. Try again later.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 2848,
+      "length": 61,
+      "key": "Only an approved, active administrator can send broadcasts.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 2936,
+      "length": 85,
+      "key": "Enter a title (1–100 characters), message (1–1,000 characters), and valid audience.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 3055,
+      "length": 76,
+      "key": "This request ID belongs to another broadcast. Refresh before trying again.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/admin_broadcast_service.dart",
+      "offset": 3140,
+      "length": 66,
+      "key": "Delivery acceptance was not confirmed. Retry the same broadcast.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1010,
+      "length": 42,
+      "key": "Order ready; rider assigned within 5 km.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1079,
+      "length": 66,
+      "key": "Order ready; rider assigned after expanding the search to 10 km.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1171,
+      "length": 38,
+      "key": "Order ready; rider already assigned.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1265,
+      "length": 93,
+      "key": "Order ready. No eligible rider within 10 km. Administrators notified for manual assignment.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1369,
+      "length": 99,
+      "key": "Order ready. Manual assignment required; no eligible administrator is available for notification.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1487,
+      "length": 59,
+      "key": "An approved vendor account owning this order is required.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1579,
+      "length": 75,
+      "key": "This order is no longer eligible for rider matching. Refresh your orders.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1692,
+      "length": 50,
+      "key": "Set your store location before matching a rider.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1770,
+      "length": 51,
+      "key": "Assignment is busy. Refresh the result and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/rider_assignment_service.dart",
+      "offset": 1834,
+      "length": 90,
+      "key": "Assignment was not confirmed. Check your connection and retry to check the saved result.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 824,
+      "length": 70,
+      "key": "Only the assigned approved rider can continue. Refresh your session.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 924,
+      "length": 42,
+      "key": "No active assignment. Refresh your jobs.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1001,
+      "length": 62,
+      "key": "This assignment is cancelled or finished. Refresh your jobs.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1094,
+      "length": 59,
+      "key": "Wait until every vendor is ready, then accept the pickup.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1184,
+      "length": 63,
+      "key": "The checklist changed. Refresh and confirm the current items.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1279,
+      "length": 48,
+      "key": "Confirm every required item before submitting.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1361,
+      "length": 68,
+      "key": "Complete and submit the pickup checklist before starting delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/pre_delivery_checklist_service.dart",
+      "offset": 1444,
+      "length": 74,
+      "key": "The server did not confirm this action. Check your connection and Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 3918,
+      "length": 17,
+      "key": "ETA unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 4028,
+      "length": 28,
+      "key": "Approximately @slot0end min",
+      "params": {
+        "slot0end": "minutes"
+      }
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 4066,
+      "length": 26,
+      "key": "Arriving in @slot0end min",
+      "params": {
+        "slot0end": "minutes"
+      }
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 8517,
+      "length": 52,
+      "key": "Delivery tracking is unavailable for this account.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 8895,
+      "length": 46,
+      "key": "Delivery destination has not been confirmed.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 9296,
+      "length": 68,
+      "key": "Straight-line estimate; roads, traffic and stops are not included.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 9408,
+      "length": 34,
+      "key": "Using a previous route estimate.",
+      "params": {}
+    },
+    {
+      "path": "lib/services/delivery_route.dart",
+      "offset": 9945,
+      "length": 45,
+      "key": "Route unavailable. Retrying when connected.",
+      "params": {}
+    }
+  ]
+}

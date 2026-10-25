@@ -1,0 +1,19 @@
+{
+  "scope": "local read-only analyzer package resolution; not Flutter test execution",
+  "diagnostics": [
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "severity": "WARNING",
+      "code": "unused_field",
+      "offset": 1171,
+      "message": "The value of the field '_selectedProductForRec' isn't used."
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "severity": "WARNING",
+      "code": "unused_element",
+      "offset": 14236,
+      "message": "The declaration '_miniOrderCard' isn't referenced."
+    }
+  ]
+}

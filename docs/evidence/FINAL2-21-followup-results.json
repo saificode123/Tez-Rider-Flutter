@@ -1,0 +1,173 @@
+{
+  "iteration": 21,
+  "recorded_at": "2026-10-25T18:15:03.772020+00:00",
+  "baseline": "7605f39",
+  "stage2_status": "PARTIAL",
+  "accepted_workstreams": 12,
+  "total_workstreams": 18,
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "fixes": [
+    "Do not render confirmed-empty addresses after failed or denied load",
+    "Explain offline delivery sharing without requesting permissions or publishing",
+    "Translate pending Admin role and location/presence/foreground-notification display only",
+    "Update retained tests to current owned-address RPC and private RiderIdentityCard contracts"
+  ],
+  "catalogue_keys": 1014,
+  "source_manifest": [
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "sha256": "3926a8adf03801a33e13d7dcc40f44ad48efd3e77134b73d1aa4008dc7982fff"
+    },
+    {
+      "path": "lib/screens/customer/saved_addresses_screen.dart",
+      "sha256": "6aabf130fe911a8c720e477a308410bde95f539d7b787a5a8d05d6a2e2b3aad9"
+    },
+    {
+      "path": "lib/core/stage2_ui_translations.dart",
+      "sha256": "2e8208d7a17ac0055a43c0ddb99f44aaa9fef75d14e09b71a760d8e95faf4621"
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "sha256": "91e536ee65e1054b84734df6e0c37215415b87458d16aceaaac38c8e39856950"
+    },
+    {
+      "path": "lib/services/delivery_location_platform.dart",
+      "sha256": "8bc5ae1c2da5cc056f5a27c55db56bd7e5ca61eb7d6eba359ed882b63ccde7cb"
+    },
+    {
+      "path": "test/rider_sharing_feedback_test.dart",
+      "sha256": "4285e724ac78f142d61bd410e0c78a84583e649e1e7eb16af6fc0f42281ed188"
+    },
+    {
+      "path": "test/closure_ui_states_test.dart",
+      "sha256": "8c63de83505fb7a001f13da6361065d11cb076a16bce112a1111a4bc701f37a8"
+    },
+    {
+      "path": "test/delivery_location_test.dart",
+      "sha256": "b31894d718a600afc5bd0737b4993bc77252136a1afd10aa597bc5479d715375"
+    }
+  ],
+  "flutter": {
+    "pass": 137,
+    "fail": 0,
+    "skip": 0,
+    "files": 10,
+    "log": ".fr21-local/final2/state-followup-tests-final.log",
+    "environment": "existing configured short build mirror; exact changed source/test bytes copied and checked",
+    "overlap": "Overlaps cohort20 and prior suites; do not sum as unique cases",
+    "development_runs": "59PASS/2FAIL then136PASS/1FAIL; stale selectors/contracts corrected and genuine false-empty UI fixed before final137PASS"
+  },
+  "full_analyzer": {
+    "errors": 0,
+    "warnings": 13,
+    "infos": 26,
+    "log": ".fr21-local/final2/cohort21-analyze.log"
+  },
+  "build": {
+    "result": "PASS",
+    "apk_sha256": "BC06EBD45876E241EF17277C9156E4171110B859D4D0BD4D3C107ABC5E0E7CBF",
+    "install": "PENDING USB reconnection; installed physical tests below use7605f39"
+  },
+  "fr14": {
+    "route_requests": [
+      {
+        "project": "igeisilhtmglgnqvllrx",
+        "status": 200,
+        "code": "OK",
+        "latency_ms": 3610,
+        "source": "geoapify",
+        "approximate": false,
+        "stale": false,
+        "distance_meters": 17987,
+        "duration_seconds": 973.996,
+        "geometry_type": "LineString",
+        "observed_at": "2026-10-25T18:11:18.685151+00:00",
+        "coordinates_emitted": false,
+        "authenticated_role": "owning_customer"
+      },
+      {
+        "project": "igeisilhtmglgnqvllrx",
+        "status": 200,
+        "code": "OK",
+        "latency_ms": 2109,
+        "source": "geoapify",
+        "approximate": false,
+        "stale": false,
+        "distance_meters": 17987,
+        "duration_seconds": 973.996,
+        "geometry_type": "LineString",
+        "observed_at": "2026-10-25T18:13:53.711795+00:00",
+        "coordinates_emitted": false,
+        "authenticated_role": "owning_customer"
+      }
+    ],
+    "gps_observations": [
+      {
+        "project": "igeisilhtmglgnqvllrx",
+        "gps": [
+          {
+            "accuracy": 3,
+            "age_seconds": "7.445481",
+            "metres_from_route_origin": "12.4",
+            "received_at": "2026-10-25 18:12:28.747953+00",
+            "route_computed_at": "2026-10-25 18:11:17.406832+00"
+          }
+        ],
+        "observed_at": "2026-10-25T18:12:37.937695+00:00",
+        "coordinates_emitted": false,
+        "mutation": false
+      },
+      {
+        "project": "igeisilhtmglgnqvllrx",
+        "gps": [
+          {
+            "accuracy": 3,
+            "age_seconds": "5.593478",
+            "metres_from_route_origin": "13.4",
+            "received_at": "2026-10-25 18:13:19.755364+00",
+            "route_computed_at": "2026-10-25 18:11:17.406832+00"
+          }
+        ],
+        "observed_at": "2026-10-25T18:13:27.038738+00:00",
+        "coordinates_emitted": false,
+        "mutation": false
+      },
+      {
+        "project": "igeisilhtmglgnqvllrx",
+        "gps": [
+          {
+            "accuracy": 3,
+            "age_seconds": "9.756628",
+            "metres_from_route_origin": "13.5",
+            "received_at": "2026-10-25 18:13:37.83307+00",
+            "route_computed_at": "2026-10-25 18:11:17.406832+00"
+          }
+        ],
+        "observed_at": "2026-10-25T18:13:49.910373+00:00",
+        "coordinates_emitted": false,
+        "mutation": false
+      }
+    ],
+    "physical_user_report": "At home, moved between rooms, USB disconnected",
+    "scope": "Fresh provider route and ongoing real GPS; indoor displacement does not prove road deviation, rerouting or actual travel to destination",
+    "performance": "Both measured requests exceed800ms; no percentile PASS inferred from two samples",
+    "functional_acceptance": "NOT FUNCTIONALLY ACCEPTED",
+    "quota_reset": false,
+    "coordinates_emitted": false,
+    "assignment_or_destination_rewritten": false,
+    "cleanup": "PENDING USB reconnection: restore sharing off and original Rider offline via app"
+  },
+  "database_deployments": 0,
+  "edge_deployments": 0,
+  "stage3_started": false,
+  "source_commit": "56be769",
+  "protected_scan": {
+    "project": "igeisilhtmglgnqvllrx",
+    "files_checked": 23,
+    "protected_values_compared": 40,
+    "matches": 0,
+    "unreadable_protected_files": 0,
+    "network_used": false
+  }
+}

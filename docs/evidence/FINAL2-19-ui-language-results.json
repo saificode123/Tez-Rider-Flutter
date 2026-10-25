@@ -70,5 +70,19 @@
     "existing_address_cleanup_preserved": true
   },
   "stage3_started": false,
-  "implementation_commit": "a1b4428"
+  "implementation_commit": "a1b4428",
+  "continuation20": {
+    "implementation_commit": "a1b4428",
+    "evidence_commit": "5d27db8",
+    "phone_unlock": "USER_REPORTED_READY",
+    "latest_native_blocker": "Automatic approval review usage allowance exhausted; Android readback did not execute",
+    "stay_awake": "USER_REPORTED_OFF; original value 0; automated readback pending",
+    "cohort20_runtime": "NOT_EXECUTED; do not carry the cohort19 194 PASS forward as current verification"
+  },
+  "execution_after_recovery": {
+    "superseding_iteration": 20,
+    "source_commit": "7605f39",
+    "four_role_android": "PASS within recorded controls; see FINAL2-20-state-language-results.json",
+    "stay_awake_original_restored": true
+  }
 }

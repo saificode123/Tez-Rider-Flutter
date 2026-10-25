@@ -1,0 +1,28 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order": [
+    {
+      "destination_confirmed": true,
+      "id": 2418,
+      "order_status": "on_the_way",
+      "rider_id": 683
+    }
+  ],
+  "presence": [
+    {
+      "fresh_gps": false,
+      "is_online": false
+    }
+  ],
+  "quota": [
+    {
+      "daily_limit": 2800,
+      "reserved_24h": 0,
+      "unsettled_guard": 0
+    }
+  ],
+  "provider_request_executed": false,
+  "coordinates_emitted": false,
+  "business_mutations": 0,
+  "observed_at": "2026-10-25T16:48:42.578348+00:00"
+}
