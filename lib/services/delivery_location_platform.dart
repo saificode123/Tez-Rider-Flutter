@@ -1,3 +1,4 @@
+import '../core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -64,11 +65,12 @@ class AndroidRiderLocationSource implements RiderLocationSource {
               ? const Duration(milliseconds: 2500)
               : const Duration(minutes: 1),
           foregroundNotificationConfig: delivery
-              ? const ForegroundNotificationConfig(
-                  notificationTitle: 'TezRider delivery location',
+              ? ForegroundNotificationConfig(
+                  notificationTitle: 'TezRider delivery location'.uiMessage,
                   notificationText:
-                      'Sharing location for your active delivery. Stop sharing in the TEST app.',
-                  notificationChannelName: 'Active delivery location',
+                      'Sharing location for your active delivery. Stop sharing in the TEST app.'
+                          .uiMessage,
+                  notificationChannelName: 'Active delivery location'.uiMessage,
                   enableWakeLock: true,
                   setOngoing: true,
                 )

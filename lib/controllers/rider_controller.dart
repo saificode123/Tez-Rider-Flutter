@@ -118,6 +118,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     if (order?['type'] == 'order' &&
         order?['order_status'] == 'on_the_way' &&
         order?['id'] is int) {
+      if (!isOnline.value) {
+        location.message.value = 'Go online before sharing delivery location.';
+        return;
+      }
       await location.share(order!['id'] as int);
     }
   }

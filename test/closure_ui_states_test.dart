@@ -68,7 +68,9 @@ void main() {
     Get.testMode = true;
     transport.requests.clear();
     transport.respond = (request) async => UiTransport.jsonResponse(
-      request.url.path.endsWith('/users')
+      request.url.path.endsWith('/final2_saved_addresses')
+          ? {'items': [], 'has_more': false, 'cursor': null}
+          : request.url.path.endsWith('/users')
           ? [
               {
                 'id': 1,
@@ -118,7 +120,7 @@ void main() {
       final fallback = transport.respond!;
       final pending = Completer<http.Response>();
       transport.respond = (request) async {
-        if (request.url.path.endsWith('/addresses') &&
+        if (request.url.path.endsWith('/final2_change_address') &&
             request.method == 'POST') {
           return pending.future;
         }
@@ -128,24 +130,38 @@ void main() {
       await settle(tester);
       await tester.tap(find.byIcon(Icons.add_rounded).first);
       await settle(tester);
-      await tester.tap(find.byType(ElevatedButton).last);
+      await tester.tap(find.widgetWithText(FilledButton, 'Save Address'));
       await settle(tester);
-      expect(find.text('Enter a label'), findsOneWidget);
+      expect(
+        find.text(
+          'Enter a label (up to 100 characters) and address (up to 2000 characters).',
+        ),
+        findsOneWidget,
+      );
       expect(
         transport.requests.where(
-          (r) => r.method == 'POST' && r.url.path.endsWith('/addresses'),
+          (r) =>
+              r.method == 'POST' &&
+              r.url.path.endsWith('/final2_change_address'),
         ),
         isEmpty,
       );
-      await tester.enterText(find.byType(TextFormField).at(0), 'Unit home');
-      await tester.enterText(find.byType(TextFormField).at(1), 'Unit address');
-      await tester.tap(find.byType(ElevatedButton).last);
+      await tester.enterText(find.byType(TextField).at(0), 'Unit home');
+      await tester.enterText(find.byType(TextField).at(1), 'Unit address');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save Address'));
       await settle(tester);
-      await tester.tap(find.byType(ElevatedButton).last);
+      final pendingRetry = find.widgetWithText(
+        FilledButton,
+        'Retry original change',
+      );
+      expect(tester.widget<FilledButton>(pendingRetry).onPressed, isNull);
+      await tester.tap(pendingRetry);
       await settle(tester);
       expect(
         transport.requests.where(
-          (r) => r.method == 'POST' && r.url.path.endsWith('/addresses'),
+          (r) =>
+              r.method == 'POST' &&
+              r.url.path.endsWith('/final2_change_address'),
         ),
         hasLength(1),
       );
@@ -155,7 +171,9 @@ void main() {
       await settle(tester);
       expect(find.text('Add New Address'), findsOneWidget);
       expect(
-        find.text('Address changes were not confirmed. Please retry.'),
+        find.text(
+          'Address change was not confirmed. Retry the original change.',
+        ),
         findsOneWidget,
       );
       expect(find.text('Unit address'), findsOneWidget);
@@ -235,31 +253,42 @@ void main() {
   }
 
   testWidgets(
-    'confirmed address insert closes the form only after the returned row and reloads it',
+    'confirmed address insert closes the form only after the returned receipt and reloads its owned RPC page',
     (tester) async {
       final fallback = transport.respond!;
       var saved = false;
       transport.respond = (request) async {
-        if (request.url.path.endsWith('/addresses')) {
-          if (request.method == 'POST') {
-            final body = jsonDecode(request.body) as Map;
-            expect(body['user_id'], 1);
-            expect(body['label'], 'Unit home');
-            expect(body['address'], 'Unit address');
-            saved = true;
-            return UiTransport.jsonResponse({'id': 'unit-address'});
-          }
-          return UiTransport.jsonResponse(
-            saved
+        if (request.url.path.endsWith('/final2_change_address')) {
+          final body = jsonDecode(request.body) as Map;
+          expect(request.method, 'POST');
+          expect(body['p_operation'], 'create');
+          expect(body['p_label'], 'Unit home');
+          expect(body['p_address'], 'Unit address');
+          expect(body.containsKey('user_id'), false);
+          expect(body['p_request_id'], matches(RegExp(r'^[0-9a-f-]{36}$')));
+          saved = true;
+          return UiTransport.jsonResponse({
+            'code': 'APPLIED',
+            'operation': 'create',
+            'address_id': 1,
+            'changed': true,
+          });
+        }
+        if (request.url.path.endsWith('/final2_saved_addresses')) {
+          return UiTransport.jsonResponse({
+            'items': saved
                 ? [
                     {
-                      'id': 'unit-address',
+                      'id': 1,
+                      'revision': 0,
                       'label': 'Unit home',
                       'address': 'Unit address',
                     },
                   ]
                 : [],
-          );
+            'has_more': false,
+            'cursor': null,
+          });
         }
         return fallback(request);
       };
@@ -267,9 +296,9 @@ void main() {
       await settle(tester);
       await tester.tap(find.byIcon(Icons.add_rounded).first);
       await settle(tester);
-      await tester.enterText(find.byType(TextFormField).at(0), 'Unit home');
-      await tester.enterText(find.byType(TextFormField).at(1), 'Unit address');
-      await tester.tap(find.byType(ElevatedButton).last);
+      await tester.enterText(find.byType(TextField).at(0), 'Unit home');
+      await tester.enterText(find.byType(TextField).at(1), 'Unit address');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save Address'));
       await settle(tester);
       expect(saved, isTrue);
       expect(find.text('Add New Address'), findsNothing);
@@ -292,7 +321,7 @@ void main() {
     _Page(
       'customer saved addresses',
       () => const SavedAddressesScreen(),
-      '/addresses',
+      '/rpc/final2_saved_addresses',
       'No saved addresses',
       'Retry addresses',
       'Saved addresses could not be loaded. Retry.',
@@ -334,7 +363,13 @@ void main() {
       await show(tester, page.build());
       expect(find.byType(CircularProgressIndicator), findsWidgets);
       expect(find.text(page.empty), findsNothing);
-      pending.complete(UiTransport.jsonResponse([]));
+      pending.complete(
+        UiTransport.jsonResponse(
+          page.name == 'customer saved addresses'
+              ? {'items': [], 'has_more': false, 'cursor': null}
+              : [],
+        ),
+      );
       await settle(tester);
       expect(find.text(page.empty), findsOneWidget);
       expect(tester.takeException(), isNull);
@@ -347,7 +382,11 @@ void main() {
         transport.respond = (request) async =>
             request.url.path.endsWith(page.path)
             ? UiTransport.jsonResponse(
-                failing ? {'code': '42501', 'message': 'Unit denied'} : [],
+                failing
+                    ? {'code': '42501', 'message': 'Unit denied'}
+                    : page.name == 'customer saved addresses'
+                    ? {'items': [], 'has_more': false, 'cursor': null}
+                    : [],
                 failing ? 403 : 200,
               )
             : fallback(request);

@@ -43,7 +43,8 @@ original_safe=n.safe
 def safe_label(value):
  value=original_safe(value)
  value=n.re.sub(r'\b\d{5}-?\d{7}-?\d\b','[CNIC]',value)
- return n.re.sub(r'(?<!\d)\+?\d{10,15}(?!\d)','[phone]',value)
+ value=n.re.sub(r'(?<!\d)\+?\d{10,15}(?!\d)','[phone]',value)
+ return n.re.sub(r'-?\d+\.\d{4,}','[coordinate]',value)
 n.safe=safe_label
 original_picture=n.picture
 def picture(name):
@@ -272,10 +273,72 @@ elif action in('cohort20-vendor-english','cohort20-vendor-urdu'):
  else:
   assert 'دکان کی ترتیبات'in labels and 'اکاؤنٹ کی ترتیبات'in labels and 'Language / زبان\nاردو'in labels
   record('current TEST Vendor restores original Urdu on the same profile through the actual language menu')
+elif action=='cohort20-admin-users-cancel':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'کردار\nوینڈر'in labels and 'وینڈر · فعال'in labels and 'گاہک · فعال'not in labels
+ account=state['accounts']['email-vendor'];authid=account['auth_id'];assert n.re.fullmatch(r'[0-9a-f-]{36}',authid)
+ path='/rest/v1/users?auth_user_id=eq.'+authid+'&select=id,is_blocked,verification_status'
+ code,before=n.b.api(path,admin=True);assert code==200 and len(before)==1 and before[0]['is_blocked']is False
+ current=n.nodes();cards=[node for node in current if n.label(node).startswith('FINAL2 Email Vendor\n')];assert len(cards)==1
+ def rectangle(node):return list(map(int,n.re.findall(r'\d+',node.get('bounds',''))))
+ outer=rectangle(cards[0]);choices=[]
+ for node in current:
+  if n.label(node)!='بند کریں'or node.get('clickable')!='true':continue
+  box=rectangle(node)
+  if len(box)==4 and outer[0]<=box[0]<box[2]<=outer[2]and outer[1]<=box[1]<box[3]<=outer[3]:choices.append(node)
+ assert len(choices)==1,'Observed synthetic Vendor block control required';n.tap(choices[0])
+ assert any('یہ صارف بند کریں؟'in n.label(node)for node in n.nodes());n.click('منسوخ کریں')
+ code,after=n.b.api(path,admin=True);assert code==200 and after==before
+ record('current TEST Admin Vendor filter renders Urdu role labels; actual Block dialog Cancel leaves the exact synthetic Vendor account unchanged','physical UI and TEST persistence read')
+elif action=='cohort20-broadcast-probe':
+ current=n.nodes();known=('اعلان کا عنوان','پیغام','وصول کنندگان','اعلان کا جائزہ لیں')
+ labels='\n'.join(n.label(node)for node in current)
+ print(n.json.dumps({'known_controls':{value:{'label':value in labels,'hint':any(value in node.get('hint','')for node in current)}for value in known},'editable_fields':len([node for node in current if node.get('class')=='android.widget.EditText']),'fields':[{'attribute_names':list(node.attrib.keys()),'text_length':len(node.get('text','')),'description_length':len(node.get('content-desc','')),'matches':[value for value in known+('Broadcast title','Message')if any(value in attr for attr in node.attrib.values())]}for node in current if node.get('class')=='android.widget.EditText']},ensure_ascii=False))
+elif action=='cohort20-admin-broadcast':
+ deadline=n.time.monotonic()+30
+ while True:
+  labels='\n'.join(n.label(node)for node in n.nodes())
+  if 'متوقع وصول کنندگان:'in labels:break
+  assert n.time.monotonic()<deadline,'Actual authorized recipient estimate required';n.time.sleep(.5)
+ # This device's UiAutomator omits the two empty EditText decoration labels;
+ # exact field-label/validator rendering is established by widget tests.
+ assert 'وصول کنندگان'in labels and 'اعلان کا جائزہ لیں'in labels
+ assert len([node for node in n.nodes()if node.get('class')=='android.widget.EditText'])==2
+ record('current TEST Admin broadcast renders Urdu audience/review controls, two empty editable fields and actual authorized recipient estimate; field labels/validators have widget evidence; no message sent')
+elif action=='cohort20-admin-home':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'انتظامی پینل'in labels and 'TezRider ایڈمن'in labels and 'صارفین کا انتظام'in labels
+ record('current TEST Admin authenticates after Rider logout and renders authorized Urdu monitoring/account/broadcast entry controls with actual counts')
+elif action=='cohort20-rider-home':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'رائیڈر کا ڈیش بورڈ'in labels and 'آپ آف لائن ہیں'in labels and 'جاری ترسیل'in labels
+ n.picture('cohort20-rider-home');record('current TEST Rider authenticates after Vendor logout, retains actual ongoing delivery and renders Urdu offline/availability controls')
 elif action=='cohort20-vendor-home':
  labels='\n'.join(n.label(node)for node in n.nodes())
  assert 'دکان کا ڈیش بورڈ'in labels and 'پہنچائی گئی اشیا کی فروخت'in labels
  n.picture('cohort20-vendor-home');record('current TEST Vendor authenticates after Customer logout and renders Urdu dashboard with actual stored sales/rating')
+elif action=='fr14-gps-observe':
+ spec=importlib.util.spec_from_file_location('final2_fr14_gps',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ assert route.b.REF=='igeisilhtmglgnqvllrx';oid=int(route.state['physical_order']['oid'])
+ rows=route.db.query("select l.received_at,l.accuracy,extract(epoch from(clock_timestamp()-l.received_at))as age_seconds,c.computed_at as route_computed_at,round((6371000*2*asin(sqrt(least(1.0,power(sin(radians(l.latitude-c.origin_lat)/2),2)+cos(radians(l.latitude))*cos(radians(c.origin_lat))*power(sin(radians(l.longitude-c.origin_lng)/2),2)))))::numeric,1)as metres_from_route_origin from public.delivery_latest_locations l left join public.delivery_route_cache c on c.order_id=l.order_id where l.order_id="+str(oid))
+ output={'project':route.b.REF,'gps':rows,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat(),'coordinates_emitted':False,'mutation':False}
+ with(n.OUT/'fr14-gps-observations.jsonl').open('a',encoding='utf-8')as f:f.write(n.json.dumps(output)+'\n')
+ print(n.json.dumps(output))
+elif action=='fr14-route-sample':
+ spec=importlib.util.spec_from_file_location('final2_fr14_route_sample',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ assert route.b.REF=='igeisilhtmglgnqvllrx'
+ oid=int(route.state['physical_order']['oid'])
+ token=route.b.login(route.state['accounts']['physical-customer'])
+ started=n.time.monotonic();code,value=route.edge(oid,token);elapsed=round((n.time.monotonic()-started)*1000)
+ data=value.get('route')or{};geometry=data.get('geometry')or{}
+ output={'project':route.b.REF,'status':code,'code':value.get('code'),'latency_ms':elapsed,'source':data.get('source'),'approximate':data.get('isApproximate'),'stale':data.get('isStale'),'distance_meters':data.get('distanceMeters'),'duration_seconds':data.get('durationSeconds'),'geometry_type':geometry.get('type')if isinstance(geometry,dict)else type(geometry).__name__,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat(),'coordinates_emitted':False,'authenticated_role':'owning_customer'}
+ with(n.OUT/'fr14-route-samples.jsonl').open('a',encoding='utf-8')as f:f.write(n.json.dumps(output)+'\n')
+ print(n.json.dumps(output))
+elif action=='fr14-presence-sample':
+ spec=importlib.util.spec_from_file_location('final2_fr14_presence',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ rider=int(route.state['accounts']['physical-rider']['profile_id']);assert route.b.REF=='igeisilhtmglgnqvllrx'
+ rows=route.db.query("select userid,is_online,presence_epoch,presence_sequence,extract(epoch from(clock_timestamp()-last_seen))as heartbeat_age_seconds,location_updated_at>clock_timestamp()-interval '2 minutes'as fresh_idle_gps from public.riders where userid="+str(rider))
+ print(n.json.dumps({'project':route.b.REF,'presence':rows,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat(),'mutation':False}))
 elif action=='fr14-readiness':
  spec=importlib.util.spec_from_file_location('final2_fr14_readiness',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
  assert route.b.REF=='igeisilhtmglgnqvllrx'
@@ -284,7 +347,8 @@ elif action=='fr14-readiness':
  orders=route.db.query('select id,order_status,rider_id,destination_confirmed_at is not null as destination_confirmed from public.orders where id='+str(oid))
  quota=route.db.query("select c.daily_limit,(select coalesce(sum(units),0)from fr14_private.quota_reservations where reserved_at>clock_timestamp()-interval '24 hours')as reserved_24h,(select count(*)from fr14_private.quota_reservations where not settled and reserved_at<clock_timestamp()-interval '25 seconds'and reserved_at>clock_timestamp()-interval '24 hours')as unsettled_guard from fr14_private.configuration c")
  presence=route.db.query("select is_online,location_updated_at>clock_timestamp()-interval '2 minutes'as fresh_gps from public.riders where userid="+str(rider))
- output={'project':route.b.REF,'order':orders,'presence':presence,'quota':quota,'provider_request_executed':False,'coordinates_emitted':False,'business_mutations':0,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat()}
+ assignments=route.db.query('select id,status,checklist_completed,checklist_completed_at is not null as checklist_timestamp,riderid from public.rider_assignments where orderid='+str(oid)+' order by id')
+ output={'project':route.b.REF,'order':orders,'presence':presence,'quota':quota,'assignments':assignments,'provider_request_executed':False,'coordinates_emitted':False,'business_mutations':0,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat()}
  (n.OUT/'fr14-readiness.json').write_text(n.json.dumps(output,indent=2)+'\n',encoding='utf-8');print(n.json.dumps(output))
 elif action in('cohort19-customer-home','cohort19-customer-track'):
  labels='\n'.join(n.label(node)for node in n.nodes())

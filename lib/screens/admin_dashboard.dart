@@ -609,7 +609,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
                 Text(
                   "New @slot0end · @slot1end".uiTr({
-                    "slot0end": (type).toString(),
+                    "slot0end": type.tr,
                     "slot1end": (item.email).toString(),
                   }),
                   style: const TextStyle(

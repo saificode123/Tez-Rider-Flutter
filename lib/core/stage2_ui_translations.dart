@@ -1254,4 +1254,91 @@ const stage2UiUrdu = <String, String>{
   "Closed": "بند",
   "Escalated": "اعلیٰ جائزے کے لیے بھیجا گیا",
   "Rejected": "مسترد",
+  "Account changed": "اکاؤنٹ بدل گیا",
+  "Active delivery location": "فعال ترسیل کی لوکیشن",
+  "Allow location permission to refresh delivery matching and share an active delivery.":
+      "ترسیل کے لیے رائیڈر تلاش کرنے اور فعال ترسیل کی لوکیشن شیئر کرنے کے لیے اجازت دیں۔",
+  "Allow notifications so active delivery location sharing remains visible.":
+      "اطلاعات کی اجازت دیں تاکہ فعال ترسیل کی لوکیشن شیئرنگ نظر آتی رہے۔",
+  "Approximate Location is enabled. Only fresh fixes within 100 metres are shared. Enable Precise Location in Settings if updates are unavailable.":
+      "تقریبی لوکیشن فعال ہے۔ صرف 100 میٹر کے اندر درست تازہ مقامات شیئر ہوتے ہیں۔ اپ ڈیٹس نہ ملیں تو ترتیبات میں درست لوکیشن فعال کریں۔",
+  "Availability was not confirmed. Check your connection and retry.":
+      "دستیابی کی تصدیق نہیں ہوئی۔ رابطہ دیکھیں اور دوبارہ کوشش کریں۔",
+  "Connection lost. Delivery sharing will retry after availability is confirmed.":
+      "رابطہ ختم ہو گیا۔ دستیابی کی تصدیق کے بعد ترسیل کی شیئرنگ دوبارہ کوشش کرے گی۔",
+  "Connection lost. Go online again when connected.":
+      "رابطہ ختم ہو گیا۔ رابطہ بحال ہونے پر دوبارہ آن لائن ہوں۔",
+  "Connection lost. Waiting for confirmed delivery availability.":
+      "رابطہ ختم ہو گیا۔ ترسیل کی تصدیق شدہ دستیابی کا انتظار ہے۔",
+  "Could not restore availability. Tap Retry.":
+      "دستیابی بحال نہیں ہو سکی۔ دوبارہ کوشش دبائیں۔",
+  "Delivery location sharing is currently available on Android only.":
+      "ترسیل کی لوکیشن شیئرنگ فی الحال صرف اینڈرائیڈ پر دستیاب ہے۔",
+  "Device sharing stopped. Server cleanup awaits reconnection or lease expiry.":
+      "آلے کی شیئرنگ رک گئی۔ سرور کی صفائی رابطہ بحال ہونے یا مدت ختم ہونے پر ہو گی۔",
+  "GPS status is unavailable. Retry location sharing.":
+      "GPS کی حالت دستیاب نہیں۔ لوکیشن شیئرنگ دوبارہ آزمائیں۔",
+  "Location Services are off. Enable them in Settings > Privacy & Security > Location Services, then retry.":
+      "لوکیشن سروسز بند ہیں۔ Settings > Privacy & Security > Location Services میں فعال کر کے دوبارہ کوشش کریں۔",
+  "Location access could not be checked. Check Settings and retry sharing.":
+      "لوکیشن کی رسائی جانچی نہیں جا سکی۔ ترتیبات دیکھیں اور دوبارہ شیئر کریں۔",
+  "Location access is denied or restricted. Allow While Using the App in Settings; check Screen Time or device restrictions if access cannot be changed.":
+      "لوکیشن کی رسائی بند یا محدود ہے۔ ترتیبات میں ایپ استعمال کرتے وقت اجازت دیں؛ تبدیلی ممکن نہ ہو تو Screen Time یا آلے کی پابندیاں دیکھیں۔",
+  "Location access is denied. Open Settings > Location and allow While Using the App. Screen Time or device restrictions may need an administrator.":
+      "لوکیشن کی رسائی بند ہے۔ Settings > Location میں ایپ استعمال کرتے وقت اجازت دیں۔ Screen Time یا آلے کی پابندیوں کے لیے ایڈمن کی ضرورت ہو سکتی ہے۔",
+  "Location is unavailable. Check permission and GPS.":
+      "لوکیشن دستیاب نہیں۔ اجازت اور GPS دیکھیں۔",
+  "Location permission could not be checked. Retry when the app is open.":
+      "لوکیشن کی اجازت جانچی نہیں جا سکی۔ ایپ کھلی ہونے پر دوبارہ کوشش کریں۔",
+  "Location permission is blocked. Enable it in app settings and retry.":
+      "لوکیشن کی اجازت بند ہے۔ ایپ کی ترتیبات میں اجازت دیں اور دوبارہ کوشش کریں۔",
+  "Location permission or GPS was interrupted. Check settings and retry.":
+      "لوکیشن کی اجازت یا GPS میں خلل آیا۔ ترتیبات دیکھیں اور دوبارہ کوشش کریں۔",
+  "Location service stopped. Reopen the app and retry sharing.":
+      "لوکیشن سروس رک گئی۔ ایپ دوبارہ کھولیں اور شیئرنگ آزمائیں۔",
+  "Location services are disabled. Enable GPS and retry.":
+      "لوکیشن سروسز بند ہیں۔ GPS فعال کریں اور دوبارہ کوشش کریں۔",
+  "Location sharing is off.": "لوکیشن شیئرنگ بند ہے۔",
+  "Location sharing stopped: delivery is no longer eligible.":
+      "لوکیشن شیئرنگ رک گئی: ترسیل اب اہل نہیں۔",
+  "Location sharing stopped: delivery or account is no longer eligible.":
+      "لوکیشن شیئرنگ رک گئی: ترسیل یا اکاؤنٹ اب اہل نہیں۔",
+  "Location update not confirmed. Retrying when a fresh fix is available.":
+      "لوکیشن اپ ڈیٹ کی تصدیق نہیں ہوئی۔ تازہ مقام ملنے پر دوبارہ کوشش ہو گی۔",
+  "Online: location refreshes once a minute for delivery matching.":
+      "آن لائن: رائیڈر تلاش کے لیے لوکیشن ہر منٹ تازہ ہوتی ہے۔",
+  "Open TezRider to allow location access, then retry.":
+      "لوکیشن کی اجازت دینے کے لیے TezRider کھولیں، پھر دوبارہ کوشش کریں۔",
+  "Session required": "سیشن ضروری ہے",
+  "Settings could not be opened. Open TezRider location settings manually.":
+      "ترتیبات نہیں کھل سکیں۔ TezRider کی لوکیشن ترتیبات خود کھولیں۔",
+  "Sharing location for your active delivery. Stop sharing in the TEST app.":
+      "فعال ترسیل کے لیے لوکیشن شیئر ہو رہی ہے۔ TEST ایپ میں شیئرنگ روکیں۔",
+  "Sharing requires an online rider, completed checklist and started delivery.":
+      "شیئرنگ کے لیے آن لائن رائیڈر، مکمل چیک لسٹ اور شروع شدہ ترسیل ضروری ہے۔",
+  "Sharing stopped. Reopen the app to reset the location service.":
+      "شیئرنگ رک گئی۔ لوکیشن سروس بحال کرنے کے لیے ایپ دوبارہ کھولیں۔",
+  "Sharing was not confirmed. Check your connection and retry.":
+      "شیئرنگ کی تصدیق نہیں ہوئی۔ رابطہ دیکھیں اور دوبارہ کوشش کریں۔",
+  "Sharing your live location.": "آپ کی براہ راست لوکیشن شیئر ہو رہی ہے۔",
+  "Sharing your live location. Keep GPS enabled.":
+      "آپ کی براہ راست لوکیشن شیئر ہو رہی ہے۔ GPS فعال رکھیں۔",
+  "TezRider delivery location": "TezRider ترسیل کی لوکیشن",
+  "Waiting for a fresh location within 100 metres. If Precise Location is off, enable it in Settings for more accurate updates.":
+      "100 میٹر کے اندر تازہ مقام کا انتظار ہے۔ درست لوکیشن بند ہو تو بہتر اپ ڈیٹس کے لیے ترتیبات میں فعال کریں۔",
+  "Waiting for a fresh, accurate GPS fix.": "تازہ، درست GPS مقام کا انتظار ہے۔",
+  "Waiting for a fresh, accurate GPS fix. Check the device date and time.":
+      "تازہ، درست GPS مقام کا انتظار ہے۔ آلے کی تاریخ اور وقت دیکھیں۔",
+  "Waiting for the next fresh GPS fix.": "اگلے تازہ GPS مقام کا انتظار ہے۔",
+  "Go online before sharing delivery location.":
+      "ترسیل کی لوکیشن شیئر کرنے سے پہلے آن لائن ہوں۔",
+  "This session changed. Tap Retry to restore availability.":
+      "یہ سیشن بدل گیا۔ دستیابی بحال کرنے کے لیے دوبارہ کوشش دبائیں۔",
+  "Session expired. Please sign in again.":
+      "سیشن ختم ہو گیا۔ دوبارہ سائن ان کریں۔",
+  "Availability setup is pending on the server.":
+      "سرور پر دستیابی کی ترتیب زیر التوا ہے۔",
+  "An approved rider account is required.": "منظور شدہ رائیڈر اکاؤنٹ ضروری ہے۔",
+  "Availability could not be confirmed. Tap Retry.":
+      "دستیابی کی تصدیق نہیں ہوئی۔ دوبارہ کوشش دبائیں۔",
 };

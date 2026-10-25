@@ -136,7 +136,12 @@ void main() {
     expect(map, contains('points: route.points'));
     expect(map, isNot(contains('RoutingService.fetchRoute')));
     expect(map, isNot(contains('_etaText')));
-    expect(map, contains('fr04_order_rider_identity'));
+    // Cohort16 replaced the legacy identity RPC with the guarded private card.
+    expect(map, contains('RiderIdentityCard('));
+    expect(
+      File('lib/widgets/rider_identity_card.dart').readAsStringSync(),
+      contains('final2_customer_delivery_identity'),
+    );
   });
   for (final problem in [
     'Location permission denied',

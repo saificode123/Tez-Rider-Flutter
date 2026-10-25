@@ -379,7 +379,9 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
                     child: CircularProgressIndicator(color: _kPurple),
                   )
                 : _addresses.isEmpty
-                ? _buildEmpty()
+                ? _loadError == null
+                      ? _buildEmpty()
+                      : const SizedBox.shrink()
                 : ListView.builder(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
                     itemCount: _addresses.length + (_hasMore ? 1 : 0),
