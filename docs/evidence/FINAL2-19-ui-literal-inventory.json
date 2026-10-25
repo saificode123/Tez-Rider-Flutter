@@ -1,0 +1,6410 @@
+{
+  "baseline": "33dd332",
+  "scope": "867 pre-change display literal instances across 51 files with literals, selected from 61 targets; dynamic renderers require separate review",
+  "entries": [
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 7934,
+      "length": 9,
+      "key": "Success",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 7945,
+      "length": 30,
+      "key": "Status updated to @slot0end",
+      "params": {
+        "slot0end": "newStatus"
+      }
+    },
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 8017,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/admin_controller.dart",
+      "offset": 8026,
+      "length": 25,
+      "key": "Failed to update status",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 5170,
+      "length": 10,
+      "key": "Location",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 5193,
+      "length": 73,
+      "key": "Your location could not be saved. Delivery matching may be unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 13017,
+      "length": 18,
+      "key": "Ongoing Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 13046,
+      "length": 43,
+      "key": "Please complete your current order first.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 13960,
+      "length": 16,
+      "key": "Order Accepted",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 13987,
+      "length": 57,
+      "key": "Complete the pickup checklist before starting delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 14205,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 14214,
+      "length": 25,
+      "key": "Could not accept order.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 14610,
+      "length": 18,
+      "key": "Pickup checklist",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 16449,
+      "length": 18,
+      "key": "Ongoing Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 16478,
+      "length": 43,
+      "key": "Please complete your current order first.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17303,
+      "length": 10,
+      "key": "Accepted",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17315,
+      "length": 33,
+      "key": "Please proceed with the pickup.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17390,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17399,
+      "length": 37,
+      "key": "Could not accept tailoring request.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17656,
+      "length": 10,
+      "key": "Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 17679,
+      "length": 46,
+      "key": "Enter the customer OTP to complete delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 18121,
+      "length": 9,
+      "key": "Success",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 18132,
+      "length": 30,
+      "key": "Tailoring delivery complete!",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 18247,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/rider_controller.dart",
+      "offset": 18256,
+      "length": 30,
+      "key": "Could not complete delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 8762,
+      "length": 14,
+      "key": "Order update",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 9572,
+      "length": 9,
+      "key": "Success",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 9592,
+      "length": 36,
+      "key": "Tailoring job marked as @slot0end",
+      "params": {
+        "slot0end": "newStatus"
+      }
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 9725,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/controllers/vendor_controller.dart",
+      "offset": 9734,
+      "length": 36,
+      "key": "Failed to update tailoring job: @slot0end",
+      "params": {
+        "slot0end": "e"
+      }
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 1127,
+      "length": 19,
+      "key": "Welcome back! 🛡️",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 1161,
+      "length": 27,
+      "key": "Let's review operations.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 2555,
+      "length": 23,
+      "key": "Orders and monitoring",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 2880,
+      "length": 25,
+      "key": "Broadcast notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 3196,
+      "length": 14,
+      "key": "Manage Users",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 4582,
+      "length": 10,
+      "key": "Overview",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 4771,
+      "length": 8,
+      "key": "Riders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 4948,
+      "length": 9,
+      "key": "Vendors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 5134,
+      "length": 10,
+      "key": "Disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 8859,
+      "length": 20,
+      "key": "Operations Control",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 9233,
+      "length": 16,
+      "key": "TezRider Admin",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 10608,
+      "length": 31,
+      "key": "@slot0end active orders right now",
+      "params": {
+        "slot0end": "live"
+      }
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 12628,
+      "length": 14,
+      "key": "Total Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 12869,
+      "length": 13,
+      "key": "Live Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 13093,
+      "length": 17,
+      "key": "Approved Riders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 13314,
+      "length": 15,
+      "key": "Open Disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 13726,
+      "length": 19,
+      "key": "Awaiting Approval",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 14522,
+      "length": 19,
+      "key": "Refresh approvals",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 16736,
+      "length": 22,
+      "key": "No pending approvals",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 17640,
+      "length": 26,
+      "key": "Load more pending riders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 17920,
+      "length": 27,
+      "key": "Refresh approvals / Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 21297,
+      "length": 27,
+      "key": "New @slot0end · @slot1end",
+      "params": {
+        "slot0end": "type",
+        "slot1end": "item.email"
+      }
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 21694,
+      "length": 20,
+      "key": "CNIC: @slot0end",
+      "params": {
+        "slot0end": "item.cnic"
+      }
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 22201,
+      "length": 11,
+      "key": "View CNIC",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 22567,
+      "length": 9,
+      "key": "Approve",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 22888,
+      "length": 8,
+      "key": "Reject",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 24724,
+      "length": 18,
+      "key": "Load more riders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_dashboard.dart",
+      "offset": 25954,
+      "length": 19,
+      "key": "Load more vendors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 1844,
+      "length": 20,
+      "key": "Dispute Resolution",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 2471,
+      "length": 15,
+      "key": "Status filter",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 2630,
+      "length": 14,
+      "key": "All statuses",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 3497,
+      "length": 26,
+      "key": "Retry / refresh disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 3844,
+      "length": 30,
+      "key": "No disputes for this filter.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 4264,
+      "length": 64,
+      "key": "Dispute #@slot0end • Order #@slot1end",
+      "params": {
+        "slot0end": "d['id']",
+        "slot1end": "d['order_id'] ?? 'Unavailable'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 5050,
+      "length": 20,
+      "key": "Load more disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 6528,
+      "length": 23,
+      "key": "Resolve this dispute?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 6568,
+      "length": 22,
+      "key": "Reject this dispute?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 6675,
+      "length": 119,
+      "key": "Record the final decision and a pending refund action. Money will not be returned by this app.\n\n@slot0end",
+      "params": {
+        "slot0end": "note.text.trim()"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 6811,
+      "length": 107,
+      "key": "Record a final rejection and notify the customer. This decision cannot be changed.\n\n@slot0end",
+      "params": {
+        "slot0end": "note.text.trim()"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 7062,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 7199,
+      "length": 18,
+      "key": "Confirm decision",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 7482,
+      "length": 23,
+      "key": "Dispute #@slot0end",
+      "params": {
+        "slot0end": "widget.id"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 7885,
+      "length": 22,
+      "key": "Dispute unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 8044,
+      "length": 15,
+      "key": "Retry details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 8472,
+      "length": 31,
+      "key": "Submitted: @slot0end",
+      "params": {
+        "slot0end": "d['created_at']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 8534,
+      "length": 80,
+      "key": "Order #@slot0end • PKR @slot1end",
+      "params": {
+        "slot0end": "d['order_id'] ?? 'Unavailable'",
+        "slot1end": "d['amount'] ?? 'Unavailable'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 8657,
+      "length": 88,
+      "key": "Order: @slot0end • @slot1end",
+      "params": {
+        "slot0end": "d['order_status'] ?? 'Unavailable'",
+        "slot1end": "d['payment_method'] ?? 'Unavailable'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 8788,
+      "length": 90,
+      "key": "Customer: @slot0end (#@slot1end)",
+      "params": {
+        "slot0end": "d['customer_name'] ?? 'Unavailable'",
+        "slot1end": "d['customer_id'] ?? 'Unavailable'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 9044,
+      "length": 36,
+      "key": "Vendor: @slot0end (#@slot1end)",
+      "params": {
+        "slot0end": "v['name']",
+        "slot1end": "v['id']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 9155,
+      "length": 21,
+      "key": "Vendor: unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 9440,
+      "length": 19,
+      "key": "Load more vendors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 9492,
+      "length": 45,
+      "key": "Rider: @slot0end",
+      "params": {
+        "slot0end": "d['rider_name'] ?? 'Not assigned'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 9665,
+      "length": 24,
+      "key": "No legacy description.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 10065,
+      "length": 18,
+      "key": "View evidence @slot0end",
+      "params": {
+        "slot0end": "i"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 10160,
+      "length": 28,
+      "key": "Decision: @slot0end",
+      "params": {
+        "slot0end": "d['decision']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 10208,
+      "length": 32,
+      "key": "Admin note: @slot0end",
+      "params": {
+        "slot0end": "d['admin_note']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 10275,
+      "length": 75,
+      "key": "Administrator: @slot0end • @slot1end",
+      "params": {
+        "slot0end": "d['admin_name'] ?? d['decided_by']",
+        "slot1end": "d['decided_at']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 10455,
+      "length": 101,
+      "key": "Refund eligibility recorded: PKR @slot0end. Check the current cash/refund status below.",
+      "params": {
+        "slot0end": "d['refund_amount']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 11036,
+      "length": 62,
+      "key": "Decision recorded. Current settlement status is shown above.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 11732,
+      "length": 86,
+      "key": "Required admin note (@slot0end–@slot1end characters)",
+      "params": {
+        "slot0end": "controller.noteMinimum",
+        "slot1end": "controller.noteMaximum"
+      }
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 12000,
+      "length": 96,
+      "key": "Confirmation is unavailable. Retry the unchanged decision; server state will be checked first.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 12460,
+      "length": 26,
+      "key": "Retry unchanged decision",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 12757,
+      "length": 9,
+      "key": "Resolve",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 13045,
+      "length": 8,
+      "key": "Reject",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 13176,
+      "length": 52,
+      "key": "Read-only dispute. No further decision is allowed.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_disputes_screen.dart",
+      "offset": 13399,
+      "length": 23,
+      "key": "Refresh server status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 6161,
+      "length": 71,
+      "key": "Copied all @slot0end filtered orders as CSV.",
+      "params": {
+        "slot0end": "data['summary']['total_orders']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 6480,
+      "length": 70,
+      "key": "Export was not confirmed. Retry or narrow the filter to 5000 orders.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 7119,
+      "length": 77,
+      "key": "No fresh eligible Riders are available. Refresh after availability changes.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 7827,
+      "length": 34,
+      "key": "Assign Rider to order #@slot0end?",
+      "params": {
+        "slot0end": "orderId"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 8261,
+      "length": 95,
+      "key": "This sends a pending request. The Rider must still accept and complete the checklist and OTP.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 8856,
+      "length": 75,
+      "key": "@slot0end • @slot1end km",
+      "params": {
+        "slot0end": "r['name']",
+        "slot1end": "((r['distance_m'] as num) / 1000).toStringAsFixed(1)"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 9740,
+      "length": 24,
+      "key": "Close and check status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 9767,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 11249,
+      "length": 52,
+      "key": "Assignment confirmed. Rider acceptance is pending.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 11353,
+      "length": 75,
+      "key": "Original assignment receipt confirmed. Review the refreshed order status.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 11474,
+      "length": 67,
+      "key": "Order or Rider availability changed. Review the refreshed status.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 12582,
+      "length": 18,
+      "key": "Retry assignment",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 12628,
+      "length": 20,
+      "key": "Confirm assignment",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 12926,
+      "length": 61,
+      "key": "Candidates unavailable or order changed. Refresh and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 14125,
+      "length": 18,
+      "key": "Order monitoring",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 14211,
+      "length": 14,
+      "key": "Cash records",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 14529,
+      "length": 20,
+      "key": "Refresh monitoring",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 15668,
+      "length": 14,
+      "key": "All statuses",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 16800,
+      "length": 14,
+      "key": "Filter dates",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 17318,
+      "length": 13,
+      "key": "Clear dates",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 17548,
+      "length": 12,
+      "key": "Exporting…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 17563,
+      "length": 10,
+      "key": "Copy CSV",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 17756,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 17852,
+      "length": 127,
+      "key": "Filtered orders: @slot0end • Active: @slot1end • Delivered: @slot2end",
+      "params": {
+        "slot0end": "summary['total_orders']",
+        "slot1end": "summary['active_orders']",
+        "slot2end": "summary['delivered_orders']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 18031,
+      "length": 88,
+      "key": "Delivered order value: @slot0end",
+      "params": {
+        "slot0end": "historyMoney(historyCents(summary['delivered_value_cents']))"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 18177,
+      "length": 59,
+      "key": "Gross order value; not platform profit or Rider earnings.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 18327,
+      "length": 59,
+      "key": "Amounts needing review: @slot0end",
+      "params": {
+        "slot0end": "summary['unconfirmed_amounts']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 18407,
+      "length": 50,
+      "key": "Fresh online Riders: @slot0end",
+      "params": {
+        "slot0end": "summary['online_riders']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 19250,
+      "length": 45,
+      "key": "No fresh online Rider locations to display.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 20480,
+      "length": 25,
+      "key": "Rider #@slot0end",
+      "params": {
+        "slot0end": "p['rider_id']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 21196,
+      "length": 69,
+      "key": "Map shows the first 200 fresh Riders; the total above includes all.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 21303,
+      "length": 41,
+      "key": "Snapshot: @slot0end",
+      "params": {
+        "slot0end": "_snapshot!['generated_at']"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 21422,
+      "length": 30,
+      "key": "No orders match this filter.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 21791,
+      "length": 59,
+      "key": "Order #@slot0end • @slot1end",
+      "params": {
+        "slot0end": "row['order_id']",
+        "slot1end": "row['status'] ?? 'unknown'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 22010,
+      "length": 65,
+      "key": "Order value: @slot0end",
+      "params": {
+        "slot0end": "historyMoney(historyCents(row['amount_cents']))"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 22131,
+      "length": 43,
+      "key": "Rider: @slot0end",
+      "params": {
+        "slot0end": "row['rider_id'] ?? 'Unassigned'"
+      }
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 22577,
+      "length": 14,
+      "key": "Assign Rider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 22721,
+      "length": 48,
+      "key": "Manual assignment is waiting for ready stores.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_monitor_screen.dart",
+      "offset": 23093,
+      "length": 18,
+      "key": "Load more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 1989,
+      "length": 25,
+      "key": "Orders and cash records",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 2452,
+      "length": 14,
+      "key": "Retry orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 2641,
+      "length": 19,
+      "key": "No order records.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 3037,
+      "length": 18,
+      "key": "Load more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/admin_orders_screen.dart",
+      "offset": 3240,
+      "length": 50,
+      "key": "Order #@slot0end · @slot1end",
+      "params": {
+        "slot0end": "order['id']",
+        "slot1end": "order['order_status']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 3099,
+      "length": 31,
+      "key": "Cart synchronization required",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 3141,
+      "length": 51,
+      "key": "Restore or retry your saved cart before checkout.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 3361,
+      "length": 63,
+      "key": "Gift delivery is not configured. No gift order was submitted.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 9113,
+      "length": 22,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "item['price']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 10741,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 12083,
+      "length": 21,
+      "key": "You might also like",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 12468,
+      "length": 42,
+      "key": "Complementary items from the same vendor",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 14855,
+      "length": 23,
+      "key": "Prescription Required",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 15258,
+      "length": 87,
+      "key": "Your order contains medicines. You'll need to upload a prescription during checkout.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 16654,
+      "length": 51,
+      "key": "Perfect for overseas users surprising loved ones.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 18826,
+      "length": 24,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "cart.totalPrice"
+      }
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 19809,
+      "length": 21,
+      "key": "Proceed to Checkout",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen.dart",
+      "offset": 20731,
+      "length": 28,
+      "key": "Retry cart synchronization",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 8251,
+      "length": 22,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "item['price']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 9879,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 11221,
+      "length": 21,
+      "key": "You might also like",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 11606,
+      "length": 21,
+      "key": "Complementary items",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 13972,
+      "length": 23,
+      "key": "Prescription Required",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 14375,
+      "length": 87,
+      "key": "Your order contains medicines. You'll need to upload a prescription during checkout.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 15671,
+      "length": 51,
+      "key": "Perfect for overseas users surprising loved ones.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 17809,
+      "length": 24,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "cart.totalPrice"
+      }
+    },
+    {
+      "path": "lib/screens/customer/cart_screen_new.dart",
+      "offset": 18792,
+      "length": 21,
+      "key": "Proceed to Checkout",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 1290,
+      "length": 19,
+      "key": "Dispute submitted",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 2216,
+      "length": 16,
+      "key": "Submit dispute",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 2500,
+      "length": 85,
+      "key": "Submit within 24 hours of delivery. Select 1–3 JPEG or PNG images, up to 5 MB each.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 2995,
+      "length": 95,
+      "key": "@slot0end evidence images are already uploaded. Retry to confirm submission.",
+      "params": {
+        "slot0end": "controller.paths.length"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 3489,
+      "length": 17,
+      "key": "Delivered order",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 3742,
+      "length": 40,
+      "key": "Order #@slot0end • PKR @slot1end",
+      "params": {
+        "slot0end": "o['id']",
+        "slot1end": "o['amount']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 4190,
+      "length": 69,
+      "key": "No eligible delivered orders. Older orders remain in Order History.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 4479,
+      "length": 18,
+      "key": "Load more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 4788,
+      "length": 8,
+      "key": "Reason",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 5517,
+      "length": 22,
+      "key": "Required description",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 6362,
+      "length": 26,
+      "key": "Remove evidence @slot0end",
+      "params": {
+        "slot0end": "i + 1"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 7418,
+      "length": 9,
+      "key": "Gallery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 7875,
+      "length": 8,
+      "key": "Camera",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 8099,
+      "length": 186,
+      "key": "Evidence @slot0end/@slot1end uploaded; confirming submission…",
+      "params": {
+        "slot0end": "controller.completedImages.value",
+        "slot1end": "controller.images.length > controller.paths.length ? controller.images.length : controller.paths.length"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 8796,
+      "length": 22,
+      "key": "Retry loading orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 8944,
+      "length": 61,
+      "key": "Keep this submission unchanged while its result is checked.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 9250,
+      "length": 16,
+      "key": "Submit dispute",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 9294,
+      "length": 18,
+      "key": "Retry submission",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 9623,
+      "length": 26,
+      "key": "Discard unfinished draft",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 9818,
+      "length": 13,
+      "key": "My disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 11148,
+      "length": 13,
+      "key": "My disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 11739,
+      "length": 18,
+      "key": "No disputes yet.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 11867,
+      "length": 46,
+      "key": "Order #@slot0end • @slot1end",
+      "params": {
+        "slot0end": "row['order_id']",
+        "slot1end": "row['reason']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 12512,
+      "length": 11,
+      "key": "Load more",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 12526,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 13817,
+      "length": 17,
+      "key": "Dispute details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14095,
+      "length": 22,
+      "key": "Dispute unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14184,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14356,
+      "length": 58,
+      "key": "Order #@slot0end • PKR @slot1end",
+      "params": {
+        "slot0end": "detail!['order_id']",
+        "slot1end": "detail!['amount']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14607,
+      "length": 37,
+      "key": "Submitted: @slot0end",
+      "params": {
+        "slot0end": "detail!['created_at']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14917,
+      "length": 40,
+      "key": "Admin decision: @slot0end",
+      "params": {
+        "slot0end": "detail!['decision']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 14982,
+      "length": 38,
+      "key": "Admin note: @slot0end",
+      "params": {
+        "slot0end": "detail!['admin_note']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 15045,
+      "length": 35,
+      "key": "Decided: @slot0end",
+      "params": {
+        "slot0end": "detail!['decided_at']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 15191,
+      "length": 86,
+      "key": "Refund eligibility was recorded. Check payment status for any confirmed cash return.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 15546,
+      "length": 25,
+      "key": "Payment / refund status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/dispute_screen.dart",
+      "offset": 16018,
+      "length": 18,
+      "key": "View evidence @slot0end",
+      "params": {
+        "slot0end": "i"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 5804,
+      "length": 10,
+      "key": "Location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 5816,
+      "length": 25,
+      "key": "Please enable location.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 6211,
+      "length": 12,
+      "key": "Permission",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 6225,
+      "length": 41,
+      "key": "Location permission permanently denied.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 6911,
+      "length": 22,
+      "key": "Location unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 6946,
+      "length": 40,
+      "key": "Choose a map pin or retry My Location.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 7332,
+      "length": 30,
+      "key": "Confirm delivery destination",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 7400,
+      "length": 132,
+      "key": "Deliver to this @slot0end?\n@slot1end, @slot2end",
+      "params": {
+        "slot0end": "source == 'my_location' ? 'current location' : 'map pin'",
+        "slot1end": "lat.toStringAsFixed(5)",
+        "slot2end": "lng.toStringAsFixed(5)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 7675,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 7810,
+      "length": 21,
+      "key": "Confirm destination",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 8435,
+      "length": 26,
+      "key": "Select Delivery Location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13022,
+      "length": 31,
+      "key": "Cart synchronization required",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13064,
+      "length": 59,
+      "key": "Restore or retry your saved cart before placing an order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13219,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13228,
+      "length": 15,
+      "key": "Cart is empty",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13332,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13341,
+      "length": 29,
+      "key": "Please enter your full name",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13507,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13516,
+      "length": 35,
+      "key": "Please enter a valid phone number",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13744,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13753,
+      "length": 36,
+      "key": "Please enter a valid email address",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13907,
+      "length": 22,
+      "key": "Delivery destination",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 13940,
+      "length": 61,
+      "key": "Confirm My Location or a map pin before placing your order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 14108,
+      "length": 23,
+      "key": "Prescription Required",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 14142,
+      "length": 58,
+      "key": "Please upload all required prescriptions before payment.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 14545,
+      "length": 18,
+      "key": "Multiple Vendors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 14704,
+      "length": 67,
+      "key": "Your cart contains products from @slot0end different vendors.",
+      "params": {
+        "slot0end": "_vendorCount"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 14876,
+      "length": 76,
+      "key": "Estimated extra delivery charges: PKR @slot0end",
+      "params": {
+        "slot0end": "_extraDelivery.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 15210,
+      "length": 95,
+      "key": "You can continue with multiple vendors or buy from nearby vendors to reduce delivery charges.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 15530,
+      "length": 22,
+      "key": "Check Nearby Vendors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 15727,
+      "length": 10,
+      "key": "Continue",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 16286,
+      "length": 27,
+      "key": "Nearby Vendor Suggestions",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 16649,
+      "length": 25,
+      "key": "No nearby vendors found",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 17532,
+      "length": 32,
+      "key": "Vendor ID: @slot0end",
+      "params": {
+        "slot0end": "product.vendorId"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 17609,
+      "length": 22,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "product.price"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 17910,
+      "length": 10,
+      "key": "Selected",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 17961,
+      "length": 26,
+      "key": "@slot0end selected",
+      "params": {
+        "slot0end": "product.name"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 18120,
+      "length": 8,
+      "key": "Select",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 19321,
+      "length": 14,
+      "key": "Order placed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 19377,
+      "length": 45,
+      "key": "Order placed! Awaiting vendor confirmation.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 19440,
+      "length": 87,
+      "key": "Order placed. Cart synchronization is pending; retry it before placing another order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 19845,
+      "length": 15,
+      "key": "Stock changed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 20364,
+      "length": 11,
+      "key": "Keep cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 20522,
+      "length": 19,
+      "key": "Adjust quantities",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 21032,
+      "length": 21,
+      "key": "Order not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 23270,
+      "length": 10,
+      "key": "Checkout",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 23567,
+      "length": 17,
+      "key": "Contact Details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 23856,
+      "length": 11,
+      "key": "Full name",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 24320,
+      "length": 14,
+      "key": "Phone number",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 24794,
+      "length": 15,
+      "key": "Email address",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 25152,
+      "length": 18,
+      "key": "Delivery Address",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 25476,
+      "length": 26,
+      "key": "Select delivery location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 25805,
+      "length": 13,
+      "key": "My Location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 26120,
+      "length": 21,
+      "key": "Choose delivery pin",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 26643,
+      "length": 16,
+      "key": "Payment Method",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 27364,
+      "length": 18,
+      "key": "Cash on Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 28375,
+      "length": 24,
+      "key": "Smart Rider Suggestion",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 28762,
+      "length": 59,
+      "key": "Products are coming from @slot0end different vendors.",
+      "params": {
+        "slot0end": "_vendorCount"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 28950,
+      "length": 20,
+      "key": "One Rider Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29120,
+      "length": 56,
+      "key": "Charges : PKR @slot0end",
+      "params": {
+        "slot0end": "_singleRiderCharge.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29230,
+      "length": 45,
+      "key": "ETA : @slot0end mins",
+      "params": {
+        "slot0end": "_singleETA.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29381,
+      "length": 20,
+      "key": "Two Rider Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29527,
+      "length": 53,
+      "key": "Charges : PKR @slot0end",
+      "params": {
+        "slot0end": "_twoRiderCharge.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29611,
+      "length": 45,
+      "key": "ETA : @slot0end mins",
+      "params": {
+        "slot0end": "_doubleETA.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 29751,
+      "length": 146,
+      "key": "You save PKR @slot0end and approximately @slot1end minutes by using 2 riders.",
+      "params": {
+        "slot0end": "_estimatedSaving.toStringAsFixed(0)",
+        "slot1end": "(_singleETA - _doubleETA).toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 30460,
+      "length": 16,
+      "key": "Use Two Riders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 30747,
+      "length": 14,
+      "key": "Prescription",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 31376,
+      "length": 16,
+      "key": "Delivery Speed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 32487,
+      "length": 10,
+      "key": "Subtotal",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 32558,
+      "length": 50,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "widget.cart.totalPrice.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 32985,
+      "length": 18,
+      "key": "Delivery Charges",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 33039,
+      "length": 44,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "_baseDeliveryFee.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 33513,
+      "length": 18,
+      "key": "Express Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 33569,
+      "length": 37,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "_speedFee.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 34031,
+      "length": 16,
+      "key": "Extra Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 34116,
+      "length": 42,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "_extraDelivery.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 34591,
+      "length": 7,
+      "key": "Total",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 34864,
+      "length": 72,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "(widget.cart.totalPrice + _totalDeliveryFee).toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/customer/enhanced_checkout_screen.dart",
+      "offset": 35983,
+      "length": 32,
+      "key": "Place Order (Cash on Delivery)",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 3167,
+      "length": 34,
+      "key": "Order #@slot0end details",
+      "params": {
+        "slot0end": "widget.orderId"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 3269,
+      "length": 15,
+      "key": "Refresh order",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 3774,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4154,
+      "length": 14,
+      "key": "Order status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4376,
+      "length": 46,
+      "key": "Placed: @slot0end",
+      "params": {
+        "slot0end": "date(current.value['created_at'])"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4517,
+      "length": 51,
+      "key": "Delivered: @slot0end",
+      "params": {
+        "slot0end": "date(current.value['delivered_at'])"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4663,
+      "length": 51,
+      "key": "Cancelled: @slot0end",
+      "params": {
+        "slot0end": "date(current.value['cancelled_at'])"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4787,
+      "length": 46,
+      "key": "Updated: @slot0end",
+      "params": {
+        "slot0end": "date(updated!.toIso8601String())"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 4886,
+      "length": 7,
+      "key": "Items",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 5029,
+      "length": 56,
+      "key": "Itemized records are unavailable for this older order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 5248,
+      "length": 79,
+      "key": "Recorded item amounts are shown. Product names reflect the current catalogue.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 5964,
+      "length": 25,
+      "key": "Vendor name unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 6497,
+      "length": 26,
+      "key": "Product name unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7022,
+      "length": 80,
+      "key": "Item subtotal: @slot0end",
+      "params": {
+        "slot0end": "historyMoney(historyCents(current.totals['subtotal_cents']))"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7178,
+      "length": 79,
+      "key": "Delivery fee: @slot0end",
+      "params": {
+        "slot0end": "historyMoney(historyCents(current.totals['delivery_cents']))"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7333,
+      "length": 75,
+      "key": "Order total: @slot0end",
+      "params": {
+        "slot0end": "historyMoney(historyCents(current.totals['total_cents']))"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7636,
+      "length": 90,
+      "key": "These amounts could not be reconciled. Ask an administrator to review the order records.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7804,
+      "length": 16,
+      "key": "Order timeline",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 7951,
+      "length": 82,
+      "key": "Earlier status history is unavailable. Only recorded events and dates are shown.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 8170,
+      "length": 52,
+      "key": "No recorded lifecycle events for this older order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 8457,
+      "length": 17,
+      "key": "Vendor progress",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 8773,
+      "length": 25,
+      "key": "Vendor name unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 9051,
+      "length": 17,
+      "key": "Pickup reserved",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 9346,
+      "length": 47,
+      "key": "Earlier Vendor status history is unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 10317,
+      "length": 19,
+      "key": "Payment & refunds",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_detail_screen.dart",
+      "offset": 10480,
+      "length": 47,
+      "key": "Payment records require administrator review.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 4487,
+      "length": 15,
+      "key": "Order History",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 5482,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 6172,
+      "length": 18,
+      "key": "Load more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 7189,
+      "length": 15,
+      "key": "No orders yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 7444,
+      "length": 38,
+      "key": "Your order history will appear here.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 10124,
+      "length": 12,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "id"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 10484,
+      "length": 26,
+      "key": "PKR @slot0end  •  @slot1end",
+      "params": {
+        "slot0end": "amount",
+        "slot1end": "dateStr"
+      }
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 11228,
+      "length": 15,
+      "key": "Order details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 11499,
+      "length": 19,
+      "key": "Payment / refunds",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 11773,
+      "length": 16,
+      "key": "Track location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 12901,
+      "length": 9,
+      "key": "Dispute",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/order_history_screen.dart",
+      "offset": 13874,
+      "length": 6,
+      "key": "Rate",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 3467,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 4075,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 4093,
+      "length": 55,
+      "key": "Profile changes could not be confirmed. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 4935,
+      "length": 12,
+      "key": "My Profile",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 5632,
+      "length": 6,
+      "key": "Save",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 6361,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 10968,
+      "length": 18,
+      "key": "TezRider Rewards",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 11406,
+      "length": 28,
+      "key": "Reward balance unavailable",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 11804,
+      "length": 39,
+      "key": "Rewards are not currently configured.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 13007,
+      "length": 11,
+      "key": "Full Name",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 13296,
+      "length": 14,
+      "key": "Phone Number",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 14894,
+      "length": 11,
+      "key": "read-only",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/profile_screen.dart",
+      "offset": 16430,
+      "length": 14,
+      "key": "Save Changes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 1643,
+      "length": 19,
+      "key": "Delivery feedback",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 1935,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 2218,
+      "length": 91,
+      "key": "Rate each Vendor and your assigned Rider separately. Submitted feedback cannot be edited.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 2414,
+      "length": 52,
+      "key": "No eligible feedback recipients for this delivery.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 4919,
+      "length": 37,
+      "key": "Saved rating: @slot0end/5",
+      "params": {
+        "slot0end": "saved!['rating']"
+      }
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 5223,
+      "length": 20,
+      "key": "@slot0end stars",
+      "params": {
+        "slot0end": "index + 1"
+      }
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 5863,
+      "length": 20,
+      "key": "Comment (optional)",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 6146,
+      "length": 13,
+      "key": "Submitting…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 6238,
+      "length": 21,
+      "key": "Retry same feedback",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/rating_screen.dart",
+      "offset": 6285,
+      "length": 17,
+      "key": "Submit feedback",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 2525,
+      "length": 9,
+      "key": "Removed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 2543,
+      "length": 34,
+      "key": "\"@slot0end\" removed from favourites.",
+      "params": {
+        "slot0end": "name"
+      }
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 2818,
+      "length": 13,
+      "key": "Not removed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 2833,
+      "length": 42,
+      "key": "Removal was not confirmed. Please retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 3397,
+      "length": 12,
+      "key": "Favourites",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 4091,
+      "length": 18,
+      "key": "Retry favourites",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 4846,
+      "length": 19,
+      "key": "No favourites yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 5105,
+      "length": 41,
+      "key": "Tap ❤️ on any product to save it here.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 8473,
+      "length": 12,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "price"
+      }
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 9302,
+      "length": 8,
+      "key": "Remove",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 10107,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 10327,
+      "length": 17,
+      "key": "@slot0end added! 🛒",
+      "params": {
+        "slot0end": "name"
+      }
+    },
+    {
+      "path": "lib/screens/customer/saved_stores_screen.dart",
+      "offset": 10502,
+      "length": 17,
+      "key": "@slot0end added! 🛒",
+      "params": {
+        "slot0end": "name"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 13775,
+      "length": 6,
+      "key": "Home",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 13937,
+      "length": 8,
+      "key": "Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 14033,
+      "length": 11,
+      "key": "TezRaftar",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 14195,
+      "length": 4,
+      "key": "Me",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 16445,
+      "length": 14,
+      "key": "AI Assistant",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 21334,
+      "length": 13,
+      "key": "My Location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 28026,
+      "length": 20,
+      "key": "Hello, @slot0end ",
+      "params": {
+        "slot0end": "_userName"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 30062,
+      "length": 34,
+      "key": "Search food, stores, cuisines...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 32353,
+      "length": 25,
+      "key": "Retry featured products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 32542,
+      "length": 33,
+      "key": "No featured products available.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 32860,
+      "length": 10,
+      "key": "Featured",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 33562,
+      "length": 11,
+      "key": "CATALOGUE",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 34088,
+      "length": 9,
+      "key": "See all",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 40923,
+      "length": 22,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "item['price']"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 42020,
+      "length": 6,
+      "key": "View",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 42995,
+      "length": 18,
+      "key": "Retry categories",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 43384,
+      "length": 12,
+      "key": "Categories",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 48018,
+      "length": 11,
+      "key": "All Items",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 48763,
+      "length": 69,
+      "key": "@slot0end items",
+      "params": {
+        "slot0end": "productCtrl.getProductsByCategory(_selectedCatName).length"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 49548,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 50220,
+      "length": 20,
+      "key": "Load more products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 55291,
+      "length": 6,
+      "key": "Food",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 56941,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 57273,
+      "length": 29,
+      "key": "@slot0end added to cart! 🛒",
+      "params": {
+        "slot0end": "p.name"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 57478,
+      "length": 29,
+      "key": "@slot0end added to cart! 🛒",
+      "params": {
+        "slot0end": "p.name"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 62346,
+      "length": 70,
+      "key": "@slot0end • @slot1end km",
+      "params": {
+        "slot0end": "nearest.branch.name",
+        "slot1end": "nearest.distanceKm.toStringAsFixed(1)"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 63078,
+      "length": 15,
+      "key": "Rs.@slot0end",
+      "params": {
+        "slot0end": "p.price"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 67727,
+      "length": 18,
+      "key": "Nothing here yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 67979,
+      "length": 28,
+      "key": "No items in this category.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 68527,
+      "length": 11,
+      "key": "My Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 68856,
+      "length": 26,
+      "key": "Track your order history",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 70682,
+      "length": 20,
+      "key": "Fetching orders...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 72031,
+      "length": 15,
+      "key": "No orders yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 72298,
+      "length": 38,
+      "key": "Your order history will appear here.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 73509,
+      "length": 16,
+      "key": "Start Ordering",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 76137,
+      "length": 12,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "id"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 76497,
+      "length": 13,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "amount"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 77710,
+      "length": 104,
+      "key": "A delivery verification code has been sent to your registered email. Check your inbox and spam folder.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 77838,
+      "length": 88,
+      "key": "Your rider will request a verification code to your registered email when they arrive.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 78418,
+      "length": 11,
+      "key": "TezRaftar",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 78681,
+      "length": 28,
+      "key": "Instant on-demand delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 81049,
+      "length": 15,
+      "key": "Instant Rider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 81496,
+      "length": 30,
+      "key": "Nearest rider in under 5 min",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 83656,
+      "length": 24,
+      "key": "Searching for rider...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 84646,
+      "length": 18,
+      "key": "Request TezRider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 86784,
+      "length": 15,
+      "key": "Open Live Map",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 87171,
+      "length": 29,
+      "key": "Real-time delivery tracking",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 87769,
+      "length": 11,
+      "key": "Avg 5 min",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 87868,
+      "length": 12,
+      "key": "4.9 rating",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 87970,
+      "length": 10,
+      "key": "Verified",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 92760,
+      "length": 10,
+      "key": "Customer",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 93036,
+      "length": 26,
+      "key": "@slot0end orders",
+      "params": {
+        "slot0end": "_orders.length"
+      }
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 94522,
+      "length": 14,
+      "key": "Edit Profile",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95113,
+      "length": 12,
+      "key": "My Account",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95194,
+      "length": 15,
+      "key": "Order History",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95386,
+      "length": 17,
+      "key": "Saved Addresses",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95580,
+      "length": 17,
+      "key": "Payment Methods",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95775,
+      "length": 14,
+      "key": "Saved Stores",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 95963,
+      "length": 14,
+      "key": "Inbox / Chat",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 96170,
+      "length": 9,
+      "key": "Support",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 96248,
+      "length": 10,
+      "key": "Disputes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 96435,
+      "length": 13,
+      "key": "Help Center",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 96624,
+      "length": 16,
+      "key": "About TezRider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 96780,
+      "length": 14,
+      "key": "Rate the App",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 97644,
+      "length": 10,
+      "key": "Sign Out",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 101750,
+      "length": 11,
+      "key": "Sign Out?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 102031,
+      "length": 55,
+      "key": "You'll need to sign in again to access your account.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 102853,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer_dashboard.dart",
+      "offset": 104075,
+      "length": 10,
+      "key": "Sign Out",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 10279,
+      "length": 16,
+      "key": "Reset Password",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 10513,
+      "length": 52,
+      "key": "Enter your email and we'll send you a reset link.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 10888,
+      "length": 16,
+      "key": "your@email.com",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 11445,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 11921,
+      "length": 12,
+      "key": "Email Sent",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 11954,
+      "length": 38,
+      "key": "Check your inbox for the reset link.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 12507,
+      "length": 7,
+      "key": "Error",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 12535,
+      "length": 48,
+      "key": "Could not send reset email. Check the address.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 13225,
+      "length": 11,
+      "key": "Send Link",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 18304,
+      "length": 10,
+      "key": "TEZRIDER",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 20126,
+      "length": 15,
+      "key": "Signing in as",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 20748,
+      "length": 15,
+      "key": "Email Address",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 21306,
+      "length": 10,
+      "key": "Password",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 23182,
+      "length": 18,
+      "key": "Forgot password?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/login_screen.dart",
+      "offset": 25008,
+      "length": 16,
+      "key": "Create Account",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 5244,
+      "length": 66,
+      "key": "Your location is unavailable. Check GPS and location permission.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 11263,
+      "length": 77,
+      "key": "Live rider location • accuracy ±@slot0end m",
+      "params": {
+        "slot0end": "state.position.value!.accuracy.round()"
+      }
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 12211,
+      "length": 18,
+      "key": "Calculating ETA…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 13386,
+      "length": 52,
+      "key": "Powered by Geoapify | © OpenStreetMap contributors",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 15872,
+      "length": 24,
+      "key": "Live delivery tracking",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 15932,
+      "length": 52,
+      "key": "Delivery charges: PKR @slot0end",
+      "params": {
+        "slot0end": "_fare!.toStringAsFixed(0)"
+      }
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 16506,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/map_screen.dart",
+      "offset": 16684,
+      "length": 6,
+      "key": "Back",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 680,
+      "length": 16,
+      "key": "Account Status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 1886,
+      "length": 18,
+      "key": "Account Rejected",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 1907,
+      "length": 22,
+      "key": "Verification Pending",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 2349,
+      "length": 68,
+      "key": "Your application was rejected. Please contact support for details.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 2442,
+      "length": 119,
+      "key": "Your account is currently under review by the admin. You will be able to access your dashboard once you are approved.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 3013,
+      "length": 23,
+      "key": "Check approval status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/pending_verification_screen.dart",
+      "offset": 3893,
+      "length": 17,
+      "key": "Return to Login",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 5678,
+      "length": 34,
+      "key": "Only real products can be saved.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 6273,
+      "length": 24,
+      "key": "Saved to favourites ❤️",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 12660,
+      "length": 25,
+      "key": "(@slot0end reviews)",
+      "params": {
+        "slot0end": "_reviewCount"
+      }
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 12971,
+      "length": 12,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "price"
+      }
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 16716,
+      "length": 73,
+      "key": "@slot0end • @slot1end km away",
+      "params": {
+        "slot0end": "mapBranch.address",
+        "slot1end": "nearest.distanceKm.toStringAsFixed(1)"
+      }
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 20161,
+      "length": 13,
+      "key": "Description",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 20563,
+      "length": 27,
+      "key": "No description available.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 22596,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 22968,
+      "length": 25,
+      "key": "@slot0end added to cart! 🛒",
+      "params": {
+        "slot0end": "name"
+      }
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 23157,
+      "length": 25,
+      "key": "@slot0end added to cart! 🛒",
+      "params": {
+        "slot0end": "name"
+      }
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 25436,
+      "length": 13,
+      "key": "Add Another",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 25452,
+      "length": 13,
+      "key": "Add to Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 26251,
+      "length": 18,
+      "key": "Customer Reviews",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_detail_screen.dart",
+      "offset": 27579,
+      "length": 17,
+      "key": "No reviews yet.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 888,
+      "length": 8,
+      "key": "Vendor",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 1587,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 2218,
+      "length": 23,
+      "key": "No products available",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 2435,
+      "length": 41,
+      "key": "This store hasn't added any items yet.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 2781,
+      "length": 20,
+      "key": "Load more products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 3291,
+      "length": 20,
+      "key": "Load more products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 6016,
+      "length": 24,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "p.price.toInt()"
+      }
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 6921,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 7234,
+      "length": 15,
+      "key": "Added to Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 7294,
+      "length": 30,
+      "key": "@slot0end added successfully",
+      "params": {
+        "slot0end": "p.name"
+      }
+    },
+    {
+      "path": "lib/screens/product_screen.dart",
+      "offset": 8352,
+      "length": 5,
+      "key": "Add",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 1930,
+      "length": 19,
+      "key": "Ratings & reviews",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 2309,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 2632,
+      "length": 25,
+      "key": "No verified ratings yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 2681,
+      "length": 68,
+      "key": "@slot0end / 5 · @slot1end verified ratings",
+      "params": {
+        "slot0end": "summary!['average']",
+        "slot1end": "summary!['count']"
+      }
+    },
+    {
+      "path": "lib/screens/rating_summary_screen.dart",
+      "offset": 2880,
+      "length": 61,
+      "key": "Feedback from completed deliveries. Most recent 10 reviews.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 2056,
+      "length": 19,
+      "key": "Location settings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 2518,
+      "length": 19,
+      "key": "Welcome back! 🏍️",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 2552,
+      "length": 24,
+      "key": "Ready to hit the road?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 4271,
+      "length": 20,
+      "key": "Delivery Complete!",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 4306,
+      "length": 31,
+      "key": "Order successfully delivered.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 6057,
+      "length": 6,
+      "key": "Home",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 6149,
+      "length": 5,
+      "key": "Map",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 6330,
+      "length": 10,
+      "key": "Earnings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 6508,
+      "length": 9,
+      "key": "Profile",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 8472,
+      "length": 15,
+      "key": "Notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 10131,
+      "length": 8,
+      "key": "Online",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 10142,
+      "length": 9,
+      "key": "Offline",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 11877,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 12711,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 14889,
+      "length": 17,
+      "key": "Active Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 15338,
+      "length": 28,
+      "key": "Tap to view map & complete",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 16694,
+      "length": 20,
+      "key": "Available Requests",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 17488,
+      "length": 79,
+      "key": "@slot0end new",
+      "params": {
+        "slot0end": "riderCtrl.availableOrders.length + riderCtrl.availableTailoring.length"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 18838,
+      "length": 17,
+      "key": "You are offline",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 19218,
+      "length": 32,
+      "key": "Toggle the switch to go online",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 20480,
+      "length": 25,
+      "key": "Searching for orders...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 20868,
+      "length": 31,
+      "key": "New requests will appear here",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 21958,
+      "length": 11,
+      "key": "Load more",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 23632,
+      "length": 29,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "_shortId(o['id'])"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 24357,
+      "length": 25,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "o['amount'] ?? 0"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 26153,
+      "length": 14,
+      "key": "Accept Order",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 27959,
+      "length": 33,
+      "key": "Tailoring #@slot0end",
+      "params": {
+        "slot0end": "_shortId(o['id'])"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 29430,
+      "length": 38,
+      "key": "Deliver stitched clothes to customer",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 29498,
+      "length": 41,
+      "key": "Pickup unstitched clothes from customer",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 30576,
+      "length": 12,
+      "key": "Accept Job",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 31659,
+      "length": 20,
+      "key": "No Active Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 31988,
+      "length": 46,
+      "key": "Accept an order to see the route on the map.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 32966,
+      "length": 13,
+      "key": "Find Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 37618,
+      "length": 136,
+      "key": "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 38351,
+      "length": 23,
+      "key": "Stop sharing location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 38410,
+      "length": 25,
+      "key": "Share delivery location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 39958,
+      "length": 26,
+      "key": "Tailoring Pickup/Dropoff",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 40026,
+      "length": 15,
+      "key": "Delivering to",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 40498,
+      "length": 19,
+      "key": "Customer Location",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 42052,
+      "length": 9,
+      "key": "Contact",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 42100,
+      "length": 32,
+      "key": "Customer number not available.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 42927,
+      "length": 6,
+      "key": "Call",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 45126,
+      "length": 15,
+      "key": "Complete Step",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 45181,
+      "length": 9,
+      "key": "Arrived",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 47563,
+      "length": 22,
+      "key": "Earned delivery fees",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 48324,
+      "length": 67,
+      "key": "Fee policy pending approval. Order totals are not Rider earnings.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 48890,
+      "length": 13,
+      "key": "Trips Today",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 49127,
+      "length": 10,
+      "key": "All Time",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 49366,
+      "length": 11,
+      "key": "This Week",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 49905,
+      "length": 8,
+      "key": "Weekly",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 50211,
+      "length": 9,
+      "key": "Monthly",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 51995,
+      "length": 19,
+      "key": "No deliveries yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 52726,
+      "length": 19,
+      "key": "Recent Deliveries",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 57263,
+      "length": 18,
+      "key": "TezRider Partner",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 59434,
+      "length": 8,
+      "key": "Online",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 59484,
+      "length": 9,
+      "key": "Offline",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 60127,
+      "length": 15,
+      "key": "Rider Details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 60240,
+      "length": 17,
+      "key": "Vehicle Details",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 60371,
+      "length": 13,
+      "key": "Coming Soon",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 60407,
+      "length": 55,
+      "key": "Vehicle details will be available in a future update.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 60900,
+      "length": 18,
+      "key": "Bank Information",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 61032,
+      "length": 13,
+      "key": "Coming Soon",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 61068,
+      "length": 56,
+      "key": "Bank information will be available in a future update.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 61559,
+      "length": 19,
+      "key": "Ratings & Reviews",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 61787,
+      "length": 9,
+      "key": "Support",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 61943,
+      "length": 14,
+      "key": "Inbox / Chat",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 62204,
+      "length": 16,
+      "key": "Help & Support",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 62462,
+      "length": 10,
+      "key": "Settings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 63055,
+      "length": 9,
+      "key": "Log Out",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 64429,
+      "length": 10,
+      "key": "Log Out?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 64623,
+      "length": 33,
+      "key": "You will need to sign in again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 65539,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 66718,
+      "length": 9,
+      "key": "Log Out",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 70969,
+      "length": 30,
+      "key": "No completed deliveries yet.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 72886,
+      "length": 12,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "id"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 73753,
+      "length": 26,
+      "key": "Order total: PKR @slot0end",
+      "params": {
+        "slot0end": "amount"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 74627,
+      "length": 14,
+      "key": "Cash receipt",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 76522,
+      "length": 29,
+      "key": "Email delivery verification",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 76746,
+      "length": 98,
+      "key": "Ask the customer for the six-digit code from their registered email when handing over the order.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 77149,
+      "length": 47,
+      "key": "Attempts remaining: @slot0end",
+      "params": {
+        "slot0end": "flow.remainingAttempts"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 77340,
+      "length": 44,
+      "key": "Code expires: @slot0end",
+      "params": {
+        "slot0end": "flow.status['expires_at']"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 77412,
+      "length": 31,
+      "key": "Code is not currently active.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 78075,
+      "length": 25,
+      "key": "Six-digit delivery code",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 78449,
+      "length": 30,
+      "key": "Retry unchanged verification",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 78507,
+      "length": 18,
+      "key": "Confirm Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 78721,
+      "length": 21,
+      "key": "Retry email request",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 79185,
+      "length": 36,
+      "key": "Resend in @slot0ends",
+      "params": {
+        "slot0end": "flow.cooldownSeconds"
+      }
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 79249,
+      "length": 20,
+      "key": "Request a new code",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/rider_dashboard.dart",
+      "offset": 79563,
+      "length": 23,
+      "key": "Refresh server status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 4566,
+      "length": 18,
+      "key": "Retry categories",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 4813,
+      "length": 16,
+      "key": "All categories",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 6180,
+      "length": 35,
+      "key": "Search food, groceries, stores...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 7670,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 8314,
+      "length": 19,
+      "key": "Browse Categories",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 10454,
+      "length": 38,
+      "key": "No results for \"@slot0end\"",
+      "params": {
+        "slot0end": "_searchCtrl.text"
+      }
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 10738,
+      "length": 35,
+      "key": "Try a different name or category.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 11145,
+      "length": 83,
+      "key": "@slot0end@slot1end result@slot2end",
+      "params": {
+        "slot0end": "_results.length",
+        "slot1end": "_hasMore ? '+' : ''",
+        "slot2end": "_results.length == 1 ? '' : 's'"
+      }
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 11936,
+      "length": 21,
+      "key": "Loading products...",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 11987,
+      "length": 20,
+      "key": "Load more products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 14779,
+      "length": 12,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "price"
+      }
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 16859,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 17059,
+      "length": 24,
+      "key": "@slot0end added! 🛒",
+      "params": {
+        "slot0end": "p['name']"
+      }
+    },
+    {
+      "path": "lib/screens/search_screen.dart",
+      "offset": 17229,
+      "length": 24,
+      "key": "@slot0end added! 🛒",
+      "params": {
+        "slot0end": "p['name']"
+      }
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 4591,
+      "length": 15,
+      "key": "Profile saved",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 4619,
+      "length": 41,
+      "key": "Sign in to check your account approval.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 5269,
+      "length": 19,
+      "key": "Verify your email",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 5301,
+      "length": 113,
+      "key": "Verify your email, then sign in to finish registration. Vendor and Rider access remains pending Admin approval.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 6148,
+      "length": 15,
+      "key": "Profile saved",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 6176,
+      "length": 62,
+      "key": "Sign in to continue. Vendor accounts require Admin approval.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 9918,
+      "length": 13,
+      "key": "Register as",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 10588,
+      "length": 16,
+      "key": "Your full name",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 10846,
+      "length": 17,
+      "key": "you@example.com",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 11227,
+      "length": 17,
+      "key": "+92 3XX-XXXXXXX",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 11914,
+      "length": 21,
+      "key": "CNIC document image",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 12787,
+      "length": 8,
+      "key": "Camera",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 13296,
+      "length": 9,
+      "key": "Gallery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 13484,
+      "length": 50,
+      "key": "JPEG or PNG only · maximum 5 MB · private access",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 13882,
+      "length": 18,
+      "key": "e.g. Hot N Spicy",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 14175,
+      "length": 17,
+      "key": "Street and city",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 14383,
+      "length": 10,
+      "key": "Password",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 14849,
+      "length": 27,
+      "key": "Already have an account? ",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 15146,
+      "length": 9,
+      "key": "Sign In",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 18926,
+      "length": 23,
+      "key": "Complete Registration",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 18983,
+      "length": 16,
+      "key": "Create Account",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 19415,
+      "length": 21,
+      "key": "Join TezRider today",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 24430,
+      "length": 18,
+      "key": "Min 6 characters",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 28031,
+      "length": 23,
+      "key": "Complete Registration",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/signup_screen.dart",
+      "offset": 28082,
+      "length": 16,
+      "key": "Create Account",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/splash_screen.dart",
+      "offset": 10871,
+      "length": 10,
+      "key": "TEZRIDER",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/splash_screen.dart",
+      "offset": 12259,
+      "length": 35,
+      "key": "Delivering Excellence, Every Time",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 4640,
+      "length": 20,
+      "key": "Image not selected",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 4673,
+      "length": 57,
+      "key": "Allow photo access or choose another image, then retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 5363,
+      "length": 16,
+      "key": "Review product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 5390,
+      "length": 84,
+      "key": "Enter a name, valid price, confirmed whole-number stock and nonnegative threshold.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 6780,
+      "length": 15,
+      "key": "Stock changed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 6808,
+      "length": 42,
+      "key": "Review the current count and save again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 7272,
+      "length": 9,
+      "key": "Updated",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 7284,
+      "length": 7,
+      "key": "Added",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 7302,
+      "length": 39,
+      "key": "Product and stock saved successfully.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 7538,
+      "length": 20,
+      "key": "Save not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 7636,
+      "length": 50,
+      "key": "Check your connection and retry the same values.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 8248,
+      "length": 14,
+      "key": "Edit Product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 8265,
+      "length": 13,
+      "key": "Add Product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 8898,
+      "length": 6,
+      "key": "Save",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 9243,
+      "length": 42,
+      "key": "Account changed. Open the product again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 9791,
+      "length": 63,
+      "key": "Product save is unconfirmed. Retry Save with the same values.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 10113,
+      "length": 66,
+      "key": "Image upload is unconfirmed. Retry Save with the selected image.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 10410,
+      "length": 41,
+      "key": "Selected image: @slot0end",
+      "params": {
+        "slot0end": "_selectedImage!.name"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 11327,
+      "length": 14,
+      "key": "Product Name",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 11611,
+      "length": 24,
+      "key": "Description (optional)",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 11941,
+      "length": 13,
+      "key": "Price (PKR)",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 12230,
+      "length": 26,
+      "key": "Confirmed stock quantity",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 12572,
+      "length": 21,
+      "key": "Low-stock threshold",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 13175,
+      "length": 22,
+      "key": "Choose Product Image",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 13231,
+      "length": 22,
+      "key": "Change Product Image",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 13835,
+      "length": 22,
+      "key": "Remove product image",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 14052,
+      "length": 10,
+      "key": "Category",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 17378,
+      "length": 21,
+      "key": "Available for order",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 17894,
+      "length": 22,
+      "key": "Visible to customers",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 17958,
+      "length": 19,
+      "key": "Hidden from store",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 19764,
+      "length": 14,
+      "key": "Save Changes",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/product_form_screen.dart",
+      "offset": 19781,
+      "length": 13,
+      "key": "Add Product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 4262,
+      "length": 11,
+      "key": "Analytics",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 5110,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 5726,
+      "length": 17,
+      "key": "Delivered sales",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 6059,
+      "length": 14,
+      "key": "Total Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 6398,
+      "length": 113,
+      "key": "Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 6608,
+      "length": 45,
+      "key": "@slot0end amounts require Admin review.",
+      "params": {
+        "slot0end": "_reviewCount"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 6691,
+      "length": 18,
+      "key": "Orders by Status",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 6932,
+      "length": 9,
+      "key": "Pending",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 7239,
+      "length": 10,
+      "key": "Accepted",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 7550,
+      "length": 11,
+      "key": "Delivered",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 7858,
+      "length": 11,
+      "key": "Cancelled",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 8252,
+      "length": 18,
+      "key": "Fulfillment Rate",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 8799,
+      "length": 31,
+      "key": "Orders delivered successfully",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 10702,
+      "length": 24,
+      "key": "Top Delivered Products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 13672,
+      "length": 24,
+      "key": "@slot0end sold",
+      "params": {
+        "slot0end": "p['total_qty']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 15533,
+      "length": 21,
+      "key": "Per-order breakdown",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 15882,
+      "length": 27,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "row['order_id']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 16588,
+      "length": 57,
+      "key": "Legacy direct order; item breakdown may be unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 16821,
+      "length": 72,
+      "key": "@slot0end × @slot1end at @slot2end",
+      "params": {
+        "slot0end": "item['name']",
+        "slot1end": "item['quantity']",
+        "slot2end": "_money(item['unit_price'])"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 17075,
+      "length": 46,
+      "key": "Historical item count requires Admin review.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 17223,
+      "length": 73,
+      "key": "Payment: @slot0end",
+      "params": {
+        "slot0end": "(row['payment'] as Map)['state'] ?? 'Requires Admin review'"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 17614,
+      "length": 73,
+      "key": "Whole-order refund: @slot0end (vendor allocation not recorded)",
+      "params": {
+        "slot0end": "refund['state']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 17879,
+      "length": 34,
+      "key": "More orders could not be loaded.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 18177,
+      "length": 19,
+      "key": "Retry more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 18230,
+      "length": 18,
+      "key": "Load more orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 18921,
+      "length": 13,
+      "key": "No data yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_analytics_screen.dart",
+      "offset": 19354,
+      "length": 48,
+      "key": "Analytics will appear once you receive orders.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 2927,
+      "length": 11,
+      "key": "Inventory",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 2940,
+      "length": 38,
+      "key": "This product is no longer available.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 3551,
+      "length": 28,
+      "key": "Availability not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 3590,
+      "length": 50,
+      "key": "Refresh your inventory and retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 4881,
+      "length": 9,
+      "key": "Deleted",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 4901,
+      "length": 25,
+      "key": "\"@slot0end\" removed.",
+      "params": {
+        "slot0end": "p['name']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 5137,
+      "length": 24,
+      "key": "Deletion not confirmed",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 5245,
+      "length": 67,
+      "key": "Access or connectivity changed. Refresh your inventory and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 6080,
+      "length": 13,
+      "key": "My Products",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 6687,
+      "length": 13,
+      "key": "Add Product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 7265,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 7691,
+      "length": 17,
+      "key": "No products yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 8031,
+      "length": 34,
+      "key": "Tap + to add your first product.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 8794,
+      "length": 10,
+      "key": "Loading…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 8807,
+      "length": 11,
+      "key": "Load more",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 10940,
+      "length": 19,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "p['price']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 12168,
+      "length": 14,
+      "key": "Adjust stock",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 12446,
+      "length": 11,
+      "key": "Inventory",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 12482,
+      "length": 55,
+      "key": "Could not refresh this product. Retry when connected.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 14462,
+      "length": 9,
+      "key": "Delete?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 14666,
+      "length": 36,
+      "key": "Remove \"@slot0end\" permanently?",
+      "params": {
+        "slot0end": "p['name']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 14954,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor/vendor_products_screen.dart",
+      "offset": 15336,
+      "length": 8,
+      "key": "Delete",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 2354,
+      "length": 18,
+      "key": "Welcome back! 🏪",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 2387,
+      "length": 28,
+      "key": "Let's manage some orders!",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 4276,
+      "length": 11,
+      "key": "Dashboard",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 4460,
+      "length": 8,
+      "key": "Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 4641,
+      "length": 11,
+      "key": "Tailoring",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 4820,
+      "length": 9,
+      "key": "Profile",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 6890,
+      "length": 15,
+      "key": "Notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 8236,
+      "length": 15,
+      "key": "Active Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 8553,
+      "length": 16,
+      "key": "Tailoring Jobs",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 9023,
+      "length": 17,
+      "key": "Delivered sales",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 9341,
+      "length": 8,
+      "key": "Rating",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 10137,
+      "length": 13,
+      "key": "Retry sales",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 10454,
+      "length": 15,
+      "key": "Quick Actions",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 10875,
+      "length": 13,
+      "key": "Add Product",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 11183,
+      "length": 11,
+      "key": "Analytics",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 15053,
+      "length": 29,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "_shortId(o['id'])"
+      }
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 15347,
+      "length": 23,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "o['sub_total']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 15775,
+      "length": 8,
+      "key": "Orders",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 16068,
+      "length": 8,
+      "key": "Active",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 16369,
+      "length": 9,
+      "key": "History",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 17466,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 18965,
+      "length": 10,
+      "key": "Loading…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 19011,
+      "length": 11,
+      "key": "Load more",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 22223,
+      "length": 29,
+      "key": "Order #@slot0end",
+      "params": {
+        "slot0end": "_shortId(o['id'])"
+      }
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 23465,
+      "length": 25,
+      "key": "EXPRESS — prepare first",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 26716,
+      "length": 23,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "o['sub_total']"
+      }
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 28132,
+      "length": 8,
+      "key": "Reject",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 28921,
+      "length": 14,
+      "key": "Accept Order",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 30349,
+      "length": 17,
+      "key": "Matching rider…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 30469,
+      "length": 22,
+      "key": "Retry Rider Matching",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 30521,
+      "length": 25,
+      "key": "Mark Ready & Call Rider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 30923,
+      "length": 7,
+      "key": "Rider",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 31585,
+      "length": 16,
+      "key": "Tailoring Jobs",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 33927,
+      "length": 27,
+      "key": "Job #@slot0end",
+      "params": {
+        "slot0end": "_shortId(o['id'])"
+      }
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 35264,
+      "length": 25,
+      "key": "Mark Ready for Customer",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 38973,
+      "length": 16,
+      "key": "Vendor Partner",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 39485,
+      "length": 7,
+      "key": "Store",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 39581,
+      "length": 16,
+      "key": "Store Settings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 39778,
+      "length": 20,
+      "key": "Payment & Earnings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 40005,
+      "length": 19,
+      "key": "Reviews & Ratings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 40233,
+      "length": 9,
+      "key": "Support",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 40389,
+      "length": 14,
+      "key": "Inbox / Chat",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 40650,
+      "length": 13,
+      "key": "Help Center",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 40905,
+      "length": 18,
+      "key": "Account Settings",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 41506,
+      "length": 10,
+      "key": "Sign Out",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 42881,
+      "length": 11,
+      "key": "Sign Out?",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 43076,
+      "length": 33,
+      "key": "You will need to sign in again.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 43992,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/vendor_dashboard.dart",
+      "offset": 45171,
+      "length": 10,
+      "key": "Sign Out",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 754,
+      "length": 23,
+      "key": "Approve this account?",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 780,
+      "length": 22,
+      "key": "Reject this account?",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 924,
+      "length": 64,
+      "key": "The account status will change only after server confirmation.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 1216,
+      "length": 18,
+      "key": "Rejection reason",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 1430,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/account_review_dialog.dart",
+      "offset": 1989,
+      "length": 9,
+      "key": "Confirm",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/app_drawer.dart",
+      "offset": 4257,
+      "length": 13,
+      "key": "Coming Soon",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/app_drawer.dart",
+      "offset": 4297,
+      "length": 57,
+      "key": "Platform settings will be available in a future update.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 2531,
+      "length": 16,
+      "key": "Delivery photo",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 2763,
+      "length": 38,
+      "key": "No delivery photo has been recorded.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 3186,
+      "length": 20,
+      "key": "Photo unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/delivery_photo_panel.dart",
+      "offset": 3386,
+      "length": 24,
+      "key": "Refresh delivery photo",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/language_settings_tile.dart",
+      "offset": 1134,
+      "length": 9,
+      "key": "English",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 380,
+      "length": 25,
+      "key": "Order #@slot0end payment",
+      "params": {
+        "slot0end": "orderId"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 768,
+      "length": 7,
+      "key": "Close",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 3231,
+      "length": 22,
+      "key": "Retry payment status",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 3831,
+      "length": 58,
+      "key": "Order amount: PKR @slot0end",
+      "params": {
+        "slot0end": "snapshot.amount!.toStringAsFixed(2)"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 3985,
+      "length": 71,
+      "key": "Confirmed manual return: PKR @slot0end",
+      "params": {
+        "slot0end": "snapshot.refunded!.toStringAsFixed(2)"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 4136,
+      "length": 76,
+      "key": "Cash acknowledgements are manual records. The app does not transfer money.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 4544,
+      "length": 30,
+      "key": "Record cash already received",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5024,
+      "length": 68,
+      "key": "Refund amount: PKR @slot0end",
+      "params": {
+        "slot0end": "(refund['amount'] as num).toStringAsFixed(2)"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5504,
+      "length": 30,
+      "key": "Record cash already returned",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5784,
+      "length": 36,
+      "key": "Record unsuccessful refund attempt",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 5967,
+      "length": 240,
+      "key": "@slot0end · recorded by @slot1end",
+      "params": {
+        "slot0end": "switch (event['event_kind']) {'COLLECTED' => 'Cash receipt', 'REFUND_CONFIRMED' => 'Cash return receipt', _ => 'Unsuccessful refund attempt'}",
+        "slot1end": "event['actor_role']"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 6283,
+      "length": 34,
+      "key": "Reference: @slot0end",
+      "params": {
+        "slot0end": "event['reference']"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 6556,
+      "length": 24,
+      "key": "Refresh payment status",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 8991,
+      "length": 38,
+      "key": "Record a manual cash acknowledgement",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9189,
+      "length": 68,
+      "key": "Order #@slot0end · PKR @slot1end",
+      "params": {
+        "slot0end": "widget.orderId",
+        "slot1end": "widget.amount.toStringAsFixed(2)"
+      }
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9312,
+      "length": 94,
+      "key": "Record an action already performed. Do not repeat a cash transfer when retrying this record.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9690,
+      "length": 38,
+      "key": "Receipt or acknowledgement reference",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 9778,
+      "length": 64,
+      "key": "Use a real reference. Omit CNIC, credentials and private URLs.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 10457,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 10715,
+      "length": 24,
+      "key": "Retry unchanged record",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_payment_panel.dart",
+      "offset": 10758,
+      "length": 24,
+      "key": "Record acknowledgement",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeline.dart",
+      "offset": 7861,
+      "length": 16,
+      "key": "Current Status",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeline.dart",
+      "offset": 9434,
+      "length": 14,
+      "key": "Order Status",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeout_summary.dart",
+      "offset": 728,
+      "length": 39,
+      "key": "Order cancelled — vendor unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeout_summary.dart",
+      "offset": 845,
+      "length": 51,
+      "key": "This order needs review. Check its latest status.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeout_summary.dart",
+      "offset": 994,
+      "length": 83,
+      "key": "A refund action was recorded. Check payment status for any confirmed cash return.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/order_timeout_summary.dart",
+      "offset": 1182,
+      "length": 16,
+      "key": "Order timeline",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 4834,
+      "length": 22,
+      "key": "Choose profile photo",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 4879,
+      "length": 23,
+      "key": "Choose delivery photo",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 5175,
+      "length": 8,
+      "key": "Camera",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 5343,
+      "length": 22,
+      "key": "Retry original photo",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/private_photo_editor.dart",
+      "offset": 5473,
+      "length": 81,
+      "key": "A photo does not complete delivery. Checklist and OTP verification still apply.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "offset": 2932,
+      "length": 22,
+      "key": "PKR @slot0end",
+      "params": {
+        "slot0end": "product.price"
+      }
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "offset": 3985,
+      "length": 6,
+      "key": "Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "offset": 4160,
+      "length": 15,
+      "key": "Added to Cart",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "offset": 4208,
+      "length": 37,
+      "key": "@slot0end added successfully!",
+      "params": {
+        "slot0end": "product.name"
+      }
+    },
+    {
+      "path": "lib/widgets/recommendation_card.dart",
+      "offset": 4966,
+      "length": 5,
+      "key": "Add",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 4184,
+      "length": 20,
+      "key": "Rider unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 4322,
+      "length": 22,
+      "key": "Retry rider identity",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 4958,
+      "length": 41,
+      "key": "A verified Rider has not been assigned.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 5733,
+      "length": 16,
+      "key": "No ratings yet",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 5779,
+      "length": 99,
+      "key": "Rating @slot0end / 5 (@slot1end)",
+      "params": {
+        "slot0end": "num.parse(rider['rating'].toString()).toStringAsFixed(2)",
+        "slot1end": "rider['rating_count']"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 5987,
+      "length": 31,
+      "key": "CNIC: @slot0end",
+      "params": {
+        "slot0end": "rider['cnic_masked']"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 6110,
+      "length": 34,
+      "key": "CNIC unavailable in this record.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 6179,
+      "length": 16,
+      "key": "Approved Rider",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 6302,
+      "length": 46,
+      "key": "Order status: @slot0end",
+      "params": {
+        "slot0end": "status.replaceAll('_', ' ')"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_identity_card.dart",
+      "offset": 7155,
+      "length": 18,
+      "key": "Order cancelled.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 2240,
+      "length": 22,
+      "key": "Delivery performance",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 2426,
+      "length": 21,
+      "key": "Refresh performance",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 2809,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 2898,
+      "length": 99,
+      "key": "Completed: @slot0end / @slot1end accepted assignments",
+      "params": {
+        "slot0end": "data['completed_deliveries']",
+        "slot1end": "data['accepted_assignments']"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 3052,
+      "length": 113,
+      "key": "Completion rate: @slot0end",
+      "params": {
+        "slot0end": "data['completion_rate'] == null ? 'No accepted assignments' : '${data['completion_rate']}%'"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 3220,
+      "length": 163,
+      "key": "Average delivery time: @slot0end",
+      "params": {
+        "slot0end": "data['average_duration_seconds'] == null ? 'Unavailable' : '${((data['average_duration_seconds'] as num) / 60).toStringAsFixed(1)} min'"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 3438,
+      "length": 74,
+      "key": "Timed deliveries: @slot0end (acceptance to completion)",
+      "params": {
+        "slot0end": "data['timed_deliveries']"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 3567,
+      "length": 131,
+      "key": "Customer rating: @slot0end (@slot1end)",
+      "params": {
+        "slot0end": "data['average_rating'] == null ? 'No ratings yet' : '${data['average_rating']} / 5'",
+        "slot1end": "data['rating_count']"
+      }
+    },
+    {
+      "path": "lib/widgets/rider_performance_panel.dart",
+      "offset": 3866,
+      "length": 85,
+      "key": "Historical timing or assignment records are incomplete. Unknown times are excluded.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/role_access_gate.dart",
+      "offset": 3307,
+      "length": 56,
+      "key": "Account access could not be confirmed for this screen.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/role_access_gate.dart",
+      "offset": 3451,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/role_access_gate.dart",
+      "offset": 3591,
+      "length": 19,
+      "key": "Return to sign in",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/vendor_order_rejection.dart",
+      "offset": 286,
+      "length": 20,
+      "key": "Reject this order?",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/vendor_order_rejection.dart",
+      "offset": 344,
+      "length": 186,
+      "key": "Rejecting cancels the entire customer order, including its other vendor portions. This cannot be undone. Refund eligibility is recorded separately; this does not confirm a cash refund.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/vendor_order_rejection.dart",
+      "offset": 670,
+      "length": 12,
+      "key": "Keep order",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/vendor_order_rejection.dart",
+      "offset": 807,
+      "length": 14,
+      "key": "Reject order",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 599,
+      "length": 18,
+      "key": "Pickup checklist",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 990,
+      "length": 17,
+      "key": "Retry checklist",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 1174,
+      "length": 21,
+      "key": "Checklist completed",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 1854,
+      "length": 50,
+      "key": "Waiting for every vendor to be ready for pickup.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 2122,
+      "length": 15,
+      "key": "Accept pickup",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 2362,
+      "length": 13,
+      "key": "Confirming…",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 2378,
+      "length": 18,
+      "key": "Submit checklist",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/pre_delivery_checklist_card.dart",
+      "offset": 2560,
+      "length": 16,
+      "key": "Start Delivery",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 2751,
+      "length": 34,
+      "key": "Stock: @slot0end",
+      "params": {
+        "slot0end": "widget.product['name']"
+      }
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 3205,
+      "length": 20,
+      "key": "Confirmed quantity",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 3439,
+      "length": 8,
+      "key": "Reason",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 3735,
+      "length": 8,
+      "key": "Cancel",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/stock_adjustment_dialog.dart",
+      "offset": 4051,
+      "length": 12,
+      "key": "Save stock",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/invoice_button.dart",
+      "offset": 1231,
+      "length": 42,
+      "key": "Invoice access was not confirmed. Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/invoice_button.dart",
+      "offset": 1765,
+      "length": 10,
+      "key": "Opening…",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/invoice_button.dart",
+      "offset": 1778,
+      "length": 9,
+      "key": "Invoice",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 1918,
+      "length": 23,
+      "key": "Private CNIC document",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 2292,
+      "length": 37,
+      "key": "Image unavailable. Close and retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 2407,
+      "length": 23,
+      "key": "Document unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 2549,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/cnic_document_viewer.dart",
+      "offset": 2670,
+      "length": 7,
+      "key": "Close",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 1752,
+      "length": 26,
+      "key": "Private dispute evidence",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 1987,
+      "length": 23,
+      "key": "Evidence unavailable.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 2182,
+      "length": 31,
+      "key": "Image unavailable. Tap Retry.",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 2323,
+      "length": 7,
+      "key": "Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/widgets/dispute_evidence_viewer.dart",
+      "offset": 2427,
+      "length": 7,
+      "key": "Close",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 2851,
+      "length": 25,
+      "key": "Rider CNIC verification",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 3415,
+      "length": 33,
+      "key": "Your rider account is approved.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 3470,
+      "length": 62,
+      "key": "Document submitted. Your account is awaiting admin approval.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 3750,
+      "length": 29,
+      "key": "Continue to Rider Dashboard",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 3818,
+      "length": 57,
+      "key": "CNIC: @slot0end",
+      "params": {
+        "slot0end": "ctrl.application['cnic_masked'] ?? 'Protected'"
+      }
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 4094,
+      "length": 25,
+      "key": "View submitted document",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 4196,
+      "length": 114,
+      "key": "Upload your CNIC image to complete registration. Your account remains pending until an administrator reviews it.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 4613,
+      "length": 13,
+      "key": "CNIC number",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 5354,
+      "length": 8,
+      "key": "Camera",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 5751,
+      "length": 9,
+      "key": "Gallery",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 5867,
+      "length": 84,
+      "key": "JPEG or PNG only · maximum 5 MB. Images are prepared on your device before upload.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 6591,
+      "length": 25,
+      "key": "Preparing or uploading…",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 6702,
+      "length": 31,
+      "key": "Replace and resubmit document",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 6755,
+      "length": 22,
+      "key": "Submit CNIC document",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/cnic_document_screen.dart",
+      "offset": 6929,
+      "length": 24,
+      "key": "Refresh status / Retry",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 587,
+      "length": 15,
+      "key": "Notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 1413,
+      "length": 23,
+      "key": "Android notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 1657,
+      "length": 18,
+      "key": "Mark all as read",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 2147,
+      "length": 21,
+      "key": "Retry notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 2890,
+      "length": 22,
+      "key": "No notifications yet",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 3101,
+      "length": 36,
+      "key": "We will notify you of any updates.",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 3763,
+      "length": 25,
+      "key": "Load more notifications",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 6060,
+      "length": 17,
+      "key": "Admin broadcast",
+      "params": {}
+    },
+    {
+      "path": "lib/screens/customer/notifications_screen.dart",
+      "offset": 6369,
+      "length": 7,
+      "key": "Alert",
+      "params": {}
+    }
+  ]
+}

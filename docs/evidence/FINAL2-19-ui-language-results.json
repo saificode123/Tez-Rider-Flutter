@@ -1,0 +1,74 @@
+{
+  "iteration": 19,
+  "stage2_status": "PARTIAL",
+  "accepted_workstreams": 12,
+  "total_workstreams": 18,
+  "baseline": "33dd332",
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "scope": "Display-only Stage 2 language continuation; no database or Edge deployment",
+  "translation_keys": 786,
+  "prechange_literal_instances": 867,
+  "static_api_calls_unchanged": 206,
+  "selected_targets": 62,
+  "remaining_detected_literal_instances": 0,
+  "tests": {
+    "runs": [
+      {
+        "log": "translation-regressions.log",
+        "passed": 132,
+        "sha256": "5509508a10c279b8a09019211dcac312577d38ea60a62bc916ee8c1eee433297"
+      },
+      {
+        "log": "translation-critical-tests.log",
+        "passed": 43,
+        "sha256": "e2437eb0c63d763eef304a8e532f15cd7068efaeabea183a8034814d29f3e238"
+      },
+      {
+        "log": "translation-final-auth-tests.log",
+        "passed": 33,
+        "sha256": "f789e7897b92ebbcba021f53fbbd56d4c3caaaf67502d8e87adcb51d4488ece5"
+      }
+    ],
+    "distinct_passing_cases": 194,
+    "failed": 0,
+    "skipped": 0,
+    "overlap_not_summed": true,
+    "failed_development_attempts": "Locale timing/expected wording/selectors corrected; actual Urdu dropdown/header/footer overflows fixed and retested"
+  },
+  "analysis": {
+    "errors": 0,
+    "warnings": 13,
+    "infos": 26,
+    "baseline_findings": true,
+    "flutter_exit_code": 1
+  },
+  "android": {
+    "device": "AESWNRBAEUPNTGJZ",
+    "package": "com.example.flutter_application_1.fr21test",
+    "latest_source_hash_install": "2026-10-25T10:10:17.468543Z",
+    "final_four_role_readback": "PENDING_PHYSICAL_UNLOCK",
+    "earlier_customer_readback": "Urdu restore confirmed; two English captions found and fixed; final source built/installed"
+  },
+  "security": {
+    "dynamic_values": "One-pass substitution; role IDs, API arguments, stored names and form values unchanged",
+    "unknown_auth_errors": "Safe localized retry replaces raw provider messages",
+    "protected_values_compared": 33,
+    "credential_matches": 0,
+    "unreadable_protected_files": 0,
+    "changed_and_new_files_checked": 71
+  },
+  "limitations": [
+    "AST inventory is scoped source evidence, not exhaustive rendered-state/handler acceptance",
+    "Unknown future backend content and user data are not translated",
+    "Final cross-role Android readback pending unlock",
+    "iOS and other Stage2 policy/route/optional-module gates remain"
+  ],
+  "fixtures": {
+    "business_rows_created": 0,
+    "business_rows_deleted": 0,
+    "existing_address_cleanup_preserved": true
+  },
+  "stage3_started": false,
+  "implementation_commit": "a1b4428"
+}
