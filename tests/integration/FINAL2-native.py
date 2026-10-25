@@ -317,6 +317,35 @@ elif action=='cohort20-vendor-home':
  labels='\n'.join(n.label(node)for node in n.nodes())
  assert 'دکان کا ڈیش بورڈ'in labels and 'پہنچائی گئی اشیا کی فروخت'in labels
  n.picture('cohort20-vendor-home');record('current TEST Vendor authenticates after Customer logout and renders Urdu dashboard with actual stored sales/rating')
+elif action=='fr14-rider-auth-read':
+ spec=importlib.util.spec_from_file_location('final2_fr14_auth',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ assert route.b.REF=='igeisilhtmglgnqvllrx';token=route.b.login(route.state['accounts']['physical-rider'])
+ output={'project':route.b.REF,'business_mutation':False,'authenticated_test_session_created':True,'checks':[]}
+ status,value=route.b.rpc('fr28_account_status',{},token);assert status==403 and value.get('code')=='PT403'
+ output['checks'].append({'path':'direct REST','status':status,'result':'DENIED as required; earlier helper omitted the mandatory gateway'})
+ for name,params in [('fr28_account_status',{}),('fr13_tracking_context',{'p_order_id':int(route.state['physical_order']['oid'])})]:
+  envelope={'method':'POST','path':'/rpc/'+name,'query':'','headers':{'content-type':'application/json','prefer':'return=representation'},'body':n.json.dumps(params)}
+  status,value=route.b.api('/functions/v1/security-gateway','POST',envelope,token)
+  assert status==200,'Normal gateway context required'
+  if name=='fr28_account_status':assert value.get('code')=='OK'and value.get('id')==683 and value.get('role')=='rider'
+  else:assert value.get('code')=='INELIGIBLE'and value.get('sharing')is not True,'Offline Rider must not regain a tracking context'
+  output['checks'].append({'rpc':name,'path':'security-gateway','status':status,'code':value.get('code'),'sharing':value.get('sharing')})
+ print(n.json.dumps(output))
+elif action=='cohort21-offline-sharing':
+ controls=n.nodes();assert any(n.label(node)=='آف لائن'for node in controls),'Observe offline before invoking sharing'
+ cards=[node for node in controls if n.label(node).startswith('جاری ترسیل\n')and node.get('clickable')=='true'];assert len(cards)==1;n.tap(cards[0]);n.time.sleep(1)
+ n.click('ترسیل کی لوکیشن شیئر کریں');n.time.sleep(.5)
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'ترسیل کی لوکیشن شیئر کرنے سے پہلے آن لائن ہوں۔'in labels and 'لوکیشن شیئرنگ روکیں'not in labels
+ record('cohort21 current-source TEST offline sharing displays Urdu prerequisite guidance and does not enter sharing state; persistence checked separately')
+elif action=='fr14-cleanup-read':
+ spec=importlib.util.spec_from_file_location('final2_fr14_cleanup',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ assert route.b.REF=='igeisilhtmglgnqvllrx'
+ oid=int(route.state['physical_order']['oid']);rider=int(route.state['accounts']['physical-rider']['profile_id'])
+ assert oid==2418 and rider==683,'Exact synthetic physical fixture required'
+ rows=route.db.query('select r.is_online,(select count(*)from fr13_private.sessions where order_id='+str(oid)+')as tracking_sessions,(select count(*)from public.delivery_latest_locations where order_id='+str(oid)+')as live_locations,o.order_status from public.riders r join public.orders o on o.rider_id=r.userid where o.id='+str(oid)+' and r.userid='+str(rider))
+ output={'project':route.b.REF,'method':'Read-only persistence confirmation after normal app lifecycle/controls','fixture_state':rows,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat(),'coordinates_emitted':False,'mutation':False}
+ (n.OUT/'fr14-fixture-cleanup.json').write_text(n.json.dumps(output,indent=2)+'\n',encoding='utf-8');print(n.json.dumps(output))
 elif action=='fr14-gps-observe':
  spec=importlib.util.spec_from_file_location('final2_fr14_gps',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
  assert route.b.REF=='igeisilhtmglgnqvllrx';oid=int(route.state['physical_order']['oid'])

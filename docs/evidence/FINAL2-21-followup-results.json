@@ -67,7 +67,7 @@
   "build": {
     "result": "PASS",
     "apk_sha256": "BC06EBD45876E241EF17277C9156E4171110B859D4D0BD4D3C107ABC5E0E7CBF",
-    "install": "PENDING USB reconnection; installed physical tests below use7605f39"
+    "install": "PASS: current source/package/APK hashes checked; installed2026-10-25T18:19:16Z"
   },
   "fr14": {
     "route_requests": [
@@ -156,7 +156,7 @@
     "quota_reset": false,
     "coordinates_emitted": false,
     "assignment_or_destination_rewritten": false,
-    "cleanup": "PENDING USB reconnection: restore sharing off and original Rider offline via app"
+    "cleanup": "PASS: native offline observed; TEST readback before and after offline share tap confirms is_online=false, tracking_sessions=0, live_locations=0, unchanged order on_the_way"
   },
   "database_deployments": 0,
   "edge_deployments": 0,
@@ -169,5 +169,90 @@
     "matches": 0,
     "unreadable_protected_files": 0,
     "network_used": false
-  }
+  },
+  "post_install_closure": {
+    "recorded_at": "2026-10-25T18:24:58.494458+00:00",
+    "source_commit": "56be769",
+    "android": [
+      {
+        "check": "current-source TEST APK installed with package and source-hash checks",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T18:19:16.449650+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      },
+      {
+        "check": "cohort21 current-source TEST offline sharing displays Urdu prerequisite guidance and does not enter sharing state; persistence checked separately",
+        "result": "PASS",
+        "surface": "android",
+        "observed_at": "2026-10-25T18:19:57.974110+00:00",
+        "device": "AESWNRBAEUPNTGJZ",
+        "package": "com.example.flutter_application_1.fr21test"
+      }
+    ],
+    "fixture_cleanup": {
+      "project": "igeisilhtmglgnqvllrx",
+      "method": "Read-only persistence confirmation after normal app lifecycle/controls",
+      "fixture_state": [
+        {
+          "is_online": false,
+          "live_locations": 0,
+          "order_status": "on_the_way",
+          "tracking_sessions": 0
+        }
+      ],
+      "observed_at": "2026-10-25T18:20:44.954413+00:00",
+      "coordinates_emitted": false,
+      "mutation": false
+    },
+    "gateway_readback": {
+      "project": "igeisilhtmglgnqvllrx",
+      "business_mutation": false,
+      "authenticated_test_session_created": true,
+      "checks": [
+        {
+          "path": "direct REST",
+          "status": 403,
+          "result": "DENIED as required; earlier helper omitted the mandatory gateway"
+        },
+        {
+          "rpc": "fr28_account_status",
+          "path": "security-gateway",
+          "status": 200,
+          "code": "OK",
+          "sharing": null
+        },
+        {
+          "rpc": "fr13_tracking_context",
+          "path": "security-gateway",
+          "status": 200,
+          "code": "INELIGIBLE",
+          "sharing": null
+        }
+      ]
+    },
+    "development_diagnostics": [
+      "Initial hosted stop helper omitted mandatory security-gateway and was denied PT403; no STOPPED receipt or cleanup PASS claimed for that attempt",
+      "Read-only corrected helper initially expected OK for offline tracking; actual INELIGIBLE is correct and final assertion preserves that requirement",
+      "Normal app lifecycle was followed by native offline observation and two independent TEST persistence reads: no tracking session/live-location row; order remains on_the_way"
+    ],
+    "live_phone_setting": "Stay awake original0 retained; not changed during this continuation",
+    "protected_scan": {
+      "project": "igeisilhtmglgnqvllrx",
+      "files_checked": 9,
+      "protected_values_compared": 40,
+      "matches": 0,
+      "unreadable_protected_files": 0,
+      "network_used": false
+    }
+  },
+  "remaining_mandatory_gates": [
+    "FR14 meaningful physical movement/deviation/rerouting and performance qualification; two route latencies exceed800ms target",
+    "Cart reservation activation/expiry business rule",
+    "Rider earned-fee rates/formula",
+    "Low-rating blocking threshold/sample/window/active-delivery/manual-unblock policy; automation not implemented or accepted",
+    "Remaining language/notification/profile platform coverage and actual iOS configuration/build/device dependencies",
+    "Optional-module decisions deferred by approved B; no inferred workflow"
+  ]
 }
