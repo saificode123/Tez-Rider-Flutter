@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-25",
+  "project": "igeisilhtmglgnqvllrx",
+  "workstream": "S2-16 saved-address closure; wider workstream remains partial",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610250005",
+    "versions": 62,
+    "migration_sha256": "c7d5429de33d69c7fc91dac5910d3e35d7b18925ad3909742ac5ec35bf60273f",
+    "review_passes": 26,
+    "replayed": false,
+    "production_modified": false
+  },
+  "sql_review_pass": 26,
+  "sql_post_pass": 26,
+  "review_post_overlap": true,
+  "flutter": {
+    "affected_pass": 34,
+    "fail": 0,
+    "skip": 0,
+    "final_address_rerun_pass": 10,
+    "rerun_overlaps": true,
+    "files": [
+      "test/saved_addresses_test.dart",
+      "test/store_settings_test.dart",
+      "test/profile_screen_test.dart",
+      "test/role_language_test.dart",
+      "test/language_settings_test.dart"
+    ],
+    "fixed_defect": "Modal controllers remain alive until route completion; account switch removes private overlays immediately"
+  },
+  "analysis": {
+    "scoped_issues": 0,
+    "full_errors": 0,
+    "full_existing_warnings": 13,
+    "full_infos": 26
+  },
+  "hosted": [
+    {
+      "check": "owner creates confirmed synthetic address 0",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "owner creates confirmed synthetic address 1",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "unchanged create retry returns same persisted address ID",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "changed same-request payload conflicts",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "bounded owner list reports more data rather than truncating silently",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "actual cursor returns both newly owned addresses without duplication",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "owned edit commits with expected revision",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "owned edit retry does not duplicate effect",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "stale revision edit cannot overwrite latest address",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "unrelated Customer edit denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "unrelated Customer deletion denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "unrelated Customer list reveals no private fixture addresses",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "vendor cannot use Customer-only address list",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "vendor cannot impersonate owner create",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "rider cannot use Customer-only address list",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "rider cannot impersonate owner create",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "admin cannot use Customer-only address list",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "admin cannot impersonate owner create",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "trusted label bound enforced",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "raw REST cannot bypass guarded address deletion",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "anonymous private addresses denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "only tagged synthetic address 0 removed through confirmed owner API",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "only tagged synthetic address 1 removed through confirmed owner API",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    },
+    {
+      "check": "real two creates/one edit/two deletes produce exactly five audits; retry adds none; no fixture address remains",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP/persistence"
+    }
+  ],
+  "android": [
+    {
+      "check": "actual Urdu Saved Addresses Add handler opens editable form; only synthetic address values filled, no submission claimed",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:17:32.256173+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native synthetic address create Save commits one canonical owner row with correct revision and survives authoritative reread; no personal fields/screenshots emitted",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:17:42.178365+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual synthetic address Edit handler preserves the original address and fills only its new label",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:18:22.227922+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native synthetic address edit Save commits one canonical owner row with correct revision and survives authoritative reread; no personal fields/screenshots emitted",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:18:31.200514+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native Delete cancel preserves the exact synthetic address without mutation",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:18:45.736704+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    },
+    {
+      "check": "actual native Delete confirm removes only the exact newly created synthetic address; backend absence verified and all unrelated addresses retained",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T09:19:00.078836+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "cleanup": {
+    "two_hosted_new_addresses_removed": true,
+    "one_native_new_address_removed": true,
+    "existing_addresses_untouched": true,
+    "immutable_receipts_and_five_hosted_audits_retained": true,
+    "native_create_edit_delete_audits_not_added_to_hosted_count": true
+  },
+  "catalog": {
+    "migrations": 62,
+    "inspected_rls_tables": 96,
+    "public_tables": 58,
+    "functions": 226,
+    "public_functions": 158
+  },
+  "limits": [
+    "Other required translation coverage and iOS acceptance remain",
+    "No address coordinates are fabricated; checkout retains its existing confirmed-destination rules"
+  ],
+  "production_modified": false
+}
