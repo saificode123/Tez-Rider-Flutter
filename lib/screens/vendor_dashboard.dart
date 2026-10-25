@@ -294,7 +294,11 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       ? const SizedBox.shrink()
                       : Row(
                           children: [
-                            Expanded(child: Text(vendorCtrl.statsError.value!)),
+                            Expanded(
+                              child: Text(
+                                vendorCtrl.statsError.value!.uiMessage,
+                              ),
+                            ),
                             TextButton(
                               onPressed: vendorCtrl.statsLoading.value
                                   ? null
@@ -536,7 +540,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        vendorCtrl.ordersError.value!,
+                        vendorCtrl.ordersError.value!.uiMessage,
                         textAlign: TextAlign.center,
                       ),
                       TextButton(
@@ -844,7 +848,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     if (busy) const LinearProgressIndicator(),
                     if (vendorCtrl.orderTransitions.messages[o['id'].toString()]
                         case final message?)
-                      Text(message),
+                      Text(message.uiMessage),
                     Row(
                       children: [
                         Expanded(
@@ -914,7 +918,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                                   .markReadyAndAssignRider(o);
                               Get.snackbar(
                                 "Rider".tr,
-                                msg,
+                                msg.uiMessage,
                                 snackPosition: SnackPosition.BOTTOM,
                               );
                             },
@@ -922,7 +926,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     if (message != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: Text(message),
+                        child: Text(message.uiMessage),
                       ),
                   ],
                 );

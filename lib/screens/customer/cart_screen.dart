@@ -510,7 +510,7 @@ class _CartScreenState extends State<CartScreen> {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(cart.lastError.value),
+        Text(cart.lastError.value.uiMessage),
         TextButton(
           onPressed: cart.syncing.value
               ? null

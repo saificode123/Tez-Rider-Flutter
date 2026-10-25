@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/notification_controller.dart';
@@ -56,7 +57,7 @@ class NotificationsScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(notifCtrl.error.value!),
+                Text(notifCtrl.error.value!.uiMessage),
                 TextButton(
                   onPressed: notifCtrl.isLoading.value ? null : notifCtrl.retry,
                   child: Text("Retry notifications".tr),

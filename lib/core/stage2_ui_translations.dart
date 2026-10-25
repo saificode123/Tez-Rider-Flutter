@@ -963,4 +963,295 @@ const stage2UiUrdu = <String, String>{
   "Enter your store name and address.": "اسٹور کا نام اور پتہ درج کریں۔",
   "Shop / Store Name": "دکان / اسٹور کا نام",
   "Store Address": "اسٹور کا پتہ",
+  "A product or its requested stock is unavailable. Review your cart.":
+      "کوئی مصنوع یا مطلوبہ ذخیرہ دستیاب نہیں۔ اپنا کارٹ دیکھیں۔",
+  "Accepted for @slot0end recipients. In-app delivery is available when they connect.":
+      "@slot0end وصول کنندگان کے لیے قبول ہوا۔ رابطہ بحال ہونے پر ایپ میں اطلاع دستیاب ہو گی۔",
+  "Account blocked. Auth access and sessions revoked.":
+      "اکاؤنٹ بند ہو گیا۔ Auth رسائی اور سیشن منسوخ ہو گئے۔",
+  "Account changed. Open monitoring again.":
+      "اکاؤنٹ بدل گیا۔ نگرانی دوبارہ کھولیں۔",
+  "Account changed. Open the order again.":
+      "اکاؤنٹ بدل گیا۔ آرڈر دوبارہ کھولیں۔",
+  "Account changed. Open your profile again.":
+      "اکاؤنٹ بدل گیا۔ پروفائل دوبارہ کھولیں۔",
+  "Account not found.": "اکاؤنٹ نہیں ملا۔",
+  "Account remains blocked. Auth synchronization is not confirmed. Retry synchronization.":
+      "اکاؤنٹ بند رہے گا۔ Auth ہم آہنگی کی تصدیق نہیں ہوئی۔ ہم آہنگی دوبارہ آزمائیں۔",
+  "Account unblocked. The user can sign in again.":
+      "اکاؤنٹ کھول دیا گیا۔ صارف دوبارہ سائن ان کر سکتا ہے۔",
+  "Admin review routing is unavailable. Contact support.":
+      "ایڈمن تک جائزے کی رسائی دستیاب نہیں۔ مدد سے رابطہ کریں۔",
+  "Administrator accounts cannot be blocked.":
+      "ایڈمن اکاؤنٹ بند نہیں کیے جا سکتے۔",
+  "An approved vendor account owning this order is required.":
+      "اس آرڈر کے مالک منظور شدہ وینڈر کا اکاؤنٹ ضروری ہے۔",
+  "Analytics could not be loaded. Retry when connected.":
+      "تجزیہ لوڈ نہیں ہو سکا۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Another account change is pending. Refresh and retry its synchronization.":
+      "اکاؤنٹ کی ایک اور تبدیلی زیر التوا ہے۔ تازہ کریں اور اس کی ہم آہنگی دوبارہ آزمائیں۔",
+  "Approximately @slot0end min": "تقریباً @slot0end منٹ",
+  "Arriving in @slot0end min": "@slot0end منٹ میں آمد",
+  "Assignment is busy. Refresh the result and retry.":
+      "تفویض جاری ہے۔ نتیجہ تازہ کریں اور دوبارہ کوشش کریں۔",
+  "Assignment is busy. Retry the same request.":
+      "تفویض جاری ہے۔ وہی درخواست دوبارہ بھیجیں۔",
+  "Assignment was not confirmed. Check your connection and retry to check the saved result.":
+      "تفویض کی تصدیق نہیں ہوئی۔ رابطہ دیکھیں اور محفوظ نتیجہ جانچنے کے لیے دوبارہ کوشش کریں۔",
+  "Availability could not be refreshed. Retry when connected.":
+      "دستیابی تازہ نہیں ہو سکی۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Availability is being checked.": "دستیابی جانچی جا رہی ہے۔",
+  "Cart availability could not be refreshed. Retry when connected.":
+      "کارٹ کی دستیابی تازہ نہیں ہو سکی۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Cart save was not confirmed. Retry cart synchronization before editing.":
+      "کارٹ محفوظ ہونے کی تصدیق نہیں ہوئی۔ تبدیلی سے پہلے کارٹ کی ہم آہنگی دوبارہ آزمائیں۔",
+  "Categories could not be loaded. Retry.":
+      "زمرے لوڈ نہیں ہو سکے۔ دوبارہ کوشش کریں۔",
+  "Complete and submit the pickup checklist, then start delivery before confirming the OTP.":
+      "OTP کی تصدیق سے پہلے وصولی کی چیک لسٹ مکمل کر کے جمع کریں اور ترسیل شروع کریں۔",
+  "Could not load accounts. Retry.":
+      "اکاؤنٹس لوڈ نہیں ہو سکے۔ دوبارہ کوشش کریں۔",
+  "Could not load approvals. Tap Retry.":
+      "منظوریاں لوڈ نہیں ہو سکیں۔ دوبارہ کوشش دبائیں۔",
+  "Could not load delivery feedback. Check your connection and account access.":
+      "ترسیل کی رائے لوڈ نہیں ہو سکی۔ رابطہ اور اکاؤنٹ کی رسائی دیکھیں۔",
+  "Could not load delivery requests.": "ترسیل کی درخواستیں لوڈ نہیں ہو سکیں۔",
+  "Could not load more approvals. Retry.":
+      "مزید منظوریاں لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔",
+  "Could not load rider deliveries.": "رائیڈر کی ترسیلیں لوڈ نہیں ہو سکیں۔",
+  "Could not load your orders. Retry after signing in.":
+      "آپ کے آرڈرز لوڈ نہیں ہو سکے۔ سائن ان کے بعد دوبارہ کوشش کریں۔",
+  "Could not refresh delivery requests. Tap Retry.":
+      "ترسیل کی درخواستیں تازہ نہیں ہو سکیں۔ دوبارہ کوشش دبائیں۔",
+  "Could not refresh orders. Check your connection and retry.":
+      "آرڈرز تازہ نہیں ہو سکے۔ رابطہ دیکھیں اور دوبارہ کوشش کریں۔",
+  "Could not save your submission. Please retry.":
+      "درخواست محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں۔",
+  "Daily email limit reached. Contact Admin; no email was sent.":
+      "روزانہ ای میل کی حد پوری ہو گئی۔ ایڈمن سے رابطہ کریں؛ کوئی ای میل نہیں بھیجی گئی۔",
+  "Delivery acceptance was not confirmed. Retry the same broadcast.":
+      "اطلاع کی قبولیت کی تصدیق نہیں ہوئی۔ وہی اعلان دوبارہ بھیجیں۔",
+  "Delivery destination has not been confirmed.":
+      "ترسیل کی منزل کی تصدیق نہیں ہوئی۔",
+  "Delivery photo unavailable. Retry.":
+      "ترسیل کی تصویر دستیاب نہیں۔ دوبارہ کوشش کریں۔",
+  "Delivery tracking is unavailable for this account.":
+      "اس اکاؤنٹ کے لیے ترسیل کی ٹریکنگ دستیاب نہیں۔",
+  "Email outcome is unconfirmed. Retry this request; it will not send twice.":
+      "ای میل کا نتیجہ غیر مصدقہ ہے۔ وہی درخواست دوبارہ کریں؛ ای میل دو بار نہیں جائے گی۔",
+  "Email provider rejected the request. A previous unexpired code remains usable.":
+      "ای میل فراہم کنندہ نے درخواست مسترد کی۔ پچھلا غیر معیاد شدہ کوڈ قابل استعمال رہے گا۔",
+  "Email request accepted. Ask the customer to check their inbox and spam folder.":
+      "ای میل کی درخواست قبول ہوئی۔ صارف سے ان باکس اور اسپیم فولڈر دیکھنے کو کہیں۔",
+  "Email request is pending. Retry this request to check its outcome.":
+      "ای میل کی درخواست زیر التوا ہے۔ نتیجہ دیکھنے کے لیے وہی درخواست دوبارہ کریں۔",
+  "Enter a rejection reason (one line, up to 500 characters).":
+      "مسترد کرنے کی وجہ درج کریں (ایک سطر، زیادہ سے زیادہ 500 حروف)۔",
+  "Enter a title (1–100 characters), message (1–1,000 characters), and valid audience.":
+      "عنوان (1–100 حروف)، پیغام (1–1,000 حروف) اور درست وصول کنندگان درج کریں۔",
+  "Enter exactly six numeric digits.": "بالکل چھ عددی ہندسے درج کریں۔",
+  "Featured products could not be loaded. Retry.":
+      "نمایاں مصنوعات لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔",
+  "Feedback was not saved. Check your account and delivered order, then retry.":
+      "رائے محفوظ نہیں ہوئی۔ اکاؤنٹ اور مکمل ترسیل والا آرڈر دیکھیں، پھر دوبارہ کوشش کریں۔",
+  "Finish restoring or retrying cart synchronization first.":
+      "پہلے کارٹ کی بحالی یا ہم آہنگی کی دوبارہ کوشش مکمل کریں۔",
+  "Incorrect OTP. @slot0end attempts remaining.":
+      "OTP غلط ہے۔ @slot0end کوششیں باقی ہیں۔",
+  "Inventory could not be loaded. Retry when connected.":
+      "ذخیرہ لوڈ نہیں ہو سکا۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Language could not be changed.": "زبان تبدیل نہیں ہو سکی۔",
+  "Language preference could not be restored.":
+      "زبان کی ترجیح بحال نہیں ہو سکی۔",
+  "Language preference could not be saved.": "زبان کی ترجیح محفوظ نہیں ہو سکی۔",
+  "Live updates disconnected. Reconnecting…":
+      "براہ راست اپ ڈیٹس کا رابطہ ختم ہو گیا۔ دوبارہ رابطہ ہو رہا ہے…",
+  "Manual refund confirmed": "دستی رقم واپسی کی تصدیق ہو گئی",
+  "Monitoring could not be refreshed. Please retry.":
+      "نگرانی تازہ نہیں ہو سکی۔ دوبارہ کوشش کریں۔",
+  "OTP expired. Request a new code.": "OTP کی مدت ختم ہو گئی۔ نیا کوڈ مانگیں۔",
+  "Only an approved, active administrator can send broadcasts.":
+      "صرف منظور شدہ فعال ایڈمن اعلانات بھیج سکتا ہے۔",
+  "Only an authorized administrator can manage accounts.":
+      "صرف مجاز ایڈمن اکاؤنٹس سنبھال سکتا ہے۔",
+  "Only the assigned approved rider can verify this delivery.":
+      "صرف تفویض شدہ منظور شدہ رائیڈر اس ترسیل کی تصدیق کر سکتا ہے۔",
+  "Order details could not be verified. Check your connection and account access, then retry.":
+      "آرڈر کی تفصیلات کی تصدیق نہیں ہوئی۔ رابطہ اور اکاؤنٹ کی رسائی دیکھیں، پھر دوبارہ کوشش کریں۔",
+  "Order ready. Manual assignment required; no eligible administrator is available for notification.":
+      "آرڈر تیار ہے۔ دستی تفویض ضروری ہے؛ اطلاع کے لیے کوئی اہل ایڈمن دستیاب نہیں۔",
+  "Order ready. No eligible rider within 10 km. Administrators notified for manual assignment.":
+      "آرڈر تیار ہے۔ 10 کلومیٹر کے اندر اہل رائیڈر نہیں۔ دستی تفویض کے لیے ایڈمنز کو اطلاع دے دی گئی۔",
+  "Order ready; rider already assigned.":
+      "آرڈر تیار ہے؛ رائیڈر پہلے سے تفویض ہے۔",
+  "Order ready; rider assigned after expanding the search to 10 km.":
+      "آرڈر تیار ہے؛ تلاش 10 کلومیٹر تک بڑھانے کے بعد رائیڈر تفویض ہوا۔",
+  "Order ready; rider assigned within 5 km.":
+      "آرڈر تیار ہے؛ 5 کلومیٹر کے اندر رائیڈر تفویض ہوا۔",
+  "Order status could not be refreshed. Retry when connected.":
+      "آرڈر کی حالت تازہ نہیں ہو سکی۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Orders could not be loaded. Retry.":
+      "آرڈرز لوڈ نہیں ہو سکے۔ دوبارہ کوشش کریں۔",
+  "Orders could not be refreshed. Retry when connected.":
+      "آرڈرز تازہ نہیں ہو سکے۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Please select your CNIC document image.":
+      "CNIC دستاویز کی تصویر منتخب کریں۔",
+  "Please wait @slot0end seconds before another broadcast.":
+      "اگلے اعلان سے پہلے @slot0end سیکنڈ انتظار کریں۔",
+  "Product availability could not be refreshed. Retry when connected.":
+      "مصنوع کی دستیابی تازہ نہیں ہو سکی۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Products could not be refreshed. Retry when connected.":
+      "مصنوعات تازہ نہیں ہو سکیں۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Profile could not be loaded. Please retry.":
+      "پروفائل لوڈ نہیں ہو سکی۔ دوبارہ کوشش کریں۔",
+  "Ratings could not be loaded. Check your connection and account access.":
+      "درجہ بندیاں لوڈ نہیں ہو سکیں۔ رابطہ اور اکاؤنٹ کی رسائی دیکھیں۔",
+  "Refund attempt unsuccessful; money return is not confirmed":
+      "رقم واپسی کی کوشش ناکام؛ رقم واپس ہونے کی تصدیق نہیں ہوئی",
+  "Refund pending; money return is not confirmed":
+      "رقم واپسی زیر التوا؛ رقم واپس ہونے کی تصدیق نہیں ہوئی",
+  "Request a delivery code first.": "پہلے ترسیلی کوڈ مانگیں۔",
+  "Request already applied. Current server status restored.":
+      "درخواست پہلے سے نافذ ہے۔ سرور کی موجودہ حالت بحال ہو گئی۔",
+  "Restore or retry cart synchronization before adding products.":
+      "مصنوعات شامل کرنے سے پہلے کارٹ کی ہم آہنگی بحال کریں یا دوبارہ آزمائیں۔",
+  "Result not confirmed. Retry the same feedback to check whether it was saved.":
+      "نتیجے کی تصدیق نہیں ہوئی۔ محفوظ ہونے کی جانچ کے لیے وہی رائے دوبارہ بھیجیں۔",
+  "Result not confirmed. Retry uses the same assignment request.":
+      "نتیجے کی تصدیق نہیں ہوئی۔ دوبارہ کوشش میں وہی تفویض درخواست استعمال ہوتی ہے۔",
+  "Retry the unchanged verification before entering a different code.":
+      "دوسرا کوڈ درج کرنے سے پہلے وہی تصدیق دوبارہ بھیجیں۔",
+  "Reviews are unavailable.": "جائزے دستیاب نہیں۔",
+  "Route unavailable. Retrying when connected.":
+      "راستہ دستیاب نہیں۔ رابطہ بحال ہونے پر دوبارہ کوشش ہو گی۔",
+  "Sales and rating could not be refreshed.":
+      "فروخت اور درجہ بندی تازہ نہیں ہو سکیں۔",
+  "Saved cart could not be restored. Retry when connected.":
+      "محفوظ کارٹ بحال نہیں ہو سکا۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔",
+  "Search could not be completed. Use up to 120 characters and retry.":
+      "تلاش مکمل نہیں ہو سکی۔ زیادہ سے زیادہ 120 حروف استعمال کریں اور دوبارہ کوشش کریں۔",
+  "Select your document again to continue the interrupted submission.":
+      "نامکمل درخواست جاری رکھنے کے لیے دستاویز دوبارہ منتخب کریں۔",
+  "Set your store location before matching a rider.":
+      "رائیڈر تلاش کرنے سے پہلے اسٹور کی لوکیشن مقرر کریں۔",
+  "Sign in again to view your orders.":
+      "اپنے آرڈرز دیکھنے کے لیے دوبارہ سائن ان کریں۔",
+  "Straight-line estimate; roads, traffic and stops are not included.":
+      "سیدھی لکیر کا اندازہ؛ سڑکیں، ٹریفک اور رکاوٹیں شامل نہیں۔",
+  "The Auth identity is missing. No account change was made.":
+      "Auth شناخت موجود نہیں۔ اکاؤنٹ میں کوئی تبدیلی نہیں ہوئی۔",
+  "The account change was not confirmed. Retry the same request.":
+      "اکاؤنٹ کی تبدیلی کی تصدیق نہیں ہوئی۔ وہی درخواست دوبارہ کریں۔",
+  "The customer needs a confirmed registered email. Contact Admin.":
+      "صارف کی تصدیق شدہ رجسٹرڈ ای میل ضروری ہے۔ ایڈمن سے رابطہ کریں۔",
+  "The five-code limit for this order has been reached. Contact Admin.":
+      "اس آرڈر کے پانچ کوڈز کی حد پوری ہو گئی۔ ایڈمن سے رابطہ کریں۔",
+  "The operation was not confirmed. Check your connection and Retry.":
+      "عمل کی تصدیق نہیں ہوئی۔ رابطہ دیکھیں اور دوبارہ کوشش کریں۔",
+  "The record was not accepted. Review the receipt or close and refresh the order.":
+      "ریکارڈ قبول نہیں ہوا۔ رسید دیکھیں یا بند کر کے آرڈر تازہ کریں۔",
+  "The request does not match the pending account change.":
+      "درخواست اکاؤنٹ کی زیر التوا تبدیلی سے مطابقت نہیں رکھتی۔",
+  "The rolling 24-hour broadcast limit has been reached. Try again later.":
+      "گزشتہ 24 گھنٹوں کے اعلانات کی حد پوری ہو گئی۔ بعد میں کوشش کریں۔",
+  "This account is not authorized for this cash record.":
+      "یہ اکاؤنٹ اس نقد ریکارڈ کا مجاز نہیں۔",
+  "This order is no longer eligible for rider matching. Refresh your orders.":
+      "یہ آرڈر اب رائیڈر تلاش کے لیے اہل نہیں۔ اپنے آرڈرز تازہ کریں۔",
+  "This order is not eligible for delivery verification.":
+      "یہ آرڈر ترسیل کی تصدیق کے لیے اہل نہیں۔",
+  "This record is uncertain. Do not repeat the cash transfer. Retry the unchanged receipt to check the server.":
+      "ریکارڈ غیر مصدقہ ہے۔ نقد رقم دوبارہ منتقل نہ کریں۔ سرور کی جانچ کے لیے وہی رسید دوبارہ بھیجیں۔",
+  "This request ID belongs to another broadcast. Refresh before trying again.":
+      "یہ درخواست ID دوسرے اعلان کی ہے۔ دوبارہ کوشش سے پہلے تازہ کریں۔",
+  "Too many requests. Wait and retry.":
+      "بہت زیادہ درخواستیں ہوئیں۔ انتظار کریں اور دوبارہ کوشش کریں۔",
+  "Using a previous route estimate.":
+      "پچھلے راستے کا اندازہ استعمال ہو رہا ہے۔",
+  "Wait @slot0end seconds before requesting another code.":
+      "نیا کوڈ مانگنے سے پہلے @slot0end سیکنڈ انتظار کریں۔",
+  "You cannot block your own account.": "آپ اپنا اکاؤنٹ بند نہیں کر سکتے۔",
+  "Your cart changed on another device. Review the restored cart before retrying.":
+      "آپ کا کارٹ دوسرے آلے پر بدل گیا۔ دوبارہ کوشش سے پہلے بحال شدہ کارٹ دیکھیں۔",
+  "Your order has been delivered.": "آپ کا آرڈر پہنچا دیا گیا۔",
+  "@slot0end\nAudience: @slot1end\nEstimated recipients: @slot2end\n\nThe server calculates the final count. This sends an in-app notification.":
+      "@slot0end\nوصول کنندگان: @slot1end\nمتوقع تعداد: @slot2end\n\nحتمی تعداد سرور طے کرتا ہے۔ اس سے ایپ میں اطلاع بھیجی جاتی ہے۔",
+  "@slot0end · @slot1end recipients\n@slot2end · @slot3end":
+      "@slot0end · @slot1end وصول کنندگان\n@slot2end · @slot3end",
+  "@slot0end@slot1end in-progress orders were identified. Their state and assignments were preserved. Review them before taking further operational action.":
+      "@slot0end@slot1end جاری آرڈرز ملے۔ ان کی حالت اور تفویض برقرار ہے۔ مزید عملی اقدام سے پہلے ان کا جائزہ لیں۔",
+  "Admin protected": "ایڈمن محفوظ ہے",
+  "All roles": "تمام کردار",
+  "Audience": "وصول کنندگان",
+  "Block": "بند کریں",
+  "Block this user?": "یہ صارف بند کریں؟",
+  "Block user": "صارف بند کریں",
+  "Blocked": "بند",
+  "Broadcast history": "اعلانات کی تاریخ",
+  "Broadcast title": "اعلان کا عنوان",
+  "Confirm send": "بھیجنے کی تصدیق کریں",
+  "Estimated recipients: @slot0end (informational)":
+      "متوقع وصول کنندگان: @slot0end (معلوماتی)",
+  "Estimating recipients…": "وصول کنندگان کا اندازہ ہو رہا ہے…",
+  "Existing orders need attention": "موجودہ آرڈرز پر توجہ ضروری ہے",
+  "Load more broadcasts": "مزید اعلانات لوڈ کریں",
+  "Load more users": "مزید صارفین لوڈ کریں",
+  "Message": "پیغام",
+  "No broadcasts yet": "ابھی کوئی اعلان نہیں",
+  "No matching accounts.": "کوئی مماثل اکاؤنٹ نہیں۔",
+  "Restore account access after Auth synchronization. Riders will remain offline.":
+      "Auth ہم آہنگی کے بعد اکاؤنٹ کی رسائی بحال کریں۔ رائیڈرز آف لائن رہیں گے۔",
+  "Retry account synchronization?": "اکاؤنٹ کی ہم آہنگی دوبارہ آزمائیں؟",
+  "Retry same broadcast": "وہی اعلان دوبارہ بھیجیں",
+  "Retry synchronization": "ہم آہنگی دوبارہ آزمائیں",
+  "Review broadcast": "اعلان کا جائزہ لیں",
+  "Role": "کردار",
+  "Search name or email": "نام یا ای میل سے تلاش کریں",
+  "Send broadcast?": "اعلان بھیجیں؟",
+  "Sending…": "بھیجا جا رہا ہے…",
+  "Status": "حالت",
+  "The account remains blocked until Auth synchronization is confirmed. Retry the existing operation.":
+      "Auth ہم آہنگی کی تصدیق تک اکاؤنٹ بند رہے گا۔ موجودہ عمل دوبارہ آزمائیں۔",
+  "This user will lose protected access and be signed out. Existing orders will remain unchanged.":
+      "صارف کی محفوظ رسائی ختم ہو گی اور سائن آؤٹ ہو جائے گا۔ موجودہ آرڈرز برقرار رہیں گے۔",
+  "Unblock": "کھولیں",
+  "Unblock this user?": "یہ صارف کھولیں؟",
+  "Unblock user": "صارف کھولیں",
+  "Understood": "سمجھ گیا",
+  "Unnamed account": "بغیر نام کا اکاؤنٹ",
+  "Working…": "عمل جاری ہے…",
+  "Enter a title": "عنوان درج کریں",
+  "Enter a message": "پیغام درج کریں",
+  "All users": "تمام صارفین",
+  "Customers": "گاہک",
+  "Administrators": "ایڈمنز",
+  "Recipient estimate unavailable. Retry.":
+      "وصول کنندگان کا اندازہ دستیاب نہیں۔ دوبارہ کوشش کریں۔",
+  "Broadcast history unavailable. Retry.":
+      "اعلانات کی تاریخ دستیاب نہیں۔ دوبارہ کوشش کریں۔",
+  "Live notifications disconnected. Tap Retry.":
+      "براہ راست اطلاعات کا رابطہ ختم ہو گیا۔ دوبارہ کوشش دبائیں۔",
+  "Could not load notifications. Tap Retry.":
+      "اطلاعات لوڈ نہیں ہو سکیں۔ دوبارہ کوشش دبائیں۔",
+  "Read status was not confirmed. Retry.":
+      "پڑھنے کی حالت کی تصدیق نہیں ہوئی۔ دوبارہ کوشش کریں۔",
+  "Rider location temporarily unavailable.":
+      "رائیڈر کی لوکیشن عارضی طور پر دستیاب نہیں۔",
+  "customer": "گاہک",
+  "vendor": "وینڈر",
+  "rider": "رائیڈر",
+  "admin": "ایڈمن",
+  "Sync pending": "ہم آہنگی زیر التوا",
+  "Unknown audience": "نامعلوم وصول کنندگان",
+  "Damaged items": "خراب اشیا",
+  "Missing items": "نامکمل اشیا",
+  "Wrong items": "غلط اشیا",
+  "Quality issue": "معیار کا مسئلہ",
+  "Other": "دیگر",
+  "Open": "کھلا",
+  "Under Review": "زیر جائزہ",
+  "Resolved": "حل شدہ",
+  "Closed": "بند",
+  "Escalated": "اعلیٰ جائزے کے لیے بھیجا گیا",
+  "Rejected": "مسترد",
 };

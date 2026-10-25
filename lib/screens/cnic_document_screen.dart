@@ -188,7 +188,7 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
-                  ctrl.error.value!,
+                  ctrl.error.value!.uiMessage,
                   style: const TextStyle(color: AppColors.error),
                 ),
               ),

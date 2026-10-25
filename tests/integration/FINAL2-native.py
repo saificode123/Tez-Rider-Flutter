@@ -260,6 +260,32 @@ elif action=='verify-cohort14-rider-performance':
  assert 'Performance could not be loaded'not in labels
  n.picture('cohort14-rider-performance')
  record('latest TEST Rider earnings page renders actual stored completion metrics and explicit missing-history information; compensation remains unknown')
+elif action=='language-menu':
+ choices=[node for node in n.nodes()if n.label(node)in('Language / زبان\nاردو','Language / زبان\nEnglish')and node.get('clickable')=='true']
+ assert len(choices)==1,'Exactly one observed language menu required';n.tap(choices[0])
+elif action in('cohort20-vendor-english','cohort20-vendor-urdu'):
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ if action.endswith('english'):
+  assert 'Store Settings'in labels and 'Account Settings'in labels and 'Language / زبان\nEnglish'in labels
+  assert 'Language preference not saved'not in labels
+  record('current TEST Vendor switches open profile to English with preserved actual store identity and visible shared language setting')
+ else:
+  assert 'دکان کی ترتیبات'in labels and 'اکاؤنٹ کی ترتیبات'in labels and 'Language / زبان\nاردو'in labels
+  record('current TEST Vendor restores original Urdu on the same profile through the actual language menu')
+elif action=='cohort20-vendor-home':
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ assert 'دکان کا ڈیش بورڈ'in labels and 'پہنچائی گئی اشیا کی فروخت'in labels
+ n.picture('cohort20-vendor-home');record('current TEST Vendor authenticates after Customer logout and renders Urdu dashboard with actual stored sales/rating')
+elif action=='fr14-readiness':
+ spec=importlib.util.spec_from_file_location('final2_fr14_readiness',Path(__file__).with_name('FR-14-hosted.py'));route=importlib.util.module_from_spec(spec);spec.loader.exec_module(route)
+ assert route.b.REF=='igeisilhtmglgnqvllrx'
+ fixture=route.state.get('physical_order');assert isinstance(fixture,dict)and isinstance(fixture.get('oid'),int),'Existing FR14 physical fixture required'
+ oid=int(fixture['oid']);rider=int(route.state['accounts']['physical-rider']['profile_id'])
+ orders=route.db.query('select id,order_status,rider_id,destination_confirmed_at is not null as destination_confirmed from public.orders where id='+str(oid))
+ quota=route.db.query("select c.daily_limit,(select coalesce(sum(units),0)from fr14_private.quota_reservations where reserved_at>clock_timestamp()-interval '24 hours')as reserved_24h,(select count(*)from fr14_private.quota_reservations where not settled and reserved_at<clock_timestamp()-interval '25 seconds'and reserved_at>clock_timestamp()-interval '24 hours')as unsettled_guard from fr14_private.configuration c")
+ presence=route.db.query("select is_online,location_updated_at>clock_timestamp()-interval '2 minutes'as fresh_gps from public.riders where userid="+str(rider))
+ output={'project':route.b.REF,'order':orders,'presence':presence,'quota':quota,'provider_request_executed':False,'coordinates_emitted':False,'business_mutations':0,'observed_at':n.datetime.datetime.now(n.datetime.timezone.utc).isoformat()}
+ (n.OUT/'fr14-readiness.json').write_text(n.json.dumps(output,indent=2)+'\n',encoding='utf-8');print(n.json.dumps(output))
 elif action in('cohort19-customer-home','cohort19-customer-track'):
  labels='\n'.join(n.label(node)for node in n.nodes())
  if action.endswith('home'):
@@ -283,7 +309,7 @@ elif action=='scan-stage2-changed':
   elif isinstance(value,list):
    for item in value:collect(item)
  collect(state);collect(n.accounts);collect(n.b.fr04)
- for name in ('accounts.bin','final01-workflow.bin','fr20-accounts.bin'):
+ for name in ('accounts.bin','final01-workflow.bin','fr20-accounts.bin','fr14-accounts.bin'):
   collect(n.json.loads(n.b.crypt((n.b.PRIVATE/name).read_bytes(),True)))
  dotenv=n.ROOT/'supabase/functions/.env.test.local'
  for line in dotenv.read_text(encoding='utf-8-sig').splitlines():
@@ -292,7 +318,7 @@ elif action=='scan-stage2-changed':
    if any(part in key.lower()for part in('key','password','secret','token')) and len(value.strip())>=8:protected.add(value.strip().strip('\"\''))
  names=set()
  for args in [('diff','--name-only','-z','HEAD'),('ls-files','--others','--exclude-standard','-z')]:
-  names.update(subprocess.check_output(['git',*args],cwd=n.ROOT).decode().split('\0'))
+  names.update(subprocess.check_output(['git','--no-optional-locks',*args],cwd=n.ROOT).decode().split('\0'))
  paths=[n.ROOT/name for name in names if name and(n.ROOT/name).is_file()]
  assert all(not any(value.encode()in path.read_bytes()for value in protected if value)for path in paths),'Protected value found; content withheld'
  result={'project':'igeisilhtmglgnqvllrx','files_checked':len(paths),'protected_values_compared':len(protected),'matches':0,'unreadable_protected_files':0,'network_used':False}
@@ -625,7 +651,7 @@ elif action=='scan-changed':
   protected.extend(account['password']for account in accounts.values()if isinstance(account,dict)and'password'in account)
  names=set()
  for args in [('diff','--name-only','-z','b19dc24'),('ls-files','--others','--exclude-standard','-z')]:
-  names.update(n.subprocess.check_output(['git',*args],cwd=n.ROOT).decode().split('\0'))
+  names.update(n.subprocess.check_output(['git','--no-optional-locks',*args],cwd=n.ROOT).decode().split('\0'))
  paths=[n.ROOT/name for name in names if name and(n.ROOT/name).is_file()]
  assert all(not any(value.encode()in path.read_bytes()for value in protected if value)for path in paths),'Protected credential detected; values withheld'
  result={'files_checked':len(paths),'protected_credential_matches':0,'scope':'actual TEST service key and protected Stage2/FR28/FR04 fixture passwords; changed/new files since b19dc24'}
@@ -756,10 +782,13 @@ elif action in('scroll:down','scroll:up'):
  n.nodes()
  down=action.endswith('down')
  n.adb('shell','input','swipe','500','1900'if down else'1000','500','1000'if down else'1900','450');n.time.sleep(.5)
-elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor','other-customer','rider','admin'):
+elif action.startswith('login:')and action[6:]in('live-vendor','review-customer','email-vendor','other-customer','rider','admin','fr14-rider'):
  label=action[6:]
- account=n.accounts[label]if label in('rider','admin')else n.accounts['customer']if label=='other-customer'else state['accounts'][label]
- role=label if label in('rider','admin')else'customer'if label in('review-customer','other-customer')else'vendor'
+ if label=='fr14-rider':
+  existing=n.json.loads(n.b.crypt((n.b.PRIVATE/'fr14-accounts.bin').read_bytes(),True));account=existing['accounts']['physical-rider']
+  assert account['email'].startswith('fr14-')and account['email'].endswith('@example.test'),'Dedicated existing FR14 rider required'
+ else:account=n.accounts[label]if label in('rider','admin')else n.accounts['customer']if label=='other-customer'else state['accounts'][label]
+ role='rider'if label=='fr14-rider'else label if label in('rider','admin')else'customer'if label in('review-customer','other-customer')else'vendor'
  labels=('Sign in as '+role.title(), {'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role]+' کے طور پر سائن ان کریں')
  assert any(n.label(node)in labels for node in n.nodes())
  for index,value in enumerate([account['email'],account['password']]):

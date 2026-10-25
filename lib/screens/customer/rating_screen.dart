@@ -68,7 +68,7 @@ class _RatingScreenState extends State<RatingScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(error!, textAlign: TextAlign.center),
+                  Text(error!.uiMessage, textAlign: TextAlign.center),
                   TextButton(onPressed: load, child: Text("Retry".tr)),
                 ],
               ),
@@ -199,7 +199,7 @@ class _TargetFeedbackState extends State<_TargetFeedback> {
                 maxLines: 3,
                 decoration: InputDecoration(labelText: "Comment (optional)".tr),
               ),
-              if (error != null) Text(error!),
+              if (error != null) Text(error!.uiMessage),
               ElevatedButton(
                 onPressed: busy || rating == 0 ? null : submit,
                 child: Text(

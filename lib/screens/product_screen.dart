@@ -44,7 +44,7 @@ class ProductScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(productCtrl.error.value!),
+                Text(productCtrl.error.value!.uiMessage),
                 TextButton(
                   onPressed: productCtrl.refreshProducts,
                   child: Text("Retry".tr),

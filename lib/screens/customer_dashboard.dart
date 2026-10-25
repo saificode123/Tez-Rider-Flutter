@@ -1365,7 +1365,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             if (productCtrl.error.value != null) {
               return Column(
                 children: [
-                  Text(productCtrl.error.value!),
+                  Text(productCtrl.error.value!.uiMessage),
                   TextButton(
                     onPressed: productCtrl.refreshProducts,
                     child: Text("Retry".tr),

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -111,7 +112,11 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
     final error = ProfileService.validate(_nameCtrl.text, _phoneCtrl.text);
     if (error != null) {
-      Get.snackbar("Error".tr, error, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        "Error".tr,
+        error.uiMessage,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
     final generation = _generation;

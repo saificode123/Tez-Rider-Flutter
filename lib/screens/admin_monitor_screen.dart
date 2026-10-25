@@ -295,7 +295,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                             if (value != null) update(() => selected = value);
                           },
                   ),
-                  if (error != null) Text(error!),
+                  if (error != null) Text(error!.uiMessage),
                   if (busy) const LinearProgressIndicator(),
                 ],
               ),
@@ -519,7 +519,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
             ],
           ),
           if (_error != null) ...[
-            Text(_error!),
+            Text(_error!.uiMessage),
             TextButton(onPressed: () => _load(), child: Text("Retry".tr)),
           ],
           if (summary != null) ...[

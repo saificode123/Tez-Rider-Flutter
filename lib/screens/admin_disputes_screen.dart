@@ -99,7 +99,7 @@ class _AdminDisputeQueueState extends State<AdminDisputeQueue> {
                   ),
                   if (controller.disputeError.value != null)
                     Text(
-                      controller.disputeError.value!,
+                      controller.disputeError.value!.uiMessage,
                       style: const TextStyle(color: Colors.red),
                     ),
                   TextButton(
@@ -374,7 +374,7 @@ class _AdminDisputeDetailsState extends State<AdminDisputeDetails> {
               ),
             if (controller.decisionError.value != null)
               Text(
-                controller.decisionError.value!,
+                controller.decisionError.value!.uiMessage,
                 style: const TextStyle(color: Colors.red),
               ),
             if (eligible) ...[

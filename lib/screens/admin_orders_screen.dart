@@ -84,7 +84,7 @@ class _AdminOrdersBodyState extends State<_AdminOrdersBody> {
         children: [
           if (_loading) const LinearProgressIndicator(),
           if (_error != null) ...[
-            Text(_error!),
+            Text(_error!.uiMessage),
             TextButton(
               onPressed: _loading ? null : () => _load(more: _failedMore),
               child: Text("Retry orders".tr),

@@ -432,7 +432,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     .toList();
                 if (adminCtrl.approvalError.value != null) {
                   return Text(
-                    adminCtrl.approvalError.value!,
+                    adminCtrl.approvalError.value!.uiMessage,
                     style: const TextStyle(color: AppColors.error),
                   );
                 }
@@ -503,7 +503,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     ),
                     if (adminCtrl.approvalError.value != null)
                       Text(
-                        adminCtrl.approvalError.value!,
+                        adminCtrl.approvalError.value!.uiMessage,
                         style: const TextStyle(color: AppColors.error),
                       ),
                   ],

@@ -14,6 +14,12 @@ class UiStrings extends RecursiveAstVisitor<void> {
   final entries = <Map<String, dynamic>>[];
   final nodes = <int, Expression>{};
   void collect(Expression expression) {
+    if (expression is SwitchExpression) {
+      for (final entry in expression.cases) {
+        collect(entry.expression);
+      }
+      return;
+    }
     if (expression is ParenthesizedExpression) {
       collect(expression.expression);
       return;
@@ -326,7 +332,77 @@ void verifyBoundaries(List<String> targets, String base, String output) {
   );
 }
 
+class UiMessages extends UiStrings {
+  UiMessages(String path) : super(path, {}, {});
+  static const formatters = {
+    'deliveryOtpMessage',
+    'accountOperationMessage',
+    'broadcastResultMessage',
+    'riderAssignmentMessage',
+    'checklistMessage',
+    'routeEtaLabel',
+  };
+  @override
+  void visitFunctionDeclaration(FunctionDeclaration node) {
+    if (formatters.contains(node.name.lexeme) &&
+        node.functionExpression.body is ExpressionFunctionBody) {
+      collect(
+        (node.functionExpression.body as ExpressionFunctionBody).expression,
+      );
+    }
+    super.visitFunctionDeclaration(node);
+  }
+
+  @override
+  void visitReturnStatement(ReturnStatement node) {
+    AstNode? parent = node.parent;
+    while (parent != null && parent is! FunctionDeclaration) {
+      parent = parent.parent;
+    }
+    if (parent is FunctionDeclaration &&
+        formatters.contains(parent.name.lexeme) &&
+        node.expression != null)
+      collect(node.expression!);
+    super.visitReturnStatement(node);
+  }
+
+  @override
+  void visitAssignmentExpression(AssignmentExpression node) {
+    if (RegExp(
+      r'(?:^|\.)(?:_?\w*[Ee]rror|_?notice|_?message)(?:\.value)?$',
+    ).hasMatch(node.leftHandSide.toSource()))
+      collect(node.rightHandSide);
+    super.visitAssignmentExpression(node);
+  }
+}
+
 void main(List<String> args) {
+  if (args.length == 3 && args[2] == '--messages') {
+    final targets = List<String>.from(
+      jsonDecode(File(args[0]).readAsStringSync()),
+    );
+    final entries = <Map<String, dynamic>>[];
+    for (final path in targets) {
+      final visitor = UiMessages(path);
+      parseString(
+        content: File(path).readAsStringSync(),
+        throwIfDiagnostics: true,
+      ).unit.accept(visitor);
+      entries.addAll(visitor.entries);
+    }
+    File(args[1]).writeAsStringSync(
+      const JsonEncoder.withIndent('  ').convert(entries) + '\n',
+    );
+    print(
+      jsonEncode({
+        'read_only': true,
+        'message_instances': entries.length,
+        'distinct_keys': entries.map((e) => e['key']).toSet().length,
+      }),
+    );
+    return;
+  }
+
   if (args.length == 4 && args[2] == '--verify') {
     verifyBoundaries(
       List<String>.from(jsonDecode(File(args[0]).readAsStringSync())),

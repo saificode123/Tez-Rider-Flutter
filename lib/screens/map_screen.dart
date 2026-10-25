@@ -321,7 +321,7 @@ class _MapScreenState extends State<MapScreen> {
                                 );
                               })
                             else
-                              const Text(unavailableRiderLocation),
+                              Text(unavailableRiderLocation.uiMessage),
                             if (_route != null)
                               Obx(
                                 () => Column(
@@ -333,13 +333,13 @@ class _MapScreenState extends State<MapScreen> {
                                                 _route!.route.value == null &&
                                                 !_feed!.state.stale.value
                                             ? "Calculating ETA…".tr
-                                            : _route!.label.value,
+                                            : _route!.label.value.uiMessage,
                                       ),
                                     ),
                                     if (_route!.notice.value.isNotEmpty &&
                                         !_feed!.state.stale.value)
                                       Text(
-                                        _route!.notice.value,
+                                        _route!.notice.value.uiMessage,
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     if (_route!.route.value?.source ==

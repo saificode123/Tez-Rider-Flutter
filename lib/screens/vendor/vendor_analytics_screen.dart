@@ -165,7 +165,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_error!),
+                  Text(_error!.uiMessage),
                   TextButton(
                     onPressed: _fetching ? null : _loadData,
                     child: Text("Retry".tr),

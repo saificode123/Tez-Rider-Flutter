@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,18 +43,26 @@ class _AdminBroadcastsScreenState extends State<AdminBroadcastsScreen> {
     final approved = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Send broadcast?'),
+        title: Text("Send broadcast?".tr),
         content: Text(
-          '${title.text.trim()}\nAudience: ${broadcastAudiences[controller.audience.value]}\nEstimated recipients: ${controller.estimate.value}\n\nThe server calculates the final count. This sends an in-app notification.',
+          "@slot0end\nAudience: @slot1end\nEstimated recipients: @slot2end\n\nThe server calculates the final count. This sends an in-app notification."
+              .uiTr({
+                "slot0end": (title.text.trim()).toString(),
+                "slot1end":
+                    (broadcastAudiences[controller.audience.value] ??
+                            controller.audience.value)
+                        .tr,
+                "slot2end": (controller.estimate.value).toString(),
+              }),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text("Cancel".tr),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Confirm send'),
+            child: Text("Confirm send".tr),
           ),
         ],
       ),
@@ -69,127 +78,146 @@ class _AdminBroadcastsScreenState extends State<AdminBroadcastsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Broadcast notifications')),
-    body: Obx(() {
-      final locked =
-          controller.sending.value || controller.uncertain.value || confirming;
-      return ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Form(
-            key: form,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  controller: title,
-                  enabled: !locked,
-                  maxLength: 100,
-                  decoration: const InputDecoration(
-                    labelText: 'Broadcast title',
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(title: Text("Broadcast notifications".tr)),
+      body: Obx(() {
+        final locked =
+            controller.sending.value ||
+            controller.uncertain.value ||
+            confirming;
+        return ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Form(
+              key: form,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: title,
+                    enabled: !locked,
+                    maxLength: 100,
+                    decoration: InputDecoration(
+                      labelText: "Broadcast title".tr,
+                    ),
+                    validator: (value) => value == null || value.trim().isEmpty
+                        ? 'Enter a title'.tr
+                        : null,
                   ),
-                  validator: (value) => value == null || value.trim().isEmpty
-                      ? 'Enter a title'
-                      : null,
-                ),
-                TextFormField(
-                  controller: message,
-                  enabled: !locked,
-                  maxLength: 1000,
-                  minLines: 3,
-                  maxLines: 5,
-                  decoration: const InputDecoration(labelText: 'Message'),
-                  validator: (value) => value == null || value.trim().isEmpty
-                      ? 'Enter a message'
-                      : null,
-                ),
-                DropdownButtonFormField<String>(
-                  initialValue: controller.audience.value,
-                  decoration: const InputDecoration(labelText: 'Audience'),
-                  items: broadcastAudiences.entries
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e.key,
-                          child: Text(e.value),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: locked
-                      ? null
-                      : (value) => controller.refreshEstimate(value),
-                ),
-                const SizedBox(height: 12),
-                if (controller.estimating.value)
-                  const Text('Estimating recipients…')
-                else if (controller.estimate.value != null)
-                  Text(
-                    'Estimated recipients: ${controller.estimate.value} (informational)',
+                  TextFormField(
+                    controller: message,
+                    enabled: !locked,
+                    maxLength: 1000,
+                    minLines: 3,
+                    maxLines: 5,
+                    decoration: InputDecoration(labelText: "Message".tr),
+                    validator: (value) => value == null || value.trim().isEmpty
+                        ? 'Enter a message'.tr
+                        : null,
                   ),
-                if (controller.estimateError.value != null)
-                  TextButton(
-                    onPressed: controller.refreshEstimate,
-                    child: Text(controller.estimateError.value!),
+                  DropdownButtonFormField<String>(
+                    initialValue: controller.audience.value,
+                    decoration: InputDecoration(labelText: "Audience".tr),
+                    items: broadcastAudiences.entries
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e.key,
+                            child: Text(e.value.tr),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: locked
+                        ? null
+                        : (value) => controller.refreshEstimate(value),
                   ),
-                const SizedBox(height: 12),
-                FilledButton(
-                  onPressed:
-                      controller.sending.value ||
-                          confirming ||
-                          controller.estimate.value == null
-                      ? null
-                      : confirm,
-                  child: Text(
-                    controller.sending.value
-                        ? 'Sending…'
-                        : controller.uncertain.value
-                        ? 'Retry same broadcast'
-                        : 'Review broadcast',
+                  const SizedBox(height: 12),
+                  if (controller.estimating.value)
+                    Text("Estimating recipients…".tr)
+                  else if (controller.estimate.value != null)
+                    Text(
+                      "Estimated recipients: @slot0end (informational)".uiTr({
+                        "slot0end": (controller.estimate.value).toString(),
+                      }),
+                    ),
+                  if (controller.estimateError.value != null)
+                    TextButton(
+                      onPressed: controller.refreshEstimate,
+                      child: Text(controller.estimateError.value!.uiMessage),
+                    ),
+                  const SizedBox(height: 12),
+                  FilledButton(
+                    onPressed:
+                        controller.sending.value ||
+                            confirming ||
+                            controller.estimate.value == null
+                        ? null
+                        : confirm,
+                    child: Text(
+                      controller.sending.value
+                          ? "Sending…".tr
+                          : controller.uncertain.value
+                          ? "Retry same broadcast".tr
+                          : "Review broadcast".tr,
+                    ),
                   ),
-                ),
-                if (controller.feedback.value != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(controller.feedback.value!),
-                  ),
-              ],
-            ),
-          ),
-          const Divider(height: 32),
-          const Text(
-            'Broadcast history',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          if (controller.loading.value) const LinearProgressIndicator(),
-          if (controller.historyError.value != null)
-            TextButton(
-              onPressed: controller.loadHistory,
-              child: Text(controller.historyError.value!),
-            )
-          else if (!controller.loading.value && controller.history.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('No broadcasts yet'),
-            ),
-          ...controller.history.map(
-            (row) => ListTile(
-              leading: const Icon(Icons.campaign_outlined),
-              title: Text(row['title'] as String),
-              subtitle: Text(
-                '${broadcastAudiences[row['audience']]} · ${row['recipient_count']} recipients\n${DateTime.tryParse(row['created_at'] as String)?.toLocal()} · ${row['status']}',
+                  if (controller.feedback.value != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(controller.feedback.value!.uiMessage),
+                    ),
+                ],
               ),
-              isThreeLine: true,
             ),
-          ),
-          if (controller.hasMore.value)
-            TextButton(
-              onPressed: controller.loading.value
-                  ? null
-                  : () => controller.loadHistory(append: true),
-              child: const Text('Load more broadcasts'),
+            const Divider(height: 32),
+            Text(
+              "Broadcast history".tr,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-        ],
-      );
-    }),
-  );
+            if (controller.loading.value) const LinearProgressIndicator(),
+            if (controller.historyError.value != null)
+              TextButton(
+                onPressed: controller.loadHistory,
+                child: Text(controller.historyError.value!.uiMessage),
+              )
+            else if (!controller.loading.value && controller.history.isEmpty)
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text("No broadcasts yet".tr),
+              ),
+            ...controller.history.map(
+              (row) => ListTile(
+                leading: const Icon(Icons.campaign_outlined),
+                title: Text(row['title'] as String),
+                subtitle: Text(
+                  "@slot0end · @slot1end recipients\n@slot2end · @slot3end"
+                      .uiTr({
+                        "slot0end":
+                            (broadcastAudiences[row['audience']] ??
+                                    row['audience']?.toString() ??
+                                    'Unknown audience')
+                                .tr,
+                        "slot1end": (row['recipient_count']).toString(),
+                        "slot2end": (DateTime.tryParse(
+                          row['created_at'] as String,
+                        )?.toLocal()).toString(),
+                        "slot3end": (row['status']).toString(),
+                      }),
+                ),
+                isThreeLine: true,
+              ),
+            ),
+            if (controller.hasMore.value)
+              TextButton(
+                onPressed: controller.loading.value
+                    ? null
+                    : () => controller.loadHistory(append: true),
+                child: Text("Load more broadcasts".tr),
+              ),
+          ],
+        );
+      }),
+    );
+  }
 }

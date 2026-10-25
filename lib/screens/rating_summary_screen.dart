@@ -75,7 +75,7 @@ class _RatingSummaryScreenState extends State<RatingSummaryScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(error!, textAlign: TextAlign.center),
+                  Text(error!.uiMessage, textAlign: TextAlign.center),
                   TextButton(onPressed: load, child: Text("Retry".tr)),
                 ],
               ),

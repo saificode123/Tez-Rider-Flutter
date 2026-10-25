@@ -43,7 +43,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
   final RiderController riderCtrl = Get.put(RiderController());
 
   Widget _locationStatus() {
-    final message = Text(riderCtrl.location.message.value);
+    final message = Text(riderCtrl.location.message.value.uiMessage);
     if (!riderCtrl.location.hasSettingsLink) return message;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +338,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             if (riderCtrl.presenceError.value != null)
               SliverToBoxAdapter(
                 child: ListTile(
-                  title: Text(riderCtrl.presenceError.value!),
+                  title: Text(riderCtrl.presenceError.value!.uiMessage),
                   trailing: TextButton(
                     onPressed: riderCtrl.presenceBusy.value
                         ? null
@@ -362,7 +362,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             if (riderCtrl.requestsError.value != null)
               SliverToBoxAdapter(
                 child: ListTile(
-                  title: Text(riderCtrl.requestsError.value!),
+                  title: Text(riderCtrl.requestsError.value!.uiMessage),
                   trailing: TextButton(
                     onPressed: riderCtrl.requestsLoading.value
                         ? null
@@ -2095,7 +2095,7 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                 if (flow.status['masked_email'] is String)
                   Text(flow.status['masked_email'] as String),
                 const SizedBox(height: 12),
-                Text(flow.message),
+                Text(flow.message.uiMessage),
                 if (flow.remainingAttempts != null)
                   Text(
                     "Attempts remaining: @slot0end".uiTr({

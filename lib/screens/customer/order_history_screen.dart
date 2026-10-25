@@ -174,7 +174,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_error!),
+                    Text(_error!.uiMessage),
                     TextButton(
                       onPressed: () => _loadOrders(),
                       child: Text("Retry".tr),

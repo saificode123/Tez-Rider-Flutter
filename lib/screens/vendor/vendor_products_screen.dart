@@ -232,7 +232,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_loadError!),
+                  Text(_loadError!.uiMessage),
                   TextButton(onPressed: _loadProducts, child: Text("Retry".tr)),
                 ],
               ),

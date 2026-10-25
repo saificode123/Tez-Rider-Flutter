@@ -88,7 +88,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                   const SizedBox(height: 16),
                   if (controller.message.value.isNotEmpty)
                     Text(
-                      controller.message.value,
+                      controller.message.value.uiMessage,
                       style: const TextStyle(color: Colors.green),
                     ),
                   if (controller.images.isEmpty && controller.paths.isNotEmpty)
@@ -144,7 +144,9 @@ class _DisputeScreenState extends State<DisputeScreen> {
                         : null,
                     decoration: InputDecoration(labelText: "Reason".tr),
                     items: controller.reasons
-                        .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                        .map(
+                          (r) => DropdownMenuItem(value: r, child: Text(r.tr)),
+                        )
                         .toList(),
                     onChanged: controller.editable
                         ? (value) {
@@ -238,7 +240,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                   ],
                   if (controller.error.value.isNotEmpty)
                     Text(
-                      controller.error.value,
+                      controller.error.value.uiMessage,
                       style: const TextStyle(color: Colors.red),
                     ),
                   if (controller.error.value.isNotEmpty &&
@@ -363,7 +365,7 @@ class _DisputeHistoryScreenState extends State<DisputeHistoryScreen> {
               ),
             ),
           if (error != null)
-            Text(error!, style: const TextStyle(color: Colors.red)),
+            Text(error!.uiMessage, style: const TextStyle(color: Colors.red)),
           if (loading) const Center(child: CircularProgressIndicator()),
           if (hasMore || error != null)
             TextButton(
@@ -384,7 +386,8 @@ String disputeStatusLabel(String status) => status
       (word) =>
           word.isEmpty ? '' : '${word[0].toUpperCase()}${word.substring(1)}',
     )
-    .join(' ');
+    .join(' ')
+    .tr;
 
 class DisputeDetailScreen extends StatefulWidget {
   const DisputeDetailScreen({super.key, required this.id});
@@ -431,7 +434,7 @@ class _DisputeDetailScreenState extends State<DisputeDetailScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(error ?? "Dispute unavailable.".tr),
+                  Text((error ?? "Dispute unavailable.".tr).uiMessage),
                   TextButton(onPressed: _load, child: Text("Retry".tr)),
                 ],
               ),

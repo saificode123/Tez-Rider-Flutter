@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _DeliveryPhotoPanelState extends State<DeliveryPhotoPanel> {
                     setState(() => value = {...value!, 'reference': ref}),
               ),
             ] else
-              Text(error ?? "Photo unavailable.".tr),
+              Text((error ?? "Photo unavailable.".tr).uiMessage),
             TextButton(
               onPressed: loading || client.auth.currentUser?.id != account
                   ? null

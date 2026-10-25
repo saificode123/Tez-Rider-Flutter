@@ -254,7 +254,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(_error!),
+                        Text(_error!.uiMessage),
                         TextButton(
                           onPressed: () => _search(_searchCtrl.text),
                           child: Text("Retry".tr),
