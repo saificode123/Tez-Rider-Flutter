@@ -153,6 +153,50 @@ elif action=='copy-admin-monitor-csv':
   assert n.time.monotonic()<deadline,'Native clipboard operation must confirm completion; no success inferred'
   n.time.sleep(.3)
  record('actual Admin Copy CSV receives platform-confirmed complete filtered export; raw clipboard contents are not read')
+elif action=='native-address-add-fill' or action.startswith(('native-address-save:','native-address-edit','native-address-delete:')):
+ fixture=state.setdefault('native_address_fixture',{'label':'FINAL2 NATIVE '+uuid.uuid4().hex[:8],'address':'FINAL2 SYNTHETIC ADDRESS ONLY'});save()
+ def address_rows():
+  token=n.b.login(state['accounts']['review-customer'])
+  try:
+   code,value=gateway('final2_saved_addresses',token,{});assert code==200;return value['items']
+  finally:n.b.api('/auth/v1/logout?scope=local','POST',token=token)
+ def own_control(tooltip):
+  current=n.nodes();label=fixture['label']+(' EDITED'if fixture.get('edited')else'')
+  anchors=[x for x in current if label in n.label(x).splitlines()];assert len(anchors)==1,'Exact synthetic address row required'
+  def middle(x):
+   a=list(map(int,n.re.findall(r'\d+',x.get('bounds',''))));assert len(a)==4;return(a[1]+a[3])/2
+  choices=[x for x in current if n.label(x)==tooltip and x.get('clickable')=='true'and abs(middle(x)-middle(anchors[0]))<260]
+  assert len(choices)==1,'One observed control in the exact synthetic address row required';n.tap(choices[0])
+ if action=='native-address-add-fill':
+  assert not fixture.get('id')and not fixture.get('deleted'),'Never create duplicate native fixture'
+  assert any(n.label(x)=='محفوظ پتے'for x in n.nodes());n.click('نیا پتہ شامل کریں')
+  for index,text in enumerate([fixture['label'],fixture['address']]):
+   fields=[x for x in n.nodes()if x.get('class')=='android.widget.EditText'];assert len(fields)==2;fill(fields[index],text)
+  record('actual Urdu Saved Addresses Add handler opens editable form; only synthetic address values filled, no submission claimed')
+ elif action=='native-address-edit':
+  assert fixture.get('id')and not fixture.get('edited')and not fixture.get('deleted')
+  own_control('پتہ تبدیل کریں');fields=[x for x in n.nodes()if x.get('class')=='android.widget.EditText'];assert len(fields)==2 and fields[1].get('text')==fixture['address']
+  fill(fields[0],fixture['label']+' EDITED');fixture['edit_filled']=True;save()
+  record('actual synthetic address Edit handler preserves the original address and fills only its new label')
+ elif action.startswith('native-address-save:'):
+  mode=action.split(':')[1];assert mode in('create','edit')
+  assert(not fixture.get('id')if mode=='create'else fixture.get('id')and fixture.get('edit_filled')and not fixture.get('edited'))
+  n.click('پتہ محفوظ کریں');expected=fixture['label']+(' EDITED'if mode=='edit'else'');deadline=n.time.monotonic()+20
+  while True:
+   labels=[n.label(x)for x in n.nodes()]
+   if 'محفوظ پتے'in labels and any(expected in x.splitlines()for x in labels):break
+   assert n.time.monotonic()<deadline,'Confirmed owned address list required; no second save sent';n.time.sleep(.3)
+  matches=[x for x in address_rows()if x['label']==expected and x['address']==fixture['address']];assert len(matches)==1
+  if mode=='create':fixture['id']=matches[0]['id'];assert matches[0]['revision']==0
+  else:assert matches[0]['id']==fixture['id']and matches[0]['revision']==1;fixture['edited']=True
+  save();record('actual native synthetic address '+mode+' Save commits one canonical owner row with correct revision and survives authoritative reread; no personal fields/screenshots emitted')
+ else:
+  mode=action.split(':')[1];assert mode in('cancel','confirm')and fixture.get('id')and not fixture.get('deleted')
+  own_control('پتہ حذف کریں');n.main('assert:پتہ حذف کریں؟');n.click('منسوخ کریں'if mode=='cancel'else'حذف کریں')
+  rows=address_rows();remaining=[x for x in rows if x['id']==fixture['id']]
+  assert(bool(remaining)if mode=='cancel'else not remaining)
+  if mode=='confirm':fixture['deleted']=True;save()
+  record('actual native Delete '+mode+' '+('preserves the exact synthetic address without mutation'if mode=='cancel'else'removes only the exact newly created synthetic address; backend absence verified and all unrelated addresses retained'))
 elif action=='verify-store-settings-native-save':
  fixture=state['store_settings_fixture'];assert fixture['cleaned']
  current=n.nodes();labels=[n.label(x)for x in current]

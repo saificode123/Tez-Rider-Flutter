@@ -1,5 +1,38 @@
 /// User-facing Stage 2 messages; backend data and identifiers stay unchanged.
 const stage2Urdu = <String, String>{
+  'Saved Addresses': 'محفوظ پتے',
+  'Refresh addresses': 'پتے دوبارہ تازہ کریں',
+  'Delete Address': 'پتہ حذف کریں',
+  'Add Address': 'پتہ شامل کریں',
+  'Add New Address': 'نیا پتہ شامل کریں',
+  'Edit Address': 'پتہ تبدیل کریں',
+  'Label': 'نام',
+  'Address': 'پتہ',
+  'e.g. Home, Work': 'مثلاً گھر یا دفتر',
+  'Street, city and delivery details': 'گلی، شہر اور ترسیل کی تفصیلات',
+  'Save Address': 'پتہ محفوظ کریں',
+  'Retry original change': 'اصل تبدیلی دوبارہ آزمائیں',
+  'Retry addresses': 'پتے دوبارہ لوڈ کریں',
+  'Load more addresses': 'مزید پتے دکھائیں',
+  'No saved addresses': 'کوئی پتہ محفوظ نہیں ہے',
+  'Add an address for faster checkout.': 'جلد آرڈر دینے کے لیے پتہ شامل کریں۔',
+  'Delete Address?': 'پتہ حذف کریں؟',
+  'Remove @label from your saved addresses?':
+      'کیا محفوظ پتوں میں سے @label حذف کرنا ہے؟',
+  'Cancel': 'منسوخ کریں',
+  'Delete': 'حذف کریں',
+  'Account changed. Open saved addresses again.':
+      'اکاؤنٹ بدل گیا ہے۔ محفوظ پتے دوبارہ کھولیں۔',
+  'Saved addresses could not be loaded. Retry.':
+      'محفوظ پتے لوڈ نہیں ہو سکے۔ دوبارہ کوشش کریں۔',
+  'Original address change confirmed.': 'پتے کی اصل تبدیلی کی تصدیق ہو گئی۔',
+  'Address change saved.': 'پتے کی تبدیلی محفوظ ہو گئی۔',
+  'Address change was not confirmed. Retry the original change.':
+      'پتے کی تبدیلی کی تصدیق نہیں ہوئی۔ اصل تبدیلی دوبارہ آزمائیں۔',
+  'Address could not be changed. Reload before editing.':
+      'پتہ تبدیل نہیں ہو سکا۔ ترمیم سے پہلے دوبارہ لوڈ کریں۔',
+  'Enter a label (up to 100 characters) and address (up to 2000 characters).':
+      'نام زیادہ سے زیادہ ۱۰۰ اور پتہ زیادہ سے زیادہ ۲۰۰۰ حروف میں درج کریں۔',
   'Store Settings': 'دکان کی ترتیبات',
   'Shop / Store Name': 'دکان کا نام',
   'Store Address': 'دکان کا پتہ',
