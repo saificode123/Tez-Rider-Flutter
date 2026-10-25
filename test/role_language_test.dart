@@ -37,7 +37,17 @@ void main() {
         jsonEncode(unitSession().toJson()),
       );
       transport.respond = (r) async => UiTransport.jsonResponse(
-        r.url.path.endsWith('/users')
+        r.url.path.endsWith('/rpc/final2_store_settings')
+            ? {
+                'store_id': 10,
+                'store_name': 'Unit store',
+                'address': 'Unit address',
+                'latitude': null,
+                'longitude': null,
+                'is_active': true,
+                'version': 0,
+              }
+            : r.url.path.endsWith('/users')
             ? [
                 {'id': 10},
               ]

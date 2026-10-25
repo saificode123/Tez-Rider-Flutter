@@ -153,6 +153,24 @@ elif action=='copy-admin-monitor-csv':
   assert n.time.monotonic()<deadline,'Native clipboard operation must confirm completion; no success inferred'
   n.time.sleep(.3)
  record('actual Admin Copy CSV receives platform-confirmed complete filtered export; raw clipboard contents are not read')
+elif action=='verify-store-settings-native-save':
+ fixture=state['store_settings_fixture'];assert fixture['cleaned']
+ current=n.nodes();labels=[n.label(x)for x in current]
+ assert 'دکان کی ترتیبات'in labels and 'دکان کی معلومات محفوظ کریں'in labels
+ fields=[x for x in current if x.get('class')=='android.widget.EditText'];assert len(fields)==2
+ original=fixture['original'];assert fields[0].get('text')==original['store_name']and fields[1].get('text')==original['address']
+ token=n.b.login(state['accounts']['live-vendor'])
+ def read_store():
+  code,value=gateway('final2_store_settings',token,{});assert code==200;return value
+ try:
+  before=read_store();n.click('دکان کی معلومات محفوظ کریں');deadline=n.time.monotonic()+20
+  while True:
+   labels=[n.label(x)for x in n.nodes()]
+   if 'دکان کی معلومات محفوظ ہو گئیں۔'in labels:break
+   assert n.time.monotonic()<deadline,'Confirmed save notice required; no second Save sent';n.time.sleep(.3)
+  after=read_store();assert after==before
+  record('actual Urdu/RTL Vendor Store Settings loads exact owned metadata and unchanged Save receives persistent trusted confirmation; pickup coordinates, version and activation preserved; no personal-field screenshot')
+ finally:n.b.api('/auth/v1/logout?scope=local','POST',token=token)
 elif action in('verify-private-customer-photos','verify-private-customer-photos-final'):
  fixture=state['private_photo_fixture'];assert fixture['hosted_verified']and not fixture.get('cleaned')
  labels=[n.label(x)for x in n.nodes()]

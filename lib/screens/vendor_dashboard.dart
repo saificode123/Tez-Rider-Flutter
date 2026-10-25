@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:geolocator/geolocator.dart';
+import 'vendor/store_settings_screen.dart';
+import '../services/store_settings_service.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/vendor_controller.dart';
 import '../theme/app_theme.dart';
@@ -38,26 +39,19 @@ class _VendorDashboardState extends State<VendorDashboard> {
   String _storeName = 'My Store';
 
   Future<void> _loadStoreName() async {
+    final account = _supabase.auth.currentUser?.id;
+    if (account == null) return;
     try {
-      final user = _supabase.auth.currentUser;
-      if (user?.email == null) return;
-      final rec = await _supabase
-          .from('users')
-          .select('id')
-          .eq('email', user!.email!)
-          .maybeSingle();
-      if (rec == null) return;
-      final v = await _supabase
-          .from('vendors')
-          .select('store_name')
-          .eq('user_id', rec['id'])
-          .maybeSingle();
-      final name = v?['store_name']?.toString();
-      if (name != null && name.isNotEmpty && mounted) {
+      final store = await StoreSettingsService().load();
+      final name = store['store_name'];
+      if (mounted &&
+          _supabase.auth.currentUser?.id == account &&
+          name is String &&
+          name.isNotEmpty) {
         setState(() => _storeName = name);
       }
     } catch (_) {
-      /* keep the default */
+      /* Retry remains available in Store Settings. */
     }
   }
 
@@ -1455,243 +1449,10 @@ class _VendorDashboardState extends State<VendorDashboard> {
   }
 
   Future<void> _openStoreSettings() async {
-    Get.snackbar(
-      'Loading...',
-      'Fetching your store info',
-      duration: const Duration(seconds: 1),
-    );
-
-    try {
-      final user = _supabase.auth.currentUser;
-      if (user == null) {
-        Get.snackbar('Error', 'You are not logged in.');
-        return;
-      }
-
-      final userRecord = await _supabase
-          .from('users')
-          .select('id')
-          .eq('email', user.email!)
-          .maybeSingle();
-      if (userRecord == null) {
-        Get.snackbar('Error', 'Could not find your account record.');
-        return;
-      }
-      final vendorId = userRecord['id'];
-
-      final existing = await _supabase
-          .from('vendors')
-          .select('store_name, latitude, longitude, address')
-          .eq('user_id', vendorId)
-          .maybeSingle();
-
-      final ctrl = TextEditingController(text: existing?['store_name'] ?? '');
-      final addrCtrl = TextEditingController(text: existing?['address'] ?? '');
-      double? lat = (existing?['latitude'] as num?)?.toDouble();
-      double? lng = (existing?['longitude'] as num?)?.toDouble();
-      bool saving = false;
-      bool locating = false;
-
-      if (!mounted) return;
-
-      await showDialog(
-        context: context,
-        builder: (ctx) => StatefulBuilder(
-          builder: (ctx, setDialogState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              title: const Text(
-                'Store Settings',
-                style: TextStyle(fontWeight: FontWeight.w800),
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: ctrl,
-                      decoration: InputDecoration(
-                        labelText: 'Shop / Store Name',
-                        hintText: 'e.g. Hot N Spicy',
-                        prefixIcon: const Icon(Icons.storefront_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      controller: addrCtrl,
-                      decoration: InputDecoration(
-                        labelText: 'Store Address',
-                        hintText: 'e.g. Shop 4, G-8 Markaz, Islamabad',
-                        prefixIcon: const Icon(Icons.location_on_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: lat != null
-                            ? AppColors.primarySurface
-                            : AppColors.bgSection,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            lat != null
-                                ? Icons.check_circle_rounded
-                                : Icons.my_location_rounded,
-                            size: 18,
-                            color: lat != null
-                                ? AppColors.success
-                                : AppColors.textHint,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              lat != null
-                                  ? 'Location set (${lat!.toStringAsFixed(4)}, ${lng!.toStringAsFixed(4)})'
-                                  : 'Store location not set — riders can\'t be matched',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: locating
-                            ? null
-                            : () async {
-                                setDialogState(() => locating = true);
-                                try {
-                                  var perm = await Geolocator.checkPermission();
-                                  if (perm == LocationPermission.denied) {
-                                    perm = await Geolocator.requestPermission();
-                                  }
-                                  if (perm == LocationPermission.denied ||
-                                      perm ==
-                                          LocationPermission.deniedForever) {
-                                    Get.snackbar(
-                                      'Permission needed',
-                                      'Please allow location access to set your store location.',
-                                    );
-                                    setDialogState(() => locating = false);
-                                    return;
-                                  }
-                                  final pos =
-                                      await Geolocator.getCurrentPosition();
-                                  setDialogState(() {
-                                    lat = pos.latitude;
-                                    lng = pos.longitude;
-                                    locating = false;
-                                  });
-                                } catch (e) {
-                                  setDialogState(() => locating = false);
-                                  Get.snackbar(
-                                    'Error',
-                                    'Could not get location: $e',
-                                  );
-                                }
-                              },
-                        icon: locating
-                            ? const SizedBox(
-                                width: 14,
-                                height: 14,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.my_location_rounded, size: 18),
-                        label: Text(
-                          locating
-                              ? 'Getting location…'
-                              : (lat != null
-                                    ? 'Update to current location'
-                                    : 'Use my current location'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Get.back(),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: saving
-                      ? null
-                      : () async {
-                          final name = ctrl.text.trim();
-                          if (name.isEmpty) {
-                            Get.snackbar('Error', 'Store name cannot be empty');
-                            return;
-                          }
-                          setDialogState(() => saving = true);
-                          try {
-                            await _supabase.from('vendors').upsert({
-                              'user_id': vendorId,
-                              'store_name': name,
-                              'address': addrCtrl.text.trim(),
-                              'latitude': lat,
-                              'longitude': lng,
-                              'is_active': true,
-                            }, onConflict: 'user_id');
-                            Get.back();
-                            if (mounted) setState(() => _storeName = name);
-                            Get.snackbar(
-                              'Saved ✅',
-                              'Your store details have been updated',
-                              backgroundColor: AppColors.success,
-                              colorText: Colors.white,
-                            );
-                          } catch (e) {
-                            setDialogState(() => saving = false);
-                            Get.snackbar('Error', 'Could not save: $e');
-                          }
-                        },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                  ),
-                  child: saving
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Text(
-                          'Save',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                ),
-              ],
-            );
-          },
-        ),
-      );
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Something went wrong: $e',
-        duration: const Duration(seconds: 5),
-      );
+    final account = _supabase.auth.currentUser?.id;
+    await Get.to(() => const StoreSettingsScreen());
+    if (mounted && _supabase.auth.currentUser?.id == account) {
+      await _loadStoreName();
     }
   }
 
