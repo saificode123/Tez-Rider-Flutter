@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-25",
+  "project": "igeisilhtmglgnqvllrx",
+  "workstream": "S2-16 partial; owner Store Settings closure",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610250004",
+    "versions": 61,
+    "migration_sha256": "4ad79ed29963105519fb2a4ea8ac7f9162a4186d7a121fffebaab0f094158195",
+    "review_passes": 21,
+    "replayed": false,
+    "production_modified": false
+  },
+  "sql_review_pass": 21,
+  "sql_post_pass": 21,
+  "review_post_overlap": true,
+  "flutter": {
+    "final_pass": 27,
+    "fail": 0,
+    "skip": 0,
+    "files": [
+      "test/store_settings_test.dart",
+      "test/role_language_test.dart",
+      "test/vendor_dashboard_stats_test.dart",
+      "test/language_settings_test.dart"
+    ],
+    "earlier_15_case_run_overlaps": true,
+    "fixed_account_switch_defect": "Eagerly capture original account before first async operation; clear fields on switch"
+  },
+  "analysis": {
+    "scoped_errors": 0,
+    "scoped_infos": 0,
+    "existing_unused_helper_warnings": 1,
+    "full_errors": 0,
+    "full_existing_warnings": 13,
+    "full_infos": 26
+  },
+  "hosted": [
+    {
+      "check": "approved Vendor reads canonical own store metadata",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "real owner update confirms persisted store name",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "approval/activation and exact pickup coordinates preserved",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "same UUID retry cannot duplicate or drift metadata/version",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "changed same-UUID payload conflicts",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "stale independent version cannot overwrite current store",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "server rejects incomplete coordinate pair",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "server rejects oversized store name",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer cannot use owner store-read projection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "customer cannot impersonate Vendor store write",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider cannot use owner store-read projection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "rider cannot impersonate Vendor store write",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin cannot use owner store-read projection",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "admin cannot impersonate Vendor store write",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "exact original fixture metadata restored through canonical owner API",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "registered unrelated Vendor can resolve only its own store",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "raw REST cannot bypass validated store writes or activation guard",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "anonymous store-settings read denied",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "actual update/retry/restore persist exactly two immutable receipts",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    },
+    {
+      "check": "actual change and restoration produce exactly two canonical audits; retry adds none",
+      "result": "PASS",
+      "surface": "real authenticated TEST HTTP"
+    }
+  ],
+  "android": [
+    {
+      "check": "actual Urdu/RTL Vendor Store Settings loads exact owned metadata and unchanged Save receives persistent trusted confirmation; pickup coordinates, version and activation preserved; no personal-field screenshot",
+      "result": "PASS",
+      "surface": "android",
+      "observed_at": "2026-10-25T08:44:46.721993+00:00",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test"
+    }
+  ],
+  "catalog": {
+    "migrations": 61,
+    "inspected_rls_tables": 95,
+    "public_tables": 58,
+    "functions": 224,
+    "public_functions": 156
+  },
+  "cleanup": {
+    "original_name_address_coordinates_activation_restored_through_owner_RPC": true,
+    "only_versions_and_immutable_receipts_audits_retained": true,
+    "no_GPS_or_location_change_asserted": true
+  },
+  "limits": [
+    "Other S2-16 address, translation and iOS criteria remain; not full S2-16 acceptance",
+    "No physical pickup-location acquisition attempted; retained coordinates and widget fault injection are distinct evidence"
+  ],
+  "production_modified": false
+}
