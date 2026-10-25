@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/admin_controller.dart';
@@ -33,8 +34,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           Get.snackbar(
-            'Welcome back! 🛡️',
-            'Let\'s review operations.',
+            "Welcome back! 🛡️".tr,
+            "Let's review operations.".tr,
             duration: const Duration(seconds: 2),
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.white,
@@ -60,6 +61,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     // Subscribe this route to locale changes as Get translation lookups are global.
     Localizations.localeOf(context);
     return Scaffold(
@@ -73,21 +75,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
             heroTag: 'admin-orders',
             onPressed: () => Get.to(() => const AdminMonitorScreen()),
             icon: const Icon(Icons.receipt_long),
-            label: const Text('Orders and monitoring'),
+            label: Text("Orders and monitoring".tr),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
             heroTag: 'admin-broadcasts',
             onPressed: () => Get.to(() => const AdminBroadcastsScreen()),
             icon: const Icon(Icons.campaign_outlined),
-            label: const Text('Broadcast notifications'),
+            label: Text("Broadcast notifications".tr),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
             heroTag: 'manage-users',
             onPressed: () => Get.to(() => const AdminUsersScreen()),
             icon: const Icon(Icons.manage_accounts),
-            label: const Text('Manage Users'),
+            label: Text("Manage Users".tr),
           ),
         ],
       ),
@@ -137,25 +139,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 0,
                 Icons.analytics_rounded,
                 Icons.analytics_outlined,
-                'Overview',
+                "Overview".tr,
               ),
               _navItem(
                 1,
                 Icons.delivery_dining_rounded,
                 Icons.delivery_dining_outlined,
-                'Riders',
+                "Riders".tr,
               ),
               _navItem(
                 2,
                 Icons.storefront_rounded,
                 Icons.storefront_outlined,
-                'Vendors',
+                "Vendors".tr,
               ),
               _navItem(
                 3,
                 Icons.report_problem_rounded,
                 Icons.report_problem_outlined,
-                'Disputes',
+                "Disputes".tr,
               ),
             ],
           ),
@@ -273,15 +275,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Operations Control',
+                            "Operations Control".tr,
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.75),
                               fontSize: 13,
                             ),
                           ),
                           const SizedBox(height: 4),
-                          const Text(
-                            'TezRider Admin',
+                          Text(
+                            "TezRider Admin".tr,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -309,7 +311,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                '$live active orders right now',
+                                "@slot0end active orders right now".uiTr({
+                                  "slot0end": (live).toString(),
+                                }),
                                 style: const TextStyle(
                                   color: AppColors.success,
                                   fontSize: 12,
@@ -362,25 +366,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   childAspectRatio: 1.12,
                   children: [
                     _statCard(
-                      'Total Orders',
+                      "Total Orders".tr,
                       '${adminCtrl.orders.length}',
                       Icons.receipt_long_rounded,
                       AppColors.primary,
                     ),
                     _statCard(
-                      'Live Orders',
+                      "Live Orders".tr,
                       '$liveOrders',
                       Icons.local_shipping_rounded,
                       AppColors.info,
                     ),
                     _statCard(
-                      'Approved Riders',
+                      "Approved Riders".tr,
                       activeRiders,
                       Icons.moped_rounded,
                       AppColors.success,
                     ),
                     _statCard(
-                      'Open Disputes',
+                      "Open Disputes".tr,
                       openDisputes,
                       Icons.warning_amber_rounded,
                       AppColors.error,
@@ -391,10 +395,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
               const SizedBox(height: 24),
 
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(bottom: 14),
                 child: Text(
-                  'Awaiting Approval',
+                  "Awaiting Approval".tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -415,7 +419,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ? null
                           : adminCtrl.refreshApprovals,
                       icon: const Icon(Icons.refresh),
-                      tooltip: 'Refresh approvals',
+                      tooltip: "Refresh approvals".tr,
                     ),
                   ],
                 ),
@@ -467,8 +471,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ),
                         ),
                         const SizedBox(width: 14),
-                        const Text(
-                          'No pending approvals',
+                        Text(
+                          "No pending approvals".tr,
                           style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 14,
@@ -489,13 +493,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         onPressed: adminCtrl.isLoading.value
                             ? null
                             : () => adminCtrl.loadMore(pending: true),
-                        child: const Text('Load more pending riders'),
+                        child: Text("Load more pending riders".tr),
                       ),
                     TextButton(
                       onPressed: adminCtrl.isLoading.value
                           ? null
                           : adminCtrl.refreshApprovals,
-                      child: const Text('Refresh approvals / Retry'),
+                      child: Text("Refresh approvals / Retry".tr),
                     ),
                     if (adminCtrl.approvalError.value != null)
                       Text(
@@ -604,7 +608,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                 ),
                 Text(
-                  'New $type · ${item.email}',
+                  "New @slot0end · @slot1end".uiTr({
+                    "slot0end": (type).toString(),
+                    "slot1end": (item.email).toString(),
+                  }),
                   style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 11,
@@ -614,7 +621,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
                 if (item.cnic != null && item.cnic!.isNotEmpty)
                   Text(
-                    'CNIC: ${item.cnic}',
+                    "CNIC: @slot0end".uiTr({
+                      "slot0end": (item.cnic).toString(),
+                    }),
                     style: const TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 11,
@@ -630,7 +639,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             children: [
               if (isRider)
                 _actionBtn(
-                  'View CNIC',
+                  "View CNIC".tr,
                   AppColors.info,
                   item.documentValid
                       ? () => Get.dialog(CnicDocumentViewer(userId: item.id))
@@ -640,7 +649,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _actionBtn(
-                    'Approve',
+                    "Approve".tr,
                     AppColors.success,
                     isRider && !item.documentValid
                         ? null
@@ -648,7 +657,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                   const SizedBox(width: 6),
                   _actionBtn(
-                    'Reject',
+                    "Reject".tr,
                     AppColors.error,
                     () => _confirmReview(item, 'rejected'),
                   ),
@@ -702,7 +711,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     onPressed: adminCtrl.isLoading.value
                         ? null
                         : () => adminCtrl.loadMore(),
-                    child: const Text('Load more riders'),
+                    child: Text("Load more riders".tr),
                   )
                 : const SizedBox.shrink(),
           ),
@@ -737,7 +746,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     onPressed: adminCtrl.isLoading.value
                         ? null
                         : () => adminCtrl.loadMore(vendor: true),
-                    child: const Text('Load more vendors'),
+                    child: Text("Load more vendors".tr),
                   )
                 : const SizedBox.shrink(),
           ),

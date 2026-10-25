@@ -150,8 +150,8 @@ class _SignupScreenState extends State<SignupScreen> {
         await Get.find<AuthController>().logout(navigate: false);
         Get.offAll(() => const LoginScreen());
         Get.snackbar(
-          'Profile saved',
-          'Sign in to check your account approval.',
+          "Profile saved".tr,
+          "Sign in to check your account approval.".tr,
         );
         return;
       }
@@ -175,8 +175,9 @@ class _SignupScreenState extends State<SignupScreen> {
       if (res.session == null) {
         Get.off(() => const LoginScreen());
         Get.snackbar(
-          'Verify your email',
-          'Verify your email, then sign in to finish registration. Vendor and Rider access remains pending Admin approval.',
+          "Verify your email".tr,
+          "Verify your email, then sign in to finish registration. Vendor and Rider access remains pending Admin approval."
+              .tr,
           duration: const Duration(seconds: 8),
         );
         return;
@@ -194,8 +195,8 @@ class _SignupScreenState extends State<SignupScreen> {
         await Get.find<AuthController>().logout(navigate: false);
         Get.offAll(() => const LoginScreen());
         Get.snackbar(
-          'Profile saved',
-          'Sign in to continue. Vendor accounts require Admin approval.',
+          "Profile saved".tr,
+          "Sign in to continue. Vendor accounts require Admin approval.".tr,
         );
       }
     } on AuthApiException catch (e) {
@@ -256,17 +257,17 @@ class _SignupScreenState extends State<SignupScreen> {
     } else if (msg.contains('signup') && msg.contains('disabled')) {
       _err('New registrations are currently disabled. Please contact support.');
     } else {
-      _err('Sign up failed: $message');
+      _err('Sign up could not be confirmed. Retry.');
     }
   }
 
   void _err(String msg) {
     Get.snackbar(
       '',
-      msg,
+      msg.tr,
       titleText: const SizedBox.shrink(),
       messageText: Text(
-        msg,
+        msg.tr,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 13,
@@ -283,6 +284,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: _kBg,
       resizeToAvoidBottomInset: true,
@@ -305,13 +307,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (widget.initialRole == null) ...[
-                      _label('Register as'),
+                      _label("Register as".tr),
                       const SizedBox(height: 12),
                       _buildRoleDropdown(),
                       const SizedBox(height: 8),
                       Text(
-                        _roles.firstWhere((r) => r['value'] == _role)['desc']
-                            as String,
+                        (_roles.firstWhere((r) => r['value'] == _role)['desc']
+                                as String)
+                            .tr,
                         style: const TextStyle(fontSize: 13, color: _kTextSub),
                       ),
                       const SizedBox(height: 22),
@@ -321,7 +324,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       'Full Name',
                       _name,
                       Icons.person_outline_rounded,
-                      'Your full name',
+                      "Your full name".tr,
                     ),
                     const SizedBox(height: 16),
 
@@ -329,7 +332,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       'Email',
                       _email,
                       Icons.email_outlined,
-                      'you@example.com',
+                      "you@example.com".tr,
                       type: TextInputType.emailAddress,
                       readOnly: widget.completeExisting,
                     ),
@@ -339,7 +342,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       'Phone Number',
                       _phone,
                       Icons.phone_outlined,
-                      '+92 3XX-XXXXXXX',
+                      "+92 3XX-XXXXXXX".tr,
                       type: TextInputType.phone,
                     ),
                     const SizedBox(height: 16),
@@ -356,7 +359,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ],
 
                     if (_role == 'rider' && !widget.completeExisting) ...[
-                      _label('CNIC document image'),
+                      _label("CNIC document image".tr),
                       if (_cnicImage != null)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -374,7 +377,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ? null
                                   : () => _chooseCnic(ImageSource.camera),
                               icon: const Icon(Icons.camera_alt),
-                              label: const Text('Camera'),
+                              label: Text("Camera".tr),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -384,13 +387,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ? null
                                   : () => _chooseCnic(ImageSource.gallery),
                               icon: const Icon(Icons.photo_library),
-                              label: const Text('Gallery'),
+                              label: Text("Gallery".tr),
                             ),
                           ),
                         ],
                       ),
-                      const Text(
-                        'JPEG or PNG only · maximum 5 MB · private access',
+                      Text(
+                        "JPEG or PNG only · maximum 5 MB · private access".tr,
                       ),
                       const SizedBox(height: 16),
                     ],
@@ -399,20 +402,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         'Shop / Store Name',
                         _storeName,
                         Icons.storefront_outlined,
-                        'e.g. Hot N Spicy',
+                        "e.g. Hot N Spicy".tr,
                       ),
                       const SizedBox(height: 16),
                       _buildField(
                         'Store Address',
                         _storeAddress,
                         Icons.location_on_outlined,
-                        'Street and city',
+                        "Street and city".tr,
                       ),
                       const SizedBox(height: 16),
                     ],
 
                     if (!widget.completeExisting) ...[
-                      _label('Password'),
+                      _label("Password".tr),
                       const SizedBox(height: 8),
                       _buildPasswordField(),
                     ],
@@ -421,17 +424,18 @@ class _SignupScreenState extends State<SignupScreen> {
                     _buildPrimaryButton(),
                     const SizedBox(height: 20),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          'Already have an account? ',
+                          "Already have an account? ".tr,
                           style: TextStyle(color: _kTextSub, fontSize: 13),
                         ),
                         GestureDetector(
                           onTap: () => Get.back(),
                           child: Text(
-                            'Sign In',
+                            "Sign In".tr,
                             style: TextStyle(
                               color: _selectedRoleColor,
                               fontWeight: FontWeight.w700,
@@ -459,7 +463,7 @@ class _SignupScreenState extends State<SignupScreen> {
       240.0,
     );
     return Container(
-      height: headerHeight,
+      constraints: BoxConstraints(minHeight: headerHeight),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [const Color(0xFF0F351B), _selectedRoleColor],
@@ -544,8 +548,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         const SizedBox(height: 12),
                         Text(
                           widget.completeExisting
-                              ? 'Complete Registration'
-                              : 'Create Account',
+                              ? "Complete Registration".tr
+                              : "Create Account".tr,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
@@ -555,7 +559,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Join TezRider today',
+                          "Join TezRider today".tr,
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.65),
                             fontSize: 13,
@@ -583,6 +587,7 @@ class _SignupScreenState extends State<SignupScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          itemHeight: null,
           value: _role,
           isExpanded: true,
           icon: Icon(
@@ -610,10 +615,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          r['label'] as String,
+                          (r['label'] as String).tr,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
@@ -621,7 +627,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          r['desc'] as String,
+                          (r['desc'] as String).tr,
                           style: const TextStyle(
                             fontSize: 11,
                             color: _kTextSub,
@@ -667,7 +673,7 @@ class _SignupScreenState extends State<SignupScreen> {
             color: _kText,
           ),
           decoration: InputDecoration(
-            hintText: hint,
+            hintText: hint.tr,
             hintStyle: TextStyle(
               color: _kTextSub.withValues(alpha: 0.6),
               fontSize: 14,
@@ -713,7 +719,7 @@ class _SignupScreenState extends State<SignupScreen> {
             color: _kText,
           ),
           decoration: InputDecoration(
-            hintText: 'Min 6 characters',
+            hintText: "Min 6 characters".tr,
             hintStyle: TextStyle(
               color: _kTextSub.withValues(alpha: 0.6),
               fontSize: 14,
@@ -815,8 +821,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   )
                 : Text(
                     widget.completeExisting
-                        ? 'Complete Registration'
-                        : 'Create Account',
+                        ? "Complete Registration".tr
+                        : "Create Account".tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
@@ -830,7 +836,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _label(String text) => Text(
-    text,
+    text.tr,
     style: const TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w700,

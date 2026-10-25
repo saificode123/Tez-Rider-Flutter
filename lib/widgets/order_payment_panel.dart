@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/cash_ledger_service.dart';
@@ -10,7 +12,9 @@ Future<void> showOrderPayment(
 }) => showDialog<void>(
   context: context,
   builder: (dialogContext) => AlertDialog(
-    title: Text('Order #$orderId payment'),
+    title: Text(
+      "Order #@slot0end payment".uiTr({"slot0end": (orderId).toString()}),
+    ),
     content: SizedBox(
       width: 520,
       child: SingleChildScrollView(
@@ -24,7 +28,7 @@ Future<void> showOrderPayment(
     actions: [
       TextButton(
         onPressed: () => Navigator.pop(dialogContext),
-        child: const Text('Close'),
+        child: Text("Close".tr),
       ),
     ],
   ),
@@ -111,16 +115,14 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     if (_loading) return const Center(child: CircularProgressIndicator());
     if (_error != null) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(_error!),
-          TextButton(
-            onPressed: _load,
-            child: const Text('Retry payment status'),
-          ),
+          Text(_error!.tr),
+          TextButton(onPressed: _load, child: Text("Retry payment status".tr)),
         ],
       );
     }
@@ -135,16 +137,23 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('${snapshot.method} · $status'),
+        Text('${snapshot.method} · ${status.tr}'),
         if (snapshot.amount != null)
-          Text('Order amount: PKR ${snapshot.amount!.toStringAsFixed(2)}'),
+          Text(
+            "Order amount: PKR @slot0end".uiTr({
+              "slot0end": (snapshot.amount!.toStringAsFixed(2)).toString(),
+            }),
+          ),
         if (snapshot.refunded != null && snapshot.refunded! > 0)
           Text(
-            'Confirmed manual return: PKR ${snapshot.refunded!.toStringAsFixed(2)}',
+            "Confirmed manual return: PKR @slot0end".uiTr({
+              "slot0end": (snapshot.refunded!.toStringAsFixed(2)).toString(),
+            }),
           ),
         const SizedBox(height: 8),
-        const Text(
-          'Cash acknowledgements are manual records. The app does not transfer money.',
+        Text(
+          "Cash acknowledgements are manual records. The app does not transfer money."
+              .tr,
         ),
         if (snapshot.isCod &&
             widget.allowCollection &&
@@ -153,7 +162,7 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
             snapshot.orderStatus == 'delivered')
           TextButton(
             onPressed: () => _record('COLLECTED', snapshot.amount!),
-            child: const Text('Record cash already received'),
+            child: Text("Record cash already received".tr),
           ),
         for (final refund in snapshot.refunds) ...[
           const Divider(),
@@ -165,7 +174,11 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
           }),
           if (refund['amount'] is num)
             Text(
-              'Refund amount: PKR ${(refund['amount'] as num).toStringAsFixed(2)}',
+              "Refund amount: PKR @slot0end".uiTr({
+                "slot0end": ((refund['amount'] as num).toStringAsFixed(
+                  2,
+                )).toString(),
+              }),
             ),
           if (snapshot.isCod &&
               widget.allowRefund &&
@@ -177,7 +190,7 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
                 (refund['amount'] as num).toDouble(),
                 refund: refund,
               ),
-              child: const Text('Record cash already returned'),
+              child: Text("Record cash already returned".tr),
             ),
             TextButton(
               onPressed: () => _record(
@@ -185,29 +198,33 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
                 (refund['amount'] as num).toDouble(),
                 refund: refund,
               ),
-              child: const Text('Record unsuccessful refund attempt'),
+              child: Text("Record unsuccessful refund attempt".tr),
             ),
           ],
         ],
         for (final event in snapshot.events) ...[
           const Divider(),
           Text(
-            '${switch (event['event_kind']) {
-              'COLLECTED' => 'Cash receipt',
-              'REFUND_CONFIRMED' => 'Cash return receipt',
-              _ => 'Unsuccessful refund attempt',
-            }} · recorded by ${event['actor_role']}',
+            "@slot0end · recorded by @slot1end".uiTr({
+              "slot0end": (switch (event['event_kind']) {
+                'COLLECTED' => 'Cash receipt',
+                'REFUND_CONFIRMED' => 'Cash return receipt',
+                _ => 'Unsuccessful refund attempt',
+              }).toString(),
+              "slot1end": (event['actor_role']).toString(),
+            }),
           ),
           if (event['reference'] is String)
-            Text('Reference: ${event['reference']}'),
+            Text(
+              "Reference: @slot0end".uiTr({
+                "slot0end": (event['reference']).toString(),
+              }),
+            ),
           if (DateTime.tryParse(event['recorded_at']?.toString() ?? '')
               case final time?)
             Text(time.toLocal().toString()),
         ],
-        TextButton(
-          onPressed: _load,
-          child: const Text('Refresh payment status'),
-        ),
+        TextButton(onPressed: _load, child: Text("Refresh payment status".tr)),
       ],
     );
   }
@@ -283,6 +300,7 @@ class _CashAcknowledgementDialogState extends State<CashAcknowledgementDialog> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final acknowledgement = switch (widget.kind) {
       'COLLECTED' =>
         'I confirm that the exact order cash was already received.',
@@ -292,26 +310,31 @@ class _CashAcknowledgementDialogState extends State<CashAcknowledgementDialog> {
         'I confirm that this refund attempt was unsuccessful and no cash was returned.',
     };
     return AlertDialog(
-      title: const Text('Record a manual cash acknowledgement'),
+      title: Text("Record a manual cash acknowledgement".tr),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Order #${widget.orderId} · PKR ${widget.amount.toStringAsFixed(2)}',
+              "Order #@slot0end · PKR @slot1end".uiTr({
+                "slot0end": (widget.orderId).toString(),
+                "slot1end": (widget.amount.toStringAsFixed(2)).toString(),
+              }),
             ),
-            const Text(
-              'Record an action already performed. Do not repeat a cash transfer when retrying this record.',
+            Text(
+              "Record an action already performed. Do not repeat a cash transfer when retrying this record."
+                  .tr,
             ),
             TextField(
               controller: _reference,
               enabled: !_busy && !_flow.uncertain,
               maxLength: 120,
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
-                labelText: 'Receipt or acknowledgement reference',
+              decoration: InputDecoration(
+                labelText: "Receipt or acknowledgement reference".tr,
                 helperText:
-                    'Use a real reference. Omit CNIC, credentials and private URLs.',
+                    "Use a real reference. Omit CNIC, credentials and private URLs."
+                        .tr,
                 helperMaxLines: 3,
               ),
             ),
@@ -322,7 +345,7 @@ class _CashAcknowledgementDialogState extends State<CashAcknowledgementDialog> {
                   ? null
                   : (value) => setState(() => _confirmed = value == true),
             ),
-            if (_error != null) Text(_error!),
+            if (_error != null) Text(_error!.tr),
             if (_busy) const LinearProgressIndicator(),
           ],
         ),
@@ -330,7 +353,7 @@ class _CashAcknowledgementDialogState extends State<CashAcknowledgementDialog> {
       actions: [
         TextButton(
           onPressed: _busy ? null : () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
+          child: Text("Cancel".tr),
         ),
         FilledButton(
           onPressed:
@@ -339,8 +362,8 @@ class _CashAcknowledgementDialogState extends State<CashAcknowledgementDialog> {
               : _submit,
           child: Text(
             _flow.uncertain
-                ? 'Retry unchanged record'
-                : 'Record acknowledgement',
+                ? "Retry unchanged record".tr
+                : "Record acknowledgement".tr,
           ),
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class RecommendationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Container(
       width: 140,
       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -78,7 +80,9 @@ class RecommendationCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'PKR ${product.price}',
+                  "PKR @slot0end".uiTr({
+                    "slot0end": (product.price).toString(),
+                  }),
                   style: const TextStyle(
                     color: _purple,
                     fontWeight: FontWeight.bold,
@@ -101,12 +105,14 @@ class RecommendationCard extends StatelessWidget {
                               'image_url': product.imageUrl,
                             });
                             if (!added) {
-                              Get.snackbar('Cart', cart.lastError.value);
+                              Get.snackbar("Cart".tr, cart.lastError.value);
                               return;
                             }
                             Get.snackbar(
-                              'Added to Cart',
-                              '${product.name} added successfully!',
+                              "Added to Cart".tr,
+                              "@slot0end added successfully!".uiTr({
+                                "slot0end": (product.name).toString(),
+                              }),
                               snackPosition: SnackPosition.BOTTOM,
                               duration: const Duration(seconds: 2),
                             );
@@ -121,8 +127,8 @@ class RecommendationCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
-                      'Add',
+                    child: Text(
+                      "Add".tr,
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,

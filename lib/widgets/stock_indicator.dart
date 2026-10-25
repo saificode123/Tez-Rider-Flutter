@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import '../core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import '../services/inventory_service.dart';
 
@@ -7,11 +9,20 @@ class StockIndicator extends StatelessWidget {
   final bool vendor;
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final stock = ProductStock(product);
     return Text(
       !vendor && stock.confirmed && !stock.purchasable
-          ? outOfStockMessage
-          : '${stock.label}${stock.confirmed ? ' · ${stock.quantity} units' : ''}${vendor ? ' · Low stock at ${stock.threshold}' : ''}',
+          ? outOfStockMessage.tr
+          : [
+              stock.label.tr,
+              if (stock.confirmed)
+                '@slot0end units'.uiTr({'slot0end': stock.quantity.toString()}),
+              if (vendor)
+                'Low stock at @slot0end'.uiTr({
+                  'slot0end': stock.threshold.toString(),
+                }),
+            ].join(' · '),
       style: TextStyle(
         fontSize: 12,
         color: !stock.purchasable

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../../widgets/stock_indicator.dart';
 import '../../services/inventory_service.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,10 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   }
 
   Future<void> _load() async {
-    setState(() { _loading = true; _loadError = null; });
+    setState(() {
+      _loading = true;
+      _loadError = null;
+    });
     try {
       final user = _supabase.auth.currentUser;
       if (user == null) throw StateError('Sign in required');
@@ -57,9 +61,13 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                   .eq('user_id', _userId!)
                   .order('created_at', ascending: false)
               as List;
-      if (mounted) setState(() => _favourites = data.cast<Map<String, dynamic>>());
+      if (mounted) {
+        setState(() => _favourites = data.cast<Map<String, dynamic>>());
+      }
     } catch (_) {
-      if (mounted) setState(() => _loadError = 'Favourites could not be loaded. Retry.');
+      if (mounted) {
+        setState(() => _loadError = 'Favourites could not be loaded. Retry.');
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -67,24 +75,35 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
 
   Future<void> _remove(dynamic favId, String name) async {
     try {
-    await _supabase.from('favourite').delete().eq('id', favId).select('id').single();
-    _load();
-    Get.snackbar(
-      'Removed',
-      '"$name" removed from favourites.',
-      backgroundColor: _kPurple,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-      borderRadius: 14,
-    );
+      await _supabase
+          .from('favourite')
+          .delete()
+          .eq('id', favId)
+          .select('id')
+          .single();
+      _load();
+      Get.snackbar(
+        "Removed".tr,
+        "\"@slot0end\" removed from favourites.".uiTr({
+          "slot0end": (name).toString(),
+        }),
+        backgroundColor: _kPurple,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+        borderRadius: 14,
+      );
     } catch (_) {
-      Get.snackbar('Not removed', 'Removal was not confirmed. Please retry.');
+      Get.snackbar(
+        "Not removed".tr,
+        "Removal was not confirmed. Please retry.".tr,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final cart = Get.find<CartController>();
     return Scaffold(
       backgroundColor: _kBg,
@@ -99,8 +118,8 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Favourites',
+        title: Text(
+          "Favourites".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -119,9 +138,18 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
               child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2),
             )
           : _loadError != null
-          ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(_loadError!), TextButton(onPressed: _load, child: const Text('Retry favourites')),
-            ]))
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(_loadError!.tr),
+                  TextButton(
+                    onPressed: _load,
+                    child: Text("Retry favourites".tr),
+                  ),
+                ],
+              ),
+            )
           : _favourites.isEmpty
           ? _buildEmpty()
           : RefreshIndicator(
@@ -143,8 +171,8 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
         children: [
           const Text('❤️', style: TextStyle(fontSize: 60)),
           const SizedBox(height: 20),
-          const Text(
-            'No favourites yet',
+          Text(
+            "No favourites yet".tr,
             style: TextStyle(
               color: _kText,
               fontSize: 20,
@@ -152,8 +180,8 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Tap ❤️ on any product to save it here.',
+          Text(
+            "Tap ❤️ on any product to save it here.".tr,
             style: TextStyle(color: _kTextSub, fontSize: 14),
             textAlign: TextAlign.center,
           ),
@@ -241,7 +269,7 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                       ),
                     const SizedBox(height: 6),
                     Text(
-                      'PKR $price',
+                      "PKR @slot0end".uiTr({"slot0end": (price).toString()}),
                       style: const TextStyle(
                         color: _kSaffron,
                         fontWeight: FontWeight.w900,
@@ -264,7 +292,7 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                       size: 22,
                     ),
                     onPressed: () => _remove(fav['id'], name),
-                    tooltip: 'Remove',
+                    tooltip: "Remove".tr,
                   ),
                   Material(
                     color: _kPurple,
@@ -281,15 +309,19 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                                 'vendor_id': p['vendor_id'],
                               });
                               if (!added) {
-                                Get.snackbar('Cart', cart.lastError.value);
+                                Get.snackbar("Cart".tr, cart.lastError.value);
                                 return;
                               }
                               Get.snackbar(
                                 '',
-                                '$name added! 🛒',
+                                "@slot0end added! 🛒".uiTr({
+                                  "slot0end": (name).toString(),
+                                }),
                                 titleText: const SizedBox.shrink(),
                                 messageText: Text(
-                                  '$name added! 🛒',
+                                  "@slot0end added! 🛒".uiTr({
+                                    "slot0end": (name).toString(),
+                                  }),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,

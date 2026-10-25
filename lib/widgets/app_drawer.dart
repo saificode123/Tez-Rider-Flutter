@@ -22,6 +22,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     // Subscribe this route to locale changes as Get translation lookups are global.
     Localizations.localeOf(context);
     final authController = Get.find<AuthController>();
@@ -109,8 +110,9 @@ class AppDrawer extends StatelessWidget {
                     onTap: () {
                       Get.back();
                       Get.snackbar(
-                        'Coming Soon',
-                        'Platform settings will be available in a future update.',
+                        "Coming Soon".tr,
+                        "Platform settings will be available in a future update."
+                            .tr,
                         snackPosition: SnackPosition.BOTTOM,
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/stock_indicator.dart';
 import '../services/catalogue_service.dart';
 import 'dart:async';
@@ -376,6 +377,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     // Subscribe this route to locale changes as Get translation lookups are global.
     Localizations.localeOf(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -419,19 +421,24 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _navItem(0, Icons.home_rounded, Icons.home_outlined, 'Home'),
+              _navItem(0, Icons.home_rounded, Icons.home_outlined, "Home".tr),
               _navItem(
                 1,
                 Icons.receipt_long_rounded,
                 Icons.receipt_long_outlined,
-                'Orders',
+                "Orders".tr,
               ),
-              _navItem(2, Icons.bolt_rounded, Icons.bolt_outlined, 'TezRaftar'),
+              _navItem(
+                2,
+                Icons.bolt_rounded,
+                Icons.bolt_outlined,
+                "TezRaftar".tr,
+              ),
               _navItem(
                 3,
                 Icons.person_rounded,
                 Icons.person_outline_rounded,
-                'Me',
+                "Me".tr,
               ),
             ],
           ),
@@ -508,7 +515,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   const Text('✨', style: TextStyle(fontSize: 16)),
                   const SizedBox(width: 6),
                   Text(
-                    'AI Assistant',
+                    "AI Assistant".tr,
                     style: TextStyle(
                       color: _kPurple,
                       fontWeight: FontWeight.w800,
@@ -637,8 +644,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                   ),
                                 ),
                                 const SizedBox(width: 6),
-                                const Text(
-                                  'My Location',
+                                Text(
+                                  "My Location".tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -770,7 +777,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Hello, $_userName ',
+                              text: "Hello, @slot0end ".uiTr({
+                                "slot0end": (_userName).toString(),
+                              }),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 28,
@@ -815,7 +824,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
-                                  'Search food, stores, cuisines...',
+                                  "Search food, stores, cuisines...".tr,
                                   style: TextStyle(
                                     color: _kTextSub,
                                     fontSize: 13,
@@ -880,15 +889,15 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           Text(_featuredError!),
           TextButton(
             onPressed: _loadFeatured,
-            child: const Text('Retry featured products'),
+            child: Text("Retry featured products".tr),
           ),
         ],
       );
     }
     if (_featured.isEmpty) {
-      return const Padding(
+      return Padding(
         padding: EdgeInsets.all(24),
-        child: Text('No featured products available.'),
+        child: Text("No featured products available.".tr),
       );
     }
     return Column(
@@ -898,8 +907,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           padding: const EdgeInsets.fromLTRB(22, 28, 22, 14),
           child: Row(
             children: [
-              const Text(
-                'Featured',
+              Text(
+                "Featured".tr,
                 style: TextStyle(
                   color: _kText,
                   fontSize: 20,
@@ -916,8 +925,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  'CATALOGUE',
+                child: Text(
+                  "CATALOGUE".tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 9,
@@ -932,7 +941,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'See all',
+                      "See all".tr,
                       style: TextStyle(
                         color: _kPurple,
                         fontSize: 13,
@@ -1089,7 +1098,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        item['sub'] as String,
+                        (item['sub'] as String).tr,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 11,
@@ -1115,7 +1124,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     Row(
                       children: [
                         Text(
-                          'PKR ${item['price']}',
+                          "PKR @slot0end".uiTr({
+                            "slot0end": (item['price']).toString(),
+                          }),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -1138,7 +1149,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               const Icon(Icons.add_rounded, size: 13),
                               const SizedBox(width: 3),
                               Text(
-                                'View',
+                                "View".tr,
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w800,
@@ -1173,7 +1184,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           Text(_categoriesError!),
           TextButton(
             onPressed: _loadCategories,
-            child: const Text('Retry categories'),
+            child: Text("Retry categories".tr),
           ),
         ],
       );
@@ -1186,10 +1197,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.fromLTRB(22, 24, 22, 14),
           child: Text(
-            'Categories',
+            "Categories".tr,
             style: TextStyle(
               color: _kText,
               fontSize: 20,
@@ -1271,7 +1282,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        name,
+                        i == 0 ? 'All'.tr : name,
                         style: TextStyle(
                           color: sel ? _kPurple : _kTextSub,
                           fontSize: 11,
@@ -1311,7 +1322,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           Row(
             children: [
               Text(
-                _selectedCatName == 'All' ? 'All Items' : _selectedCatName,
+                _selectedCatName == 'All' ? "All Items".tr : _selectedCatName,
                 style: const TextStyle(
                   color: _kText,
                   fontSize: 20,
@@ -1331,7 +1342,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '${productCtrl.getProductsByCategory(_selectedCatName).length} items',
+                    "@slot0end items".uiTr({
+                      "slot0end":
+                          (productCtrl
+                                  .getProductsByCategory(_selectedCatName)
+                                  .length)
+                              .toString(),
+                    }),
                     style: const TextStyle(
                       color: _kPurple,
                       fontSize: 11,
@@ -1351,7 +1368,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   Text(productCtrl.error.value!),
                   TextButton(
                     onPressed: productCtrl.refreshProducts,
-                    child: const Text('Retry'),
+                    child: Text("Retry".tr),
                   ),
                 ],
               );
@@ -1369,7 +1386,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     onPressed: productCtrl.loadingMore.value
                         ? null
                         : () => productCtrl.refreshProducts(loadMore: true),
-                    child: const Text('Load more products'),
+                    child: Text("Load more products".tr),
                   ),
               ],
             );
@@ -1511,7 +1528,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            p.category ?? 'Food',
+                            p.category ?? "Food".tr,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 9,
@@ -1544,17 +1561,21 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                     });
                                     if (!added) {
                                       Get.snackbar(
-                                        'Cart',
+                                        "Cart".tr,
                                         cart.lastError.value,
                                       );
                                       return;
                                     }
                                     Get.snackbar(
                                       '',
-                                      '${p.name} added to cart! 🛒',
+                                      "@slot0end added to cart! 🛒".uiTr({
+                                        "slot0end": (p.name).toString(),
+                                      }),
                                       titleText: const SizedBox.shrink(),
                                       messageText: Text(
-                                        '${p.name} added to cart! 🛒',
+                                        "@slot0end added to cart! 🛒".uiTr({
+                                          "slot0end": (p.name).toString(),
+                                        }),
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
@@ -1659,7 +1680,14 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               const SizedBox(width: 2),
                               Expanded(
                                 child: Text(
-                                  '${nearest.branch.name} • ${nearest.distanceKm.toStringAsFixed(1)} km',
+                                  "@slot0end • @slot1end km".uiTr({
+                                    "slot0end": (nearest.branch.name)
+                                        .toString(),
+                                    "slot1end":
+                                        (nearest.distanceKm.toStringAsFixed(
+                                          1,
+                                        )).toString(),
+                                  }),
                                   style: TextStyle(
                                     color: _kTextSub,
                                     fontSize: 10,
@@ -1675,7 +1703,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         Row(
                           children: [
                             Text(
-                              'Rs.${p.price}',
+                              "Rs.@slot0end".uiTr({
+                                "slot0end": (p.price).toString(),
+                              }),
                               style: const TextStyle(
                                 color: _kSaffron,
                                 fontSize: 15,
@@ -1818,8 +1848,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         children: [
           const Text('😔', style: TextStyle(fontSize: 60)),
           const SizedBox(height: 16),
-          const Text(
-            'Nothing here yet',
+          Text(
+            "Nothing here yet".tr,
             style: TextStyle(
               color: _kText,
               fontSize: 18,
@@ -1828,7 +1858,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           ),
           const SizedBox(height: 8),
           Text(
-            'No items in this category.',
+            "No items in this category.".tr,
             style: TextStyle(color: _kTextSub, fontSize: 14),
           ),
         ],
@@ -1844,11 +1874,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             padding: const EdgeInsets.fromLTRB(22, 20, 22, 16),
             child: Row(
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'My Orders',
+                      "My Orders".tr,
                       style: TextStyle(
                         color: _kText,
                         fontSize: 26,
@@ -1857,7 +1887,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     ),
                     SizedBox(height: 2),
                     Text(
-                      'Track your order history',
+                      "Track your order history".tr,
                       style: TextStyle(color: _kTextSub, fontSize: 13),
                     ),
                   ],
@@ -1906,7 +1936,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Fetching orders...',
+                          "Fetching orders...".tr,
                           style: TextStyle(color: _kTextSub, fontSize: 14),
                         ),
                       ],
@@ -1946,8 +1976,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               ),
             ),
             const SizedBox(height: 14),
-            const Text(
-              'No orders yet',
+            Text(
+              "No orders yet".tr,
               style: TextStyle(
                 color: _kText,
                 fontSize: 22,
@@ -1956,7 +1986,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             ),
             const SizedBox(height: 8),
             Text(
-              'Your order history will appear here.',
+              "Your order history will appear here.".tr,
               style: TextStyle(color: _kTextSub, fontSize: 14),
             ),
             const SizedBox(height: 32),
@@ -1984,8 +2014,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       ),
                     ],
                   ),
-                  child: const Text(
-                    'Start Ordering',
+                  child: Text(
+                    "Start Ordering".tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
@@ -2060,7 +2090,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Order #$id',
+                        "Order #@slot0end".uiTr({"slot0end": (id).toString()}),
                         style: const TextStyle(
                           color: _kText,
                           fontWeight: FontWeight.w800,
@@ -2069,7 +2099,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'PKR $amount',
+                        "PKR @slot0end".uiTr({"slot0end": (amount).toString()}),
                         style: TextStyle(color: _kTextSub, fontSize: 13),
                       ),
                     ],
@@ -2103,8 +2133,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               const SizedBox(height: 14),
               Text(
                 order['delivery_otp_email_status'] == 'accepted'
-                    ? 'A delivery verification code has been sent to your registered email. Check your inbox and spam folder.'
-                    : 'Your rider will request a verification code to your registered email when they arrive.',
+                    ? "A delivery verification code has been sent to your registered email. Check your inbox and spam folder."
+                          .tr
+                    : "Your rider will request a verification code to your registered email when they arrive."
+                          .tr,
                 style: TextStyle(color: _kTextSub, fontSize: 13),
               ),
             ],
@@ -2122,8 +2154,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'TezRaftar',
+            Text(
+              "TezRaftar".tr,
               style: TextStyle(
                 color: _kText,
                 fontSize: 30,
@@ -2132,7 +2164,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             ),
             const SizedBox(height: 4),
             Text(
-              'Instant on-demand delivery',
+              "Instant on-demand delivery".tr,
               style: TextStyle(color: _kTextSub, fontSize: 14),
             ),
 
@@ -2186,12 +2218,12 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                             ),
                           ),
                           const SizedBox(width: 16),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Instant Rider',
+                                  "Instant Rider".tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w900,
@@ -2200,7 +2232,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  'Nearest rider in under 5 min',
+                                  "Standalone booking is not configured".tr,
                                   style: TextStyle(
                                     color: Colors.white60,
                                     fontSize: 12,
@@ -2242,8 +2274,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                           ),
                                         ),
                                         const SizedBox(width: 10),
-                                        const Text(
-                                          'Searching for rider...',
+                                        Text(
+                                          "Searching for rider...".tr,
                                           style: TextStyle(
                                             color: _kPurple,
                                             fontSize: 14,
@@ -2252,7 +2284,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                         ),
                                       ],
                                     )
-                                  : const Row(
+                                  : Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
@@ -2261,7 +2293,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                         ),
                                         SizedBox(width: 8),
                                         Text(
-                                          'Request TezRider',
+                                          "Request TezRider".tr,
                                           style: TextStyle(
                                             color: _kPurple,
                                             fontSize: 15,
@@ -2311,12 +2343,12 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       ),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Open Live Map',
+                            "Open Live Map".tr,
                             style: TextStyle(
                               color: _kText,
                               fontWeight: FontWeight.w800,
@@ -2325,7 +2357,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           ),
                           SizedBox(height: 3),
                           Text(
-                            'Real-time delivery tracking',
+                            "Real-time delivery tracking".tr,
                             style: TextStyle(color: _kTextSub, fontSize: 12),
                           ),
                         ],
@@ -2345,11 +2377,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
             Row(
               children: [
-                _statChip('⏱️', 'Avg 5 min', _kGreen),
+                _statChip('⏱️', "ETA unavailable".tr, _kGreen),
                 const SizedBox(width: 10),
-                _statChip('⭐', '4.9 rating', _kSaffron),
+                _statChip('⭐', "Rating unavailable".tr, _kSaffron),
                 const SizedBox(width: 10),
-                _statChip('✅', 'Verified', _kTeal),
+                _statChip('ℹ️', "Booking unavailable".tr, _kTeal),
               ],
             ),
           ],
@@ -2484,13 +2516,15 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _profileBadge(
-                            'Customer',
+                            "Customer".tr,
                             Colors.white.withValues(alpha: 0.20),
                             Colors.white,
                           ),
                           const SizedBox(width: 8),
                           _profileBadge(
-                            '${_orders.length} orders',
+                            "@slot0end orders".uiTr({
+                              "slot0end": (_orders.length).toString(),
+                            }),
                             Colors.white.withValues(alpha: 0.20),
                             Colors.white,
                           ),
@@ -2511,7 +2545,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               color: Colors.white.withValues(alpha: 0.35),
                             ),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
@@ -2521,7 +2555,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               ),
                               SizedBox(width: 6),
                               Text(
-                                'Edit Profile',
+                                "Edit Profile".tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -2540,34 +2574,34 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
             const SizedBox(height: 24),
 
-            _menuGroup('My Account', [
+            _menuGroup("My Account".tr, [
               _menuRow(
                 '🕒',
-                'Order History',
+                "Order History".tr,
                 _kPurple,
                 () => Get.to(() => const OrderHistoryScreen()),
               ),
               _menuRow(
                 '📍',
-                'Saved Addresses',
+                "Saved Addresses".tr,
                 _kTeal,
                 () => Get.to(() => const SavedAddressesScreen()),
               ),
               _menuRow(
                 '💳',
-                'Payment Methods',
+                "Payment Methods".tr,
                 _kGreen,
                 () => Get.to(() => const PaymentMethodsScreen()),
               ),
               _menuRow(
                 '❤️',
-                'Saved Stores',
+                "Saved Stores".tr,
                 _kPink,
                 () => Get.to(() => const SavedStoresScreen()),
               ),
               _menuRow(
                 '💬',
-                'Inbox / Chat',
+                "Inbox / Chat".tr,
                 _kTeal,
                 () => Get.to(() => const ChatRoomsScreen()),
               ),
@@ -2575,26 +2609,26 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
             const SizedBox(height: 16),
 
-            _menuGroup('Support', [
+            _menuGroup("Support".tr, [
               _menuRow(
                 '⚖️',
-                'Disputes',
+                "Disputes".tr,
                 _kPink,
                 () => Get.to(() => const DisputeHistoryScreen()),
               ),
               _menuRow(
                 '💬',
-                'Help Center',
+                "Help Center".tr,
                 _kSaffron,
                 () => Get.to(() => const HelpCenterScreen()),
               ),
               _menuRow(
                 'ℹ️',
-                'About TezRider',
+                "About TezRider".tr,
                 _kTeal,
                 () => Get.to(() => const AboutTezRiderScreen()),
               ),
-              _menuRow('⭐', 'Rate the App', _kPurple, () => _rateApp()),
+              _menuRow('⭐', "Rate the App".tr, _kPurple, () => _rateApp()),
             ]),
 
             const SizedBox(height: 28),
@@ -2609,13 +2643,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(color: _kPink.withValues(alpha: 0.25)),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('🚪', style: TextStyle(fontSize: 18)),
                     SizedBox(width: 10),
                     Text(
-                      'Sign Out',
+                      "Sign Out".tr,
                       style: TextStyle(
                         color: _kPink,
                         fontWeight: FontWeight.w800,
@@ -2752,8 +2786,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             children: [
               const Text('🚪', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 16),
-              const Text(
-                'Sign Out?',
+              Text(
+                "Sign Out?".tr,
                 style: TextStyle(
                   color: _kText,
                   fontSize: 20,
@@ -2762,7 +2796,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               ),
               const SizedBox(height: 8),
               Text(
-                'You\'ll need to sign in again to access your account.',
+                "You'll need to sign in again to access your account.".tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: _kTextSub, fontSize: 13),
               ),
@@ -2778,9 +2812,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           color: _kBg,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Cancel',
+                            "Cancel".tr,
                             style: TextStyle(
                               color: _kTextSub,
                               fontWeight: FontWeight.w700,
@@ -2807,9 +2841,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                             color: _kPink.withValues(alpha: 0.30),
                           ),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Sign Out',
+                            "Sign Out".tr,
                             style: TextStyle(
                               color: _kPink,
                               fontWeight: FontWeight.w800,

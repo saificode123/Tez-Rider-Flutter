@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +14,13 @@ import 'admin_orders_screen.dart';
 class AdminMonitorScreen extends StatelessWidget {
   const AdminMonitorScreen({super.key});
   @override
-  Widget build(BuildContext context) =>
-      RoleAccessGate(role: 'admin', builder: (_) => const AdminMonitorPanel());
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return RoleAccessGate(
+      role: 'admin',
+      builder: (_) => const AdminMonitorPanel(),
+    );
+  }
 }
 
 class AdminMonitorPanel extends StatefulWidget {
@@ -187,7 +194,9 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Copied all ${data['summary']['total_orders']} filtered orders as CSV.',
+              "Copied all @slot0end filtered orders as CSV.".uiTr({
+                "slot0end": (data['summary']['total_orders']).toString(),
+              }),
             ),
           ),
         );
@@ -195,9 +204,10 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
     } catch (_) {
       if (mounted && account == _service.account) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Export was not confirmed. Retry or narrow the filter to 5000 orders.',
+              "Export was not confirmed. Retry or narrow the filter to 5000 orders."
+                  .tr,
             ),
           ),
         );
@@ -215,9 +225,10 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
       if (!mounted || _accountInvalidated) return;
       if (candidates.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'No fresh eligible Riders are available. Refresh after availability changes.',
+              "No fresh eligible Riders are available. Refresh after availability changes."
+                  .tr,
             ),
           ),
         );
@@ -238,7 +249,11 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
           builder: (dialog, update) => PopScope(
             canPop: !busy,
             child: AlertDialog(
-              title: Text('Assign Rider to order #$orderId?'),
+              title: Text(
+                "Assign Rider to order #@slot0end?".uiTr({
+                  "slot0end": (orderId).toString(),
+                }),
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -248,8 +263,9 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                       return const SizedBox.shrink();
                     },
                   ),
-                  const Text(
-                    'This sends a pending request. The Rider must still accept and complete the checklist and OTP.',
+                  Text(
+                    "This sends a pending request. The Rider must still accept and complete the checklist and OTP."
+                        .tr,
                   ),
                   DropdownButton<int>(
                     isExpanded: true,
@@ -261,7 +277,13 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                           (r) => DropdownMenuItem<int>(
                             value: r['rider_id'],
                             child: Text(
-                              '${r['name']} • ${((r['distance_m'] as num) / 1000).toStringAsFixed(1)} km',
+                              "@slot0end • @slot1end km".uiTr({
+                                "slot0end": (r['name']).toString(),
+                                "slot1end":
+                                    (((r['distance_m'] as num) / 1000)
+                                            .toStringAsFixed(1))
+                                        .toString(),
+                              }),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -281,7 +303,9 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                 TextButton(
                   onPressed: busy ? null : () => Navigator.pop(dialog),
                   child: Text(
-                    submission.uncertain ? 'Close and check status' : 'Cancel',
+                    submission.uncertain
+                        ? "Close and check status".tr
+                        : "Cancel".tr,
                   ),
                 ),
                 FilledButton(
@@ -312,9 +336,12 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                                             'ALREADY_APPLIED',
                                           ].contains(result['code'])
                                           ? result['code'] == 'ASSIGNED'
-                                                ? 'Assignment confirmed. Rider acceptance is pending.'
-                                                : 'Original assignment receipt confirmed. Review the refreshed order status.'
-                                          : 'Order or Rider availability changed. Review the refreshed status.',
+                                                ? "Assignment confirmed. Rider acceptance is pending."
+                                                      .tr
+                                                : "Original assignment receipt confirmed. Review the refreshed order status."
+                                                      .tr
+                                          : "Order or Rider availability changed. Review the refreshed status."
+                                                .tr,
                                     ),
                                   ),
                                 );
@@ -338,8 +365,8 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                         },
                   child: Text(
                     submission.uncertain
-                        ? 'Retry assignment'
-                        : 'Confirm assignment',
+                        ? "Retry assignment".tr
+                        : "Confirm assignment".tr,
                   ),
                 ),
               ],
@@ -350,9 +377,9 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Candidates unavailable or order changed. Refresh and retry.',
+              "Candidates unavailable or order changed. Refresh and retry.".tr,
             ),
           ),
         );
@@ -393,14 +420,15 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final summary = _snapshot?['summary'] as Map?;
     final pins = _pins;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order monitoring'),
+        title: Text("Order monitoring".tr),
         actions: [
           IconButton(
-            tooltip: 'Cash records',
+            tooltip: "Cash records".tr,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => const AdminOrdersScreen(),
@@ -409,7 +437,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
             icon: const Icon(Icons.receipt_long),
           ),
           IconButton(
-            tooltip: 'Refresh monitoring',
+            tooltip: "Refresh monitoring".tr,
             onPressed: _loading ? null : () => _load(),
             icon: const Icon(Icons.refresh),
           ),
@@ -441,7 +469,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                         .map(
                           (s) => DropdownMenuItem(
                             value: s,
-                            child: Text(s == 'all' ? 'All statuses' : s),
+                            child: Text(s == 'all' ? "All statuses".tr : s),
                           ),
                         )
                         .toList(),
@@ -469,7 +497,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                       },
                 child: Text(
                   _dates == null
-                      ? 'Filter dates'
+                      ? "Filter dates".tr
                       : '${_dates!.start.toString().split(' ').first} – ${_dates!.end.toString().split(' ').first}',
                 ),
               ),
@@ -481,32 +509,49 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                           setState(() => _dates = null);
                           unawaited(_load());
                         },
-                  child: const Text('Clear dates'),
+                  child: Text("Clear dates".tr),
                 ),
               OutlinedButton.icon(
                 onPressed: _exporting || _loading ? null : _export,
                 icon: const Icon(Icons.copy),
-                label: Text(_exporting ? 'Exporting…' : 'Copy CSV'),
+                label: Text(_exporting ? "Exporting…".tr : "Copy CSV".tr),
               ),
             ],
           ),
           if (_error != null) ...[
             Text(_error!),
-            TextButton(onPressed: () => _load(), child: const Text('Retry')),
+            TextButton(onPressed: () => _load(), child: Text("Retry".tr)),
           ],
           if (summary != null) ...[
             Text(
-              'Filtered orders: ${summary['total_orders']} • Active: ${summary['active_orders']} • Delivered: ${summary['delivered_orders']}',
+              "Filtered orders: @slot0end • Active: @slot1end • Delivered: @slot2end"
+                  .uiTr({
+                    "slot0end": (summary['total_orders']).toString(),
+                    "slot1end": (summary['active_orders']).toString(),
+                    "slot2end": (summary['delivered_orders']).toString(),
+                  }),
             ),
             Text(
-              'Delivered order value: ${historyMoney(historyCents(summary['delivered_value_cents']))}',
+              "Delivered order value: @slot0end".uiTr({
+                "slot0end": (historyMoney(
+                  historyCents(summary['delivered_value_cents']),
+                )).toString(),
+              }),
             ),
-            const Text(
-              'Gross order value; not platform profit or Rider earnings.',
+            Text(
+              "Gross order value; not platform profit or Rider earnings.".tr,
             ),
             if (summary['unconfirmed_amounts'] > 0)
-              Text('Amounts needing review: ${summary['unconfirmed_amounts']}'),
-            Text('Fresh online Riders: ${summary['online_riders']}'),
+              Text(
+                "Amounts needing review: @slot0end".uiTr({
+                  "slot0end": (summary['unconfirmed_amounts']).toString(),
+                }),
+              ),
+            Text(
+              "Fresh online Riders: @slot0end".uiTr({
+                "slot0end": (summary['online_riders']).toString(),
+              }),
+            ),
             const SizedBox(height: 12),
             for (final entry in (summary['status_counts'] as Map).entries)
               Padding(
@@ -525,7 +570,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
               ),
             const SizedBox(height: 16),
             if (pins.isEmpty)
-              const Text('No fresh online Rider locations to display.')
+              Text("No fresh online Rider locations to display.".tr)
             else
               SizedBox(
                 height: 260,
@@ -553,7 +598,9 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                                 (p['longitude'] as num).toDouble(),
                               ),
                               child: Tooltip(
-                                message: 'Rider #${p['rider_id']}',
+                                message: "Rider #@slot0end".uiTr({
+                                  "slot0end": (p['rider_id']).toString(),
+                                }),
                                 child: const Icon(
                                   Icons.delivery_dining,
                                   color: Colors.green,
@@ -571,12 +618,17 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                 ),
               ),
             if (_snapshot!['locations_truncated'] == true)
-              const Text(
-                'Map shows the first 200 fresh Riders; the total above includes all.',
+              Text(
+                "Map shows the first 200 fresh Riders; the total above includes all."
+                    .tr,
               ),
-            Text('Snapshot: ${_snapshot!['generated_at']}'),
+            Text(
+              "Snapshot: @slot0end".uiTr({
+                "slot0end": (_snapshot!['generated_at']).toString(),
+              }),
+            ),
             const Divider(),
-            if (_orders.isEmpty) const Text('No orders match this filter.'),
+            if (_orders.isEmpty) Text("No orders match this filter.".tr),
             for (final row in _orders)
               Card(
                 child: Padding(
@@ -585,24 +637,36 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Order #${row['order_id']} • ${row['status'] ?? 'unknown'}',
+                        "Order #@slot0end • @slot1end".uiTr({
+                          "slot0end": (row['order_id']).toString(),
+                          "slot1end": (row['status'] ?? 'unknown').toString(),
+                        }),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'Order value: ${historyMoney(historyCents(row['amount_cents']))}',
+                        "Order value: @slot0end".uiTr({
+                          "slot0end": (historyMoney(
+                            historyCents(row['amount_cents']),
+                          )).toString(),
+                        }),
                       ),
-                      Text('Rider: ${row['rider_id'] ?? 'Unassigned'}'),
+                      Text(
+                        "Rider: @slot0end".uiTr({
+                          "slot0end": (row['rider_id'] ?? 'Unassigned')
+                              .toString(),
+                        }),
+                      ),
                       if (row['manual_assignment'] == true) ...[
                         if (row['status'] == 'ready' && row['rider_id'] == null)
                           TextButton(
                             onPressed: _assigning == null
                                 ? () => _assign(row['order_id'])
                                 : null,
-                            child: const Text('Assign Rider'),
+                            child: Text("Assign Rider".tr),
                           )
                         else
-                          const Text(
-                            'Manual assignment is waiting for ready stores.',
+                          Text(
+                            "Manual assignment is waiting for ready stores.".tr,
                           ),
                       ],
                     ],
@@ -612,7 +676,7 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
             if (_snapshot!['has_more'] == true)
               TextButton(
                 onPressed: _loading ? null : () => _load(more: true),
-                child: const Text('Load more orders'),
+                child: Text("Load more orders".tr),
               ),
           ],
         ],

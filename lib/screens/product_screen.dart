@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/product_image.dart';
 import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
@@ -24,7 +26,7 @@ class ProductScreen extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
         title: Text(
-          vendor['name'] ?? 'Vendor',
+          vendor['name'] ?? "Vendor".tr,
           style: const TextStyle(
             color: Color(0xFF1A0533),
             fontWeight: FontWeight.bold,
@@ -45,7 +47,7 @@ class ProductScreen extends StatelessWidget {
                 Text(productCtrl.error.value!),
                 TextButton(
                   onPressed: productCtrl.refreshProducts,
-                  child: const Text('Retry'),
+                  child: Text("Retry".tr),
                 ),
               ],
             ),
@@ -66,20 +68,20 @@ class ProductScreen extends StatelessWidget {
                   color: Colors.grey.shade300,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'No products available',
+                Text(
+                  "No products available".tr,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'This store hasn\'t added any items yet.',
+                Text(
+                  "This store hasn't added any items yet.".tr,
                   style: TextStyle(color: Colors.grey),
                 ),
                 if (productCtrl.hasMore.value)
                   TextButton(
                     onPressed: () =>
                         productCtrl.refreshProducts(loadMore: true),
-                    child: const Text('Load more products'),
+                    child: Text("Load more products".tr),
                   ),
               ],
             ),
@@ -94,7 +96,7 @@ class ProductScreen extends StatelessWidget {
             if (i == vendorProducts.length)
               return TextButton(
                 onPressed: () => productCtrl.refreshProducts(loadMore: true),
-                child: const Text('Load more products'),
+                child: Text("Load more products".tr),
               );
             final p = vendorProducts[i];
 
@@ -159,7 +161,9 @@ class ProductScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "PKR ${p.price.toInt()}",
+                                "PKR @slot0end".uiTr({
+                                  "slot0end": (p.price.toInt()).toString(),
+                                }),
                                 style: const TextStyle(
                                   color: _purple,
                                   fontWeight: FontWeight.bold,
@@ -176,14 +180,16 @@ class ProductScreen extends StatelessWidget {
                                         );
                                         if (!added) {
                                           Get.snackbar(
-                                            'Cart',
+                                            "Cart".tr,
                                             cart.lastError.value,
                                           );
                                           return;
                                         }
                                         Get.snackbar(
-                                          "Added to Cart",
-                                          "${p.name} added successfully",
+                                          "Added to Cart".tr,
+                                          "@slot0end added successfully".uiTr({
+                                            "slot0end": (p.name).toString(),
+                                          }),
                                           backgroundColor: Colors.white,
                                           colorText: const Color(0xFF1A0533),
                                           snackPosition: SnackPosition.BOTTOM,
@@ -200,8 +206,8 @@ class ProductScreen extends StatelessWidget {
                                     color: _purple,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Text(
-                                    "Add",
+                                  child: Text(
+                                    "Add".tr,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -89,16 +90,16 @@ class _CartScreenState extends State<CartScreen> {
   void _showCheckoutSheet() {
     if (!cart.synchronizationReady) {
       Get.snackbar(
-        'Cart synchronization required',
-        'Restore or retry your saved cart before checkout.',
+        "Cart synchronization required".tr,
+        "Restore or retry your saved cart before checkout.".tr,
       );
       return;
     }
     if (_isGift) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Gift delivery is not configured. No gift order was submitted.',
+            "Gift delivery is not configured. No gift order was submitted.".tr,
           ),
         ),
       );
@@ -114,6 +115,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
@@ -238,7 +240,9 @@ class _CartScreenState extends State<CartScreen> {
                                 StockIndicator(product: item),
                                 const SizedBox(height: 4),
                                 Text(
-                                  "PKR ${item['price']}",
+                                  "PKR @slot0end".uiTr({
+                                    "slot0end": (item['price']).toString(),
+                                  }),
                                   style: const TextStyle(
                                     color: _purple,
                                     fontWeight: FontWeight.bold,
@@ -271,7 +275,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ? () async {
                                         if (!await cart.incrementQty(item)) {
                                           Get.snackbar(
-                                            'Cart',
+                                            "Cart".tr,
                                             cart.lastError.value,
                                           );
                                           return;
@@ -302,8 +306,8 @@ class _CartScreenState extends State<CartScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'You might also like',
+                              Text(
+                                "You might also like".tr,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -311,7 +315,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Complementary items from the same vendor',
+                                "Complementary items from the same vendor".tr,
                                 style: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontSize: 12,
@@ -362,8 +366,8 @@ class _CartScreenState extends State<CartScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Prescription Required',
+                                Text(
+                                  "Prescription Required".tr,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13,
@@ -371,7 +375,8 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Your order contains medicines. You\'ll need to upload a prescription during checkout.',
+                                  "Your order contains medicines. You'll need to upload a prescription during checkout."
+                                      .tr,
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey.shade700,
@@ -405,8 +410,8 @@ class _CartScreenState extends State<CartScreen> {
                         'send_as_gift'.tr,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: const Text(
-                        'Perfect for overseas users surprising loved ones.',
+                      subtitle: Text(
+                        "Perfect for overseas users surprising loved ones.".tr,
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       value: _isGift,
@@ -458,7 +463,9 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       Text(
-                        'PKR ${cart.totalPrice}',
+                        "PKR @slot0end".uiTr({
+                          "slot0end": (cart.totalPrice).toString(),
+                        }),
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -480,8 +487,8 @@ class _CartScreenState extends State<CartScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      child: const Text(
-                        'Proceed to Checkout',
+                      child: Text(
+                        "Proceed to Checkout".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -514,7 +521,7 @@ class _CartScreenState extends State<CartScreen> {
                     await cart.retrySync();
                   }
                 },
-          child: const Text('Retry cart synchronization'),
+          child: Text("Retry cart synchronization".tr),
         ),
       ],
     ),

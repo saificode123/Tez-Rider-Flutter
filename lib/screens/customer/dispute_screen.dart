@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../widgets/order_payment_panel.dart';
@@ -36,7 +37,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
     if (mounted && controller.message.value == disputeSuccess) {
       Navigator.pop(context, true);
       Get.snackbar(
-        'Dispute submitted',
+        "Dispute submitted".tr,
         disputeSuccess,
         duration: const Duration(seconds: 6),
       );
@@ -70,186 +71,214 @@ class _DisputeScreenState extends State<DisputeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Submit dispute')),
-    body: Obx(
-      () => controller.loading.value
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: const EdgeInsets.all(20),
-              children: [
-                const Text(
-                  'Submit within 24 hours of delivery. Select 1–3 JPEG or PNG images, up to 5 MB each.',
-                ),
-                const SizedBox(height: 16),
-                if (controller.message.value.isNotEmpty)
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(title: Text("Submit dispute".tr)),
+      body: Obx(
+        () => controller.loading.value
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
                   Text(
-                    controller.message.value,
-                    style: const TextStyle(color: Colors.green),
+                    "Submit within 24 hours of delivery. Select 1–3 JPEG or PNG images, up to 5 MB each."
+                        .tr,
                   ),
-                if (controller.images.isEmpty && controller.paths.isNotEmpty)
-                  Text(
-                    '${controller.paths.length} evidence images are already uploaded. Retry to confirm submission.',
-                  ),
-                DropdownButtonFormField<int>(
-                  initialValue:
-                      controller.orders.any(
-                        (o) => o['id'] == controller.orderId,
-                      )
-                      ? controller.orderId
-                      : null,
-                  decoration: const InputDecoration(
-                    labelText: 'Delivered order',
-                  ),
-                  items: controller.orders
-                      .map(
-                        (o) => DropdownMenuItem(
-                          value: o['id'] as int,
-                          child: Text('Order #${o['id']} • PKR ${o['amount']}'),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: controller.editable
-                      ? (value) {
-                          controller.orderId = value;
-                        }
-                      : null,
-                ),
-                if (controller.orders.isEmpty)
-                  const Text(
-                    'No eligible delivered orders. Older orders remain in Order History.',
-                  ),
-                TextButton(
-                  onPressed: controller.busy.value
-                      ? null
-                      : controller.moreOrders,
-                  child: const Text('Load more orders'),
-                ),
-                DropdownButtonFormField<String>(
-                  initialValue: controller.reasons.contains(controller.reason)
-                      ? controller.reason
-                      : null,
-                  decoration: const InputDecoration(labelText: 'Reason'),
-                  items: controller.reasons
-                      .map((r) => DropdownMenuItem(value: r, child: Text(r)))
-                      .toList(),
-                  onChanged: controller.editable
-                      ? (value) {
-                          controller.reason = value;
-                        }
-                      : null,
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: description,
-                  enabled: controller.editable,
-                  maxLines: 5,
-                  maxLength: controller.descriptionLimit,
-                  decoration: const InputDecoration(
-                    labelText: 'Required description',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    controller.description = value;
-                  },
-                ),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    for (var i = 0; i < controller.images.length; i++)
-                      SizedBox(
-                        width: 96,
-                        child: Column(
-                          children: [
-                            Image.memory(
-                              controller.images[i].bytes,
-                              height: 90,
-                              fit: BoxFit.cover,
+                  const SizedBox(height: 16),
+                  if (controller.message.value.isNotEmpty)
+                    Text(
+                      controller.message.value,
+                      style: const TextStyle(color: Colors.green),
+                    ),
+                  if (controller.images.isEmpty && controller.paths.isNotEmpty)
+                    Text(
+                      "@slot0end evidence images are already uploaded. Retry to confirm submission."
+                          .uiTr({
+                            "slot0end": (controller.paths.length).toString(),
+                          }),
+                    ),
+                  DropdownButtonFormField<int>(
+                    initialValue:
+                        controller.orders.any(
+                          (o) => o['id'] == controller.orderId,
+                        )
+                        ? controller.orderId
+                        : null,
+                    decoration: InputDecoration(
+                      labelText: "Delivered order".tr,
+                    ),
+                    items: controller.orders
+                        .map(
+                          (o) => DropdownMenuItem(
+                            value: o['id'] as int,
+                            child: Text(
+                              "Order #@slot0end • PKR @slot1end".uiTr({
+                                "slot0end": (o['id']).toString(),
+                                "slot1end": (o['amount']).toString(),
+                              }),
                             ),
-                            IconButton(
-                              tooltip: 'Remove evidence ${i + 1}',
-                              onPressed: controller.editable
-                                  ? () {
-                                      controller.images.removeAt(i);
-                                      unawaited(controller.saveDraft());
-                                    }
-                                  : null,
-                              icon: const Icon(Icons.close),
-                            ),
-                          ],
+                          ),
+                        )
+                        .toList(),
+                    onChanged: controller.editable
+                        ? (value) {
+                            controller.orderId = value;
+                          }
+                        : null,
+                  ),
+                  if (controller.orders.isEmpty)
+                    Text(
+                      "No eligible delivered orders. Older orders remain in Order History."
+                          .tr,
+                    ),
+                  TextButton(
+                    onPressed: controller.busy.value
+                        ? null
+                        : controller.moreOrders,
+                    child: Text("Load more orders".tr),
+                  ),
+                  DropdownButtonFormField<String>(
+                    initialValue: controller.reasons.contains(controller.reason)
+                        ? controller.reason
+                        : null,
+                    decoration: InputDecoration(labelText: "Reason".tr),
+                    items: controller.reasons
+                        .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                        .toList(),
+                    onChanged: controller.editable
+                        ? (value) {
+                            controller.reason = value;
+                          }
+                        : null,
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: description,
+                    enabled: controller.editable,
+                    maxLines: 5,
+                    maxLength: controller.descriptionLimit,
+                    decoration: InputDecoration(
+                      labelText: "Required description".tr,
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      controller.description = value;
+                    },
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (var i = 0; i < controller.images.length; i++)
+                        SizedBox(
+                          width: 96,
+                          child: Column(
+                            children: [
+                              Image.memory(
+                                controller.images[i].bytes,
+                                height: 90,
+                                fit: BoxFit.cover,
+                              ),
+                              IconButton(
+                                tooltip: "Remove evidence @slot0end".uiTr({
+                                  "slot0end": (i + 1).toString(),
+                                }),
+                                onPressed: controller.editable
+                                    ? () {
+                                        controller.images.removeAt(i);
+                                        unawaited(controller.saveDraft());
+                                      }
+                                    : null,
+                                icon: const Icon(Icons.close),
+                              ),
+                            ],
+                          ),
                         ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      TextButton.icon(
+                        onPressed:
+                            controller.editable &&
+                                !picking &&
+                                controller.images.length < 3
+                            ? () => _pick(ImageSource.gallery)
+                            : null,
+                        icon: const Icon(Icons.photo_library),
+                        label: Text("Gallery".tr),
                       ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    TextButton.icon(
-                      onPressed:
-                          controller.editable &&
-                              !picking &&
-                              controller.images.length < 3
-                          ? () => _pick(ImageSource.gallery)
-                          : null,
-                      icon: const Icon(Icons.photo_library),
-                      label: const Text('Gallery'),
+                      TextButton.icon(
+                        onPressed:
+                            controller.editable &&
+                                !picking &&
+                                controller.images.length < 3
+                            ? () => _pick(ImageSource.camera)
+                            : null,
+                        icon: const Icon(Icons.camera_alt),
+                        label: Text("Camera".tr),
+                      ),
+                    ],
+                  ),
+                  if (controller.busy.value) ...[
+                    const LinearProgressIndicator(),
+                    Text(
+                      "Evidence @slot0end/@slot1end uploaded; confirming submission…"
+                          .uiTr({
+                            "slot0end": (controller.completedImages.value)
+                                .toString(),
+                            "slot1end":
+                                (controller.images.length >
+                                            controller.paths.length
+                                        ? controller.images.length
+                                        : controller.paths.length)
+                                    .toString(),
+                          }),
                     ),
-                    TextButton.icon(
-                      onPressed:
-                          controller.editable &&
-                              !picking &&
-                              controller.images.length < 3
-                          ? () => _pick(ImageSource.camera)
-                          : null,
-                      icon: const Icon(Icons.camera_alt),
-                      label: const Text('Camera'),
-                    ),
                   ],
-                ),
-                if (controller.busy.value) ...[
-                  const LinearProgressIndicator(),
-                  Text(
-                    'Evidence ${controller.completedImages.value}/${controller.images.length > controller.paths.length ? controller.images.length : controller.paths.length} uploaded; confirming submission…',
+                  if (controller.error.value.isNotEmpty)
+                    Text(
+                      controller.error.value,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  if (controller.error.value.isNotEmpty &&
+                      controller.requestId == null)
+                    TextButton(
+                      onPressed: controller.busy.value ? null : _initialize,
+                      child: Text("Retry loading orders".tr),
+                    ),
+                  if (controller.uncertain.value)
+                    Text(
+                      "Keep this submission unchanged while its result is checked."
+                          .tr,
+                    ),
+                  FilledButton(
+                    onPressed: controller.busy.value || picking
+                        ? null
+                        : _submit,
+                    child: Text(
+                      controller.requestId == null
+                          ? "Submit dispute".tr
+                          : "Retry submission".tr,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: controller.busy.value
+                        ? null
+                        : () async {
+                            await controller.discard();
+                          },
+                    child: Text("Discard unfinished draft".tr),
+                  ),
+                  TextButton(
+                    onPressed: () => Get.to(() => const DisputeHistoryScreen()),
+                    child: Text("My disputes".tr),
                   ),
                 ],
-                if (controller.error.value.isNotEmpty)
-                  Text(
-                    controller.error.value,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                if (controller.error.value.isNotEmpty &&
-                    controller.requestId == null)
-                  TextButton(
-                    onPressed: controller.busy.value ? null : _initialize,
-                    child: const Text('Retry loading orders'),
-                  ),
-                if (controller.uncertain.value)
-                  const Text(
-                    'Keep this submission unchanged while its result is checked.',
-                  ),
-                FilledButton(
-                  onPressed: controller.busy.value || picking ? null : _submit,
-                  child: Text(
-                    controller.requestId == null
-                        ? 'Submit dispute'
-                        : 'Retry submission',
-                  ),
-                ),
-                TextButton(
-                  onPressed: controller.busy.value
-                      ? null
-                      : () async {
-                          await controller.discard();
-                        },
-                  child: const Text('Discard unfinished draft'),
-                ),
-                TextButton(
-                  onPressed: () => Get.to(() => const DisputeHistoryScreen()),
-                  child: const Text('My disputes'),
-                ),
-              ],
-            ),
-    ),
-  );
+              ),
+      ),
+    );
+  }
 }
 
 class DisputeHistoryScreen extends StatefulWidget {
@@ -294,49 +323,57 @@ class _DisputeHistoryScreenState extends State<DisputeHistoryScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('My disputes'),
-      actions: [
-        IconButton(
-          onPressed: loading ? null : () => _load(refresh: true),
-          icon: const Icon(Icons.refresh),
-        ),
-      ],
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () async {
-        await Get.to(() => const DisputeScreen());
-        if (mounted) await _load(refresh: true);
-      },
-      child: const Icon(Icons.add),
-    ),
-    body: ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        if (rows.isEmpty && !loading && error == null)
-          const Text('No disputes yet.'),
-        for (final row in rows)
-          Card(
-            child: ListTile(
-              title: Text('Order #${row['order_id']} • ${row['reason']}'),
-              subtitle: Text(disputeStatusLabel(row['status'].toString())),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () =>
-                  Get.to(() => DisputeDetailScreen(id: row['id'] as int)),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My disputes".tr),
+        actions: [
+          IconButton(
+            onPressed: loading ? null : () => _load(refresh: true),
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Get.to(() => const DisputeScreen());
+          if (mounted) await _load(refresh: true);
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          if (rows.isEmpty && !loading && error == null)
+            Text("No disputes yet.".tr),
+          for (final row in rows)
+            Card(
+              child: ListTile(
+                title: Text(
+                  "Order #@slot0end • @slot1end".uiTr({
+                    "slot0end": (row['order_id']).toString(),
+                    "slot1end": (row['reason']).toString(),
+                  }),
+                ),
+                subtitle: Text(disputeStatusLabel(row['status'].toString())),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () =>
+                    Get.to(() => DisputeDetailScreen(id: row['id'] as int)),
+              ),
             ),
-          ),
-        if (error != null)
-          Text(error!, style: const TextStyle(color: Colors.red)),
-        if (loading) const Center(child: CircularProgressIndicator()),
-        if (hasMore || error != null)
-          TextButton(
-            onPressed: loading ? null : () => _load(),
-            child: Text(error == null ? 'Load more' : 'Retry'),
-          ),
-      ],
-    ),
-  );
+          if (error != null)
+            Text(error!, style: const TextStyle(color: Colors.red)),
+          if (loading) const Center(child: CircularProgressIndicator()),
+          if (hasMore || error != null)
+            TextButton(
+              onPressed: loading ? null : () => _load(),
+              child: Text(error == null ? "Load more".tr : "Retry".tr),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
 String disputeStatusLabel(String status) => status
@@ -383,59 +420,88 @@ class _DisputeDetailScreenState extends State<DisputeDetailScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Dispute details')),
-    body: loading
-        ? const Center(child: CircularProgressIndicator())
-        : detail == null
-        ? Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(title: Text("Dispute details".tr)),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : detail == null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(error ?? "Dispute unavailable.".tr),
+                  TextButton(onPressed: _load, child: Text("Retry".tr)),
+                ],
+              ),
+            )
+          : ListView(
+              padding: const EdgeInsets.all(20),
               children: [
-                Text(error ?? 'Dispute unavailable.'),
-                TextButton(onPressed: _load, child: const Text('Retry')),
+                Text(
+                  "Order #@slot0end • PKR @slot1end".uiTr({
+                    "slot0end": (detail!['order_id']).toString(),
+                    "slot1end": (detail!['amount']).toString(),
+                  }),
+                ),
+                Text(
+                  disputeStatusLabel(detail!['status'].toString()),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  "Submitted: @slot0end".uiTr({
+                    "slot0end": (detail!['created_at']).toString(),
+                  }),
+                ),
+                const SizedBox(height: 16),
+                Text(detail!['reason'].toString()),
+                Text(detail!['description'].toString()),
+                if (detail!['decision'] != null) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    "Admin decision: @slot0end".uiTr({
+                      "slot0end": (detail!['decision']).toString(),
+                    }),
+                  ),
+                  Text(
+                    "Admin note: @slot0end".uiTr({
+                      "slot0end": (detail!['admin_note']).toString(),
+                    }),
+                  ),
+                  Text(
+                    "Decided: @slot0end".uiTr({
+                      "slot0end": (detail!['decided_at']).toString(),
+                    }),
+                  ),
+                  if (detail!['refund_pending'] == true)
+                    Text(
+                      "Refund eligibility was recorded. Check payment status for any confirmed cash return."
+                          .tr,
+                    ),
+                ],
+                if (detail!['order_id'] is int)
+                  TextButton(
+                    onPressed: () =>
+                        showOrderPayment(context, detail!['order_id'] as int),
+                    child: Text("Payment / refund status".tr),
+                  ),
+                for (var i = 1; i <= (detail!['evidence_count'] as int); i++)
+                  TextButton.icon(
+                    onPressed: () => showDialog<void>(
+                      context: context,
+                      builder: (_) =>
+                          DisputeEvidenceViewer(disputeId: widget.id, index: i),
+                    ),
+                    icon: const Icon(Icons.image),
+                    label: Text(
+                      "View evidence @slot0end".uiTr({
+                        "slot0end": (i).toString(),
+                      }),
+                    ),
+                  ),
               ],
             ),
-          )
-        : ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text('Order #${detail!['order_id']} • PKR ${detail!['amount']}'),
-              Text(
-                disputeStatusLabel(detail!['status'].toString()),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text('Submitted: ${detail!['created_at']}'),
-              const SizedBox(height: 16),
-              Text(detail!['reason'].toString()),
-              Text(detail!['description'].toString()),
-              if (detail!['decision'] != null) ...[
-                const SizedBox(height: 16),
-                Text('Admin decision: ${detail!['decision']}'),
-                Text('Admin note: ${detail!['admin_note']}'),
-                Text('Decided: ${detail!['decided_at']}'),
-                if (detail!['refund_pending'] == true)
-                  const Text(
-                    'Refund eligibility was recorded. Check payment status for any confirmed cash return.',
-                  ),
-              ],
-              if (detail!['order_id'] is int)
-                TextButton(
-                  onPressed: () =>
-                      showOrderPayment(context, detail!['order_id'] as int),
-                  child: const Text('Payment / refund status'),
-                ),
-              for (var i = 1; i <= (detail!['evidence_count'] as int); i++)
-                TextButton.icon(
-                  onPressed: () => showDialog<void>(
-                    context: context,
-                    builder: (_) =>
-                        DisputeEvidenceViewer(disputeId: widget.id, index: i),
-                  ),
-                  icon: const Icon(Icons.image),
-                  label: Text('View evidence $i'),
-                ),
-            ],
-          ),
-  );
+    );
+  }
 }

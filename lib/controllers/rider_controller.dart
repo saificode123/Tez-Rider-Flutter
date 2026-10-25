@@ -141,8 +141,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     } catch (_) {
       if (!isClosed) {
         Get.snackbar(
-          'Location',
-          'Your location could not be saved. Delivery matching may be unavailable.',
+          "Location".tr,
+          "Your location could not be saved. Delivery matching may be unavailable."
+              .tr,
         );
       }
     }
@@ -371,8 +372,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         (currentOrder.value?['type'] != 'order' ||
             currentOrder.value?['id'] != order['id'])) {
       Get.snackbar(
-        'Ongoing Delivery',
-        'Please complete your current order first.',
+        "Ongoing Delivery".tr,
+        "Please complete your current order first.".tr,
         backgroundColor: Get.theme.colorScheme.error,
         colorText: Get.theme.colorScheme.onError,
       );
@@ -398,13 +399,13 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       currentOrder.value = {...order, ...result, 'type': 'order'};
       await checklist.open(order['id'] as int);
       Get.snackbar(
-        'Order Accepted',
-        'Complete the pickup checklist before starting delivery.',
+        "Order Accepted".tr,
+        "Complete the pickup checklist before starting delivery.".tr,
         backgroundColor: Get.theme.colorScheme.primary,
         colorText: Get.theme.colorScheme.onPrimary,
       );
     } catch (e) {
-      Get.snackbar('Error', 'Could not accept order.');
+      Get.snackbar("Error".tr, "Could not accept order.".tr);
     } finally {
       deliveryBusy.value = false;
     }
@@ -419,7 +420,10 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       return;
     }
     if (order['order_status'] != 'on_the_way') {
-      Get.snackbar('Pickup checklist', checklistMessage('CHECKLIST_REQUIRED'));
+      Get.snackbar(
+        "Pickup checklist".tr,
+        checklistMessage('CHECKLIST_REQUIRED'),
+      );
       return;
     }
     deliveryBusy.value = true;
@@ -476,8 +480,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   Future<void> acceptTailoring(Map<String, dynamic> request) async {
     if (currentOrder.value != null) {
       Get.snackbar(
-        'Ongoing Delivery',
-        'Please complete your current order first.',
+        "Ongoing Delivery".tr,
+        "Please complete your current order first.".tr,
       );
       return;
     }
@@ -505,9 +509,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         'status': nextStatus,
         'type': 'tailoring',
       };
-      Get.snackbar('Accepted', 'Please proceed with the pickup.');
+      Get.snackbar("Accepted".tr, "Please proceed with the pickup.".tr);
     } catch (e) {
-      Get.snackbar('Error', 'Could not accept tailoring request.');
+      Get.snackbar("Error".tr, "Could not accept tailoring request.".tr);
     }
   }
 
@@ -518,8 +522,8 @@ class RiderController extends GetxController with WidgetsBindingObserver {
     try {
       if (current['type'] == 'order') {
         Get.snackbar(
-          'Delivery',
-          'Enter the customer OTP to complete delivery.',
+          "Delivery".tr,
+          "Enter the customer OTP to complete delivery.".tr,
         );
         return;
       } else if (current['type'] == 'tailoring') {
@@ -530,11 +534,11 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             .from('tailoring_requests')
             .update({'status': nextStatus})
             .eq('id', current['id']);
-        Get.snackbar('Success', 'Tailoring delivery complete!');
+        Get.snackbar("Success".tr, "Tailoring delivery complete!".tr);
       }
       currentOrder.value = null;
     } catch (e) {
-      Get.snackbar('Error', 'Could not complete delivery.');
+      Get.snackbar("Error".tr, "Could not complete delivery.".tr);
     }
   }
 

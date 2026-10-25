@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'customer/profile_screen.dart';
 import '../widgets/language_settings_tile.dart';
 import 'rating_summary_screen.dart';
@@ -63,8 +64,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           Get.snackbar(
-            'Welcome back! 🏪',
-            'Let\'s manage some orders!',
+            "Welcome back! 🏪".tr,
+            "Let's manage some orders!".tr,
             duration: const Duration(seconds: 2),
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.white,
@@ -87,6 +88,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     // Subscribe this route to locale changes as Get translation lookups are global.
     Localizations.localeOf(context);
     return Scaffold(
@@ -122,25 +124,25 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 0,
                 Icons.dashboard_rounded,
                 Icons.dashboard_outlined,
-                'Dashboard',
+                "Dashboard".tr,
               ),
               _navItem(
                 1,
                 Icons.shopping_bag_rounded,
                 Icons.shopping_bag_outlined,
-                'Orders',
+                "Orders".tr,
               ),
               _navItem(
                 2,
                 Icons.dry_cleaning_rounded,
                 Icons.dry_cleaning_outlined,
-                'Tailoring',
+                "Tailoring".tr,
               ),
               _navItem(
                 3,
                 Icons.person_rounded,
                 Icons.person_outline_rounded,
-                'Profile',
+                "Profile".tr,
               ),
             ],
           ),
@@ -213,7 +215,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
             ),
             actions: [
               IconButton(
-                tooltip: 'Notifications',
+                tooltip: "Notifications".tr,
                 icon: const Icon(Icons.notifications_outlined),
                 onPressed: () => Get.to(() => NotificationsScreen()),
               ),
@@ -251,14 +253,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   () => Row(
                     children: [
                       _statCard(
-                        'Active Orders',
+                        "Active Orders".tr,
                         vendorCtrl.activeOrders.length.toString(),
                         Icons.shopping_bag_rounded,
                         AppColors.primary,
                       ),
                       const SizedBox(width: 12),
                       _statCard(
-                        'Tailoring Jobs',
+                        "Tailoring Jobs".tr,
                         vendorCtrl.tailoringJobs.length.toString(),
                         Icons.dry_cleaning_rounded,
                         AppColors.catTailoring,
@@ -271,14 +273,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   () => Row(
                     children: [
                       _statCard(
-                        'Delivered sales',
+                        "Delivered sales".tr,
                         vendorCtrl.totalEarnings.value,
                         Icons.account_balance_wallet_rounded,
                         AppColors.success,
                       ),
                       const SizedBox(width: 12),
                       _statCard(
-                        'Rating',
+                        "Rating".tr,
                         vendorCtrl.averageRating.value,
                         Icons.star_rounded,
                         AppColors.warning,
@@ -297,7 +299,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               onPressed: vendorCtrl.statsLoading.value
                                   ? null
                                   : vendorCtrl.loadStats,
-                              child: const Text('Retry sales'),
+                              child: Text("Retry sales".tr),
                             ),
                           ],
                         ),
@@ -305,10 +307,10 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
                 const SizedBox(height: 24),
 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Text(
-                    'Quick Actions',
+                    "Quick Actions".tr,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -320,14 +322,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   children: [
                     _quickAction(
                       Icons.add_box_rounded,
-                      'Add Product',
+                      "Add Product".tr,
                       AppColors.primary,
                       () => Get.to(() => const VendorProductsScreen()),
                     ),
                     const SizedBox(width: 12),
                     _quickAction(
                       Icons.bar_chart_rounded,
-                      'Analytics',
+                      "Analytics".tr,
                       AppColors.info,
                       () => Get.to(() => const VendorAnalyticsScreen()),
                     ),
@@ -462,7 +464,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Order #${_shortId(o['id'])}',
+                  "Order #@slot0end".uiTr({
+                    "slot0end": (_shortId(o['id'])).toString(),
+                  }),
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 13,
@@ -470,7 +474,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   ),
                 ),
                 Text(
-                  'PKR ${o['sub_total']}',
+                  "PKR @slot0end".uiTr({
+                    "slot0end": (o['sub_total']).toString(),
+                  }),
                   style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
@@ -489,7 +495,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
     return SafeArea(
       child: Column(
         children: [
-          _tabHeader('Orders', Icons.shopping_bag_rounded),
+          _tabHeader("Orders".tr, Icons.shopping_bag_rounded),
           Obx(
             () => Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
@@ -497,7 +503,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 children: [
                   Expanded(
                     child: _segBtn(
-                      'Active',
+                      "Active".tr,
                       !_showOrderHistory.value,
                       () => _showOrderHistory.value = false,
                     ),
@@ -505,7 +511,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _segBtn(
-                      'History',
+                      "History".tr,
                       _showOrderHistory.value,
                       () => _showOrderHistory.value = true,
                     ),
@@ -535,7 +541,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       ),
                       TextButton(
                         onPressed: () => vendorCtrl.refreshOrders(),
-                        child: const Text('Retry'),
+                        child: Text("Retry".tr),
                       ),
                     ],
                   ),
@@ -569,8 +575,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               : () => vendorCtrl.refreshOrders(loadMore: true),
                           child: Text(
                             vendorCtrl.ordersRefreshing.value
-                                ? 'Loading…'
-                                : 'Load more',
+                                ? "Loading…".tr
+                                : "Load more".tr,
                           ),
                         ),
                 ),
@@ -670,7 +676,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      'Order #${_shortId(o['id'])}',
+                      "Order #@slot0end".uiTr({
+                        "slot0end": (_shortId(o['id'])).toString(),
+                      }),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
@@ -694,7 +702,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   color: AppColors.warning.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
@@ -704,7 +712,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      'EXPRESS — prepare first',
+                      "EXPRESS — prepare first".tr,
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
@@ -802,7 +810,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'PKR ${o['sub_total']}',
+                  "PKR @slot0end".uiTr({
+                    "slot0end": (o['sub_total']).toString(),
+                  }),
                   style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 13,
@@ -839,7 +849,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       children: [
                         Expanded(
                           child: _actionBtn(
-                            'Reject',
+                            "Reject".tr,
                             AppColors.error,
                             false,
                             busy
@@ -857,7 +867,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                         Expanded(
                           flex: 2,
                           child: _actionBtn(
-                            'Accept Order',
+                            "Accept Order".tr,
                             AppColors.primary,
                             true,
                             busy
@@ -891,10 +901,10 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     if (busy) const LinearProgressIndicator(),
                     _actionBtn(
                       busy
-                          ? 'Matching rider…'
+                          ? "Matching rider…".tr
                           : status == 'ready' || status == 'on_the_way'
-                          ? 'Retry Rider Matching'
-                          : 'Mark Ready & Call Rider',
+                          ? "Retry Rider Matching".tr
+                          : "Mark Ready & Call Rider".tr,
                       AppColors.success,
                       true,
                       busy
@@ -903,7 +913,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               final msg = await vendorCtrl
                                   .markReadyAndAssignRider(o);
                               Get.snackbar(
-                                'Rider',
+                                "Rider".tr,
                                 msg,
                                 snackPosition: SnackPosition.BOTTOM,
                               );
@@ -928,7 +938,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
     return SafeArea(
       child: Column(
         children: [
-          _tabHeader('Tailoring Jobs', Icons.dry_cleaning_rounded),
+          _tabHeader("Tailoring Jobs".tr, Icons.dry_cleaning_rounded),
           Expanded(
             child: Obx(
               () => vendorCtrl.tailoringJobs.isEmpty
@@ -995,7 +1005,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      'Job #${_shortId(o['id'])}',
+                      "Job #@slot0end".uiTr({
+                        "slot0end": (_shortId(o['id'])).toString(),
+                      }),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
@@ -1032,7 +1044,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
               const Divider(color: AppColors.divider, height: 1),
               const SizedBox(height: 14),
               _actionBtn(
-                'Mark Ready for Customer',
+                "Mark Ready for Customer".tr,
                 AppColors.catTailoring,
                 true,
                 () => vendorCtrl.updateTailoringStatus(
@@ -1129,8 +1141,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                             color: Colors.white.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Text(
-                            'Vendor Partner',
+                          child: Text(
+                            "Vendor Partner".tr,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -1147,32 +1159,32 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
             const SizedBox(height: 24),
 
-            _profileSection('Store', [
+            _profileSection("Store".tr, [
               _profileTile(
                 Icons.store_outlined,
-                'Store Settings',
+                "Store Settings".tr,
                 AppColors.primary,
                 _openStoreSettings,
               ),
               _profileTile(
                 Icons.payments_outlined,
-                'Payment & Earnings',
+                "Payment & Earnings".tr,
                 AppColors.success,
                 () => Get.to(() => const VendorAnalyticsScreen()),
               ),
               _profileTile(
                 Icons.star_outline,
-                'Reviews & Ratings',
+                "Reviews & Ratings".tr,
                 AppColors.warning,
                 () => Get.to(() => const RatingSummaryScreen()),
               ),
             ]),
             const SizedBox(height: 14),
-            _profileSection('Support', [
+            _profileSection("Support".tr, [
               const LanguageSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
-                'Inbox / Chat',
+                "Inbox / Chat".tr,
                 AppColors.primary,
                 () {
                   Get.to(() => const ChatRoomsScreen());
@@ -1180,7 +1192,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
               ),
               _profileTile(
                 Icons.help_outline_rounded,
-                'Help Center',
+                "Help Center".tr,
                 AppColors.info,
                 () {
                   Get.to(() => const HelpCenterScreen());
@@ -1188,7 +1200,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
               ),
               _profileTile(
                 Icons.settings_outlined,
-                'Account Settings',
+                "Account Settings".tr,
                 AppColors.textHint,
                 () => Get.to(() => const ProfileScreen()),
               ),
@@ -1206,8 +1218,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   color: Colors.white,
                   size: 20,
                 ),
-                label: const Text(
-                  'Sign Out',
+                label: Text(
+                  "Sign Out".tr,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -1249,13 +1261,13 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 ),
               ),
               const SizedBox(height: 14),
-              const Text(
-                'Sign Out?',
+              Text(
+                "Sign Out?".tr,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'You will need to sign in again.',
+              Text(
+                "You will need to sign in again.".tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
               ),
@@ -1273,8 +1285,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: const Text(
-                        'Cancel',
+                      child: Text(
+                        "Cancel".tr,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -1299,8 +1311,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Sign Out',
+                      child: Text(
+                        "Sign Out".tr,
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -76,35 +77,38 @@ class _DeliveryPhotoPanelState extends State<DeliveryPhotoPanel> {
   }
 
   @override
-  Widget build(BuildContext context) => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        children: [
-          const Text('Delivery photo'),
-          if (loading)
-            const LinearProgressIndicator()
-          else if (value != null) ...[
-            if (value!['reference'] == null && value!['can_upload'] != true)
-              const Text('No delivery photo has been recorded.'),
-            PrivatePhotoEditor(
-              key: ValueKey(widget.orderId),
-              orderId: widget.orderId,
-              reference: value!['reference'],
-              canUpload: value!['can_upload'],
-              onSaved: (ref) =>
-                  setState(() => value = {...value!, 'reference': ref}),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Text("Delivery photo".tr),
+            if (loading)
+              const LinearProgressIndicator()
+            else if (value != null) ...[
+              if (value!['reference'] == null && value!['can_upload'] != true)
+                Text("No delivery photo has been recorded.".tr),
+              PrivatePhotoEditor(
+                key: ValueKey(widget.orderId),
+                orderId: widget.orderId,
+                reference: value!['reference'],
+                canUpload: value!['can_upload'],
+                onSaved: (ref) =>
+                    setState(() => value = {...value!, 'reference': ref}),
+              ),
+            ] else
+              Text(error ?? "Photo unavailable.".tr),
+            TextButton(
+              onPressed: loading || client.auth.currentUser?.id != account
+                  ? null
+                  : load,
+              child: Text("Refresh delivery photo".tr),
             ),
-          ] else
-            Text(error ?? 'Photo unavailable.'),
-          TextButton(
-            onPressed: loading || client.auth.currentUser?.id != account
-                ? null
-                : load,
-            child: const Text('Refresh delivery photo'),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

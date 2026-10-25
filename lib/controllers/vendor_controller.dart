@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../services/feedback_service.dart';
 import '../services/rating_watch.dart';
 import 'dart:async';
@@ -257,7 +258,7 @@ class VendorController extends GetxController {
     await refreshOrders();
     if (!isClosed) {
       Get.snackbar(
-        'Order update',
+        "Order update".tr,
         message,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -284,12 +285,19 @@ class VendorController extends GetxController {
           .update({'status': newStatus})
           .eq('id', requestId);
       Get.snackbar(
-        'Success',
-        'Tailoring job marked as $newStatus',
+        "Success".tr,
+        "Tailoring job marked as @slot0end".uiTr({
+          "slot0end": (newStatus).toString(),
+        }),
         snackPosition: SnackPosition.BOTTOM,
       );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update tailoring job: $e');
+      Get.snackbar(
+        "Error".tr,
+        "Failed to update tailoring job: @slot0end".uiTr({
+          "slot0end": (e).toString(),
+        }),
+      );
     }
   }
 }

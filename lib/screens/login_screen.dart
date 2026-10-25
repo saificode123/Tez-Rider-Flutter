@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import '../services/account_session_service.dart';
 import '../services/account_access.dart';
@@ -216,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen>
           _showError('Too many login attempts. Please wait a few minutes.');
           break;
         default:
-          _showError('Sign in failed: ${e.message}');
+          _showError('Sign in could not be confirmed. Retry.');
       }
     } catch (_) {
       _showError('Sign in was not confirmed. Check your connection and Retry.');
@@ -293,10 +294,10 @@ class _LoginScreenState extends State<LoginScreen>
   void _showError(String msg) {
     Get.snackbar(
       '',
-      msg,
+      msg.tr,
       titleText: const SizedBox.shrink(),
       messageText: Text(
-        msg,
+        msg.tr,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 13,
@@ -317,15 +318,15 @@ class _LoginScreenState extends State<LoginScreen>
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'Reset Password',
+        title: Text(
+          "Reset Password".tr,
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Enter your email and we\'ll send you a reset link.',
+            Text(
+              "Enter your email and we'll send you a reset link.".tr,
               style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 16),
@@ -333,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen>
               controller: ctrl,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                hintText: 'your@email.com',
+                hintText: "your@email.com".tr,
                 prefixIcon: const Icon(Icons.email_outlined, size: 20),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -349,8 +350,8 @@ class _LoginScreenState extends State<LoginScreen>
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: const Text(
-              'Cancel',
+            child: Text(
+              "Cancel".tr,
               style: TextStyle(color: AppColors.textSecondary),
             ),
           ),
@@ -364,8 +365,8 @@ class _LoginScreenState extends State<LoginScreen>
                   email,
                 );
                 Get.snackbar(
-                  'Email Sent',
-                  'Check your inbox for the reset link.',
+                  "Email Sent".tr,
+                  "Check your inbox for the reset link.".tr,
                   backgroundColor: AppColors.success,
                   colorText: Colors.white,
                   snackPosition: SnackPosition.BOTTOM,
@@ -378,8 +379,8 @@ class _LoginScreenState extends State<LoginScreen>
                 );
               } catch (_) {
                 Get.snackbar(
-                  'Error',
-                  'Could not send reset email. Check the address.',
+                  "Error".tr,
+                  "Could not send reset email. Check the address.".tr,
                   backgroundColor: AppColors.error,
                   colorText: Colors.white,
                   snackPosition: SnackPosition.BOTTOM,
@@ -395,8 +396,8 @@ class _LoginScreenState extends State<LoginScreen>
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: const Text(
-              'Send Link',
+            child: Text(
+              "Send Link".tr,
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
@@ -415,6 +416,7 @@ class _LoginScreenState extends State<LoginScreen>
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          itemHeight: null,
           value: role.value,
           isExpanded: true,
           icon: Icon(Icons.keyboard_arrow_down_rounded, color: role.color),
@@ -436,10 +438,11 @@ class _LoginScreenState extends State<LoginScreen>
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          r.label,
+                          r.label.tr,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
@@ -447,7 +450,7 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          r.desc,
+                          r.desc.tr,
                           style: const TextStyle(
                             fontSize: 11,
                             color: AppColors.textSecondary,
@@ -471,6 +474,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final size = MediaQuery.of(context).size;
     final role = _currentRole;
     return Scaffold(
@@ -540,8 +544,8 @@ class _LoginScreenState extends State<LoginScreen>
                         child: Icon(role.icon, size: 40, color: Colors.white),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'TEZRIDER',
+                      Text(
+                        "TEZRIDER".tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 26,
@@ -553,7 +557,7 @@ class _LoginScreenState extends State<LoginScreen>
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
                         child: Text(
-                          role.desc,
+                          role.desc.tr,
                           key: ValueKey(role.value),
                           style: TextStyle(
                             color: AppColors.headerText.withValues(alpha: 0.88),
@@ -583,12 +587,12 @@ class _LoginScreenState extends State<LoginScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _sectionLabel('Signing in as'),
+                              _sectionLabel("Signing in as".tr),
                               const SizedBox(height: 10),
                               _buildRoleDropdown(role),
                               const SizedBox(height: 8),
                               Text(
-                                role.desc,
+                                role.desc.tr,
                                 style: const TextStyle(
                                   fontSize: 13,
                                   color: AppColors.textSecondary,
@@ -596,7 +600,7 @@ class _LoginScreenState extends State<LoginScreen>
                               ),
                               const SizedBox(height: 20),
 
-                              _sectionLabel('Email Address'),
+                              _sectionLabel("Email Address".tr),
                               const SizedBox(height: 8),
                               _buildTextField(
                                 controller: _emailCtrl,
@@ -607,7 +611,7 @@ class _LoginScreenState extends State<LoginScreen>
                               ),
                               const SizedBox(height: 16),
 
-                              _sectionLabel('Password'),
+                              _sectionLabel("Password".tr),
                               const SizedBox(height: 8),
                               _buildTextField(
                                 controller: _passCtrl,
@@ -641,8 +645,8 @@ class _LoginScreenState extends State<LoginScreen>
                                       vertical: 8,
                                     ),
                                   ),
-                                  child: const Text(
-                                    'Forgot password?',
+                                  child: Text(
+                                    "Forgot password?".tr,
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
@@ -654,7 +658,9 @@ class _LoginScreenState extends State<LoginScreen>
                               const SizedBox(height: 4),
 
                               _buildPrimaryButton(
-                                label: 'Sign in as ${role.label}',
+                                label: 'Sign in as @slot0end'.uiTr({
+                                  'slot0end': role.label.tr,
+                                }),
                                 roleColor: role.color,
                                 onTap: _loading ? null : _login,
                                 loading: _loading,
@@ -679,8 +685,8 @@ class _LoginScreenState extends State<LoginScreen>
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'Create Account',
+                                  child: Text(
+                                    "Create Account".tr,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w700,

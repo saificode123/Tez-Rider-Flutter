@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -152,9 +153,10 @@ class _MapScreenState extends State<MapScreen> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Your location is unavailable. Check GPS and location permission.',
+              "Your location is unavailable. Check GPS and location permission."
+                  .tr,
             ),
           ),
         );
@@ -184,6 +186,7 @@ class _MapScreenState extends State<MapScreen> {
       );
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     const green = Color(0xFF1B5E20);
     return Scaffold(
       body: _loading
@@ -304,7 +307,16 @@ class _MapScreenState extends State<MapScreen> {
                                 return Text(
                                   state.stale.value
                                       ? unavailableRiderLocation
-                                      : 'Live rider location • accuracy ±${state.position.value!.accuracy.round()} m',
+                                      : "Live rider location • accuracy ±@slot0end m"
+                                            .uiTr({
+                                              "slot0end":
+                                                  (state
+                                                          .position
+                                                          .value!
+                                                          .accuracy
+                                                          .round())
+                                                      .toString(),
+                                            }),
                                   style: const TextStyle(fontSize: 12),
                                 );
                               })
@@ -320,7 +332,7 @@ class _MapScreenState extends State<MapScreen> {
                                         _route!.loading.value &&
                                                 _route!.route.value == null &&
                                                 !_feed!.state.stale.value
-                                            ? 'Calculating ETA…'
+                                            ? "Calculating ETA…".tr
                                             : _route!.label.value,
                                       ),
                                     ),
@@ -339,8 +351,9 @@ class _MapScreenState extends State<MapScreen> {
                                             'https://www.geoapify.com/',
                                           ),
                                         ),
-                                        child: const Text(
-                                          'Powered by Geoapify | © OpenStreetMap contributors',
+                                        child: Text(
+                                          "Powered by Geoapify | © OpenStreetMap contributors"
+                                              .tr,
                                           style: TextStyle(
                                             fontSize: 10,
                                             decoration:
@@ -399,8 +412,12 @@ class _MapScreenState extends State<MapScreen> {
                         Expanded(
                           child: Text(
                             _fare == null
-                                ? 'Live delivery tracking'
-                                : 'Delivery charges: PKR ${_fare!.toStringAsFixed(0)}',
+                                ? "Live delivery tracking".tr
+                                : "Delivery charges: PKR @slot0end".uiTr({
+                                    "slot0end": (_fare!.toStringAsFixed(
+                                      0,
+                                    )).toString(),
+                                  }),
                           ),
                         ),
                         TextButton(
@@ -412,11 +429,11 @@ class _MapScreenState extends State<MapScreen> {
                               unawaited(_route?.refreshRoute(retry: true));
                             }
                           },
-                          child: const Text('Retry'),
+                          child: Text("Retry".tr),
                         ),
                         FilledButton(
                           onPressed: () => Get.back(),
-                          child: const Text('Back'),
+                          child: Text("Back".tr),
                         ),
                       ],
                     ),

@@ -260,6 +260,18 @@ elif action=='verify-cohort14-rider-performance':
  assert 'Performance could not be loaded'not in labels
  n.picture('cohort14-rider-performance')
  record('latest TEST Rider earnings page renders actual stored completion metrics and explicit missing-history information; compensation remains unknown')
+elif action in('cohort19-customer-home','cohort19-customer-track'):
+ labels='\n'.join(n.label(node)for node in n.nodes())
+ if action.endswith('home'):
+  assert 'مصنوعات کی فہرست سے'in labels and 'سب'in labels
+  assert 'From the catalogue'not in labels and '\nAll'not in labels
+  record('final TEST Customer restores Urdu, renders translated catalogue captions and retains actual product names/prices')
+ else:
+  assert 'الگ رائیڈر بکنگ ترتیب نہیں دی گئی'in labels
+  assert 'متوقع وقت دستیاب نہیں'in labels and 'درجہ بندی دستیاب نہیں'in labels
+  assert '4.9'not in labels and '5 min'not in labels
+  record('final TEST deferred booking panel shows Urdu unavailable states without fabricated ETA/rating/verification')
+ n.picture(action)
 elif action=='scan-stage2-changed':
  import subprocess
  protected={n.b.SERVICE,n.b.ANON}
@@ -731,14 +743,14 @@ elif action=='collapse-system-overlay':
 elif action=='role-picker':
  deadline=n.time.monotonic()+25
  while True:
-  choices=[node for node in n.nodes()if node.get('clickable')=='true'and n.label(node).split('\n')[0]in('Customer','Vendor','Rider','Admin')]
+  choices=[node for node in n.nodes()if node.get('clickable')=='true'and n.label(node).split('\n')[0]in('Customer','Vendor','Rider','Admin','گاہک','وینڈر','رائیڈر','ایڈمن')]
   if len(choices)==1:break
   assert n.time.monotonic()<deadline,'Observed login role picker required after completed logout'
   n.time.sleep(.5)
  assert len(choices)==1,'Observed login role picker required';n.tap(choices[0])
 elif action.startswith('choose-role:'):
  role=action.split(':',1)[1];assert role in('customer','vendor','rider','admin')
- choices=[node for node in n.nodes()if node.get('class')=='android.view.MenuItem'and n.label(node).split('\n')[0].lower()==role]
+ choices=[node for node in n.nodes()if node.get('class')=='android.view.MenuItem'and n.label(node).split('\n')[0]in(role.title(),{'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role])]
  assert len(choices)==1,'Observed role menu option required';n.tap(choices[0])
 elif action in('scroll:down','scroll:up'):
  n.nodes()
@@ -748,11 +760,13 @@ elif action.startswith('login:')and action[6:]in('live-vendor','review-customer'
  label=action[6:]
  account=n.accounts[label]if label in('rider','admin')else n.accounts['customer']if label=='other-customer'else state['accounts'][label]
  role=label if label in('rider','admin')else'customer'if label in('review-customer','other-customer')else'vendor'
- assert any(n.label(node)=='Sign in as '+role.title()for node in n.nodes())
+ labels=('Sign in as '+role.title(), {'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role]+' کے طور پر سائن ان کریں')
+ assert any(n.label(node)in labels for node in n.nodes())
  for index,value in enumerate([account['email'],account['password']]):
   fields=[node for node in n.nodes()if node.get('class')=='android.widget.EditText'];assert len(fields)==2
   fill(fields[index],value)
- n.click('Sign in as '+role.title());n.time.sleep(4)
+ observed=[n.label(node)for node in n.nodes()if n.label(node)in labels];assert len(observed)==1
+ n.click(observed[0]);n.time.sleep(4)
 elif action=='signup-email-fill':
  assert any(n.label(node)=='Shop / Store Name'for node in n.nodes()),'Observed Vendor signup required'
  if 'email-vendor'not in state['accounts']:

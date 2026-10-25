@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:get/get.dart';
@@ -244,9 +245,14 @@ class AdminController extends GetxController
         }
         throw StateError('Unsupported administrative action');
       }
-      Get.snackbar('Success', 'Status updated to $newStatus');
+      Get.snackbar(
+        "Success".tr,
+        "Status updated to @slot0end".uiTr({
+          "slot0end": (newStatus).toString(),
+        }),
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update status');
+      Get.snackbar("Error".tr, "Failed to update status".tr);
     } finally {
       if (!isClosed) reviewing.value = null;
     }

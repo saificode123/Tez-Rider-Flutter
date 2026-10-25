@@ -13,60 +13,69 @@ class PreDeliveryChecklistCard extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onStart;
   @override
-  Widget build(BuildContext context) => Obx(
-    () => Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          'Pickup checklist',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        if (flow.busy.value) const LinearProgressIndicator(),
-        if (flow.error.value != null) ...[
-          Text(flow.error.value!, key: const Key('checklist-error')),
-          TextButton(
-            onPressed: flow.busy.value ? null : flow.refresh,
-            child: const Text('Retry checklist'),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            "Pickup checklist".tr,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-        ],
-        if (flow.completed.value)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12),
-            child: Text('Checklist completed', key: Key('checklist-completed')),
-          )
-        else
-          for (final item in flow.items)
-            CheckboxListTile(
-              key: ValueKey('checklist-${item['id']}'),
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(item['label'] as String),
-              value: flow.selected.contains(item['id']),
-              onChanged: flow.busy.value
-                  ? null
-                  : (value) => flow.choose(item['id'] as String, value == true),
+          if (flow.busy.value) const LinearProgressIndicator(),
+          if (flow.error.value != null) ...[
+            Text(flow.error.value!.tr, key: const Key('checklist-error')),
+            TextButton(
+              onPressed: flow.busy.value ? null : flow.refresh,
+              child: Text("Retry checklist".tr),
             ),
-        if (flow.loaded.value && flow.orderStatus.value != 'ready')
-          const Text('Waiting for every vendor to be ready for pickup.'),
-        if (flow.assignmentStatus.value == 'Pending' &&
-            flow.orderStatus.value == 'ready')
+          ],
+          if (flow.completed.value)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                "Checklist completed".tr,
+                key: Key('checklist-completed'),
+              ),
+            )
+          else
+            for (final item in flow.items)
+              CheckboxListTile(
+                key: ValueKey('checklist-${item['id']}'),
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text((item['label'] as String).tr),
+                value: flow.selected.contains(item['id']),
+                onChanged: flow.busy.value
+                    ? null
+                    : (value) =>
+                          flow.choose(item['id'] as String, value == true),
+              ),
+          if (flow.loaded.value && flow.orderStatus.value != 'ready')
+            Text("Waiting for every vendor to be ready for pickup.".tr),
+          if (flow.assignmentStatus.value == 'Pending' &&
+              flow.orderStatus.value == 'ready')
+            FilledButton(
+              onPressed: flow.busy.value ? null : onAccept,
+              child: Text("Accept pickup".tr),
+            ),
+          if (!flow.completed.value)
+            FilledButton(
+              key: const Key('checklist-submit'),
+              onPressed: flow.canSubmit ? flow.submit : null,
+              child: Text(
+                flow.busy.value ? "Confirming…".tr : "Submit checklist".tr,
+              ),
+            ),
           FilledButton(
-            onPressed: flow.busy.value ? null : onAccept,
-            child: const Text('Accept pickup'),
+            key: const Key('checklist-start'),
+            onPressed: flow.canStart ? onStart : null,
+            child: Text("Start Delivery".tr),
           ),
-        if (!flow.completed.value)
-          FilledButton(
-            key: const Key('checklist-submit'),
-            onPressed: flow.canSubmit ? flow.submit : null,
-            child: Text(flow.busy.value ? 'Confirming…' : 'Submit checklist'),
-          ),
-        FilledButton(
-          key: const Key('checklist-start'),
-          onPressed: flow.canStart ? onStart : null,
-          child: const Text('Start Delivery'),
-        ),
-        const SizedBox(height: 12),
-      ],
-    ),
-  );
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
 }

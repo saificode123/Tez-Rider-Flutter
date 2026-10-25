@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/stock_adjustment_dialog.dart';
@@ -94,7 +95,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
     final rows = await InventoryApi.read([(product['id'] as num).toInt()]);
     if (!mounted) return;
     if (rows.length != 1) {
-      Get.snackbar('Inventory', 'This product is no longer available.');
+      Get.snackbar("Inventory".tr, "This product is no longer available.".tr);
       return;
     }
     await showDialog<void>(
@@ -117,8 +118,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
       await _loadProducts();
     } catch (_) {
       Get.snackbar(
-        'Availability not confirmed',
-        'Refresh your inventory and retry when connected.',
+        "Availability not confirmed".tr,
+        "Refresh your inventory and retry when connected.".tr,
       );
     }
   }
@@ -153,8 +154,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
       if (!mounted) return;
       setState(() => _products.removeWhere((row) => row['id'] == id));
       Get.snackbar(
-        'Deleted',
-        '"${p['name']}" removed.',
+        "Deleted".tr,
+        "\"@slot0end\" removed.".uiTr({"slot0end": (p['name']).toString()}),
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -162,10 +163,11 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
     } catch (e) {
       if (mounted) {
         Get.snackbar(
-          'Deletion not confirmed',
+          "Deletion not confirmed".tr,
           e is StateError
               ? e.message.toString()
-              : 'Access or connectivity changed. Refresh your inventory and retry.',
+              : "Access or connectivity changed. Refresh your inventory and retry."
+                    .tr,
         );
       }
     } finally {
@@ -183,6 +185,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
@@ -196,8 +199,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'My Products',
+        title: Text(
+          "My Products".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -215,8 +218,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
         backgroundColor: _kPurple,
         onPressed: () => _openForm(),
         icon: const Icon(Icons.add_rounded, color: Colors.white),
-        label: const Text(
-          'Add Product',
+        label: Text(
+          "Add Product".tr,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),
@@ -230,10 +233,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(_loadError!),
-                  TextButton(
-                    onPressed: _loadProducts,
-                    child: const Text('Retry'),
-                  ),
+                  TextButton(onPressed: _loadProducts, child: Text("Retry".tr)),
                 ],
               ),
             )
@@ -244,8 +244,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                 children: [
                   const Text('📦', style: TextStyle(fontSize: 64)),
                   const SizedBox(height: 16),
-                  const Text(
-                    'No products yet',
+                  Text(
+                    "No products yet".tr,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
@@ -253,8 +253,8 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Tap + to add your first product.',
+                  Text(
+                    "Tap + to add your first product.".tr,
                     style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                 ],
@@ -271,7 +271,9 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                         onPressed: _loadingMore
                             ? null
                             : () => _loadProducts(more: true),
-                        child: Text(_loadingMore ? 'Loading…' : 'Load more'),
+                        child: Text(
+                          _loadingMore ? "Loading…".tr : "Load more".tr,
+                        ),
                       )
                     : _buildCard(_products[i]),
               ),
@@ -333,7 +335,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                   const SizedBox(height: 3),
                   StockIndicator(product: p, vendor: true),
                   Text(
-                    'PKR ${p['price']}',
+                    "PKR @slot0end".uiTr({"slot0end": (p['price']).toString()}),
                     style: const TextStyle(
                       color: _kPurple,
                       fontWeight: FontWeight.w700,
@@ -367,15 +369,16 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                tooltip: 'Adjust stock',
+                tooltip: "Adjust stock".tr,
                 icon: const Icon(Icons.inventory_2_outlined),
                 onPressed: () async {
                   try {
                     await _adjustStock(p);
                   } catch (_) {
                     Get.snackbar(
-                      'Inventory',
-                      'Could not refresh this product. Retry when connected.',
+                      "Inventory".tr,
+                      "Could not refresh this product. Retry when connected."
+                          .tr,
                     );
                   }
                 },
@@ -422,25 +425,27 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              title: const Text(
-                                'Delete?',
+                              title: Text(
+                                "Delete?".tr,
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
                               content: Text(
-                                'Remove "${p['name']}" permanently?',
+                                "Remove \"@slot0end\" permanently?".uiTr({
+                                  "slot0end": (p['name']).toString(),
+                                }),
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text('Cancel'),
+                                  child: Text("Cancel".tr),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                     _delete(p);
                                   },
-                                  child: const Text(
-                                    'Delete',
+                                  child: Text(
+                                    "Delete".tr,
                                     style: TextStyle(
                                       color: Colors.redAccent,
                                       fontWeight: FontWeight.w700,

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import '../../widgets/order_timeout_summary.dart';
 import 'order_detail_screen.dart';
@@ -130,6 +131,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
@@ -143,8 +145,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Order History',
+        title: Text(
+          "Order History".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -175,7 +177,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     Text(_error!),
                     TextButton(
                       onPressed: () => _loadOrders(),
-                      child: const Text('Retry'),
+                      child: Text("Retry".tr),
                     ),
                   ],
                 ),
@@ -192,7 +194,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     if (i == _orders.length) {
                       return TextButton(
                         onPressed: () => _loadOrders(more: true),
-                        child: const Text("Load more orders"),
+                        child: Text("Load more orders".tr),
                       );
                     }
                     final animation = _itemAnimation(i);
@@ -224,8 +226,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             height: 220,
           ),
           const SizedBox(height: 12),
-          const Text(
-            'No orders yet',
+          Text(
+            "No orders yet".tr,
             style: TextStyle(
               color: _kText,
               fontSize: 22,
@@ -233,8 +235,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Your order history will appear here.',
+          Text(
+            "Your order history will appear here.".tr,
             style: TextStyle(color: _kTextSub, fontSize: 14),
           ),
         ],
@@ -307,7 +309,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Order #$id',
+                        "Order #@slot0end".uiTr({"slot0end": (id).toString()}),
                         style: const TextStyle(
                           color: _kText,
                           fontWeight: FontWeight.w800,
@@ -316,7 +318,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'PKR $amount  •  $dateStr',
+                        "PKR @slot0end  •  @slot1end".uiTr({
+                          "slot0end": (amount).toString(),
+                          "slot1end": (dateStr).toString(),
+                        }),
                         style: TextStyle(color: _kTextSub, fontSize: 12),
                       ),
                       OrderTimeoutSummary(order: order),
@@ -336,19 +341,19 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                   onPressed: () => Get.to(
                     () => OrderDetailScreen(orderId: order['id'] as int),
                   ),
-                  child: const Text('Order details'),
+                  child: Text("Order details".tr),
                 ),
                 InvoiceButton(orderId: order['id'] as int),
                 TextButton(
                   onPressed: () =>
                       showOrderPayment(context, order['id'] as int),
-                  child: const Text('Payment / refunds'),
+                  child: Text("Payment / refunds".tr),
                 ),
                 if (status == 'on_the_way')
                   TextButton(
                     onPressed: () =>
                         Get.to(() => MapScreen(orderId: order['id'] as int)),
-                    child: const Text('Track location'),
+                    child: Text("Track location".tr),
                   ),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -375,7 +380,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     onPressed: () => Get.to(
                       () => DisputeScreen(orderId: order['id'] as int),
                     ),
-                    child: const Text('Dispute'),
+                    child: Text("Dispute".tr),
                   ),
                 if (status == 'delivered') ...[
                   GestureDetector(
@@ -390,13 +395,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                         color: _kSaffron.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.star_rounded, color: _kSaffron, size: 12),
                           SizedBox(width: 3),
                           Text(
-                            'Rate',
+                            "Rate".tr,
                             style: TextStyle(
                               color: _kSaffron,
                               fontSize: 10,

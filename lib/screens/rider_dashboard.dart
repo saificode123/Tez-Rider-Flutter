@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/rider_performance_panel.dart';
 import '../widgets/delivery_photo_panel.dart';
 import 'customer/profile_screen.dart';
@@ -50,7 +51,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
         message,
         TextButton(
           onPressed: riderCtrl.location.openSettings,
-          child: const Text('Location settings'),
+          child: Text("Location settings".tr),
         ),
       ],
     );
@@ -68,8 +69,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           Get.snackbar(
-            'Welcome back! 🏍️',
-            'Ready to hit the road?',
+            "Welcome back! 🏍️".tr,
+            "Ready to hit the road?".tr,
             duration: const Duration(seconds: 2),
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.white,
@@ -124,8 +125,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
           Get.back();
           setState(() => _tab = 0);
           Get.snackbar(
-            'Delivery Complete!',
-            'Order successfully delivered.',
+            "Delivery Complete!".tr,
+            "Order successfully delivered.".tr,
             backgroundColor: AppColors.success,
             colorText: Colors.white,
             snackPosition: SnackPosition.TOP,
@@ -147,6 +148,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     // Subscribe this route to locale changes as Get translation lookups are global.
     Localizations.localeOf(context);
     return Scaffold(
@@ -182,20 +184,20 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 0,
                 Icons.dashboard_rounded,
                 Icons.dashboard_outlined,
-                'Home',
+                "Home".tr,
               ),
-              _navItem(1, Icons.map_rounded, Icons.map_outlined, 'Map'),
+              _navItem(1, Icons.map_rounded, Icons.map_outlined, "Map".tr),
               _navItem(
                 2,
                 Icons.account_balance_wallet_rounded,
                 Icons.account_balance_wallet_outlined,
-                'Earnings',
+                "Earnings".tr,
               ),
               _navItem(
                 3,
                 Icons.person_rounded,
                 Icons.person_outline_rounded,
-                'Profile',
+                "Profile".tr,
               ),
             ],
           ),
@@ -265,7 +267,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               actions: [
                 IconButton(
-                  tooltip: 'Notifications',
+                  tooltip: "Notifications".tr,
                   onPressed: () => Get.to(() => NotificationsScreen()),
                   icon: const Icon(Icons.notifications_outlined),
                 ),
@@ -299,7 +301,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              riderCtrl.isOnline.value ? 'Online' : 'Offline',
+                              riderCtrl.isOnline.value
+                                  ? "Online".tr
+                                  : "Offline".tr,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,
@@ -339,7 +343,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     onPressed: riderCtrl.presenceBusy.value
                         ? null
                         : riderCtrl.restoreOnlineStatus,
-                    child: const Text('Retry'),
+                    child: Text("Retry".tr),
                   ),
                 ),
               ),
@@ -363,7 +367,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     onPressed: riderCtrl.requestsLoading.value
                         ? null
                         : riderCtrl.retryRequests,
-                    child: const Text('Retry'),
+                    child: Text("Retry".tr),
                   ),
                 ),
               ),
@@ -407,12 +411,12 @@ class _RiderDashboardState extends State<RiderDashboard> {
                             ),
                           ),
                           const SizedBox(width: 16),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Active Delivery',
+                                  "Active Delivery".tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w800,
@@ -421,7 +425,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  'Tap to view map & complete',
+                                  "Tap to view map & complete".tr,
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12,
@@ -454,8 +458,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 14),
                 child: Row(
                   children: [
-                    const Text(
-                      'Available Requests',
+                    Text(
+                      "Available Requests".tr,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -474,7 +478,12 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       ),
                       child: Obx(
                         () => Text(
-                          '${riderCtrl.availableOrders.length + riderCtrl.availableTailoring.length} new',
+                          "@slot0end new".uiTr({
+                            "slot0end":
+                                (riderCtrl.availableOrders.length +
+                                        riderCtrl.availableTailoring.length)
+                                    .toString(),
+                          }),
                           style: const TextStyle(
                             color: AppColors.primary,
                             fontSize: 11,
@@ -508,8 +517,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'You are offline',
+                      Text(
+                        "You are offline".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -517,8 +526,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      const Text(
-                        'Toggle the switch to go online',
+                      Text(
+                        "Toggle the switch to go online".tr,
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 13,
@@ -549,8 +558,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Searching for orders...',
+                      Text(
+                        "Searching for orders...".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -558,8 +567,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      const Text(
-                        'New requests will appear here',
+                      Text(
+                        "New requests will appear here".tr,
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 13,
@@ -585,7 +594,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         onPressed: riderCtrl.requestsLoading.value
                             ? null
                             : riderCtrl.loadMoreRequests,
-                        child: const Text('Load more'),
+                        child: Text("Load more".tr),
                       ),
                   ]),
                 ),
@@ -639,7 +648,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Order #${_shortId(o['id'])}',
+                        "Order #@slot0end".uiTr({
+                          "slot0end": (_shortId(o['id'])).toString(),
+                        }),
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
@@ -658,7 +669,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   ),
                 ),
                 Text(
-                  'PKR ${o['amount'] ?? 0}',
+                  "PKR @slot0end".uiTr({
+                    "slot0end": (o['amount'] ?? 0).toString(),
+                  }),
                   style: const TextStyle(
                     fontWeight: FontWeight.w900,
                     color: AppColors.primary,
@@ -706,8 +719,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   minimumSize: Size.zero,
                   padding: EdgeInsets.zero,
                 ),
-                child: const Text(
-                  'Accept Order',
+                child: Text(
+                  "Accept Order".tr,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                 ),
               ),
@@ -763,7 +776,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tailoring #${_shortId(o['id'])}',
+                        "Tailoring #@slot0end".uiTr({
+                          "slot0end": (_shortId(o['id'])).toString(),
+                        }),
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
@@ -801,8 +816,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   Expanded(
                     child: Text(
                       isToCustomer
-                          ? 'Deliver stitched clothes to customer'
-                          : 'Pickup unstitched clothes from customer',
+                          ? "Deliver stitched clothes to customer".tr
+                          : "Pickup unstitched clothes from customer".tr,
                       style: const TextStyle(
                         color: AppColors.catTailoring,
                         fontSize: 12,
@@ -829,8 +844,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   minimumSize: Size.zero,
                   padding: EdgeInsets.zero,
                 ),
-                child: const Text(
-                  'Accept Job',
+                child: Text(
+                  "Accept Job".tr,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                 ),
               ),
@@ -865,8 +880,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'No Active Delivery',
+                Text(
+                  "No Active Delivery".tr,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
@@ -874,8 +889,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Accept an order to see the route on the map.',
+                Text(
+                  "Accept an order to see the route on the map.".tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppColors.textSecondary,
@@ -897,8 +912,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     ),
                     elevation: 0,
                   ),
-                  child: const Text(
-                    'Find Orders',
+                  child: Text(
+                    "Find Orders".tr,
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -1024,8 +1039,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                       if (order['type'] == 'order' &&
                           order['order_status'] == 'on_the_way') ...[
-                        const Text(
-                          'Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below.',
+                        Text(
+                          "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below."
+                              .tr,
                         ),
                         const SizedBox(height: 8),
                         _locationStatus(),
@@ -1037,8 +1053,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                               : riderCtrl.shareDeliveryLocation,
                           child: Text(
                             riderCtrl.location.sharing.value
-                                ? 'Stop sharing location'
-                                : 'Share delivery location',
+                                ? "Stop sharing location".tr
+                                : "Share delivery location".tr,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -1071,8 +1087,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                               children: [
                                 Text(
                                   order['type'] == 'tailoring'
-                                      ? 'Tailoring Pickup/Dropoff'
-                                      : 'Delivering to',
+                                      ? "Tailoring Pickup/Dropoff".tr
+                                      : "Delivering to".tr,
                                   style: const TextStyle(
                                     color: AppColors.textSecondary,
                                     fontSize: 12,
@@ -1081,7 +1097,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                                 const SizedBox(height: 3),
                                 Text(
                                   order['delivery_address'] ??
-                                      'Customer Location',
+                                      "Customer Location".tr,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 15,
@@ -1113,8 +1129,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                                   } catch (_) {}
                                 } else {
                                   Get.snackbar(
-                                    'Contact',
-                                    'Customer number not available.',
+                                    "Contact".tr,
+                                    "Customer number not available.".tr,
                                     snackPosition: SnackPosition.BOTTOM,
                                     backgroundColor: AppColors.bgSection,
                                     colorText: AppColors.textPrimary,
@@ -1129,7 +1145,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                                 }
                               },
                               icon: const Icon(Icons.call_rounded, size: 18),
-                              label: const Text('Call'),
+                              label: Text("Call".tr),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: AppColors.success,
                                 side: const BorderSide(
@@ -1170,8 +1186,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                               ),
                               child: Text(
                                 order['type'] == 'tailoring'
-                                    ? 'Complete Step'
-                                    : 'Arrived',
+                                    ? "Complete Step".tr
+                                    : "Arrived".tr,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
@@ -1239,7 +1255,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Earned delivery fees',
+                          "Earned delivery fees".tr,
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.70),
                             fontSize: 13,
@@ -1255,8 +1271,9 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          'Fee policy pending approval. Order totals are not Rider earnings.',
+                        Text(
+                          "Fee policy pending approval. Order totals are not Rider earnings."
+                              .tr,
                           style: TextStyle(color: Colors.white70),
                         ),
                         const SizedBox(height: 22),
@@ -1266,17 +1283,17 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             _earningsStat(
-                              'Trips Today',
+                              "Trips Today".tr,
                               riderCtrl.tripsToday.value.toString(),
                             ),
                             _dividerLine(),
                             _earningsStat(
-                              'All Time',
+                              "All Time".tr,
                               riderCtrl.totalDeliveries.value.toString(),
                             ),
                             _dividerLine(),
                             _earningsStat(
-                              'This Week',
+                              "This Week".tr,
                               riderCtrl.weeklyEarnings.value.replaceFirst(
                                 'PKR ',
                                 'PKR\n',
@@ -1293,14 +1310,14 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   Row(
                     children: [
                       _earningsCard(
-                        'Weekly',
+                        "Weekly".tr,
                         riderCtrl.weeklyEarnings.value,
                         Icons.calendar_view_week_rounded,
                         AppColors.info,
                       ),
                       const SizedBox(width: 12),
                       _earningsCard(
-                        'Monthly',
+                        "Monthly".tr,
                         riderCtrl.monthlyEarnings.value,
                         Icons.calendar_month_rounded,
                         AppColors.catTailoring,
@@ -1340,8 +1357,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                               ),
                             ),
                             const SizedBox(height: 14),
-                            const Text(
-                              'No deliveries yet',
+                            Text(
+                              "No deliveries yet".tr,
                               style: TextStyle(
                                 color: AppColors.textSecondary,
                                 fontSize: 14,
@@ -1355,10 +1372,10 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(bottom: 12),
                           child: Text(
-                            'Recent Deliveries',
+                            "Recent Deliveries".tr,
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w800,
@@ -1501,8 +1518,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'TezRider Partner',
+                        Text(
+                          "TezRider Partner".tr,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -1546,8 +1563,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                                 const SizedBox(width: 6),
                                 Text(
                                   riderCtrl.isOnline.value
-                                      ? 'Online'
-                                      : 'Offline',
+                                      ? "Online".tr
+                                      : "Offline".tr,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 11,
@@ -1567,15 +1584,15 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
             const SizedBox(height: 24),
 
-            _profileSection('Rider Details', [
+            _profileSection("Rider Details".tr, [
               _profileTile(
                 Icons.directions_bike_rounded,
-                'Vehicle Details',
+                "Vehicle Details".tr,
                 AppColors.primary,
                 () {
                   Get.snackbar(
-                    'Coming Soon',
-                    'Vehicle details will be available in a future update.',
+                    "Coming Soon".tr,
+                    "Vehicle details will be available in a future update.".tr,
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: AppColors.bgSection,
                     colorText: AppColors.textPrimary,
@@ -1586,12 +1603,12 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               _profileTile(
                 Icons.account_balance_rounded,
-                'Bank Information',
+                "Bank Information".tr,
                 AppColors.success,
                 () {
                   Get.snackbar(
-                    'Coming Soon',
-                    'Bank information will be available in a future update.',
+                    "Coming Soon".tr,
+                    "Bank information will be available in a future update.".tr,
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: AppColors.bgSection,
                     colorText: AppColors.textPrimary,
@@ -1602,17 +1619,17 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               _profileTile(
                 Icons.star_outline_rounded,
-                'Ratings & Reviews',
+                "Ratings & Reviews".tr,
                 AppColors.warning,
                 () => Get.to(() => const RatingSummaryScreen()),
               ),
             ]),
             const SizedBox(height: 14),
-            _profileSection('Support', [
+            _profileSection("Support".tr, [
               const LanguageSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
-                'Inbox / Chat',
+                "Inbox / Chat".tr,
                 AppColors.primary,
                 () {
                   Get.to(() => const ChatRoomsScreen());
@@ -1620,7 +1637,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               _profileTile(
                 Icons.help_outline_rounded,
-                'Help & Support',
+                "Help & Support".tr,
                 AppColors.info,
                 () {
                   Get.to(() => const HelpCenterScreen());
@@ -1628,7 +1645,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               _profileTile(
                 Icons.settings_outlined,
-                'Settings',
+                "Settings".tr,
                 AppColors.textHint,
                 () => Get.to(() => const ProfileScreen()),
               ),
@@ -1646,8 +1663,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   color: Colors.white,
                   size: 20,
                 ),
-                label: const Text(
-                  'Log Out',
+                label: Text(
+                  "Log Out".tr,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -1689,13 +1706,13 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 ),
               ),
               const SizedBox(height: 14),
-              const Text(
-                'Log Out?',
+              Text(
+                "Log Out?".tr,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'You will need to sign in again.',
+              Text(
+                "You will need to sign in again.".tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
               ),
@@ -1713,8 +1730,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: const Text(
-                        'Cancel',
+                      child: Text(
+                        "Cancel".tr,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -1739,8 +1756,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Log Out',
+                      child: Text(
+                        "Log Out".tr,
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
@@ -1869,6 +1886,7 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     if (_loading) {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 24),
@@ -1893,9 +1911,9 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
             ),
           ],
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            'No completed deliveries yet.',
+            "No completed deliveries yet.".tr,
             style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
           ),
         ),
@@ -1947,7 +1965,7 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Order #$id',
+                      "Order #@slot0end".uiTr({"slot0end": (id).toString()}),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
@@ -1971,7 +1989,9 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'Order total: PKR $amount',
+                    "Order total: PKR @slot0end".uiTr({
+                      "slot0end": (amount).toString(),
+                    }),
                     style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       color: AppColors.primary,
@@ -1993,7 +2013,7 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
                         orderId,
                         allowCollection: true,
                       ),
-                      child: const Text('Cash receipt'),
+                      child: Text("Cash receipt".tr),
                     ),
                 ],
               ),
@@ -2045,6 +2065,7 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final flow = widget.riderCtrl.deliveryOtp;
     return Padding(
       padding: EdgeInsets.only(
@@ -2062,25 +2083,32 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Email delivery verification',
+                Text(
+                  "Email delivery verification".tr,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Ask the customer for the six-digit code from their registered email when handing over the order.',
+                Text(
+                  "Ask the customer for the six-digit code from their registered email when handing over the order."
+                      .tr,
                 ),
                 if (flow.status['masked_email'] is String)
                   Text(flow.status['masked_email'] as String),
                 const SizedBox(height: 12),
                 Text(flow.message),
                 if (flow.remainingAttempts != null)
-                  Text('Attempts remaining: ${flow.remainingAttempts}'),
+                  Text(
+                    "Attempts remaining: @slot0end".uiTr({
+                      "slot0end": (flow.remainingAttempts).toString(),
+                    }),
+                  ),
                 if (flow.status['expires_at'] != null)
                   Text(
                     flow.active
-                        ? 'Code expires: ${flow.status['expires_at']}'
-                        : 'Code is not currently active.',
+                        ? "Code expires: @slot0end".uiTr({
+                            "slot0end": (flow.status['expires_at']).toString(),
+                          })
+                        : "Code is not currently active.".tr,
                   ),
                 const SizedBox(height: 16),
                 TextField(
@@ -2094,8 +2122,8 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                     LengthLimitingTextInputFormatter(6),
                   ],
                   maxLength: 6,
-                  decoration: const InputDecoration(
-                    labelText: 'Six-digit delivery code',
+                  decoration: InputDecoration(
+                    labelText: "Six-digit delivery code".tr,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -2104,13 +2132,13 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                   onPressed: flow.busy.value ? null : verify,
                   child: Text(
                     flow.uncertainVerification.value
-                        ? 'Retry unchanged verification'
-                        : 'Confirm Delivery',
+                        ? "Retry unchanged verification".tr
+                        : "Confirm Delivery".tr,
                   ),
                 ),
                 OutlinedButton(
                   onPressed: flow.busy.value ? null : () => flow.requestEmail(),
-                  child: const Text('Retry email request'),
+                  child: Text("Retry email request".tr),
                 ),
                 OutlinedButton(
                   onPressed:
@@ -2121,15 +2149,17 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                       : () => flow.requestEmail(newCode: true),
                   child: Text(
                     flow.cooldownSeconds > 0
-                        ? 'Resend in ${flow.cooldownSeconds}s'
-                        : 'Request a new code',
+                        ? "Resend in @slot0ends".uiTr({
+                            "slot0end": (flow.cooldownSeconds).toString(),
+                          })
+                        : "Request a new code".tr,
                   ),
                 ),
                 if (flow.busy.value)
                   const Center(child: CircularProgressIndicator()),
                 TextButton(
                   onPressed: flow.busy.value ? null : () => flow.refresh(),
-                  child: const Text('Refresh server status'),
+                  child: Text("Refresh server status".tr),
                 ),
               ],
             ),

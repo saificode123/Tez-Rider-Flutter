@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/feedback_service.dart';
@@ -61,45 +63,52 @@ class _RatingSummaryScreenState extends State<RatingSummaryScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Ratings & reviews'),
-      actions: [IconButton(onPressed: load, icon: const Icon(Icons.refresh))],
-    ),
-    body: error != null
-        ? Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Ratings & reviews".tr),
+        actions: [IconButton(onPressed: load, icon: const Icon(Icons.refresh))],
+      ),
+      body: error != null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(error!, textAlign: TextAlign.center),
+                  TextButton(onPressed: load, child: Text("Retry".tr)),
+                ],
+              ),
+            )
+          : summary == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(20),
               children: [
-                Text(error!, textAlign: TextAlign.center),
-                TextButton(onPressed: load, child: const Text('Retry')),
-              ],
-            ),
-          )
-        : summary == null
-        ? const Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text(
-                summary!['count'] == 0
-                    ? 'No verified ratings yet'
-                    : '${summary!['average']} / 5 · ${summary!['count']} verified ratings',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const Text(
-                'Feedback from completed deliveries. Most recent 10 reviews.',
-              ),
-              for (final row in summary!['recent'])
-                Card(
-                  child: ListTile(
-                    title: Text('${row['rating']} / 5'),
-                    subtitle: Text(
-                      '${row['comment'] ?? ''}\n${row['created_at']}',
+                Text(
+                  summary!['count'] == 0
+                      ? "No verified ratings yet".tr
+                      : "@slot0end / 5 · @slot1end verified ratings".uiTr({
+                          "slot0end": (summary!['average']).toString(),
+                          "slot1end": (summary!['count']).toString(),
+                        }),
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  "Feedback from completed deliveries. Most recent 10 reviews."
+                      .tr,
+                ),
+                for (final row in summary!['recent'])
+                  Card(
+                    child: ListTile(
+                      title: Text('${row['rating']} / 5'),
+                      subtitle: Text(
+                        '${row['comment'] ?? ''}\n${row['created_at']}',
+                      ),
                     ),
                   ),
-                ),
-            ],
-          ),
-  );
+              ],
+            ),
+    );
+  }
 }

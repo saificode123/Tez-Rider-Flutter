@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -129,55 +130,60 @@ class _PrivatePhotoEditorState extends State<PrivatePhotoEditor> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      if (reference != null)
-        PrivatePhoto(
-          key: ValueKey(reference),
-          imageUrl: reference!,
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-          service: service,
-          accountChanges: widget.accountChanges,
-        ),
-      if (notice != null) Semantics(liveRegion: true, child: Text(notice!)),
-      if (error != null) Text(error!),
-      if (busy) const LinearProgressIndicator(),
-      if (widget.canUpload && !changed)
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            TextButton.icon(
-              onPressed: busy || pending != null
-                  ? null
-                  : () => submit(ImageSource.gallery),
-              icon: const Icon(Icons.photo_library),
-              label: Text(
-                widget.orderId == null
-                    ? 'Choose profile photo'
-                    : 'Choose delivery photo',
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (reference != null)
+          PrivatePhoto(
+            key: ValueKey(reference),
+            imageUrl: reference!,
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+            service: service,
+            accountChanges: widget.accountChanges,
+          ),
+        if (notice != null)
+          Semantics(liveRegion: true, child: Text(notice!.tr)),
+        if (error != null) Text(error!.tr),
+        if (busy) const LinearProgressIndicator(),
+        if (widget.canUpload && !changed)
+          Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              TextButton.icon(
+                onPressed: busy || pending != null
+                    ? null
+                    : () => submit(ImageSource.gallery),
+                icon: const Icon(Icons.photo_library),
+                label: Text(
+                  widget.orderId == null
+                      ? "Choose profile photo".tr
+                      : "Choose delivery photo".tr,
+                ),
               ),
-            ),
-            TextButton.icon(
-              onPressed: busy || pending != null
-                  ? null
-                  : () => submit(ImageSource.camera),
-              icon: const Icon(Icons.camera_alt),
-              label: const Text('Camera'),
-            ),
-            if (pending != null)
-              TextButton(
-                onPressed: busy ? null : submit,
-                child: const Text('Retry original photo'),
+              TextButton.icon(
+                onPressed: busy || pending != null
+                    ? null
+                    : () => submit(ImageSource.camera),
+                icon: const Icon(Icons.camera_alt),
+                label: Text("Camera".tr),
               ),
-          ],
-        ),
-      if (widget.orderId != null)
-        const Text(
-          'A photo does not complete delivery. Checklist and OTP verification still apply.',
-        ),
-    ],
-  );
+              if (pending != null)
+                TextButton(
+                  onPressed: busy ? null : submit,
+                  child: Text("Retry original photo".tr),
+                ),
+            ],
+          ),
+        if (widget.orderId != null)
+          Text(
+            "A photo does not complete delivery. Checklist and OTP verification still apply."
+                .tr,
+          ),
+      ],
+    );
+  }
 }

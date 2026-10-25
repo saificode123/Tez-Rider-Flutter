@@ -160,6 +160,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -296,7 +297,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Column(
                       children: [
                         Text(
-                          'TEZRIDER',
+                          "TEZRIDER".tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 38,
@@ -326,7 +327,7 @@ class _SplashScreenState extends State<SplashScreen>
                             color: Colors.white.withValues(alpha: 0.07),
                           ),
                           child: Text(
-                            'Delivering Excellence, Every Time',
+                            "Delivering Excellence, Every Time".tr,
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.8),
                               fontSize: 13,
@@ -407,6 +408,7 @@ class _LoadingDotsState extends State<_LoadingDots>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(

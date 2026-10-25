@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import '../../services/product_image_service.dart';
 import '../../widgets/product_image.dart';
@@ -151,8 +152,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     } catch (_) {
       if (mounted) {
         Get.snackbar(
-          'Image not selected',
-          'Allow photo access or choose another image, then retry.',
+          "Image not selected".tr,
+          "Allow photo access or choose another image, then retry.".tr,
         );
       }
     }
@@ -175,8 +176,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         stock == null ||
         threshold == null) {
       Get.snackbar(
-        'Review product',
-        'Enter a name, valid price, confirmed whole-number stock and nonnegative threshold.',
+        "Review product".tr,
+        "Enter a name, valid price, confirmed whole-number stock and nonnegative threshold."
+            .tr,
       );
       return;
     }
@@ -214,8 +216,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           _stockVersion = (result['stock_version'] as num).toInt();
         });
         Get.snackbar(
-          'Stock changed',
-          'Review the current count and save again.',
+          "Stock changed".tr,
+          "Review the current count and save again.".tr,
         );
         return;
       }
@@ -228,8 +230,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       }
       Get.back();
       Get.snackbar(
-        _isEditing ? 'Updated' : 'Added',
-        'Product and stock saved successfully.',
+        _isEditing ? "Updated".tr : "Added".tr,
+        "Product and stock saved successfully.".tr,
       );
     } catch (e) {
       if (!mounted ||
@@ -238,10 +240,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         return;
       }
       Get.snackbar(
-        'Save not confirmed',
+        "Save not confirmed".tr,
         e is StateError
             ? e.message.toString()
-            : 'Check your connection and retry the same values.',
+            : "Check your connection and retry the same values.".tr,
       );
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -250,6 +252,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
@@ -264,7 +267,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _isEditing ? 'Edit Product' : 'Add Product',
+          _isEditing ? "Edit Product".tr : "Add Product".tr,
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -283,8 +286,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       strokeWidth: 2,
                     ),
                   )
-                : const Text(
-                    'Save',
+                : Text(
+                    "Save".tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
@@ -295,9 +298,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         ],
       ),
       body: _accountChanged
-          ? const Center(
-              child: Text('Account changed. Open the product again.'),
-            )
+          ? Center(child: Text("Account changed. Open the product again.".tr))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -305,23 +306,29 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 children: [
                   if (_loadingCategories) const LinearProgressIndicator(),
                   if (_inventory.hasPending)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 12),
                       child: Text(
-                        'Product save is unconfirmed. Retry Save with the same values.',
+                        "Product save is unconfirmed. Retry Save with the same values."
+                            .tr,
                       ),
                     ),
                   if (_images.hasPendingUpload)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 12),
                       child: Text(
-                        'Image upload is unconfirmed. Retry Save with the selected image.',
+                        "Image upload is unconfirmed. Retry Save with the selected image."
+                            .tr,
                       ),
                     ),
                   if (_selectedImage != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text('Selected image: ${_selectedImage!.name}'),
+                      child: Text(
+                        "Selected image: @slot0end".uiTr({
+                          "slot0end": (_selectedImage!.name).toString(),
+                        }),
+                      ),
                     ),
                   if (_imageCtrl.text.isNotEmpty)
                     Container(
@@ -343,14 +350,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     children: [
                       _field(
                         _nameCtrl,
-                        'Product Name',
+                        "Product Name".tr,
                         Icons.shopping_bag_outlined,
                         TextInputType.text,
                       ),
                       const SizedBox(height: 14),
                       _field(
                         _descCtrl,
-                        'Description (optional)',
+                        "Description (optional)".tr,
                         Icons.notes_rounded,
                         TextInputType.multiline,
                         maxLines: 3,
@@ -358,14 +365,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       const SizedBox(height: 14),
                       _field(
                         _priceCtrl,
-                        'Price (PKR)',
+                        "Price (PKR)".tr,
                         Icons.monetization_on_outlined,
                         TextInputType.number,
                       ),
                       const SizedBox(height: 14),
                       _field(
                         _stockCtrl,
-                        'Confirmed stock quantity',
+                        "Confirmed stock quantity".tr,
                         Icons.inventory_2_outlined,
                         TextInputType.number,
                         integer: true,
@@ -373,7 +380,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       const SizedBox(height: 14),
                       _field(
                         _thresholdCtrl,
-                        'Low-stock threshold',
+                        "Low-stock threshold".tr,
                         Icons.notifications_outlined,
                         TextInputType.number,
                         integer: true,
@@ -386,8 +393,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                         icon: const Icon(Icons.photo_library_outlined),
                         label: Text(
                           _selectedImage == null
-                              ? 'Choose Product Image'
-                              : 'Change Product Image',
+                              ? "Choose Product Image".tr
+                              : "Change Product Image".tr,
                         ),
                       ),
                     ],
@@ -402,14 +409,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               _imageCtrl.clear();
                             }),
                       icon: const Icon(Icons.clear),
-                      label: const Text('Remove product image'),
+                      label: Text("Remove product image".tr),
                     ),
                   const SizedBox(height: 16),
 
                   _card(
                     children: [
-                      const Text(
-                        'Category',
+                      Text(
+                        "Category".tr,
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
@@ -481,8 +488,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Available for order',
+                                Text(
+                                  "Available for order".tr,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 14,
@@ -492,8 +499,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                 const SizedBox(height: 2),
                                 Text(
                                   _available
-                                      ? 'Visible to customers'
-                                      : 'Hidden from store',
+                                      ? "Visible to customers".tr
+                                      : "Hidden from store".tr,
                                   style: const TextStyle(
                                     color: _kTextSub,
                                     fontSize: 12,
@@ -536,7 +543,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               strokeWidth: 2,
                             )
                           : Text(
-                              _isEditing ? 'Save Changes' : 'Add Product',
+                              _isEditing ? "Save Changes".tr : "Add Product".tr,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,

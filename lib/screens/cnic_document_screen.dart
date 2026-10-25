@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -85,119 +86,134 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Rider CNIC verification'),
-      actions: [
-        IconButton(
-          onPressed: () => Get.find<AuthController>().logout(),
-          icon: const Icon(Icons.logout),
-        ),
-      ],
-    ),
-    body: Obx(
-      () => ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          if (ctrl.application['document_valid'] == true) ...[
-            const Icon(Icons.hourglass_top, color: AppColors.warning, size: 48),
-            Text(
-              ctrl.application['verification_status'] == 'approved'
-                  ? 'Your rider account is approved.'
-                  : 'Document submitted. Your account is awaiting admin approval.',
-            ),
-            if (ctrl.application['verification_status'] == 'approved')
-              TextButton(
-                onPressed: () => Get.offAllNamed('/rider_home'),
-                child: const Text('Continue to Rider Dashboard'),
-              ),
-            Text('CNIC: ${ctrl.application['cnic_masked'] ?? 'Protected'}'),
-            TextButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (_) => const CnicDocumentViewer(),
-              ),
-              child: const Text('View submitted document'),
-            ),
-          ] else
-            const Text(
-              'Upload your CNIC image to complete registration. Your account remains pending until an administrator reviews it.',
-            ),
-          const SizedBox(height: 20),
-          TextField(
-            controller: number,
-            enabled: !ctrl.busy.value,
-            keyboardType: TextInputType.number,
-            maxLength: 15,
-            decoration: const InputDecoration(
-              labelText: 'CNIC number',
-              hintText: '12345-1234567-1',
-            ),
-          ),
-          if (ctrl.image.value != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Image.memory(
-                ctrl.image.value!.bytes,
-                height: 200,
-                fit: BoxFit.contain,
-              ),
-            ),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: ctrl.busy.value
-                      ? null
-                      : () => ctrl.select(ImageSource.camera),
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('Camera'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: ctrl.busy.value
-                      ? null
-                      : () => ctrl.select(ImageSource.gallery),
-                  icon: const Icon(Icons.photo_library),
-                  label: const Text('Gallery'),
-                ),
-              ),
-            ],
-          ),
-          const Text(
-            'JPEG or PNG only · maximum 5 MB. Images are prepared on your device before upload.',
-          ),
-          if (ctrl.error.value != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Text(
-                ctrl.error.value!,
-                style: const TextStyle(color: AppColors.error),
-              ),
-            ),
-          if (ctrl.busy.value)
-            const Padding(
-              padding: EdgeInsets.all(12),
-              child: LinearProgressIndicator(),
-            ),
-          ElevatedButton(
-            onPressed: ctrl.busy.value ? null : _submit,
-            child: Text(
-              ctrl.busy.value
-                  ? 'Preparing or uploading…'
-                  : ctrl.application['document_valid'] == true
-                  ? 'Replace and resubmit document'
-                  : 'Submit CNIC document',
-            ),
-          ),
-          TextButton(
-            onPressed: ctrl.busy.value ? null : ctrl.loadStatus,
-            child: const Text('Refresh status / Retry'),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Rider CNIC verification".tr),
+        actions: [
+          IconButton(
+            onPressed: () => Get.find<AuthController>().logout(),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
-    ),
-  );
+      body: Obx(
+        () => ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            if (ctrl.application['document_valid'] == true) ...[
+              const Icon(
+                Icons.hourglass_top,
+                color: AppColors.warning,
+                size: 48,
+              ),
+              Text(
+                ctrl.application['verification_status'] == 'approved'
+                    ? "Your rider account is approved.".tr
+                    : "Document submitted. Your account is awaiting admin approval."
+                          .tr,
+              ),
+              if (ctrl.application['verification_status'] == 'approved')
+                TextButton(
+                  onPressed: () => Get.offAllNamed('/rider_home'),
+                  child: Text("Continue to Rider Dashboard".tr),
+                ),
+              Text(
+                "CNIC: @slot0end".uiTr({
+                  "slot0end": (ctrl.application['cnic_masked'] ?? 'Protected')
+                      .toString(),
+                }),
+              ),
+              TextButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (_) => const CnicDocumentViewer(),
+                ),
+                child: Text("View submitted document".tr),
+              ),
+            ] else
+              Text(
+                "Upload your CNIC image to complete registration. Your account remains pending until an administrator reviews it."
+                    .tr,
+              ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: number,
+              enabled: !ctrl.busy.value,
+              keyboardType: TextInputType.number,
+              maxLength: 15,
+              decoration: InputDecoration(
+                labelText: "CNIC number".tr,
+                hintText: '12345-1234567-1',
+              ),
+            ),
+            if (ctrl.image.value != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Image.memory(
+                  ctrl.image.value!.bytes,
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: ctrl.busy.value
+                        ? null
+                        : () => ctrl.select(ImageSource.camera),
+                    icon: const Icon(Icons.camera_alt),
+                    label: Text("Camera".tr),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: ctrl.busy.value
+                        ? null
+                        : () => ctrl.select(ImageSource.gallery),
+                    icon: const Icon(Icons.photo_library),
+                    label: Text("Gallery".tr),
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              "JPEG or PNG only · maximum 5 MB. Images are prepared on your device before upload."
+                  .tr,
+            ),
+            if (ctrl.error.value != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  ctrl.error.value!,
+                  style: const TextStyle(color: AppColors.error),
+                ),
+              ),
+            if (ctrl.busy.value)
+              const Padding(
+                padding: EdgeInsets.all(12),
+                child: LinearProgressIndicator(),
+              ),
+            ElevatedButton(
+              onPressed: ctrl.busy.value ? null : _submit,
+              child: Text(
+                ctrl.busy.value
+                    ? "Preparing or uploading…".tr
+                    : ctrl.application['document_valid'] == true
+                    ? "Replace and resubmit document".tr
+                    : "Submit CNIC document".tr,
+              ),
+            ),
+            TextButton(
+              onPressed: ctrl.busy.value ? null : ctrl.loadStatus,
+              child: Text("Refresh status / Retry".tr),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

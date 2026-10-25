@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../services/rating_watch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -195,7 +196,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     if (pid == null || _userId == null) {
       Get.snackbar(
         '',
-        'Only real products can be saved.',
+        "Only real products can be saved.".tr,
         backgroundColor: _kGreen,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -217,7 +218,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         });
         Get.snackbar(
           '',
-          'Saved to favourites ❤️',
+          "Saved to favourites ❤️".tr,
           backgroundColor: _kPink,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
@@ -241,6 +242,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final p = _currentProduct;
     final imageUrl = p['image_url'] ?? p['image'] ?? '';
     final name = p['name'] ?? 'Product';
@@ -389,7 +391,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        '($_reviewCount reviews)',
+                        "(@slot0end reviews)".uiTr({
+                          "slot0end": (_reviewCount).toString(),
+                        }),
                         style: const TextStyle(fontSize: 12, color: _kTextSub),
                       ),
                     ],
@@ -399,7 +403,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                   // ── Price ──
                   Text(
-                    'PKR $price',
+                    "PKR @slot0end".uiTr({"slot0end": (price).toString()}),
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w900,
@@ -476,7 +480,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           mapBranch.address.isNotEmpty)
                                         Text(
                                           nearest != null
-                                              ? '${mapBranch.address} • ${nearest.distanceKm.toStringAsFixed(1)} km away'
+                                              ? "@slot0end • @slot1end km away"
+                                                    .uiTr({
+                                                      "slot0end":
+                                                          (mapBranch.address)
+                                                              .toString(),
+                                                      "slot1end":
+                                                          (nearest.distanceKm
+                                                                  .toStringAsFixed(
+                                                                    1,
+                                                                  ))
+                                                              .toString(),
+                                                    })
                                               : mapBranch.address,
                                           style: const TextStyle(
                                             fontSize: 11,
@@ -543,8 +558,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   }),
 
                   // ── Description ──
-                  const Text(
-                    'Description',
+                  Text(
+                    "Description".tr,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -555,7 +570,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Text(
                     p['description'] ??
                         p['desc'] ??
-                        'No description available.',
+                        "No description available.".tr,
                     style: const TextStyle(
                       fontSize: 14,
                       color: _kTextSub,
@@ -603,7 +618,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 });
                                 if (!added) {
                                   Get.snackbar(
-                                    'Cart',
+                                    "Cart".tr,
                                     cartCtrl.lastError.value,
                                   );
                                   return;
@@ -611,10 +626,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 HapticFeedback.mediumImpact();
                                 Get.snackbar(
                                   '',
-                                  '$name added to cart! 🛒',
+                                  "@slot0end added to cart! 🛒".uiTr({
+                                    "slot0end": (name).toString(),
+                                  }),
                                   titleText: const SizedBox.shrink(),
                                   messageText: Text(
-                                    '$name added to cart! 🛒',
+                                    "@slot0end added to cart! 🛒".uiTr({
+                                      "slot0end": (name).toString(),
+                                    }),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
@@ -659,7 +678,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              inCart ? 'Add Another' : 'Add to Cart',
+                              inCart ? "Add Another".tr : "Add to Cart".tr,
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w800,
@@ -686,9 +705,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       children: [
         Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                'Customer Reviews',
+                "Customer Reviews".tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
@@ -724,7 +743,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         const SizedBox(height: 14),
         if (_ratingError != null) Text(_ratingError!),
         if (_ratingError == null && _reviews.isEmpty)
-          const Text('No reviews yet.'),
+          Text("No reviews yet.".tr),
         ..._reviews.take(3).map(_buildReviewCard),
       ],
     );

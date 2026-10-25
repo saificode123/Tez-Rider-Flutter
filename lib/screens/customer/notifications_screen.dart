@@ -11,11 +11,12 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
-        title: const Text(
-          'Notifications',
+        title: Text(
+          "Notifications".tr,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Color(0xFF1A0533),
@@ -36,7 +37,7 @@ class NotificationsScreen extends StatelessWidget {
                     : () async {
                         await push.enable();
                         Get.snackbar(
-                          'Android notifications',
+                          "Android notifications".tr,
                           push.status.value,
                         );
                       },
@@ -44,7 +45,7 @@ class NotificationsScreen extends StatelessWidget {
             }),
           IconButton(
             icon: const Icon(Icons.done_all),
-            tooltip: 'Mark all as read',
+            tooltip: "Mark all as read".tr,
             onPressed: () => notifCtrl.markAllAsRead(),
           ),
         ],
@@ -58,7 +59,7 @@ class NotificationsScreen extends StatelessWidget {
                 Text(notifCtrl.error.value!),
                 TextButton(
                   onPressed: notifCtrl.isLoading.value ? null : notifCtrl.retry,
-                  child: const Text('Retry notifications'),
+                  child: Text("Retry notifications".tr),
                 ),
               ],
             ),
@@ -81,13 +82,13 @@ class NotificationsScreen extends StatelessWidget {
                   color: Colors.grey.shade300,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'No notifications yet',
+                Text(
+                  "No notifications yet".tr,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'We will notify you of any updates.',
+                Text(
+                  "We will notify you of any updates.".tr,
                   style: TextStyle(color: Colors.grey),
                 ),
               ],
@@ -106,7 +107,7 @@ class NotificationsScreen extends StatelessWidget {
                 onPressed: notifCtrl.isLoading.value
                     ? null
                     : () => notifCtrl.load(append: true),
-                child: const Text('Load more notifications'),
+                child: Text("Load more notifications".tr),
               );
             }
             final n = notifCtrl.notifications[i];
@@ -158,15 +159,15 @@ class NotificationsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (n['type'] == 'broadcast')
-                            const Text(
-                              'Admin broadcast',
+                            Text(
+                              "Admin broadcast".tr,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xFF1B5E20),
                               ),
                             ),
                           Text(
-                            n['title'] ?? 'Alert',
+                            n['title'] ?? "Alert".tr,
                             style: TextStyle(
                               fontWeight: isRead
                                   ? FontWeight.w600

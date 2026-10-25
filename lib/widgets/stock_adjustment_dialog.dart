@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/inventory_service.dart';
@@ -86,50 +88,55 @@ class _StockAdjustmentDialogState extends State<StockAdjustmentDialog> {
   }
 
   @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: !_saving,
-    child: AlertDialog(
-      title: Text('Stock: ${widget.product['name']}'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _quantity,
-              enabled: !_saving,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: const InputDecoration(
-                labelText: 'Confirmed quantity',
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return PopScope(
+      canPop: !_saving,
+      child: AlertDialog(
+        title: Text(
+          "Stock: @slot0end".uiTr({
+            "slot0end": (widget.product['name']).toString(),
+          }),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _quantity,
+                enabled: !_saving,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(labelText: "Confirmed quantity".tr),
               ),
-            ),
-            TextField(
-              controller: _reason,
-              enabled: !_saving,
-              maxLength: 300,
-              decoration: const InputDecoration(labelText: 'Reason'),
-            ),
-            if (_error != null)
-              Text(_error!, style: const TextStyle(color: Colors.red)),
-          ],
+              TextField(
+                controller: _reason,
+                enabled: !_saving,
+                maxLength: 300,
+                decoration: InputDecoration(labelText: "Reason".tr),
+              ),
+              if (_error != null)
+                Text(_error!.tr, style: const TextStyle(color: Colors.red)),
+            ],
+          ),
         ),
+        actions: [
+          TextButton(
+            onPressed: _saving ? null : () => Navigator.pop(context),
+            child: Text("Cancel".tr),
+          ),
+          TextButton(
+            onPressed: _saving ? null : _save,
+            child: _saving
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text("Save stock".tr),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: _saving ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: _saving ? null : _save,
-          child: _saving
-              ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Text('Save stock'),
-        ),
-      ],
-    ),
-  );
+    );
+  }
 }

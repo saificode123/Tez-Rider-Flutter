@@ -9,6 +9,7 @@ class PendingVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final args = Get.arguments as Map<String, dynamic>?;
     final String status = args?['status'] ?? 'pending';
 
@@ -18,7 +19,7 @@ class PendingVerificationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Account Status'),
+        title: Text("Account Status".tr),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -53,7 +54,7 @@ class PendingVerificationScreen extends StatelessWidget {
                     ),
               const SizedBox(height: 24),
               Text(
-                isRejected ? 'Account Rejected' : 'Verification Pending',
+                isRejected ? "Account Rejected".tr : "Verification Pending".tr,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -65,8 +66,10 @@ class PendingVerificationScreen extends StatelessWidget {
                 isRejected
                     ? (reason?.trim().isNotEmpty == true
                           ? reason!
-                          : 'Your application was rejected. Please contact support for details.')
-                    : 'Your account is currently under review by the admin. You will be able to access your dashboard once you are approved.',
+                          : "Your application was rejected. Please contact support for details."
+                                .tr)
+                    : "Your account is currently under review by the admin. You will be able to access your dashboard once you are approved."
+                          .tr,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -78,7 +81,7 @@ class PendingVerificationScreen extends StatelessWidget {
               TextButton(
                 onPressed: () =>
                     Get.offAll(() => const SplashScreen(showCyclist: false)),
-                child: const Text('Check approval status'),
+                child: Text("Check approval status".tr),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -98,8 +101,8 @@ class PendingVerificationScreen extends StatelessWidget {
                       transition: Transition.fadeIn,
                     );
                   },
-                  child: const Text(
-                    'Return to Login',
+                  child: Text(
+                    "Return to Login".tr,
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),

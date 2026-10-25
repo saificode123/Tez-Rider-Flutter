@@ -8,6 +8,7 @@ class LanguageSettingsTile extends StatelessWidget {
   final LanguageController? controller;
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final LanguageController language =
         controller ??
         (Get.isRegistered<LanguageController>()
@@ -27,8 +28,8 @@ class LanguageSettingsTile extends StatelessWidget {
             );
           }
         },
-        itemBuilder: (_) => const [
-          PopupMenuItem(value: 'en', child: Text('English')),
+        itemBuilder: (_) => [
+          PopupMenuItem(value: 'en', child: Text("English".tr)),
           PopupMenuItem(value: 'ur', child: Text('اردو')),
         ],
         child: ListTile(

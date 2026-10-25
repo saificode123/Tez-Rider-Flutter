@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
     final error = ProfileService.validate(_nameCtrl.text, _phoneCtrl.text);
     if (error != null) {
-      Get.snackbar('Error', error, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error".tr, error, snackPosition: SnackPosition.BOTTOM);
       return;
     }
     final generation = _generation;
@@ -130,8 +130,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     } catch (_) {
       if (!mounted || generation != _generation) return;
       Get.snackbar(
-        'Error',
-        'Profile changes could not be confirmed. Please retry.',
+        "Error".tr,
+        "Profile changes could not be confirmed. Please retry.".tr,
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -143,6 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final initial = _nameCtrl.text.isNotEmpty
         ? _nameCtrl.text[0].toUpperCase()
         : '?';
@@ -160,8 +161,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'My Profile',
+        title: Text(
+          "My Profile".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -182,8 +183,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       strokeWidth: 2,
                     ),
                   )
-                : const Text(
-                    'Save',
+                : Text(
+                    "Save".tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
@@ -203,10 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(_profileError!),
-                  TextButton(
-                    onPressed: _loadProfile,
-                    child: const Text('Retry'),
-                  ),
+                  TextButton(onPressed: _loadProfile, child: Text("Retry".tr)),
                 ],
               ),
             )
@@ -319,8 +317,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'TezRider Rewards',
+                              Text(
+                                "TezRider Rewards".tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w800,
@@ -329,15 +327,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Reward balance unavailable',
+                                "Reward balance unavailable".tr,
                                 style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 11,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                'Rewards are not currently configured.',
+                              Text(
+                                "Rewards are not currently configured.".tr,
                                 style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 11,
@@ -369,14 +367,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                       children: [
                         _field(
                           _nameCtrl,
-                          'Full Name',
+                          "Full Name".tr,
                           Icons.person_outline,
                           TextInputType.name,
                         ),
                         const SizedBox(height: 16),
                         _field(
                           _phoneCtrl,
-                          'Phone Number',
+                          "Phone Number".tr,
                           Icons.phone_outlined,
                           TextInputType.phone,
                         ),
@@ -410,8 +408,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                               ),
-                              const Text(
-                                'read-only',
+                              Text(
+                                "read-only".tr,
                                 style: TextStyle(
                                   color: Color(0xFFB0B0C0),
                                   fontSize: 10,
@@ -448,8 +446,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                               color: Colors.white,
                               strokeWidth: 2,
                             )
-                          : const Text(
-                              'Save Changes',
+                          : Text(
+                              "Save Changes".tr,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,

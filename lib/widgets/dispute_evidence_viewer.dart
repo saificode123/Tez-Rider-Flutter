@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/dispute_service.dart';
@@ -65,28 +66,31 @@ class _DisputeEvidenceViewerState extends State<DisputeEvidenceViewer> {
   }
 
   @override
-  Widget build(BuildContext context) => AlertDialog(
-    title: const Text('Private dispute evidence'),
-    content: SizedBox(
-      width: 340,
-      height: 360,
-      child: loading
-          ? const Center(child: CircularProgressIndicator())
-          : url == null
-          ? Center(child: Text(error ?? 'Evidence unavailable.'))
-          : Image.network(
-              url!,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) =>
-                  const Center(child: Text('Image unavailable. Tap Retry.')),
-            ),
-    ),
-    actions: [
-      TextButton(onPressed: loading ? null : load, child: const Text('Retry')),
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text('Close'),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return AlertDialog(
+      title: Text("Private dispute evidence".tr),
+      content: SizedBox(
+        width: 340,
+        height: 360,
+        child: loading
+            ? const Center(child: CircularProgressIndicator())
+            : url == null
+            ? Center(child: Text((error ?? 'Evidence unavailable.').tr))
+            : Image.network(
+                url!,
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) =>
+                    Center(child: Text("Image unavailable. Tap Retry.".tr)),
+              ),
       ),
-    ],
-  );
+      actions: [
+        TextButton(onPressed: loading ? null : load, child: Text("Retry".tr)),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Close".tr),
+        ),
+      ],
+    );
+  }
 }

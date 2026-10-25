@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'order_timeline.dart';
 
@@ -6,6 +7,7 @@ class OrderTimeoutSummary extends StatelessWidget {
   final Map<String, dynamic> order;
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final events = List<Map<String, dynamic>>.from(
       order['order_timeline_events'] as List? ?? [],
     );
@@ -17,16 +19,17 @@ class OrderTimeoutSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (order['cancellation_reason'] == 'vendor_timeout')
-          const Text('Order cancelled — vendor unavailable.'),
+          Text("Order cancelled — vendor unavailable.".tr),
         if (order['timeout_review_reason'] != null)
-          const Text('This order needs review. Check its latest status.'),
+          Text("This order needs review. Check its latest status.".tr),
         if (refunds.any((r) => r['status'] == 'PENDING'))
-          const Text(
-            'A refund action was recorded. Check payment status for any confirmed cash return.',
+          Text(
+            "A refund action was recorded. Check payment status for any confirmed cash return."
+                .tr,
           ),
         if (events.isNotEmpty)
           ExpansionTile(
-            title: const Text('Order timeline'),
+            title: Text("Order timeline".tr),
             tilePadding: EdgeInsets.zero,
             children: [OrderTimeline(currentStep: 0, events: events)],
           ),

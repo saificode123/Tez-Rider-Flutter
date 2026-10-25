@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../services/feedback_service.dart';
@@ -57,43 +59,45 @@ class _RatingScreenState extends State<RatingScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Delivery feedback')),
-    body: error != null
-        ? Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(title: Text("Delivery feedback".tr)),
+      body: error != null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(error!, textAlign: TextAlign.center),
+                  TextButton(onPressed: load, child: Text("Retry".tr)),
+                ],
+              ),
+            )
+          : targets == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(16),
               children: [
-                Text(error!, textAlign: TextAlign.center),
-                TextButton(onPressed: load, child: const Text('Retry')),
+                Text(
+                  "Rate each Vendor and your assigned Rider separately. Submitted feedback cannot be edited."
+                      .tr,
+                ),
+                if (targets!.isEmpty)
+                  Text("No eligible feedback recipients for this delivery.".tr),
+                for (final target in targets!)
+                  _TargetFeedback(
+                    key: ValueKey('${widget.orderId}-${target['target_id']}'),
+                    target: target,
+                    submission: FeedbackSubmission(
+                      service,
+                      widget.orderId,
+                      target['target_id'],
+                    ),
+                  ),
               ],
             ),
-          )
-        : targets == null
-        ? const Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              const Text(
-                'Rate each Vendor and your assigned Rider separately. Submitted feedback cannot be edited.',
-              ),
-              if (targets!.isEmpty)
-                const Text(
-                  'No eligible feedback recipients for this delivery.',
-                ),
-              for (final target in targets!)
-                _TargetFeedback(
-                  key: ValueKey('${widget.orderId}-${target['target_id']}'),
-                  target: target,
-                  submission: FeedbackSubmission(
-                    service,
-                    widget.orderId,
-                    target['target_id'],
-                  ),
-                ),
-            ],
-          ),
-  );
+    );
+  }
 }
 
 class _TargetFeedback extends StatefulWidget {
@@ -151,6 +155,7 @@ class _TargetFeedbackState extends State<_TargetFeedback> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final locked = busy || widget.submission.uncertain;
     return Card(
       child: Padding(
@@ -163,14 +168,20 @@ class _TargetFeedbackState extends State<_TargetFeedback> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             if (saved != null) ...[
-              Text('Saved rating: ${saved!['rating']}/5'),
+              Text(
+                "Saved rating: @slot0end/5".uiTr({
+                  "slot0end": (saved!['rating']).toString(),
+                }),
+              ),
               if (saved!['comment'] != null) Text(saved!['comment'].toString()),
             ] else ...[
               Wrap(
                 children: List.generate(
                   5,
                   (index) => IconButton(
-                    tooltip: '${index + 1} stars',
+                    tooltip: "@slot0end stars".uiTr({
+                      "slot0end": (index + 1).toString(),
+                    }),
                     onPressed: locked
                         ? null
                         : () => setState(() => rating = index + 1),
@@ -186,19 +197,17 @@ class _TargetFeedbackState extends State<_TargetFeedback> {
                 enabled: !locked,
                 maxLength: 2000,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Comment (optional)',
-                ),
+                decoration: InputDecoration(labelText: "Comment (optional)".tr),
               ),
               if (error != null) Text(error!),
               ElevatedButton(
                 onPressed: busy || rating == 0 ? null : submit,
                 child: Text(
                   busy
-                      ? 'Submitting…'
+                      ? "Submitting…".tr
                       : widget.submission.uncertain
-                      ? 'Retry same feedback'
-                      : 'Submit feedback',
+                      ? "Retry same feedback".tr
+                      : "Submit feedback".tr,
                 ),
               ),
             ],

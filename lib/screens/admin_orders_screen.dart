@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/role_access_gate.dart';
@@ -6,8 +8,13 @@ import '../widgets/order_payment_panel.dart';
 class AdminOrdersScreen extends StatelessWidget {
   const AdminOrdersScreen({super.key});
   @override
-  Widget build(BuildContext context) =>
-      RoleAccessGate(role: 'admin', builder: (_) => const _AdminOrdersBody());
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return RoleAccessGate(
+      role: 'admin',
+      builder: (_) => const _AdminOrdersBody(),
+    );
+  }
 }
 
 class _AdminOrdersBody extends StatefulWidget {
@@ -61,60 +68,68 @@ class _AdminOrdersBodyState extends State<_AdminOrdersBody> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Orders and cash records'),
-      actions: [
-        IconButton(
-          onPressed: _loading ? null : () => _load(),
-          icon: const Icon(Icons.refresh),
-        ),
-      ],
-    ),
-    body: Column(
-      children: [
-        if (_loading) const LinearProgressIndicator(),
-        if (_error != null) ...[
-          Text(_error!),
-          TextButton(
-            onPressed: _loading ? null : () => _load(more: _failedMore),
-            child: const Text('Retry orders'),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Orders and cash records".tr),
+        actions: [
+          IconButton(
+            onPressed: _loading ? null : () => _load(),
+            icon: const Icon(Icons.refresh),
           ),
         ],
-        if (!_loading && _error == null && _rows.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(24),
-            child: Text('No order records.'),
-          ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _rows.length + (_hasMore && _rows.isNotEmpty ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == _rows.length) {
-                return TextButton(
-                  onPressed: _loading ? null : () => _load(more: true),
-                  child: const Text('Load more orders'),
+      ),
+      body: Column(
+        children: [
+          if (_loading) const LinearProgressIndicator(),
+          if (_error != null) ...[
+            Text(_error!),
+            TextButton(
+              onPressed: _loading ? null : () => _load(more: _failedMore),
+              child: Text("Retry orders".tr),
+            ),
+          ],
+          if (!_loading && _error == null && _rows.isEmpty)
+            Padding(
+              padding: EdgeInsets.all(24),
+              child: Text("No order records.".tr),
+            ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _rows.length + (_hasMore && _rows.isNotEmpty ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == _rows.length) {
+                  return TextButton(
+                    onPressed: _loading ? null : () => _load(more: true),
+                    child: Text("Load more orders".tr),
+                  );
+                }
+                final order = _rows[index];
+                final amount = order['amount'];
+                return ListTile(
+                  title: Text(
+                    "Order #@slot0end · @slot1end".uiTr({
+                      "slot0end": (order['id']).toString(),
+                      "slot1end": (order['order_status']).toString(),
+                    }),
+                  ),
+                  subtitle: Text(
+                    '${order['payment_method'] ?? 'Method unavailable'} · ${amount is num ? 'PKR ${amount.toStringAsFixed(2)}' : 'Amount unavailable'}',
+                  ),
+                  trailing: const Icon(Icons.receipt_long),
+                  onTap: () => showOrderPayment(
+                    context,
+                    order['id'] as int,
+                    allowCollection: true,
+                    allowRefund: true,
+                  ),
                 );
-              }
-              final order = _rows[index];
-              final amount = order['amount'];
-              return ListTile(
-                title: Text('Order #${order['id']} · ${order['order_status']}'),
-                subtitle: Text(
-                  '${order['payment_method'] ?? 'Method unavailable'} · ${amount is num ? 'PKR ${amount.toStringAsFixed(2)}' : 'Amount unavailable'}',
-                ),
-                trailing: const Icon(Icons.receipt_long),
-                onTap: () => showOrderPayment(
-                  context,
-                  order['id'] as int,
-                  allowCollection: true,
-                  allowRefund: true,
-                ),
-              );
-            },
+              },
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }

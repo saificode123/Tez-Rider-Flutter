@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/cnic_document.dart';
@@ -68,32 +69,32 @@ class _CnicDocumentViewerState extends State<CnicDocumentViewer> {
   }
 
   @override
-  Widget build(BuildContext context) => AlertDialog(
-    title: const Text('Private CNIC document'),
-    content: SizedBox(
-      width: 340,
-      height: 360,
-      child: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _url != null
-          ? Image.network(
-              _url!,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => const Center(
-                child: Text('Image unavailable. Close and retry.'),
-              ),
-            )
-          : Center(child: Text(_error ?? 'Document unavailable.')),
-    ),
-    actions: [
-      TextButton(
-        onPressed: _loading ? null : _load,
-        child: const Text('Retry'),
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return AlertDialog(
+      title: Text("Private CNIC document".tr),
+      content: SizedBox(
+        width: 340,
+        height: 360,
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : _url != null
+            ? Image.network(
+                _url!,
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Center(
+                  child: Text("Image unavailable. Close and retry.".tr),
+                ),
+              )
+            : Center(child: Text((_error ?? 'Document unavailable.').tr)),
       ),
-      TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: const Text('Close'),
-      ),
-    ],
-  );
+      actions: [
+        TextButton(onPressed: _loading ? null : _load, child: Text("Retry".tr)),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text("Close".tr),
+        ),
+      ],
+    );
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -123,14 +125,15 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     if (loading) return const LinearProgressIndicator();
     if (data == null) {
       return Column(
         children: [
-          Text(error ?? 'Rider unavailable.'),
+          Text((error ?? 'Rider unavailable.').tr),
           TextButton(
             onPressed: identity() == account ? load : null,
-            child: const Text('Retry rider identity'),
+            child: Text("Retry rider identity".tr),
           ),
         ],
       );
@@ -158,7 +161,7 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (rider == null)
-          const Text('A verified Rider has not been assigned.')
+          Text("A verified Rider has not been assigned.".tr)
         else
           Row(
             children: [
@@ -179,20 +182,33 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
                     ),
                     Text(
                       rider['rating'] == null
-                          ? 'No ratings yet'
-                          : 'Rating ${num.parse(rider['rating'].toString()).toStringAsFixed(2)} / 5 (${rider['rating_count']})',
+                          ? "No ratings yet".tr
+                          : "Rating @slot0end / 5 (@slot1end)".uiTr({
+                              "slot0end": (num.parse(
+                                rider['rating'].toString(),
+                              ).toStringAsFixed(2)).toString(),
+                              "slot1end": (rider['rating_count']).toString(),
+                            }),
                     ),
                     if (rider['cnic_masked'] != null)
-                      Text('CNIC: ${rider['cnic_masked']}'),
+                      Text(
+                        "CNIC: @slot0end".uiTr({
+                          "slot0end": (rider['cnic_masked']).toString(),
+                        }),
+                      ),
                     if (rider['cnic_masked'] == null)
-                      const Text('CNIC unavailable in this record.'),
-                    const Text('Approved Rider'),
+                      Text("CNIC unavailable in this record.".tr),
+                    Text("Approved Rider".tr),
                   ],
                 ),
               ),
             ],
           ),
-        Text('Order status: ${status.replaceAll('_', ' ')}'),
+        Text(
+          "Order status: @slot0end".uiTr({
+            "slot0end": status.replaceAll('_', ' ').tr,
+          }),
+        ),
         if (current >= 0)
           Wrap(
             spacing: 5,
@@ -209,13 +225,13 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
                       ? const Color(0xFFE8F5E9)
                       : const Color(0xFFF2F3F4),
                   label: Text(
-                    labels[i],
+                    labels[i].tr,
                     style: const TextStyle(color: Color(0xFF263238)),
                   ),
                 ),
             ],
           ),
-        if (status == 'cancelled') const Text('Order cancelled.'),
+        if (status == 'cancelled') Text("Order cancelled.".tr),
       ],
     );
   }

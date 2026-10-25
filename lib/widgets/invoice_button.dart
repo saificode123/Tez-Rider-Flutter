@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/invoice_service.dart';
@@ -35,8 +36,8 @@ class _InvoiceButtonState extends State<InvoiceButton> {
           SnackBar(
             content: Text(
               error is FormatException
-                  ? error.message
-                  : 'Invoice access was not confirmed. Retry.',
+                  ? error.message.tr
+                  : "Invoice access was not confirmed. Retry.".tr,
             ),
           ),
         );
@@ -47,15 +48,18 @@ class _InvoiceButtonState extends State<InvoiceButton> {
   }
 
   @override
-  Widget build(BuildContext context) => TextButton.icon(
-    onPressed: _loading ? null : _show,
-    icon: _loading
-        ? const SizedBox(
-            width: 14,
-            height: 14,
-            child: CircularProgressIndicator(strokeWidth: 2),
-          )
-        : const Icon(Icons.receipt_long_outlined, size: 16),
-    label: Text(_loading ? 'Opening…' : 'Invoice'),
-  );
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return TextButton.icon(
+      onPressed: _loading ? null : _show,
+      icon: _loading
+          ? const SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.receipt_long_outlined, size: 16),
+      label: Text(_loading ? "Opening…".tr : "Invoice".tr),
+    );
+  }
 }

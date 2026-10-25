@@ -80,36 +80,41 @@ class _RoleAccessGateState extends State<RoleAccessGate>
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<bool>(
-    future: _access,
-    builder: (context, snapshot) {
-      // Never render stale allowed data while another account is checked.
-      if (snapshot.connectionState != ConnectionState.done) {
-        return const Scaffold(body: Center(child: CircularProgressIndicator()));
-      }
-      if (snapshot.data == true && !snapshot.hasError) {
-        return widget.builder(context);
-      }
-      return Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Account access could not be confirmed for this screen.',
-                ),
-                TextButton(onPressed: _reload, child: const Text('Retry')),
-                TextButton(
-                  onPressed: () => Get.offAllNamed('/login'),
-                  child: const Text('Return to sign in'),
-                ),
-              ],
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return FutureBuilder<bool>(
+      future: _access,
+      builder: (context, snapshot) {
+        // Never render stale allowed data while another account is checked.
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (snapshot.data == true && !snapshot.hasError) {
+          return widget.builder(context);
+        }
+        return Scaffold(
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Account access could not be confirmed for this screen.".tr,
+                  ),
+                  TextButton(onPressed: _reload, child: Text("Retry".tr)),
+                  TextButton(
+                    onPressed: () => Get.offAllNamed('/login'),
+                    child: Text("Return to sign in".tr),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }

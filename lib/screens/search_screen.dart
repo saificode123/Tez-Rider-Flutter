@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/stock_indicator.dart';
 import '../services/inventory_service.dart';
 import 'package:flutter/material.dart';
@@ -159,14 +160,14 @@ class _SearchScreenState extends State<SearchScreen> {
         if (_categoriesFailed)
           TextButton(
             onPressed: _loadCategories,
-            child: const Text('Retry categories'),
+            child: Text("Retry categories".tr),
           ),
         Expanded(
           child: DropdownButton<String>(
             isExpanded: true,
             value: _category ?? '',
             items: [
-              const DropdownMenuItem(value: '', child: Text('All categories')),
+              DropdownMenuItem(value: '', child: Text("All categories".tr)),
               ..._categories.map(
                 (row) => DropdownMenuItem(
                   value: row['name'] as String,
@@ -191,6 +192,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final cart = Get.find<CartController>();
 
     return Scaffold(
@@ -212,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> {
           style: const TextStyle(color: Colors.white, fontSize: 15),
           cursorColor: Colors.white70,
           decoration: InputDecoration(
-            hintText: 'Search food, groceries, stores...',
+            hintText: "Search food, groceries, stores...".tr,
             hintStyle: TextStyle(
               color: Colors.white.withValues(alpha: 0.60),
               fontSize: 14,
@@ -255,7 +257,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Text(_error!),
                         TextButton(
                           onPressed: () => _search(_searchCtrl.text),
-                          child: const Text('Retry'),
+                          child: Text("Retry".tr),
                         ),
                       ],
                     ),
@@ -278,8 +280,8 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Browse Categories',
+          Text(
+            "Browse Categories".tr,
             style: TextStyle(
               color: _kText,
               fontSize: 17,
@@ -343,7 +345,9 @@ class _SearchScreenState extends State<SearchScreen> {
           const Text('🔍', style: TextStyle(fontSize: 60)),
           const SizedBox(height: 16),
           Text(
-            'No results for "${_searchCtrl.text}"',
+            "No results for \"@slot0end\"".uiTr({
+              "slot0end": (_searchCtrl.text).toString(),
+            }),
             style: const TextStyle(
               color: _kText,
               fontSize: 18,
@@ -351,8 +355,8 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Try a different name or category.',
+          Text(
+            "Try a different name or category.".tr,
             style: TextStyle(color: _kTextSub, fontSize: 14),
           ),
         ],
@@ -367,7 +371,11 @@ class _SearchScreenState extends State<SearchScreen> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
           child: Text(
-            '${_results.length}${_hasMore ? '+' : ''} result${_results.length == 1 ? '' : 's'}',
+            "@slot0end@slot1end result@slot2end".uiTr({
+              "slot0end": (_results.length).toString(),
+              "slot1end": (_hasMore ? '+' : '').toString(),
+              "slot2end": (_results.length == 1 ? '' : 's').toString(),
+            }),
             style: const TextStyle(
               color: _kTextSub,
               fontSize: 13,
@@ -386,8 +394,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         : () => _search(_searchCtrl.text, loadMore: true),
                     child: Text(
                       _loadingMore
-                          ? 'Loading products...'
-                          : 'Load more products',
+                          ? "Loading products...".tr
+                          : "Load more products".tr,
                     ),
                   )
                 : _buildProductTile(_results[i], cart),
@@ -463,7 +471,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     Row(
                       children: [
                         Text(
-                          'PKR $price',
+                          "PKR @slot0end".uiTr({
+                            "slot0end": (price).toString(),
+                          }),
                           style: const TextStyle(
                             color: _kSaffron,
                             fontWeight: FontWeight.w900,
@@ -512,15 +522,19 @@ class _SearchScreenState extends State<SearchScreen> {
                             'vendor_id': p['vendor_id'],
                           });
                           if (!added) {
-                            Get.snackbar('Cart', cart.lastError.value);
+                            Get.snackbar("Cart".tr, cart.lastError.value);
                             return;
                           }
                           Get.snackbar(
                             '',
-                            '${p['name']} added! 🛒',
+                            "@slot0end added! 🛒".uiTr({
+                              "slot0end": (p['name']).toString(),
+                            }),
                             titleText: const SizedBox.shrink(),
                             messageText: Text(
-                              '${p['name']} added! 🛒',
+                              "@slot0end added! 🛒".uiTr({
+                                "slot0end": (p['name']).toString(),
+                              }),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,

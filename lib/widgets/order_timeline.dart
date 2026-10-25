@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class OrderTimeline extends StatefulWidget {
@@ -77,6 +78,7 @@ class _OrderTimelineState extends State<OrderTimeline>
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     if (widget.events case final events?) {
       final sorted = [...events]
         ..sort(
@@ -93,15 +95,15 @@ class _OrderTimelineState extends State<OrderTimeline>
                       ? Icons.cancel_outlined
                       : Icons.check_circle_outline,
                 ),
-                title: Text(event['status'].toString().replaceAll('_', ' ')),
+                title: Text(event['status'].toString().replaceAll('_', ' ').tr),
                 subtitle: Text(
                   [
                     if (event['reason'] == 'vendor_timeout')
-                      'Order cancelled — vendor unavailable.',
+                      'Order cancelled — vendor unavailable.'.tr,
                     DateTime.tryParse(
                           event['created_at'].toString(),
                         )?.toLocal().toString() ??
-                        'Timestamp unavailable',
+                        'Timestamp unavailable'.tr,
                   ].join('\n'),
                 ),
               ),
@@ -204,7 +206,7 @@ class _OrderTimelineState extends State<OrderTimeline>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  step.label,
+                  step.label.tr,
                   style: TextStyle(
                     fontSize: isActive ? 16 : 15,
                     fontWeight: isActive
@@ -220,7 +222,7 @@ class _OrderTimelineState extends State<OrderTimeline>
                 if (isActive || isDone) ...[
                   const SizedBox(height: 4),
                   Text(
-                    step.sub,
+                    step.sub.tr,
                     style: TextStyle(
                       fontSize: 12,
                       color: isActive
@@ -244,7 +246,7 @@ class _OrderTimelineState extends State<OrderTimeline>
                         border: Border.all(color: color.withValues(alpha: 0.2)),
                       ),
                       child: Text(
-                        'Current Status',
+                        "Current Status".tr,
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -283,6 +285,7 @@ class OrderStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -306,7 +309,7 @@ class OrderStatusCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Order Status',
+                    "Order Status".tr,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[500],

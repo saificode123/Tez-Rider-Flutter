@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import '../../services/vendor_report_service.dart';
 import '../../widgets/role_access_gate.dart';
@@ -15,10 +17,13 @@ const _kTeal = Color(0xFF06B6D4);
 class VendorAnalyticsScreen extends StatelessWidget {
   const VendorAnalyticsScreen({super.key});
   @override
-  Widget build(BuildContext context) => RoleAccessGate(
-    role: 'vendor',
-    builder: (_) => const VendorAnalyticsBody(),
-  );
+  Widget build(BuildContext context) {
+    Localizations.localeOf(context);
+    return RoleAccessGate(
+      role: 'vendor',
+      builder: (_) => const VendorAnalyticsBody(),
+    );
+  }
 }
 
 class VendorAnalyticsBody extends StatefulWidget {
@@ -122,6 +127,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
@@ -135,8 +141,8 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Analytics',
+        title: Text(
+          "Analytics".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -162,7 +168,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                   Text(_error!),
                   TextButton(
                     onPressed: _fetching ? null : _loadData,
-                    child: const Text('Retry'),
+                    child: Text("Retry".tr),
                   ),
                 ],
               ),
@@ -179,14 +185,14 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                     Row(
                       children: [
                         _statCard(
-                          'Delivered sales',
+                          "Delivered sales".tr,
                           'PKR ${_totalRevenue.toStringAsFixed(2)}',
                           Icons.account_balance_wallet_rounded,
                           _kGreen,
                         ),
                         const SizedBox(width: 12),
                         _statCard(
-                          'Total Orders',
+                          "Total Orders".tr,
                           '$_totalOrders',
                           Icons.shopping_bag_rounded,
                           _kPurple,
@@ -196,39 +202,44 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
 
                     const SizedBox(height: 20),
 
-                    const Text(
-                      'Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation.',
+                    Text(
+                      "Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation."
+                          .tr,
                     ),
                     if (_reviewCount > 0)
-                      Text('$_reviewCount amounts require Admin review.'),
-                    _sectionTitle('Orders by Status'),
+                      Text(
+                        "@slot0end amounts require Admin review.".uiTr({
+                          "slot0end": (_reviewCount).toString(),
+                        }),
+                      ),
+                    _sectionTitle("Orders by Status".tr),
                     const SizedBox(height: 12),
                     _card(
                       child: Column(
                         children: [
                           _statusRow(
-                            'Pending',
+                            "Pending".tr,
                             _pendingCount,
                             _kSaffron,
                             Icons.hourglass_empty_rounded,
                           ),
                           const Divider(height: 20),
                           _statusRow(
-                            'Accepted',
+                            "Accepted".tr,
                             _acceptedCount,
                             _kTeal,
                             Icons.check_circle_outline_rounded,
                           ),
                           const Divider(height: 20),
                           _statusRow(
-                            'Delivered',
+                            "Delivered".tr,
                             _deliveredCount,
                             _kGreen,
                             Icons.local_shipping_rounded,
                           ),
                           const Divider(height: 20),
                           _statusRow(
-                            'Cancelled',
+                            "Cancelled".tr,
                             _cancelledCount,
                             _kPink,
                             Icons.cancel_outlined,
@@ -240,7 +251,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                     const SizedBox(height: 20),
 
                     if (_totalOrders > 0) ...[
-                      _sectionTitle('Fulfillment Rate'),
+                      _sectionTitle("Fulfillment Rate".tr),
                       const SizedBox(height: 12),
                       _card(
                         child: Column(
@@ -249,9 +260,9 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Expanded(
+                                Expanded(
                                   child: Text(
-                                    'Orders delivered successfully',
+                                    "Orders delivered successfully".tr,
                                     style: TextStyle(
                                       color: _kTextSub,
                                       fontSize: 13,
@@ -291,7 +302,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                     ],
 
                     if (_topProducts.isNotEmpty) ...[
-                      _sectionTitle('Top Delivered Products'),
+                      _sectionTitle("Top Delivered Products".tr),
                       const SizedBox(height: 12),
                       _card(
                         child: Column(
@@ -345,7 +356,10 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                                         ),
                                       ),
                                       Text(
-                                        '${p['total_qty']} sold',
+                                        "@slot0end sold".uiTr({
+                                          "slot0end": (p['total_qty'])
+                                              .toString(),
+                                        }),
                                         style: const TextStyle(
                                           color: _kTextSub,
                                           fontSize: 11,
@@ -383,14 +397,18 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                       const SizedBox(height: 20),
                     ],
 
-                    _sectionTitle('Per-order breakdown'),
+                    _sectionTitle("Per-order breakdown".tr),
                     for (final row in _transactions)
                       Card(
                         child: ExpansionTile(
                           key: ValueKey(
                             'report-${row['order_id']}-${row['vendor_order_id']}',
                           ),
-                          title: Text('Order #${row['order_id']}'),
+                          title: Text(
+                            "Order #@slot0end".uiTr({
+                              "slot0end": (row['order_id']).toString(),
+                            }),
+                          ),
                           subtitle: Text(
                             '${row['portion_status']} / ${row['order_status']} — ${_money(row['subtotal'])}${row['delivered'] ? ' (delivered sales)' : ' (excluded from delivered sales)'}',
                           ),
@@ -399,39 +417,55 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                           children: [
                             Text('${row['created_at'] ?? 'Date unavailable'}'),
                             if (row['source'] == 'legacy_order')
-                              const Text(
-                                'Legacy direct order; item breakdown may be unavailable.',
+                              Text(
+                                "Legacy direct order; item breakdown may be unavailable."
+                                    .tr,
                               ),
                             for (final item in row['items'] as List)
                               Text(
-                                '${item['name']} × ${item['quantity']} at ${_money(item['unit_price'])}',
+                                "@slot0end × @slot1end at @slot2end".uiTr({
+                                  "slot0end": (item['name']).toString(),
+                                  "slot1end": (item['quantity']).toString(),
+                                  "slot2end": (_money(
+                                    item['unit_price'],
+                                  )).toString(),
+                                }),
                               ),
                             if (row['items_require_review'] == true)
-                              const Text(
-                                'Historical item count requires Admin review.',
+                              Text(
+                                "Historical item count requires Admin review."
+                                    .tr,
                               ),
                             Text(
-                              'Payment: ${(row['payment'] as Map)['state'] ?? 'Requires Admin review'}',
+                              "Payment: @slot0end".uiTr({
+                                "slot0end":
+                                    ((row['payment'] as Map)['state'] ??
+                                            'Requires Admin review')
+                                        .toString(),
+                              }),
                             ),
                             for (final refund
                                 in ((row['payment'] as Map)['refunds']
                                         as List? ??
                                     []))
                               Text(
-                                'Whole-order refund: ${refund['state']} (vendor allocation not recorded)',
+                                "Whole-order refund: @slot0end (vendor allocation not recorded)"
+                                    .uiTr({
+                                      "slot0end": (refund['state']).toString(),
+                                    }),
                               ),
                           ],
                         ),
                       ),
                     if (_moreFailed)
-                      const Text('More orders could not be loaded.'),
+                      Text("More orders could not be loaded.".tr),
                     if (_report?.cursor != null)
                       TextButton(
                         onPressed: _fetching ? null : _loadMore,
                         child: Text(
                           _moreFailed
-                              ? 'Retry more orders'
-                              : 'Load more orders',
+                              ? "Retry more orders".tr
+                              : "Load more orders".tr,
                         ),
                       ),
                     if (_fetching && !_loading)
@@ -445,8 +479,8 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                             children: [
                               const Text('📊', style: TextStyle(fontSize: 60)),
                               const SizedBox(height: 16),
-                              const Text(
-                                'No data yet',
+                              Text(
+                                "No data yet".tr,
                                 style: TextStyle(
                                   color: _kText,
                                   fontSize: 18,
@@ -454,8 +488,9 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              const Text(
-                                'Analytics will appear once you receive orders.',
+                              Text(
+                                "Analytics will appear once you receive orders."
+                                    .tr,
                                 style: TextStyle(
                                   color: _kTextSub,
                                   fontSize: 14,

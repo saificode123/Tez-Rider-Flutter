@@ -13,8 +13,8 @@ class TezOrderController extends GetxController {
     // Never create an incomplete order or infer assignment from an INSERT.
     status.value = 'Instant rider booking is unavailable.';
     Get.snackbar(
-      'Booking unavailable',
-      'Please use product checkout. No rider has been assigned.',
+      'Booking unavailable'.tr,
+      'Please use product checkout. No rider has been assigned.'.tr,
     );
   }
 }

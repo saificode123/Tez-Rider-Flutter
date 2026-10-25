@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -104,13 +106,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   );
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context);
     final current = detail;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order #${widget.orderId} details'),
+        title: Text(
+          "Order #@slot0end details".uiTr({
+            "slot0end": (widget.orderId).toString(),
+          }),
+        ),
         actions: [
           IconButton(
-            tooltip: 'Refresh order',
+            tooltip: "Refresh order".tr,
             onPressed: load,
             icon: const Icon(Icons.refresh),
           ),
@@ -124,7 +131,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(error!, textAlign: TextAlign.center),
-                    TextButton(onPressed: load, child: const Text('Retry')),
+                    TextButton(onPressed: load, child: Text("Retry".tr)),
                   ],
                 ),
               ),
@@ -136,27 +143,53 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(12),
                 children: [
-                  section('Order status', [
+                  section("Order status".tr, [
                     Text(
                       status(current.value['status']),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    Text('Placed: ${date(current.value['created_at'])}'),
+                    Text(
+                      "Placed: @slot0end".uiTr({
+                        "slot0end": (date(
+                          current.value['created_at'],
+                        )).toString(),
+                      }),
+                    ),
                     if (current.value['delivered_at'] != null)
-                      Text('Delivered: ${date(current.value['delivered_at'])}'),
+                      Text(
+                        "Delivered: @slot0end".uiTr({
+                          "slot0end": (date(
+                            current.value['delivered_at'],
+                          )).toString(),
+                        }),
+                      ),
                     if (current.value['cancelled_at'] != null)
-                      Text('Cancelled: ${date(current.value['cancelled_at'])}'),
+                      Text(
+                        "Cancelled: @slot0end".uiTr({
+                          "slot0end": (date(
+                            current.value['cancelled_at'],
+                          )).toString(),
+                        }),
+                      ),
                     if (updated != null)
-                      Text('Updated: ${date(updated!.toIso8601String())}'),
+                      Text(
+                        "Updated: @slot0end".uiTr({
+                          "slot0end": (date(
+                            updated!.toIso8601String(),
+                          )).toString(),
+                        }),
+                      ),
                   ]),
-                  section('Items', [
+                  section("Items".tr, [
                     if (current.value['item_source'] == 'UNAVAILABLE')
-                      const Text(
-                        'Itemized records are unavailable for this older order.',
+                      Text(
+                        "Itemized records are unavailable for this older order."
+                            .tr,
                       ),
                     if (current.value['item_source'] == 'RECORDED_ITEMS')
-                      const Text(
-                        'Recorded item amounts are shown. Product names reflect the current catalogue.',
+                      Text(
+                        "Recorded item amounts are shown. Product names reflect the current catalogue."
+                            .tr,
                       ),
                     for (final vendorId
                         in current.items
@@ -170,7 +203,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     (i) => i['vendor_id'] == vendorId,
                                   )['vendor']
                                   ?.toString() ??
-                              'Vendor name unavailable',
+                              "Vendor name unavailable".tr,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -181,7 +214,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           contentPadding: EdgeInsets.zero,
                           title: Text(
                             item['product']?.toString() ??
-                                'Product name unavailable',
+                                "Product name unavailable".tr,
                           ),
                           subtitle: Text(
                             '${item['quantity']} × ${historyMoney(historyCents(item['unit_cents']))}',
@@ -193,51 +226,66 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ],
                     const Divider(),
                     Text(
-                      'Item subtotal: ${historyMoney(historyCents(current.totals['subtotal_cents']))}',
+                      "Item subtotal: @slot0end".uiTr({
+                        "slot0end": (historyMoney(
+                          historyCents(current.totals['subtotal_cents']),
+                        )).toString(),
+                      }),
                     ),
                     Text(
-                      'Delivery fee: ${historyMoney(historyCents(current.totals['delivery_cents']))}',
+                      "Delivery fee: @slot0end".uiTr({
+                        "slot0end": (historyMoney(
+                          historyCents(current.totals['delivery_cents']),
+                        )).toString(),
+                      }),
                     ),
                     Text(
-                      'Order total: ${historyMoney(historyCents(current.totals['total_cents']))}',
+                      "Order total: @slot0end".uiTr({
+                        "slot0end": (historyMoney(
+                          historyCents(current.totals['total_cents']),
+                        )).toString(),
+                      }),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     if (current.totals['state'] == 'REVIEW_REQUIRED')
-                      const Text(
-                        'These amounts could not be reconciled. Ask an administrator to review the order records.',
+                      Text(
+                        "These amounts could not be reconciled. Ask an administrator to review the order records."
+                            .tr,
                       ),
                   ]),
-                  section('Order timeline', [
+                  section("Order timeline".tr, [
                     if (current.value['history_limited'] == true)
-                      const Text(
-                        'Earlier status history is unavailable. Only recorded events and dates are shown.',
+                      Text(
+                        "Earlier status history is unavailable. Only recorded events and dates are shown."
+                            .tr,
                       ),
                     if (current.events.isEmpty)
-                      const Text(
-                        'No recorded lifecycle events for this older order.',
+                      Text(
+                        "No recorded lifecycle events for this older order.".tr,
                       )
                     else
                       OrderTimeline(currentStep: 0, events: current.events),
                   ]),
                   if (current.portions.isNotEmpty)
-                    section('Vendor progress', [
+                    section("Vendor progress".tr, [
                       for (final portion in current.portions)
                         ExpansionTile(
                           tilePadding: EdgeInsets.zero,
                           title: Text(
                             portion['vendor']?.toString() ??
-                                'Vendor name unavailable',
+                                "Vendor name unavailable".tr,
                           ),
                           subtitle: Text(
                             portion['status'] == 'on_the_way' &&
                                     current.value['status'] != 'on_the_way'
-                                ? 'Pickup reserved'
+                                ? "Pickup reserved".tr
                                 : status(portion['status']),
                           ),
                           children: [
                             if ((portion['events'] as List).isEmpty)
-                              const Text(
-                                'Earlier Vendor status history is unavailable.',
+                              Text(
+                                "Earlier Vendor status history is unavailable."
+                                    .tr,
                               )
                             else
                               OrderTimeline(
@@ -259,11 +307,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       key: ValueKey('proof-${widget.orderId}'),
                       orderId: widget.orderId,
                     ),
-                  section('Payment & refunds', [
+                  section("Payment & refunds".tr, [
                     if (current.value['payment']['code'] == 'REVIEW_REQUIRED')
-                      const Text(
-                        'Payment records require administrator review.',
-                      )
+                      Text("Payment records require administrator review.".tr)
                     else
                       OrderPaymentPanel(
                         orderId: widget.orderId,
