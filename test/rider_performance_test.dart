@@ -21,6 +21,38 @@ Map<String, dynamic> metrics() => {
 };
 void main() {
   test(
+    'stored policy-based earnings remain records and preserve historical gaps',
+    () async {
+      for (final status in ['RECORDED', 'RECORDED_WITH_HISTORICAL_GAPS']) {
+        final value = {
+          ...metrics(),
+          'fee_status': status,
+          'earned_fee_cents': 12400,
+          'earnings_only': true,
+        };
+        expect(
+          await RiderPerformanceService(
+            identity: () => 'a',
+            read: () async => value,
+          ).load(),
+          value,
+        );
+      }
+      await expectLater(
+        RiderPerformanceService(
+          identity: () => 'a',
+          read: () async => {
+            ...metrics(),
+            'fee_status': 'RECORDED',
+            'earned_fee_cents': 12400,
+            'earnings_only': false,
+          },
+        ).load(),
+        throwsFormatException,
+      );
+    },
+  );
+  test(
     'owned stored values preserve exact counts, duration and unknown fee',
     () async {
       final service = RiderPerformanceService(

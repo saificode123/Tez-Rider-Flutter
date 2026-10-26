@@ -136,6 +136,80 @@ void main() {
     expect(vault.data['tr_role'], 'vendor');
   });
   test(
+    'biometric enrollment requires a remembered matching account and ignores legacy flag',
+    () async {
+      vault.data['bio_enabled'] = 'true';
+      expect(
+        await credentials.biometricEnabled(unitSession().user.id),
+        isFalse,
+      );
+      await expectLater(
+        credentials.setBiometricEnabled('other', true),
+        throwsStateError,
+      );
+      await credentials.remember(unitSession(), 'customer');
+      await credentials.setBiometricEnabled(unitSession().user.id, true);
+      expect(await credentials.biometricEnabled(unitSession().user.id), isTrue);
+      expect(await credentials.biometricEnabled('other'), isFalse);
+    },
+  );
+  test(
+    'biometric rotation preserves opt-in only for the same account',
+    () async {
+      final session = unitSession();
+      await credentials.remember(session, 'customer');
+      await credentials.setBiometricEnabled(session.user.id, true);
+      await credentials.remember(session, 'customer', preserveBiometric: true);
+      expect(await credentials.biometricEnabled(session.user.id), isTrue);
+      final next = unitSession('00000000-0000-0000-0000-000000000002');
+      await credentials.remember(next, 'vendor', preserveBiometric: true);
+      expect(await credentials.biometricEnabled(next.user.id), isFalse);
+      expect(vault.data['bio_account'], isNull);
+    },
+  );
+  test('disable and logout revoke biometric enrollment', () async {
+    final session = unitSession();
+    await credentials.remember(session, 'customer');
+    await credentials.setBiometricEnabled(session.user.id, true);
+    await credentials.setBiometricEnabled(session.user.id, false);
+    expect(await credentials.biometricEnabled(session.user.id), isFalse);
+    await credentials.setBiometricEnabled(session.user.id, true);
+    await credentials.invalidate();
+    expect(await credentials.biometricEnabled(session.user.id), isFalse);
+    expect(vault.data['bio_account'], isNull);
+  });
+  test('failed enrollment storage cannot leave an enabled shortcut', () async {
+    final session = unitSession();
+    await credentials.remember(session, 'customer');
+    vault.failures.add('write:bio_enabled');
+    await expectLater(
+      credentials.setBiometricEnabled(session.user.id, true),
+      throwsStateError,
+    );
+    expect(await credentials.read(), isNull);
+    expect(await credentials.biometricEnabled(session.user.id), isFalse);
+  });
+  test(
+    'SDK token rotation updates the same account and never an unrelated account',
+    () async {
+      final session = unitSession();
+      await credentials.remember(session, 'customer');
+      final rotated = Session.fromJson({
+        ...session.toJson(),
+        'refresh_token': 'unit-rotated-refresh',
+      })!;
+      await credentials.synchronize(rotated);
+      expect((await credentials.read())!.refreshToken, 'unit-rotated-refresh');
+      await credentials.synchronize(
+        unitSession('00000000-0000-0000-0000-000000000002'),
+      );
+      expect((await credentials.read())!.refreshToken, 'unit-rotated-refresh');
+      vault.failures.add('write:tr_refresh');
+      await credentials.synchronize(rotated);
+      expect(await credentials.read(), isNull);
+    },
+  );
+  test(
     'logout clears the SDK session despite presence, remote request and secure-key deletion failures',
     () async {
       final client = Supabase.instance.client;

@@ -18,8 +18,10 @@ class PrivatePhotoEditor extends StatefulWidget {
     this.service,
     this.pick,
     this.accountChanges,
+    this.chooseLabel,
   });
   final String? reference;
+  final String? chooseLabel;
   final int? orderId;
   final bool canUpload;
   final ValueChanged<String>? onSaved;
@@ -159,9 +161,10 @@ class _PrivatePhotoEditorState extends State<PrivatePhotoEditor> {
                     : () => submit(ImageSource.gallery),
                 icon: const Icon(Icons.photo_library),
                 label: Text(
-                  widget.orderId == null
-                      ? "Choose profile photo".tr
-                      : "Choose delivery photo".tr,
+                  widget.chooseLabel?.tr ??
+                      (widget.orderId == null
+                          ? "Choose profile photo".tr
+                          : "Choose delivery photo".tr),
                 ),
               ),
               TextButton.icon(

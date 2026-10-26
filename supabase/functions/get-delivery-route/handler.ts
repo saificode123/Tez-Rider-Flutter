@@ -44,7 +44,19 @@ export function fallback(ctx: Data, now: number): Data | null {
 }
 export function createHandler(deps: Dependencies) {
   return async (req: Request): Promise<Response> => {
-    const reply = (data: Data, status = 200) => Response.json(data, {status, headers});
+    const started = performance.now();
+    const timings: string[] = [];
+    async function timed<T>(name: string, work: () => Promise<T>): Promise<T> {
+      const at = performance.now();
+      try { return await work(); }
+      finally { timings.push(`${name};dur=${Math.max(0, performance.now() - at).toFixed(2)}`); }
+    }
+    // Authorized success responses expose stage durations only. No locations,
+    // identities, tokens, provider URLs or raw errors enter diagnostic headers.
+    // Handler timing excludes the outer security wrapper/network/cold start.
+    const reply = (data: Data, status = 200) => Response.json(data, {status, headers: status === 200 ? {
+      ...headers, 'Server-Timing': [...timings, `handler;dur=${Math.max(0, performance.now() - started).toFixed(2)}`].join(', '),
+    } : headers});
     if (req.method === 'OPTIONS') return new Response('ok', {headers});
     if (req.method !== 'POST') return await deps.accountBoundary?.(req) ?? reply({code: 'METHOD_NOT_ALLOWED'}, 405);
     const auth = req.headers.get('authorization') ?? '';
@@ -53,9 +65,9 @@ export function createHandler(deps: Dependencies) {
       const jwt = auth.slice(7);
       // Independent live checks overlap, but no order lookup or provider work
       // starts until both complete. No authentication result is cached.
-      const [authenticated, denial] = await Promise.all([
+      const [authenticated, denial] = await timed('auth', () => Promise.all([
         deps.authenticate(jwt), deps.accountBoundary?.(req) ?? Promise.resolve(null),
-      ]);
+      ]));
       if (denial) return denial;
       if (!authenticated) return reply({code: 'UNAUTHORIZED'}, 401);
       const reader = req.body?.getReader();
@@ -75,25 +87,25 @@ export function createHandler(deps: Dependencies) {
       let body: Data;
       try { body = JSON.parse(text); } catch { return reply({code: 'INVALID_REQUEST'}, 400); }
       if (!body || Array.isArray(body) || Object.keys(body).length !== 1 || !Number.isSafeInteger(body.orderId) || body.orderId < 1) return reply({code: 'INVALID_REQUEST'}, 400);
-      const access = await deps.context(jwt, body.orderId);
+      const access = await timed('context', () => deps.context(jwt, body.orderId));
       if (access.code !== 'OK' || !Number.isSafeInteger(access.actor)) return reply({code: 'FORBIDDEN'}, 403);
-      const ctx = await deps.prepare(body.orderId, access.actor, deps.configured);
+      const ctx = await timed('prepare', () => deps.prepare(body.orderId, access.actor, deps.configured));
       if (ctx.code === 'FORBIDDEN') return reply({code: 'FORBIDDEN'}, 403);
       if (ctx.code === 'RATE_LIMIT') return reply({code: 'RATE_LIMIT'}, 429);
       if (['DESTINATION_UNCONFIRMED', 'LOCATION_UNAVAILABLE'].includes(ctx.code)) return reply({code: ctx.code, route: null});
       if (!coordinate(ctx.origin) || !coordinate(ctx.destination) || ctx.orderId !== body.orderId) return reply({code: 'UNAVAILABLE', route: null});
       if (ctx.code === 'COMPUTE') {
         let result: Data | null = null;
-        try { result = parseProvider(await deps.provider(ctx.origin, ctx.destination), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
-        const saved = await deps.finish(body.orderId, access.actor, ctx.lease, result);
+        try { result = parseProvider(await timed('provider', () => deps.provider(ctx.origin, ctx.destination)), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
+        const saved = await timed('finish', () => deps.finish(body.orderId, access.actor, ctx.lease, result));
         if (result && saved.code === 'OK') {
           // Recheck the caller/session after the external request as well.
-          if ((await deps.context(jwt, body.orderId)).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+          if ((await timed('revalidate', () => deps.context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
           return reply({code: 'OK', route: saved.route});
         }
         if (!['OK', 'RELEASED'].includes(saved.code)) return reply({code: 'UNAVAILABLE', route: null});
       }
-      if ((await deps.context(jwt, body.orderId)).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+      if ((await timed('revalidate', () => deps.context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
       const now = (deps.now ?? Date.now)();
       if (ctx.cache) {
         const stale = ctx.code !== 'CACHE' || Date.parse(ctx.cache.expiresAt) <= now;

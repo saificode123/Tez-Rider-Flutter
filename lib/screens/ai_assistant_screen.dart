@@ -17,8 +17,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   final List<Map<String, dynamic>> _messages = [
     {
       'isBot': true,
-      'text': "Hi! 👋 I'm your TezRider AI Assistant.\n\nAsk me for gift ideas, cake + flower combos, or anything for a special occasion! 🎁"
-    }
+      'text':
+          "Hi! 👋 I'm your TezRider AI Assistant.\n\nAsk me for gift ideas, cake + flower combos, or anything for a special occasion! 🎁",
+    },
   ];
 
   bool _isTyping = false;
@@ -46,7 +47,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       if (_scrollCtrl.hasClients) {
+        if (MediaQuery.disableAnimationsOf(context)) {
+          _scrollCtrl.jumpTo(_scrollCtrl.position.maxScrollExtent);
+          return;
+        }
         _scrollCtrl.animateTo(
           _scrollCtrl.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
@@ -54,6 +60,13 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
         );
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _msgCtrl.dispose();
+    _scrollCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -66,11 +79,22 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
           children: [
             const Icon(Icons.auto_awesome, color: Colors.amber, size: 20),
             const SizedBox(width: 8),
-            const Text('Smart Assistant', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+            const Text(
+              'Smart Assistant',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
           ],
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
           onPressed: () => Get.back(),
         ),
       ),
@@ -89,7 +113,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
               ],
             ),
           ),
-          
+
           Expanded(
             child: ListView.builder(
               controller: _scrollCtrl,
@@ -100,33 +124,52 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                 final isBot = msg['isBot'];
 
                 return Align(
-                  alignment: isBot ? Alignment.centerLeft : Alignment.centerRight,
+                  alignment: isBot
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.8,
+                    ),
                     decoration: BoxDecoration(
                       color: isBot ? Colors.white : const Color(0xFF1B5E20),
                       borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(16),
                         topRight: const Radius.circular(16),
-                        bottomLeft: isBot ? const Radius.circular(4) : const Radius.circular(16),
-                        bottomRight: isBot ? const Radius.circular(16) : const Radius.circular(4),
+                        bottomLeft: isBot
+                            ? const Radius.circular(4)
+                            : const Radius.circular(16),
+                        bottomRight: isBot
+                            ? const Radius.circular(16)
+                            : const Radius.circular(4),
                       ),
                       boxShadow: [
-                        BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 4, offset: const Offset(0, 2))
-                      ]
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: Text(
                       msg['text'],
-                      style: TextStyle(color: isBot ? Colors.black87 : Colors.white, fontSize: 14, height: 1.4),
+                      style: TextStyle(
+                        color: isBot ? Colors.black87 : Colors.white,
+                        fontSize: 14,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 );
               },
             ),
           ),
-          
+
           if (_isTyping)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -135,21 +178,37 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                 child: Row(
                   children: [
                     const SizedBox(
-                      width: 16, height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1B5E20)),
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Color(0xFF1B5E20),
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    Text("AI is typing...", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                    Text(
+                      "AI is typing...",
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -4))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, -4),
+                ),
+              ],
             ),
             child: SafeArea(
               child: Row(
@@ -159,11 +218,20 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                       controller: _msgCtrl,
                       decoration: InputDecoration(
                         hintText: "Ask for recommendations...",
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
                         filled: true,
                         fillColor: const Color(0xFFF4F4F8),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                       ),
                       onSubmitted: (_) => _sendMessage(),
                     ),
@@ -177,13 +245,17 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                         color: Color(0xFF1B5E20),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                      child: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -201,9 +273,18 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
         decoration: BoxDecoration(
           color: const Color(0xFF1B5E20).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF1B5E20).withValues(alpha: 0.3)),
+          border: Border.all(
+            color: const Color(0xFF1B5E20).withValues(alpha: 0.3),
+          ),
         ),
-        child: Text(text, style: const TextStyle(color: Color(0xFF1B5E20), fontSize: 12, fontWeight: FontWeight.bold)),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Color(0xFF1B5E20),
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

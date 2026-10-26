@@ -6,7 +6,8 @@ typedef ProfileWrite =
     Future<dynamic> Function(Map<String, dynamic> parameters);
 
 /// Canonical profile edits use the already deployed, validated registration API.
-/// Email, role, verification and identity documents are never editable here.
+/// Email is handled separately by Auth-confirmed ProfileEmailService. Role,
+/// verification and identity documents are never editable through this API.
 class ProfileService {
   ProfileService({
     ProfileRead? read,

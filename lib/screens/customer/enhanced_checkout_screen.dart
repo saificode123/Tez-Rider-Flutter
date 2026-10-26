@@ -8,13 +8,11 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../controllers/cart_controller.dart';
-import '../../controllers/prescription_controller.dart';
 import '../../controllers/product_controller.dart';
-import '../../models/product_model.dart';
 import '../../services/order_timeout_service.dart';
 import '../../services/delivery_destination.dart';
 import '../../widgets/tez_map_tiles.dart';
-import '../../widgets/prescription_upload_widget.dart';
+import 'order_detail_screen.dart';
 
 class EnhancedCheckoutScreen extends StatefulWidget {
   final CartController cart;
@@ -38,9 +36,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
   // 'cod' = Cash on Delivery, 'card' = Card / Online Payment
 
-  final PrescriptionController _prescriptionController =
-      Get.find<PrescriptionController>();
-
   final ProductController _productController = Get.find<ProductController>();
 
   final _supabase = Supabase.instance.client;
@@ -63,14 +58,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     ),
   );
 
-  final MapController _mapController = MapController();
-
-  final LatLng _currentLocation = const LatLng(33.6844, 73.0479);
-
-  final bool _locationLoading = false;
-
-  bool _useTwoRiders = false;
-
   static const Color _purple = Color(0xFF1B5E20);
 
   // ===== NEW VARIABLES =====
@@ -91,29 +78,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
   double get _totalDeliveryFee => _baseDeliveryFee + _extraDelivery + _speedFee;
 
-  List<ProductModel> _nearbyProducts = [];
-  // ================= RIDER TRACKING =================
-
-  final LatLng _vendorLocation = const LatLng(33.7008, 72.9682);
-
-  final LatLng _customerLocation = const LatLng(33.6844, 73.0479);
-
-  final LatLng _riderLocation = const LatLng(33.7008, 72.9682);
-
-  final LatLng _rider2Location = const LatLng(33.6940, 73.0200);
-
-  bool _showTwoRiderSuggestion = false;
-
-  double _singleRiderCharge = 0;
-
-  double _twoRiderCharge = 0;
-
-  double _estimatedSaving = 0;
-
-  double _singleETA = 0;
-
-  double _doubleETA = 0;
-
   @override
   void initState() {
     super.initState();
@@ -121,8 +85,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     _initializePrescriptionTracking();
 
     _checkMultipleVendors();
-
-    _calculateDeliverySuggestion();
 
     _prefillContactInfo();
   }
@@ -184,8 +146,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
     if (_hasMultipleVendors) {
       _extraDelivery = (_vendorCount - 1) * 80;
-
-      _loadNearbyVendorProducts();
     }
   }
 
@@ -348,56 +308,6 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     if (mounted) setState(() => _selectingDestination = false);
   }
 
-  /// Load same-category products from all vendors
-  void _loadNearbyVendorProducts() {
-    final productIds = widget.cart.cartItems
-        .map((e) => e['product_id'].toString())
-        .toList();
-
-    final categories = _productController.products
-        .where((p) => productIds.contains(p.id))
-        .map((p) => p.category.toLowerCase().trim())
-        .toSet();
-
-    // Vendors already present in cart
-    final currentVendors = widget.cart.cartItems
-        .map((e) => e['vendor_id'].toString())
-        .toSet();
-
-    _nearbyProducts = _productController.products
-        .where((product) {
-          return categories.contains(product.category.toLowerCase().trim()) &&
-              !currentVendors.contains(product.vendorId);
-        })
-        .take(8)
-        .toList();
-    debugPrint("Nearby Products Count: ${_nearbyProducts.length}");
-
-    for (var p in _nearbyProducts) {
-      debugPrint(
-        "Product: ${p.name} | Vendor: ${p.vendorId} | Category: ${p.category}",
-      );
-    }
-  }
-
-  void _calculateDeliverySuggestion() {
-    if (!_hasMultipleVendors) return;
-
-    _singleRiderCharge = 220 + (_vendorCount * 40);
-
-    _twoRiderCharge = 280;
-
-    _singleETA = 60;
-
-    _doubleETA = 35;
-
-    _estimatedSaving = _singleRiderCharge - _twoRiderCharge;
-
-    if (_estimatedSaving > 0) {
-      _showTwoRiderSuggestion = true;
-    }
-  }
-
   /// Initialize prescription tracking
   void _initializePrescriptionTracking() {
     final Map<String, List<Map<String, dynamic>>> vendorGroups = {};
@@ -433,16 +343,17 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     }
   }
 
-  /// Check all prescriptions uploaded
-  bool _allPrescriptionsUploaded() {
-    if (_prescriptionsUploaded.isEmpty) return true;
-
-    return _prescriptionsUploaded.values.every((uploaded) => uploaded);
-  }
-
   Future<void> _placeOrder() async {
     if (_isProcessing) return;
     setState(() => _isProcessing = true);
+    try {
+      await _submitOrder();
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  Future<void> _submitOrder() async {
     try {
       await _placeValidatedOrder();
     } finally {
@@ -489,153 +400,27 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       return;
     }
 
-    if (!_allPrescriptionsUploaded()) {
-      Get.snackbar(
-        "Prescription Required".tr,
-        "Please upload all required prescriptions before payment.".tr,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    // ==========================
-    // MULTIPLE VENDOR WARNING
-    // ==========================
-
     if (_hasMultipleVendors) {
       final proceed = await Get.dialog<bool>(
         AlertDialog(
-          title: Text("Multiple Vendors".tr),
-
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Your cart contains products from @slot0end different vendors."
-                    .uiTr({"slot0end": (_vendorCount).toString()}),
-              ),
-
-              const SizedBox(height: 15),
-
-              Text(
-                "Estimated extra delivery charges: PKR @slot0end".uiTr({
-                  "slot0end": (_extraDelivery.toStringAsFixed(0)).toString(),
-                }),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Text(
-                "You can continue with multiple vendors or buy from nearby vendors to reduce delivery charges."
-                    .tr,
-              ),
-            ],
+          title: Text('Multiple Vendors'.tr),
+          content: Text(
+            'Your cart contains products from @slot0end different vendors.'
+                .uiTr({'slot0end': '$_vendorCount'}),
           ),
-
           actions: [
             TextButton(
-              onPressed: () {
-                Get.back(result: false);
-              },
-
-              child: Text("Check Nearby Vendors".tr),
+              onPressed: () => Get.back(result: false),
+              child: Text('Cancel'.tr),
             ),
-
-            ElevatedButton(
-              onPressed: () {
-                Get.back(result: true);
-              },
-
-              child: Text("Continue".tr),
+            FilledButton(
+              onPressed: () => Get.back(result: true),
+              child: Text('Continue'.tr),
             ),
           ],
         ),
       );
-
-      if (proceed != true) {
-        Get.bottomSheet(
-          Container(
-            height: 400,
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Nearby Vendor Suggestions".tr,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-
-                const SizedBox(height: 15),
-
-                Expanded(
-                  child: _nearbyProducts.isEmpty
-                      ? Center(
-                          child: Text(
-                            "No nearby vendors found".tr,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: _nearbyProducts.length,
-                          itemBuilder: (context, index) {
-                            final product = _nearbyProducts[index];
-
-                            return Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.store),
-
-                                title: Text(product.name),
-
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(product.category),
-                                    Text(
-                                      "Vendor ID: @slot0end".uiTr({
-                                        "slot0end": (product.vendorId)
-                                            .toString(),
-                                      }),
-                                    ),
-                                    Text(
-                                      "PKR @slot0end".uiTr({
-                                        "slot0end": (product.price).toString(),
-                                      }),
-                                    ),
-                                  ],
-                                ),
-
-                                trailing: ElevatedButton(
-                                  onPressed: () {
-                                    Get.snackbar(
-                                      "Selected".tr,
-                                      "@slot0end selected".uiTr({
-                                        "slot0end": (product.name).toString(),
-                                      }),
-                                    );
-                                  },
-                                  child: Text("Select".tr),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                ),
-              ],
-            ),
-          ),
-        );
-
-        return;
-      }
+      if (!mounted || proceed != true) return;
     }
 
     setState(() {
@@ -648,7 +433,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
           'Your delivery location is unavailable. Allow location access and retry.',
         );
       }
-      await _checkout.place(
+      final placed = await _checkout.place(
         widget.cart.cartItems
             .map(
               (item) => {
@@ -668,6 +453,9 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       final cartCleared = await widget.cart.clear();
       if (mounted) {
         Get.back();
+        if (_prescriptionsUploaded.isNotEmpty) {
+          Get.to(() => OrderDetailScreen(orderId: placed['order_id'] as int));
+        }
         Get.snackbar(
           "Order placed".tr,
           cartCleared
@@ -915,131 +703,10 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
             ),
 
             const SizedBox(height: 10),
-            if (_showTwoRiderSuggestion)
-              Container(
-                margin: const EdgeInsets.only(top: 18),
-
-                padding: const EdgeInsets.all(18),
-
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-
-                  borderRadius: BorderRadius.circular(16),
-
-                  border: Border.all(color: Colors.orange),
-                ),
-
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.local_shipping, color: Colors.deepOrange),
-
-                        SizedBox(width: 8),
-
-                        Text(
-                          "Smart Rider Suggestion".tr,
-
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-
-                            fontSize: 17,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    Text(
-                      "Products are coming from @slot0end different vendors."
-                          .uiTr({"slot0end": (_vendorCount).toString()}),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Text(
-                      "One Rider Delivery".tr,
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    Text(
-                      "Charges : PKR @slot0end".uiTr({
-                        "slot0end": (_singleRiderCharge.toStringAsFixed(
-                          0,
-                        )).toString(),
-                      }),
-                    ),
-
-                    Text(
-                      "ETA : @slot0end mins".uiTr({
-                        "slot0end": (_singleETA.toStringAsFixed(0)).toString(),
-                      }),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    Text(
-                      "Two Rider Delivery".tr,
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    Text(
-                      "Charges : PKR @slot0end".uiTr({
-                        "slot0end": (_twoRiderCharge.toStringAsFixed(
-                          0,
-                        )).toString(),
-                      }),
-                    ),
-
-                    Text(
-                      "ETA : @slot0end mins".uiTr({
-                        "slot0end": (_doubleETA.toStringAsFixed(0)).toString(),
-                      }),
-                    ),
-
-                    const Divider(),
-
-                    Text(
-                      "You save PKR @slot0end and approximately @slot1end minutes by using 2 riders."
-                          .uiTr({
-                            "slot0end": (_estimatedSaving.toStringAsFixed(
-                              0,
-                            )).toString(),
-                            "slot1end":
-                                ((_singleETA - _doubleETA).toStringAsFixed(
-                                  0,
-                                )).toString(),
-                          }),
-
-                      style: const TextStyle(
-                        color: Colors.green,
-
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    SwitchListTile(
-                      value: _useTwoRiders,
-
-                      onChanged: (v) {
-                        setState(() {
-                          _useTwoRiders = v;
-                        });
-                      },
-
-                      title: Text("Use Two Riders".tr),
-                    ),
-                  ],
-                ),
-              ),
-
+            Text(
+              'Route and ETA become available after a Rider starts sharing the delivery location.'
+                  .tr,
+            ),
             const SizedBox(height: 25),
 
             /// Prescription Section
@@ -1051,14 +718,9 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
               const SizedBox(height: 10),
 
-              PrescriptionUploadWidget(
-                vendorOrderId: "",
-                customerId: widget.customerId,
-                onUploadSuccess: () {
-                  setState(() {
-                    _prescriptionsUploaded.updateAll((key, value) => true);
-                  });
-                },
+              Text(
+                'Place your order first. Upload the prescription securely from Order details; the Vendor reviews it before accepting the medicine order.'
+                    .tr,
               ),
 
               const SizedBox(height: 25),

@@ -1,5 +1,9 @@
+import '../widgets/biometric_settings_tile.dart';
+import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/rider_performance_panel.dart';
+import '../widgets/rider_earnings_panel.dart';
+import '../services/rider_earnings_service.dart';
 import '../widgets/delivery_photo_panel.dart';
 import 'customer/profile_screen.dart';
 import '../widgets/language_settings_tile.dart';
@@ -94,9 +98,47 @@ class _RiderDashboardState extends State<RiderDashboard> {
     });
   }
 
+  bool _reviewingEarning = false;
   Future<void> _acceptOrder(Map<String, dynamic> order) async {
-    await riderCtrl.acceptOrder(order);
-    if (riderCtrl.currentOrder.value != null) setState(() => _tab = 1);
+    if (_reviewingEarning) return;
+    _reviewingEarning = true;
+    try {
+      final id = int.tryParse('${order['id']}');
+      if (id == null) throw const FormatException('Invalid order');
+      final quote = await RiderEarningsService().quote(id);
+      if (!mounted) return;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Expected delivery earning'.tr),
+          content: Text(
+            'PKR ${(quote['expected_amount'] as num).toStringAsFixed(0)}\n${'Estimate; distance is frozen when delivery starts.'.tr}\n${'Earnings records only. This is not a payout confirmation.'.tr}',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'.tr),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Accept Order'.tr),
+            ),
+          ],
+        ),
+      );
+      if (!mounted || confirmed != true) return;
+      await riderCtrl.acceptOrder(order);
+      if (mounted && riderCtrl.currentOrder.value != null)
+        setState(() => _tab = 1);
+    } catch (_) {
+      if (mounted)
+        Get.snackbar(
+          'Expected delivery earning'.tr,
+          'Earnings could not be loaded. Please retry.'.tr,
+        );
+    } finally {
+      _reviewingEarning = false;
+    }
   }
 
   Future<void> _acceptTailoring(Map<String, dynamic> request) async {
@@ -153,7 +195,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
     Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-      body: IndexedStack(
+      body: AppTabStack(
         index: _tab,
         children: [_homeTab(), _mapTab(), _earningsTab(), _profileTab()],
       ),
@@ -209,40 +251,15 @@ class _RiderDashboardState extends State<RiderDashboard> {
   Widget _navItem(
     int index,
     IconData activeIcon,
-    IconData defaultIcon,
+    IconData inactiveIcon,
     String label,
   ) {
-    final isSel = _tab == index;
-    return GestureDetector(
+    return AppNavigationItem(
+      selected: _tab == index,
+      activeIcon: activeIcon,
+      inactiveIcon: inactiveIcon,
+      label: label,
       onTap: () => setState(() => _tab = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 280),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-        decoration: BoxDecoration(
-          color: isSel ? AppColors.primarySurface : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSel ? activeIcon : defaultIcon,
-              color: isSel ? AppColors.primary : AppColors.textHint,
-              size: 22,
-            ),
-            if (isSel) ...[
-              const SizedBox(width: 7),
-              Text(
-                label.tr,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 
@@ -703,6 +720,11 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   ),
                 ],
               ),
+            if (int.tryParse('${o['id']}') case final int orderId)
+              RiderEarningsPanel(
+                key: ValueKey('earning-quote-$orderId'),
+                orderId: orderId,
+              ),
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
@@ -1034,7 +1056,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                           order['order_status'] != 'on_the_way')
                         PreDeliveryChecklistCard(
                           flow: riderCtrl.checklist,
-                          onAccept: () => riderCtrl.acceptOrder(order),
+                          onAccept: () => _acceptOrder(order),
                           onStart: riderCtrl.startDelivery,
                         ),
                       if (order['type'] == 'order' &&
@@ -1210,254 +1232,31 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
   Widget _earningsTab() {
     return SafeArea(
-      child: Obx(
-        () => CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              backgroundColor: AppColors.bgLight,
-              elevation: 0,
-              floating: true,
-              snap: true,
-              automaticallyImplyLeading: false,
-              title: Text(
-                'My Earnings'.tr,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 20,
-                  color: AppColors.textPrimary,
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            automaticallyImplyLeading: false,
+            title: Text('My Earnings'.tr),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const RiderPerformancePanel(),
+                const SizedBox(height: 16),
+                const RiderEarningsPanel(),
+                const SizedBox(height: 16),
+                Text(
+                  'Recent Deliveries'.tr,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
+                const _DeliveryHistoryList(),
+              ]),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  const RiderPerformancePanel(),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: AppColors.gradientDark,
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.35),
-                          blurRadius: 24,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Earned delivery fees".tr,
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.70),
-                            fontSize: 13,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          riderCtrl.todayEarnings.value,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 38,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Fee policy pending approval. Order totals are not Rider earnings."
-                              .tr,
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        const SizedBox(height: 22),
-                        const Divider(color: Colors.white24, height: 1),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _earningsStat(
-                              "Trips Today".tr,
-                              riderCtrl.tripsToday.value.toString(),
-                            ),
-                            _dividerLine(),
-                            _earningsStat(
-                              "All Time".tr,
-                              riderCtrl.totalDeliveries.value.toString(),
-                            ),
-                            _dividerLine(),
-                            _earningsStat(
-                              "This Week".tr,
-                              riderCtrl.weeklyEarnings.value.replaceFirst(
-                                'PKR ',
-                                'PKR\n',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  Row(
-                    children: [
-                      _earningsCard(
-                        "Weekly".tr,
-                        riderCtrl.weeklyEarnings.value,
-                        Icons.calendar_view_week_rounded,
-                        AppColors.info,
-                      ),
-                      const SizedBox(width: 12),
-                      _earningsCard(
-                        "Monthly".tr,
-                        riderCtrl.monthlyEarnings.value,
-                        Icons.calendar_month_rounded,
-                        AppColors.catTailoring,
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  Obx(() {
-                    if (riderCtrl.totalDeliveries.value == 0) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.03),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: AppColors.bgSection,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.history_rounded,
-                                color: AppColors.textHint,
-                                size: 32,
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              "No deliveries yet".tr,
-                              style: TextStyle(
-                                color: AppColors.textSecondary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 12),
-                          child: Text(
-                            "Recent Deliveries".tr,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                        ),
-                        const _DeliveryHistoryList(),
-                      ],
-                    );
-                  }),
-                ]),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _earningsStat(String label, String val) {
-    return Column(
-      children: [
-        Text(
-          val,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.65),
-            fontSize: 11,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _dividerLine() =>
-      Container(width: 1, height: 32, color: Colors.white24);
-
-  Widget _earningsCard(String title, String value, IconData icon, Color color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 10,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 12),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            Text(
-              title,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -1602,22 +1401,6 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 },
               ),
               _profileTile(
-                Icons.account_balance_rounded,
-                "Bank Information".tr,
-                AppColors.success,
-                () {
-                  Get.snackbar(
-                    "Coming Soon".tr,
-                    "Bank information will be available in a future update.".tr,
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
-              ),
-              _profileTile(
                 Icons.star_outline_rounded,
                 "Ratings & Reviews".tr,
                 AppColors.warning,
@@ -1627,6 +1410,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             const SizedBox(height: 14),
             _profileSection("Support".tr, [
               const LanguageSettingsTile(),
+              const BiometricSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
                 "Inbox / Chat".tr,

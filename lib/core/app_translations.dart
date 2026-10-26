@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'stage2_translations.dart';
 import 'stage2_ui_translations.dart';
+import 'profile_email_translations.dart';
 
 class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      for (final key in profileEmailUrdu.keys) key: key,
       for (final key in stage2UiUrdu.keys) key: key,
       for (final key in stage2Urdu.keys) key: key,
       'app_name': 'TezRider',
@@ -69,6 +71,7 @@ class AppTranslations extends Translations {
       "Reports": "Reports",
     },
     'ur_PK': {
+      ...profileEmailUrdu,
       ...stage2UiUrdu,
       ...stage2Urdu,
       'app_name': 'تیز رائیڈر',

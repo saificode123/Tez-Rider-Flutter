@@ -25,8 +25,8 @@ bool get androidTestPushEnabled =>
 const _storage = FlutterSecureStorage();
 const _channel = AndroidNotificationChannel(
   'fr30_admin_broadcasts',
-  'Admin broadcasts',
-  description: 'Notifications sent by TezRider administrators',
+  'TezRider updates',
+  description: 'Order, delivery and account updates from TezRider',
   importance: Importance.high,
 );
 

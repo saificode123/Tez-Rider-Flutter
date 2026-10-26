@@ -121,18 +121,19 @@ void main() {
     },
   );
   testWidgets(
-    'unconfigured tailoring reference control cannot fabricate an attachment',
+    'tailoring reference picker failure cannot fabricate an attachment',
     (t) async {
-      await show(t, const TailoringScreen());
-      await t.ensureVisible(find.byIcon(Icons.add_photo_alternate_rounded));
-      await t.tap(find.byIcon(Icons.add_photo_alternate_rounded));
-      await tick(t);
-      expect(
-        find.text(
-          'Reference-image upload is not configured. No image was attached.',
+      await show(
+        t,
+        TailoringScreen(
+          pickReference: (_) async =>
+              throw StateError('injected picker failure'),
         ),
-        findsOneWidget,
       );
+      await t.ensureVisible(find.text('Choose reference image'));
+      await t.tap(find.text('Choose reference image'));
+      await tick(t);
+      expect(find.text('Photo was not confirmed. Retry.'), findsOneWidget);
       expect(find.byType(Image), findsNothing);
       expect(transport.requests.where((r) => r.method == 'POST'), isEmpty);
       await t.pump(const Duration(seconds: 5));
@@ -140,12 +141,13 @@ void main() {
     },
   );
   testWidgets(
-    'deferred tailoring write denial preserves the form and never claims rider assignment',
+    'trusted tailoring write denial preserves the form and never claims rider assignment',
     (t) async {
       final fallback = transport.respond!;
       final pending = Completer<http.Response>();
       transport.respond = (r) async =>
-          r.url.path.endsWith('/tailoring_requests') && r.method == 'POST'
+          r.url.path.endsWith('/rpc/optional_submit_tailoring') &&
+              r.method == 'POST'
           ? pending.future
           : fallback(r);
       await show(t, const TailoringScreen());
@@ -157,9 +159,14 @@ void main() {
       await t.tap(find.text('Request Pickup'));
       await tick(t);
       final request = transport.requests.singleWhere(
-        (r) => r.method == 'POST' && r.url.path.endsWith('/tailoring_requests'),
+        (r) =>
+            r.method == 'POST' &&
+            r.url.path.endsWith('/rpc/optional_submit_tailoring'),
       );
-      expect(jsonDecode(request.body)['customer_id'], 1);
+      final payload = jsonDecode(request.body) as Map;
+      expect(payload['p_instructions'], 'Unit stitching instructions');
+      expect(payload['p_request_id'], isA<String>());
+      expect(payload.containsKey('customer_id'), isFalse);
       expect(
         t.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed,
         isNull,

@@ -159,7 +159,7 @@ class VendorController extends GetxController {
             .from('vendor_orders')
             .select(
               'id,order_id,vendor_id,status,sub_total,created_at, '
-              'orders!vendor_orders_order_id_fkey(id,user_id,rider_id,delivery_address,delivery_lat,delivery_lng,delivery_speed), '
+              'orders!vendor_orders_order_id_fkey(id,user_id,rider_id,order_status,delivery_address,delivery_lat,delivery_lng,delivery_speed), '
               'order_items(quantity,price_at_time,products(name))',
             )
             .eq('vendor_id', _vendorId!)
@@ -278,26 +278,36 @@ class VendorController extends GetxController {
     return message;
   }
 
-  Future<void> updateTailoringStatus(String requestId, String newStatus) async {
+  final Set<int> _tailoringBusy = {};
+  Future<void> updateTailoringStatus(Object requestId, String newStatus) async {
+    final id = int.tryParse(requestId.toString());
+    if (id == null || !_tailoringBusy.add(id)) return;
+    final account = _supabase.auth.currentUser?.id;
     try {
-      await _supabase
-          .from('tailoring_requests')
-          .update({'status': newStatus})
-          .eq('id', requestId);
-      Get.snackbar(
-        "Success".tr,
-        "Tailoring job marked as @slot0end".uiTr({
-          "slot0end": (newStatus).toString(),
-        }),
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (e) {
-      Get.snackbar(
-        "Error".tr,
-        "Failed to update tailoring job: @slot0end".uiTr({
-          "slot0end": (e).toString(),
-        }),
-      );
+      final row = await _supabase
+          .rpc(
+            'optional_tailoring_status',
+            params: {'p_id': id, 'p_status': newStatus},
+          )
+          .timeout(const Duration(seconds: 20));
+      if (isClosed || _supabase.auth.currentUser?.id != account) return;
+      if (row is! Map || row['id'] != id || row['status'] != newStatus) {
+        throw StateError('Tailoring update was not confirmed');
+      }
+      await refreshOrders();
+      if (!isClosed)
+        Get.snackbar(
+          "Success".tr,
+          "Tailoring job marked as @slot0end".uiTr({"slot0end": newStatus}),
+        );
+    } catch (_) {
+      if (!isClosed)
+        Get.snackbar(
+          "Error".tr,
+          'Tailoring update was not confirmed. Refresh and retry.'.tr,
+        );
+    } finally {
+      _tailoringBusy.remove(id);
     }
   }
 }

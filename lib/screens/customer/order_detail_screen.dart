@@ -1,3 +1,5 @@
+import '../../widgets/prescription_order_panel.dart';
+import '../../widgets/post_pickup_cancellation_card.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
@@ -297,6 +299,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ],
                         ),
                     ]),
+                  if (widget.service == null &&
+                      current.portions.any(
+                        (p) => p['status'] == 'pending_prescription',
+                      ))
+                    PrescriptionOrderPanel(
+                      key: ValueKey('prescriptions-${widget.orderId}'),
+                      orderId: widget.orderId,
+                      portions: current.portions
+                          .where((p) => p['status'] == 'pending_prescription')
+                          .toList(),
+                    ),
                   if (widget.service == null)
                     RiderIdentityCard(
                       key: ValueKey('identity-${widget.orderId}'),
@@ -319,6 +332,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                     InvoiceButton(orderId: widget.orderId),
                   ]),
+                  if (widget.service == null &&
+                      current.value['status'] == 'on_the_way')
+                    PostPickupCancellationCard(
+                      key: ValueKey('post-pickup-${widget.orderId}'),
+                      orderId: widget.orderId,
+                      onChanged: load,
+                    ),
                 ],
               ),
             ),

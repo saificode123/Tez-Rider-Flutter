@@ -1,0 +1,7 @@
+# Copy privately to android/key.properties and supply your existing upload key.
+# storeFile is absolute, or relative to the android directory. Prefer / in paths.
+# Never commit key.properties or the keystore.
+storeFile=
+storePassword=
+keyAlias=
+keyPassword=

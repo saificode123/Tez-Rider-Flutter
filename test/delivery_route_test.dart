@@ -102,6 +102,46 @@ void main() {
       greaterThan(150),
     );
   });
+  test(
+    'cached road projection preserves lengths and refreshes for movement',
+    () {
+      final r = DeliveryRoute.fromJson(routeData(DateTime.utc(2026)));
+      final first = r.projector.project(const LatLng(33.7, 73.055));
+      final stationary = r.projector.project(const LatLng(33.7, 73.055));
+      expect(identical(first, stationary), true);
+      final total =
+          const Distance().as(LengthUnit.Meter, r.points[0], r.points[1]) +
+          const Distance().as(LengthUnit.Meter, r.points[1], r.points[2]);
+      expect(first.total, closeTo(total, 0.001));
+      final moved = r.projector.project(const LatLng(33.705, 73.06));
+      expect(moved.along, greaterThan(first.along));
+      expect(moved.offRoute, lessThan(1));
+      expect(moved.total, first.total);
+      expect(
+        r.projector.project(const LatLng(33.72, 73.04)).offRoute,
+        greaterThan(150),
+      );
+    },
+  );
+  test(
+    'projection snapshot survives source mutation and duplicate vertices',
+    () {
+      final points = <LatLng>[
+        const LatLng(33.7, 73.05),
+        const LatLng(33.7, 73.05),
+        const LatLng(33.7, 73.06),
+      ];
+      final projector = RouteProjector(points);
+      points.clear();
+      final result = projector.project(const LatLng(33.7, 73.055));
+      expect(result.total, greaterThan(900));
+      expect(result.offRoute, lessThan(1));
+      expect(result.along / result.total, closeTo(0.5, 0.001));
+      final empty = RouteProjector([]).project(const LatLng(33.7, 73.05));
+      expect(empty.total, 0);
+      expect(empty.offRoute, double.infinity);
+    },
+  );
   group('route controller', () {
     late DateTime clock;
     late CustomerLocationState state;

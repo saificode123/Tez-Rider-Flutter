@@ -71,3 +71,37 @@ Deno.test('SQL lease semantics mock: concurrent HTTP calls single provider invoc
     provider: async () => { providers++; await new Promise(r => setTimeout(r, 10)); return response(); }});
   await Promise.all(Array.from({length: 25}, () => h.run())); equal(providers, 1);
 });
+Deno.test('authorized routing exposes bounded stage timings without private values', async () => {
+  const h = harness();
+  const response = await h.handler(new Request('http://localhost/route', {
+    method: 'POST', headers: {Authorization: 'Bearer valid'}, body: '{"orderId":1}',
+  }));
+  equal(response.status, 200);
+  const timing = response.headers.get('Server-Timing')!;
+  const parts = timing.split(', ');
+  equal(parts.map(part => part.split(';')[0]), ['auth', 'context', 'prepare', 'provider', 'finish', 'revalidate', 'handler']);
+  equal(parts.every(part => /^[a-z]+;dur=\d+\.\d{2}$/.test(part)), true);
+  for (const secret of ['Bearer valid', 'actor', 'lease', 'origin', 'destination']) equal(timing.includes(secret), false);
+});
+Deno.test('cache timing omits provider work and denied calls omit diagnostic details', async () => {
+  const h = harness({prepare: async () => ({code: 'CACHE', orderId: 1, origin, destination, cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}})});
+  const request = (token: string) => new Request('http://localhost/route', {
+    method: 'POST', headers: {Authorization: 'Bearer ' + token}, body: '{"orderId":1}',
+  });
+  const hit = await h.handler(request('valid'));
+  equal(hit.headers.get('Server-Timing')!.includes('provider;'), false);
+  equal(h.calls.provider, 0);
+  const denial = await h.handler(request('forged'));
+  equal(denial.status, 401);
+  equal(denial.headers.get('Server-Timing'), null);
+});
+Deno.test('provider failure timings do not disclose raw exception', async () => {
+  const h = harness({provider: async () => { throw Error('apiKey=PRIVATE_VALUE'); }});
+  const response = await h.handler(new Request('http://localhost/route', {
+    method: 'POST', headers: {Authorization: 'Bearer valid'}, body: '{"orderId":1}',
+  }));
+  equal(response.status, 200);
+  equal(response.headers.get('Server-Timing')!.includes('provider;dur='), true);
+  equal(JSON.stringify([...response.headers]).includes('PRIVATE_VALUE'), false);
+  equal((await response.json()).code, 'APPROXIMATE');
+});

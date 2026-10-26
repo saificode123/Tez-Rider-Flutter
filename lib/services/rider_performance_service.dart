@@ -66,8 +66,15 @@ class RiderPerformanceService {
         (value['rating_count'] == 0
             ? value['average_rating'] != null
             : !bounded(value['average_rating'], 1, 5)) ||
-        value['fee_status'] != 'POLICY_REQUIRED' ||
-        value['earned_fee_cents'] != null) {
+        (value['fee_status'] == 'POLICY_REQUIRED'
+            ? value['earned_fee_cents'] != null
+            : !const {
+                    'RECORDED',
+                    'RECORDED_WITH_HISTORICAL_GAPS',
+                  }.contains(value['fee_status']) ||
+                  !bounded(value['earned_fee_cents'], 0, double.maxFinite) ||
+                  value['earned_fee_cents'] % 1 != 0 ||
+                  value['earnings_only'] != true)) {
       throw const FormatException('Performance values were not confirmed.');
     }
     return Map<String, dynamic>.from(value);

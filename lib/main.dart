@@ -35,9 +35,10 @@ void main() async {
     url: config.url,
     publishableKey: config.key,
     httpClient: AccountHttpClient((code) {
-      if (Get.isRegistered<AuthController>())
+      if (Get.isRegistered<AuthController>()) {
         Get.find<AuthController>().handleAccountFailure(code);
-    }, gatewayBase: config.isolatedTest ? Uri.parse(config.url) : null),
+      }
+    }, gatewayBase: Uri.parse(config.url)),
   );
 
   Supabase.instance.client.auth.onAuthStateChange.listen((data) {

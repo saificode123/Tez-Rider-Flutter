@@ -3,7 +3,10 @@ import '../models/prescription_model.dart';
 import '../services/prescription_service.dart';
 
 class PrescriptionController extends GetxController {
-  final prescriptionService = PrescriptionService();
+  PrescriptionController({PrescriptionService? service})
+    : prescriptionService = service ?? PrescriptionService();
+  final PrescriptionService prescriptionService;
+  final error = RxnString();
 
   var prescriptions = <PrescriptionModel>[].obs;
   var currentPrescription = Rx<PrescriptionModel?>(null);
@@ -17,7 +20,9 @@ class PrescriptionController extends GetxController {
     required String customerId,
     required String prescriptionImageUrl,
   }) async {
+    if (isUploading.value) return false;
     try {
+      error.value = null;
       isUploading.value = true;
       final result = await prescriptionService.uploadPrescription(
         vendorOrderId: vendorOrderId,
@@ -31,7 +36,7 @@ class PrescriptionController extends GetxController {
       }
       return false;
     } catch (e) {
-      print('PrescriptionController uploadPrescription error: $e');
+      error.value = 'Prescription operation was not confirmed. Retry.';
       return false;
     } finally {
       isUploading.value = false;
@@ -41,11 +46,14 @@ class PrescriptionController extends GetxController {
   /// Fetch prescriptions for customer
   Future<void> fetchCustomerPrescriptions(String customerId) async {
     try {
+      error.value = null;
       isLoading.value = true;
-      final presc = await prescriptionService.getPrescriptionsByCustomer(customerId);
+      final presc = await prescriptionService.getPrescriptionsByCustomer(
+        customerId,
+      );
       prescriptions.value = presc;
     } catch (e) {
-      print('PrescriptionController fetchCustomerPrescriptions error: $e');
+      error.value = 'Prescriptions could not be loaded. Retry.';
       prescriptions.value = [];
     } finally {
       isLoading.value = false;
@@ -55,11 +63,13 @@ class PrescriptionController extends GetxController {
   /// Fetch pending prescriptions for vendor
   Future<void> fetchPendingPrescriptions(String vendorId) async {
     try {
+      error.value = null;
       isLoading.value = true;
-      final pending = await prescriptionService.getPendingPrescriptionsForVendor(vendorId);
+      final pending = await prescriptionService
+          .getPendingPrescriptionsForVendor(vendorId);
       pendingPrescriptions.value = pending;
     } catch (e) {
-      print('PrescriptionController fetchPendingPrescriptions error: $e');
+      error.value = 'Prescriptions could not be loaded. Retry.';
       pendingPrescriptions.value = [];
     } finally {
       isLoading.value = false;
@@ -72,7 +82,9 @@ class PrescriptionController extends GetxController {
     String vendorId, {
     String? notes,
   }) async {
+    if (isLoading.value) return false;
     try {
+      error.value = null;
       isLoading.value = true;
       final result = await prescriptionService.approvePrescription(
         prescriptionId,
@@ -86,7 +98,7 @@ class PrescriptionController extends GetxController {
       }
       return result;
     } catch (e) {
-      print('PrescriptionController approvePrescription error: $e');
+      error.value = 'Prescription operation was not confirmed. Retry.';
       return false;
     } finally {
       isLoading.value = false;
@@ -99,7 +111,9 @@ class PrescriptionController extends GetxController {
     String vendorId,
     String reason,
   ) async {
+    if (isLoading.value) return false;
     try {
+      error.value = null;
       isLoading.value = true;
       final result = await prescriptionService.rejectPrescription(
         prescriptionId,
@@ -113,7 +127,7 @@ class PrescriptionController extends GetxController {
       }
       return result;
     } catch (e) {
-      print('PrescriptionController rejectPrescription error: $e');
+      error.value = 'Prescription operation was not confirmed. Retry.';
       return false;
     } finally {
       isLoading.value = false;
@@ -149,6 +163,7 @@ class PrescriptionController extends GetxController {
 
   /// Clear prescription data
   void clearPrescriptionData() {
+    error.value = null;
     currentPrescription.value = null;
     prescriptions.value = [];
     pendingPrescriptions.value = [];

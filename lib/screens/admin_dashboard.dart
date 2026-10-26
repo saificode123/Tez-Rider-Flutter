@@ -1,3 +1,4 @@
+import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,7 +103,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
           );
         }
-        return IndexedStack(
+        return AppTabStack(
           index: _tab,
           children: [
             _overviewTab(),
@@ -169,40 +170,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget _navItem(
     int index,
     IconData activeIcon,
-    IconData defaultIcon,
+    IconData inactiveIcon,
     String label,
   ) {
-    final isSel = _tab == index;
-    return GestureDetector(
+    return AppNavigationItem(
+      selected: _tab == index,
+      activeIcon: activeIcon,
+      inactiveIcon: inactiveIcon,
+      label: label,
       onTap: () => setState(() => _tab = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 280),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-        decoration: BoxDecoration(
-          color: isSel ? AppColors.primarySurface : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSel ? activeIcon : defaultIcon,
-              color: isSel ? AppColors.primary : AppColors.textHint,
-              size: 22,
-            ),
-            if (isSel) ...[
-              const SizedBox(width: 6),
-              Text(
-                label.tr,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 11,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 

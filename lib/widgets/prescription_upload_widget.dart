@@ -1,265 +1,189 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import '../../controllers/prescription_controller.dart';
-import '../../services/storage_service.dart';
+import '../controllers/prescription_controller.dart';
+import '../services/optional_media_service.dart';
+
+typedef PrescriptionPicker = Future<Uint8List?> Function(ImageSource source);
 
 class PrescriptionUploadWidget extends StatefulWidget {
-  final String vendorOrderId;
-  final String customerId;
-  final VoidCallback? onUploadSuccess;
-  final VoidCallback? onUploadFailed;
-
   const PrescriptionUploadWidget({
     super.key,
     required this.vendorOrderId,
     required this.customerId,
     this.onUploadSuccess,
     this.onUploadFailed,
+    this.controller,
+    this.media,
+    this.picker,
   });
-
+  final String vendorOrderId, customerId;
+  final VoidCallback? onUploadSuccess, onUploadFailed;
+  final PrescriptionController? controller;
+  final OptionalMediaService? media;
+  final PrescriptionPicker? picker;
   @override
   State<PrescriptionUploadWidget> createState() =>
       _PrescriptionUploadWidgetState();
 }
 
 class _PrescriptionUploadWidgetState extends State<PrescriptionUploadWidget> {
-  final ImagePicker _imagePicker = ImagePicker();
-  final PrescriptionController _prescriptionController =
-      Get.find<PrescriptionController>();
-  final StorageService _storageService = StorageService();
+  late final PrescriptionController controller =
+      widget.controller ??
+      (Get.isRegistered<PrescriptionController>()
+          ? Get.find<PrescriptionController>()
+          : Get.put(PrescriptionController()));
+  late final OptionalMediaService media =
+      widget.media ??
+      OptionalMediaService(
+        kind: 'prescription',
+        orderId: int.tryParse(widget.vendorOrderId),
+      );
+  Uint8List? image;
+  String? reference, error;
+  bool busy = false, done = false;
 
-  File? _selectedImage;
-  XFile? _imageFile;
-
-  static const _purple = Color(0xFF1B5E20);
-
-  Future<void> _pickImage() async {
+  Future<void> pick(ImageSource source) async {
+    if (busy || done || media.hasPendingUpload) return;
     try {
-      final XFile? image =
-          await _imagePicker.pickImage(source: ImageSource.camera);
-
-      if (image != null) {
-        setState(() {
-          _imageFile = image;
-          _selectedImage = File(image.path);
-        });
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image: $e');
+      final bytes = widget.picker != null
+          ? await widget.picker!(source)
+          : await (await ImagePicker().pickImage(
+              source: source,
+              maxWidth: 1600,
+              imageQuality: 85,
+            ))?.readAsBytes();
+      if (!mounted || bytes == null) return;
+      setState(() {
+        image = bytes;
+        reference = null;
+        error = null;
+      });
+    } catch (_) {
+      if (mounted) setState(() => error = 'Image selection failed. Retry.');
     }
   }
 
-  Future<void> _pickImageFromGallery() async {
-    try {
-      final XFile? image =
-          await _imagePicker.pickImage(source: ImageSource.gallery);
-
-      if (image != null) {
-        setState(() {
-          _imageFile = image;
-          _selectedImage = File(image.path);
-        });
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image: $e');
-    }
-  }
-
-  Future<void> _uploadPrescription() async {
-    if (_selectedImage == null || _imageFile == null) {
-      Get.snackbar('Error', 'Please select a prescription image');
+  Future<void> upload() async {
+    if (busy || done || image == null) return;
+    if (int.tryParse(widget.vendorOrderId) == null) {
+      setState(
+        () => error = 'Place the order first, then upload from its details.',
+      );
       return;
     }
-
+    setState(() {
+      busy = true;
+      error = null;
+    });
     try {
-      // Upload image to Supabase Storage
-      final prescriptionUrl = await _storageService.uploadPrescriptionImage(
-        imageFile: _selectedImage!,
-        customerId: widget.customerId,
-        vendorOrderId: widget.vendorOrderId,
-      );
-
-      if (prescriptionUrl == null) {
-        Get.snackbar('Error', 'Failed to upload image to storage');
-        return;
-      }
-
-      // Save prescription record with image URL
-      final success = await _prescriptionController.uploadPrescription(
+      reference ??= await media.upload(image!);
+      final saved = await controller.uploadPrescription(
         vendorOrderId: widget.vendorOrderId,
         customerId: widget.customerId,
-        prescriptionImageUrl: prescriptionUrl,
+        prescriptionImageUrl: reference!,
       );
-
-      if (success) {
-        Get.snackbar(
-          'Success',
-          'Prescription uploaded successfully! Waiting for vendor review.',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+      if (!mounted) return;
+      if (!saved) throw StateError('Unconfirmed prescription');
+      setState(() {
+        done = true;
+        image = null;
+      });
+      widget.onUploadSuccess?.call();
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => error = 'Prescription was not confirmed. Retry the same image.',
         );
-        widget.onUploadSuccess?.call();
-      } else {
-        Get.snackbar('Error', 'Failed to upload prescription');
         widget.onUploadFailed?.call();
       }
-    } catch (e) {
-      Get.snackbar('Error', 'Error uploading prescription: $e');
-      widget.onUploadFailed?.call();
+    } finally {
+      if (mounted) setState(() => busy = false);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.receipt_long, color: _purple, size: 24),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Prescription Required',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Please upload a valid prescription for medicines',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (_selectedImage != null)
-              Container(
+  Widget build(BuildContext context) => Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Prescription'.tr,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            (done
+                    ? 'Prescription uploaded. Waiting for vendor review.'
+                    : 'Upload a clear JPEG or PNG prescription, up to 5 MB.')
+                .tr,
+          ),
+          if (image != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Image.memory(
+                image!,
+                height: 180,
                 width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: Image.file(
-                  _selectedImage!,
-                  fit: BoxFit.cover,
-                ),
-              )
-            else
-              Container(
-                width: double.infinity,
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _purple.withValues(alpha: 0.3),
-                    width: 2,
-                  ),
-                  color: _purple.withValues(alpha: 0.05),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.image_outlined,
-                        size: 40, color: Colors.grey.shade400),
-                    const SizedBox(height: 8),
-                    Text(
-                      'No prescription selected',
-                      style:
-                          TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                    ),
-                  ],
-                ),
+                fit: BoxFit.contain,
+                errorBuilder: (_, _, _) =>
+                    const Icon(Icons.broken_image_outlined),
               ),
-            const SizedBox(height: 16),
-            Row(
+            ),
+          if (!done) ...[
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
               children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: _pickImage,
-                    icon: const Icon(Icons.camera_alt),
-                    label: const Text('Take Photo'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade300,
-                      foregroundColor: Colors.grey.shade800,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 48),
                   ),
+                  onPressed: busy || media.hasPendingUpload
+                      ? null
+                      : () => pick(ImageSource.camera),
+                  icon: const Icon(Icons.camera_alt_outlined),
+                  label: Text('Take Photo'.tr),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: _pickImageFromGallery,
-                    icon: const Icon(Icons.photo_library),
-                    label: const Text('From Gallery'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade300,
-                      foregroundColor: Colors.grey.shade800,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 48),
                   ),
+                  onPressed: busy || media.hasPendingUpload
+                      ? null
+                      : () => pick(ImageSource.gallery),
+                  icon: const Icon(Icons.photo_library_outlined),
+                  label: Text('From Gallery'.tr),
                 ),
               ],
             ),
             const SizedBox(height: 12),
-            Obx(() => SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton(
-                onPressed:
-                    _prescriptionController.isUploading.value ? null : _uploadPrescription,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _purple,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  disabledBackgroundColor: _purple.withValues(alpha: 0.5),
-                ),
-                child: _prescriptionController.isUploading.value
-                    ? const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : const Text(
-                        'Upload Prescription',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-              ),
-            )),
+            ElevatedButton.icon(
+              onPressed: busy || image == null ? null : upload,
+              icon: busy
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.upload_file),
+              label: Text((busy ? 'Uploading...' : 'Upload Prescription').tr),
+            ),
           ],
-        ),
+          if (error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                error!.tr,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }

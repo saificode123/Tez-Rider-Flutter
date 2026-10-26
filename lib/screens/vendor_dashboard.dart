@@ -1,3 +1,6 @@
+import 'vendor/prescription_review_screen.dart';
+import '../widgets/biometric_settings_tile.dart';
+import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'customer/profile_screen.dart';
 import '../widgets/language_settings_tile.dart';
@@ -12,6 +15,7 @@ import '../controllers/auth_controller.dart';
 import '../controllers/vendor_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/vendor_order_rejection.dart';
+import '../widgets/post_pickup_cancellation_card.dart';
 import 'vendor/vendor_products_screen.dart';
 import 'vendor/vendor_analytics_screen.dart';
 import 'splash_screen.dart';
@@ -93,7 +97,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
     Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-      body: IndexedStack(
+      body: AppTabStack(
         index: _tab,
         children: [_dashTab(), _ordersTab(), _tailoringTab(), _profileTab()],
       ),
@@ -154,40 +158,15 @@ class _VendorDashboardState extends State<VendorDashboard> {
   Widget _navItem(
     int index,
     IconData activeIcon,
-    IconData defaultIcon,
+    IconData inactiveIcon,
     String label,
   ) {
-    final isSel = _tab == index;
-    return GestureDetector(
+    return AppNavigationItem(
+      selected: _tab == index,
+      activeIcon: activeIcon,
+      inactiveIcon: inactiveIcon,
+      label: label,
       onTap: () => setState(() => _tab = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 280),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-        decoration: BoxDecoration(
-          color: isSel ? AppColors.primarySurface : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSel ? activeIcon : defaultIcon,
-              color: isSel ? AppColors.primary : AppColors.textHint,
-              size: 22,
-            ),
-            if (isSel) ...[
-              const SizedBox(width: 7),
-              Text(
-                label.tr,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 
@@ -932,6 +911,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 );
               }),
             ],
+            if (status == 'on_the_way' &&
+                orderInfo?['order_status'] == 'on_the_way')
+              if (int.tryParse('${o['order_id']}') case final int parentOrderId)
+                PostPickupCancellationCard(
+                  key: ValueKey('post-pickup-$parentOrderId'),
+                  orderId: parentOrderId,
+                  onChanged: () => vendorCtrl.refreshOrders(),
+                ),
           ],
         ),
       ),
@@ -1165,6 +1152,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
             _profileSection("Store".tr, [
               _profileTile(
+                Icons.receipt_long_outlined,
+                "Prescription review".tr,
+                AppColors.primary,
+                () => Get.to(
+                  () => const VendorPrescriptionReviewScreen(vendorId: ''),
+                ),
+              ),
+              _profileTile(
                 Icons.store_outlined,
                 "Store Settings".tr,
                 AppColors.primary,
@@ -1186,6 +1181,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
             const SizedBox(height: 14),
             _profileSection("Support".tr, [
               const LanguageSettingsTile(),
+              const BiometricSettingsTile(),
               _profileTile(
                 Icons.chat_bubble_outline_rounded,
                 "Inbox / Chat".tr,

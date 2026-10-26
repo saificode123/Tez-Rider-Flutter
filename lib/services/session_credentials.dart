@@ -63,7 +63,13 @@ class SessionCredentials {
       // Deny in memory even when both storage mechanisms are unavailable.
     }
     // Each key is attempted independently; one corrupt key cannot skip others.
-    for (final key in ['tr_refresh', 'tr_role', 'tr_account']) {
+    for (final key in [
+      'tr_refresh',
+      'tr_role',
+      'tr_account',
+      'bio_account',
+      'bio_enabled',
+    ]) {
       try {
         await storage.delete(key: key).timeout(const Duration(seconds: 2));
       } catch (_) {}
@@ -75,9 +81,15 @@ class SessionCredentials {
     } catch (_) {}
   }
 
-  Future<void> remember(Session session, String role) async {
+  Future<void> remember(
+    Session session,
+    String role, {
+    bool preserveBiometric = false,
+  }) async {
     // Password/server authorization must precede this call. Partial writes
     // never enable restoration or a leftover credential from another account.
+    final keepBiometric =
+        preserveBiometric && await biometricEnabled(session.user.id);
     await invalidate();
     try {
       final refresh = session.refreshToken;
@@ -100,9 +112,63 @@ class SessionCredentials {
         throw StateError('Logout fence not cleared');
       }
       _denied = false;
+      if (keepBiometric) await setBiometricEnabled(session.user.id, true);
     } catch (_) {
       await invalidate();
       throw StateError(secureSessionUnavailable);
+    }
+  }
+
+  /// A legacy device-wide flag never grants enrollment to another account.
+  Future<bool> biometricEnabled(String account) async {
+    if (!await restorationAllowed()) return false;
+    try {
+      return await storage.read(key: 'bio_enabled').timeout(_storageTimeout) ==
+              'true' &&
+          await storage.read(key: 'bio_account').timeout(_storageTimeout) ==
+              account &&
+          (await read(currentAccount: account)) != null;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> setBiometricEnabled(String account, bool enabled) async {
+    if (!enabled) {
+      // Clear the enabling flag first: partial cleanup cannot authorize entry.
+      await storage
+          .write(key: 'bio_enabled', value: 'false')
+          .timeout(_storageTimeout);
+      await storage.delete(key: 'bio_account').timeout(_storageTimeout);
+      return;
+    }
+    if (await read(currentAccount: account) == null) {
+      throw StateError(secureSessionUnavailable);
+    }
+    try {
+      await storage
+          .write(key: 'bio_account', value: account)
+          .timeout(_storageTimeout);
+      await storage
+          .write(key: 'bio_enabled', value: 'true')
+          .timeout(_storageTimeout);
+    } catch (_) {
+      await invalidate();
+      throw StateError(secureSessionUnavailable);
+    }
+  }
+
+  /// SDK refresh-token rotation must update only the remembered account.
+  Future<void> synchronize(Session session) async {
+    final saved = await read(currentAccount: session.user.id);
+    final token = session.refreshToken;
+    if (saved == null || token == null || token.isEmpty || _denied) return;
+    try {
+      await storage
+          .write(key: 'tr_refresh', value: token)
+          .timeout(_storageTimeout);
+    } catch (_) {
+      await invalidate();
     }
   }
 

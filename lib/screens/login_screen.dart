@@ -110,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen>
   bool _isStrongPassword(String pw) => pw.length >= 6;
 
   Future<void> _login() async {
+    if (_loading) return;
     final email = _emailCtrl.text.trim();
     final password = _passCtrl.text;
 
@@ -176,6 +177,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       try {
         await authController.credentials.remember(res.session!, realRole);
+        authController.isBioEnabled.value = false;
       } catch (_) {
         await authController.logout(navigate: false);
         _showError(secureSessionUnavailable);
@@ -227,21 +229,23 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _biometricLogin() async {
-    final saved = await authController.credentials.read(
-      currentAccount: Supabase.instance.client.auth.currentUser?.id,
-    );
-    if (saved == null) {
-      _showError(
-        'Please sign in with your password first to enable biometrics.',
-      );
-      return;
-    }
-    if (!authController.isBioSupported.value) {
-      _showError('Biometrics not available on this device.');
-      return;
-    }
+    if (_loading) return;
     setState(() => _loading = true);
     try {
+      final saved = await authController.credentials.read(
+        currentAccount: Supabase.instance.client.auth.currentUser?.id,
+      );
+      if (saved == null ||
+          !await authController.credentials.biometricEnabled(saved.account)) {
+        _showError(
+          'Please sign in with your password first to enable biometrics.',
+        );
+        return;
+      }
+      if (!authController.isBioSupported.value) {
+        _showError('Biometrics not available on this device.');
+        return;
+      }
       final ok = await authController.authenticateWithBiometrics();
       if (ok) {
         final res = await Supabase.instance.client.auth.setSession(
@@ -263,11 +267,15 @@ class _LoginScreenState extends State<LoginScreen>
           }
           final profile = await Supabase.instance.client
               .from('users')
-              .select('role,verification_status')
-              .eq('email', res.user!.email!)
+              .select('role,verification_status,is_blocked,rejection_reason')
+              .eq('auth_user_id', saved.account)
               .maybeSingle();
           final access = AccountAccess.fromProfile(profile);
-          await authController.credentials.remember(res.session!, access.role);
+          await authController.credentials.remember(
+            res.session!,
+            access.role,
+            preserveBiometric: true,
+          );
           if (access.needsApproval) {
             if (access.role == 'rider') {
               Get.offAll(() => const CnicDocumentScreen());
@@ -285,6 +293,7 @@ class _LoginScreenState extends State<LoginScreen>
         }
       }
     } catch (_) {
+      await authController.logout(navigate: false);
       _showError('Session expired. Please sign in with your password.');
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -698,7 +707,9 @@ class _LoginScreenState extends State<LoginScreen>
                               const SizedBox(height: 16),
 
                               Obx(
-                                () => authController.isBioSupported.value
+                                () =>
+                                    authController.isBioSupported.value &&
+                                        authController.isBioEnabled.value
                                     ? _buildBiometricButton(role.color)
                                     : const SizedBox.shrink(),
                               ),

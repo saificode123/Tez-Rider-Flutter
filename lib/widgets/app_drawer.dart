@@ -11,6 +11,7 @@ import '../screens/customer/order_history_screen.dart';
 import '../screens/chat_rooms_screen.dart';
 import '../screens/customer/notifications_screen.dart';
 import '../screens/admin_monitor_screen.dart';
+import 'biometric_settings_tile.dart';
 
 const _kGreen = Color(0xFF1B5E20);
 const _kGreenL = Color(0xFF388E3C);
@@ -127,6 +128,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ],
                 const Divider(),
+                const BiometricSettingsTile(),
                 _drawerItem(
                   icon: Icons.language_rounded,
                   text: 'language'.tr,

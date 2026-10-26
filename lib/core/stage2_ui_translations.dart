@@ -1,5 +1,105 @@
 /// Display-only English keys and Urdu translations for Stage 2 controls.
 const stage2UiUrdu = <String, String>{
+  "Older deliveries have no recorded earning; excluded from this total.":
+      "پرانی ڈیلیوریوں کی کمائی درج نہیں؛ یہ اس کل رقم میں شامل نہیں۔",
+  "Home Tailoring": "گھر کی سلائی",
+  "Request home tailoring": "گھر کی سلائی کی درخواست",
+  "Submit your requirements. Pickup and tailor assignment must be confirmed before fulfillment.":
+      "اپنی ضروریات درج کریں۔ کام سے پہلے سامان لینے اور درزی کی تعیناتی کی تصدیق ضروری ہے۔",
+  "Stitching Instructions": "سلائی کی ہدایات",
+  "E.g. A-line shirt with collar, standard trousers...":
+      "مثلاً کالر والی قمیص اور عام شلوار۔۔۔",
+  "Reference Image": "نمونے کی تصویر",
+  "Choose reference image": "نمونے کی تصویر منتخب کریں",
+  "Measurements (Optional)": "ناپ (اختیاری)",
+  "You can leave this blank if you are sending a sample stitched cloth with the rider.":
+      "اگر رائیڈر کے ساتھ سلا ہوا نمونہ بھیج رہے ہیں تو یہ خالی چھوڑ سکتے ہیں۔",
+  "Request Pickup": "سامان لینے کی درخواست",
+  "Length (in)": "لمبائی (انچ)",
+  "Shoulder (in)": "کندھا (انچ)",
+  "Chest (in)": "سینہ (انچ)",
+  "Please provide stitching instructions.": "براہ کرم سلائی کی ہدایات لکھیں۔",
+  "Request saved": "درخواست محفوظ ہو گئی",
+  "Rider assignment has not been confirmed.":
+      "رائیڈر کی تعیناتی کی تصدیق نہیں ہوئی۔",
+  "The tailoring request was not confirmed. Please retry.":
+      "سلائی کی درخواست کی تصدیق نہیں ہوئی۔ دوبارہ کوشش کریں۔",
+  "Approve Prescription": "نسخہ منظور کریں",
+  "Add notes (optional):": "نوٹ شامل کریں (اختیاری):",
+  "Add any notes about this prescription": "اس نسخے سے متعلق نوٹ لکھیں",
+  "Reject Prescription": "نسخہ مسترد کریں",
+  "Reason for rejection:": "مسترد کرنے کی وجہ:",
+  "Provide a clear reason (e.g., \"Prescription is expired\" or \"Not clearly visible\")":
+      "واضح وجہ لکھیں، مثلاً نسخے کی مدت ختم ہو گئی یا واضح نظر نہیں آ رہا۔",
+  "Prescription Reviews": "نسخوں کا جائزہ",
+  "No Pending Prescriptions": "کوئی نسخہ زیر التوا نہیں",
+  "All prescriptions have been reviewed": "تمام نسخوں کا جائزہ ہو چکا ہے",
+  "Pending Review": "جائزہ زیر التوا",
+  "Prescription uploaded. Waiting for vendor review.":
+      "نسخہ اپ لوڈ ہو گیا۔ دکاندار کے جائزے کا انتظار ہے۔",
+  "Upload a clear JPEG or PNG prescription, up to 5 MB.":
+      "پانچ ایم بی تک واضح JPEG یا PNG نسخہ اپ لوڈ کریں۔",
+  "Prescription was not confirmed. Retry the same image.":
+      "نسخے کی تصدیق نہیں ہوئی۔ اسی تصویر سے دوبارہ کوشش کریں۔",
+  "Image selection failed. Retry.":
+      "تصویر منتخب نہیں ہو سکی۔ دوبارہ کوشش کریں۔",
+  "Place the order first, then upload from its details.":
+      "پہلے آرڈر دیں، پھر اس کی تفصیلات سے تصویر اپ لوڈ کریں۔",
+  "Prescription operation was not confirmed. Retry.":
+      "نسخے کی کارروائی کی تصدیق نہیں ہوئی۔ دوبارہ کوشش کریں۔",
+  "Prescriptions could not be loaded. Retry.":
+      "نسخے لوڈ نہیں ہو سکے۔ دوبارہ کوشش کریں۔",
+  "Prescription status": "نسخے کی حالت",
+  "Upload Prescription": "نسخہ اپ لوڈ کریں",
+  'A reason of 5 to 300 characters is required.':
+      'پانچ سے تین سو حروف میں وجہ لکھیں۔',
+  'Cancel the whole order?': 'پورا آرڈر منسوخ کریں؟',
+  'This cancels all vendor portions. If eligible, the Rider receives only the recorded base earning. Collected cash requires Admin review.':
+      'تمام دکانداروں کے حصے منسوخ ہوں گے۔ اہلیت پر رائیڈر کی صرف بنیادی کمائی درج ہو گی۔ وصول شدہ نقد رقم کے لیے منتظم کا جائزہ ضروری ہے۔',
+  'Confirm cancellation': 'منسوخی کی تصدیق',
+  'Order cancellation confirmed.': 'آرڈر کی منسوخی کی تصدیق ہو گئی۔',
+  'This order is not eligible for post-pickup cancellation.':
+      'یہ آرڈر سامان لینے کے بعد منسوخی کا اہل نہیں۔',
+  'Cash or payment records require Admin review before cancellation.':
+      'منسوخی سے پہلے نقد یا ادائیگی کے ریکارڈ کا منتظم جائزہ لے گا۔',
+  'Cancellation was not confirmed. Retry the same request.':
+      'منسوخی کی تصدیق نہیں ہوئی۔ اسی درخواست پر دوبارہ کوشش کریں۔',
+  'Cancellation reason': 'منسوخی کی وجہ',
+  'Retry cancellation': 'منسوخی کی دوبارہ کوشش',
+  'Route and ETA become available after a Rider starts sharing the delivery location.':
+      'رائیڈر کے ڈیلیوری مقام شیئر کرنے کے بعد راستہ اور متوقع وقت دستیاب ہوں گے۔',
+  'Expected delivery earning': 'متوقع ڈیلیوری کمائی',
+  'Earnings records only. This is not a payout confirmation.':
+      'یہ صرف کمائی کا ریکارڈ ہے، رقم کی ادائیگی کی تصدیق نہیں۔',
+  'Earnings could not be loaded. Please retry.':
+      'کمائی لوڈ نہیں ہو سکی۔ دوبارہ کوشش کریں۔',
+  'Account changed. Open earnings again.':
+      'اکاؤنٹ تبدیل ہو گیا۔ کمائی دوبارہ کھولیں۔',
+  '@slot0end base + @slot1end per km; minimum @slot2end':
+      '@slot0end بنیادی + @slot1end فی کلومیٹر؛ کم از کم @slot2end',
+  '@slot0end km · @slot1end': '@slot0end کلومیٹر · @slot1end',
+  'Road route': 'سڑک کا راستہ',
+  'Straight-line estimate': 'سیدھے فاصلے کا تخمینہ',
+  'Post-pickup cancellation': 'سامان لینے کے بعد منسوخی',
+  'Distance frozen at delivery start.':
+      'ڈیلیوری شروع ہونے پر فاصلہ محفوظ ہو چکا ہے۔',
+  'Estimate; distance is frozen when delivery starts.':
+      'تخمینہ؛ ڈیلیوری شروع ہونے پر فاصلہ محفوظ ہو گا۔',
+  'Total: @slot0end': 'کل: @slot0end',
+  'No earning records yet.': 'ابھی کمائی کا کوئی ریکارڈ نہیں۔',
+  '@slot0end base + @slot1end distance':
+      '@slot0end بنیادی + @slot1end فاصلے کی رقم',
+  'Flagged for Admin review; no automatic deduction.':
+      'منتظم کے جائزے کے لیے نشان زد؛ خودکار کٹوتی نہیں۔',
+  'Biometric sign-in': 'بایومیٹرک سائن اِن',
+  'Optional sign-in shortcut for this account. Password login remains available; this does not lock an already signed-in app.':
+      'اس اکاؤنٹ کے لیے اختیاری سائن اِن۔ پاس ورڈ سے داخلہ دستیاب ہے؛ یہ پہلے سے کھلی ایپ کو لاک نہیں کرتا۔',
+  'Enroll biometrics in your device settings to use this shortcut.':
+      'اس سہولت کے لیے فون کی ترتیبات میں بایومیٹرک درج کریں۔',
+  'Biometric verification was not completed. Retry or use your password.':
+      'بایومیٹرک تصدیق مکمل نہیں ہوئی۔ دوبارہ کوشش کریں یا پاس ورڈ استعمال کریں۔',
+  'Biometric preference could not be saved. Retry.':
+      'بایومیٹرک ترجیح محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں۔',
   "\"@slot0end\" removed from favourites.":
       "\"@slot0end\" پسندیدہ فہرست سے ہٹا دیا گیا۔",
   "\"@slot0end\" removed.": "\"@slot0end\" ہٹا دیا گیا۔",

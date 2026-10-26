@@ -33,6 +33,7 @@ class DeliveryRoute {
   final bool approximate;
   final String source;
   final List<LatLng> points;
+  late final projector = RouteProjector(points);
   static List<LatLng> decodeGeometry(dynamic geometry) {
     if (geometry == null) return const [];
     if (geometry is! Map ||
@@ -68,33 +69,62 @@ class RouteProjection {
   final double along, offRoute, total;
 }
 
-RouteProjection projectOnRoute(List<LatLng> points, LatLng fix) {
-  const earth = 6371000.0;
-  final cosLat = math.cos(fix.latitude * math.pi / 180);
-  double length = 0, best = double.infinity, along = 0;
-  for (var i = 1; i < points.length; i++) {
-    final a = points[i - 1], b = points[i];
-    // Local tangent plane for projection, Haversine lengths for progress.
-    final ax = (a.longitude - fix.longitude) * math.pi / 180 * earth * cosLat;
-    final ay = (a.latitude - fix.latitude) * math.pi / 180 * earth;
-    final bx = (b.longitude - fix.longitude) * math.pi / 180 * earth * cosLat;
-    final by = (b.latitude - fix.latitude) * math.pi / 180 * earth;
-    final dx = bx - ax, dy = by - ay, squared = dx * dx + dy * dy;
-    final t = squared == 0
-        ? 0.0
-        : (-(ax * dx + ay * dy) / squared).clamp(0.0, 1.0);
-    final distance = math.sqrt(
-      math.pow(ax + t * dx, 2) + math.pow(ay + t * dy, 2),
-    );
-    final segment = const Distance().as(LengthUnit.Meter, a, b);
-    if (distance < best) {
-      best = distance;
-      along = length + t * segment;
+/// Immutable geometry work is done once per route, not on every GPS/timer tick.
+class RouteProjector {
+  RouteProjector(List<LatLng> points)
+    : points = List<LatLng>.unmodifiable(points) {
+    for (var i = 1; i < this.points.length; i++) {
+      _lengths.add(
+        const Distance().as(
+          LengthUnit.Meter,
+          this.points[i - 1],
+          this.points[i],
+        ),
+      );
+      _total += _lengths.last;
     }
-    length += segment;
   }
-  return RouteProjection(along, best, length);
+  final List<LatLng> points;
+  final List<double> _lengths = [];
+  double _total = 0;
+  LatLng? _lastFix;
+  RouteProjection? _lastProjection;
+
+  RouteProjection project(LatLng fix) {
+    if (_lastFix?.latitude == fix.latitude &&
+        _lastFix?.longitude == fix.longitude) {
+      return _lastProjection!;
+    }
+    const earth = 6371000.0;
+    final cosLat = math.cos(fix.latitude * math.pi / 180);
+    double length = 0, best = double.infinity, along = 0;
+    for (var i = 1; i < points.length; i++) {
+      final a = points[i - 1], b = points[i];
+      // Local tangent plane for projection, Haversine lengths for progress.
+      final ax = (a.longitude - fix.longitude) * math.pi / 180 * earth * cosLat;
+      final ay = (a.latitude - fix.latitude) * math.pi / 180 * earth;
+      final bx = (b.longitude - fix.longitude) * math.pi / 180 * earth * cosLat;
+      final by = (b.latitude - fix.latitude) * math.pi / 180 * earth;
+      final dx = bx - ax, dy = by - ay, squared = dx * dx + dy * dy;
+      final t = squared == 0
+          ? 0.0
+          : (-(ax * dx + ay * dy) / squared).clamp(0.0, 1.0);
+      final x = ax + t * dx, y = ay + t * dy;
+      final distance = math.sqrt(x * x + y * y);
+      final segment = _lengths[i - 1];
+      if (distance < best) {
+        best = distance;
+        along = length + t * segment;
+      }
+      length += segment;
+    }
+    _lastFix = fix;
+    return _lastProjection = RouteProjection(along, best, _total);
+  }
 }
+
+RouteProjection projectOnRoute(List<LatLng> points, LatLng fix) =>
+    RouteProjector(points).project(fix);
 
 String routeEtaLabel(double? seconds, {bool approximate = false}) {
   if (seconds == null || !seconds.isFinite || seconds < 0) {
@@ -150,7 +180,7 @@ class DeliveryRouteController extends GetxController {
     final point = LatLng(fix.latitude, fix.longitude);
     var offRoute = false;
     if (current != null && current.points.length >= 2) {
-      final projected = projectOnRoute(current.points, point);
+      final projected = current.projector.project(point);
       offRoute = projected.offRoute > current.deviation;
       if (!offRoute &&
           fix.accuracy <= 50 &&

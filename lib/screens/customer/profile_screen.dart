@@ -1,6 +1,9 @@
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../widgets/biometric_settings_tile.dart';
+import '../../widgets/profile_email_panel.dart';
+import '../../services/profile_email_service.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../services/profile_service.dart';
@@ -13,8 +16,9 @@ const _kCard = Color(0xFFFFFFFF);
 const _kTextSub = Color(0xFF6B6B8A);
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, this.service});
+  const ProfileScreen({super.key, this.service, this.emailService});
   final ProfileService? service;
+  final ProfileEmailService? emailService;
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -413,22 +417,27 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                               ),
-                              Text(
-                                "read-only".tr,
-                                style: TextStyle(
-                                  color: Color(0xFFB0B0C0),
-                                  fontSize: 10,
-                                ),
-                              ),
                             ],
                           ),
                         ),
+                        if (widget.service == null ||
+                            widget.emailService != null) ...[
+                          const SizedBox(height: 16),
+                          ProfileEmailPanel(
+                            service: widget.emailService,
+                            onConfirmed: (email) {
+                              if (mounted && _service.account == _account)
+                                setState(() => _email = email);
+                            },
+                          ),
+                        ],
                       ],
                     ),
                   ),
 
                   const SizedBox(height: 20),
                   const LanguageSettingsTile(),
+                  const BiometricSettingsTile(),
                   const SizedBox(height: 28),
 
                   SizedBox(

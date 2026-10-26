@@ -1,3 +1,5 @@
+import '../theme/app_theme.dart';
+import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/stock_indicator.dart';
 import '../services/catalogue_service.dart';
@@ -35,17 +37,17 @@ import 'product_detail_screen.dart';
 import 'chat_rooms_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _kBg = Color(0xFFF5F0E8);
-const _kCard = Color(0xFFFFFFFF);
-const _kCardSub = Color(0xFFEDF7EE);
-const _kPurple = Color(0xFF1B5E20);
-const _kPurpleL = Color(0xFF388E3C);
+const _kBg = AppColors.bgLight;
+const _kCard = AppColors.bgCard;
+const _kCardSub = AppColors.primarySurface;
+const _kPurple = AppColors.primaryDark;
+const _kPurpleL = AppColors.primary;
 const _kSaffron = Color(0xFFF59E0B);
 const _kGreen = Color(0xFF10B981);
 const _kPink = Color(0xFFEC4899);
 const _kTeal = Color(0xFF06B6D4);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 
 class CustomerDashboard extends StatefulWidget {
   const CustomerDashboard({super.key});
@@ -90,6 +92,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   int _featuredIndex = 0;
   late PageController _pageCtrl;
   Timer? _carouselTimer;
+  bool _reduceMotion = false;
 
   List<Map<String, dynamic>> _featured = [];
   bool _featuredLoading = true;
@@ -159,11 +162,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     _orderButtonAnim.repeat(reverse: true);
 
     Future.delayed(const Duration(milliseconds: 80), () {
+      if (!mounted || _reduceMotion) return;
       _heroAnim.forward();
-      Future.delayed(
-        const Duration(milliseconds: 350),
-        () => _navAnim.forward(),
-      );
+      Future.delayed(const Duration(milliseconds: 350), () {
+        if (mounted && !_reduceMotion) _navAnim.forward();
+      });
       for (int i = 0; i < _cardAnims.length; i++) {
         Future.delayed(Duration(milliseconds: 400 + i * 80), () {
           if (mounted) _cardAnims[i].forward();
@@ -175,6 +178,27 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     _loadCategories();
     _loadFavourites();
     _loadFeatured();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final reduceMotion =
+        MediaQuery.disableAnimationsOf(context) ||
+        MediaQuery.accessibleNavigationOf(context);
+    if (_reduceMotion == reduceMotion) return;
+    _reduceMotion = reduceMotion;
+    if (reduceMotion) {
+      _carouselTimer?.cancel();
+      _orderButtonAnim.stop();
+      _orderButtonAnim.value = 0;
+      for (final animation in [_heroAnim, _navAnim, ..._cardAnims]) {
+        animation.value = 1;
+      }
+    } else {
+      _orderButtonAnim.repeat(reverse: true);
+      _startCarouselAutoPlay();
+    }
   }
 
   Future<void> _loadFeatured() async {
@@ -389,7 +413,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         backgroundColor: _kBg,
         drawer: const AppDrawer(role: 'customer'),
         extendBody: true,
-        body: IndexedStack(
+        body: AppTabStack(
           index: _tab,
           children: [_homeTab(), _ordersTab(), _trackTab(), _profileTab()],
         ),
@@ -453,37 +477,17 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     IconData inactiveIcon,
     String label,
   ) {
-    final sel = _tab == index;
-    return GestureDetector(
+    return AppNavigationItem(
+      selected: _tab == index,
+      activeIcon: activeIcon,
+      inactiveIcon: inactiveIcon,
+      label: label,
       onTap: () {
         HapticFeedback.lightImpact();
         setState(() => _tab = index);
         if (index == 1) _loadOrders();
       },
-      child: SizedBox(
-        width: 70,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              sel ? activeIcon : inactiveIcon,
-              color: sel ? _kPurple : _kTextSub,
-              size: 24,
-            ),
-            const SizedBox(height: 4),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              height: 4,
-              width: sel ? 28 : 0,
-              decoration: BoxDecoration(
-                color: _kPurple,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ],
-        ),
-      ),
+      color: _kPurple,
     );
   }
 
@@ -864,6 +868,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   void _startCarouselAutoPlay() {
     _carouselTimer?.cancel();
+    if (_reduceMotion) return;
     _carouselTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (!mounted || !_pageCtrl.hasClients || _featured.isEmpty) return;
       if (_pageCtrl.position.isScrollingNotifier.value) return;
@@ -1792,6 +1797,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _shimmerBox(double width, double height) {
     return Shimmer.fromColors(
+      enabled: !_reduceMotion,
       baseColor: _kCardSub,
       highlightColor: Colors.white,
       child: Container(width: width, height: height, color: _kCardSub),
@@ -1828,6 +1834,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _shimmerCard(bool tall) {
     return Shimmer.fromColors(
+      enabled: !_reduceMotion,
       baseColor: _kCardSub,
       highlightColor: Colors.white,
       child: Container(

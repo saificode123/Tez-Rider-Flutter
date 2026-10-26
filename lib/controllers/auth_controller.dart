@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'rider_controller.dart';
 import 'cart_controller.dart';
@@ -19,7 +17,6 @@ class AuthController extends GetxController {
   final SessionCredentials credentials;
 
   final LocalAuthentication _auth;
-  FlutterSecureStorage get _storage => credentials.storage;
 
   late final AccountSessionGate accountGate;
   StreamSubscription<AuthState>? _sessionChanges;
@@ -78,6 +75,9 @@ class AuthController extends GetxController {
         // Keep Auth SDK calls outside its synchronous event callback.
         unawaited(
           Future<void>(() async {
+            if (state.event == AuthChangeEvent.tokenRefreshed) {
+              await credentials.synchronize(state.session!);
+            }
             await accountGate.check();
           }),
         );
@@ -101,19 +101,31 @@ class AuthController extends GetxController {
 
   Future<void> _loadBioPreference() async {
     try {
-      final val = await _storage.read(key: 'bio_enabled');
-      isBioEnabled.value = val == 'true';
+      final saved = await credentials.read();
+      isBioEnabled.value =
+          saved != null && await credentials.biometricEnabled(saved.account);
     } catch (_) {
       isBioEnabled.value = false;
     }
   }
 
   Future<void> setBioPreference(bool val) async {
-    await _storage.write(key: 'bio_enabled', value: val.toString());
+    final account = Supabase.instance.client.auth.currentUser?.id;
+    if (account == null) throw StateError(secureSessionUnavailable);
+    if (val) {
+      if (!await enforceAccountAccess() ||
+          !await authenticateWithBiometrics()) {
+        return;
+      }
+      if (account != Supabase.instance.client.auth.currentUser?.id) return;
+    }
+    await credentials.setBiometricEnabled(account, val);
     isBioEnabled.value = val;
   }
 
   Future<bool> authenticateWithBiometrics() async {
+    if (isLoading.value) return false;
+    isLoading.value = true;
     try {
       if (!isBioSupported.value ||
           (await _auth.getAvailableBiometrics()).isEmpty) {
@@ -128,9 +140,10 @@ class AuthController extends GetxController {
           useErrorDialogs: true,
         ),
       );
-    } catch (e) {
-      debugPrint('Biometric error: $e');
+    } catch (_) {
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 

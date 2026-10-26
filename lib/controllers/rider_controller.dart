@@ -482,6 +482,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> acceptTailoring(Map<String, dynamic> request) async {
+    if (deliveryBusy.value) return;
     if (currentOrder.value != null) {
       Get.snackbar(
         "Ongoing Delivery".tr,
@@ -489,60 +490,76 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       );
       return;
     }
-    final user = _supabase.auth.currentUser;
-    if (user == null) return;
+    final account = _supabase.auth.currentUser?.id;
+    if (account == null) return;
+    final nextStatus = request['status'] == 'pickup_requested'
+        ? 'picked_up_from_customer'
+        : 'picked_up_from_tailor';
+    deliveryBusy.value = true;
     try {
-      final userRecord = await _supabase
-          .from('users')
-          .select('id')
-          .eq('email', user.email!)
-          .maybeSingle();
-      if (userRecord == null) return;
-
-      String nextStatus = request['status'] == 'pickup_requested'
-          ? 'picked_up_from_customer'
-          : 'picked_up_from_tailor';
-
-      await _supabase
-          .from('tailoring_requests')
-          .update({'rider_id': userRecord['id'], 'status': nextStatus})
-          .eq('id', request['id']);
-
+      final row = await _supabase
+          .rpc(
+            'optional_tailoring_status',
+            params: {'p_id': request['id'], 'p_status': nextStatus},
+          )
+          .timeout(const Duration(seconds: 20));
+      if (isClosed || _supabase.auth.currentUser?.id != account) return;
+      if (row is! Map ||
+          row['id'] != request['id'] ||
+          row['status'] != nextStatus ||
+          row['rider_id'] is! int) {
+        throw StateError('Pickup was not confirmed');
+      }
       currentOrder.value = {
-        ...request,
-        'status': nextStatus,
+        ...Map<String, dynamic>.from(row),
         'type': 'tailoring',
       };
       Get.snackbar("Accepted".tr, "Please proceed with the pickup.".tr);
-    } catch (e) {
-      Get.snackbar("Error".tr, "Could not accept tailoring request.".tr);
+    } catch (_) {
+      if (!isClosed)
+        Get.snackbar("Error".tr, "Could not accept tailoring request.".tr);
+    } finally {
+      if (!isClosed) deliveryBusy.value = false;
     }
   }
 
   Future<void> markDelivered() async {
     final current = currentOrder.value;
-    if (current == null) return;
-
+    if (current == null || deliveryBusy.value) return;
+    if (current['type'] == 'order') {
+      Get.snackbar(
+        "Delivery".tr,
+        "Enter the customer OTP to complete delivery.".tr,
+      );
+      return;
+    }
+    if (current['type'] != 'tailoring') return;
+    final account = _supabase.auth.currentUser?.id;
+    if (account == null) return;
+    deliveryBusy.value = true;
     try {
-      if (current['type'] == 'order') {
-        Get.snackbar(
-          "Delivery".tr,
-          "Enter the customer OTP to complete delivery.".tr,
-        );
-        return;
-      } else if (current['type'] == 'tailoring') {
-        String nextStatus = current['status'] == 'picked_up_from_customer'
-            ? 'delivered_to_tailor'
-            : 'completed';
-        await _supabase
-            .from('tailoring_requests')
-            .update({'status': nextStatus})
-            .eq('id', current['id']);
-        Get.snackbar("Success".tr, "Tailoring delivery complete!".tr);
+      final nextStatus = current['status'] == 'picked_up_from_customer'
+          ? 'delivered_to_tailor'
+          : 'completed';
+      final row = await _supabase
+          .rpc(
+            'optional_tailoring_status',
+            params: {'p_id': current['id'], 'p_status': nextStatus},
+          )
+          .timeout(const Duration(seconds: 20));
+      if (isClosed || _supabase.auth.currentUser?.id != account) return;
+      if (row is! Map ||
+          row['id'] != current['id'] ||
+          row['status'] != nextStatus) {
+        throw StateError('Delivery was not confirmed');
       }
-      currentOrder.value = null;
-    } catch (e) {
-      Get.snackbar("Error".tr, "Could not complete delivery.".tr);
+      if (currentOrder.value?['id'] == current['id']) currentOrder.value = null;
+      Get.snackbar("Success".tr, "Tailoring delivery complete!".tr);
+    } catch (_) {
+      if (!isClosed)
+        Get.snackbar("Error".tr, "Could not complete delivery.".tr);
+    } finally {
+      if (!isClosed) deliveryBusy.value = false;
     }
   }
 
