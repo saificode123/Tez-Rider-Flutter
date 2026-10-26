@@ -7,7 +7,8 @@ param(
     [string]$ProductionApplicationId,
     [string]$FlutterPath,
     [switch]$PreflightOnly,
-    [switch]$CleanFlutterMetadata
+    [switch]$CleanFlutterMetadata,
+    [switch]$CleanOfflineIntermediates
 )
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
@@ -87,6 +88,38 @@ $flavor = if ($Environment -eq 'TEST') { 'fr21test' } else { 'production' }
 $modeSuffix = if ($Mode -eq 'debug') { 'Debug' } else { 'Release' }
 $variant = $flavor + $modeSuffix
 $variantTitle = $variant.Substring(0, 1).ToUpperInvariant() + $variant.Substring(1)
+if ($CleanOfflineIntermediates) {
+    # OneDrive may leave historical generated binaries as offline placeholders.
+    # Rebuild those files instead of hanging while the cloud provider recalls them.
+    $appRoot = [IO.Path]::GetFullPath((Join-Path $repo 'build/app'))
+    $appBoundary = $appRoot + [IO.Path]::DirectorySeparatorChar
+    $intermediates = Join-Path $appRoot 'intermediates'
+    $apkOutputs = Join-Path $appRoot "outputs/apk/$flavor/$Mode"
+    $flutterApk = Join-Path $appRoot "outputs/flutter-apk/app-$flavor-$Mode.apk"
+    $candidates = @(
+        if (Test-Path -LiteralPath $intermediates) {
+            Get-ChildItem -LiteralPath $intermediates -Recurse -File | Where-Object {
+                $_.FullName.Contains("\$variant\") -or $_.FullName.Contains("\package${variantTitle}\")
+            }
+        }
+        if (Test-Path -LiteralPath $apkOutputs) { Get-ChildItem -LiteralPath $apkOutputs -Recurse -File }
+        foreach ($path in @($flutterApk, "$flutterApk.sha1")) {
+            if (Test-Path -LiteralPath $path) { Get-Item -LiteralPath $path }
+        }
+    )
+    $removed = 0
+    foreach ($file in $candidates) {
+        $target = [IO.Path]::GetFullPath($file.FullName)
+        if (-not $target.StartsWith($appBoundary, [StringComparison]::OrdinalIgnoreCase)) {
+            throw 'Generated offline-file target escaped the app build directory.'
+        }
+        if (([long]$file.Attributes -band 0x401000) -ne 0) {
+            Remove-Item -LiteralPath $target -Force
+            $removed++
+        }
+    }
+    Write-Output "Removed $removed offline generated files for $variant; sources and other variants retained."
+}
 $mergedAssets = [IO.Path]::GetFullPath((Join-Path $repo "build/app/intermediates/assets/$variant/merge${variantTitle}Assets"))
 $verifiedBuildRoot = [IO.Path]::GetFullPath((Join-Path $repo 'build')) + [IO.Path]::DirectorySeparatorChar
 if (-not $mergedAssets.StartsWith($verifiedBuildRoot, [StringComparison]::OrdinalIgnoreCase)) {
