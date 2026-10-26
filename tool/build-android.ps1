@@ -84,6 +84,19 @@ if (-not $FlutterPath) {
     $FlutterPath = (Get-Command flutter -ErrorAction Stop).Source
 }
 $flavor = if ($Environment -eq 'TEST') { 'fr21test' } else { 'production' }
+$modeSuffix = if ($Mode -eq 'debug') { 'Debug' } else { 'Release' }
+$variant = $flavor + $modeSuffix
+$variantTitle = $variant.Substring(0, 1).ToUpperInvariant() + $variant.Substring(1)
+$mergedAssets = [IO.Path]::GetFullPath((Join-Path $repo "build/app/intermediates/assets/$variant/merge${variantTitle}Assets"))
+$verifiedBuildRoot = [IO.Path]::GetFullPath((Join-Path $repo 'build')) + [IO.Path]::DirectorySeparatorChar
+if (-not $mergedAssets.StartsWith($verifiedBuildRoot, [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'Generated merged-assets path escaped the build directory.'
+}
+# Gradle's directory cleanup fails for these deeply nested Windows paths.
+# PowerShell/.NET handles them; do not remove sources, APKs or other variants.
+if (Test-Path -LiteralPath $mergedAssets) {
+    Remove-Item -LiteralPath $mergedAssets -Recurse -Force
+}
 $outputDirectory = Join-Path $repo ('build/delivery/' + $Environment.ToLowerInvariant())
 New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
 $log = Join-Path $outputDirectory 'build.log'
