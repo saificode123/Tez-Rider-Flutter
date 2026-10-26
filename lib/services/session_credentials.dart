@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -200,6 +202,11 @@ class SessionCredentials {
         return null;
       }
       return SavedSessionCredentials(account, token);
+    } on TimeoutException {
+      // An unanswered read proves neither corruption nor logout. Deny this
+      // attempt, retaining the existing account binding for a later retry.
+      if (kDebugMode) debugPrint('Secure session read temporarily unavailable');
+      return null;
     } catch (error) {
       if (kDebugMode) {
         debugPrint('Secure session read unavailable (${error.runtimeType})');

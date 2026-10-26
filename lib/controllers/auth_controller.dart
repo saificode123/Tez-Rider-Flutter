@@ -83,8 +83,18 @@ class AuthController extends GetxController {
         );
       }
     });
-    _checkBioSupport();
-    _loadBioPreference();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    // Native keystore callbacks must not compete with pre-frame bootstrap.
+    unawaited(_initializeBiometrics());
+  }
+
+  Future<void> _initializeBiometrics() async {
+    await _checkBioSupport();
+    await _loadBioPreference();
   }
 
   Future<void> _checkBioSupport() async {

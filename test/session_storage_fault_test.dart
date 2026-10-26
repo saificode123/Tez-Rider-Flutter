@@ -109,6 +109,22 @@ void main() {
     },
   );
   test(
+    'a timed-out read denies entry without revoking valid stored enrollment',
+    () async {
+      final session = unitSession();
+      await credentials.remember(session, 'customer');
+      await credentials.setBiometricEnabled(session.user.id, true);
+      vault.firstReadDelay = const Duration(seconds: 9);
+      final restarted = SessionCredentials(fence: fence);
+      expect(await restarted.read(), isNull);
+      expect(fence.value, isNull);
+      expect(vault.data['tr_refresh'], session.refreshToken);
+      expect(vault.data['bio_account'], session.user.id);
+      expect((await restarted.read())?.account, session.user.id);
+      expect(await restarted.biometricEnabled(session.user.id), isTrue);
+    },
+  );
+  test(
     'corrupt stored refresh data cannot authenticate or cross an account boundary',
     () async {
       await credentials.remember(unitSession(), 'customer');
