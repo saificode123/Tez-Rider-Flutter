@@ -1,0 +1,15 @@
+param([ValidateSet('review','deploy','post','hosted','edge-deploy')][string]$Action='review')
+$ErrorActionPreference='Stop'
+$repo=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+Set-Location -LiteralPath $repo
+if((Get-Content 'supabase/.temp/project-ref' -Raw).Trim() -cne 'igeisilhtmglgnqvllrx'){throw 'Dedicated TEST required'}
+$privateDirectory=Join-Path $env:USERPROFILE 'AppData/Local/TezRider-FR21'
+$protected=Get-Content (Join-Path $privateDirectory 'test-api-keys.dpapi') -Raw | ConvertTo-SecureString
+$pointer=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($protected)
+try{$env:FR21_TEST_KEYS_JSON=[Runtime.InteropServices.Marshal]::PtrToStringBSTR($pointer)}finally{[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($pointer)}
+$env:FR21_PRIVATE_DIRECTORY=$privateDirectory
+try {
+ & 'C:/Users/urreh/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -X utf8 (Join-Path $PSScriptRoot 'FINAL-support-contact.py') $Action
+ $result=$LASTEXITCODE
+}finally{Remove-Item Env:FR21_TEST_KEYS_JSON,Env:FR21_PRIVATE_DIRECTORY -ErrorAction SilentlyContinue}
+exit $result

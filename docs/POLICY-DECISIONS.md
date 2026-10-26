@@ -36,3 +36,8 @@ These are the approved TezRider policies. Treat them as authoritative, save them
 Optional modules: keep Tailoring, Prescription upload and AI Assistant working and covered by regression checks, but do not extend them. Defer wishlist and saved stores, gift ordering, promotions and bank details unless my Stage 0 dead-controls table says IMPLEMENT. Biometric login is required.
 
 Continue with the remaining work using these rules.
+
+
+## Owner addendum — temporary public support contact (2026-10-26)
+
+The Help screen will show [urrehmansaif406@gmail.com](mailto:urrehmansaif406@gmail.com) as a temporary contact for blocked users. Please confirm the permanent support inbox when it’s ready. The address is stored in app_settings (support_email), so replacing it is a one-row change and doesn’t need an app release.

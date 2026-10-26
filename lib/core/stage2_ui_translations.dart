@@ -1,5 +1,13 @@
 /// Display-only English keys and Urdu translations for Stage 2 controls.
 const stage2UiUrdu = <String, String>{
+  'Support email': 'معاونت کا ای میل',
+  'Support contact could not be loaded. Retry.':
+      'معاونت کا رابطہ لوڈ نہیں ہو سکا۔ دوبارہ کوشش کریں۔',
+  'No email app opened. Copy the address to contact support.':
+      'ای میل ایپ نہیں کھلی۔ معاونت سے رابطے کے لیے پتہ نقل کریں۔',
+  'Blocked or signed out? You can contact support using this address.':
+      'اکاؤنٹ بند ہے یا سائن آؤٹ ہیں؟ اس پتے پر معاونت سے رابطہ کریں۔',
+  'Email support': 'معاونت کو ای میل',
   "Older deliveries have no recorded earning; excluded from this total.":
       "پرانی ڈیلیوریوں کی کمائی درج نہیں؛ یہ اس کل رقم میں شامل نہیں۔",
   "Home Tailoring": "گھر کی سلائی",

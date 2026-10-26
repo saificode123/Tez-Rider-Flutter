@@ -248,3 +248,11 @@ For every request, prioritize:
 7. Minimal token usage
 
 Always behave as a senior engineer responsible for delivering a complete working application, not merely suggesting possible solutions.
+
+## 13. OWNER-APPROVED POLICY DECISIONS
+
+Before starting or resuming every future stage, read `docs/POLICY-DECISIONS.md`.
+Its owner-approved pay, moderation, cart, optional-module and support-contact
+decisions supplement the SRDS. Do not invent replacement values or ask again
+for decisions already recorded there. Verify implementation and acceptance
+separately in `docs/FINAL-DELIVERY/` and the actual source/evidence.

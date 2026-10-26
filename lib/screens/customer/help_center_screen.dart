@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../chat_rooms_screen.dart';
+import '../../widgets/support_contact_card.dart';
 
 const _kPurple = Color(0xFF1B5E20);
 const _kBg = Color(0xFFF8F7FF);
@@ -255,15 +256,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
           onTap: () => Get.to(() => const ChatRoomsScreen()),
         ),
         const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              'Verified support phone, email and service hours have not been configured. A support agent is not assigned automatically through Inbox.'
-                  .tr,
-            ),
-          ),
-        ),
+        const SupportContactCard(),
       ],
     );
   }

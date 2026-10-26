@@ -10,6 +10,7 @@ import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
 import 'signup_screen.dart';
 import 'cnic_document_screen.dart';
+import 'customer/help_center_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -712,6 +713,14 @@ class _LoginScreenState extends State<LoginScreen>
                                         authController.isBioEnabled.value
                                     ? _buildBiometricButton(role.color)
                                     : const SizedBox.shrink(),
+                              ),
+                              TextButton(
+                                onPressed: _loading
+                                    ? null
+                                    : () => Get.to(
+                                        () => const HelpCenterScreen(),
+                                      ),
+                                child: Text('help_support'.tr),
                               ),
                             ],
                           ),

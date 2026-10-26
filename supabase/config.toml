@@ -36,3 +36,7 @@ verify_jwt = false
 [functions.optional-private-media]
 # Trusted live session, private validated bytes and scoped optional records.
 verify_jwt = false
+
+[functions.support-contact]
+# Public GET exposes only the owner-configured support email, even when blocked.
+verify_jwt = false
