@@ -1,0 +1,36 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "action": "review",
+  "migration_sha256": "3543e273ca1103e3130fc941f285fdf18e3d124ea871212d6491f339e4adec94",
+  "rolled_back": true,
+  "passed": 5,
+  "checks": [
+    {
+      "check": "owner-authorized public email stored in one server setting row",
+      "result": "PASS",
+      "surface": "TEST SQL rollback"
+    },
+    {
+      "check": "unique setting permits a one-row replacement without app release",
+      "result": "PASS",
+      "surface": "TEST SQL rollback"
+    },
+    {
+      "check": "public contact does not grant access to settings or provider credentials",
+      "result": "PASS",
+      "surface": "TEST SQL rollback"
+    },
+    {
+      "check": "existing settings RLS remains enabled",
+      "result": "PASS",
+      "surface": "TEST SQL rollback"
+    },
+    {
+      "check": "one-row replacement verified inside rollback only; real contact preserved",
+      "result": "PASS",
+      "surface": "TEST SQL rollback"
+    }
+  ],
+  "actual_email_sent": false,
+  "actual_external_confirmation": false
+}

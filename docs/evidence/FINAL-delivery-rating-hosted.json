@@ -1,0 +1,63 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "recorded_at": "2026-10-26T07:02:02.413729+00:00",
+  "passed": 9,
+  "checks": [
+    {
+      "check": "deployed rating worker rejects unauthenticated invocation",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "private worker confirms real Auth ban and FR28 synchronization",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "actual Auth ban, zero target sessions and SYNCED operation agree with persisted account block",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "automatic reason audit and every-Admin notification persisted",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "real pre-block Rider access token cannot access a protected operation",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "existing actual authenticated Admin unblocks the synthetic account through FR28",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "confirmed real Admin unblock stores the rating cutoff and removes the Auth ban",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "actual retry clears a staged stale queue; old reviews cannot reblock an Admin-unblocked account",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    },
+    {
+      "check": "new Rider password session succeeds after actual Admin unblock",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted readback; first observed hosted sequence"
+    }
+  ],
+  "actual_auth_admin_ban": true,
+  "actual_admin_unblock": true,
+  "input_data": "new marked synthetic SQL reviews/orders and staged target queue; no physical delivery or feedback-UI proof",
+  "attempts": [
+    "First hosted sequence passed all9 assertions; final synthetic cleanup SQL had a missing whitespace and failed. Exact original10 pending fixture orders were subsequently retired with corrected guarded SQL.",
+    "Second overlapping sequence passed first6 assertions then read-only CLI timed out. Finally cleanup ran. No overlapping assertion totals added.",
+    "Final explicit reconciliation confirms target unblocked, Auth unbanned, cutoff present, stale queue CLEARED, no pending fixture orders, and new password session succeeds."
+  ],
+  "final_reconciliation": "docs/evidence/FINAL-delivery-rating-reconcile.json",
+  "cleanup_verified": true,
+  "production_modified": false
+}

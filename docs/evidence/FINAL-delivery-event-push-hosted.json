@@ -1,0 +1,54 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "passed": 8,
+  "checks": [
+    {
+      "check": "real Customer reads approved no-reservation policy through the gateway",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "new synthetic installation binds to the actual authenticated Customer session",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "new ordinary order notice commits one existing durable session-bound job with a UUID hint",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "existing background capability resolver returns only the owning ordinary event text",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "wrong installation capability cannot read ordinary notification",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "unrelated UUID hint cannot read another notification",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "Customer cannot forge a system notification or enqueue arbitrary push",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    },
+    {
+      "check": "already-read ordinary event is withheld by actual HTTP resolver",
+      "result": "PASS",
+      "surface": "actual TEST HTTP and persisted synthetic readback"
+    }
+  ],
+  "actual_fcm_receipt": false,
+  "provider_calls": 0,
+  "cleanup": "only new synthetic installation unregistered and its jobs skipped; synthetic inbox/Auth/audit retained",
+  "production_modified": false,
+  "cleanup_state": {
+    "installation_absent": true,
+    "no_pending_fixture_job": true
+  }
+}

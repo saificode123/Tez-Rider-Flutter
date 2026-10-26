@@ -1,0 +1,150 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "mode": "post",
+  "migration_sha256": "21d00454abbe14b77f5ee292d347556fbf2b6b5f64b65a0722520886c49aaa41",
+  "passed": 28,
+  "checks": [
+    {
+      "check": "owner-approved no-reservation policy stored server-side",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "owner-approved no maximum earning stored explicitly without changing pay math",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "private cart settings have no direct client or service table reads",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "reservation activation cannot bypass the reviewed transaction design",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "order receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "order creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "dispute receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "dispute creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "delivery receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "delivery creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "otp_review receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "otp_review creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "account receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "account creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "auto_low_rating receives only a transport UUID",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "auto_low_rating creates one existing session-bound durable push job",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "existing device capability resolves an ordinary event",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "unrelated installation cannot resolve another owner event",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "wrong device secret denies ordinary event text",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "client cannot forge system notifications or push hints",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "existing timeout/stock/cancellation transport UUID remains unchanged",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "existing worker claims an ordinary notification",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "ordinary event is reauthorized before provider dispatch",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "provider acceptance remains distinct from actual device receipt",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "read ordinary event is not rendered again",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "expired ordinary event cannot reveal message",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "absolute expired Auth session cannot resolve ordinary event",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    },
+    {
+      "check": "rebound installation cannot reveal old snapshot event",
+      "result": "PASS",
+      "surface": "rollback SQL; synthetic Auth/device and provider outcome, no FCM delivery"
+    }
+  ],
+  "rolled_back": true,
+  "actual_fcm_receipt": false
+}

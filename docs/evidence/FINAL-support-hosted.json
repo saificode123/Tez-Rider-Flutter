@@ -1,0 +1,33 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "passed": 5,
+  "checks": [
+    {
+      "check": "signed-out caller reads only the configured public support email",
+      "result": "PASS",
+      "surface": "actual TEST HTTP"
+    },
+    {
+      "check": "public contact remains available with an invalid or expired session",
+      "result": "PASS",
+      "surface": "actual TEST HTTP"
+    },
+    {
+      "check": "public support contact cannot be used to write settings",
+      "result": "PASS",
+      "surface": "actual TEST HTTP"
+    },
+    {
+      "check": "caller-selected private settings are rejected without disclosure",
+      "result": "PASS",
+      "surface": "actual TEST HTTP"
+    },
+    {
+      "check": "contact does not grant raw settings table access",
+      "result": "PASS",
+      "surface": "actual TEST HTTP"
+    }
+  ],
+  "message_sent": false,
+  "production_modified": false
+}

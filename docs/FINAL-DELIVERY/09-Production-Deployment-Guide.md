@@ -1,0 +1,14 @@
+# Production deployment guide
+
+**STOP: NOT AUTHORIZED.** No production write or installation is part of this execution. Production release remains gated by the final compliance matrix, required credentials/signing, verification and explicit owner authorization.
+
+1. Read ../POLICY-DECISIONS.md and final known issues. Resolve all mandatory gaps or obtain explicit deviations; confirm COD/email alternatives remain approved. Verify production project identity independently of the local TEST link.
+2. Export production schema, roles/grants, migration history, application/Auth data and private Storage object inventory/content to an encrypted approved backup; test restore in isolation. Include server secret references securely, never plaintext in Git.
+3. Compare actual production history with 05-Database-Migrations.md and reviewed source hashes. Apply only missing compatible migrations in source order. Do not replay baseline, force-reset, drop data or infer parity from TEST. Review changed SECURITY DEFINER bodies, RLS, triggers, cron/Vault settings and audit behavior before approval.
+4. Configure private buckets/policies through reviewed migrations. Verify raw object/list/public URL access denied and scoped owner/Admin bytes expire. Reconcile Auth one-hour access/seven-day maximum session policy and blocked/revoked sessions; retain gateway proof/rate controls.
+5. Configure approved server secrets for routing/email/AI and scheduled workers via secrets/Vault, then deploy only reviewed Edge source to the explicitly approved production project. Existing TEST-only push/moderation gates require reviewed production qualification before activation. Never bypass a hard TEST guard merely to get deployment to succeed.
+6. Configure production Android ID, upload signing and public client defines; validate tool/build-android.ps1 preflight, then build release APK/AAB and verify package/signature/hash. Firebase production and iOS/APNs must be separately registered and verified; TEST Firebase success is insufficient.
+7. Obtain explicit final production deployment/install authorization. Run bounded four-role smoke tests: authentication/revocation, real catalogue/cart/order/vendor/assignment/checklist/GPS/route/photo/OTP/rating/dispute/COD/manual refund/profile, worker behavior and rollback/retry. No fabricated GPS/payment/provider outcomes or excluded load tests.
+8. Monitor actual Auth/Edge/database/cron/email/push failures, route/provider quotas, pending jobs, immutable financial/audit records and storage growth. Provider acceptance does not prove phone/inbox receipt. Confirm backup recovery and rollback ownership before handover.
+
+Commands and secret values must be supplied for the approved target at deployment time; this guide intentionally does not run production operations. Supabase Free uptime/backups/quotas and Apple push availability do not satisfy every SRDS guarantee automatically.

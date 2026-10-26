@@ -1,0 +1,11 @@
+# Verified email-change profile support
+
+Migration202610250010_final_profile_email.sql applied once to isolated TEST after exact predecessor history check and27 matching-hash rollback assertions. TEST now67 migration versions. Post27 repeat the same rollback cases and are not added. Five actual authenticated/anonymous HTTP status-only checks pass across four application roles and anonymous denial. No external email-change request, message delivery or actual confirmation was performed.
+
+ProfileEmailService and ProfileEmailPanel extend the shared profile editor while retaining the accepted name/phone path. Supabase Auth owns the email-change request and confirmation; no client SMTP or privileged key. The server exposes only the current caller's confirmed/pending Auth email and synchronizes canonical users.email when a verified Auth email truly changes. Profile/role/approval fields are preserved; clients cannot update email directly. Existing sessions remain canonically role-gated. After a confirmed server email change, the default client status reader refreshes its SDK session/cache and verifies the same account; the existing secure refresh listener synchronizes the rotated token.
+
+The interface distinguishes request pending from verified changed address, recovers an existing same-target pending request without resending mail, clears account-bound data on identity change and localizes Urdu/RTL. A successful request never claims inbox receipt. Server response/account mismatch, denial and network errors remain visible and do not replace the confirmed email.
+
+Root affected run:37 Flutter PASS/0FAIL, including10 new email cases plus27 affected profile/auth/earnings/cancellation cases (overlapping the600-case full suite except the10 new email cases). Actual email confirmation/default SDK-refresh/native path remains an acceptance dependency; mocked tests are not delivered-email evidence.
+
+Source: lib/services/profile_email_service.dart; lib/widgets/profile_email_panel.dart; lib/screens/customer/profile_screen.dart; lib/core/profile_email_translations.dart; test/profile_email_test.dart. Evidence: docs/evidence/FINAL-profile-email-{review,post,deployment,hosted}.json. No production operation, historical migration rewrite, email send, push or merge.

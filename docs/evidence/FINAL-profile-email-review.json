@@ -1,0 +1,146 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "action": "review",
+  "migration_sha256": "cc8d9cd63b6bc161cfc64b3647174523e582f5ba3b24ca32c7575938ad2bcc42",
+  "rolled_back": true,
+  "passed": 27,
+  "checks": [
+    {
+      "check": "private Auth sync is trigger-only and not callable by clients or raw service API",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer pending Auth email never changes canonical profile",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer live own status distinguishes verified original and pending target",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer only verified Auth change syncs email while preserving all accepted profile fields and authorization",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer confirmed status reads canonical persisted email rather than trusting request acceptance",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "customer unchanged Auth retries add no duplicate confirmation audit",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "vendor pending Auth email never changes canonical profile",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "vendor live own status distinguishes verified original and pending target",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "vendor only verified Auth change syncs email while preserving all accepted profile fields and authorization",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "vendor confirmed status reads canonical persisted email rather than trusting request acceptance",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "vendor unchanged Auth retries add no duplicate confirmation audit",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "rider pending Auth email never changes canonical profile",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "rider live own status distinguishes verified original and pending target",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "rider only verified Auth change syncs email while preserving all accepted profile fields and authorization",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "rider confirmed status reads canonical persisted email rather than trusting request acceptance",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "rider unchanged Auth retries add no duplicate confirmation audit",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "admin pending Auth email never changes canonical profile",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "admin live own status distinguishes verified original and pending target",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "admin only verified Auth change syncs email while preserving all accepted profile fields and authorization",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "admin confirmed status reads canonical persisted email rather than trusting request acceptance",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "admin unchanged Auth retries add no duplicate confirmation audit",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "unverified Auth field edit cannot overwrite canonical verified profile email",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "a later actual confirmation timestamp syncs its confirmed address",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "ordinary client cannot bypass Auth confirmation with a direct profile email UPDATE",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "ordinary client cannot directly invoke private sync trigger",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "blocked profile cannot request private email status",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    },
+    {
+      "check": "anonymous email status access denied",
+      "result": "PASS",
+      "surface": "synthetic authenticated TEST SQL rollback"
+    }
+  ],
+  "actual_email_sent": false,
+  "actual_external_confirmation": false
+}

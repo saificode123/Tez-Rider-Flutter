@@ -1,0 +1,13 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "function": "optional-private-media",
+  "deployed": true,
+  "transport": "hosted API via configured Supabase CLI; no Docker",
+  "deno_check": "PASS",
+  "production_modified": false,
+  "source_hashes": {
+    "supabase/functions/optional-private-media/index.ts": "ff07c0d42dd35deccd59e57e6c300376715f50d24814d78720c8068b8ca5af28",
+    "supabase/functions/_shared/security-runtime.ts": "f11d5c8f6e65f13ad21d73e0dab4aae8cf2d037e19c808e197ae7d1024671e10",
+    "supabase/functions/_shared/validated-image.ts": "697f912a79184b045ca41d7e2f7ab5480e3e9d504cd9dfe2c528ab086095b207"
+  }
+}

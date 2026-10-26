@@ -1,0 +1,89 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "passed": 16,
+  "checks": [
+    {
+      "check": "Customer uploads server-decoded private prescription image",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Identical image retry returns same private reference",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Foreign Customer cannot upload to another order",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Server rejects fake image bytes without accepting metadata",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Owner links confirmed image to persisted prescription",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Prescription retry persists exactly one record",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "owner private prescription byte authorization",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "assigned Vendor private prescription byte authorization",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "foreign Customer private prescription byte authorization",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Assigned Vendor receives real pending prescription",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Vendor approval confirms returned persisted identity and status",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Approval unlocks actual vendor acceptance and starts canonical timeout",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Tailoring instructions and measurements persist without invented assignment",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Direct prescription insert cannot bypass scoped trusted API",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Anonymous private image access denied",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    },
+    {
+      "check": "Exact new unpaid synthetic order retired with history retained",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP and persisted readback"
+    }
+  ],
+  "real_payment_or_delivery": false,
+  "objects_and_audits_retained": true,
+  "production_modified": false
+}

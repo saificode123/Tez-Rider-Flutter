@@ -1,0 +1,14 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "state": {
+    "auth_unbanned": true,
+    "cutoff": true,
+    "owned_pending_fixtures": 0,
+    "queue_cleared": true,
+    "unblocked": true
+  },
+  "new_password_session": true,
+  "cleanup_verified": true,
+  "production_modified": false,
+  "scope": "Final readback after interrupted overlapping hosted verification; no new review/order fixtures created"
+}

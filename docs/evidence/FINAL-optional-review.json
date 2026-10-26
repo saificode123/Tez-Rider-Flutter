@@ -1,0 +1,134 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "action": "review",
+  "migration_sha256": "e2066110ee472458205d38e26fafb940331440ade476e5c967ca5e61b0b86665",
+  "passed": 25,
+  "rolled_back": true,
+  "checks": [
+    {
+      "check": "own active prescription upload authority",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "foreign customer upload denied",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "vendor cannot submit customer media",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "client cannot invoke service finalizer",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "missing Storage object cannot finalize",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "confirmed private media reference",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "same image finish retries idempotently",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "upload audit exactly once",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "prescription persistence retry same row",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "own customer reads actual saved prescription",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "owner views prescription privately",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "foreign order prescription list denied",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "foreign image view denied",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "own vendor sees actual pending prescription",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "assigned vendor views validated prescription",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "vendor review confirms canonical status",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "same review retry accepted without duplicate effect",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "review decision cannot be reversed",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "approval unlocks existing acceptance workflow with real deadline",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "review audit exactly once",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "actual in-app notification exactly once",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "tailoring immutable retry returns persisted row",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "changed tailoring retry rejected",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "measurements persisted without invented vendor assignment",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    },
+    {
+      "check": "anonymous optional data denied",
+      "result": "PASS",
+      "surface": "rollback SQL candidate"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "action": "hosted",
+  "passed": 5,
+  "checks": [
+    {
+      "check": "customer own confirmed email status is account-bound and canonical; no email-change request sent",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP read"
+    },
+    {
+      "check": "vendor own confirmed email status is account-bound and canonical; no email-change request sent",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP read"
+    },
+    {
+      "check": "rider own confirmed email status is account-bound and canonical; no email-change request sent",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP read"
+    },
+    {
+      "check": "admin own confirmed email status is account-bound and canonical; no email-change request sent",
+      "result": "PASS",
+      "surface": "actual authenticated TEST HTTP read"
+    },
+    {
+      "check": "anonymous cannot read any profile email state",
+      "result": "PASS",
+      "surface": "actual TEST HTTP denial"
+    }
+  ],
+  "email_change_request_sent": false,
+  "actual_external_confirmation": false,
+  "business_mutations": false
+}

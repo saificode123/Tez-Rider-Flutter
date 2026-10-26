@@ -1,0 +1,125 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "action": "review",
+  "migration_sha256": "1a20d4201608bfea2598ad977e651bab3ff0cf0d870415412d295c99307dd73f",
+  "rolled_back": true,
+  "passed": 23,
+  "checks": [
+    {
+      "check": "owner-approved policy values stored server-side",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "private policy values cannot be read or changed by clients or raw service table requests",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "rating worker RPC is service-only",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "authenticated role cannot invoke service-only evaluation even through a definer caller",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "ten verified recent ratings below threshold block inactive Vendor and Rider through FR28",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "active Vendor work defers blocking without cancellation or reassignment",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "fewer than ten, exact threshold, expired window, Admin and Customer never auto-block",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "new parent work cannot enter a concurrently blocked Vendor",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "multi-Vendor child insertion rechecks and locks account availability",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "delivery-assignment insertion rechecks and locks Rider availability",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "each automatic breach writes exactly one explicit reason audit",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "policy notifies the synthetic Admin for each new block",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "same-day retries neither duplicate block audits nor reevaluate the population",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "daily population evaluation is exact-once while deferred work may retry",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "deferred breach applies once active work becomes terminal",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "policy preserves the actual terminal order state",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "existing FR28 finish requires confirmed mocked ban and revoked sessions",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "existing FR28 finish requires confirmed mocked ban and revoked sessions",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "existing FR28 finish requires confirmed mocked ban and revoked sessions",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "existing Admin unblock mechanism completes through confirmed mocked Auth state",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "Admin unblock resets the reputation-policy cutoff",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "old ratings cannot reblock an Admin-unblocked account",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    },
+    {
+      "check": "daily schedule is installed from persisted settings",
+      "result": "PASS",
+      "surface": "rollback SQL; Auth completion explicitly simulated"
+    }
+  ],
+  "actual_auth_admin_ban": false
+}

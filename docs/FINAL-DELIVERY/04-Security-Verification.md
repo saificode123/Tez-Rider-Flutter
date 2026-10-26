@@ -1,0 +1,11 @@
+# Security verification
+
+Retain ../FINAL-stage-0-1-signoff.md and ../FINAL03-security-matrix.md for the accepted active/denied TEST boundaries. They establish scoped RLS, canonical roles/session revocation, gateway request budgeting, private Storage, protected Realtime, input validation and atomic Admin audit behavior. They do not qualify production or unimplemented workflows.
+
+Current biometric changes ignore the old device-wide opt-in flag unless bound to remembered canonical account; opt-out/logout removes enrollment. Refresh rotation updates only matching remembered identity; storage failures fail closed. Password authentication remains available. Native biometric result never substitutes for Supabase session plus server account/role checks. This is a sign-in shortcut, not an app lock; normal accepted SDK session restoration remains allowed. Native enrollment-change detection and iOS/Android sensor lifecycle still require device evidence.
+
+New private earning/moderation/optional-module tables must have RLS, no direct application grants, restricted functions/search_path, immutable receipts/ledger, no privileged Flutter credentials and positive/negative role tests. See individual findings and execution ledger for actual completed checks. No weakening of accepted checklist/OTP/stock/ownership guards is authorized.
+
+Production signing now fails closed if owner keystore/approved ID are absent. No debug-signed artifact is represented as production-ready. No production mutation, secret copying into reports, Docker or excluded load test.
+
+Bounded current/history pattern scan executed: 1041 current text files and 1639 reachable UTF-8 blobs <=2MB. Current candidates are one intentional secret-shaped build-denial test fixture and the legacy Firebase public client configuration; six historical candidates are public anon JWT/Firebase client keys. No privileged credential match found within these patterns/scope; no history rewrite or credential validity probe. The final actual-value scan checked 396 changed/new files since b19dc24 and found zero exact protected TEST service-key/fixture-password matches. New-path hosted denials are documented in pay/rating/optional/event/email/support evidence. Historical RLS table counts are not current certification of every newly added table.

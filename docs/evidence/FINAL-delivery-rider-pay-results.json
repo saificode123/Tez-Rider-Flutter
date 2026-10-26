@@ -1,0 +1,339 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "recorded_at_utc": "2026-10-26T06:57:47.908278+00:00",
+  "date_context": "2026-10-26 Asia/Karachi",
+  "git_revision": "3737bc96f5203d894daccb912e1102e722e392a9",
+  "source_scope": "revision plus uncommitted worktree source hashes below",
+  "deployment": {
+    "project": "igeisilhtmglgnqvllrx",
+    "version": "202610250006",
+    "migration_sha256": "76fb909543f4c6632f444e1047395aa03a4b6f959dd88bc43fef551571fb68b2",
+    "versions": 63,
+    "production_modified": false,
+    "replayed": false
+  },
+  "final_post_sql": {
+    "passed": 44,
+    "failed": 0,
+    "rolled_back": true,
+    "checks": [
+      {
+        "check": "real owned multi-Vendor stock-aware checkout returns immutable fractional items, exact delivery/total cents, initial milestones and unpaid COD context",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "missing and invalid order identities fail without exposing another order",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "one Vendor acceptance leaves required shared parent pending; later catalogue name/price edits cannot rewrite checkout history",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Customer cannot directly read/write private Vendor event ledger or forge timeline completion",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "both real Vendor transition RPCs record pending/accepted/preparing once; duplicate acknowledgement adds no fake milestone",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "assigned Rider sees server-side minimum PKR80 quote before accepting; synthetic identical vendor/destination, no road claim",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "synthetic vendor-origin FR14 cache uses base60 plus 20/km and rounds 2.125km from102.5 to103 PKR; no provider/GPS claim",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "shared pickup reservation does not fabricate departure; checklist gate and actual secured start produce ready/on-the-way milestones",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "secured synthetic OTP verification records delivered terminal/portion histories and timestamp without falsely claiming COD collection",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy order lacking item/milestone records explicitly reports unavailable detail; no fabricated backfill",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy recorded item price is preserved separately from current catalogue name and price",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "legacy subtotal/delivery/total mismatch remains review-required instead of inventing financial reconciliation",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "unrelated real Customer cannot read another complete order or payment context",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Vendor/Rider/Admin cannot impersonate the owning Customer detail endpoint; existing role-specific workflows remain separate",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "captured Vendor transitions remain append-only even under trusted SQL",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "private Vendor event ledger remains unpublished; detail changes do not broaden existing Realtime boundaries",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "real Vendor rejection produces exact terminal parent/portion events and preserves unpaid COD rather than inventing a refund",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "blocked owning Customer loses full detail access",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous full detail access denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "secured checklist start freezes original distance/rate; actual synthetic verified OTP transaction credits exactly PKR80 after its proof/USED challenge",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "repeated terminal writes cannot duplicate one-per-order earning or audit",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "later server rate edits cannot rewrite frozen historical pay or distance",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "ordinary pre-pickup cancellation earns nothing and old delivered orders are not backfilled",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "earnings and frozen calculation evidence are append-only even under trusted SQL",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "private pay settings/snapshots/ledgers are protected by RLS, revoked grants and unpublished tables",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "synthetic actual public dispute-resolution trigger flags delivered earning for Admin review without changing recorded amount; no refund-settlement claim",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "synthetic actual refund-action trigger adds Admin review evidence and preserves full delivered earning rather than clawing it back",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "own live Rider reads frozen quote, paged itemized earning, exact total and reconciled existing performance without payout simulation",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "actual SQL quote/history field types satisfy Flutter parser: numeric amounts and ids, ISO date, boolean frozen/review, PKR currency and minimum",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Rider cannot forge target actor, bypass page bounds, read raw earnings or directly invoke private calculation",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Vendor cannot access Rider private quote or earnings",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "Customer cannot access Rider earnings",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "blocked Rider loses private earnings access",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "anonymous earnings denied",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "CUSTOMER explicit confirmation/reason gates whole-order cancellation; exact immutable retry succeeds and changed payload fails",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "CUSTOMER post-pickup cancellation credits exactly base PKR60 once with separate canonical earning and cancellation audits; no delivery/minimum/distance fee",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "CUSTOMER cancellation atomically restores each stock decrement once and closes every Vendor portion and Rider assignment",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "CUSTOMER cancelled task retains unpaid COD truth and clears route/location/session data through accepted terminal cleanup",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "CUSTOMER actual Rider cancellation-history RPC uses complete Flutter-compatible numeric base60/distance0/rate0 parts with explicit records-only semantics",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "VENDOR explicit confirmation/reason gates whole-order cancellation; exact immutable retry succeeds and changed payload fails",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "VENDOR post-pickup cancellation credits exactly base PKR60 once with separate canonical earning and cancellation audits; no delivery/minimum/distance fee",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "VENDOR cancellation atomically restores each stock decrement once and closes every Vendor portion and Rider assignment",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "VENDOR cancelled task retains unpaid COD truth and clears route/location/session data through accepted terminal cleanup",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      },
+      {
+        "check": "VENDOR actual Rider cancellation-history RPC uses complete Flutter-compatible numeric base60/distance0/rate0 parts with explicit records-only semantics",
+        "result": "PASS",
+        "surface": "authenticated TEST SQL rollback"
+      }
+    ]
+  },
+  "actual_hosted_http": {
+    "passed": 9,
+    "failed": 0,
+    "business_mutations": false,
+    "checks": [
+      {
+        "check": "live approved Rider reads own actual earnings ledger without payout claim",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "approved Admin selected Rider total agrees with owner endpoint",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "CUSTOMER earnings access denied",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "VENDOR earnings access denied",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "OTHER_VENDOR earnings access denied",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "anonymous earnings access denied",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "Rider cannot select unrelated private account",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "invalid earnings page rejected server-side",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      },
+      {
+        "check": "existing performance returns actual recorded earnings with explicit historical gaps",
+        "result": "PASS",
+        "surface": "actual authenticated TEST HTTP"
+      }
+    ]
+  },
+  "routing": {
+    "flutter_tests": {
+      "passed": 25,
+      "basis": "retained earlier current-source affected test result; root executes final Flutter suite"
+    },
+    "deno_tests": {
+      "passed": 38,
+      "failed": 0,
+      "command": "deno test supabase/functions/get-delivery-route/handler_test.ts",
+      "newly_executed": true
+    },
+    "edge_deployment": {
+      "project": "igeisilhtmglgnqvllrx",
+      "function": "get-delivery-route",
+      "via": "hosted API --use-api",
+      "confirmed": true,
+      "secrets_changed": false,
+      "docker_used": false
+    },
+    "hosted_unauthenticated_boundary": {
+      "passed": 1,
+      "http_status": 401,
+      "route_or_timing_disclosed": false
+    },
+    "real_provider_latency_or_movement_acceptance": false
+  },
+  "source_sha256": {
+    "supabase/migrations/202610250006_final_delivery_rider_earnings.sql": "76fb909543f4c6632f444e1047395aa03a4b6f959dd88bc43fef551571fb68b2",
+    "supabase/tests/FINAL-delivery-rider-pay.sql": "acafb4632d418ec0f3cafa992a172dfb488546dc733add4a91a6241562696fa3",
+    "supabase/tests/FINAL-delivery-rider-cancel.sql": "22e279d3c76c59ba4b580175028544c79ce9d42b3353255d35c45b7647489709",
+    "tests/integration/FINAL-delivery-rider-pay.py": "8a9052f2d0cdcd54cda7ac38b4e57838540cfa39981f65c6db241de8d97187c2",
+    "tests/integration/FINAL-delivery-rider-pay.ps1": "352b4e7f2cf30e5813c92222b83adc43f37f5e62c56182f321ce3aa2dfd48a10",
+    "lib/services/delivery_route.dart": "fe848b38ef0d05d013fde230a9001e7eb5d7163a6ba7dd741dc2b247e1d60ce4",
+    "supabase/functions/get-delivery-route/handler.ts": "9d90511debe57b05c1bc1e4397342d34ac94afc4066d626a0ea046be942ad277",
+    "supabase/functions/get-delivery-route/handler_test.ts": "f4673fa2450308cceeaaa2ec63878f2676497634175c87a6166bb77769e17819"
+  },
+  "counting": "Final44 SQL contains retained order-detail/checklist/OTP checks and overlaps38 review and39/42 intermediate post runs; do not add counts. Nine hosted reads/denials are separate surfaces, not nine new delivered orders.",
+  "limits": [
+    "SQL fixtures, coordinates, cached provider geometry, OTP challenge and proof records are synthetic and rolled back; no physical delivery/GPS/provider request/mail/cash/payout proved.",
+    "No historical delivered wages backfilled. Actual old unpriced deliveries are disclosed separately.",
+    "Post-pickup cancellation is owning Customer/participating Vendor, whole order, checklist-started on_the_way, unpaid COD only; collected cash requires Admin review.",
+    "No production change, schema replay, push/merge, quota reset, Docker or load test.",
+    "FR14 meaningful physical movement/deviation/rerouting and prior failed latency remain unaccepted.",
+    "Root owns final full Flutter/analyzer/APK/device checks; those are not inferred by this backend record."
+  ]
+}

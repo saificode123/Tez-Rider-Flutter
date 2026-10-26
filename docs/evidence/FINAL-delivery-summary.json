@@ -1,0 +1,111 @@
+{
+  "recorded_at_utc": "2026-10-26T13:45:54.5478900Z",
+  "timezone": "Asia/Karachi",
+  "baseline_revision": "9d5e127",
+  "source_revision": "603f01173da140b6f1e904cff9804346e80a8f17",
+  "project": "igeisilhtmglgnqvllrx",
+  "production_modified": false,
+  "ready_for_production": false,
+  "test_history_versions": 68,
+  "full_flutter": {
+    "passed": 600,
+    "failed": 0,
+    "skipped": 2,
+    "new_email_cases_included": false,
+    "new_support_cases_included": false
+  },
+  "affected_email_pay_cancel_flutter": {
+    "passed": 37,
+    "failed": 0,
+    "new_email": 10,
+    "overlap": 27
+  },
+  "affected_support_flutter": {
+    "passed": 37,
+    "failed": 0,
+    "new_support": 4,
+    "overlap": 33
+  },
+  "analysis": {
+    "full_before_support": {
+      "errors": 0,
+      "warnings": 4,
+      "infos": 34,
+      "exit_code": 1
+    },
+    "final_email_scope": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 7
+    },
+    "final_support_scope": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 4
+    }
+  },
+  "coverage": {
+    "scope": "instrumented paths only; excludes unloaded files and later email/support cases",
+    "services": {
+      "covered": 2611,
+      "measured": 3546,
+      "percent": 73.63
+    },
+    "models": {
+      "covered": 72,
+      "measured": 160,
+      "percent": 45.0
+    },
+    "domain_data_80_percent_certified": false
+  },
+  "log_sha256": {
+    "final-delivery-full-tests.log": "29917ab5cb570fb054c12afd1883ca281380e392b89703d26af30ab179dc43ba",
+    "final-delivery-final-affected-tests.log": "dbe877edcc086183ca5e9ab8c0a4f96d0ce638776ee54d808e818d6fb6620c75",
+    "final-delivery-support-tests.log": "25f3ec7b7a263d84f491ce91a4bcd3218db6e535c184b4bf5715fb7a0abdea53",
+    "final-delivery-final-analyze.log": "9c37b6fc32b805b315f01d6b384c0c162969a0fc56b53da5c78163a857873fe1",
+    "final-delivery-email-analyze.log": "b88505ec3396169b9cc8f197016573cd029ddfc9cbecf799e13c74ea02c255d6",
+    "final-delivery-support-analyze.log": "5742a1c69265b0cefb4235f37433d85ff740ceef9fc784a50c0dadfffba2f5df"
+  },
+  "migration_sha256": {
+    "202610250006_final_delivery_rider_earnings.sql": "76fb909543f4c6632f444e1047395aa03a4b6f959dd88bc43fef551571fb68b2",
+    "202610250007_final_delivery_rating_policy.sql": "1a20d4201608bfea2598ad977e651bab3ff0cf0d870415412d295c99307dd73f",
+    "202610250008_final_optional_modules.sql": "e2066110ee472458205d38e26fafb940331440ade476e5c967ca5e61b0b86665",
+    "202610250009_final_delivery_event_push.sql": "21d00454abbe14b77f5ee292d347556fbf2b6b5f64b65a0722520886c49aaa41",
+    "202610250010_final_profile_email.sql": "cc8d9cd63b6bc161cfc64b3647174523e582f5ba3b24ca32c7575938ad2bcc42",
+    "202610250011_final_support_contact.sql": "3543e273ca1103e3130fc941f285fdf18e3d124ea871212d6491f339e4adec94"
+  },
+  "apk": {
+    "status": "BUILD_RUNNING",
+    "current_source_confirmed": false,
+    "installed": false
+  },
+  "native": {
+    "current_apk_verified": false,
+    "device": "AESWNRBAEUPNTGJZ",
+    "latest_connection": "disconnected after earlier connected/unlocked observation"
+  },
+  "limitations": [
+    "FR14 physical movement/deviation/reroute and prior800ms engineering gate unaccepted",
+    "Native biometric and current four-role journeys pending",
+    "iOS/APNs and zero-cost platform/SLA qualification unresolved",
+    "Production identity/signing/history/security/backup/authorization incomplete",
+    "Actual external email confirmation/SDK-refresh path unverified",
+    "Tailoring assignment/pricing remains unspecified; no fulfillment fabricated",
+    "80percent domain/data coverage target not certified"
+  ],
+  "pushed": false,
+  "merged": false,
+  "compliance": {
+    "scope": "bounded TEST evidence; all SRDS not satisfied",
+    "complete": 74,
+    "approved_deviation": 17,
+    "partial": 45,
+    "blocked": 1,
+    "unique_rows": 137
+  },
+  "final_protected_scan": {
+    "scope": "exact protected TEST service key and fixture passwords; changed/new since b19dc24",
+    "files_checked": 396,
+    "matches": 0
+  }
+}
