@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const secureSessionUnavailable =
@@ -25,6 +26,18 @@ class SessionCredentials {
   final LocalStorage _fence;
   Future<void>? _ready;
   static const _storageTimeout = Duration(seconds: 2);
+  static const _coldReadTimeout = Duration(seconds: 8);
+  bool _storageWarmed = false;
+  Future<String?> _readSecure(String key) async {
+    // Android must initialize its keystore on the first native read. Keep that
+    // bounded without treating a slower cold start as an explicit logout.
+    final value = await storage
+        .read(key: key)
+        .timeout(_storageWarmed ? _storageTimeout : _coldReadTimeout);
+    _storageWarmed = true;
+    return value;
+  }
+
   bool _denied = false;
   bool get denied => _denied;
   Future<void> _initialize() async {
@@ -123,10 +136,8 @@ class SessionCredentials {
   Future<bool> biometricEnabled(String account) async {
     if (!await restorationAllowed()) return false;
     try {
-      return await storage.read(key: 'bio_enabled').timeout(_storageTimeout) ==
-              'true' &&
-          await storage.read(key: 'bio_account').timeout(_storageTimeout) ==
-              account &&
+      return await _readSecure('bio_enabled') == 'true' &&
+          await _readSecure('bio_account') == account &&
           (await read(currentAccount: account)) != null;
     } catch (_) {
       return false;
@@ -175,15 +186,9 @@ class SessionCredentials {
   Future<SavedSessionCredentials?> read({String? currentAccount}) async {
     if (!await restorationAllowed()) return null;
     try {
-      final enabled = await storage
-          .read(key: 'user_logged_in')
-          .timeout(_storageTimeout);
-      final account = await storage
-          .read(key: 'tr_account')
-          .timeout(_storageTimeout);
-      final token = await storage
-          .read(key: 'tr_refresh')
-          .timeout(_storageTimeout);
+      final enabled = await _readSecure('user_logged_in');
+      final account = await _readSecure('tr_account');
+      final token = await _readSecure('tr_refresh');
       if (enabled != 'true' ||
           account == null ||
           account.isEmpty ||
@@ -195,7 +200,10 @@ class SessionCredentials {
         return null;
       }
       return SavedSessionCredentials(account, token);
-    } catch (_) {
+    } catch (error) {
+      if (kDebugMode) {
+        debugPrint('Secure session read unavailable (${error.runtimeType})');
+      }
       await invalidate();
       return null;
     }

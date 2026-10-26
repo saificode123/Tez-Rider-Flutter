@@ -39,6 +39,7 @@ class MemoryFence extends LocalStorage {
 }
 
 class VaultDouble {
+  Duration? firstReadDelay;
   final data = <String, String>{};
   final calls = <String>[];
   final failures = <String>{};
@@ -52,6 +53,11 @@ class VaultDouble {
             );
             final key = args['key'] as String? ?? '';
             calls.add('${call.method}:$key');
+            if (call.method == 'read' && firstReadDelay != null) {
+              final delay = firstReadDelay!;
+              firstReadDelay = null;
+              await Future<void>.delayed(delay);
+            }
             if (failures.contains('${call.method}:$key')) {
               throw PlatformException(code: 'STORAGE_UNAVAILABLE');
             }

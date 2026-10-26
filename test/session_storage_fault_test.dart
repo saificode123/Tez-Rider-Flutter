@@ -96,6 +96,19 @@ void main() {
     },
   );
   test(
+    'slow first native read preserves a valid account-bound enrollment',
+    () async {
+      final session = unitSession();
+      await credentials.remember(session, 'customer');
+      await credentials.setBiometricEnabled(session.user.id, true);
+      vault.firstReadDelay = const Duration(milliseconds: 2200);
+      final restarted = SessionCredentials(fence: fence);
+      expect((await restarted.read())?.account, session.user.id);
+      expect(await restarted.biometricEnabled(session.user.id), isTrue);
+      expect(fence.value, isNull);
+    },
+  );
+  test(
     'corrupt stored refresh data cannot authenticate or cross an account boundary',
     () async {
       await credentials.remember(unitSession(), 'customer');
