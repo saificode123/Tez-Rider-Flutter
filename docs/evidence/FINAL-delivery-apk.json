@@ -1,0 +1,13 @@
+{
+  "environment": "TEST",
+  "project": "igeisilhtmglgnqvllrx",
+  "sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+  "source_hashes_verified": 198,
+  "zip_entries_scanned": 650,
+  "protected_credential_matches": 0,
+  "scope": "exact protected TEST service key and fixture passwords, UTF-8/UTF-16LE; ZIP entries read to EOF/CRC checked; not an arbitrary-secret certification",
+  "installed": true,
+  "installed_sha256_confirmed": true,
+  "install_command_exit_code": 0,
+  "signature_verified": true
+}

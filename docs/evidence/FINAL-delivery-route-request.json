@@ -1,0 +1,10 @@
+{
+  "order_id": 2418,
+  "http_status": 200,
+  "code": "OK",
+  "elapsed_ms": 2998.7,
+  "route_source": "geoapify",
+  "road_points": 340,
+  "distance_m": 17986,
+  "scope": "actual authenticated TEST Customer request using native Rider GPS; no coordinates/passwords/provider response body exposed"
+}

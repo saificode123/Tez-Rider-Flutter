@@ -1,0 +1,146 @@
+{
+  "physical_route_movement_verified": true,
+  "apk_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+  "four_role_smoke_complete": true,
+  "support_email_sent": false,
+  "device": "AESWNRBAEUPNTGJZ",
+  "visual_evidence": ".fr21-local/final2/final-support-contact.png",
+  "package": "com.example.flutter_application_1.fr21test",
+  "checks": [
+    {
+      "result": "PASS",
+      "check": "Verified current-source TEST APK installed without clearing app data",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "result": "PASS",
+      "check": "Installed app opened the retained Urdu sign-in screen",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "result": "PASS",
+      "check": "Existing protected Customer fixture authenticated and loaded actual TEST catalogue",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "result": "PASS",
+      "check": "Customer profile tab and Help navigation worked",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "result": "PASS",
+      "check": "Help rendered the exact owner-approved server support address",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "check": "User completed actual device biometric prompt; account-bound profile switch observed checked=true",
+      "result": "PASS",
+      "artifact_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C"
+    },
+    {
+      "check": "Final APK package/signature/ZIP/source checks passed; installed base.apk hash matched",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Final ordinary Customer cold restart restored dashboard, retained credential keys, logout fence absent and no secure-read timeout",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Final native enrollment survived offline cold restart; saved Continue with Biometrics shortcut rendered after exact network restoration",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "User completed actual saved biometric sign-in; real server refresh returned Customer dashboard and preserved account-bound keys with no logout fence",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Native biometric opt-out checked=false; explicit Customer logout removed account/token/enrollment keys and persisted logout fence",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Final APK signed-out Help rendered the exact owner-approved support address",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Approved protected Vendor fixture authenticated; dashboard loaded real stored delivered sales/rating",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Vendor orders/prescription review/Tailoring rendered real empty states; account did not inherit Customer biometric opt-in",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Admin authentication, actual metrics and all four navigation selected semantics passed; Admin biometric control accessible and disabled",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Physical TEST Rider authenticated, Home/Earnings/Profile/Map rendered; stored performance and truthful unpriced-history warning/PKR80 server quote observed",
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    },
+    {
+      "check": "Owner physical walk confirmed:168.3m/new geometry; interruptions observed. Sharing/session cleanup and normal logout verified.",
+      "result": "PARTIAL",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1"
+    }
+  ],
+  "recorded_at_utc": "2026-10-26T14:20:19.5009322Z",
+  "physical_biometric_authentication": true,
+  "biometric_shortcut_server_refresh_verified": true,
+  "biometric_cold_start_gap": {
+    "observed": true,
+    "resolution": "Resolved on 03a9ce6 after moving restoration to onReady and retaining enrollment on unanswered reads; ordinary cold restart and actual offline-recovery biometric sign-in passed",
+    "sdk_session_present": true,
+    "sdk_session_unexpired": true,
+    "secure_credentials_invalidated": true,
+    "shortcut_visible": false,
+    "after_offline_start": true
+  },
+  "first_apk_sha256": "A82C6FF5486F18F4102BFB08B770B55728F929826EAE5196979D14BE6FD4289C",
+  "navigation_checks": [
+    {
+      "role": "admin",
+      "tab": "رائیڈرز",
+      "selected": true,
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+      "observed_at_utc": "2026-10-26T22:25:25.195007+05:00"
+    },
+    {
+      "role": "admin",
+      "tab": "دکاندار",
+      "selected": true,
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+      "observed_at_utc": "2026-10-26T22:25:34.569699+05:00"
+    },
+    {
+      "role": "admin",
+      "tab": "شکایات",
+      "selected": true,
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+      "observed_at_utc": "2026-10-26T22:25:43.636005+05:00"
+    },
+    {
+      "role": "admin",
+      "tab": "جائزہ",
+      "selected": true,
+      "result": "PASS",
+      "artifact_sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+      "observed_at_utc": "2026-10-26T22:30:44.382893+05:00"
+    }
+  ],
+  "continuous_tracking_accepted": false,
+  "cleanup_signed_out": true,
+  "cleanup_sharing_off": true
+}

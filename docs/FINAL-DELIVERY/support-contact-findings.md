@@ -9,3 +9,5 @@ The existing Help screen displays the configured address; sign-in now links to H
 Verification:7 Deno handler tests PASS; Deno index check PASS after restricted-network type lookup retry.37 affected Flutter cases PASS (4 new support cases,33 overlap with earlier suites),0FAIL. Scoped Dart analyze0errors/0warnings/4infos.5 actual TEST HTTP checks PASS: public read, invalid-session public access, write denial, query-selector denial, raw-settings denial. Review/post5 SQL checks overlap. Evidence docs/evidence/FINAL-support-{review,post,deployment,hosted}.json. Native contact rendering/draft launch remain pending current APK/device verification; no inbox receipt claim.
 
 TEST only; no production mutation or secret disclosure. Permanent support inbox is not yet provided; update this same row when the owner confirms it.
+
+Final native outcome: configured temporary address rendered on TEST Help/signed-out support; no email sent. Actual current APK/role evidence is in FINAL-delivery-native.json. Permanent inbox replacement remains one app_settings.support_email change subject to the endpoint cache.

@@ -1,18 +1,21 @@
 {
-  "recorded_at_utc": "2026-10-26T13:45:54.5478900Z",
+  "recorded_at_utc": "2026-10-26T18:49:01.068720+00:00",
   "timezone": "Asia/Karachi",
   "baseline_revision": "9d5e127",
-  "source_revision": "603f01173da140b6f1e904cff9804346e80a8f17",
+  "source_revision": "03a9ce622d6f527c04e4c79e3f1c174ab81cb0bd",
   "project": "igeisilhtmglgnqvllrx",
   "production_modified": false,
   "ready_for_production": false,
   "test_history_versions": 68,
   "full_flutter": {
-    "passed": 600,
+    "passed": 640,
     "failed": 0,
     "skipped": 2,
-    "new_email_cases_included": false,
-    "new_support_cases_included": false
+    "duration_seconds": 630,
+    "new_email_cases_included": true,
+    "new_support_cases_included": true,
+    "new_biometric_startup_cases_included": true,
+    "additional_image_cases_included": false
   },
   "affected_email_pay_cancel_flutter": {
     "passed": 37,
@@ -42,21 +45,93 @@
       "errors": 0,
       "warnings": 0,
       "infos": 4
+    },
+    "final_biometric_cold_scope": {
+      "warnings": 0,
+      "result": "No issues found",
+      "items": 3,
+      "infos": 0,
+      "errors": 0
+    },
+    "final_biometric_startup_scope": {
+      "errors": 0,
+      "items": 4,
+      "warnings": 0,
+      "infos": 0
+    },
+    "final_whole_project": {
+      "exit_code": 1,
+      "errors": 0,
+      "warnings_inherited": true,
+      "warnings": 4,
+      "infos": 38
     }
   },
   "coverage": {
-    "scope": "instrumented paths only; excludes unloaded files and later email/support cases",
-    "services": {
-      "covered": 2611,
-      "measured": 3546,
-      "percent": 73.63
+    "scope": "Union of executable Dart line hits from full640-pass suite plus9 additional image/draft tests; source hashes unchanged across maps. Services/models domain-data proxy; controllers reported separately. Not SQL, branch or whole-platform certification; absent files listed.",
+    "groups": {
+      "services": {
+        "covered": 2835,
+        "measured": 3581,
+        "percent": 79.17,
+        "measured_files": 49,
+        "source_files": 51,
+        "absent_files": [
+          "lib/services/diagnostic_backend.dart",
+          "lib/services/routing_service.dart"
+        ]
+      },
+      "models": {
+        "covered": 192,
+        "measured": 192,
+        "percent": 100.0,
+        "measured_files": 7,
+        "source_files": 7,
+        "absent_files": []
+      },
+      "controllers": {
+        "covered": 903,
+        "measured": 1956,
+        "percent": 46.17,
+        "measured_files": 18,
+        "source_files": 19,
+        "absent_files": [
+          "lib/controllers/rider_assignment_controller.dart"
+        ]
+      }
     },
-    "models": {
-      "covered": 72,
-      "measured": 160,
-      "percent": 45.0
+    "services_models_combined": {
+      "covered": 3027,
+      "measured": 3773,
+      "percent": 80.23
     },
-    "domain_data_80_percent_certified": false
+    "lcov_sha256": "f355d6cf56bd1d3a80d129aa008aee4fe26aa8b9ace70be42fe599d0c4c284de",
+    "full_suite": {
+      "passed": 640,
+      "failed": 0,
+      "skipped": 2,
+      "duration_seconds": 630
+    },
+    "log_sha256": "20ebc3fe20160fd44c5e8789022a17cde4599347de34bf741aed82648655d389",
+    "source_revision": "03a9ce622d6f527c04e4c79e3f1c174ab81cb0bd",
+    "source_hashes_verified": 198,
+    "coverage_inputs": [
+      {
+        "path": "coverage/lcov.info",
+        "sha256": "f355d6cf56bd1d3a80d129aa008aee4fe26aa8b9ace70be42fe599d0c4c284de"
+      },
+      {
+        "path": ".fr21-local/final2/final-domain-images-coverage.info",
+        "sha256": "9a6e0fafc9bb06fc828546fa288d36203cdbf85ef63498d4761977e575d7eb2d"
+      }
+    ],
+    "additional_image_suite": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "included_in_full_suite": false
+    },
+    "merged_lcov_sha256": "52370886189545140712f6042ffbfe182370e22436e2bb8877836e7a90320776"
   },
   "log_sha256": {
     "final-delivery-full-tests.log": "29917ab5cb570fb054c12afd1883ca281380e392b89703d26af30ab179dc43ba",
@@ -75,37 +150,109 @@
     "202610250011_final_support_contact.sql": "3543e273ca1103e3130fc941f285fdf18e3d124ea871212d6491f339e4adec94"
   },
   "apk": {
-    "status": "BUILD_RUNNING",
-    "current_source_confirmed": false,
-    "installed": false
+    "status": "BUILT_VERIFIED_INSTALLED_HASH_RECONCILED",
+    "current_source_confirmed": true,
+    "installed": true,
+    "artifact": "C:\\Users\\urreh\\OneDrive - Punjab Group of Colleges\\Documents\\Fall 2026\\Project\\FYP_Final2_Backup (2)\\FYP_Final2_Backup\\build\\delivery\\test\\app-fr21test-debug.apk",
+    "sha256": "66B373F3531F5918C967A4032F38BA023A4A7C330FF69E86AD2A82AB5812EBA1",
+    "source_files_verified": 198,
+    "zip_entries_scanned": 650,
+    "protected_credential_matches": 0,
+    "mode": "debug",
+    "package": "com.example.flutter_application_1.fr21test",
+    "production_release": false
   },
   "native": {
-    "current_apk_verified": false,
+    "current_apk_verified": true,
     "device": "AESWNRBAEUPNTGJZ",
-    "latest_connection": "disconnected after earlier connected/unlocked observation"
+    "latest_connection": "Final APK installed/hash confirmed; four roles smoke checked; biometric cold recovery passed; physical walk done; sharing stopped and normal logout returned Urdu sign-in",
+    "four_role_smoke_complete": true,
+    "actual_biometric_signin_verified": true
   },
   "limitations": [
-    "FR14 physical movement/deviation/reroute and prior800ms engineering gate unaccepted",
-    "Native biometric and current four-role journeys pending",
-    "iOS/APNs and zero-cost platform/SLA qualification unresolved",
+    "FR14 continuity interrupted, exclusive deviation trigger unisolated; actual2998.7ms fails800ms target",
+    "Current physical cross-role proof/OTP/new priced earning completion unverified",
+    "iOS/APNs/OS compatibility and zero-cost SLA unresolved",
     "Production identity/signing/history/security/backup/authorization incomplete",
     "Actual external email confirmation/SDK-refresh path unverified",
-    "Tailoring assignment/pricing remains unspecified; no fulfillment fabricated",
-    "80percent domain/data coverage target not certified"
+    "Tailoring assignment/pricing unspecified; no fulfillment fabricated",
+    "80.23percent measured Dart services/models proxy does not certify SQL/branch/platform coverage"
   ],
   "pushed": false,
   "merged": false,
   "compliance": {
     "scope": "bounded TEST evidence; all SRDS not satisfied",
-    "complete": 74,
+    "complete": 76,
     "approved_deviation": 17,
-    "partial": 45,
+    "partial": 43,
     "blocked": 1,
     "unique_rows": 137
   },
   "final_protected_scan": {
-    "scope": "exact protected TEST service key and fixture passwords; changed/new since b19dc24",
-    "files_checked": 396,
+    "scope": "exact protected TEST service key and protected Stage2/FR28/FR04 fixture passwords; changed/new since b19dc24",
+    "files_checked": 405,
     "matches": 0
+  },
+  "affected_biometric_cold_flutter": {
+    "new_slow_first_read": 1,
+    "overlap": 24,
+    "failed": 0,
+    "passed": 25,
+    "full_coverage_included": false
+  },
+  "affected_biometric_startup_flutter": {
+    "new_regressions": 2,
+    "overlap": 24,
+    "failed": 0,
+    "full_coverage_included": false,
+    "passed": 26
+  },
+  "previous_full_flutter": {
+    "passed": 600,
+    "failed": 0,
+    "skipped": 2,
+    "new_email_cases_included": false,
+    "new_support_cases_included": false
+  },
+  "additional_images_flutter": {
+    "included_in_full_suite": false,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0
+  },
+  "final_new_tests_focused": {
+    "scoped_analysis": "No issues found",
+    "failed": 0,
+    "skipped": 0,
+    "additional": 9,
+    "full_suite_overlap": 24,
+    "passed": 33
+  },
+  "walk": {
+    "human_walk_confirmed": true,
+    "physical_movement_observed": true,
+    "maximum_displacement_from_first_m": 168.3,
+    "maximum_deviation_from_initial_road_m": 168.1,
+    "interruption_observed": true,
+    "exclusive_deviation_trigger_isolated": false,
+    "cleanup": {
+      "is_online": false,
+      "latest_location_rows": 0,
+      "order_status": "on_the_way",
+      "route_cache_rows": 1,
+      "tracking_sessions": 0
+    },
+    "order_transition_performed": false,
+    "route_request_ms": 2998.7,
+    "continuous_tracking_accepted": false,
+    "latency_800ms_gate_passed": false
+  },
+  "cleanup": {
+    "signed_out": true,
+    "sharing_off": true,
+    "browser_closed": true,
+    "temporary_browser_credential_removed": true,
+    "own_loopback_server_stopped": true,
+    "order_transition_performed": false
   }
 }

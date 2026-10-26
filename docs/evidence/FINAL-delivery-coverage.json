@@ -1,0 +1,66 @@
+{
+  "scope": "Union of executable Dart line hits from full640-pass suite plus9 additional image/draft tests; source hashes unchanged across maps. Services/models domain-data proxy; controllers reported separately. Not SQL, branch or whole-platform certification; absent files listed.",
+  "groups": {
+    "services": {
+      "covered": 2835,
+      "measured": 3581,
+      "percent": 79.17,
+      "measured_files": 49,
+      "source_files": 51,
+      "absent_files": [
+        "lib/services/diagnostic_backend.dart",
+        "lib/services/routing_service.dart"
+      ]
+    },
+    "models": {
+      "covered": 192,
+      "measured": 192,
+      "percent": 100.0,
+      "measured_files": 7,
+      "source_files": 7,
+      "absent_files": []
+    },
+    "controllers": {
+      "covered": 903,
+      "measured": 1956,
+      "percent": 46.17,
+      "measured_files": 18,
+      "source_files": 19,
+      "absent_files": [
+        "lib/controllers/rider_assignment_controller.dart"
+      ]
+    }
+  },
+  "services_models_combined": {
+    "covered": 3027,
+    "measured": 3773,
+    "percent": 80.23
+  },
+  "lcov_sha256": "f355d6cf56bd1d3a80d129aa008aee4fe26aa8b9ace70be42fe599d0c4c284de",
+  "full_suite": {
+    "passed": 640,
+    "failed": 0,
+    "skipped": 2,
+    "duration_seconds": 630
+  },
+  "log_sha256": "20ebc3fe20160fd44c5e8789022a17cde4599347de34bf741aed82648655d389",
+  "source_revision": "03a9ce622d6f527c04e4c79e3f1c174ab81cb0bd",
+  "source_hashes_verified": 198,
+  "coverage_inputs": [
+    {
+      "path": "coverage/lcov.info",
+      "sha256": "f355d6cf56bd1d3a80d129aa008aee4fe26aa8b9ace70be42fe599d0c4c284de"
+    },
+    {
+      "path": ".fr21-local/final2/final-domain-images-coverage.info",
+      "sha256": "9a6e0fafc9bb06fc828546fa288d36203cdbf85ef63498d4761977e575d7eb2d"
+    }
+  ],
+  "additional_image_suite": {
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "included_in_full_suite": false
+  },
+  "merged_lcov_sha256": "52370886189545140712f6042ffbfe182370e22436e2bb8877836e7a90320776"
+}

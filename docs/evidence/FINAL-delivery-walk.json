@@ -1,0 +1,293 @@
+{
+  "order_id": 2418,
+  "status": "on_the_way",
+  "samples": 25,
+  "distinct_gps_fixes": 12,
+  "gps_fresh": false,
+  "accuracy_m": null,
+  "online": false,
+  "route_source": "geoapify",
+  "route_points": 309,
+  "route_distance_m": 17958,
+  "route_computed_at": "2026-10-26 18:28:10.453977+00",
+  "eta_present": true,
+  "maximum_displacement_from_first_m": 168.3,
+  "route_cache_versions": 3,
+  "human_walk_confirmed": true,
+  "scope": "real existing TEST delivery; raw coordinates/geometry encrypted locally; no GPS simulation, order transition or route-provider call by this observer",
+  "qualified_fresh_accurate_samples": 12,
+  "rider_presence_fresh": true,
+  "rider_idle_gps_fresh": true,
+  "presence_epochs_observed": 3,
+  "maximum_deviation_from_initial_road_m": 168.1,
+  "configured_deviation_threshold_m": 150,
+  "first_observed_at_utc": "2026-10-26T18:21:10.624783+00:00",
+  "last_observed_at_utc": "2026-10-26T18:32:17.495139+00:00",
+  "native_sharing_off_observed": true,
+  "interruption_observed": true,
+  "fresh_fixes_over_100m_with_accuracy_under_20m": 5,
+  "physical_movement_observed": true,
+  "observations": [
+    {
+      "utc": "2026-10-26T18:21:10.624783+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 3,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.979,
+      "route_computed_at": "2026-10-26 18:18:55.797498+00"
+    },
+    {
+      "utc": "2026-10-26T18:24:55.575891+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:25:16.484988+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:25:36.689710+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": false,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:25:57.171758+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:26:12.453316+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:26:32.659300+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:26:53.132039+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:27:13.819125+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:27:33.893654+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:27:49.279386+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:28:09.460481+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 73.879997253418,
+      "online": true,
+      "route_points": 340,
+      "route_distance_m": 17986,
+      "route_duration_s": 973.984,
+      "route_computed_at": "2026-10-26 18:22:59.992304+00"
+    },
+    {
+      "utc": "2026-10-26T18:28:29.973614+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 7.71500015258789,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:28:50.805094+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 3.26500010490417,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:29:08.105987+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 4.93699979782104,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:29:23.396752+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 5.25699996948242,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:29:43.472077+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 5.67000007629395,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:30:03.869778+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 5.94799995422363,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:30:23.867386+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 6.19700002670288,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:30:43.233010+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 6.71099996566772,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:31:03.791581+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 21.8959999084473,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:31:24.127829+00:00",
+      "gps_fresh": true,
+      "accuracy_m": 6.90100002288818,
+      "online": true,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:31:44.967566+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": false,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:32:02.403143+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": false,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    },
+    {
+      "utc": "2026-10-26T18:32:17.495139+00:00",
+      "gps_fresh": false,
+      "accuracy_m": null,
+      "online": false,
+      "route_points": 309,
+      "route_distance_m": 17958,
+      "route_duration_s": 933.275,
+      "route_computed_at": "2026-10-26 18:28:10.453977+00"
+    }
+  ],
+  "exclusive_deviation_trigger_isolated": false,
+  "deviation_note": "Physical displacement exceeded configured150m initial-road deviation and new geometry was observed; refresh timer was also eligible, so exclusive causality is not claimed.",
+  "cleanup": {
+    "is_online": false,
+    "latest_location_rows": 0,
+    "order_status": "on_the_way",
+    "route_cache_rows": 1,
+    "tracking_sessions": 0
+  },
+  "order_transition_performed": false,
+  "terminal_cleanup_claimed": false
+}
