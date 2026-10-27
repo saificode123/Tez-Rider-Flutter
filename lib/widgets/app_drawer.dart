@@ -106,19 +106,6 @@ class AppDrawer extends StatelessWidget {
                 ),
                 if (role == 'admin') ...[
                   _drawerItem(
-                    icon: Icons.settings_rounded,
-                    text: 'Platform Settings'.tr,
-                    onTap: () {
-                      Get.back();
-                      Get.snackbar(
-                        "Coming Soon".tr,
-                        "Platform settings will be available in a future update."
-                            .tr,
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    },
-                  ),
-                  _drawerItem(
                     icon: Icons.report_rounded,
                     text: 'Reports'.tr,
                     onTap: () {
