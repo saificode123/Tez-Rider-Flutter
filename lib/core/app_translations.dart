@@ -7,6 +7,8 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      'Checking availability': 'Checking availability',
+      'Availability unavailable': 'Availability unavailable',
       'Could not sign out. Please retry.': 'Could not sign out. Please retry.',
       "Payment Methods": "Payment Methods",
       "Cash on Delivery": "Cash on Delivery",
@@ -87,6 +89,8 @@ class AppTranslations extends Translations {
       "Reports": "Reports",
     },
     'ur_PK': {
+      'Checking availability': 'دستیابی کی تصدیق ہو رہی ہے',
+      'Availability unavailable': 'دستیابی کی تصدیق نہیں ہو سکی',
       'Could not sign out. Please retry.':
           'سائن آؤٹ نہیں ہو سکا۔ دوبارہ کوشش کریں۔',
       "Payment Methods": "ادائیگی کے طریقے",

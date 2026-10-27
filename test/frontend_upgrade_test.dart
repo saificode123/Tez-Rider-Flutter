@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/widgets/rider_availability_control.dart';
 import 'package:flutter_application_1/widgets/app_action_button.dart';
 import 'dart:async';
 
@@ -343,5 +344,67 @@ void main() {
     expect(find.byType(SignupScreen), findsNothing);
     expect(vault.data['tr_refresh'], isNull);
     expect(auth.isBioEnabled.value, false);
+  });
+  testWidgets('availability requests do not invent a confirmed online state', (
+    t,
+  ) async {
+    bool? requested;
+    await open(
+      t,
+      child: Scaffold(
+        body: RiderAvailabilityControl(
+          online: false,
+          ready: true,
+          busy: false,
+          onChanged: (value) => requested = value,
+        ),
+      ),
+    );
+    await t.tap(find.byType(Switch));
+    await t.pumpAndSettle();
+    expect(requested, true);
+    expect(find.text('Offline'), findsOneWidget);
+    expect(t.widget<Switch>(find.byType(Switch)).value, false);
+  });
+
+  testWidgets('unknown availability is disabled and never labelled offline', (
+    t,
+  ) async {
+    await open(
+      t,
+      child: Scaffold(
+        body: RiderAvailabilityControl(
+          online: false,
+          ready: false,
+          busy: false,
+          onChanged: (_) => fail('unknown status must stay disabled'),
+        ),
+      ),
+    );
+    expect(find.text('Availability unavailable'), findsOneWidget);
+    expect(find.text('Offline'), findsNothing);
+    expect(t.widget<Switch>(find.byType(Switch)).onChanged, isNull);
+  });
+
+  testWidgets('Rider availability wraps Urdu at 200% text on a narrow phone', (
+    t,
+  ) async {
+    await open(
+      t,
+      size: const Size(320, 568),
+      scale: 2,
+      child: Scaffold(
+        body: RiderAvailabilityControl(
+          online: false,
+          ready: false,
+          busy: false,
+          onChanged: (_) {},
+        ),
+      ),
+    );
+    await LanguageController.to.setUrdu();
+    await t.pumpAndSettle();
+    expect(t.takeException(), isNull);
+    expect(find.text('Availability unavailable'.tr), findsOneWidget);
   });
 }

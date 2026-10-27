@@ -1,4 +1,4 @@
-import '../theme/app_motion.dart';
+import '../widgets/rider_availability_control.dart';
 import '../widgets/biometric_settings_tile.dart';
 import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
@@ -277,82 +277,27 @@ class _RiderDashboardState extends State<RiderDashboard> {
               automaticallyImplyLeading: false,
               title: Text(
                 'Rider Dashboard'.tr,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 20,
-                  color: AppColors.textPrimary,
-                ),
               ),
               actions: [
                 IconButton(
-                  tooltip: "Notifications".tr,
+                  tooltip: 'Notifications'.tr,
                   onPressed: () => Get.to(() => NotificationsScreen()),
                   icon: const Icon(Icons.notifications_outlined),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: Row(
-                    children: [
-                      AnimatedContainer(
-                        duration: AppMotion.duration(context),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: riderCtrl.isOnline.value
-                              ? AppColors.success.withValues(alpha: 0.12)
-                              : AppColors.bgSection,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: riderCtrl.isOnline.value
-                                    ? AppColors.success
-                                    : AppColors.textHint,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              riderCtrl.isOnline.value
-                                  ? "Online".tr
-                                  : "Offline".tr,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12,
-                                color: riderCtrl.isOnline.value
-                                    ? AppColors.success
-                                    : AppColors.textHint,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Switch.adaptive(
-                        value: riderCtrl.isOnline.value,
-                        onChanged:
-                            riderCtrl.presenceBusy.value ||
-                                !riderCtrl.presenceReady.value
-                            ? null
-                            : riderCtrl.setOnlineStatus,
-                        activeThumbColor: AppColors.success,
-                        activeTrackColor: AppColors.success.withValues(
-                          alpha: 0.35,
-                        ),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
-                    ],
-                  ),
-                ),
               ],
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                child: RiderAvailabilityControl(
+                  online: riderCtrl.isOnline.value,
+                  ready: riderCtrl.presenceReady.value,
+                  busy: riderCtrl.presenceBusy.value,
+                  onChanged: riderCtrl.setOnlineStatus,
+                ),
+              ),
             ),
 
             if (riderCtrl.presenceError.value != null)

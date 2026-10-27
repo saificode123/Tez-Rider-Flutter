@@ -151,7 +151,7 @@ elif action == 'status':
     current = nodes()
     print(json.dumps({'controls': [{'label': re.sub(r'\S+@\S+', '[email]', label(node)),
                                   'bounds': node.get('bounds'), 'clickable': node.get('clickable'), 'checked': node.get('checked')}
-                                 for node in current if label(node) and node.get('class') != 'android.widget.EditText'],
+                                 for node in current if (label(node) or node.get('clickable') == 'true') and node.get('class') != 'android.widget.EditText'],
                       'fields': len([node for node in current if node.get('class') == 'android.widget.EditText'])}, ensure_ascii=False))
 elif action.startswith('tap:'):
     click(action[4:])
@@ -162,10 +162,11 @@ elif action.startswith('bounds:'):
 elif action.startswith('role:'):
     role = action[5:]
     assert role in ('customer', 'vendor', 'rider', 'admin')
-    choices = [node for node in nodes() if label(node).startswith('Signing in as\n') and node.get('clickable') == 'true']
+    choices = [node for node in nodes() if label(node).startswith(('Signing in as\n','سائن ان بطور\n')) and node.get('clickable') == 'true']
     assert len(choices) == 1
+    urdu = label(choices[0]).startswith('سائن ان بطور')
     tap(choices[0])
-    click(role.title())
+    click({'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role] if urdu else role.title())
 elif action in ('scroll', 'scroll-up'):
     choices = [node for node in nodes() if node.get('scrollable') == 'true']
     assert choices, 'Observed scrollable surface required'
@@ -183,7 +184,7 @@ elif action == 'back':
     adb('shell', 'input', 'keyevent', '4')
 elif action.startswith('assert:'):
     expected = action[7:]
-    deadline = time.monotonic() + 25
+    deadline = time.monotonic() + 60
     while True:
         try:
             if any(expected in label(node) for node in nodes()): break
@@ -198,14 +199,17 @@ elif action.startswith('login:'):
     role = action[6:]
     assert role in ('customer', 'vendor', 'rider', 'admin')
     account = credentials(role)
-    assert any(label(node) == 'Sign in as ' + role.title() for node in nodes())
+    labels = ('Sign in as ' + role.title(), {'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role] + ' کے طور پر سائن ان کریں')
+    observed = [label(node) for node in nodes() if label(node) in labels]
+    assert len(observed) == 1
+    submit = observed[0]
     for index, value in enumerate([account['email'], account['password']]):
         fields = [node for node in nodes() if node.get('class') == 'android.widget.EditText']
         assert len(fields) == 2
         tap(fields[index])
         adb('shell', input='input keyevent 123\ninput keyevent ' + ' '.join(['67'] * 160) + '\ninput text ' + shlex.quote(value) + '\nexit\n')
         adb('shell', 'input', 'keyevent', '4')
-    click('Sign in as ' + role.title())
+    click(submit)
     time.sleep(5)
 elif action.startswith('picture:'):
     name = action[8:]
