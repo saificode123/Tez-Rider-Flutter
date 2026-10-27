@@ -27,6 +27,7 @@ class AppActionButton extends StatelessWidget {
     final content = Semantics(
       liveRegion: true,
       label: label,
+      excludeSemantics: true,
       child: AnimatedSwitcher(
         duration: AppMotion.duration(context, AppMotion.quick),
         child: busy

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/widgets/app_action_button.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -311,5 +312,17 @@ void main() {
     );
     await t.pumpAndSettle();
     expect(t.binding.transientCallbackCount, 0);
+  });
+  testWidgets('action is announced once with its button semantics', (t) async {
+    final handle = t.ensureSemantics();
+
+    await open(
+      t,
+      child: Scaffold(
+        body: AppActionButton(label: 'Submit', onPressed: () {}),
+      ),
+    );
+    expect(t.getSemantics(find.byType(ElevatedButton)).label, 'Submit');
+    handle.dispose();
   });
 }

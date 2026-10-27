@@ -61,6 +61,8 @@ def click(value):
 def record(check):
     row = {'check': check, 'result': 'PASS', 'device': SERIAL, 'package': PACKAGE,
            'utc': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    if (OUT / 'installed.json').exists():
+        row['artifact_sha256'] = json.loads((OUT / 'installed.json').read_text())['sha256']
     with (OUT / 'results.jsonl').open('a', encoding='utf-8') as stream:
         stream.write(json.dumps(row) + '\n')
     print(json.dumps(row))
@@ -95,6 +97,7 @@ if action == 'install':
     package = subprocess.check_output([aapt, 'dump', 'badging', str(apk)], text=True)
     assert re.search(r"^package: name='" + re.escape(PACKAGE) + "'", package)
     assert 'Success' in adb('install', '-r', str(apk))
+    (OUT / 'installed.json').write_text(json.dumps({'sha256':evidence['sha256'], 'source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}))
     record('installed current-source APK with TEST package, source hashes and artifact hash checked')
 elif action == 'launch':
     adb('shell', 'am', 'force-stop', PACKAGE)
@@ -138,7 +141,10 @@ elif action.startswith('login:'):
 elif action.startswith('picture:'):
     name = action[8:]
     assert re.fullmatch(r'[a-z0-9-]{1,48}', name)
+    time.sleep(2)
     current = nodes()
+    if name.startswith('login-'):
+        assert len([node for node in current if node.get('class') == 'android.widget.EditText']) == 2, 'Rendered login form required'
     assert all(not node.get('text') for node in current if node.get('class') == 'android.widget.EditText'), 'Only empty forms may be captured for public evidence'
     assert not any('@' in label(node) for node in current if node.get('class') != 'android.widget.EditText'), 'Public screenshot must not contain account email'
     screenshot = subprocess.run([ADB, '-s', SERIAL, 'exec-out', 'screencap', '-p'], capture_output=True, timeout=30, check=True)
