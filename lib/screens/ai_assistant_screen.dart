@@ -40,7 +40,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     final account = Supabase.instance.client.auth.currentUser?.id;
     final history = _messages
         .skip(1)
-        .take(_messages.length - 2)
+        .take(_messages.length > 1 ? _messages.length - 2 : 0)
         .map(
           (m) => {
             'role': m['isBot'] == true ? 'assistant' : 'user',
