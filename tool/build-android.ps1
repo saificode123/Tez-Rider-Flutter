@@ -135,7 +135,8 @@ if (Test-Path -LiteralPath $mergedAssets) {
 foreach ($resourcePath in @(
     "incremental/$variant/merge${variantTitle}Resources",
     "incremental/$variant/package${variantTitle}Resources",
-    "packaged_res/$variant/package${variantTitle}Resources"
+    "packaged_res/$variant/package${variantTitle}Resources",
+    "merged_res_blame_folder/$variant/merge${variantTitle}Resources"
 )) {
     $mergedResources = [IO.Path]::GetFullPath((Join-Path $repo "build/app/intermediates/$resourcePath"))
     if (-not $mergedResources.StartsWith($verifiedBuildRoot, [StringComparison]::OrdinalIgnoreCase)) {
