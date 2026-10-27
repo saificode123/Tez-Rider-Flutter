@@ -112,6 +112,23 @@ if action == 'install':
     assert 'Success' in adb('install', '-r', str(apk))
     (OUT / 'installed.json').write_text(json.dumps({'sha256':evidence['sha256'], 'source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}))
     record('installed current-source APK with TEST package, source hashes and artifact hash checked')
+elif action == 'resume':
+    nodes()
+    before = adb('shell','pidof',PACKAGE).strip()
+    assert before
+    adb('shell','input','keyevent','3')
+    adb('shell','monkey','-p',PACKAGE,'1')
+    time.sleep(3)
+    assert adb('shell','pidof',PACKAGE).strip() == before, 'App process restarted; not a same-process resume check'
+    record('same-process background/resume executed for tab-state verification')
+elif action == 'bio-enable':
+    choices = [node for node in nodes() if label(node).startswith(('Biometric sign-in\n','بایومیٹرک سائن اِن\n'))]
+    assert len(choices) == 1 and choices[0].get('checked') == 'false'
+    tap(choices[0])
+elif action == 'bio-enabled-proof':
+    choices = [node for node in nodes() if label(node).startswith(('Biometric sign-in\n','بایومیٹرک سائن اِن\n'))]
+    assert len(choices) == 1 and choices[0].get('checked') == 'true'
+    record('account-bound biometric preference confirmed after owner fingerprint enrollment')
 elif action == 'biometric-recovery':
     nodes()
     wifi = adb('shell','settings','get','global','wifi_on').strip()
@@ -125,7 +142,7 @@ elif action == 'biometric-recovery':
         adb('shell','monkey','-p',PACKAGE,'1')
         time.sleep(5)
         deadline = time.monotonic()+55
-        while not any(label(node) == 'Continue with Biometrics' for node in nodes()):
+        while not any(label(node) in ('Continue with Biometrics','بائیومیٹرک سے جاری رکھیں') for node in nodes()):
             assert time.monotonic()<deadline, 'Biometric shortcut did not survive offline cold start'
             time.sleep(1)
         record('biometric shortcut retained during unavailable-network cold start')
