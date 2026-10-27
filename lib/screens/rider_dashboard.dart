@@ -70,33 +70,6 @@ class _RiderDashboardState extends State<RiderDashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) {
-          Get.snackbar(
-            "Welcome back! 🏍️".tr,
-            "Ready to hit the road?".tr,
-            duration: const Duration(seconds: 2),
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.white,
-            colorText: AppColors.textPrimary,
-            margin: const EdgeInsets.all(16),
-            borderRadius: 16,
-            boxShadows: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
-              ),
-            ],
-            icon: const Icon(
-              Icons.two_wheeler_rounded,
-              color: AppColors.primary,
-            ),
-          );
-        }
-      });
-    });
   }
 
   bool _reviewingEarning = false;
@@ -1332,22 +1305,6 @@ class _RiderDashboardState extends State<RiderDashboard> {
             const SizedBox(height: 24),
 
             _profileSection("Rider Details".tr, [
-              _profileTile(
-                Icons.directions_bike_rounded,
-                "Vehicle Details".tr,
-                AppColors.primary,
-                () {
-                  Get.snackbar(
-                    "Coming Soon".tr,
-                    "Vehicle details will be available in a future update.".tr,
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: AppColors.bgSection,
-                    colorText: AppColors.textPrimary,
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    borderRadius: 14,
-                  );
-                },
-              ),
               _profileTile(
                 Icons.star_outline_rounded,
                 "Ratings & Reviews".tr,

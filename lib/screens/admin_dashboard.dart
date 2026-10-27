@@ -32,33 +32,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) {
-          Get.snackbar(
-            "Welcome back! 🛡️".tr,
-            "Let's review operations.".tr,
-            duration: const Duration(seconds: 2),
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.white,
-            colorText: AppColors.textPrimary,
-            margin: const EdgeInsets.all(16),
-            borderRadius: 16,
-            boxShadows: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
-              ),
-            ],
-            icon: const Icon(
-              Icons.admin_panel_settings_rounded,
-              color: AppColors.primary,
-            ),
-          );
-        }
-      });
-    });
   }
 
   @override
