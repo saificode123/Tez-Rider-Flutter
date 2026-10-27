@@ -66,6 +66,10 @@ class AndroidRiderLocationSource implements RiderLocationSource {
               : const Duration(minutes: 1),
           foregroundNotificationConfig: delivery
               ? ForegroundNotificationConfig(
+                  notificationIcon: const AndroidResource(
+                    name: 'ic_stat_tezrider',
+                    defType: 'drawable',
+                  ),
                   notificationTitle: 'TezRider delivery location'.uiMessage,
                   notificationText:
                       'Sharing location for your active delivery. Stop sharing in the app.'

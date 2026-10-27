@@ -44,7 +44,7 @@ Future<void> _showNotice(String id, String title, String message) async {
   final plugin = FlutterLocalNotificationsPlugin();
   await plugin.initialize(
     const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@drawable/ic_stat_tezrider'),
     ),
     onDidReceiveNotificationResponse: (_) {
       if (Get.isRegistered<AndroidBroadcastPushService>()) {
@@ -135,7 +135,7 @@ class AndroidBroadcastPushService extends GetxService {
       }
       await plugin.initialize(
         const InitializationSettings(
-          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          android: AndroidInitializationSettings('@drawable/ic_stat_tezrider'),
         ),
         onDidReceiveNotificationResponse: (_) => requestOpen(),
       );
