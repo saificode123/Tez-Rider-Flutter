@@ -14,6 +14,7 @@ import shlex
 import subprocess
 import sys
 import time
+import uuid
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,9 +35,20 @@ def adb(*args, input=None):
 def nodes():
     active = adb('shell', 'dumpsys', 'activity', 'activities')
     assert re.search(r'topResumedActivity=ActivityRecord\{[^}]*' + re.escape(PACKAGE) + '/', active), 'TEST app must be foreground'
-    adb('shell', 'uiautomator', 'dump', '/data/local/tmp/frontend-ui.xml')
-    raw = adb('exec-out', 'cat', '/data/local/tmp/frontend-ui.xml')
-    return list(ET.fromstring(raw).iter('node'))
+    for attempt in range(3):
+        remote = '/data/local/tmp/frontend-' + uuid.uuid4().hex + '.xml'
+        try:
+            adb('shell', 'uiautomator', 'dump', remote)
+            raw = adb('exec-out', 'cat', remote)
+            result = [node for node in ET.fromstring(raw).iter('node') if node.get('package') == PACKAGE]
+            assert result, 'Fresh TEST controls required; other apps/system overlays are excluded'
+            return result
+        except (AssertionError, ET.ParseError):
+            if attempt == 2: raise
+            time.sleep(.5)
+        finally:
+            adb('shell','rm','-f',remote)
+
 
 
 def label(node):
@@ -71,17 +83,18 @@ def record(check):
 def credentials(role):
     class Blob(ctypes.Structure):
         _fields_ = [('size', ctypes.c_ulong), ('data', ctypes.POINTER(ctypes.c_ubyte))]
-    private = Path(os.environ['LOCALAPPDATA']) / 'TezRider-FR21/fr28-accounts.bin'
+    private = (ROOT / '.fr21-local/final2/onboarding-accounts.dpapi' if role == 'vendor'
+               else Path(os.environ['LOCALAPPDATA']) / 'TezRider-FR21/fr28-accounts.bin')
     encrypted = private.read_bytes()
     buffer = ctypes.create_string_buffer(encrypted)
     source = Blob(len(encrypted), ctypes.cast(buffer, ctypes.POINTER(ctypes.c_ubyte)))
     output = Blob()
     assert ctypes.windll.crypt32.CryptUnprotectData(ctypes.byref(source), None, None, None, None, 1, ctypes.byref(output)), 'Fixture storage inaccessible'
     try:
-        account = json.loads(ctypes.string_at(output.data, output.size))['accounts'][role]
+        account = json.loads(ctypes.string_at(output.data, output.size))['accounts']['live-vendor' if role == 'vendor' else role]
     finally:
         ctypes.windll.kernel32.LocalFree(output.data)
-    assert account['email'].startswith('fr28-') and account['email'].endswith('@example.test')
+    assert account['email'].startswith(('fr28-', 'final2-')) and account['email'].endswith('@example.test')
     return account
 
 
@@ -99,6 +112,37 @@ if action == 'install':
     assert 'Success' in adb('install', '-r', str(apk))
     (OUT / 'installed.json').write_text(json.dumps({'sha256':evidence['sha256'], 'source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}))
     record('installed current-source APK with TEST package, source hashes and artifact hash checked')
+elif action == 'biometric-recovery':
+    nodes()
+    wifi = adb('shell','settings','get','global','wifi_on').strip()
+    mobile = adb('shell','settings','get','global','mobile_data').strip()
+    assert wifi in ('0','1') and mobile in ('0','1')
+    assert wifi == '1' or mobile == '1'
+    try:
+        adb('shell','svc','wifi','disable')
+        adb('shell','svc','data','disable')
+        adb('shell','am','force-stop',PACKAGE)
+        adb('shell','monkey','-p',PACKAGE,'1')
+        time.sleep(5)
+        deadline = time.monotonic()+55
+        while not any(label(node) == 'Continue with Biometrics' for node in nodes()):
+            assert time.monotonic()<deadline, 'Biometric shortcut did not survive offline cold start'
+            time.sleep(1)
+        record('biometric shortcut retained during unavailable-network cold start')
+    finally:
+        adb('shell','svc','wifi','enable' if wifi == '1' else 'disable')
+        adb('shell','svc','data','enable' if mobile == '1' else 'disable')
+        assert adb('shell','settings','get','global','wifi_on').strip() == wifi
+        assert adb('shell','settings','get','global','mobile_data').strip() == mobile
+        record('original Android Wi-Fi and mobile-data states restored in finally')
+    time.sleep(3)
+elif action == 'installed-proof':
+    expected = json.loads((OUT / 'installed.json').read_text())['sha256']
+    path = adb('shell','pm','path',PACKAGE).strip()
+    assert path.startswith('package:/data/app/') and path.endswith('/base.apk')
+    actual = adb('shell','sha256sum',path[len('package:'):]).split()[0].upper()
+    assert actual == expected, 'Installed APK must match verified build'
+    record('installed Android base.apk hash matches final TEST artifact')
 elif action == 'launch':
     adb('shell', 'am', 'force-stop', PACKAGE)
     adb('shell', 'monkey', '-p', PACKAGE, '1')
@@ -106,7 +150,7 @@ elif action == 'launch':
 elif action == 'status':
     current = nodes()
     print(json.dumps({'controls': [{'label': re.sub(r'\S+@\S+', '[email]', label(node)),
-                                  'bounds': node.get('bounds'), 'clickable': node.get('clickable')}
+                                  'bounds': node.get('bounds'), 'clickable': node.get('clickable'), 'checked': node.get('checked')}
                                  for node in current if label(node) and node.get('class') != 'android.widget.EditText'],
                       'fields': len([node for node in current if node.get('class') == 'android.widget.EditText'])}, ensure_ascii=False))
 elif action.startswith('tap:'):
@@ -115,13 +159,38 @@ elif action.startswith('bounds:'):
     matches = [node for node in nodes() if node.get('bounds') == action[7:] and node.get('clickable') == 'true']
     assert len(matches) == 1
     tap(matches[0])
+elif action.startswith('role:'):
+    role = action[5:]
+    assert role in ('customer', 'vendor', 'rider', 'admin')
+    choices = [node for node in nodes() if label(node).startswith('Signing in as\n') and node.get('clickable') == 'true']
+    assert len(choices) == 1
+    tap(choices[0])
+    click(role.title())
+elif action in ('scroll', 'scroll-up'):
+    choices = [node for node in nodes() if node.get('scrollable') == 'true']
+    assert choices, 'Observed scrollable surface required'
+    def area(node):
+        x1,y1,x2,y2 = map(int,re.findall(r'\d+',node.get('bounds','')))
+        return (x2-x1)*(y2-y1)
+    target = max(choices,key=area)
+    x1,y1,x2,y2 = map(int,re.findall(r'\d+',target.get('bounds','')))
+    start,end = y1+(y2-y1)*4//5,y1+(y2-y1)//5
+    if action == 'scroll-up': start,end = end,start
+    adb('shell','input','swipe',str((x1+x2)//2),str(start),str((x1+x2)//2),str(end),'350')
+    time.sleep(.5)
 elif action == 'back':
     nodes()
     adb('shell', 'input', 'keyevent', '4')
 elif action.startswith('assert:'):
     expected = action[7:]
     deadline = time.monotonic() + 25
-    while not any(expected in label(node) for node in nodes()):
+    while True:
+        try:
+            if any(expected in label(node) for node in nodes()): break
+        except AssertionError:
+            # A transitioning Flutter route may briefly have no semantics.
+            # Retry only this read, never an input or a backend operation.
+            pass
         assert time.monotonic() < deadline, 'Expected native outcome missing: ' + expected
         time.sleep(1)
     record('observed native ' + expected)

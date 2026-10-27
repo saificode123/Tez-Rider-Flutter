@@ -50,8 +50,8 @@ for path in files:
    # Only an inferred runtime affordance, not an observed Back/Drawer button.
    references.append({'source':p,'line':s.count('\n',0,c['start'])+1,'classification':'conditional framework leading; explicit leading overrides','helper':'AppBar'});continue
   line=s.count('\n',0,c['start'])+1;identifier=p+':'+str(line)+':'+c['kind'];frag=s[c['open']:c['end']+1]
-  next_stage='Stage2 functionality / Stage4 UI; preserve approved B dispositions'
-  if any(k in p for k in('login','signup','splash','pending_verification','role_access_gate')):next_stage='Stage1 access checks; Stage3 auth UX'
+  next_stage='Verify current rendered states and role authorization; preserve owner policies'
+  if any(k in p for k in('login','signup','splash','pending_verification','role_access_gate')):next_stage='Verify auth, locale persistence, secure session and native biometrics'
   status='UNREACHABLE-SOURCE'if p in unreachable else 'SHARED-TEMPLATE'if '/widgets/'in p else 'SOURCE-CONNECTED / RENDERING-UNVERIFIED'
   labels=re.findall(r"(?:Text|Tooltip)\(\s*['\"]([^'\"\n]{1,90})",frag)
   row={'id':identifier,'role':role(p),'screen':path.stem,'control':c['kind']+(' / '+', '.join(labels[:2])if labels else ''),'source':p+':'+str(line),'status':status,'evidence':'Current source constructor and callback range; docs/FINAL-DELIVERY/13-Frontend-UIUX-Upgrade.md maps actual evidence and untested conditions; no template-wide physical acceptance','next_stage':next_stage,'callback_lines':[r['line']for r in c['callbacks']],'callback_kinds':[r['callback']for r in c['callbacks']],'conditional':bool(re.search(r'\bif\b|\?|\.map\(|itemBuilder|on\w+:\s*null',frag)),'physical_verified':False}

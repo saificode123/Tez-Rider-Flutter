@@ -78,6 +78,7 @@ void main() {
           ),
           child: child!,
         ),
+        getPages: [GetPage(name: '/login', page: () => const LoginScreen())],
         home: child ?? const LoginScreen(),
       ),
     );
@@ -324,5 +325,23 @@ void main() {
     );
     expect(t.getSemantics(find.byType(ElevatedButton)).label, 'Submit');
     handle.dispose();
+  });
+  testWidgets('incomplete root signup returns through secure logout to login', (
+    t,
+  ) async {
+    final vault = VaultDouble()..install();
+    final auth = Get.find<AuthController>();
+    await auth.credentials.remember(unitSession(), 'vendor');
+    await open(
+      t,
+      child: const SignupScreen(initialRole: 'vendor', completeExisting: true),
+    );
+    final back = find.byTooltip('Sign In');
+    await t.tap(back);
+    await t.pumpAndSettle();
+    expect(find.byType(LoginScreen), findsOneWidget);
+    expect(find.byType(SignupScreen), findsNothing);
+    expect(vault.data['tr_refresh'], isNull);
+    expect(auth.isBioEnabled.value, false);
   });
 }

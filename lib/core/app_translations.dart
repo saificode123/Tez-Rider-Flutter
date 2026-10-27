@@ -7,6 +7,7 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      'Could not sign out. Please retry.': 'Could not sign out. Please retry.',
       "Payment Methods": "Payment Methods",
       "Cash on Delivery": "Cash on Delivery",
       "Pay when your order arrives": "Pay when your order arrives",
@@ -86,6 +87,8 @@ class AppTranslations extends Translations {
       "Reports": "Reports",
     },
     'ur_PK': {
+      'Could not sign out. Please retry.':
+          'سائن آؤٹ نہیں ہو سکا۔ دوبارہ کوشش کریں۔',
       "Payment Methods": "ادائیگی کے طریقے",
       "Cash on Delivery": "وصولی پر نقد ادائیگی",
       "Pay when your order arrives": "آرڈر پہنچنے پر ادائیگی کریں",

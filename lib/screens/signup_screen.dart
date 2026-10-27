@@ -261,6 +261,24 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
+  Future<void> _returnToLogin() async {
+    if (_loading) return;
+    if (!widget.completeExisting) {
+      Get.back();
+      return;
+    }
+    setState(() => _loading = true);
+    try {
+      // Incomplete onboarding must not leave a live account stranded on a root
+      // signup route. Reuse the canonical local/session invalidation path.
+      await Get.find<AuthController>().logout();
+    } catch (_) {
+      if (mounted) _err('Could not sign out. Please retry.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
   void _err(String msg) {
     Get.snackbar(
       '',
@@ -433,7 +451,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           style: TextStyle(color: _kTextSub, fontSize: 13),
                         ),
                         GestureDetector(
-                          onTap: () => Get.back(),
+                          onTap: _loading ? null : _returnToLogin,
                           child: Text(
                             "Sign In".tr,
                             style: TextStyle(
@@ -520,7 +538,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         size: 18,
                       ),
                     ),
-                    onPressed: () => Get.back(),
+                    tooltip: "Sign In".tr,
+                    onPressed: _loading ? null : _returnToLogin,
                   ),
 
                   const SizedBox(height: 8),
