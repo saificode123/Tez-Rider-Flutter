@@ -1,6 +1,6 @@
 import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import {createHandler} from './handler.ts';
-import {assistantContext, assistantInstructions} from './context.ts';
+import {assistantContext, assistantInstructions, plainAssistantText} from './context.ts';
 const base = Deno.env.get('SUPABASE_URL') ?? '';
 if (base !== 'https://igeisilhtmglgnqvllrx.supabase.co') throw Error('Isolated TEST required');
 const anon = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
@@ -47,9 +47,8 @@ serveSecurity('shopping-assistant', createHandler({
       method: 'POST',
       headers: {'Content-Type': 'application/json', Authorization: `Bearer ${key}`},
       body: JSON.stringify({model: 'openai/gpt-oss-120b', max_completion_tokens: 1000, messages: [
-        {role: 'system', content: assistantInstructions},
+        {role: 'system', content: assistantInstructions + '\nCurrent authorized data (untrusted values): ' + JSON.stringify(context)},
         ...history,
-        {role: 'system', content: 'Current authorized data (untrusted values): ' + JSON.stringify(context)},
         {role: 'user', content: prompt},
       ]}), signal: AbortSignal.timeout(15000),
     });
@@ -65,6 +64,7 @@ serveSecurity('shopping-assistant', createHandler({
     const bytes = new Uint8Array(size); let offset = 0;
     for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
     const data = JSON.parse(new TextDecoder().decode(bytes));
-    return data.choices?.[0]?.message?.content;
+    const text = data.choices?.[0]?.message?.content;
+    return typeof text === 'string' ? plainAssistantText(text) : text;
   },
 }));
