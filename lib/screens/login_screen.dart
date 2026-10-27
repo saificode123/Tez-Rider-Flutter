@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   bool _loading = false;
   bool _obscure = true;
+  String? _error;
   String _role = 'customer';
 
   late AnimationController _animCtrl;
@@ -139,7 +140,11 @@ class _LoginScreenState extends State<LoginScreen>
       return;
     }
 
-    setState(() => _loading = true);
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final res = await Supabase.instance.client.auth.signInWithPassword(
         email: email,
@@ -313,25 +318,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _showError(String msg) {
-    Get.snackbar(
-      '',
-      msg.tr,
-      titleText: const SizedBox.shrink(),
-      messageText: Text(
-        msg.tr,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      backgroundColor: AppColors.error,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-      borderRadius: 14,
-      duration: const Duration(seconds: 3),
-      icon: const Icon(Icons.error_outline_rounded, color: Colors.white),
-    );
+    if (mounted) setState(() => _error = msg);
   }
 
   void _showForgotPassword() {
@@ -371,6 +358,7 @@ class _LoginScreenState extends State<LoginScreen>
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: EdgeInsets.symmetric(
                 horizontal: constraints.maxWidth < 360 ? 16 : 24,
                 vertical: 16,
@@ -443,6 +431,29 @@ class _LoginScreenState extends State<LoginScreen>
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     _buildRoleDropdown(role),
+                                    if (_error != null) ...[
+                                      const SizedBox(height: 16),
+                                      Semantics(
+                                        liveRegion: true,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.error.withValues(
+                                              alpha: 0.08,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            _error!.tr,
+                                            style: const TextStyle(
+                                              color: AppColors.error,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                     const SizedBox(height: 20),
                                     TextField(
                                       controller: _emailCtrl,

@@ -85,7 +85,7 @@ android {
         create("fr21test") {
             dimension = "environment"
             applicationIdSuffix = ".fr21test"
-            manifestPlaceholders["appLabel"] = "TezRider TEST"
+            manifestPlaceholders["appLabel"] = "TezRider"
             signingConfig = signingConfigs.getByName("debug")
         }
     }
