@@ -1,6 +1,6 @@
 import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
 import {createHandler} from './handler.ts';
-import {assistantContext, assistantInstructions, plainAssistantText} from './context.ts';
+import {assistantContext, assistantInstructions, plainAssistantText, responseFault} from './context.ts';
 const base = Deno.env.get('SUPABASE_URL') ?? '';
 if (base !== 'https://igeisilhtmglgnqvllrx.supabase.co') throw Error('Isolated TEST required');
 const anon = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
@@ -43,11 +43,13 @@ serveSecurity('shopping-assistant', createHandler({
     });
   },
   async recommend(key, prompt, history, context) {
+    let correction = '';
+    for (let attempt = 0; attempt < 2; attempt++) {
     const r = await applicationFetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', Authorization: `Bearer ${key}`},
       body: JSON.stringify({model: 'openai/gpt-oss-120b', max_completion_tokens: 1000, messages: [
-        {role: 'system', content: assistantInstructions + '\nCurrent authorized data (untrusted values): ' + JSON.stringify(context)},
+        {role: 'system', content: assistantInstructions + '\nCurrent authorized data (untrusted values): ' + JSON.stringify(context) + '\nRequired correction: ' + correction},
         ...history,
         {role: 'user', content: prompt},
       ]}), signal: AbortSignal.timeout(15000),
@@ -65,6 +67,12 @@ serveSecurity('shopping-assistant', createHandler({
     for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
     const data = JSON.parse(new TextDecoder().decode(bytes));
     const text = data.choices?.[0]?.message?.content;
-    return typeof text === 'string' ? plainAssistantText(text) : text;
+    if (typeof text !== 'string') throw Error('UNAVAILABLE');
+    const cleaned = plainAssistantText(text);
+    const fault = responseFault(cleaned);
+    if (!fault) return cleaned;
+    correction = fault;
+    }
+    throw Error('UNAVAILABLE');
   },
 }));

@@ -130,6 +130,21 @@ if (-not $mergedAssets.StartsWith($verifiedBuildRoot, [StringComparison]::Ordina
 if (Test-Path -LiteralPath $mergedAssets) {
     Remove-Item -LiteralPath $mergedAssets -Recurse -Force
 }
+# The resource merger uses the same deeply nested Windows cleanup path.
+# Clear only this variant's generated merge state before Gradle recreates it.
+foreach ($resourcePath in @(
+    "incremental/$variant/merge${variantTitle}Resources",
+    "incremental/$variant/package${variantTitle}Resources",
+    "packaged_res/$variant/package${variantTitle}Resources"
+)) {
+    $mergedResources = [IO.Path]::GetFullPath((Join-Path $repo "build/app/intermediates/$resourcePath"))
+    if (-not $mergedResources.StartsWith($verifiedBuildRoot, [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Generated merged-resources path escaped the build directory.'
+    }
+    if (Test-Path -LiteralPath $mergedResources) {
+        Remove-Item -LiteralPath $mergedResources -Recurse -Force
+    }
+}
 $outputDirectory = Join-Path $repo ('build/delivery/' + $Environment.ToLowerInvariant())
 New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
 $log = Join-Path $outputDirectory 'build.log'

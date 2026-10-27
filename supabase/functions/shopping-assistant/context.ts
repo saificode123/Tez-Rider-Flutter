@@ -54,3 +54,13 @@ STRICT SCOPE: Answer ONLY TezRider shopping, delivery and app-support questions.
 export function plainAssistantText(text: string): string {
   return text.replace(/\*\*(.*?)\*\*/gs, '$1').replace(/^#{1,6}\s+/gm, '').trim();
 }
+
+// Reject measured factual failure classes before returning generated content.
+export function responseFault(text: string): string | null {
+  if (/[₹]|\bINR\b/.test(text)) return 'Use PKR for Pakistani prices.';
+  if (/(?:give|provide|issue|hand)\w*[^.!?\n]{0,65}\breceipt\b/i.test(text) &&
+      !/\b(?:not|no|never|cannot|can't)\b[^.!?\n]{0,65}\breceipt\b/i.test(text)) {
+    return 'Never promise a receipt from the rider. Explain only cash on delivery and electronic invoices in Order History.';
+  }
+  return null;
+}
