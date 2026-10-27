@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -186,18 +187,18 @@ class _VendorPrescriptionReviewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
         title: Text(
           'Prescription Reviews'.tr,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1A0533),
+            color: AppColors.textPrimary,
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
         centerTitle: true,
         actions: [
           IconButton(

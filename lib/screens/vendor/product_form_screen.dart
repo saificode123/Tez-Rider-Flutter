@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import '../../services/product_image_service.dart';
@@ -9,9 +10,9 @@ import '../../services/inventory_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
+const _kTextSub = AppColors.textSecondary;
 
 class ProductFormScreen extends StatefulWidget {
   final int? vendorId;
@@ -420,7 +421,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
-                          color: Color(0xFF1A1340),
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -493,7 +494,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 14,
-                                    color: Color(0xFF1A1340),
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 2),

@@ -7,6 +7,21 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      "Payment Methods": "Payment Methods",
+      "Cash on Delivery": "Cash on Delivery",
+      "Pay when your order arrives": "Pay when your order arrives",
+      "No online payment method is configured.":
+          "No online payment method is configured.",
+      "Credit / Debit Card": "Credit / Debit Card",
+      "EasyPaisa": "EasyPaisa",
+      "JazzCash": "JazzCash",
+      "Bank Transfer": "Bank Transfer",
+      "Unavailable: no payment provider is configured.":
+          "Unavailable: no payment provider is configured.",
+      'Welcome back': 'Welcome back',
+      'Show password': 'Show password',
+      'Hide password': 'Hide password',
+      'Continue with Biometrics': 'Continue with Biometrics',
       for (final key in profileEmailUrdu.keys) key: key,
       for (final key in stage2UiUrdu.keys) key: key,
       for (final key in stage2Urdu.keys) key: key,
@@ -71,6 +86,21 @@ class AppTranslations extends Translations {
       "Reports": "Reports",
     },
     'ur_PK': {
+      "Payment Methods": "ادائیگی کے طریقے",
+      "Cash on Delivery": "وصولی پر نقد ادائیگی",
+      "Pay when your order arrives": "آرڈر پہنچنے پر ادائیگی کریں",
+      "No online payment method is configured.":
+          "آن لائن ادائیگی کا کوئی طریقہ ترتیب نہیں دیا گیا۔",
+      "Credit / Debit Card": "کریڈٹ / ڈیبٹ کارڈ",
+      "EasyPaisa": "ایزی پیسہ",
+      "JazzCash": "جاز کیش",
+      "Bank Transfer": "بینک ٹرانسفر",
+      "Unavailable: no payment provider is configured.":
+          "دستیاب نہیں: ادائیگی کی سروس ترتیب نہیں دی گئی۔",
+      'Welcome back': 'دوبارہ خوش آمدید',
+      'Show password': 'پاس ورڈ دکھائیں',
+      'Hide password': 'پاس ورڈ چھپائیں',
+      'Continue with Biometrics': 'بائیومیٹرک سے جاری رکھیں',
       ...profileEmailUrdu,
       ...stage2UiUrdu,
       ...stage2Urdu,

@@ -42,7 +42,7 @@ class AppRoutes {
         builder: (_) => const CustomerDashboard(),
       ),
       middlewares: [AuthMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.native,
     ),
     GetPage(
       name: vendorHome,
@@ -51,21 +51,21 @@ class AppRoutes {
         builder: (_) => const VendorDashboard(),
       ),
       middlewares: [AuthMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.native,
     ),
     GetPage(
       name: riderHome,
       page: () =>
           RoleAccessGate(role: 'rider', builder: (_) => const RiderDashboard()),
       middlewares: [AuthMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.native,
     ),
     GetPage(
       name: adminHome,
       page: () =>
           RoleAccessGate(role: 'admin', builder: (_) => const AdminDashboard()),
       middlewares: [AuthMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.native,
     ),
   ];
 }

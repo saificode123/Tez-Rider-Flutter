@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,18 +15,18 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
         title: Text(
           "Notifications".tr,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1A0533),
+            color: AppColors.textPrimary,
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
         actions: [
           if (Get.isRegistered<AndroidBroadcastPushService>())
             Obx(() {

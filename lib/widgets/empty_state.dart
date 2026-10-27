@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class EmptyStateWidget extends StatelessWidget {
   final IconData icon;
@@ -20,10 +21,13 @@ class EmptyStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = accentColor ?? const Color(0xFFF2855A);
+    final color = accentColor ?? AppColors.primary;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpace.xl,
+          vertical: AppSpace.lg,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -52,9 +56,16 @@ class EmptyStateWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: color.withValues(alpha: 0.15),
-                    border: Border.all(color: color.withValues(alpha: 0.2), width: 1.5),
+                    border: Border.all(
+                      color: color.withValues(alpha: 0.2),
+                      width: 1.5,
+                    ),
                   ),
-                  child: Icon(icon, size: 34, color: color.withValues(alpha: 0.8)),
+                  child: Icon(
+                    icon,
+                    size: 34,
+                    color: color.withValues(alpha: 0.8),
+                  ),
                 ),
               ],
             ),
@@ -66,7 +77,7 @@ class EmptyStateWidget extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: Color(0xFF1A1A1A),
+                color: AppColors.textPrimary,
                 letterSpacing: -0.4,
               ),
               textAlign: TextAlign.center,
@@ -78,7 +89,7 @@ class EmptyStateWidget extends StatelessWidget {
               subtitle,
               style: const TextStyle(
                 fontSize: 14,
-                color: Color(0xFF888888),
+                color: AppColors.textSecondary,
                 height: 1.55,
               ),
               textAlign: TextAlign.center,
@@ -86,24 +97,9 @@ class EmptyStateWidget extends StatelessWidget {
 
             if (actionLabel != null && onAction != null) ...[
               const SizedBox(height: 28),
-              GestureDetector(
-                onTap: onAction,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [color.withValues(alpha: 0.8), color],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 14, offset: const Offset(0, 6))],
-                  ),
-                  child: Text(
-                    actionLabel!,
-                    style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
-                  ),
-                ),
+              ElevatedButton(
+                onPressed: onAction,
+                child: Text(actionLabel!, textAlign: TextAlign.center),
               ),
             ],
           ],
@@ -122,10 +118,11 @@ class EmptyOrdersState extends StatelessWidget {
     return EmptyStateWidget(
       icon: Icons.receipt_long_outlined,
       title: 'No Orders Yet',
-      subtitle: 'You haven\'t placed any orders.\nBrowse stores and order something delicious!',
+      subtitle:
+          'You haven\'t placed any orders.\nBrowse stores and order something delicious!',
       actionLabel: 'Browse Now',
       onAction: onBrowse,
-      accentColor: const Color(0xFFF2855A),
+      accentColor: AppColors.primary,
     );
   }
 }
@@ -139,7 +136,8 @@ class EmptySearchState extends StatelessWidget {
     return EmptyStateWidget(
       icon: Icons.search_off_rounded,
       title: 'No Results Found',
-      subtitle: 'We couldn\'t find anything for "$query".\nTry a different search term.',
+      subtitle:
+          'We couldn\'t find anything for "$query".\nTry a different search term.',
       accentColor: const Color(0xFF9B72CF),
     );
   }
@@ -170,7 +168,8 @@ class EmptyNotificationsState extends StatelessWidget {
     return const EmptyStateWidget(
       icon: Icons.notifications_none_rounded,
       title: 'All Caught Up!',
-      subtitle: 'You have no new notifications.\nWe\'ll let you know when something happens.',
+      subtitle:
+          'You have no new notifications.\nWe\'ll let you know when something happens.',
       accentColor: Color(0xFF9B72CF),
     );
   }

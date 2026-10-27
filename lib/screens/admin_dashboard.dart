@@ -1,3 +1,4 @@
+import '../widgets/app_stat_card.dart';
 import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
@@ -68,29 +69,28 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       drawer: const AppDrawer(role: 'admin'),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton.extended(
-            heroTag: 'admin-orders',
+      floatingActionButton: MenuAnchor(
+        builder: (context, controller, child) => FloatingActionButton(
+          tooltip: 'Quick Actions'.tr,
+          onPressed: () =>
+              controller.isOpen ? controller.close() : controller.open(),
+          child: const Icon(Icons.dashboard_customize_outlined),
+        ),
+        menuChildren: [
+          MenuItemButton(
+            leadingIcon: const Icon(Icons.receipt_long),
             onPressed: () => Get.to(() => const AdminMonitorScreen()),
-            icon: const Icon(Icons.receipt_long),
-            label: Text("Orders and monitoring".tr),
+            child: Text('Orders and monitoring'.tr),
           ),
-          const SizedBox(height: 12),
-          FloatingActionButton.extended(
-            heroTag: 'admin-broadcasts',
+          MenuItemButton(
+            leadingIcon: const Icon(Icons.campaign_outlined),
             onPressed: () => Get.to(() => const AdminBroadcastsScreen()),
-            icon: const Icon(Icons.campaign_outlined),
-            label: Text("Broadcast notifications".tr),
+            child: Text('Broadcast notifications'.tr),
           ),
-          const SizedBox(height: 12),
-          FloatingActionButton.extended(
-            heroTag: 'manage-users',
+          MenuItemButton(
+            leadingIcon: const Icon(Icons.manage_accounts),
             onPressed: () => Get.to(() => const AdminUsersScreen()),
-            icon: const Icon(Icons.manage_accounts),
-            label: Text("Manage Users".tr),
+            child: Text('Manage Users'.tr),
           ),
         ],
       ),
@@ -291,7 +291,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   "slot0end": (live).toString(),
                                 }),
                                 style: const TextStyle(
-                                  color: AppColors.success,
+                                  color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -339,7 +339,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 1.12,
+                  childAspectRatio:
+                      MediaQuery.textScalerOf(context).scale(1) > 1.3
+                      ? .65
+                      : 1.0,
                   children: [
                     _statCard(
                       "Total Orders".tr,
@@ -493,51 +496,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _statCard(String label, String value, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 20),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 11,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
+    return AppStatCard(label: label, value: value, icon: icon, color: color);
   }
 
   Widget _pendingCard(UserModel item, String type) {

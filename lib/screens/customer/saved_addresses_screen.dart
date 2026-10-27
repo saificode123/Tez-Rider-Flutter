@@ -1,14 +1,15 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import '../../services/saved_addresses_service.dart';
 import 'package:get/get.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
 const _kCard = Color(0xFFFFFFFF);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 const _kPink = Color(0xFFEC4899);
 
 class SavedAddressesScreen extends StatefulWidget {

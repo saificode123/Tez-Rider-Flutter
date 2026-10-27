@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/controllers/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,13 @@ class _Pkce extends GotrueAsyncStorage {
   Future<void> setItem({required String key, required String value}) async {}
   @override
   Future<void> removeItem({required String key}) async {}
+}
+
+class _LanguageStore implements LanguagePreferenceStore {
+  @override
+  Future<String?> read() async => 'en';
+  @override
+  Future<void> write(String language) async {}
 }
 
 class _LocalAuth extends AuthController {
@@ -46,22 +54,22 @@ void main() {
   tearDown(Get.reset);
 
   testWidgets(
-    'About renders unsupported claims as an identified Stage4 audit finding',
+    'About does not fabricate delivery time, app rating or rider count',
     (tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(const MaterialApp(home: AboutTezRiderScreen()));
-      expect(find.text('5 min'), findsOneWidget);
-      expect(find.text('4.8'), findsOneWidget);
-      expect(find.text('500+'), findsOneWidget);
-      // Their presence is the finding; it is not evidence these claims are true.
+      expect(find.text('5 min'), findsNothing);
+      expect(find.text('4.8'), findsNothing);
+      expect(find.text('500+'), findsNothing);
+      expect(find.text('Up to date'), findsNothing);
     },
   );
 
   testWidgets(
-    'Payment methods empty state and unavailable add never save an instrument',
+    'Payment methods explain disabled providers and never offer to save an instrument',
     (tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2;
@@ -72,13 +80,14 @@ void main() {
         find.text('No online payment method is configured.'),
         findsOneWidget,
       );
-      await tester.tap(find.byIcon(Icons.add_rounded));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Credit / Debit Card'));
-      await tester.pumpAndSettle();
+      expect(find.byIcon(Icons.add_rounded), findsNothing);
+      for (final tile in tester.widgetList<ListTile>(find.byType(ListTile))) {
+        expect(tile.enabled, false);
+        expect(tile.onTap, isNull);
+      }
       expect(
-        find.textContaining('No payment method was saved.'),
-        findsOneWidget,
+        find.text('Unavailable: no payment provider is configured.'),
+        findsNWidgets(4),
       );
       expect(find.byType(TextField), findsNothing);
     },
@@ -88,6 +97,10 @@ void main() {
     tester,
   ) async {
     Get.put<AuthController>(_LocalAuth());
+    final language = Get.put(
+      LanguageController(store: _LanguageStore(), appReady: () => false),
+    );
+    await language.restore();
     tester.view.physicalSize = const Size(1080, 2400);
     tester.view.devicePixelRatio = 2;
     addTearDown(tester.view.resetPhysicalSize);

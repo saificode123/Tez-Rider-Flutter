@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import '../theme/app_motion.dart';
+import '../theme/app_theme.dart';
 
 class OrderTimeline extends StatefulWidget {
   final int currentStep;
@@ -9,7 +11,7 @@ class OrderTimeline extends StatefulWidget {
   const OrderTimeline({
     super.key,
     required this.currentStep,
-    this.activeColor = const Color(0xFFF2855A),
+    this.activeColor = AppColors.primary,
     this.events,
   });
 
@@ -53,21 +55,34 @@ class _OrderTimelineState extends State<OrderTimeline>
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
-    if (widget.events == null) _pulseCtrl.repeat(reverse: true);
+
     _pulseAnim = Tween<double>(
       begin: 1.0,
       end: 1.18,
     ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
   }
 
-  @override
-  void didUpdateWidget(covariant OrderTimeline oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.events != null) {
+  void _syncMotion() {
+    if (widget.events != null ||
+        widget.currentStep >= 4 ||
+        AppMotion.reduced(context)) {
       _pulseCtrl.stop();
+      _pulseCtrl.value = 0;
     } else if (!_pulseCtrl.isAnimating) {
       _pulseCtrl.repeat(reverse: true);
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _syncMotion();
+  }
+
+  @override
+  void didUpdateWidget(covariant OrderTimeline oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncMotion();
   }
 
   @override

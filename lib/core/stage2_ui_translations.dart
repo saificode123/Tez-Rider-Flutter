@@ -1420,8 +1420,8 @@ const stage2UiUrdu = <String, String>{
   "Session required": "سیشن ضروری ہے",
   "Settings could not be opened. Open TezRider location settings manually.":
       "ترتیبات نہیں کھل سکیں۔ TezRider کی لوکیشن ترتیبات خود کھولیں۔",
-  "Sharing location for your active delivery. Stop sharing in the TEST app.":
-      "فعال ترسیل کے لیے لوکیشن شیئر ہو رہی ہے۔ TEST ایپ میں شیئرنگ روکیں۔",
+  "Sharing location for your active delivery. Stop sharing in the app.":
+      "فعال ترسیل کے لیے لوکیشن شیئر ہو رہی ہے۔ ایپ میں شیئرنگ روکیں۔",
   "Sharing requires an online rider, completed checklist and started delivery.":
       "شیئرنگ کے لیے آن لائن رائیڈر، مکمل چیک لسٹ اور شروع شدہ ترسیل ضروری ہے۔",
   "Sharing stopped. Reopen the app to reset the location service.":

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
+import 'theme/app_motion.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/language_controller.dart';
 import 'routes/app_routes.dart';
@@ -89,23 +90,9 @@ class MyApp extends StatelessWidget {
         }
       },
       getPages: AppRoutes.pages,
-      // Cap system text scaling so large accessibility settings can't overflow layouts.
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaler: MediaQuery.textScalerOf(
-            context,
-          ).clamp(minScaleFactor: 0.9, maxScaleFactor: 1.15),
-        ),
-        child:
-            const bool.fromEnvironment('FR21_ISOLATED_TEST', defaultValue: true)
-            ? Banner(
-                message: 'TEST',
-                location: BannerLocation.topEnd,
-                color: Colors.orange,
-                child: child!,
-              )
-            : child!,
-      ),
+      defaultTransition: Transition.native,
+      transitionDuration: AppMotion.standard,
+      builder: (context, child) => child ?? const SizedBox.shrink(),
     );
   }
 }

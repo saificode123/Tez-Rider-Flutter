@@ -56,6 +56,12 @@ __pycache__/
 /.fr21-local/
 /supabase/functions/.env.test.local
 
-Add-Content .gitignore "supabase/functions/.env*"
-git check-ignore -v supabase/functions/.env.test.local
-git status
+# Local configuration and signing material
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
+*.jks
+*.keystore
+android/key.properties

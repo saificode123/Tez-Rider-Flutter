@@ -9,9 +9,9 @@ import '../services/onboarding_service.dart';
 import '../controllers/auth_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
-const _kBg = Color(0xFFF5F0E8);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kBg = AppColors.bgLight;
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 
 class SignupScreen extends StatefulWidget {
   final String? initialRole;

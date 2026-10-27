@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../services/rating_watch.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ const _kGreen = Color(0xFF1B5E20);
 const _kGreenL = Color(0xFF388E3C);
 const _kSaffron = Color(0xFFF59E0B);
 const _kPink = Color(0xFFEC4899);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 const _kBg = Color(0xFFF5F6FA);
 
 class ProductDetailScreen extends StatefulWidget {

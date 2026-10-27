@@ -1,3 +1,4 @@
+import '../theme/app_motion.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
@@ -111,14 +112,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       ),
     );
 
-    _heroAnim = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _navAnim = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
+    _heroAnim = AnimationController(vsync: this, duration: AppMotion.entrance);
+    _navAnim = AnimationController(vsync: this, duration: AppMotion.standard);
     _orderButtonAnim = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -565,7 +560,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF0D3B12), Color(0xFF1B5E20), Color(0xFF388E3C)],
+              colors: [AppColors.primaryDark, AppColors.primary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -657,11 +652,6 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                   ),
                                 ),
                                 const SizedBox(width: 3),
-                                const Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.white70,
-                                  size: 16,
-                                ),
                               ],
                             ),
                           ),
@@ -1441,10 +1431,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         120; // compact, consistent size for every card — matches reference-style listing
 
     final anim = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _cardAnims[animIndex], curve: Curves.easeOutBack),
+      CurvedAnimation(parent: _cardAnims[animIndex], curve: AppMotion.curve),
     );
     final slideAnim =
-        Tween<Offset>(begin: const Offset(0, 0.25), end: Offset.zero).animate(
+        Tween<Offset>(begin: const Offset(0, 0.025), end: Offset.zero).animate(
           CurvedAnimation(
             parent: _cardAnims[animIndex],
             curve: Curves.easeOutCubic,

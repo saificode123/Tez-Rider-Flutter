@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import '../theme/app_motion.dart';
 
 class _ShimmerBase extends StatelessWidget {
   final Widget child;
@@ -7,6 +8,12 @@ class _ShimmerBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (AppMotion.reduced(context)) {
+      return ColorFiltered(
+        colorFilter: const ColorFilter.mode(Color(0xFFE8E8E8), BlendMode.srcIn),
+        child: child,
+      );
+    }
     return Shimmer.fromColors(
       baseColor: const Color(0xFFE8E8E8),
       highlightColor: const Color(0xFFF5F5F5),
@@ -19,7 +26,10 @@ Widget _box({double? width, double? height, double radius = 8}) {
   return Container(
     width: width,
     height: height,
-    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(radius)),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(radius),
+    ),
   );
 }
 
@@ -31,7 +41,10 @@ class ShimmerBanner extends StatelessWidget {
     return _ShimmerBase(
       child: Container(
         height: 170,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+        ),
       ),
     );
   }
@@ -78,7 +91,13 @@ class ShimmerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: _ShimmerBase(
         child: Row(
@@ -118,7 +137,13 @@ class ShimmerTrendingCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: _ShimmerBase(
         child: Column(
@@ -164,7 +189,13 @@ class ShimmerMetricGrid extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: _ShimmerBase(
           child: Column(
@@ -172,7 +203,10 @@ class ShimmerMetricGrid extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [_box(width: 34, height: 34, radius: 10), _box(width: 50, height: 22, radius: 8)],
+                children: [
+                  _box(width: 34, height: 34, radius: 10),
+                  _box(width: 50, height: 22, radius: 8),
+                ],
               ),
               const Spacer(),
               _box(width: 80, height: 20, radius: 6),
@@ -192,8 +226,6 @@ class ShimmerListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(count, (_) => const ShimmerCard()),
-    );
+    return Column(children: List.generate(count, (_) => const ShimmerCard()));
   }
 }

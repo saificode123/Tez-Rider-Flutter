@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import '../../widgets/order_timeout_summary.dart';
@@ -13,11 +14,11 @@ import '../../services/dispute_service.dart';
 import 'dispute_screen.dart';
 import '../map_screen.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
 const _kCard = Color(0xFFFFFFFF);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 const _kGreen = Color(0xFF10B981);
 const _kPink = Color(0xFFEC4899);
 const _kTeal = Color(0xFF06B6D4);

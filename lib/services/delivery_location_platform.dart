@@ -68,7 +68,7 @@ class AndroidRiderLocationSource implements RiderLocationSource {
               ? ForegroundNotificationConfig(
                   notificationTitle: 'TezRider delivery location'.uiMessage,
                   notificationText:
-                      'Sharing location for your active delivery. Stop sharing in the TEST app.'
+                      'Sharing location for your active delivery. Stop sharing in the app.'
                           .uiMessage,
                   notificationChannelName: 'Active delivery location'.uiMessage,
                   enableWakeLock: true,

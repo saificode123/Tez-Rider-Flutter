@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../widgets/product_image.dart';
 import 'product_form_screen.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
 
 class VendorProductsScreen extends StatefulWidget {
   const VendorProductsScreen({super.key});
@@ -249,7 +250,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
-                      color: Color(0xFF1A1340),
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -327,7 +328,7 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                     style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 14,
-                      color: Color(0xFF1A1340),
+                      color: AppColors.textPrimary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

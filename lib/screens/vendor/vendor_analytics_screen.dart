@@ -1,14 +1,15 @@
+import '../../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import '../../services/vendor_report_service.dart';
 import '../../widgets/role_access_gate.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
 const _kCard = Color(0xFFFFFFFF);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 const _kGreen = Color(0xFF10B981);
 const _kSaffron = Color(0xFFF59E0B);
 const _kPink = Color(0xFFEC4899);

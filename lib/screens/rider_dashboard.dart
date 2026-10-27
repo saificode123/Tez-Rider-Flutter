@@ -1,3 +1,4 @@
+import '../theme/app_motion.dart';
 import '../widgets/biometric_settings_tile.dart';
 import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
@@ -276,6 +277,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
               automaticallyImplyLeading: false,
               title: Text(
                 'Rider Dashboard'.tr,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 20,
@@ -293,7 +296,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   child: Row(
                     children: [
                       AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
+                        duration: AppMotion.duration(context),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 6,
@@ -344,7 +347,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         activeTrackColor: AppColors.success.withValues(
                           alpha: 0.35,
                         ),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
                       ),
                     ],
                   ),

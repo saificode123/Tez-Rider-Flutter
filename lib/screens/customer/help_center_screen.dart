@@ -1,13 +1,14 @@
+import '../../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../chat_rooms_screen.dart';
 import '../../widgets/support_contact_card.dart';
 
-const _kPurple = Color(0xFF1B5E20);
-const _kBg = Color(0xFFF8F7FF);
+const _kPurple = AppColors.primaryDark;
+const _kBg = AppColors.bgLight;
 const _kCard = Color(0xFFFFFFFF);
-const _kText = Color(0xFF1A1340);
-const _kTextSub = Color(0xFF6B6B8A);
+const _kText = AppColors.textPrimary;
+const _kTextSub = AppColors.textSecondary;
 
 class HelpCenterScreen extends StatefulWidget {
   const HelpCenterScreen({super.key});
