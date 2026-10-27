@@ -2,6 +2,9 @@
 
 **NOT READY FOR PRODUCTION.** A verified Android TEST artifact is delivered; every SRDS requirement is not yet satisfied.
 
+Frontend follow-up (2026-10-27): [13-Frontend-UIUX-Upgrade.md](13-Frontend-UIUX-Upgrade.md) records the newer UI source, TEST APK, device checks and Git delivery. The artifact and test totals below remain the earlier baseline evidence; production and backend acceptance gates remain separate.
+
+
 1. **Implemented:** owner-configured rider earning records/quotes and cancellation policy; daily low-rating moderation through canonical blocking; atomic cart stock behavior; account-bound biometric sign-in; verified profile-email status; configured public support contact; restored Tailoring/private references and prescription lifecycle; server AI; shared navigation/accessibility/reduced-motion improvements; TEST build and production-signing guards. Scope/retained functionality:02-Implemented-Features.md and the137-row compliance matrix.
 2. **Verified:** full Flutter suite640PASS/0FAIL/2SKIP; separate image suite9PASS; focused new tests33PASS with overlap disclosed. Whole analysis0errors/4inherited warnings/38infos. Four Android roles passed authentication/navigation smoke checks; actual biometric cold-start/server-refresh sign-in passed. Owner walk produced168.3m displacement, road deviation beyond150m and changed geometry. GPS/presence interruptions and2998.7ms route latency prevent full FR14 acceptance. Individual server/security/Storage/policy/notification results are in03 and evidence JSON; no scope is inferred beyond those checks.
 3. **Incomplete:** continuous/background tracking and800ms target; current physical cross-role proof/OTP/new-priced-earning journey; iOS/APNs/OS compatibility; production push; full coverage/device/battery/performance/SLA acceptance; external email confirmation; unspecified Tailoring fulfillment; production preparation. See11 and every PARTIAL/BLOCKED matrix row.

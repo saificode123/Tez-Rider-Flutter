@@ -47,7 +47,8 @@ def nodes():
             if attempt == 2: raise
             time.sleep(.5)
         finally:
-            adb('shell','rm','-f',remote)
+            try: adb('shell','rm','-f',remote)
+            except AssertionError: pass # Idempotent helper-file cleanup is retried at task end.
 
 
 
@@ -63,11 +64,19 @@ def tap(node):
 
 
 def click(value):
-    matches = [node for node in nodes() if label(node) == value and node.get('enabled') != 'false']
-    clickable = [node for node in matches if node.get('clickable') == 'true']
-    matches = clickable or matches
-    assert len(matches) == 1, 'One observed control required: ' + value
-    tap(matches[0])
+    deadline = time.monotonic()+25
+    while True:
+        try:
+            matches = [node for node in nodes() if label(node) == value and node.get('enabled') != 'false']
+        except AssertionError:
+            matches = []
+        clickable = [node for node in matches if node.get('clickable') == 'true']
+        matches = clickable or matches
+        if len(matches) == 1:
+            tap(matches[0]);return
+        assert len(matches) < 2, 'Ambiguous observed control: ' + value
+        assert time.monotonic()<deadline, 'Observed control unavailable: ' + value
+        time.sleep(.5)
 
 
 def record(check):
@@ -153,6 +162,12 @@ elif action == 'biometric-recovery':
         assert adb('shell','settings','get','global','mobile_data').strip() == mobile
         record('original Android Wi-Fi and mobile-data states restored in finally')
     time.sleep(3)
+elif action == 'cleanup':
+    names = adb('shell','ls','-1','/data/local/tmp').splitlines()
+    for name in names:
+        if re.fullmatch(r'frontend-(?:[0-9a-f]{32}|ui)\.xml', name):
+            adb('shell','rm','-f','/data/local/tmp/'+name)
+    record('removed helper-owned temporary Android UI XML files')
 elif action == 'installed-proof':
     expected = json.loads((OUT / 'installed.json').read_text())['sha256']
     path = adb('shell','pm','path',PACKAGE).strip()
@@ -185,8 +200,12 @@ elif action.startswith('role:'):
     tap(choices[0])
     click({'customer':'گاہک','vendor':'وینڈر','rider':'رائیڈر','admin':'ایڈمن'}[role] if urdu else role.title())
 elif action in ('scroll', 'scroll-up'):
-    choices = [node for node in nodes() if node.get('scrollable') == 'true']
-    assert choices, 'Observed scrollable surface required'
+    deadline = time.monotonic()+25
+    while True:
+        choices = [node for node in nodes() if node.get('scrollable') == 'true']
+        if choices:break
+        assert time.monotonic()<deadline, 'Observed scrollable surface required'
+        time.sleep(.5)
     def area(node):
         x1,y1,x2,y2 = map(int,re.findall(r'\d+',node.get('bounds','')))
         return (x2-x1)*(y2-y1)
