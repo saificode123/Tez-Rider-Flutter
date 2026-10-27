@@ -1,3 +1,4 @@
+import '../widgets/product_card_summary.dart';
 import '../theme/app_motion.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_navigation.dart';
@@ -1314,7 +1315,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
                 _selectedCatName == 'All' ? "All Items".tr : _selectedCatName,
@@ -1325,7 +1329,6 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   letterSpacing: -0.3,
                 ),
               ),
-              const Spacer(),
               Obx(
                 () => Container(
                   padding: const EdgeInsets.symmetric(
@@ -1392,6 +1395,15 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Widget _buildProductGrid(List products) {
+    if (MediaQuery.sizeOf(context).width < 360 ||
+        MediaQuery.textScalerOf(context).scale(14) > 21) {
+      return Column(
+        children: [
+          for (int i = 0; i < products.length; i++)
+            _buildProductCard(products[i], i, i % _cardAnims.length),
+        ],
+      );
+    }
     final List<Widget> leftCol = [];
     final List<Widget> rightCol = [];
 
@@ -1695,55 +1707,20 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           ),
                         ],
                         const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text(
-                              "Rs.@slot0end".uiTr({
-                                "slot0end": (p.price).toString(),
-                              }),
-                              style: const TextStyle(
-                                color: _kSaffron,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            const Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                HapticFeedback.selectionClick();
-                                _toggleFavourite(p.id);
-                              },
-                              child: Icon(
-                                _favIds.contains(int.tryParse(p.id.toString()))
-                                    ? Icons.favorite_rounded
-                                    : Icons.favorite_border_rounded,
-                                color: _kPink,
-                                size: 18,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Icon(
-                              Icons.star_rounded,
-                              size: 12,
-                              color: _kSaffron,
-                            ),
-                            const SizedBox(width: 2),
-                            Text(
-                              ratingText,
-                              style: const TextStyle(
-                                color: _kTextSub,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            if (info != null && info.reviewCount > 0) ...[
-                              const SizedBox(width: 2),
-                              Text(
-                                '(${info.reviewCount})',
-                                style: TextStyle(color: _kTextSub, fontSize: 9),
-                              ),
-                            ],
-                          ],
+                        ProductCardSummary(
+                          price: "Rs.@slot0end".uiTr({
+                            "slot0end": p.price.toString(),
+                          }),
+                          rating: ratingText,
+                          reviewCount: info?.reviewCount ?? 0,
+                          favourite: _favIds.contains(
+                            int.tryParse(p.id.toString()),
+                          ),
+                          favouriteLabel: "Saved Stores".tr,
+                          onFavourite: () {
+                            HapticFeedback.selectionClick();
+                            _toggleFavourite(p.id);
+                          },
                         ),
                       ],
                     );
