@@ -1,9 +1,11 @@
 type Data = Record<string, unknown>;
+export type Turn = {role: 'user' | 'assistant'; content: string};
 export interface Dependencies {
   authorize(jwt: string): Promise<boolean>;
   claim(jwt: string): Promise<boolean>;
   key(): Promise<string | null>;
-  recommend(key: string, prompt: string): Promise<string>;
+  context?(jwt: string, prompt: string, history: Turn[]): Promise<unknown>;
+  recommend(key: string, prompt: string, history: Turn[], context: unknown): Promise<string>;
 }
 const headers = {
   'Content-Type': 'application/json', 'Cache-Control': 'no-store',
@@ -27,7 +29,7 @@ export function createHandler(deps: Dependencies) {
         while (true) {
           const {done, value} = await reader.read(); if (done) break;
           size += value.length;
-          if (size > 10000) return reply({code: 'INVALID_REQUEST'}, 413);
+          if (size > 24000) return reply({code: 'INVALID_REQUEST'}, 413);
           chunks.push(value);
         }
       } finally { await reader.cancel(); }
@@ -37,9 +39,17 @@ export function createHandler(deps: Dependencies) {
       try { value = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(bytes)); }
       catch { return reply({code: 'INVALID_REQUEST'}, 400); }
       if (!value || Array.isArray(value) || typeof value !== 'object' ||
-          Object.keys(value).length !== 1 || typeof value.prompt !== 'string' ||
+          Object.keys(value).some(k => !['prompt', 'history'].includes(k)) || typeof value.prompt !== 'string' ||
           [...value.prompt.trim()].length < 1 || [...value.prompt.trim()].length > 2000 ||
           /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value.prompt)) {
+        return reply({code: 'INVALID_REQUEST'}, 400);
+      }
+      const history = value.history ?? [];
+      if (!Array.isArray(history) || history.length > 6 || history.some((t) =>
+        !t || typeof t !== 'object' || Object.keys(t).length !== 2 ||
+        !['user', 'assistant'].includes(t.role) || typeof t.content !== 'string' ||
+        !t.content.trim() || [...t.content].length > 1000 ||
+        /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(t.content))) {
         return reply({code: 'INVALID_REQUEST'}, 400);
       }
       const jwt = auth.slice(7);
@@ -48,10 +58,12 @@ export function createHandler(deps: Dependencies) {
       const key = await deps.key();
       if (!key) return reply({code: 'UNAVAILABLE'}, 503);
       if (!await deps.authorize(jwt)) return reply({code: 'FORBIDDEN'}, 403);
-      const text = await deps.recommend(key, value.prompt.trim());
+      const context = deps.context ? await deps.context(jwt, value.prompt.trim(), history) : null;
+      const text = await deps.recommend(key, value.prompt.trim(), history, context);
       if (typeof text !== 'string' || !text.trim() || text.length > 16000 || text.includes(key)) {
         return reply({code: 'UNAVAILABLE'}, 503);
       }
+      if (!await deps.authorize(jwt)) return reply({code: 'FORBIDDEN'}, 403);
       return reply({code: 'OK', text}, 200);
     } catch {
       return reply({code: 'UNAVAILABLE'}, 503);

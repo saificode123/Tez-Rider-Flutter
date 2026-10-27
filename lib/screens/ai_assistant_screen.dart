@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/ai_service.dart';
+import '../theme/app_theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AIAssistantScreen extends StatefulWidget {
   const AIAssistantScreen({super.key});
@@ -18,7 +20,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     {
       'isBot': true,
       'text':
-          "Hi! 👋 I'm your TezRider AI Assistant.\n\nAsk me for gift ideas, cake + flower combos, or anything for a special occasion! 🎁",
+          "Ask about products, your orders, delivery or how to use TezRider.",
     },
   ];
 
@@ -35,8 +37,26 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     });
     _scrollToBottom();
 
-    final reply = await aiService.getRecommendation(text);
+    final account = Supabase.instance.client.auth.currentUser?.id;
+    final history = _messages
+        .skip(1)
+        .take(_messages.length - 2)
+        .map(
+          (m) => {
+            'role': m['isBot'] == true ? 'assistant' : 'user',
+            'content': m['text'] as String,
+          },
+        )
+        .toList();
+    final reply = await aiService.getRecommendation(text, history: history);
     if (!mounted) return;
+    if (account != Supabase.instance.client.auth.currentUser?.id) {
+      setState(() {
+        _messages.clear();
+        _isTyping = false;
+      });
+      return;
+    }
 
     setState(() {
       _isTyping = false;
@@ -72,19 +92,21 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F1F9),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
         backgroundColor: const Color(0xFF1B5E20),
         title: Row(
           children: [
             const Icon(Icons.auto_awesome, color: Colors.amber, size: 20),
             const SizedBox(width: 8),
-            const Text(
-              'Smart Assistant',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+            Flexible(
+              child: Text(
+                'Smart Assistant'.tr,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],
@@ -101,15 +123,15 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
       body: Column(
         children: [
           Container(
-            height: 50,
+            height: 34 + MediaQuery.textScalerOf(context).scale(20),
             color: Colors.white,
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               children: [
-                _suggestionChip("Birthday gift for mom"),
-                _suggestionChip("Best flowers for anniversary"),
-                _suggestionChip("Luxury cake combo"),
+                _suggestionChip("Find available products"),
+                _suggestionChip("Where is my order?"),
+                _suggestionChip("How do I pay?"),
               ],
             ),
           ),
@@ -157,7 +179,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                       ],
                     ),
                     child: Text(
-                      msg['text'],
+                      (msg['text'] as String).tr,
                       style: TextStyle(
                         color: isBot ? Colors.black87 : Colors.white,
                         fontSize: 14,
@@ -187,7 +209,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "AI is typing...",
+                      "AI is typing...".tr,
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 12,
@@ -216,8 +238,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                   Expanded(
                     child: TextField(
                       controller: _msgCtrl,
+                      maxLength: 2000,
+                      minLines: 1,
+                      maxLines: 4,
+                      enabled: !_isTyping,
                       decoration: InputDecoration(
-                        hintText: "Ask for recommendations...",
+                        hintText: "Ask about TezRider...".tr,
                         hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
@@ -237,20 +263,10 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: _sendMessage,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF1B5E20),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.auto_awesome,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
+                  IconButton.filled(
+                    tooltip: 'Send'.tr,
+                    onPressed: _isTyping ? null : _sendMessage,
+                    icon: const Icon(Icons.send_rounded),
                   ),
                 ],
               ),
@@ -263,10 +279,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _suggestionChip(String text) {
     return InkWell(
-      onTap: () {
-        _msgCtrl.text = text;
-        _sendMessage();
-      },
+      onTap: _isTyping
+          ? null
+          : () {
+              _msgCtrl.text = text.tr;
+              _sendMessage();
+            },
       child: Container(
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -278,7 +296,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
           ),
         ),
         child: Text(
-          text,
+          text.tr,
           style: const TextStyle(
             color: Color(0xFF1B5E20),
             fontSize: 12,

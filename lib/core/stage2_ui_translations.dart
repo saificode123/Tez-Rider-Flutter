@@ -1449,4 +1449,17 @@ const stage2UiUrdu = <String, String>{
   "An approved rider account is required.": "منظور شدہ رائیڈر اکاؤنٹ ضروری ہے۔",
   "Availability could not be confirmed. Tap Retry.":
       "دستیابی کی تصدیق نہیں ہوئی۔ دوبارہ کوشش دبائیں۔",
+  'Ask about products, your orders, delivery or how to use TezRider.':
+      'مصنوعات، اپنے آرڈرز، ڈیلیوری یا تیز رائیڈر کے استعمال کے بارے میں پوچھیں۔',
+  'Find available products': 'دستیاب مصنوعات تلاش کریں',
+  'Where is my order?': 'میرا آرڈر کہاں ہے؟',
+  'How do I pay?': 'ادائیگی کیسے کروں؟',
+  'Ask about TezRider...': 'تیز رائیڈر کے بارے میں پوچھیں...',
+  'AI is typing...': 'جواب تیار ہو رہا ہے...',
+  'Please enter a question of up to 2,000 characters.':
+      'براہ کرم ۲،۰۰۰ حروف تک کا سوال لکھیں۔',
+  'Too many requests. Please try again in a minute.':
+      'بہت زیادہ درخواستیں۔ ایک منٹ بعد دوبارہ کوشش کریں۔',
+  'The assistant is unavailable. Please try again later.':
+      'اسسٹنٹ دستیاب نہیں۔ کچھ دیر بعد دوبارہ کوشش کریں۔',
 };
