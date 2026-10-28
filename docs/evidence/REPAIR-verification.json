@@ -1,0 +1,67 @@
+{
+  "baseline": "9dd4522e51c9dcb98763f743f8136c8c0135fa5e",
+  "flutter": {
+    "passed": 46,
+    "failed": 0,
+    "files": [
+      "product_card_summary_test",
+      "assistant_conversation_test",
+      "frontend_upgrade_test",
+      "auth_language_test",
+      "role_language_test",
+      "role_gate_state_test",
+      "optional_modules_test"
+    ]
+  },
+  "deno": {
+    "passed": 35,
+    "failed": 0
+  },
+  "analysis": {
+    "errors": 0,
+    "warnings": 3,
+    "infos": 30
+  },
+  "physical": "PARTIAL: final build/install/hash, Android app-info name/icon, customer layout, Vendor/Admin smoke, account-tab resume, logout/cold-start and bilingual persistence PASS. Rider smoke on preceding artifact. Full delivery and every-control acceptance NOT RUN.",
+  "live_provider": {
+    "latest_case_types_pass": 12,
+    "initial_failed": 5,
+    "scope": "successive measured runs; affected cases rerun; not 12 final-version samples"
+  },
+  "requirement_baseline": {
+    "COMPLETE": 76,
+    "APPROVED DEVIATION": 17,
+    "PARTIAL": 43,
+    "BLOCKED": 1
+  },
+  "notification_location_regression": {
+    "passed": 45,
+    "failed": 0,
+    "files": [
+      "fr30_push_delivery_test",
+      "delivery_location_test"
+    ],
+    "overlap_with_46": false
+  },
+  "secret_scan": {
+    "current_files": 1145,
+    "historical_small_blobs": 1929,
+    "privileged_current_credentials_detected": false,
+    "known_candidates": [
+      "public Firebase client configuration",
+      "intentionally fake preflight key fixture"
+    ],
+    "scope": "UTF-8 files <=2MB and reachable local/cached history",
+    "history_rerun": "Latest full-history retry stalled on git cat-file and was stopped; earlier successful 1929-blob scan retained."
+  },
+  "final_assistant_rerun": {
+    "failed": 0,
+    "passed": 2,
+    "included_in_focused_46": true
+  },
+  "docked_navigation_rerun": {
+    "failed": 0,
+    "passed": 28,
+    "subset_of_focused_46": true
+  }
+}

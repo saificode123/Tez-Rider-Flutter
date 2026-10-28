@@ -1,0 +1,8 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "read_only": true,
+  "owned_order_sample_matches_actual_RPC": true,
+  "catalogue_sample_matches_actual_RPC": true,
+  "invalid_order_denied": true,
+  "scope": "Authenticated gateway reads. No production, credentials or private fields in evidence."
+}

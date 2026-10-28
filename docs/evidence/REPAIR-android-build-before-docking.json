@@ -1,0 +1,13 @@
+{
+  "environment": "TEST",
+  "project": "igeisilhtmglgnqvllrx",
+  "mode": "debug",
+  "sha256": "4C021066EE8F38CB50120F299227540824976AB58A747A4E2B9A13218917534F",
+  "head": "00afd69ff7736b8287e15dad4b3e16e0d4f1b1df",
+  "utc": "2026-10-27T20:56:51.0219198Z",
+  "artifact": "build/delivery/test/app-fr21test-debug.apk",
+  "source_file_count": 217,
+  "installed_hash_verified": true,
+  "device": "AESWNRBAEUPNTGJZ",
+  "productionDeployed": false
+}
