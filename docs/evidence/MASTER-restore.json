@@ -1,0 +1,19 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "container": "tezrider-master-restore-20261028",
+  "network": "none",
+  "existing_local_stack_modified": false,
+  "hosted_modified": false,
+  "schema_restored": true,
+  "data_restored": true,
+  "isolated_restore_verified": true,
+  "status": "BOUNDED PASS",
+  "limitation": "Schema/data and association counts only; application runtime, Storage bytes, external secrets/configuration and cross-machine DPAPI recovery are separate gates.",
+  "utc": "2026-10-28T08:18:00.2286878Z",
+  "counts": {
+    "auth_users": 115,
+    "profiles": 112,
+    "linked_profiles": 112,
+    "storage_metadata": 259
+  }
+}

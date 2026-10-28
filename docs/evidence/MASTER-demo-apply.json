@@ -1,0 +1,189 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "namespace": "tezrider-owner-demo-v1",
+  "utc": "2026-10-28T14:37:13.595314+00:00",
+  "mode": "apply",
+  "accounts_created_this_run": 0,
+  "accounts_total": 7,
+  "products": 12,
+  "saved_addresses": 2,
+  "checks": [
+    {
+      "check": "mariam: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "ayesha: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "hamza: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "bilal: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "bilal: no invented CNIC approval",
+      "result": "PASS"
+    },
+    {
+      "check": "bilal: actual offline rider profile confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "usman: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "usman: no invented CNIC approval",
+      "result": "PASS"
+    },
+    {
+      "check": "usman: actual offline rider profile confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "sana: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "green: real Auth login and canonical profile role confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "Food: actual category reference exists",
+      "result": "PASS"
+    },
+    {
+      "check": "Groceries: actual category reference exists",
+      "result": "PASS"
+    },
+    {
+      "check": "Chicken Biryani: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Chicken Biryani: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Vegetable Rice: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Vegetable Rice: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Chicken Wrap: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Chicken Wrap: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Daal with Rice: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Daal with Rice: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Fresh Roti Pack: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Fresh Roti Pack: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Mint Lemonade: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Mint Lemonade: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Fresh Milk 1 Litre: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Fresh Milk 1 Litre: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Farm Eggs (6 Pack): idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Farm Eggs (6 Pack): stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Basmati Rice 1 kg: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Basmati Rice 1 kg: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Whole Wheat Flour 2 kg: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Whole Wheat Flour 2 kg: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Tea 190 g: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Tea 190 g: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "Seasonal Apples 1 kg: idempotent real inventory operation",
+      "result": "PASS"
+    },
+    {
+      "check": "Seasonal Apples 1 kg: stored price and vendor association verified",
+      "result": "PASS"
+    },
+    {
+      "check": "ayesha: idempotent saved address confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "ayesha: owned saved address readable",
+      "result": "PASS"
+    },
+    {
+      "check": "hamza: idempotent saved address confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "hamza: owned saved address readable",
+      "result": "PASS"
+    },
+    {
+      "check": "No new demo account email is approved for external dispatch",
+      "result": "PASS"
+    },
+    {
+      "check": "Customer search returns the actual seeded catalogue product",
+      "result": "PASS"
+    },
+    {
+      "check": "Customer saved-address RLS isolation confirmed",
+      "result": "PASS"
+    }
+  ],
+  "limitations": "Additive fictional data. Two Riders remain pending CNIC; no proof/payment/delivery/dispute/earnings fabricated. Product imagery not supplied. Existing records retained; cleanup requires exact owner approval."
+}

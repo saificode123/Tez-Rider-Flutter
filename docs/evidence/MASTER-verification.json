@@ -1,0 +1,131 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "branch": "feature/final-2-functional",
+  "revision_at_collection": "cd3f9ace050e1375cddef299104a787e724d9f3a",
+  "runtime_implementation_commit": "cd3f9ac",
+  "flutter": {
+    "passed": 689,
+    "failed": 0,
+    "skipped": 2,
+    "log_sha256": "de0048a7f5f37be9eb66b41b98c2c41679a59ddb46044d8aca1380da906d310a"
+  },
+  "deno": {
+    "passed": 90,
+    "failed": 0
+  },
+  "final_changed_source_analysis": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 1
+  },
+  "artifact": {
+    "path": "C:\\Users\\urreh\\OneDrive - Punjab Group of Colleges\\Documents\\Fall 2026\\Project\\FYP_Final2_Backup (2)\\FYP_Final2_Backup\\build\\delivery\\test\\app-fr21test-debug.apk",
+    "sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8",
+    "bytes": 138774108,
+    "mode": "DEBUG TEST",
+    "build_recorded_head": "294f289914a1cd1a4eb998cf766e97942b9bb2c9",
+    "current_runtime_hashes_matched": 217,
+    "installed_base_apk_independently_matched": true
+  },
+  "native_checks": [
+    {
+      "check": "installed current-source APK with TEST package, source hashes and artifact hash checked",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T08:17:21.272282+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "captured empty-form native screenshot: master-final-login-en",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T08:18:48.429218+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "installed Android base.apk hash matches final TEST artifact",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T08:20:03.207403+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "captured empty-form native screenshot: master-final-login-ur",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T08:20:12.927884+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "observed native گاہک",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T08:21:30.513946+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "observed native Online",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T14:06:09.411275+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    },
+    {
+      "check": "observed native Stop sharing location",
+      "result": "PASS",
+      "device": "AESWNRBAEUPNTGJZ",
+      "package": "com.example.flutter_application_1.fr21test",
+      "utc": "2026-10-28T14:08:29.001422+00:00",
+      "artifact_sha256": "7D137F548B0E71F64A07FAF34E47D47DC29972FEB73F38EFBBAF89C1B19DDCD8"
+    }
+  ],
+  "assistant": {
+    "reviewed_current_server_cases": 12,
+    "evidence": "MASTER-assistant-evaluation.json"
+  },
+  "dataset": {
+    "new_accounts": 7,
+    "products": 12,
+    "saved_addresses": 2,
+    "pending_riders": 2,
+    "fabricated_completed_orders": 0,
+    "independent_checks": 30,
+    "independent_verification_utc": "2026-10-28T14:41:26.609681+00:00",
+    "later_recheck": "INCOMPLETE: connection reset after 13 checks; not counted as PASS"
+  },
+  "cleanup": {
+    "approved_products_unavailable": 47,
+    "deletes": 0,
+    "quantities_retained": true,
+    "manifest_sha256": "c49eeb235e37fc35e2382948f46a3dab07c00763333e01d90c870fb3b7303436"
+  },
+  "recovery": {
+    "post_seed_schema_data_restore": "BOUNDED PASS",
+    "restored_counts": {
+      "auth_users": 122,
+      "profiles": 119,
+      "linked_profiles": 119,
+      "storage_metadata": 259
+    },
+    "storage_objects_integrity_checked": 259,
+    "vault_entries_encrypted": 5,
+    "runtime_crypto_storage_upload_and_portable_recovery_verified": false
+  },
+  "gps": {
+    "evidence": "MASTER-gps-performance.json",
+    "foreground_background_and_network_recovery_observed": true,
+    "strict_2_3_second_cadence": "FAIL",
+    "http_route_800ms": "FAIL",
+    "physical_inflight_stop_race_reproduced": false
+  },
+  "requirement_counts_scope": "76 historical bounded TEST passes, 17 approved deviations, 43 partial, 1 blocked; no newly promoted whole requirement",
+  "production_modified": false,
+  "production_signed_artifact": false,
+  "verdict": "NOT READY FOR PRODUCTION"
+}

@@ -1,0 +1,244 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "manifest_sha256": "c49eeb235e37fc35e2382948f46a3dab07c00763333e01d90c870fb3b7303436",
+  "utc": "2026-10-28T15:12:24.090965+00:00",
+  "verified_products": 47,
+  "results": [
+    {
+      "product_id": 76,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 23,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 25,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 27,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 29,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 30,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 31,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 33,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 34,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 45,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 47,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 57,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 59,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 60,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 63,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 65,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 66,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 70,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 72,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 73,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 78,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 80,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 81,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 95,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 97,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 100,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 102,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 103,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 105,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 106,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 117,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 119,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 120,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 24,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 32,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 46,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 58,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 64,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 71,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 79,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 96,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 101,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 104,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 118,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 5,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 122,
+      "unavailable": true,
+      "stock_unchanged": true
+    },
+    {
+      "product_id": 166,
+      "unavailable": true,
+      "stock_unchanged": true
+    }
+  ],
+  "deletes": 0
+}

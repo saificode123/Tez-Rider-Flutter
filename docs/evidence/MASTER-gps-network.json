@@ -1,0 +1,12 @@
+{
+  "device": "AESWNRBAEUPNTGJZ",
+  "package": "com.example.flutter_application_1.fr21test",
+  "process_before": "19875",
+  "original_wifi": "1",
+  "original_mobile": "0",
+  "network_absent_observed": true,
+  "settings_restored": true,
+  "same_process": true,
+  "offline_window_ms": 91003,
+  "utc": "2026-10-28T14:22:43.2786805Z"
+}

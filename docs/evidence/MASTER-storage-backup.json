@@ -1,0 +1,12 @@
+{
+  "metadata_stable": true,
+  "failures": 0,
+  "encrypted_objects": 259,
+  "project": "igeisilhtmglgnqvllrx",
+  "object_bytes_integrity_verified": true,
+  "limitations": "Integrity/decryption checked. Uploading recovered objects into a Storage runtime and cross-machine DPAPI handover are not verified.",
+  "bytes": 8001146,
+  "utc": "2026-10-28T14:19:46.9362791Z",
+  "object_count": 259,
+  "encryption": "Windows DPAPI CurrentUser; object names/IDs remain in the private manifest"
+}

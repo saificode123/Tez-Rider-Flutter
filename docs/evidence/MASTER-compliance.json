@@ -1,0 +1,1804 @@
+{
+  "total": 137,
+  "classification_counts": {
+    "PASS": 76,
+    "APPROVED DEVIATION": 17,
+    "PARTIAL": 43,
+    "BLOCKED": 1
+  },
+  "classification_scope": "Retained baseline, not 76 fresh production passes",
+  "source": "docs\\FINAL-DELIVERY\\15-SRDS-Complete-Test-Matrix.md",
+  "source_sha256": "b589c4532e033e4bd922c10757b2857908e5ad95d369768839a4683bfdfccd81",
+  "inspected_revision": "cd3f9ace050e1375cddef299104a787e724d9f3a",
+  "verdict": "NOT READY FOR PRODUCTION",
+  "requirements": [
+    {
+      "id": "FR-01",
+      "description": "Name/email/phone/password/role registration",
+      "implementation": {
+        "flutter": "lib/screens/signup_screen.dart; lib/services/onboarding_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-onboarding.md; docs/evidence/FINAL2-03-native-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-demo-verify.json: synthetic Auth/profile roles; not real inbox verification"
+    },
+    {
+      "id": "FR-02",
+      "description": "Supabase authentication/JWT",
+      "implementation": {
+        "flutter": "lib/screens/login_screen.dart; controllers/auth_controller.dart; services/account_session_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04/28 login evidence; account_session_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-demo-verify.json: seven real Auth fixture logins; final installed Rider login"
+    },
+    {
+      "id": "FR-03",
+      "description": "Inactive Vendor/Rider until approval",
+      "implementation": {
+        "flutter": "lib/services/account_access.dart; lib/widgets/role_access_gate.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 rider approval; account_access_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-04",
+      "description": "Rider CNIC number; document prerequisites elsewhere",
+      "implementation": {
+        "flutter": "services/cnic_document.dart; cnic_document_controller.dart; cnic_document_screen.dart; fr04-cnic;202610120001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-04-acceptance.md; cnic_document_test.dart; FR14 latest hosted49; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-05",
+      "description": "RBAC for all users",
+      "implementation": {
+        "flutter": "lib/routes/app_routes.dart; lib/widgets/role_access_gate.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "account_access_test.dart; FR28 denials; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-06",
+      "description": "Keyword/category browse/search",
+      "implementation": {
+        "flutter": "lib/controllers/product_controller.dart; lib/screens/search_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-catalogue.md; docs/evidence/FINAL2-03-native-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-demo-verify.json: real seeded product lookup; no full browse/control promotion"
+    },
+    {
+      "id": "FR-07",
+      "description": "Persistent shopping cart",
+      "implementation": {
+        "flutter": "lib/controllers/cart_controller.dart; lib/services/cart_persistence.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Persistent multi-vendor cart accepted; owner approved no reservations (POLICY-DECISIONS.md). Shortage naming is retained in checkout."
+      },
+      "test_id_and_evidence": "docs/FINAL2-cart.md; docs/POLICY-DECISIONS.md; test/cart_persistence_test.dart",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-08",
+      "description": "Order/item/payment checkout records",
+      "implementation": {
+        "flutter": "customer/enhanced_checkout_screen.dart; fr10_checkout; FR17 wrapper; orders/vendor_orders/order_items/payments",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Approved COD/manual cash records only. Online provider callbacks/automatic settlement are expressly excluded by approved A."
+      },
+      "test_id_and_evidence": "FR10/17 accepted COD checkout; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-09",
+      "description": "Vendor accept/reject",
+      "implementation": {
+        "flutter": "controllers/vendor_controller.dart::updateOrderStatus; fr10_vendor_transition",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-10-acceptance.md; maintained FR14 HTTP24; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-10",
+      "description": "Timeout cancel and refund",
+      "implementation": {
+        "flutter": "cancel_timed_out_orders; order_refund_actions;202610160001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Accepted 180-second timeout and approved manual COD refund records; no automatic provider settlement."
+      },
+      "test_id_and_evidence": "FR-10-acceptance.md SQL67/HTTP24; latest HTTP24; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-11",
+      "description": "Complete order status timeline",
+      "implementation": {
+        "flutter": "lib/screens/customer/order_detail_screen.dart; lib/widgets/order_timeline.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-order-history.md; docs/evidence/FINAL2-11-order-history-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-12",
+      "description": "Itemized order history",
+      "implementation": {
+        "flutter": "lib/screens/customer/order_history_screen.dart; lib/services/order_detail_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-order-history.md; docs/evidence/FINAL2-11-order-history-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-13",
+      "description": "GPS every2–3seconds",
+      "implementation": {
+        "flutter": "services/delivery_location.dart; ios_rider_location_source.dart; fr13-location; delivery_latest_locations;202610180001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Android GPS and latest-only/session-bound broadcast accepted; iOS runtime remains unverified."
+      },
+      "test_id_and_evidence": "FR-13-acceptance.md; FR-13-ios-acceptance.md; latest SQL55; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-gps-performance.json: real foreground/background/recovery; 2-3s cadence FAIL"
+    },
+    {
+      "id": "FR-14",
+      "description": "Tracking route/ETA",
+      "implementation": {
+        "flutter": "screens/map_screen.dart; services/delivery_route.dart; get-delivery-route;202610190001/002,202610200001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Actual168.3m movement/168.1m initial-road deviation and340-to309point route change observed. GPS/presence interruptions remain; TTL also eligible so exclusive deviation cause unisolated. Actual2998.7ms fails separate800ms gate."
+      },
+      "test_id_and_evidence": "FR-14-acceptance.md at f8bce53; Flutter70 focused; SQL54/Deno35; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-gps-performance.json: actual road geometry; 2484-4265ms HTTP calls fail 800ms"
+    },
+    {
+      "id": "FR-15",
+      "description": "Rider info before delivery",
+      "implementation": {
+        "flutter": "lib/widgets/rider_identity_card.dart; lib/widgets/private_photo.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-private-photos.md; docs/evidence/FINAL2-16-private-photos-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-16",
+      "description": "Product CRUD",
+      "implementation": {
+        "flutter": "lib/screens/vendor/product_form_screen.dart; lib/services/product_image_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-product-images.md; docs/evidence/FINAL2-14-execution-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-17",
+      "description": "Stock on checkout/cancel",
+      "implementation": {
+        "flutter": "services/inventory_service.dart; inventory_movements;202610160002",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-17-acceptance.md SQL53/HTTP27/races15; latest HTTP27; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-catalogue-apply.json: approved availability changes preserve quantities; no new concurrent-checkout acceptance"
+    },
+    {
+      "id": "FR-18",
+      "description": "Vendor earnings/performance",
+      "implementation": {
+        "flutter": "lib/screens/vendor/vendor_analytics_screen.dart; lib/services/vendor_report_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-vendor-reporting.md; docs/evidence/FINAL2-09-dashboard-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-19",
+      "description": "Nearest available verified rider",
+      "implementation": {
+        "flutter": "services/rider_assignment_service.dart; fr21_ready_and_assign;202610150001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR20 SQL63/HTTP70; latest maintained HTTP70; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-20",
+      "description": "Radius expansion/admin notice",
+      "implementation": {
+        "flutter": "rider_assignment_controller.dart;202610150001–003",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-20-acceptance.md SQL63/HTTP70+shared5/native; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-21",
+      "description": "Realtime online/offline",
+      "implementation": {
+        "flutter": "services/rider_presence.dart; controllers/rider_controller.dart; FR21 migrations",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-21-acceptance.md; latest hosted47; FR14 recovery; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false,
+      "current_stage_bounded_evidence": "MASTER-gps-network.json and MASTER-gps-performance.json: actual Online/background/recovery/cleanup scope only"
+    },
+    {
+      "id": "FR-22",
+      "description": "Store post-delivery rider metrics",
+      "implementation": {
+        "flutter": "lib/services/rider_performance_service.dart; lib/services/rider_earnings_service.dart; lib/widgets/rider_earnings_panel.dart; supabase/migrations/202610250006_final_delivery_rider_earnings.sql",
+        "backend": "Owner policy applied once to TEST; frozen start distance, exact-once OTP-confirmed earnings, base-only authorized post-pickup cancellation, no-clawback Admin flags. New history/quote source and unit evidence; physical acceptance pending."
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-delivery-rider-pay-results.json; test/rider_earnings_test.dart; test/post_pickup_cancellation_test.dart",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-23",
+      "description": "Ratings/feedback after delivery",
+      "implementation": {
+        "flutter": "lib/screens/customer/rating_screen.dart; lib/services/feedback_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-feedback.md; docs/evidence/FINAL2-10-feedback-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-24",
+      "description": "Realtime average ratings",
+      "implementation": {
+        "flutter": "lib/services/feedback_service.dart; lib/widgets/rider_identity_card.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-feedback.md; docs/evidence/FINAL2-10-feedback-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-25",
+      "description": "Disputes/evidence",
+      "implementation": {
+        "flutter": "services/dispute_service.dart; dispute_controller.dart; customer/dispute_screen.dart; fr25-evidence; FR25 migrations",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-25-acceptance.md; committed hosted83/device/SQL; dispute_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-26",
+      "description": "Admin resolve/reject",
+      "implementation": {
+        "flutter": "admin_dispute_service.dart; admin_dispute_state.dart; admin_disputes_screen.dart; FR26 RPCs",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Dispute decisions accepted; actual refunds use approved COD/manual recording deviation, not provider settlement."
+      },
+      "test_id_and_evidence": "FR-26-acceptance.md; latest hosted96; admin_dispute_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-27",
+      "description": "Vendor/rider approve/reject",
+      "implementation": {
+        "flutter": "lib/controllers/admin_controller.dart; lib/services/onboarding_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 rider review accepted; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-28",
+      "description": "Block/unblock",
+      "implementation": {
+        "flutter": "admin_users_service.dart; admin_users_screen.dart; admin-user-status; FR28 migrations",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-28-acceptance.md; latest hosted74; admin_users_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-29",
+      "description": "Admin live monitoring/analytics",
+      "implementation": {
+        "flutter": "lib/screens/admin_monitor_screen.dart; lib/services/admin_monitor_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "docs/FINAL2-admin-monitor.md; docs/evidence/FINAL2-15-admin-monitor-results.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-30",
+      "description": "Admin notification sending",
+      "implementation": {
+        "flutter": "admin_broadcast_controller.dart; admin_broadcasts_screen.dart; fr30-dispatch-push",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Android Admin broadcast push accepted historically. Production Firebase registration and iOS/APNs not qualified."
+      },
+      "test_id_and_evidence": "FR-30-acceptance.md Android; FR-30-ios-acceptance.md readiness FAIL; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-31",
+      "description": "Realtime order/system notifications",
+      "implementation": {
+        "flutter": "lib/controllers/notification_controller.dart; lib/services/android_broadcast_push_service.dart; supabase/migrations/202610250009_final_delivery_event_push.sql",
+        "backend": "Missing ordinary-event enqueue repaired using unchanged accepted private FR30 capability/outbox/FCM transport. Native per-event receipt and iOS/production qualification remain unaccepted."
+      },
+      "test_id_and_evidence": "docs/FINAL-DELIVERY/event-push-findings.md; docs/evidence/FINAL-delivery-event-push-hosted.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-32",
+      "description": "Email invoice/confirmation/account",
+      "implementation": {
+        "flutter": "fr32-email-worker; fr32-invoice-url; invoice_service.dart; email_outbox/invoices;202610160003",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR-32-acceptance.md SQL63/Deno76; fr32_invoice_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-33",
+      "description": "SMS delivery OTP",
+      "implementation": {
+        "flutter": "send-delivery-otp; delivery_otp_service.dart; issue/verify_delivery_otp; FR33 migrations",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Owner-approved secure email OTP replaces SMS; canonical OTP attempt/proof gates retained."
+      },
+      "test_id_and_evidence": "FR-33-srds-deviation.md explicit approval; FR-33-acceptance.md; actual inbox/native evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-42",
+      "description": "RLS database isolation",
+      "implementation": {
+        "flutter": "lib/services/account_session_service.dart; supabase/migrations/",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Stage0 metadata plus feature denials; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-43",
+      "description": "Validate/sanitize all inputs",
+      "implementation": {
+        "flutter": "Feature handlers/RPCs; legacy direct Flutter writes/search/storage",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Feature Dart/Deno/SQL suites; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "FR-44",
+      "description": "Audit critical Admin actions",
+      "implementation": {
+        "flutter": "security_audit_log; FR04/26/28/30 inserts",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Feature audit assertions; current users-trigger inventory; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-01",
+      "description": "Registration/login/role routing",
+      "implementation": {
+        "flutter": "signup/login/auth controller/account access/routes",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04/28 historical subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-02",
+      "description": "Browse/cart/order/payment/history",
+      "implementation": {
+        "flutter": "product/search/cart/enhanced checkout/history",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Persistence/payment and complete itemization"
+      },
+      "test_id_and_evidence": "FR10/17/25/32 subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-03",
+      "description": "Approved vendor manages product/stock",
+      "implementation": {
+        "flutter": "product form/products/inventory service",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR17 acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-04",
+      "description": "Assignment/accept/pickup/GPS/delivery",
+      "implementation": {
+        "flutter": "assignment/rider/checklist/location/OTP services",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Complete iOS and required photo/navigation workflows"
+      },
+      "test_id_and_evidence": "FR20/checklist/FR13/33 acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-05",
+      "description": "Customer live rider route/ETA",
+      "implementation": {
+        "flutter": "map_screen.dart; delivery_route.dart; get-delivery-route",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Actual168.3m movement/new geometry observed; continuity interrupted and exclusive deviation trigger not isolated;800ms target failed"
+      },
+      "test_id_and_evidence": "FR14 automated/recovery subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-06",
+      "description": "Secure payment/refund/invoice",
+      "implementation": {
+        "flutter": "COD checkout/refund-action records/invoice worker",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Provider initiation/authenticated callbacks/refunds/reconciliation"
+      },
+      "test_id_and_evidence": "FR10/26/32 subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-07",
+      "description": "Ratings and structured dispute/decision",
+      "implementation": {
+        "flutter": "rating/dispute/admin dispute screens",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR25/26 accepted; ratings unaccepted; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UC-08",
+      "description": "Admin orders/users/reports/moderation",
+      "implementation": {
+        "flutter": "admin dashboard/users/disputes/broadcasts",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04/26/28/30 subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-01",
+      "description": "Destructive confirmations",
+      "implementation": {
+        "flutter": "admin disputes/users; product delete; admin approvals",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Existing confirm/cancel feature evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-02",
+      "description": "GPS missing30s: unavailable/no stale pin",
+      "implementation": {
+        "flutter": "delivery_location.dart; map_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR13 physical stale; FR14 network test; delivery_location_test.dart; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-03",
+      "description": "Payment failure PENDING/notice within2s/retry",
+      "implementation": {
+        "flutter": "No real payment adapter; payment_screen.dart simulated",
+        "backend": "Existing trusted RPC/RLS/Edge paths; State-machine semantics and time-bound notice; reconcile Table5.6 row10 wording"
+      },
+      "test_id_and_evidence": "No provider failure evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-04",
+      "description": "Three OTP failures then expire/new code",
+      "implementation": {
+        "flutter": "verify_delivery_otp; delivery_otp_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR33 hosted/native lockout and latest39; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-05",
+      "description": "Validated image-only CNIC/delivery proof",
+      "implementation": {
+        "flutter": "fr04-cnic/fr25-evidence; storage_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "CNIC/evidence validation tests; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "S-06",
+      "description": "Default2–3min vendor timeout",
+      "implementation": {
+        "flutter": "cancel_timed_out_orders/private timeout180",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Contradicts Table5.6 row12 ten minutes; preserve accepted180s"
+      },
+      "test_id_and_evidence": "FR-10-acceptance.md explicit180s policy; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-01",
+      "description": "RLS on every table",
+      "implementation": {
+        "flutter": "TEST policy inventory below",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Current56 public tables enabled; feature denials; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-02",
+      "description": "GoTrue hashed passwords/no plaintext logs",
+      "implementation": {
+        "flutter": "Supabase Auth login/signup",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Historical authentication evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-03",
+      "description": "JWT1h/refresh7d/silent refresh",
+      "implementation": {
+        "flutter": "SDK/session gate",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Source cannot establish hosted expiry; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-04",
+      "description": "Keys in dart-define/Vault; never hardcoded/committed",
+      "implementation": {
+        "flutter": "main.dart; backend_config.dart; ai_service.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Active server-only credential boundary retained; complete historical secret eradication is not certified."
+      },
+      "test_id_and_evidence": "backend_config_test.dart; prior feature artifact scans; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-05",
+      "description": "Signed callback before payment mutation",
+      "implementation": {
+        "flutter": "No payment Edge adapter",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Server signature/amount/currency/order/idempotency verification"
+      },
+      "test_id_and_evidence": "No tests; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-06",
+      "description": "Gateway100requests/min/authenticated user",
+      "implementation": {
+        "flutter": "Feature-specific throttles only",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Feature quotas do not prove universal gateway policy; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-07",
+      "description": "Critical audit actor/action/target/time",
+      "implementation": {
+        "flutter": "security_audit_log; FR04/26/28/30",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Feature assertions; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-08",
+      "description": "All media signed URL15min",
+      "implementation": {
+        "flutter": "Protected CNIC/evidence/invoice APIs; product_form/storage_service",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04/25/26 viewer expiry acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-09",
+      "description": "Encrypted CNIC/customer mask",
+      "implementation": {
+        "flutter": "fr04_private encryption; fr04_order_rider_identity; map",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 acceptance/latest hosted49; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SEC-10",
+      "description": "All inputs sanitized in Edge Functions",
+      "implementation": {
+        "flutter": "Edge feature handlers plus direct PostgREST writes",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Feature Deno/SQL suites; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-01",
+      "description": "Valid unique registration/email verification",
+      "implementation": {
+        "flutter": "FR01/02 signup/Auth",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 fresh rider; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-02",
+      "description": "Duplicate-email exact rejection",
+      "implementation": {
+        "flutter": "signup_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Real duplicate states without account enumeration regression"
+      },
+      "test_id_and_evidence": "No distinct current acceptance identified; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-03",
+      "description": "No CNIC document blocks rider completion",
+      "implementation": {
+        "flutter": "FR04 signup/CNIC API",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 physical/hosted acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-04",
+      "description": "Vendor approval/notice",
+      "implementation": {
+        "flutter": "FR27 direct update; FR32 account trigger",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Rider/email subset only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-05",
+      "description": "Vendor reject/support message",
+      "implementation": {
+        "flutter": "FR27 same path",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "No full vendor rejection acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-06",
+      "description": "Rider approval after CNIC/notice",
+      "implementation": {
+        "flutter": "fr04_review_rider",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04 acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-07",
+      "description": "Add cart/reserve stock/badge",
+      "implementation": {
+        "flutter": "CartController.addItem",
+        "backend": "Existing trusted RPC/RLS/Edge paths; No persistent cart or add-time stock reservation; checkout decrement is different"
+      },
+      "test_id_and_evidence": "Inventory unit tests; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-08",
+      "description": "Out-of-stock reject",
+      "implementation": {
+        "flutter": "CartController/FR17 checkout",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR17 native/HTTP shortages; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-09",
+      "description": "HMAC-valid payment/order/invoice",
+      "implementation": {
+        "flutter": "FR08/SEC05",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Actual authenticated payment lifecycle"
+      },
+      "test_id_and_evidence": "COD evidence is not gateway evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-10",
+      "description": "Failed payment rollback/log/retry",
+      "implementation": {
+        "flutter": "S03/FR08",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Clarify rollback semantics, implement/reconcile"
+      },
+      "test_id_and_evidence": "None; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-11",
+      "description": "Bad HMAC401/audit/Admin alert",
+      "implementation": {
+        "flutter": "SEC05",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Authenticated callback boundary and negative/replay tests"
+      },
+      "test_id_and_evidence": "None; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-12",
+      "description": "Vendor accept within10min",
+      "implementation": {
+        "flutter": "FR10 180s policy",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Accepted180s supersedes ten-minute wording"
+      },
+      "test_id_and_evidence": "Explicit FR10 approval; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-13",
+      "description": "Timeout cancellation/refund",
+      "implementation": {
+        "flutter": "FR10",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Real refund settlement absent"
+      },
+      "test_id_and_evidence": "Cancellation and pending refund accepted; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-14",
+      "description": "Assign verified available rider within5km",
+      "implementation": {
+        "flutter": "FR19/20 RPC",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "SQL63/HTTP70/native; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-15",
+      "description": "Expand10km once then manual escalation",
+      "implementation": {
+        "flutter": "FR20 escalation/receipt",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Accepted radius/receipt; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-16",
+      "description": "Complete checklist unlocks GPS",
+      "implementation": {
+        "flutter": "pre_delivery_checklist_service; checklist_private; FR13",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "CHECKLIST acceptance; latestSQL56; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-17",
+      "description": "Correct OTP proof/DELIVERED",
+      "implementation": {
+        "flutter": "FR33 issue/verify RPC",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Real email/native completion; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-18",
+      "description": "Wrong OTP/remaining attempts",
+      "implementation": {
+        "flutter": "FR33",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Native2/1 remaining evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-19",
+      "description": "Third failure expires/flags admin",
+      "implementation": {
+        "flutter": "FR33 lockout/audit",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Inspect distinct Admin-review flag/notification end-to-end; expiry alone not entire row"
+      },
+      "test_id_and_evidence": "Expiry verified; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-20",
+      "description": "Within24h evidence/Admin notice/48h message",
+      "implementation": {
+        "flutter": "FR25 service/RPC",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR25 acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-21",
+      "description": "After24h exact rejection",
+      "implementation": {
+        "flutter": "FR25 server time guard",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR25 expiry/hosted tests; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-22",
+      "description": "Resolve triggers refund API",
+      "implementation": {
+        "flutter": "FR26 dispute_refund_actions",
+        "backend": "Existing trusted RPC/RLS/Edge paths; No external refund API settlement; pending is not refunded"
+      },
+      "test_id_and_evidence": "Pending-refund/action accepted; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-23",
+      "description": "Reject with reason",
+      "implementation": {
+        "flutter": "FR26",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Physical/hosted rejection; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-24",
+      "description": "Configurable low-stock vendor notice",
+      "implementation": {
+        "flutter": "FR17 threshold crossing",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Native low-stock/rearm/HTTP; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-25",
+      "description": "Admin block/revoke/next call403",
+      "implementation": {
+        "flutter": "FR28 canonical/session/Auth workflow",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR28 hosted/native; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-26",
+      "description": "Active GPS insert/broadcast",
+      "implementation": {
+        "flutter": "FR13 latest-state/private Broadcast",
+        "backend": "Existing trusted RPC/RLS/Edge paths; No per-fix history; preserve approved privacy alternative"
+      },
+      "test_id_and_evidence": "FR13 approved persistence design/native/Realtime; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-27",
+      "description": "GPS30s unavailable/no stale pin",
+      "implementation": {
+        "flutter": "FR13/14 client age logic",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Physical stale/recovery evidence; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-28",
+      "description": "Delivered rating/recompute vendor/rider",
+      "implementation": {
+        "flutter": "FR23/24 reviews",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "No complete passing rating flow; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-29",
+      "description": "SUCCESS invoice PDF email",
+      "implementation": {
+        "flutter": "FR32 canonical payment/event/outbox",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR32 actual inbox/PDF acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "T5.6-30",
+      "description": "Unhandled API error audit/500/retry",
+      "implementation": {
+        "flutter": "Feature handlers; scattered catches",
+        "backend": "Existing trusted RPC/RLS/Edge paths; No universal security_audit_log logging; silent client empty/success paths"
+      },
+      "test_id_and_evidence": "Feature errors only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-A",
+      "description": "Splash/onboarding/logo/tagline",
+      "implementation": {
+        "flutter": "screens/splash_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Exact content/indicators/restore on both platforms"
+      },
+      "test_id_and_evidence": "Historical app navigation; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-B",
+      "description": "Customer greeting/search/featured/categories/promotions/nav",
+      "implementation": {
+        "flutter": "customer_dashboard.dart/search_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Complete search, promotion specification, paging/Urdu"
+      },
+      "test_id_and_evidence": "Selected checkout/stock flows; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-C",
+      "description": "Vendor-grouped cart/steppers/total/payment",
+      "implementation": {
+        "flutter": "customer/cart_screen.dart; enhanced_checkout_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Persistence/gift/payment/hardcoded rider suggestion"
+      },
+      "test_id_and_evidence": "FR10/17 shared checkout; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-D",
+      "description": "Rider pin/route/ETA/photo/rating/maskedCNIC/status",
+      "implementation": {
+        "flutter": "map_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Photo/rating/status-stepper completeness and physical road acceptance"
+      },
+      "test_id_and_evidence": "FR04/13 accepted; FR14 incomplete; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-E",
+      "description": "Vendor queues/inventory/earnings/chart",
+      "implementation": {
+        "flutter": "vendor_dashboard.dart; vendor_analytics_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR10/17 stock/transitions; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-F",
+      "description": "Rider jobs/navigation/checklist/OTP/proof photo",
+      "implementation": {
+        "flutter": "rider_dashboard.dart; map/checklist/OTP",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Proof photo, metrics/earnings, profile controls"
+      },
+      "test_id_and_evidence": "Checklist/FR13/33 selected native; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-G",
+      "description": "Dispute order/reason/images/status/window",
+      "implementation": {
+        "flutter": "customer/dispute_screen.dart; admin_disputes_screen.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR25/26 acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "UI-H",
+      "description": "Admin approvals/documents/users/disputes/charts/broadcast",
+      "implementation": {
+        "flutter": "admin_dashboard/users/disputes/broadcast screens",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR04/26/28/30 subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-01",
+      "description": "2.3.1 profile name/phone/email/address/avatar/role fields",
+      "implementation": {
+        "flutter": "customer/profile_screen.dart; vendor store settings",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Authenticated full profile workflow; store writes denied; confirmed affected row"
+      },
+      "test_id_and_evidence": "Name/phone source only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-02",
+      "description": "2.3.2 persistent multivendor cart/full order lifecycle",
+      "implementation": {
+        "flutter": "CartController/fr10_checkout/vendor_orders/history",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Persistence/fee split/every child-parent status/history"
+      },
+      "test_id_and_evidence": "FR10/17 shared-order subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-03",
+      "description": "1.3/2.3.3 mandatory checklist",
+      "implementation": {
+        "flutter": "pre_delivery_checklist_service.dart;202610170001",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "CHECKLIST-acceptance.md; latestSQL56; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-04",
+      "description": "2.3.4 configurable low-stock alerts",
+      "implementation": {
+        "flutter": "FR17 save/threshold/ledger",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "FR17 native rearm/inbox; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-05",
+      "description": "2.3.4 vendor per-order transactions/performance",
+      "implementation": {
+        "flutter": "VendorAnalytics/FR21 aggregates",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "No complete reporting acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-06",
+      "description": "2.3.5 rider completion rate/average duration/rating",
+      "implementation": {
+        "flutter": "rider_controller.dart/fr21_dashboard_stats",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Current aggregate definition; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-07",
+      "description": "2.3.5 rider per-delivery earnings history",
+      "implementation": {
+        "flutter": "lib/widgets/rider_earnings_panel.dart; lib/services/rider_earnings_service.dart; migration202610250006",
+        "backend": "Actual per-task record history/total/calculation parts, no payout claim or fabricated historical fees; native history/quote rendered; new priced physical completion pending."
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-delivery-rider-pay-results.json; test/rider_earnings_test.dart",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-08",
+      "description": "2.3.6 public dual ratings on profiles",
+      "implementation": {
+        "flutter": "supabase/migrations/202610250007_final_delivery_rating_policy.sql; supabase/functions/final-rating-worker/",
+        "backend": "Approved server-configured daily rule; minimum10/last30days/strictly below2; active-work deferral; canonical Auth ban/revoke/audit; Admin-only unblock cutoff. TEST worker deployed."
+      },
+      "test_id_and_evidence": "docs/FINAL-DELIVERY/rating-policy-findings.md; docs/evidence/FINAL-delivery-rating-hosted.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-09",
+      "description": "2.3.6 automatic consistently-low-rating blocking",
+      "implementation": {
+        "flutter": "supabase/migrations/202610250007_final_delivery_rating_policy.sql; supabase/functions/final-rating-worker",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Configurable threshold/sample/window/appeal decision and server audit/dedup"
+      },
+      "test_id_and_evidence": "docs/FINAL-DELIVERY/rating-policy-findings.md; docs/evidence/FINAL-delivery-rating-hosted.json (9 historical hosted PASS); FINAL-delivery-rating-post.json (23 rollback PASS); schedule acceptance remains separate",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-10",
+      "description": "2.3.7 real-time counts/order map",
+      "implementation": {
+        "flutter": "AdminController stream/overview",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Source only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-11",
+      "description": "2.3.7 daily-weekly volumes/revenue/disputes/top vendors/riderKPIs",
+      "implementation": {
+        "flutter": "Admin overview",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Server aggregates/live charts/date filters/metric definitions"
+      },
+      "test_id_and_evidence": "No full chart acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-12",
+      "description": "2.3.7 exportable management reports",
+      "implementation": {
+        "flutter": "app_drawer.dart Reports Coming Soon",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "No export test; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-13",
+      "description": "Table5.6-15 manual assignment",
+      "implementation": {
+        "flutter": "FR20 receipt/escalation only",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Accepted escalation not response; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-14",
+      "description": "2.3.8 order/assignment/dispute/broadcast push",
+      "implementation": {
+        "flutter": "lib/services/android_broadcast_push_service.dart; migration202610250009; existing fr30-dispatch-push",
+        "backend": "Ordinary events now share verified Android TEST transport. New per-event physical receipt, production and iOS/APNs remain unqualified."
+      },
+      "test_id_and_evidence": "docs/FINAL-DELIVERY/event-push-findings.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-15",
+      "description": "2.4 Urdu-friendly/simple navigation",
+      "implementation": {
+        "flutter": "app_translations.dart/app_drawer.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Retained bounded TEST acceptance; see current Stage2/FINAL03 records."
+      },
+      "test_id_and_evidence": "Locale toggle source; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-16",
+      "description": "2.4 rider turn-by-turn navigation/proof tools",
+      "implementation": {
+        "flutter": "rider dashboard/map/QR pickup",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Confirm external navigation vs in-app guidance; photo proof mandatory"
+      },
+      "test_id_and_evidence": "No full navigation/photo acceptance; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-17",
+      "description": "2.5.1 device/RAM/storage/network requirements",
+      "implementation": {
+        "flutter": "Android/iOS configs",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Minimum device/storage/network/battery matrix; no fabricated guarantees"
+      },
+      "test_id_and_evidence": "Selected physical Android only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-18",
+      "description": "2.5.2 Flutter3/Dart3/specified package constraints",
+      "implementation": {
+        "flutter": "pubspec.yaml/pubspec.lock",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Current platform build compatibility; no dependency upgrade"
+      },
+      "test_id_and_evidence": "Declared Dart^3.9.2 and existing packages; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-19",
+      "description": "2.5.2 Android8/API26 and iOS13+",
+      "implementation": {
+        "flutter": "android/app/build.gradle.kts; ios/Podfile",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Confirm supported minimum; no silent downgrade/change"
+      },
+      "test_id_and_evidence": "Android minSdk delegated; iOS target15.0; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-20",
+      "description": "2.5.2 PostgreSQL15/Supabase services",
+      "implementation": {
+        "flutter": "baseline migration header/backend integration",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Interpret version constraint; no database downgrade proposed"
+      },
+      "test_id_and_evidence": "Baseline exported from PostgreSQL17.6; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-21",
+      "description": "3.3.2 camera/GPS/session/network interfaces",
+      "implementation": {
+        "flutter": "image_picker/geolocator/secure storage/platform configuration",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Delivery proof photo/session/platform coverage"
+      },
+      "test_id_and_evidence": "CNIC/GPS physical subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-22",
+      "description": "3.3.3 REST/WSS/Storage/Edge/maps/payment/SMS",
+      "implementation": {
+        "flutter": "services/functions/main.dart",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Missing payment; email/RPC/latest-state deviations recorded"
+      },
+      "test_id_and_evidence": "Accepted feature subset; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-23",
+      "description": "3.3.4 HTTPS/WSS/JWT/callback signatures",
+      "implementation": {
+        "flutter": "BackendConfig/Realtime/handlers",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Callback absent; production transport uninspected"
+      },
+      "test_id_and_evidence": "backend_config_test.dart; FR13/28 denial tests; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-24",
+      "description": "4.1 fast APIs/screens/GPS/payment/OTP and stable concurrency",
+      "implementation": {
+        "flutter": "Existing feature load reports/FR14 acceptance",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Qualitative SRDS performance remains unqualified; 800ms is a prior engineering gate, not a number in SRDS 4.1. No Docker/1000-user load test."
+      },
+      "test_id_and_evidence": "FR14 separate local p95 latency FAIL; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-25",
+      "description": "4.3.1 99.9%SLA/failover/retry/backoff",
+      "implementation": {
+        "flutter": "Existing retry/recovery; provider free plan",
+        "backend": "Mandatory99.9% free SLA is not established. Free alternative is best-effort hosted service/own existing infrastructure with exports; owner approval of this limitation is still required."
+      },
+      "test_id_and_evidence": "Official provider limits in07-Environment-Configuration.md; retained recovery evidence",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: BLOCKED",
+      "acceptance_status": "BLOCKED",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-26",
+      "description": "4.3.2 first order<3min/large rider controls",
+      "implementation": {
+        "flutter": "signup/checkout/rider screens",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Timed onboarding/Urdu/accessibility/device review"
+      },
+      "test_id_and_evidence": "Existing functional tests not timed usability study; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-27",
+      "description": "4.3.3 Clean feature layers/Riverpod/versioned schema",
+      "implementation": {
+        "flutter": "GetX controllers/routes; migrations",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Owner explicitly requires preserving existing GetX. Riverpod rewrite is superseded; versioned migrations retained."
+      },
+      "test_id_and_evidence": "38 migration versions; AGENTS mandates GetX; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Approved scope only; historical evidence retained",
+      "acceptance_status": "APPROVED DEVIATION",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-28",
+      "description": "4.3.4 Android/iOS/backend portability",
+      "implementation": {
+        "flutter": "android/ios/BackendConfig",
+        "backend": "Existing trusted RPC/RLS/Edge paths; macOS/device/build/data portability acceptance"
+      },
+      "test_id_and_evidence": "iOS static reports only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-29",
+      "description": "4.3.5 scalable PostgREST/Realtime/Edge",
+      "implementation": {
+        "flutter": "Managed infrastructure",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Free quotas; no1000-user qualification/unlimited claim"
+      },
+      "test_id_and_evidence": "Historical bounded results only; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-30",
+      "description": "4.3.6 unit/Deno/integration/80%coverage",
+      "implementation": {
+        "flutter": "test; functions/*test.ts; tests/integration",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Full640PASS/2SKIP plus9 image PASS. Instrumented Dart services/models80.23% proxy (services79.17%, models100%); controllers46.17%; absent files/SQL/branch/platform acceptance unqualified. Docker expressly excluded."
+      },
+      "test_id_and_evidence": "Historical suites; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-31",
+      "description": "4.3.7 standard REST/payment interoperability",
+      "implementation": {
+        "flutter": "Supabase/PostgREST",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Provider adapter after ApprovalA"
+      },
+      "test_id_and_evidence": "Source integration; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-32",
+      "description": "4.3.8 modular/versioned schema adaptability",
+      "implementation": {
+        "flutter": "migrations/models/routes",
+        "backend": "Existing trusted RPC/RLS/Edge paths; New-role extension not acceptance-tested"
+      },
+      "test_id_and_evidence": "38 observed versions; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "O-33",
+      "description": "5 deployment/package/class/ER/sequence/state diagrams",
+      "implementation": {
+        "flutter": "PDF physical34–42; schema/services",
+        "backend": "Existing trusted RPC/RLS/Edge paths; Fine diagram-label comparison NOT INSPECTED fully; legacy table aliases differ"
+      },
+      "test_id_and_evidence": "Overview figures visually inspected; docs/FINAL-stage-2-acceptance.md; docs/FINAL-stage-0-1-signoff.md",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "BIO-01",
+      "description": "Required account-bound biometric login",
+      "implementation": {
+        "flutter": "lib/controllers/auth_controller.dart; lib/services/session_credentials.dart; lib/widgets/biometric_settings_tile.dart; lib/screens/login_screen.dart",
+        "backend": "Real Supabase session and canonical role gate after local biometric verification; opt-in/opt-out/account binding/rotation"
+      },
+      "test_id_and_evidence": "test/biometric_settings_test.dart; test/session_storage_fault_test.dart; test/biometric_security_policy_test.dart; docs/evidence/FINAL-delivery-native.json (actual Android cold-start/biometric refresh/opt-out/logout)",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "POLICY-PAY",
+      "description": "Owner-approved configurable base-plus-distance earning records",
+      "implementation": {
+        "flutter": "supabase/migrations/202610250006_final_delivery_rider_earnings.sql; lib/widgets/rider_earnings_panel.dart",
+        "backend": "All active rates/components/minimum/cancellation policy persisted;009 records explicit no maximum. Native server quote/history rendered; earnings are records only. Physical newly earned delivery acceptance pending."
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-delivery-rider-pay-results.json; test/rider_earnings_test.dart",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "POLICY-RATING",
+      "description": "Owner-approved daily low-rating moderation with active-work deferral",
+      "implementation": {
+        "flutter": "supabase/migrations/202610250007_final_delivery_rating_policy.sql; supabase/functions/final-rating-worker/",
+        "backend": "TEST worker deployed and configured; actual ban/revocation/unblock/cutoff verified; no user JWT generated or active-work cancellation."
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-delivery-rating-hosted.json; docs/evidence/FINAL-delivery-rating-post.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "OPTIONAL",
+      "description": "Preserve Tailoring/Prescription/AI without extension",
+      "implementation": {
+        "flutter": "lib/services/tailoring_service.dart; lib/services/prescription_service.dart; lib/services/ai_service.dart; optional-private-media",
+        "backend": "Tailoring requests/private references and prescription lifecycle restored/verified. AI now returns actual200/provider content after owner configuration; tailor assignment/pricing not invented; temporary owner-authorized support contact configured via fixed public endpoint; native support rendering passed; optional full fulfillment not inferred."
+      },
+      "test_id_and_evidence": "docs/FINAL-DELIVERY/optional-modules-findings.md; docs/evidence/FINAL-optional-hosted.json; docs/evidence/FINAL-optional-assistant.json",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "PROFILE-EMAIL",
+      "description": "Shared verified email-change profile management",
+      "implementation": {
+        "flutter": "lib/services/profile_email_service.dart; lib/widgets/profile_email_panel.dart; supabase/migrations/202610250010_final_profile_email.sql",
+        "backend": "Auth confirmation owns canonical email; pending request is not delivery/change; four-role status isolation"
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-profile-email-post.json; docs/evidence/FINAL-profile-email-hosted.json; test/profile_email_test.dart",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Complete acceptance remains open: PARTIAL",
+      "acceptance_status": "PARTIAL",
+      "fresh_requirement_acceptance": false
+    },
+    {
+      "id": "SUPPORT",
+      "description": "Owner-approved temporary contact for blocked users",
+      "implementation": {
+        "flutter": "lib/widgets/support_contact_card.dart; lib/screens/customer/help_center_screen.dart; lib/screens/login_screen.dart; supabase/functions/support-contact/",
+        "backend": "Fixed public projection of app_settings.support_email; no private-settings grants; one-row replacement with <=60s cache"
+      },
+      "test_id_and_evidence": "docs/evidence/FINAL-support-hosted.json; test/support_contact_test.dart; docs/evidence/FINAL-delivery-native.json (signed-out address rendered)",
+      "environment": "Historical bounded TEST; see original evidence",
+      "actual_result": "Retained historical bounded TEST acceptance; not rerun",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": false
+    }
+  ]
+}

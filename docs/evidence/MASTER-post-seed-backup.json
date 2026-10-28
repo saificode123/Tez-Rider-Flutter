@@ -1,0 +1,49 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "created_utc": "2026-10-28T15:05:21.8119497Z",
+  "encryption": "Windows DPAPI CurrentUser; original Windows user/profile required for recovery",
+  "exports": [
+    {
+      "kind": "schema",
+      "plain_bytes": 813120,
+      "plain_sha256": "D67E9E27A74EFF4CB714681F47E1A05D8FEDF4787370164E2D451363F13886D9",
+      "encrypted_sha256": "76FECE7388DAB0E3C9348D219975D6154A696F83A9E479318C5B0ABDBF8CD258",
+      "encrypted_round_trip": true
+    },
+    {
+      "kind": "data",
+      "plain_bytes": 3991380,
+      "plain_sha256": "EDEF7AD691D52BB77D8C1A20C789C164C4DA78B0BA2B7808AE4CAD97D85C46A5",
+      "encrypted_sha256": "3088BB4D996D887793BC7663E2D76DDD41DB9BA5A5FF51B7267C5C077B998FD3",
+      "encrypted_round_trip": true
+    },
+    {
+      "kind": "roles",
+      "plain_bytes": 454,
+      "plain_sha256": "B305B41E942F2386238B249014E4BF3EB7096F755F6B375BCF69B59D50619D78",
+      "encrypted_sha256": "2C82EE6F750857526B1376C1B60B066EA80AEF0180D0C4ED9CD05E5B96DF574B",
+      "encrypted_round_trip": true
+    }
+  ],
+  "schemas": [
+    "public",
+    "auth",
+    "storage",
+    "supabase_migrations",
+    "checklist_private",
+    "final1_private",
+    "final2_private",
+    "final_delivery_private",
+    "fr04_private",
+    "fr10_private",
+    "fr13_private",
+    "fr14_private",
+    "fr17_private",
+    "fr25_private",
+    "fr30_private",
+    "fr32_private"
+  ],
+  "storage_object_bytes_backed_up": false,
+  "isolated_restore_verified": false,
+  "scope": "Database exports only. Storage object metadata is not object bytes. External secrets/configuration and cross-machine recovery require separate protected handover."
+}

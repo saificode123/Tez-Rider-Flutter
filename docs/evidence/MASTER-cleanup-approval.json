@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-28",
+  "timezone": "Asia/Karachi",
+  "authority": "Explicit project-owner reply in this chat",
+  "reply": "Approve this reversible cleanup",
+  "project": "igeisilhtmglgnqvllrx",
+  "manifest": "docs/evidence/MASTER-catalogue-cleanup-proposal.json",
+  "sha256": "c49eeb235e37fc35e2382948f46a3dab07c00763333e01d90c870fb3b7303436",
+  "scope": "Make exactly the listed 47 old fixture products unavailable through owning Vendor inventory RPCs; retain quantities, accounts, orders, history, audits, new demo catalogue and active-order products.",
+  "deletion_authorized": false,
+  "production_authorized": false
+}

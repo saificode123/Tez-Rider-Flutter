@@ -1,0 +1,842 @@
+{
+  "application_schemas": [
+    "auth",
+    "checklist_private",
+    "final1_private",
+    "final2_private",
+    "final_delivery_private",
+    "fr04_private",
+    "fr10_private",
+    "fr13_private",
+    "fr14_private",
+    "fr17_private",
+    "fr25_private",
+    "fr30_private",
+    "fr32_private",
+    "public",
+    "storage",
+    "supabase_migrations"
+  ],
+  "auth_user_count": 115,
+  "buckets": [
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "file_size_limit": 5242880,
+      "id": "dispute-evidence",
+      "public": false
+    },
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "file_size_limit": 5242880,
+      "id": "final2-private-photos",
+      "public": false
+    },
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "file_size_limit": 5242880,
+      "id": "final2-product-images",
+      "public": false
+    },
+    {
+      "allowed_mime_types": [
+        "application/pdf"
+      ],
+      "file_size_limit": 5242880,
+      "id": "invoices",
+      "public": false
+    },
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "file_size_limit": 5242880,
+      "id": "optional-private-media",
+      "public": false
+    },
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "file_size_limit": 5242880,
+      "id": "rider-cnic",
+      "public": false
+    }
+  ],
+  "constraint_count": 235,
+  "jobs": [
+    {
+      "active": true,
+      "name": "final-rating-daily",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "active": true,
+      "name": "final-rating-retry",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr10-order-timeout",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr13-location-cleanup",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr14-route-cleanup",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr30-android-push",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr32-email-worker",
+      "schedule": "*/2 * * * *"
+    }
+  ],
+  "linked_auth_profiles": 112,
+  "marked_synthetic_profiles": 109,
+  "policy_count": 167,
+  "profile_count": 112,
+  "storage_object_count": 259,
+  "tables": [
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "audit_log_entries",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "custom_oauth_providers",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "flow_state",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 111,
+      "forced_rls": false,
+      "name": "identities",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "instances",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 2463,
+      "forced_rls": false,
+      "name": "mfa_amr_claims",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "mfa_challenges",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "mfa_factors",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "mfa_recovery_code_sets",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "mfa_recovery_codes",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "oauth_authorizations",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "oauth_client_states",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "oauth_clients",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "oauth_consents",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "one_time_tokens",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 2524,
+      "forced_rls": false,
+      "name": "refresh_tokens",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "saml_providers",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "saml_relay_states",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 82,
+      "forced_rls": false,
+      "name": "schema_migrations",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "scim_tokens",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "scim_users",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 2407,
+      "forced_rls": false,
+      "name": "sessions",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "sso_domains",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "sso_providers",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": 115,
+      "forced_rls": false,
+      "name": "users",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "webauthn_challenges",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "webauthn_credentials",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "addresses",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 31,
+      "forced_rls": false,
+      "name": "admin_broadcasts",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "admins",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "analytics",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "app_settings",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "audit_logs",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "cart",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "cart_items",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "categories",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "chat_messages",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "chat_participants",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "chat_rooms",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "cod_cash_events",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "complaints",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "customer",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "customers",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 0,
+      "forced_rls": false,
+      "name": "delivery_latest_locations",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 5,
+      "forced_rls": false,
+      "name": "delivery_otp_budgets",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 7,
+      "forced_rls": false,
+      "name": "delivery_otp_rates",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 179,
+      "forced_rls": false,
+      "name": "delivery_otp_verifications",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 142,
+      "forced_rls": false,
+      "name": "delivery_otps",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 52,
+      "forced_rls": false,
+      "name": "delivery_proof",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "delivery_route_cache",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "dispute_refund_actions",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 143,
+      "forced_rls": false,
+      "name": "disputes",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 243,
+      "forced_rls": false,
+      "name": "email_outbox",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "favorites",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "favourite",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "feedback",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 268,
+      "forced_rls": false,
+      "name": "fr28_operations",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "gifts",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "gps_locations",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 294,
+      "forced_rls": false,
+      "name": "inventory_movements",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 31,
+      "forced_rls": false,
+      "name": "invoices",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "messages",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 4538,
+      "forced_rls": false,
+      "name": "notifications",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 237,
+      "forced_rls": false,
+      "name": "order_items",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "order_refund_actions",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 249,
+      "forced_rls": false,
+      "name": "order_timeline_events",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 818,
+      "forced_rls": false,
+      "name": "orders",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "payment",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 199,
+      "forced_rls": false,
+      "name": "payments",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 121,
+      "forced_rls": false,
+      "name": "pre_delivery_checklists",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "prescription_items",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "prescriptions",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "product_recommendations",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 74,
+      "forced_rls": false,
+      "name": "products",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 2,
+      "forced_rls": false,
+      "name": "rating_summaries",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "review",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 6,
+      "forced_rls": false,
+      "name": "reviews",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 318,
+      "forced_rls": false,
+      "name": "rider_assignments",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 22,
+      "forced_rls": false,
+      "name": "riders",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 1421,
+      "forced_rls": false,
+      "name": "security_audit_log",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "stores",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "tailoring_requests",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 111,
+      "forced_rls": false,
+      "name": "users",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 488,
+      "forced_rls": false,
+      "name": "vendor_orders",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": 7,
+      "forced_rls": false,
+      "name": "vendors",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "buckets",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "buckets_analytics",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "buckets_vectors",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": 73,
+      "forced_rls": false,
+      "name": "migrations",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": 254,
+      "forced_rls": false,
+      "name": "objects",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "s3_multipart_uploads",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "s3_multipart_uploads_parts",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "estimated_rows": -1,
+      "forced_rls": false,
+      "name": "vector_indexes",
+      "rls": true,
+      "schema": "storage"
+    }
+  ],
+  "versions": [
+    "202610080001",
+    "202610090001",
+    "202610110001",
+    "202610110002",
+    "202610110003",
+    "202610110004",
+    "202610110005",
+    "202610110006",
+    "202610120001",
+    "202610130001",
+    "202610130002",
+    "202610130003",
+    "202610130004",
+    "202610130005",
+    "202610130006",
+    "202610130007",
+    "202610130008",
+    "202610140001",
+    "202610140002",
+    "202610140003",
+    "202610140004",
+    "202610140005",
+    "202610140006",
+    "202610140007",
+    "202610150001",
+    "202610150002",
+    "202610150003",
+    "202610150004",
+    "202610150005",
+    "202610150006",
+    "202610160001",
+    "202610160002",
+    "202610160003",
+    "202610170001",
+    "202610180001",
+    "202610190001",
+    "202610190002",
+    "202610200001",
+    "202610220001",
+    "202610220002",
+    "202610220003",
+    "202610220004",
+    "202610230001",
+    "202610230002",
+    "202610230003",
+    "202610230004",
+    "202610230005",
+    "202610230006",
+    "202610230007",
+    "202610230008",
+    "202610230009",
+    "202610230010",
+    "202610240001",
+    "202610240002",
+    "202610240003",
+    "202610240004",
+    "202610240005",
+    "202610250001",
+    "202610250002",
+    "202610250003",
+    "202610250004",
+    "202610250005",
+    "202610250006",
+    "202610250007",
+    "202610250008",
+    "202610250009",
+    "202610250010",
+    "202610250011"
+  ]
+}
