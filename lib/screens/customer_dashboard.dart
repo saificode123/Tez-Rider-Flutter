@@ -408,14 +408,25 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       child: Scaffold(
         backgroundColor: _kBg,
         drawer: const AppDrawer(role: 'customer'),
-        extendBody: true,
+        extendBody: false,
         body: AppTabStack(
           index: _tab,
           children: [_homeTab(), _ordersTab(), _trackTab(), _profileTab()],
         ),
-        floatingActionButton: _tab == 0 ? _buildFAB() : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        bottomNavigationBar: _buildBottomNav(),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_tab == 0)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: _buildFAB(),
+                ),
+              ),
+            _buildBottomNav(),
+          ],
+        ),
       ),
     );
   }
