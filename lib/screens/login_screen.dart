@@ -355,242 +355,273 @@ class _LoginScreenState extends State<LoginScreen>
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: EdgeInsets.symmetric(
-                horizontal: constraints.maxWidth < 360 ? 16 : 24,
-                vertical: 16,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 4),
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: AppLanguageSelector(),
               ),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 460),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: AppLanguageSelector(),
-                      ),
-                      const SizedBox(height: 28),
-                      Center(
-                        child: Container(
-                          width: 76,
-                          height: 76,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(AppRadius.xl),
-                            boxShadow: AppShadow.soft,
-                          ),
-                          child: const Icon(
-                            Icons.delivery_dining_rounded,
-                            size: 42,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text(
-                        'TEZRIDER'.tr,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 2,
-                            ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Welcome back'.tr,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 6),
-                      AnimatedSwitcher(
-                        duration: AppMotion.duration(context),
-                        child: Text(
-                          role.desc.tr,
-                          key: ValueKey('${role.value}:${role.desc.tr}'),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: AppColors.textSecondary),
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      SlideTransition(
-                        position: _cardSlide,
-                        child: FadeTransition(
-                          opacity: _cardFade,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: AutofillGroup(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    _buildRoleDropdown(role),
-                                    if (_error != null) ...[
-                                      const SizedBox(height: 16),
-                                      Semantics(
-                                        liveRegion: true,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: AppColors.error.withValues(
-                                              alpha: 0.08,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            _error!.tr,
-                                            style: const TextStyle(
-                                              color: AppColors.error,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                    const SizedBox(height: 20),
-                                    TextField(
-                                      controller: _emailCtrl,
-                                      enabled: !_loading,
-                                      keyboardType: TextInputType.emailAddress,
-                                      textDirection: TextDirection.ltr,
-                                      autofillHints: const [
-                                        AutofillHints.username,
-                                        AutofillHints.email,
-                                      ],
-                                      textInputAction: TextInputAction.next,
-                                      autocorrect: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Email Address'.tr,
-                                        hintText: 'your@email.com',
-                                        prefixIcon: const Icon(
-                                          Icons.mail_outline_rounded,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    TextField(
-                                      controller: _passCtrl,
-                                      enabled: !_loading,
-                                      obscureText: _obscure,
-                                      textDirection: TextDirection.ltr,
-                                      autofillHints: const [
-                                        AutofillHints.password,
-                                      ],
-                                      textInputAction: TextInputAction.done,
-                                      onSubmitted: (_) => _login(),
-                                      autocorrect: false,
-                                      enableSuggestions: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Password'.tr,
-                                        prefixIcon: const Icon(
-                                          Icons.lock_outline_rounded,
-                                        ),
-                                        suffixIcon: IconButton(
-                                          tooltip:
-                                              (_obscure
-                                                      ? 'Show password'
-                                                      : 'Hide password')
-                                                  .tr,
-                                          onPressed: _loading
-                                              ? null
-                                              : () => setState(
-                                                  () => _obscure = !_obscure,
-                                                ),
-                                          icon: AnimatedSwitcher(
-                                            duration: AppMotion.duration(
-                                              context,
-                                              AppMotion.quick,
-                                            ),
-                                            child: Icon(
-                                              _obscure
-                                                  ? Icons
-                                                        .visibility_off_outlined
-                                                  : Icons.visibility_outlined,
-                                              key: ValueKey(_obscure),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional.centerEnd,
-                                      child: TextButton(
-                                        onPressed: _loading
-                                            ? null
-                                            : _showForgotPassword,
-                                        child: Text('Forgot password?'.tr),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    AppActionButton(
-                                      label: 'Sign in as @slot0end'.uiTr({
-                                        'slot0end': role.label.tr,
-                                      }),
-                                      busy: _loading,
-                                      onPressed: _login,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    AppActionButton(
-                                      label: 'Create Account'.tr,
-                                      style: AppActionStyle.secondary,
-                                      onPressed: _loading
-                                          ? null
-                                          : () => Get.to(
-                                              () => SignupScreen(
-                                                initialRole: _role,
-                                              ),
-                                            ),
-                                    ),
-                                    Obx(
-                                      () =>
-                                          authController.isBioSupported.value &&
-                                              authController.isBioEnabled.value
-                                          ? Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 12,
-                                              ),
-                                              child: TextButton.icon(
-                                                onPressed: _loading
-                                                    ? null
-                                                    : _biometricLogin,
-                                                icon: const Icon(
-                                                  Icons.fingerprint_rounded,
-                                                ),
-                                                label: Text(
-                                                  'Continue with Biometrics'.tr,
-                                                ),
-                                              ),
-                                            )
-                                          : const SizedBox.shrink(),
-                                    ),
-                                  ],
+            ),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: constraints.maxWidth < 360 ? 16 : 24,
+                      vertical: 16,
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 460),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 12),
+                            Center(
+                              child: Container(
+                                width: 76,
+                                height: 76,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadius.xl,
+                                  ),
+                                  boxShadow: AppShadow.soft,
+                                ),
+                                child: const Icon(
+                                  Icons.delivery_dining_rounded,
+                                  size: 42,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 18),
+                            Text(
+                              'TEZRIDER'.tr,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headlineMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 2,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Welcome back'.tr,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 6),
+                            AnimatedSwitcher(
+                              duration: AppMotion.duration(context),
+                              child: Text(
+                                role.desc.tr,
+                                key: ValueKey('${role.value}:${role.desc.tr}'),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: AppColors.textSecondary),
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            SlideTransition(
+                              position: _cardSlide,
+                              child: FadeTransition(
+                                opacity: _cardFade,
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: AutofillGroup(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          _buildRoleDropdown(role),
+                                          if (_error != null) ...[
+                                            const SizedBox(height: 16),
+                                            Semantics(
+                                              liveRegion: true,
+                                              child: Container(
+                                                padding: const EdgeInsets.all(
+                                                  12,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.error
+                                                      .withValues(alpha: 0.08),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Text(
+                                                  _error!.tr,
+                                                  style: const TextStyle(
+                                                    color: AppColors.error,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                          const SizedBox(height: 20),
+                                          TextField(
+                                            controller: _emailCtrl,
+                                            enabled: !_loading,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            textDirection: TextDirection.ltr,
+                                            autofillHints: const [
+                                              AutofillHints.username,
+                                              AutofillHints.email,
+                                            ],
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            autocorrect: false,
+                                            decoration: InputDecoration(
+                                              labelText: 'Email Address'.tr,
+                                              hintText: 'your@email.com',
+                                              prefixIcon: const Icon(
+                                                Icons.mail_outline_rounded,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          TextField(
+                                            controller: _passCtrl,
+                                            enabled: !_loading,
+                                            obscureText: _obscure,
+                                            textDirection: TextDirection.ltr,
+                                            autofillHints: const [
+                                              AutofillHints.password,
+                                            ],
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            onSubmitted: (_) => _login(),
+                                            autocorrect: false,
+                                            enableSuggestions: false,
+                                            decoration: InputDecoration(
+                                              labelText: 'Password'.tr,
+                                              prefixIcon: const Icon(
+                                                Icons.lock_outline_rounded,
+                                              ),
+                                              suffixIcon: IconButton(
+                                                tooltip:
+                                                    (_obscure
+                                                            ? 'Show password'
+                                                            : 'Hide password')
+                                                        .tr,
+                                                onPressed: _loading
+                                                    ? null
+                                                    : () => setState(
+                                                        () => _obscure =
+                                                            !_obscure,
+                                                      ),
+                                                icon: AnimatedSwitcher(
+                                                  duration: AppMotion.duration(
+                                                    context,
+                                                    AppMotion.quick,
+                                                  ),
+                                                  child: Icon(
+                                                    _obscure
+                                                        ? Icons
+                                                              .visibility_off_outlined
+                                                        : Icons
+                                                              .visibility_outlined,
+                                                    key: ValueKey(_obscure),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional.centerEnd,
+                                            child: TextButton(
+                                              onPressed: _loading
+                                                  ? null
+                                                  : _showForgotPassword,
+                                              child: Text(
+                                                'Forgot password?'.tr,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          AppActionButton(
+                                            label: 'Sign in as @slot0end'.uiTr({
+                                              'slot0end': role.label.tr,
+                                            }),
+                                            busy: _loading,
+                                            onPressed: _login,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          AppActionButton(
+                                            label: 'Create Account'.tr,
+                                            style: AppActionStyle.secondary,
+                                            onPressed: _loading
+                                                ? null
+                                                : () => Get.to(
+                                                    () => SignupScreen(
+                                                      initialRole: _role,
+                                                    ),
+                                                  ),
+                                          ),
+                                          Obx(
+                                            () =>
+                                                authController
+                                                        .isBioSupported
+                                                        .value &&
+                                                    authController
+                                                        .isBioEnabled
+                                                        .value
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                          top: 12,
+                                                        ),
+                                                    child: TextButton.icon(
+                                                      onPressed: _loading
+                                                          ? null
+                                                          : _biometricLogin,
+                                                      icon: const Icon(
+                                                        Icons
+                                                            .fingerprint_rounded,
+                                                      ),
+                                                      label: Text(
+                                                        'Continue with Biometrics'
+                                                            .tr,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const SizedBox.shrink(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            TextButton.icon(
+                              onPressed: _loading
+                                  ? null
+                                  : () =>
+                                        Get.to(() => const HelpCenterScreen()),
+                              icon: const Icon(
+                                Icons.help_outline_rounded,
+                                size: 20,
+                              ),
+                              label: Text('help_support'.tr),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      TextButton.icon(
-                        onPressed: _loading
-                            ? null
-                            : () => Get.to(() => const HelpCenterScreen()),
-                        icon: const Icon(Icons.help_outline_rounded, size: 20),
-                        label: Text('help_support'.tr),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

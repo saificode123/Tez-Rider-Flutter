@@ -133,6 +133,42 @@ void main() {
     );
   });
 
+  testWidgets(
+    'language selector stays visible above scrolling login and keyboard',
+    (t) async {
+      await open(t, size: const Size(320, 568), scale: 2);
+      await t.enterText(find.byType(TextField).first, 'unit@example.test');
+      await t.enterText(find.byType(TextField).last, 'password123');
+      await t.ensureVisible(find.byType(TextField).last);
+      await t.pumpAndSettle();
+    t.view.viewInsets = const FakeViewPadding(bottom: 200);
+    addTearDown(t.view.resetViewInsets);
+    await t.pumpAndSettle();
+      final selector = find.byType(AppLanguageSelector);
+      final before = t.getRect(selector);
+      expect(before.top, greaterThanOrEqualTo(0));
+      expect(before.bottom, lessThan(568));
+      expect(selector.hitTestable(), findsOneWidget);
+      await t.drag(find.byType(SingleChildScrollView), const Offset(0, -1200));
+      await t.pumpAndSettle();
+      expect(t.getRect(selector), before);
+      expect(selector.hitTestable(), findsOneWidget);
+      await t.tap(find.descendant(of: selector, matching: find.text('اردو')));
+      await t.pumpAndSettle();
+      expect(store.value, 'ur');
+      expect(
+        t.widget<TextField>(find.byType(TextField).first).controller!.text,
+        'unit@example.test',
+      );
+      expect(
+        t.widget<TextField>(find.byType(TextField).last).controller!.text,
+        'password123',
+      );
+      expect(selector.hitTestable(), findsOneWidget);
+      expect(t.takeException(), isNull);
+    },
+  );
+
   testWidgets('language carries into signup and password reset', (t) async {
     await open(t);
     await t.tap(find.text('اردو'));

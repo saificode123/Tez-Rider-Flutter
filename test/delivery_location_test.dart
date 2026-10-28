@@ -38,15 +38,23 @@ class Backend implements DeliveryLocationBackend {
   Completer<String>? pendingPublish;
   final publishedFixes = <DeviceFix>[];
   Completer<Map<String, dynamic>>? pendingStop;
+  Completer<Map<String, dynamic>>? pendingEnable;
+  final disabledOrders = <int>[];
   @override
-  Future<Map<String, dynamic>> context(int order, {bool? enable}) async =>
-      enable == false && pendingStop != null
-      ? await pendingStop!.future
-      : {
-          'code': enable == false ? 'STOPPED' : eligibility,
-          'sharing': true,
-          'order_id': order,
-        };
+  Future<Map<String, dynamic>> context(int order, {bool? enable}) async {
+    if (enable == false) disabledOrders.add(order);
+    if (enable == true && pendingEnable != null) {
+      return pendingEnable!.future;
+    }
+    return enable == false && pendingStop != null
+        ? await pendingStop!.future
+        : {
+            'code': enable == false ? 'STOPPED' : eligibility,
+            'sharing': true,
+            'order_id': order,
+          };
+  }
+
   @override
   Future<String> publish(int order, DeviceFix fix, String request) async {
     sent++;
@@ -570,6 +578,59 @@ void main() {
     expect(state.stale.value, false);
     await session.dispose();
   });
+  for (final scenario in ['start', 'recovery', 'failed', 'account']) {
+    test(
+      'stop during server enable revokes pending consent: $scenario',
+      () async {
+        final source = Source();
+        final backend = Backend();
+        final service = RiderLocationService(source, backend, now: () => base);
+        await service.reconcile(online: true, activeOrder: 1, foreground: true);
+        if (scenario == 'recovery') {
+          await service.share(1);
+          await service.reconcile(
+            online: false,
+            activeOrder: 1,
+            foreground: true,
+            presenceInterrupted: true,
+          );
+        }
+        backend.pendingEnable = Completer<Map<String, dynamic>>();
+        final sharing = scenario == 'recovery'
+            ? service.reconcile(online: true, activeOrder: 1, foreground: true)
+            : service.share(1);
+        await Future<void>.delayed(Duration.zero);
+        final stopping = service.stop();
+        await Future<void>.delayed(Duration.zero);
+        expect(service.busy.value, isTrue);
+        expect(service.sharing.value, isFalse);
+        expect(
+          backend.disabledOrders,
+          isEmpty,
+          reason: 'Revocation must follow the pending enable response',
+        );
+        await service.share(1);
+        if (scenario == 'account') backend.accountId = 'different-rider';
+        if (scenario == 'failed') {
+          backend.pendingEnable!.completeError(StateError('response lost'));
+        } else {
+          backend.pendingEnable!.complete({
+            'code': 'OK',
+            'sharing': true,
+            'order_id': 1,
+          });
+        }
+        await Future.wait([sharing, stopping]);
+        expect(backend.disabledOrders, scenario == 'account' ? [] : [1]);
+        expect(source.modes, scenario == 'recovery' ? [false, true] : [false]);
+        expect(service.busy.value, isFalse);
+        expect(service.sharing.value, isFalse);
+        service.onClose();
+        await Future<void>.delayed(Duration.zero);
+        await source.close();
+      },
+    );
+  }
   test(
     'stop remains busy until confirmed and prevents an overlapping restart',
     () async {

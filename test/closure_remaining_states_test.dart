@@ -229,7 +229,7 @@ void main() {
       await tick(t);
       expect(find.text('my_orders'), findsNothing);
       expect(find.text('saved_vendors'), findsNothing);
-      expect(find.text('Platform Settings'), findsOneWidget);
+      expect(find.text('Platform Settings'), findsNothing);
       expect(find.text('Reports'), findsOneWidget);
     },
   );
@@ -428,9 +428,9 @@ void main() {
         ),
       );
       await show(t, const AIAssistantScreen());
-      await t.tap(find.text('Birthday gift for mom'));
+      await t.tap(find.text('Find available products'));
       await tick(t);
-      await t.tap(find.text('Birthday gift for mom').first);
+      await t.tap(find.text('Find available products').first);
       await tick(t);
       expect(calls, 1);
       pending.complete({

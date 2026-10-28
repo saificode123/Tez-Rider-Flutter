@@ -349,6 +349,7 @@ void main() {
       );
       expect(jsonDecode(transport.requests.last.body), {
         'prompt': 'Recommend a meal',
+        'history': [],
       });
       transport.respond = (_) async =>
           UiTransport.jsonResponse({'error': 'private provider detail'}, 429);

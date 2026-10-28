@@ -71,6 +71,7 @@ class RiderLocationService extends GetxService {
   String _account = '';
   int _generation = 0, _failures = 0, _operation = 0;
   Future<void>? _stopWork;
+  (int, String, Future<Map<String, dynamic>>)? _pendingEnable;
   bool _nativeStopConfirmed = true;
   Duration? _lastSent, _retryAt;
   (DeviceFix, int, bool)? _pendingFix;
@@ -130,7 +131,7 @@ class RiderLocationService extends GetxService {
           await _halt(problem);
           return;
         }
-        final context = await backend.context(activeOrder, enable: true);
+        final context = await _enableTracking(activeOrder);
         if (!_valid(generation)) return;
         if (context['code'] != 'OK' || context['sharing'] != true) {
           await _halt(
@@ -272,7 +273,7 @@ class RiderLocationService extends GetxService {
         message.value = problem;
         return;
       }
-      final context = await backend.context(order, enable: true);
+      final context = await _enableTracking(order);
       if (!_valid(generation)) return;
       if (context['code'] != 'OK' ||
           context['sharing'] != true ||
@@ -308,6 +309,16 @@ class RiderLocationService extends GetxService {
         message.value =
             'Location permission could not be checked. Retry when the app is open.';
       }
+    }
+  }
+
+  Future<Map<String, dynamic>> _enableTracking(int order) async {
+    final enable = (order, _account, backend.context(order, enable: true));
+    _pendingEnable = enable;
+    try {
+      return await enable.$3;
+    } finally {
+      if (identical(_pendingEnable?.$3, enable.$3)) _pendingEnable = null;
     }
   }
 
@@ -447,15 +458,25 @@ class RiderLocationService extends GetxService {
     final operation = ++_operation;
     busy.value = true;
     try {
-      final order = _sharingOrder;
+      final enabling = _pendingEnable;
+      final account = enabling?.$2 ?? _account;
+      final order = _sharingOrder ?? enabling?.$1;
       await _cancel();
       _sharingOrder = null;
       message.value = _nativeStopConfirmed
           ? 'Location sharing is off.'
           : 'Sharing stopped. Reopen the app to reset the location service.';
-      if (order != null &&
-          backend.accountId == _account &&
-          _account.isNotEmpty) {
+      // A Stop during enable must revoke after that request settles. Sending
+      // disable first could let the late enable resurrect server-side consent.
+      // Native collection is already cancelled and restart stays busy here.
+      if (enabling != null) {
+        try {
+          await enabling.$3;
+        } catch (_) {
+          // An unconfirmed enable can still have reached the server.
+        }
+      }
+      if (order != null && backend.accountId == account && account.isNotEmpty) {
         try {
           await backend.context(order, enable: false);
         } catch (_) {
