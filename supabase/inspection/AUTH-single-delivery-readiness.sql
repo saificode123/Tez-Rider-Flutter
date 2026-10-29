@@ -13,6 +13,8 @@ select jsonb_build_object(
  'rider_within_5km',extensions.st_dwithin(r.assignment_location,
    extensions.st_setsrid(extensions.st_makepoint(v.longitude::double precision,v.latitude::double precision),4326)::extensions.geography,5000),
  'rider_pending_assignments',(select count(*)from public.rider_assignments where riderid=999 and status in('Pending','Accepted')),
+ 'assignment_statuses',(select coalesce(jsonb_agg(status),'[]')from public.rider_assignments where orderid=o.id and riderid=999),
+ 'assignment_push',(select coalesce(jsonb_agg(jsonb_build_object('user_id',d.user_id,'state',d.state,'attempts',d.attempts,'failure_code',d.failure_code,'provider_accepted',d.provider_message is not null)),'[]')from fr30_private.push_deliveries d join public.notifications n on n.id=d.notification_id where n.assignment_order_id=o.id),
  'payment_statuses',(select coalesce(jsonb_agg(status),'[]')from public.payments where orderid=o.id::text)
 )as readiness
 from public.orders o join public.vendor_orders vo on vo.order_id=o.id and vo.vendor_id=997
