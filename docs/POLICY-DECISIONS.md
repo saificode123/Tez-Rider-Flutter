@@ -51,3 +51,9 @@ For that order only: at most two OTP emails, one confirmation email and one invo
 When asked whether to reuse the retained approved synthetic Rider fixture, the owner answered: **"I will provide a genuinely verified Rider"**. Synthetic identity fixtures are therefore excluded from this delivery. Do not fabricate CNIC approval or bypass eligibility; wait for the genuine Rider dependency while continuing independent work.
 
 The original GPS 2–3-second target and routing 800ms target remain active. The owner has not approved the proposed relaxed targets. Implementation and acceptance remain separately recorded in FINAL-DELIVERY.
+
+## Owner addendum — existing Rider email and password (2026-10-29)
+
+The owner corrected the Rider email to the existing two-r address `urrehmansaif406@gmail.com`, repeating that address rather than accepting the suggested alias. Do not create an alias or duplicate account, or change the Customer's role. Canonical account identification and verification evidence are recorded separately, not inferred from an email mask.
+
+Do not request, print, log, commit or reuse the previously exposed Rider password. The owner will enter a strong, unique replacement through a secure mechanism. No agent password sign-in for this Rider. One genuine verification-email resend is authorized separately from the existing delivery-email limits if the account needs it; do not manually confirm email or fabricate delivery. Production remains protected and all earlier delivery/GPS/routing limits remain unchanged.

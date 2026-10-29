@@ -1,0 +1,43 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T08:45:59.148859+00:00",
+  "owner_recipient_matches_confirmed_auth_and_test_configuration": true,
+  "remote_test_recipient_digest_matches": true,
+  "recipient_mask": "ur***@gmail.com",
+  "customer_auth_and_canonical_cart_verified": true,
+  "product": {
+    "id": 224,
+    "name": "Chicken Biryani",
+    "price": 350,
+    "stock_qty": 30,
+    "is_available": true,
+    "vendor_id": 997
+  },
+  "vendor_eligible": true,
+  "vendor_pickup_coordinates_present": false,
+  "orders_created_since_durable_checkpoint": 0,
+  "existing_customer_orders_containing_reviewed_product": 0,
+  "duplicate_checkout_guard": "CLEAR: no existing reviewed-product order",
+  "existing_approved_sendable_email_jobs": 0,
+  "demo_rider_statuses": [
+    {
+      "role": "rider",
+      "verification_status": "pending"
+    },
+    {
+      "role": "rider",
+      "verification_status": "pending"
+    }
+  ],
+  "genuine_rider": "Owner-identified Rider 999: confirmed email, current private document and canonical Admin approval verified; no agent password login",
+  "address_and_charge": "NOT YET CONFIRMED through the physical checkout",
+  "phone": "Physical foreground and installed-build evidence are checked separately; no phone action performed by this script",
+  "checkout": "NOT EXECUTED",
+  "external_messages_sent": 0,
+  "ready_for_checkout": false,
+  "remaining_preconditions": [
+    "Physical pickup and destination/charge confirmation",
+    "Current TEST phone push-capability match"
+  ],
+  "scope": "Read-only hosted preflight and encrypted local baseline only. Existing approved pending email jobs must be reconciled before invoking any batch worker. No blanket approval or synthetic identity acceptance."
+}

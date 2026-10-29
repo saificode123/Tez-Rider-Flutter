@@ -4,6 +4,7 @@ No email, push, order, identity approval or lifecycle write. Private checkpoint
 retains the original order inventory to detect a resumed/duplicate checkout.
 """
 import datetime as dt
+import argparse
 import importlib.util
 import hashlib
 import json
@@ -30,9 +31,27 @@ def read(path):
     return value
 
 
-def main():
+def main(evidence='ACCEPT-delivery-preflight.json'):
     b.target()
     account = h.state['accounts']['physical-customer']
+    rider_checkpoint = b.PRIVATE / 'rider-auth-verification.dpapi'
+    rider_status = 'WAITING: owner chose to provide a genuinely verified Rider; synthetic fixtures excluded'
+    if rider_checkpoint.exists():
+        rider = json.loads(b.crypt(rider_checkpoint.read_bytes(), True))
+        assert account['auth_id'] != rider['auth_id'], 'Never use a stored fixture password for the owner Rider'
+        live = read('/auth/v1/admin/users/' + str(uuid.UUID(rider['auth_id'])))
+        rider_rows = read('/rest/v1/users?auth_user_id=eq.' + rider['auth_id'] +
+            '&select=id,role,verification_status,is_blocked,cnic_submission_status,cnic_submitted_at')
+        proof_path = b.ROOT / 'docs/evidence/AUTH-rider-state.json'
+        if proof_path.exists() and len(rider_rows) == 1:
+            proof = json.loads(proof_path.read_text(encoding='utf-8-sig'))
+            row = rider_rows[0]
+            if (row['id'] == proof['rider_profile_id'] == 999 and row['role'] == 'rider'
+                and row['verification_status'] == 'approved' and not row['is_blocked']
+                and row['cnic_submission_status'] == 'submitted' and live.get('email_confirmed_at')
+                and proof['document_exists'] and proof['admin_approval_after_current_submission']
+                and dt.datetime.fromisoformat(row['cnic_submitted_at']) == dt.datetime.fromisoformat(proof['submitted_at'])):
+                rider_status = 'Owner-identified Rider 999: confirmed email, current private document and canonical Admin approval verified; no agent password login'
     identity = read('/auth/v1/admin/users/' + str(uuid.UUID(account['auth_id'])))
     config = {}
     for line in (b.ROOT / 'supabase/functions/.env.test.local').read_text().splitlines():
@@ -110,18 +129,20 @@ def main():
               'duplicate_checkout_guard': 'CLEAR: no existing reviewed-product order' if not reviewed_order_ids and not new_orders else 'STOP: reconcile existing orders before any placement',
               'existing_approved_sendable_email_jobs': len(approved),
               'demo_rider_statuses': pending,
-              'genuine_rider': 'WAITING: owner chose to provide a genuinely verified Rider; synthetic fixtures excluded',
+              'genuine_rider': rider_status,
               'address_and_charge': 'NOT YET CONFIRMED through the physical checkout',
-              'phone': 'Last foreground check failed; unlock/open required before physical actions',
+              'phone': 'Physical foreground and installed-build evidence are checked separately; no phone action performed by this script',
               'checkout': 'NOT EXECUTED', 'external_messages_sent': 0,
               'ready_for_checkout': False,
-              'remaining_preconditions': ['Owner-provided genuinely verified Rider', 'Physical pickup and destination/charge confirmation', 'Reconnected unlocked TEST phone and push-capability match'],
+              'remaining_preconditions': ([] if rider_status.startswith('Owner-identified') else ['Owner-provided genuinely verified Rider']) + ['Physical pickup and destination/charge confirmation', 'Current TEST phone push-capability match'],
               'scope': 'Read-only hosted preflight and encrypted local baseline only. Existing approved pending email jobs must be reconciled before invoking any batch worker. No blanket approval or synthetic identity acceptance.'}
-    (b.ROOT / 'docs/evidence/ACCEPT-delivery-preflight.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    (b.ROOT / 'docs/evidence' / evidence).write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result))
     if reviewed_order_ids or new_orders:
         raise SystemExit('Existing checkout requires reconciliation; do not place another order.')
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--evidence', choices=('ACCEPT-delivery-preflight.json', 'AUTH-delivery-preflight.json'), default='ACCEPT-delivery-preflight.json')
+    main(parser.parse_args().evidence)

@@ -1,5 +1,7 @@
 # Controlled delivery acceptance continuation
 
+Later authentication, genuine Rider and installed-build evidence: [report 30](30-Rider-Authentication-And-Delivery-Continuation.md). This report retains its original dated results.
+
 2026-10-29, Asia/Karachi. Started at `0972a61` on the existing feature branch, clean tree and expected remote verified. Owner's latest execution prompt and Rider decision are recorded in the policy addendum. Production remains untouched.
 
 ## Authorized scope and actual preflight
