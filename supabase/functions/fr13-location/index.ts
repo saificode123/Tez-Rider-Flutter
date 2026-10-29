@@ -20,8 +20,7 @@ const handler = createHandler({
     p_order_id: v.order_id, p_lat: v.latitude, p_lng: v.longitude,
     p_accuracy: v.accuracy, p_device_at: v.device_at, p_request_id: v.request_id,
   }),
-  context: (jwt, order) => rpc(jwt, 'fr13_tracking_context', {p_order_id: order}),
-  publish: (topic, payload) => publishToLiveSessions(applicationFetch, base, service, topic, payload),
+  publishAuthorized: (topic, payload) => publishToLiveSessions(applicationFetch, base, service, topic, payload),
 });
 serveSecurity('fr13-location', {hostname: local ? '127.0.0.1' : '0.0.0.0', port: local ? 54328 : 8000}, async req => {
   const denial = await accountBoundary(req, base, anon);

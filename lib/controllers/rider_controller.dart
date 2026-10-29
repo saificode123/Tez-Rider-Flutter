@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../services/rider_presence.dart';
 import '../services/delivery_otp_service.dart';
 import '../services/pre_delivery_checklist_service.dart';
@@ -33,6 +35,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   final location = RiderLocationService(
     createRiderLocationSource(),
     SupabaseDeliveryLocationBackend(),
+    onMetric: recordLocationMetric,
   );
   Worker? _locationWorker;
   bool _foreground = true;

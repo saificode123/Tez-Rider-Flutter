@@ -460,7 +460,7 @@ void main() {
           expect(
             settings.intervalDuration,
             delivery
-                ? const Duration(milliseconds: 2500)
+                ? const Duration(seconds: 2)
                 : const Duration(minutes: 1),
           );
           expect(settings.distanceFilter, 0);

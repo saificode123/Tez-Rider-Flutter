@@ -1,12 +1,30 @@
 import '../core/stage2_ui_strings.dart';
+
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'delivery_location.dart';
 import 'ios_rider_location_source.dart';
+
+/// Debug TEST timings have no coordinates, timestamps, order IDs or secrets.
+void recordLocationMetric(String stage, num milliseconds) {
+  if (kDebugMode &&
+      const bool.fromEnvironment('FR21_ISOLATED_TEST') &&
+      milliseconds.isFinite &&
+      const {
+        'fix_device_interval',
+        'fix_arrival_interval',
+        'client_queue',
+        'publish_roundtrip',
+      }.contains(stage)) {
+    debugPrint('FR13_METRIC $stage ${milliseconds.round()}');
+  }
+}
 
 RiderLocationSource createRiderLocationSource() =>
     !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS
@@ -62,7 +80,7 @@ class AndroidRiderLocationSource implements RiderLocationSource {
           accuracy: delivery ? LocationAccuracy.high : LocationAccuracy.medium,
           distanceFilter: 0,
           intervalDuration: delivery
-              ? const Duration(milliseconds: 2500)
+              ? const Duration(seconds: 2)
               : const Duration(minutes: 1),
           foregroundNotificationConfig: delivery
               ? ForegroundNotificationConfig(
@@ -71,9 +89,8 @@ class AndroidRiderLocationSource implements RiderLocationSource {
                     defType: 'drawable',
                   ),
                   notificationTitle: 'TezRider delivery location'.uiMessage,
-                  notificationText:
-                      'Sharing location for your active delivery. Stop sharing in the app.'
-                          .uiMessage,
+                  notificationText: 'Sharing location for your active delivery. Stop sharing in the app.'
+                      .uiMessage,
                   notificationChannelName: 'Active delivery location'.uiMessage,
                   enableWakeLock: true,
                   setOngoing: true,

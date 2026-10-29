@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/delivery_location.dart';
 
@@ -302,6 +303,50 @@ void main() {
       service.onClose();
       await source.close();
     });
+  }
+  for (final stopBeforeFlush in [false, true]) {
+    test(
+      'queued genuine fix survives rate window; stop=$stopBeforeFlush',
+      () async {
+        final source = Source();
+        final backend = Backend();
+        var tick = Duration.zero;
+        final service = RiderLocationService(
+          source,
+          backend,
+          now: () => base.add(tick),
+          elapsed: () => tick,
+        );
+        await service.reconcile(online: true, activeOrder: 1, foreground: true);
+        await service.share(1);
+        final response = Completer<String>();
+        backend.pendingPublish = response;
+        source.fixes.add(DeviceFix(33.7, 73.05, 5, base));
+        await Future<void>.delayed(Duration.zero);
+        tick = const Duration(seconds: 2);
+        source.fixes.add(DeviceFix(33.701, 73.05, 5, base.add(tick)));
+        await Future<void>.delayed(Duration.zero);
+        response.complete('PUBLISHED');
+        await Future<void>.delayed(Duration.zero);
+        expect(backend.sent, 1);
+        if (stopBeforeFlush) await service.stop();
+        tick = const Duration(milliseconds: 2500);
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+        expect(backend.sent, stopBeforeFlush ? 1 : 2);
+        if (!stopBeforeFlush) {
+          expect(
+            backend.publishedFixes.last.at,
+            base.add(const Duration(seconds: 2)),
+          );
+          tick = const Duration(seconds: 10);
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          expect(backend.sent, 2, reason: 'Never manufacture or repeat a fix');
+        }
+        await service.stop();
+        service.onClose();
+        await source.close();
+      },
+    );
   }
   test(
     'one stream, genuine-fix throttle, no synthesized gap updates',

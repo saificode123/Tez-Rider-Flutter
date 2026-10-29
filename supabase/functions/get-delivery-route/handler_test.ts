@@ -51,6 +51,28 @@ for (const code of ['QUOTA', 'BUSY', 'THROTTLED', 'NOT_CONFIGURED']) {
   Deno.test(code + ' prevents HTTP and returns labeled approximation', async () => { const h = harness({prepare: async () => ({code, orderId: 1, origin, destination, speedKmh: 20})}); const r = await h.run(); equal(r.data.route.isApproximate, true); equal(r.data.route.geometry, null); equal(h.calls.provider, 0); });
 }
 Deno.test('cache hit avoids provider', async () => { const h = harness({prepare: async () => ({code: 'CACHE', orderId: 1, origin, destination, cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}})}); equal((await h.run()).data.route.isStale, false); equal(h.calls.provider, 0); });
+Deno.test('verified request actor avoids duplicate initial RPC and still revalidates', async () => {
+  let contexts = 0, actor: unknown;
+  const h = harness({initialActor: () => 42,
+    context: async () => { contexts++; return {code: 'OK', actor: 42}; },
+    prepare: async (_order, currentActor) => {actor = currentActor; return {code: 'CACHE', orderId: 1, origin, destination,
+      cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}}; }});
+  equal((await h.run()).data.route.isStale, false);
+  equal(contexts, 1); equal(actor, 42); equal(h.calls.provider, 0);
+});
+Deno.test('verified actor never bypasses SQL ownership or final session revocation', async () => {
+  const forbidden = harness({initialActor: () => 42, prepare: async () => ({code: 'FORBIDDEN'})});
+  equal((await forbidden.run()).status, 403); equal(forbidden.calls.provider, 0);
+  const revoked = harness({initialActor: () => 42, context: async () => ({code: 'FORBIDDEN'})});
+  equal((await revoked.run()).status, 403);
+});
+Deno.test('missing or invalid verified identity falls back to live context', async () => {
+  for (const actor of [null, -1, NaN, 1.5]) {
+    let contexts = 0;
+    const h = harness({initialActor: () => actor, context: async () => {contexts++; return {code: 'FORBIDDEN'};}});
+    equal((await h.run()).status, 403); equal(contexts, 1); equal(h.calls.provider, 0);
+  }
+});
 Deno.test('expired cache is labeled stale', async () => { const h = harness({prepare: async () => ({code: 'QUOTA', orderId: 1, origin, destination, cache: {expiresAt: '2026-10-19T11:00:00Z'}})}); equal((await h.run()).data.route.isStale, true); });
 for (const error of ['429', '500', 'timeout', 'secret=DO_NOT_DISCLOSE']) {
   Deno.test('provider failure ' + error + ' releases lease and redacts error', async () => { const h = harness({provider: async () => { throw Error(error); }}); const r = await h.run(); equal(r.data.code, 'APPROXIMATE'); equal(h.calls.finish, 1); equal(JSON.stringify(r).includes(error), false); });

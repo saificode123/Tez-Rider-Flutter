@@ -2,6 +2,8 @@ export type Data = Record<string, any>;
 export interface Dependencies {
   authenticate(jwt: string): Promise<boolean>;
   accountBoundary?(req: Request): Promise<Response | null>;
+  /** Only from this request's verified security scope, never HTTP input/cache. */
+  initialActor?(jwt: string): number | null;
   context(jwt: string, order: number): Promise<Data>;
   prepare(order: number, actor: number, configured: boolean): Promise<Data>;
   finish(order: number, actor: number, lease: string, route: Data | null): Promise<Data>;
@@ -87,7 +89,13 @@ export function createHandler(deps: Dependencies) {
       let body: Data;
       try { body = JSON.parse(text); } catch { return reply({code: 'INVALID_REQUEST'}, 400); }
       if (!body || Array.isArray(body) || Object.keys(body).length !== 1 || !Number.isSafeInteger(body.orderId) || body.orderId < 1) return reply({code: 'INVALID_REQUEST'}, 400);
-      const access = await timed('context', () => deps.context(jwt, body.orderId));
+      const actor = deps.initialActor?.(jwt);
+      // prepare independently checks current actor/order eligibility in SQL.
+      // A verified request identity avoids a redundant initial context RPC;
+      // final live JWT/session/order revalidation is still mandatory below.
+      const access = Number.isSafeInteger(actor) && actor! > 0
+        ? {code: 'OK', actor}
+        : await timed('context', () => deps.context(jwt, body.orderId));
       if (access.code !== 'OK' || !Number.isSafeInteger(access.actor)) return reply({code: 'FORBIDDEN'}, 403);
       const ctx = await timed('prepare', () => deps.prepare(body.orderId, access.actor, deps.configured));
       if (ctx.code === 'FORBIDDEN') return reply({code: 'FORBIDDEN'}, 403);

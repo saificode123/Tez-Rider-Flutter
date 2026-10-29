@@ -1,4 +1,4 @@
-import {serveSecurity, applicationFetch} from '../_shared/security-runtime.ts';
+import {serveSecurity, applicationFetch, currentSecurityContext} from '../_shared/security-runtime.ts';
 import {accountBoundary} from '../_shared/fr28-access.ts';
 import {createHandler, type Data} from './handler.ts';
 const base = Deno.env.get('SUPABASE_URL') ?? '';
@@ -14,7 +14,16 @@ async function rpc(jwt: string, name: string, body: Data, privileged = false): P
 const handler = createHandler({
   configured: key.length > 0,
   accountBoundary: req => accountBoundary(req, base, anon),
+  initialActor(jwt) {
+    const context = currentSecurityContext();
+    return context?.code === 'OK' && context.jwt === jwt && Number.isSafeInteger(context.profile_id)
+      ? context.profile_id! : null;
+  },
   async authenticate(jwt) {
+    // serveSecurity already verified this exact JWT against live Auth sessions
+    // and the shared budget. Never cache or reuse another request's identity.
+    const context = currentSecurityContext();
+    if (context?.code === 'OK' && context.jwt === jwt) return true;
     const res = await applicationFetch(base + '/auth/v1/user', {headers: {apikey: anon, Authorization: 'Bearer ' + jwt}, signal: AbortSignal.timeout(8000)});
     return res.ok && typeof (await res.json()).id === 'string';
   },

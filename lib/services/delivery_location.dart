@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:get/get.dart';
+
 import 'delivery_otp_service.dart' show deliveryRequestId;
 
 const unavailableRiderLocation = 'Rider location temporarily unavailable.';
@@ -54,12 +56,16 @@ class RiderLocationService extends GetxService {
     this.backend, {
     DateTime Function()? now,
     Duration Function()? elapsed,
+    this.onMetric,
   }) : now = now ?? DateTime.now,
        elapsed = elapsed ?? (Stopwatch()..start()).elapsedGetter;
   final RiderLocationSource source;
   final DeliveryLocationBackend backend;
   final DateTime Function() now;
   final Duration Function() elapsed;
+
+  /// Numeric stage timings only; no positions, identities or credentials.
+  final void Function(String, num)? onMetric;
   final sharing = false.obs, busy = false.obs;
   final message = 'Location sharing is off.'.obs;
   final latestFix = Rxn<DeviceFix>();
@@ -75,6 +81,8 @@ class RiderLocationService extends GetxService {
   bool _nativeStopConfirmed = true;
   Duration? _lastSent, _retryAt;
   (DeviceFix, int, bool)? _pendingFix;
+  Timer? _pendingTimer;
+  (DeviceFix, Duration)? _receivedFix;
 
   RiderLocationGuidance? get _guidance =>
       source is RiderLocationGuidance ? source as RiderLocationGuidance : null;
@@ -83,13 +91,11 @@ class RiderLocationService extends GetxService {
     if (_closed || !_foreground || _guidance == null) return;
     try {
       if (!await _guidance!.openSettings() && !_closed) {
-        message.value =
-            'Settings could not be opened. Open TezRider location settings manually.';
+        message.value = 'Settings could not be opened. Open TezRider location settings manually.';
       }
     } catch (_) {
       if (!_closed) {
-        message.value =
-            'Settings could not be opened. Open TezRider location settings manually.';
+        message.value = 'Settings could not be opened. Open TezRider location settings manually.';
       }
     }
   }
@@ -113,6 +119,8 @@ class RiderLocationService extends GetxService {
       _foreground = foreground;
       _presenceSuspended = true;
       _pendingFix = null;
+      _pendingTimer?.cancel();
+      _pendingTimer = null;
       message.value =
           'Connection lost. Waiting for confirmed delivery availability.';
       return;
@@ -278,8 +286,7 @@ class RiderLocationService extends GetxService {
       if (context['code'] != 'OK' ||
           context['sharing'] != true ||
           context['order_id'] != order) {
-        message.value =
-            'Sharing requires an online rider, completed checklist and started delivery.';
+        message.value = 'Sharing requires an online rider, completed checklist and started delivery.';
         return;
       }
       _order = order;
@@ -306,8 +313,7 @@ class RiderLocationService extends GetxService {
       if (!_closed && problem != null) message.value = problem;
     } catch (_) {
       if (!_closed) {
-        message.value =
-            'Location permission could not be checked. Retry when the app is open.';
+        message.value = 'Location permission could not be checked. Retry when the app is open.';
       }
     }
   }
@@ -326,6 +332,8 @@ class RiderLocationService extends GetxService {
       !_closed && generation == _generation && _account == backend.accountId;
   void _listen({required bool delivery}) {
     final generation = _generation;
+    DateTime? previousDeviceAt;
+    Duration? previousArrival;
     _lastSent = null;
     _retryAt = null;
     _failures = 0;
@@ -349,7 +357,27 @@ class RiderLocationService extends GetxService {
         .positions(delivery: delivery)
         .listen(
           (fix) {
-            if (_valid(generation)) unawaited(_send(fix, generation, delivery));
+            if (_valid(generation)) {
+              final arrival = elapsed();
+              if (delivery) {
+                if (previousDeviceAt != null) {
+                  onMetric?.call(
+                    'fix_device_interval',
+                    fix.at.difference(previousDeviceAt!).inMilliseconds,
+                  );
+                }
+                if (previousArrival != null) {
+                  onMetric?.call(
+                    'fix_arrival_interval',
+                    (arrival - previousArrival!).inMilliseconds,
+                  );
+                }
+                previousDeviceAt = fix.at;
+                previousArrival = arrival;
+                _receivedFix = (fix, arrival);
+              }
+              unawaited(_send(fix, generation, delivery));
+            }
           },
           onError: (Object _) {
             if (_valid(generation)) {
@@ -391,18 +419,44 @@ class RiderLocationService extends GetxService {
     final interval = delivery
         ? const Duration(milliseconds: 2300)
         : const Duration(minutes: 1);
-    if ((_lastSent != null && tick - _lastSent! < interval) ||
-        (_retryAt != null && tick < _retryAt!)) {
+    if (_retryAt != null && tick < _retryAt!) return;
+    if (_lastSent != null && tick - _lastSent! < interval) {
+      if (delivery) {
+        _pendingFix = (fix, generation, delivery);
+        // Flush a genuine queued fix when the rate window opens, rather than
+        // dropping it and waiting an entire additional native fix interval.
+        // This timer never obtains, repeats or manufactures a device position.
+        _pendingTimer ??= Timer(interval - (tick - _lastSent!), () {
+          _pendingTimer = null;
+          final pending = _pendingFix;
+          _pendingFix = null;
+          if (pending != null && _valid(pending.$2)) {
+            unawaited(_send(pending.$1, pending.$2, pending.$3));
+          }
+        });
+      }
       return;
     }
+    _pendingTimer?.cancel();
+    _pendingTimer = null;
+    _pendingFix = null;
     _lastSent = tick;
     _sending = true;
+    final sentAt = elapsed();
     try {
       if (delivery) {
+        final received = _receivedFix;
+        if (received != null && identical(received.$1, fix)) {
+          onMetric?.call('client_queue', (sentAt - received.$2).inMilliseconds);
+        }
         final code = await backend.publish(
           _sharingOrder!,
           fix,
           deliveryRequestId(),
+        );
+        onMetric?.call(
+          'publish_roundtrip',
+          (elapsed() - sentAt).inMilliseconds,
         );
         if (!_valid(generation)) return;
         if (const [
@@ -420,8 +474,7 @@ class RiderLocationService extends GetxService {
         }
         if (!const ['PUBLISHED', 'REPLAYED', 'RATE_LIMIT'].contains(code)) {
           if (const ['STALE_FIX', 'INVALID_LOCATION'].contains(code)) {
-            message.value =
-                'Waiting for a fresh, accurate GPS fix. Check the device date and time.';
+            message.value = 'Waiting for a fresh, accurate GPS fix. Check the device date and time.';
             return;
           }
           throw StateError('Unconfirmed');
@@ -436,10 +489,12 @@ class RiderLocationService extends GetxService {
       _retryAt = null;
     } catch (_) {
       if (_valid(generation)) {
+        _pendingFix = null;
+        _pendingTimer?.cancel();
+        _pendingTimer = null;
         _failures = (_failures + 1).clamp(1, 4);
         _retryAt = elapsed() + Duration(seconds: 1 << _failures);
-        message.value =
-            'Location update not confirmed. Retrying when a fresh fix is available.';
+        message.value = 'Location update not confirmed. Retrying when a fresh fix is available.';
       }
     } finally {
       _sending = false;
@@ -481,8 +536,7 @@ class RiderLocationService extends GetxService {
           await backend.context(order, enable: false);
         } catch (_) {
           if (!_closed) {
-            message.value =
-                'Device sharing stopped. Server cleanup awaits reconnection or lease expiry.';
+            message.value = 'Device sharing stopped. Server cleanup awaits reconnection or lease expiry.';
           }
         }
       }
@@ -500,6 +554,9 @@ class RiderLocationService extends GetxService {
     _generation++;
     _presenceSuspended = false;
     _pendingFix = null;
+    _receivedFix = null;
+    _pendingTimer?.cancel();
+    _pendingTimer = null;
     sharing.value = false;
     final position = _positions, services = _services;
     _positions = null;
