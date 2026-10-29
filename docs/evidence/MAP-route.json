@@ -1,0 +1,39 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order_id": 3180,
+  "utc": "2026-10-29T20:31:19.167113+00:00",
+  "samples": [
+    {
+      "http_status": 200,
+      "code": "OK",
+      "request_ms": 1063.0,
+      "source": "geoapify",
+      "road_geometry": true,
+      "is_approximate": false,
+      "cache_status": "cached",
+      "target": "delivery"
+    },
+    {
+      "http_status": 200,
+      "code": "OK",
+      "request_ms": 1297.0,
+      "source": "geoapify",
+      "road_geometry": true,
+      "is_approximate": false,
+      "cache_status": "cached",
+      "target": "delivery"
+    },
+    {
+      "http_status": 200,
+      "code": "OK",
+      "request_ms": 1046.0,
+      "source": "geoapify",
+      "road_geometry": true,
+      "is_approximate": false,
+      "cache_status": "cached",
+      "target": "delivery"
+    }
+  ],
+  "strict_800ms_all_samples_pass": false,
+  "scope": "Three real owning-Customer authorized route calls on the genuine delivery. No coordinates or geometry persisted. No load or rendering qualification."
+}

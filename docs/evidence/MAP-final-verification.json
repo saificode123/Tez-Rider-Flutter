@@ -1,0 +1,34 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T20:54:26.368228+00:00",
+  "source_head": "feb895b958763cf0132a56d475c59942006c5d91",
+  "final_apk_sha256": "81713D2599884C6FE6CC13F3F25E17301BB177897670992856937B7DDBB24FE8",
+  "source_files_hashed": 225,
+  "current_sources_match_apk_manifest": true,
+  "installed_base_apk_hash_independently_matched": true,
+  "mode": "debug",
+  "final_flutter": {
+    "passed": 740,
+    "failed": 0,
+    "skipped": 2
+  },
+  "analysis": {
+    "items": 11,
+    "issues": 0
+  },
+  "focused_after_cleanup": 76,
+  "deno": {
+    "passed": 237,
+    "failed": 0
+  },
+  "local_postgis_assertions": 32,
+  "final_phone_map_sharing_off": true,
+  "final_phone_map_previous_notice_absent": true,
+  "final_phone_dashboard_offline": true,
+  "owner_rider_sign_in_retained": true,
+  "final_phone_observed_at": "2026-10-29T20:52:56.763780+00:00",
+  "offline_screenshot_sha256": "8A7C54D0770AD0C9DA0BF2B9CC19457DD4C555DEC2948B4ED9449979FFF23E54",
+  "live_measurement_apk_is_separately_identified_in": "MAP-physical-acceptance.json",
+  "production_deployed": false,
+  "scope": "Completed local checks, exact runtime-source manifest and installed APK verification. Live GPS/route results belong to the earlier identified layout APK; the final cleanup APK was verified stopped without new sharing."
+}

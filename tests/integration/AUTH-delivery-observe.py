@@ -54,7 +54,7 @@ def main(mode, prefix='AUTH-delivery-'):
                 with urllib.request.urlopen(request,timeout=40)as response:status=response.status;data=json.load(response)
             except urllib.error.HTTPError as error:status=error.code;data=json.load(error)
             route=data.get('route')or{}
-            samples.append({'http_status':status,'code':data.get('code'),'request_ms':round((time.monotonic()-started)*1000,2),'source':route.get('source'),'road_geometry':route.get('geometry')is not None,'is_approximate':route.get('isApproximate')})
+            samples.append({'http_status':status,'code':data.get('code'),'request_ms':round((time.monotonic()-started)*1000,2),'source':route.get('source'),'road_geometry':route.get('geometry')is not None,'is_approximate':route.get('isApproximate'),'cache_status':route.get('cacheStatus'),'target':route.get('target')})
             time.sleep(1)
         result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'samples':samples,'strict_800ms_all_samples_pass':all(s['http_status']==200 and s['request_ms']<=800 for s in samples),'scope':'Three real owning-Customer authorized route calls on the genuine delivery. No coordinates or geometry persisted. No load or rendering qualification.'}
     (b.ROOT/'docs/evidence'/(prefix+mode+'.json')).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')

@@ -1,0 +1,49 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order_id": 3180,
+  "rider_id": 999,
+  "platform": "OPPO CPH2285 Android 13",
+  "live_test_source_head": "239c6bc04b52bad344dff56650cbed3820dd4c70",
+  "live_test_artifact_sha256": "3BFA29BA0286E1AD24FE6997F1DC009B691E4DF8CCFF3BBBCD1EEB4FC0F75375",
+  "owner_consent": "Yes, bounded stationary sharing test",
+  "sharing_start_control_utc": "2026-10-29T20:30:55.853722+00:00",
+  "sharing_stop_control_utc": "2026-10-29T20:40:03.620536+00:00",
+  "start_to_stop_control_interval_seconds": 547.767,
+  "rider_offline_control_utc": "2026-10-29T20:40:11.105555+00:00",
+  "camera": {
+    "recenter_follow_confirmed": true,
+    "manual_pan_suspended_follow": true,
+    "pan_remained_suspended_across_confirmed_updates": true,
+    "overview_showed_pickup_destination_and_rider": true,
+    "initial_viewport_assertion_failures": "Two harness attempts expected a unique unnamed viewport node. No gesture was sent in those attempts. Corrected harness uses fresh Back/attribution bounds; physical pan and overview then passed."
+  },
+  "customer_ui_agent_observations": {
+    "normal_owned_order_history_navigation": true,
+    "confirmed_rider_marker": true,
+    "road_route_and_eta": true,
+    "eta_minutes_observed": 5,
+    "distance_km_displayed": 4.0,
+    "route_overview_all_three_markers": true,
+    "gray_last_known_and_no_live_eta_observed": true,
+    "fresh_position_visible_after_network_restoration": true,
+    "rider_and_route_cleared_after_stop": true,
+    "stopped_eta_unavailable": true,
+    "stopped_route_notice_bug_found": "Using a previous route estimate remained after geometry cleared.",
+    "notice_bug_fixed_in_source_commit": "feb895b",
+    "fix_verification": "76 focused route/location/map tests passed, including revocation with an in-flight late response. No new sharing session was started after this fix."
+  },
+  "network": {
+    "outage_wait_seconds": 35,
+    "observation_and_restoration_overhead_additional": true,
+    "actual_rider_connection_lost_feedback": true,
+    "original_wifi_and_mobile_settings_restored_in_finally": true,
+    "rider_sharing_recovered": true,
+    "route_and_eta_recovered_afterwards": true,
+    "physical_background_and_foreground_resume": true,
+    "background_wait_seconds": 8,
+    "cold_restart_stayed_offline_and_retained_rider_session": true
+  },
+  "measurement_evidence": ["MAP-gps.json", "MAP-route.json"],
+  "final_revocation_evidence": ["MAP-stopped.json", "MAP-test-readiness.json", "MAP-order-state.json"],
+  "scope": "Actual stationary owner-consented TEST phone and owning Customer UI observations, with sanitized transcription of observed controls and private native checks. The finite start/stop interval includes tool execution delays. No simulated fixes, travel, arrival, new order, OTP, proof, cash, earned fee or delivery completion. Final cleanup APK verification is recorded separately; the live measurements belong to the hash above. No coordinates, identity contents, addresses, credentials or device serial are published."
+}
