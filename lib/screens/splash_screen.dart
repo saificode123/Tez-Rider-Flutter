@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/onboarding_service.dart';
+import 'signup_screen.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -117,13 +119,41 @@ class _SplashScreenState extends State<SplashScreen>
         );
         final account = identity.user;
         if (account != null) {
-          final profile = await client
+          var profile = await client
               .from('users')
               .select('role,verification_status,is_blocked,rejection_reason')
               .eq('auth_user_id', account.id)
               .maybeSingle()
               .timeout(const Duration(seconds: 8));
           if (!mounted || account.id != client.auth.currentUser?.id) return;
+          if (profile == null) {
+            try {
+              await OnboardingService().completeFromMetadata(account);
+            } on RegistrationRequired catch (required) {
+              if (mounted) {
+                Get.offAll(
+                  () => SignupScreen(
+                    initialRole: required.role,
+                    completeExisting: true,
+                  ),
+                );
+              }
+              return;
+            }
+            if (!mounted || account.id != client.auth.currentUser?.id) return;
+            profile = await client
+                .from('users')
+                .select('role,verification_status,is_blocked,rejection_reason')
+                .eq('auth_user_id', account.id)
+                .single()
+                .timeout(const Duration(seconds: 8));
+            if (Get.isRegistered<AuthController>()) {
+              await Get.find<AuthController>().accountGate.reset();
+              if (!await Get.find<AuthController>().enforceAccountAccess()) {
+                return;
+              }
+            }
+          }
           final access = AccountAccess.fromProfile(profile);
           if (access.dashboardRoute != null) {
             Get.offAllNamed(access.dashboardRoute!);
@@ -134,7 +164,7 @@ class _SplashScreenState extends State<SplashScreen>
               '/pending_verification',
               arguments: {
                 'status': access.status,
-                'reason': profile?['rejection_reason'],
+                'reason': profile['rejection_reason'],
               },
             );
           }

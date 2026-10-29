@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme/app_theme.dart';
 import 'login_screen.dart';
+import 'email_verification_screen.dart';
+import '../services/email_verification.dart';
 import 'cnic_document_screen.dart';
 import '../services/cnic_document.dart';
 import '../services/onboarding_service.dart';
@@ -167,18 +169,23 @@ class _SignupScreenState extends State<SignupScreen> {
         email: email,
         password: pass,
         data: data.metadata,
+        emailRedirectTo:
+            const bool.fromEnvironment('FR21_ISOLATED_TEST', defaultValue: true)
+            ? testAuthEmailRedirect
+            : null,
       );
       if (res.user == null) {
         _err('Sign up was not confirmed. Please retry.');
         return;
       }
       if (res.session == null) {
-        Get.off(() => const LoginScreen());
-        Get.snackbar(
-          "Verify your email".tr,
-          "Verify your email, then sign in to finish registration. Vendor and Rider access remains pending Admin approval."
-              .tr,
-          duration: const Duration(seconds: 8),
+        Get.off(
+          () => EmailVerificationScreen(
+            email: email,
+            recentlyRequested: true,
+            notice:
+                'If this address is already registered, sign in instead. A signup response does not prove an email was sent.',
+          ),
         );
         return;
       }
@@ -200,9 +207,15 @@ class _SignupScreenState extends State<SignupScreen> {
         );
       }
     } on AuthApiException catch (e) {
-      _handleAuthError(e.statusCode?.toString() ?? '', e.message);
+      _err(
+        registrationEmailError(
+          e.statusCode?.toString() ?? '',
+          e.message,
+          code: e.code,
+        ),
+      );
     } on AuthException catch (e) {
-      _handleAuthError('', e.message);
+      _err(registrationEmailError(e.statusCode ?? '', e.message, code: e.code));
     } on RegistrationRequired {
       _err('Complete your profile and store details, then retry.');
     } catch (_) {
@@ -231,33 +244,6 @@ class _SignupScreenState extends State<SignupScreen> {
       _err('Could not select the image. Please try again.');
     } finally {
       if (mounted) setState(() => _loading = false);
-    }
-  }
-
-  void _handleAuthError(String code, String message) {
-    final msg = message.toLowerCase();
-    if (code == '422' ||
-        msg.contains('already registered') ||
-        msg.contains('already been registered') ||
-        msg.contains('already exists') ||
-        msg.contains('user_already_exists')) {
-      _err('This email is already registered. Try signing in instead.');
-    } else if (msg.contains('rate limit') ||
-        msg.contains('too many') ||
-        code == '429') {
-      _err('Too many attempts. Please wait a moment and try again.');
-    } else if (msg.contains('weak password') ||
-        msg.contains('password should be')) {
-      _err(
-        'Password is too weak. Use at least 6 characters with letters and numbers.',
-      );
-    } else if (msg.contains('invalid email') ||
-        msg.contains('unable to validate email')) {
-      _err('Invalid email address. Please check and try again.');
-    } else if (msg.contains('signup') && msg.contains('disabled')) {
-      _err('New registrations are currently disabled. Please contact support.');
-    } else {
-      _err('Sign up could not be confirmed. Retry.');
     }
   }
 

@@ -11,6 +11,7 @@ import 'routes/app_routes.dart';
 import 'core/app_translations.dart';
 import 'services/backend_config.dart';
 import 'services/account_session_service.dart';
+import 'services/email_verification.dart';
 import 'services/android_broadcast_push_service.dart';
 
 void main() async {
@@ -35,22 +36,18 @@ void main() async {
   await Supabase.initialize(
     url: config.url,
     publishableKey: config.key,
+    debug: false,
+    authOptions: FlutterAuthClientOptions(
+      detectSessionInUriPredicate: config.isolatedTest
+          ? AuthEmailLink.accept
+          : null,
+    ),
     httpClient: AccountHttpClient((code) {
       if (Get.isRegistered<AuthController>()) {
         Get.find<AuthController>().handleAccountFailure(code);
       }
     }, gatewayBase: Uri.parse(config.url)),
   );
-
-  Supabase.instance.client.auth.onAuthStateChange.listen((data) {
-    final event = data.event;
-    if (event == AuthChangeEvent.tokenRefreshed) {
-      print("🔥 Token refreshed successfully");
-    }
-    if (event == AuthChangeEvent.signedOut) {
-      print("🔥 User signed out (session invalid)");
-    }
-  });
 
   final language = Get.put(LanguageController(), permanent: true);
   await language.restore();

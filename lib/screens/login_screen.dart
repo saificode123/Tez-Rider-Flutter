@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
+import 'email_verification_screen.dart';
 import '../services/account_session_service.dart';
 import '../services/account_access.dart';
 import '../services/onboarding_service.dart';
@@ -225,9 +226,7 @@ class _LoginScreenState extends State<LoginScreen>
           _showError('Incorrect email or password. Please try again.');
           break;
         case 'email_not_confirmed':
-          _showError(
-            'Please verify your email first. Check your inbox for the confirmation link.',
-          );
+          Get.to(() => EmailVerificationScreen(email: email));
           break;
         case 'user_not_found':
           _showError('No account found with this email. Please sign up first.');

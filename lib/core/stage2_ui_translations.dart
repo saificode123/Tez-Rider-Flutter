@@ -1467,6 +1467,51 @@ const stage2UiUrdu = <String, String>{
   'Secure checkout storage was not confirmed. Retry.':
       'چیک آؤٹ کی محفوظ ذخیرہ کاری کی تصدیق نہیں ہو سکی۔ دوبارہ کوشش کریں۔',
   'Checkout details are too large.': 'چیک آؤٹ کی تفصیلات بہت زیادہ ہیں۔',
+  'Verification requested. Check your inbox and spam folder. Delivery is not yet confirmed.':
+      'تصدیق کی درخواست کی گئی ہے۔ ان باکس اور اسپیم فولڈر دیکھیں۔ ای میل پہنچنے کی ابھی تصدیق نہیں ہوئی۔',
+  'Enter a valid email address.': 'درست ای میل پتہ درج کریں۔',
+  'Please wait before requesting another verification email.':
+      'دوبارہ تصدیقی ای میل مانگنے سے پہلے انتظار کریں۔',
+  'Verification email is not configured for this address. Contact support.':
+      'اس پتے کے لیے تصدیقی ای میل ترتیب نہیں دی گئی۔ سپورٹ سے رابطہ کریں۔',
+  'Verification request could not be confirmed. Wait before retrying.':
+      'تصدیق کی درخواست کی توثیق نہیں ہو سکی۔ دوبارہ کوشش سے پہلے انتظار کریں۔',
+  'Open the genuine verification link, then sign in with your password.':
+      'اصل تصدیقی لنک کھولیں، پھر اپنے پاس ورڈ سے سائن ان کریں۔',
+  'Email confirmation has not been verified for this account.':
+      'اس اکاؤنٹ کی ای میل کی تصدیق ابھی نہیں ہوئی۔',
+  'Email confirmation could not be checked. Retry when connected.':
+      'ای میل کی تصدیق چیک نہیں ہو سکی۔ کنکشن بحال ہونے پر دوبارہ کوشش کریں۔',
+  'Open the genuine email confirmation link. Email verification does not approve Rider identity.':
+      'اصل تصدیقی ای میل کا لنک کھولیں۔ ای میل کی تصدیق رائیڈر کی شناخت کی منظوری نہیں ہے۔',
+  'Resend verification email': 'تصدیقی ای میل دوبارہ بھیجیں',
+  'I have verified my email': 'میں نے ای میل کی تصدیق کر لی ہے',
+  'Retry in': 'دوبارہ کوشش کریں بعد',
+  'seconds': 'سیکنڈ',
+  'This verification link is expired or invalid. Request a new link.':
+      'یہ تصدیقی لنک زائد المیعاد یا غلط ہے۔ نیا لنک طلب کریں۔',
+  'Change password': 'پاس ورڈ تبدیل کریں',
+  'New password': 'نیا پاس ورڈ',
+  'Confirm new password': 'نئے پاس ورڈ کی تصدیق',
+  'Update password': 'پاس ورڈ محفوظ کریں',
+  'Sign out all sessions': 'تمام سیشنز سے سائن آؤٹ کریں',
+  'Enter a strong, unique new password here. Never share it in chat.':
+      'یہاں ایک مضبوط، منفرد نیا پاس ورڈ درج کریں۔ اسے چیٹ میں کبھی شیئر نہ کریں۔',
+  'Use a new, unique password with at least 12 characters.':
+      'کم از کم ۱۲ حروف کا نیا، منفرد پاس ورڈ استعمال کریں۔',
+  'Passwords do not match.': 'پاس ورڈ یکساں نہیں ہیں۔',
+  'Sign in again before changing your password.':
+      'پاس ورڈ تبدیل کرنے سے پہلے دوبارہ سائن ان کریں۔',
+  'Password updated. Sign out all sessions, then sign in with your new password.':
+      'پاس ورڈ تبدیل ہو گیا۔ تمام سیشنز سے سائن آؤٹ کر کے نئے پاس ورڈ سے سائن ان کریں۔',
+  'Password change could not be confirmed. No success is claimed. Check your account before retrying.':
+      'پاس ورڈ کی تبدیلی کی تصدیق نہیں ہو سکی۔ دوبارہ کوشش سے پہلے اپنا اکاؤنٹ چیک کریں۔',
+  'Password updated. Signing out all sessions was not confirmed. Retry sign-out.':
+      'پاس ورڈ تبدیل ہو گیا۔ تمام سیشنز سے سائن آؤٹ کی تصدیق نہیں ہوئی۔ دوبارہ سائن آؤٹ کریں۔',
+  'If this address is already registered, sign in instead. A signup response does not prove an email was sent.':
+      'اگر یہ پتہ پہلے سے رجسٹرڈ ہے تو سائن ان کریں۔ رجسٹریشن کا جواب ای میل بھیجے جانے کا ثبوت نہیں ہے۔',
+  'Verification email could not be submitted. Contact support before retrying.':
+      'تصدیقی ای میل بھیجی نہیں جا سکی۔ دوبارہ کوشش سے پہلے سپورٹ سے رابطہ کریں۔',
   'Find available products': 'دستیاب مصنوعات تلاش کریں',
   'Where is my order?': 'میرا آرڈر کہاں ہے؟',
   'How do I pay?': 'ادائیگی کیسے کروں؟',

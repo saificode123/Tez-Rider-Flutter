@@ -1,4 +1,6 @@
 import 'dart:async';
+import '../services/email_verification.dart';
+import '../screens/email_verification_screen.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -66,23 +68,42 @@ class AuthController extends GetxController {
       SupabaseAccountSessionBackend(),
       _denyAccount,
     );
-    _sessionChanges = Supabase.instance.client.auth.onAuthStateChange.listen((
-      state,
-    ) {
-      if (state.event == AuthChangeEvent.signedOut) {
-        unawaited(accountGate.reset());
-      } else if (state.session != null) {
-        // Keep Auth SDK calls outside its synchronous event callback.
-        unawaited(
-          Future<void>(() async {
-            if (state.event == AuthChangeEvent.tokenRefreshed) {
-              await credentials.synchronize(state.session!);
-            }
-            await accountGate.check();
-          }),
-        );
-      }
-    });
+    _sessionChanges = Supabase.instance.client.auth.onAuthStateChange.listen(
+      (state) {
+        if (state.event == AuthChangeEvent.signedOut) {
+          unawaited(accountGate.reset());
+        } else if (state.session != null) {
+          // Keep Auth SDK calls outside its synchronous event callback.
+          unawaited(
+            Future<void>(() async {
+              if (state.event == AuthChangeEvent.tokenRefreshed) {
+                await credentials.synchronize(state.session!);
+              }
+              await accountGate.check();
+              if (state.event == AuthChangeEvent.signedIn &&
+                  AuthEmailLink.consume() &&
+                  Get.currentRoute != '/') {
+                Get.offAllNamed('/');
+              }
+            }),
+          );
+        }
+      },
+      onError: (Object error, StackTrace stack) {
+        if (AuthEmailLink.consume()) {
+          unawaited(
+            Future<void>(() {
+              Get.offAll(
+                () => const EmailVerificationScreen(
+                  notice:
+                      'This verification link is expired or invalid. Request a new link.',
+                ),
+              );
+            }),
+          );
+        }
+      },
+    );
   }
 
   @override

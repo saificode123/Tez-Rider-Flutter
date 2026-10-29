@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/biometric_settings_tile.dart';
 import '../../widgets/profile_email_panel.dart';
 import '../../services/profile_email_service.dart';
+import '../password_change_screen.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../services/profile_service.dart';
@@ -427,10 +428,22 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ProfileEmailPanel(
                             service: widget.emailService,
                             onConfirmed: (email) {
-                              if (mounted && _service.account == _account)
+                              if (mounted && _service.account == _account) {
                                 setState(() => _email = email);
+                              }
                             },
                           ),
+                          if (widget.service == null) ...[
+                            const SizedBox(height: 16),
+                            OutlinedButton(
+                              onPressed: _saving || _loading
+                                  ? null
+                                  : () => Get.to(
+                                      () => const PasswordChangeScreen(),
+                                    ),
+                              child: Text('Change password'.tr),
+                            ),
+                          ],
                         ],
                       ],
                     ),
