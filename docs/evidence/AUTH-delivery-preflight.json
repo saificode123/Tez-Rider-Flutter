@@ -1,6 +1,6 @@
 {
   "project": "igeisilhtmglgnqvllrx",
-  "utc": "2026-10-29T08:45:59.148859+00:00",
+  "utc": "2026-10-29T13:55:37.954536+00:00",
   "owner_recipient_matches_confirmed_auth_and_test_configuration": true,
   "remote_test_recipient_digest_matches": true,
   "recipient_mask": "ur***@gmail.com",
@@ -14,7 +14,7 @@
     "vendor_id": 997
   },
   "vendor_eligible": true,
-  "vendor_pickup_coordinates_present": false,
+  "vendor_pickup_coordinates_present": true,
   "orders_created_since_durable_checkpoint": 0,
   "existing_customer_orders_containing_reviewed_product": 0,
   "duplicate_checkout_guard": "CLEAR: no existing reviewed-product order",

@@ -27,6 +27,41 @@ def main(action):
  current=n.nodes()
  if action=='screen':
   print(json.dumps([{'label':safe(n.label(node)),'bounds':node.get('bounds'),'enabled':node.get('enabled'),'checked':node.get('checked'),'class':node.get('class')}for node in current if node.get('class')!='android.widget.EditText'and(n.label(node)or node.get('clickable')=='true')and not re.fullmatch(r'\d{6}',n.label(node))]))
+ elif action=='place-single-order':
+  labels=[n.label(node)for node in current]
+  assert 'Checkout'in labels and 'Cash on Delivery'in labels and 'Subtotal\nPKR 350\nDelivery Charges\nPKR 120\nTotal\nPKR 470'in labels
+  assert any(label.startswith('Confirmed delivery pin:')for label in labels),'Confirmed destination required'
+  preflight=json.loads((h.b.ROOT/'docs/evidence/AUTH-delivery-preflight.json').read_text())
+  assert (dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(preflight['utc'])).total_seconds()<300
+  assert preflight['orders_created_since_durable_checkpoint']==0 and preflight['existing_customer_orders_containing_reviewed_product']==0 and preflight['vendor_pickup_coordinates_present']and preflight['existing_approved_sendable_email_jobs']==0
+  push=json.loads((h.b.ROOT/'docs/evidence/AUTH-phone-push.json').read_text())
+  assert push['project']==h.b.REF and push['enabled']and push['current_phone_owner_ids']==[159]and push['current_phone_live_sessions']==1
+  assert (dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(push['utc'])).total_seconds()<600
+  assert all(row['role']=='customer'and row['user_id']not in(159,997,999)for row in push['other_device_owners']),'Unrelated registered recipients require review'
+  file=h.b.PRIVATE/'accept-single-delivery.dpapi';state=json.loads(h.b.crypt(file.read_bytes(),True))
+  assert state['project']==h.b.REF and state['customer_id']==159 and state['product_id']==224 and state['order_id']is None and not state.get('physical_checkout_submitted_at')
+  code,orders=h.b.api('/rest/v1/orders?user_id=eq.159&select=id&limit=1000',admin=True)
+  assert code==200 and len(orders)<1000 and all(row['id']in state['baseline_order_ids']for row in orders),'Reconcile any new order before checkout'
+  code,riders=h.b.api('/rest/v1/users?id=eq.999&select=role,verification_status,is_blocked,cnic_submitted_at',admin=True)
+  rider_proof=json.loads((h.b.ROOT/'docs/evidence/AUTH-rider-state.json').read_text())
+  assert code==200 and len(riders)==1 and riders[0]['role']=='rider'and riders[0]['verification_status']=='approved'and not riders[0]['is_blocked']and dt.datetime.fromisoformat(riders[0]['cnic_submitted_at'])==dt.datetime.fromisoformat(rider_proof['submitted_at'])and rider_proof['admin_approval_after_current_submission']and rider_proof['email_confirmed']
+  # Durable local attempt marker is written before the single UI submission.
+  state['physical_checkout_submitted_at']=dt.datetime.now(dt.timezone.utc).isoformat()
+  temporary=file.with_suffix('.dpapi.tmp');temporary.write_bytes(h.b.crypt(json.dumps(state).encode()))
+  assert json.loads(h.b.crypt(temporary.read_bytes(),True))==state;temporary.replace(file)
+  found=[node for node in n.nodes()if n.label(node)=='Place Order (Cash on Delivery)'];assert len(found)==1 and found[0].get('enabled')=='true'
+  ui.tap(found[0]);emit({'single_authorized_checkout_submitted':True,'result_requires_canonical_reconciliation':True})
+ elif action=='review-checkout':
+  assert any(n.label(node)=='Checkout'for node in current)and any(n.label(node)=='Cash on Delivery'for node in current),'Observed COD checkout required'
+  fields=[node for node in current if node.get('class')=='android.widget.EditText']
+  assert len(fields)==3,'Contact fields must be visible'
+  values=[node.get('text','').strip()for node in fields]
+  assert values[0]and re.fullmatch(r'\d{10,15}',values[1])and values[2].lower()==h.state['accounts']['physical-customer']['email'].lower(),'Existing authorized TEST contact must match'
+  assert any(n.label(node).startswith('Confirmed delivery pin:')for node in current),'Owner-confirmed destination required'
+  ui.adb('shell','input','swipe','540','1950','540','750','450');emit({'test_contact_and_owner_destination_verified':True,'checkout_scrolled_without_submission':True})
+ elif action=='scroll-vendor-profile':
+  assert any(n.label(node)=='Vendor Partner'for node in current)and any(n.label(node)=='Profile'for node in current),'Vendor profile tab required'
+  ui.adb('shell','input','swipe','540','1900','540','900','450');emit({'vendor_profile_scrolled':True})
  elif action=='scroll-rider-profile':
   assert any(n.label(node)=='TezRider Partner'for node in current)and any(n.label(node)=='Profile'for node in current),'Rider profile tab required'
   ui.adb('shell','input','swipe','540','1900','540','950','450');emit({'rider_profile_scrolled':True})

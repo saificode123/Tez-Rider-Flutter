@@ -1,0 +1,20 @@
+{
+  "authenticated_cannot_read_credentials": true,
+  "current_phone_live_sessions": 1,
+  "current_phone_owner_ids": [
+    999
+  ],
+  "current_phone_registrations": 1,
+  "enabled": true,
+  "other_device_owners": [
+    {
+      "live_session": true,
+      "role": "customer",
+      "user_id": 793
+    }
+  ],
+  "other_device_registrations": 1,
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T14:28:02.355993+00:00",
+  "scope": "Read-only current physical TEST FCM token hash match and live session. No push sent. No token, hash, installation credential or session ID published."
+}

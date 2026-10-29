@@ -1,0 +1,16 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T14:03:14.403827+00:00",
+  "order_id": 3180,
+  "email_type": "order_confirmation",
+  "job_id": "9b4c3847-134f-497d-9e1e-eff899cfd8f2",
+  "status": "sent",
+  "approved": true,
+  "attempts": 1,
+  "provider_accepted": true,
+  "sent_at": "2026-10-29T14:03:06.297969+00:00",
+  "worker_status": 200,
+  "inbox_receipt_confirmed": false,
+  "other_jobs_approved": false,
+  "scope": "Exactly one existing order confirmation job to verified configured owner TEST inbox. No OTP or invoice sent by this action. Provider acceptance is not inbox receipt."
+}

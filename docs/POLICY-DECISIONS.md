@@ -57,3 +57,11 @@ The original GPS 2–3-second target and routing 800ms target remain active. The
 The owner corrected the Rider email to the existing two-r address `urrehmansaif406@gmail.com`, repeating that address rather than accepting the suggested alias. Do not create an alias or duplicate account, or change the Customer's role. Canonical account identification and verification evidence are recorded separately, not inferred from an email mask.
 
 Do not request, print, log, commit or reuse the previously exposed Rider password. The owner will enter a strong, unique replacement through a secure mechanism. No agent password sign-in for this Rider. One genuine verification-email resend is authorized separately from the existing delivery-email limits if the account needs it; do not manually confirm email or fabricate delivery. Production remains protected and all earlier delivery/GPS/routing limits remain unchanged.
+
+## Owner addendum — physical pickup and notification check (2026-10-29)
+
+For the one controlled TEST delivery, the owner confirmed **"Yes, use this pickup point"** for the phone's current stationary position as Sana Foods' pickup. The owner selects the actual destination through the phone's delivery-pin confirmation.
+
+After the prepared notification check was explained, the owner explicitly answered **"Approve this TEST-only check"**: read the connected TEST app's notification token locally and compare only its SHA-256 hash with the TEST database, publishing neither value and sending no notification. This approval does not authorize unrelated notifications or production access.
+
+The owner also explicitly answered **"Approve sanitized evidence push"** for publishing TEST order/account IDs, status and review timestamps, stock counts and email-delivery status to `feature/final-2-functional`. Exclude passwords, tokens, CNIC contents, coordinates and recipient addresses from that delivery evidence.

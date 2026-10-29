@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([ValidateSet('Rider','Delivery','Confirmation')][string]$Action = 'Rider')
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 if ((Get-Content (Join-Path $repo 'supabase/.temp/project-ref') -Raw).Trim() -cne 'igeisilhtmglgnqvllrx') { throw 'TEST target required.' }
@@ -10,7 +10,8 @@ try { $env:FR21_TEST_KEYS_JSON = [Runtime.InteropServices.Marshal]::PtrToStringB
 finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($pointer) }
 $env:FR21_PRIVATE_DIRECTORY = $private
 try {
-    & 'C:/Users/urreh/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -X utf8 (Join-Path $repo 'tests/integration/AUTH-rider-inspect.py')
+    $script = switch ($Action) { 'Delivery' { 'AUTH-single-order-inspect.py' } 'Confirmation' { 'AUTH-order-confirmation.py' } default { 'AUTH-rider-inspect.py' } }
+    & 'C:/Users/urreh/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -X utf8 (Join-Path $repo ('tests/integration/' + $script))
     $result = $LASTEXITCODE
 } finally { Remove-Item Env:FR21_TEST_KEYS_JSON,Env:FR21_PRIVATE_DIRECTORY -ErrorAction SilentlyContinue }
 exit $result
