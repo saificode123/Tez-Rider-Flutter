@@ -14,7 +14,7 @@ m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 b=m.delivery.b
 
 def main(mode):
-    assert mode in('gps','route')
+    assert mode in('gps','route','travel')
     b.target()
     state=json.loads(b.crypt((b.PRIVATE/'accept-single-delivery.dpapi').read_bytes(),True))
     owner=json.loads(b.crypt((b.PRIVATE/'rider-auth-verification.dpapi').read_bytes(),True))
@@ -27,15 +27,17 @@ def main(mode):
     m.observer.h.state['physical_order_id']=oid
     out=b.ROOT/'.fr21-local/auth-gps';out.mkdir(parents=True,exist_ok=True)
     m.observer.h.OUT=out
-    if mode=='gps':
-        m.observer.main(60,'foreground')
-        result=json.loads((out/'physical-observer-foreground.json').read_text())
+    if mode in('gps','travel'):
+        seconds=120 if mode=='travel'else 60
+        label='travel'if mode=='travel'else'foreground'
+        m.observer.main(seconds,label)
+        result=json.loads((out/('physical-observer-'+label+'.json')).read_text())
         intervals=result['device_intervals_seconds']
         result.update(project=b.REF,order_id=oid,artifact_sha256=json.loads((b.ROOT/'build/delivery/test/build-evidence.json').read_text(encoding='utf-8-sig'))['sha256'],
             device_interval_p50_seconds=statistics.median(intervals)if intervals else None,
             device_interval_p95_seconds=sorted(intervals)[max(0,int(len(intervals)*.95+.999)-1)]if intervals else None,
             strict_2_to_3_second_intervals_pass=bool(intervals)and all(2<=x<=3 for x in intervals),
-            scope='60-second real physical TEST delivery broadcast observation under owning Customer authorization. No coordinates or credentials persisted. Interval distribution is not background/recovery or full physical-travel qualification.')
+            scope=str(seconds)+'-second real physical TEST delivery broadcast observation under owning Customer authorization. No coordinates or credentials persisted. Interval distribution alone does not prove physical arrival, handover, background/recovery or full travel qualification.')
     else:
         token=b.login(customer);samples=[]
         for _ in range(3):

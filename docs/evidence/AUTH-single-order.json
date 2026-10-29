@@ -1,10 +1,10 @@
 {
   "project": "igeisilhtmglgnqvllrx",
-  "utc": "2026-10-29T14:32:41.602043+00:00",
+  "utc": "2026-10-29T14:45:59.700065+00:00",
   "new_order_count": 1,
   "order": {
     "id": 3180,
-    "order_status": "ready",
+    "order_status": "on_the_way",
     "amount": 470,
     "payment_method": "COD",
     "rider_id": 999,
@@ -38,6 +38,7 @@
       "sent_at": "2026-10-29T14:03:06.297969+00:00"
     }
   ],
+  "otp_attempts": [],
   "inventory": [
     {
       "movement_type": "ORDER_DECREMENT",

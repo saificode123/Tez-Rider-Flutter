@@ -39,6 +39,7 @@ def main():
         result.update(order=order, vendor_order=vendors[0], items=items,
             product=read('/rest/v1/products?id=eq.224&select=id,stock_qty,is_available')[0],
             email_jobs=read('/rest/v1/email_outbox?entity_type=eq.order&entity_id=eq.' + str(order['id']) + '&select=id,email_type,status,test_approved,attempts,sent_at'),
+            otp_attempts=read('/rest/v1/delivery_otps?order_id=eq.' + str(order['id']) + '&select=state,attempts,created_at,sent_at,expires_at'),
             inventory=read('/rest/v1/inventory_movements?order_id=eq.' + str(order['id']) + '&select=movement_type,quantity_delta'))
     result['scope'] = 'Canonical read-only TEST inspection; encrypted local original-order checkpoint only. No lifecycle, payment, email or push write. Never create another order after a confirmed or ambiguous result.'
     (b.ROOT / 'docs/evidence/AUTH-single-order.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
