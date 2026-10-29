@@ -14,7 +14,7 @@ m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 b=m.delivery.b
 
 def main(mode):
-    assert mode in('gps','route','travel')
+    assert mode in('gps','route','travel','stopped')
     b.target()
     state=json.loads(b.crypt((b.PRIVATE/'accept-single-delivery.dpapi').read_bytes(),True))
     owner=json.loads(b.crypt((b.PRIVATE/'rider-auth-verification.dpapi').read_bytes(),True))
@@ -27,7 +27,13 @@ def main(mode):
     m.observer.h.state['physical_order_id']=oid
     out=b.ROOT/'.fr21-local/auth-gps';out.mkdir(parents=True,exist_ok=True)
     m.observer.h.OUT=out
-    if mode in('gps','travel'):
+    if mode=='stopped':
+        token=b.login(customer)
+        code,context=m.customer_rpc('fr13_tracking_context',{'p_order_id':oid},token)
+        stopped=code==200 and context.get('code')in('OK','INELIGIBLE')and context.get('sharing')is not True and context.get('latest')is None and not context.get('topic')
+        result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'http_status':code,'code':context.get('code'),'sharing':context.get('sharing'),'latest_exposed':context.get('latest')is not None,'topic_exposed':bool(context.get('topic')),'stop_confirmed':stopped,'scope':'Actual owner-instructed normal Rider Stop sharing control followed by fresh owning-Customer context inspection. No Rider password login, lifecycle transition or coordinates retained.'}
+        assert stopped,'Customer sharing revocation not confirmed'
+    elif mode in('gps','travel'):
         seconds=120 if mode=='travel'else 60
         label='travel'if mode=='travel'else'foreground'
         m.observer.main(seconds,label)

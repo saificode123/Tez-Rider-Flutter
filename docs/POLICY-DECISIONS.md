@@ -65,3 +65,7 @@ For the one controlled TEST delivery, the owner confirmed **"Yes, use this picku
 After the prepared notification check was explained, the owner explicitly answered **"Approve this TEST-only check"**: read the connected TEST app's notification token locally and compare only its SHA-256 hash with the TEST database, publishing neither value and sending no notification. This approval does not authorize unrelated notifications or production access.
 
 The owner also explicitly answered **"Approve sanitized evidence push"** for publishing TEST order/account IDs, status and review timestamps, stock counts and email-delivery status to `feature/final-2-functional`. Exclude passwords, tokens, CNIC contents, coordinates and recipient addresses from that delivery evidence.
+
+## Owner addendum — leave the controlled delivery unfinished (2026-10-29)
+
+After stating they cannot reach the confirmed destination, the owner selected **"Leave delivery pending and stop location sharing"**. Retain order 3180 for later normal completion; do not cancel, reset its lifecycle, create a replacement order or fabricate arrival, OTP, proof, cash, earnings or delivery. Stop live sharing and idle matching-location updates. This decision does not relax the original timing requirements or authorize production operations.
