@@ -13,6 +13,8 @@ class DeliveryRoute {
       expires = DateTime.parse(data['expiresAt'] as String).toUtc(),
       approximate = data['isApproximate'] == true || data['isStale'] == true,
       source = data['source'] as String,
+      cacheStatus = data['cacheStatus'] as String? ?? 'unknown',
+      target = data['target'] as String? ?? 'delivery',
       deviation = (data['deviationMeters'] as num?)?.toDouble() ?? 150,
       points = decodeGeometry(data['geometry']) {
     if (!distance.isFinite ||
@@ -21,6 +23,12 @@ class DeliveryRoute {
         distance > 1000000 ||
         duration < 0 ||
         duration > 86400 ||
+        !expires.isAfter(computed) ||
+        !deviation.isFinite ||
+        deviation < 100 ||
+        deviation > 1000 ||
+        !const ['fresh', 'cached', 'stale', 'unknown'].contains(cacheStatus) ||
+        !const ['pickup', 'delivery'].contains(target) ||
         !const ['geoapify', 'straight_line'].contains(source) ||
         (source == 'geoapify' && points.length < 2) ||
         (source == 'straight_line' && (!approximate || points.isNotEmpty))) {
@@ -31,7 +39,7 @@ class DeliveryRoute {
   final double distance, duration, deviation;
   final DateTime computed, expires;
   final bool approximate;
-  final String source;
+  final String source, cacheStatus, target;
   final List<LatLng> points;
   late final projector = RouteProjector(points);
   static List<LatLng> decodeGeometry(dynamic geometry) {
@@ -145,8 +153,10 @@ class DeliveryRouteController extends GetxController {
     this.location,
     this.fetch, {
     DateTime Function()? now,
+    this.target = 'delivery',
   }) : now = now ?? DateTime.now;
   final int order;
+  final String target;
   final CustomerLocationState location;
   final FetchDeliveryRoute fetch;
   final DateTime Function() now;
@@ -154,7 +164,7 @@ class DeliveryRouteController extends GetxController {
   final label = 'ETA unavailable'.obs;
   final loading = false.obs;
   final notice = ''.obs;
-  Worker? _fix, _stale;
+  Worker? _fix, _stale, _access;
   Timer? _timer;
   bool _closed = false, _inFlight = false, _denied = false;
   DateTime? _lastRequest, _lastFixAt;
@@ -165,11 +175,25 @@ class DeliveryRouteController extends GetxController {
   void start() {
     _fix = ever(location.position, (_) => consider());
     _stale = ever(location.stale, (_) => consider());
+    _access = ever(location.authorized, (allowed) {
+      if (!allowed) {
+        _generation++;
+        route.value = null;
+        label.value = 'ETA unavailable';
+      } else {
+        _denied = false;
+        _lastRequest = null;
+        consider();
+      }
+    });
     _timer = Timer.periodic(const Duration(seconds: 5), (_) => consider());
     consider();
   }
 
-  bool get fresh => !location.stale.value && location.position.value != null;
+  bool get fresh =>
+      location.authorized.value &&
+      !location.stale.value &&
+      location.position.value != null;
   void consider() {
     if (_closed) return;
     if (!fresh) {
@@ -271,7 +295,9 @@ class DeliveryRouteController extends GetxController {
         return;
       }
       final next = DeliveryRoute.fromJson(Map<String, dynamic>.from(data));
-      if (next.order != order) throw const FormatException('Wrong order');
+      if (next.order != order || next.target != target) {
+        throw const FormatException('Wrong order or navigation phase');
+      }
       final changed = route.value?.computed != next.computed;
       route.value = next;
       notice.value = next.source == 'straight_line'
@@ -306,6 +332,7 @@ class DeliveryRouteController extends GetxController {
     _generation++;
     _fix?.dispose();
     _stale?.dispose();
+    _access?.dispose();
     _timer?.cancel();
     route.value = null;
     label.value = 'ETA unavailable';

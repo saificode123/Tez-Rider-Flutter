@@ -13,9 +13,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import '../widgets/tez_map_tiles.dart';
+import '../widgets/rider_navigation_map.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
@@ -62,11 +60,6 @@ class _RiderDashboardState extends State<RiderDashboard> {
     );
   }
 
-  LatLng? get _currentLocation {
-    final fix = riderCtrl.location.latestFix.value;
-    return fix == null ? null : LatLng(fix.latitude, fix.longitude);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -102,14 +95,16 @@ class _RiderDashboardState extends State<RiderDashboard> {
       );
       if (!mounted || confirmed != true) return;
       await riderCtrl.acceptOrder(order);
-      if (mounted && riderCtrl.currentOrder.value != null)
+      if (mounted && riderCtrl.currentOrder.value != null) {
         setState(() => _tab = 1);
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         Get.snackbar(
           'Expected delivery earning'.tr,
           'Earnings could not be loaded. Please retry.'.tr,
         );
+      }
     } finally {
       _reviewingEarning = false;
     }
@@ -866,83 +861,23 @@ class _RiderDashboardState extends State<RiderDashboard> {
         );
       }
 
-      return Stack(
+      return Column(
         children: [
-          FlutterMap(
-            options: MapOptions(
-              initialCenter: _currentLocation ?? const LatLng(33.6844, 73.0479),
-              initialZoom: 15.0,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.tezrider.app',
-                tileProvider: tezMapTiles(),
-              ),
-              MarkerLayer(
-                markers: [
-                  if (_currentLocation != null)
-                    Marker(
-                      point: _currentLocation!,
-                      width: 60,
-                      height: 60,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.20),
-                              blurRadius: 12,
-                            ),
-                          ],
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.motorcycle_rounded,
-                            color: AppColors.primary,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
-          ),
-
-          Positioned(
-            top: 50,
-            left: 20,
-            child: GestureDetector(
-              onTap: () => setState(() => _tab = 0),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.12),
-                      blurRadius: 12,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.textPrimary,
-                  size: 20,
-                ),
-              ),
+          Expanded(
+            child: RiderNavigationMap(
+              key: ValueKey('navigation-${order['type']}-${order['id']}'),
+              orderId: int.parse(order['id'].toString()),
+              status: order['order_status']?.toString() ?? '',
+              isDelivery: order['type'] == 'order',
+              location: riderCtrl.location,
+              online: riderCtrl.isOnline.value,
+              onBack: () => setState(() => _tab = 0),
             ),
           ),
-
-          const Positioned(top: 52, right: 16, child: TezMapAttribution()),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * .45,
+            ),
             child: Container(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
               decoration: const BoxDecoration(
@@ -958,7 +893,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
               ),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * 0.68,
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.45,
                 ),
                 child: SingleChildScrollView(
                   child: Column(

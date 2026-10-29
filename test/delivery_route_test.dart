@@ -159,6 +159,7 @@ void main() {
     setUp(() {
       clock = DateTime.utc(2026, 10, 19, 12);
       state = CustomerLocationState(now: () => clock);
+      state.open(1, 2, clock);
       calls = 0;
       response = null;
       pending = null;
@@ -172,6 +173,51 @@ void main() {
       }, now: () => clock);
     });
     tearDown(() => controller.onClose());
+    test(
+      'revocation rejects a late route response and clears geometry immediately',
+      () async {
+        fix(33.7, 73.05);
+        pending = Completer();
+        controller.start();
+        expect(calls, 1);
+        state.clear(reason: 'STOPPED');
+        expect(controller.route.value, isNull);
+        pending!.complete({'code': 'OK', 'route': routeData(clock)});
+        await flush();
+        expect(controller.route.value, isNull);
+        await controller.refreshRoute(retry: true);
+        expect(calls, 1);
+      },
+    );
+    test('pickup geometry cannot be rendered as the delivery phase', () async {
+      fix(33.7, 73.05);
+      response = {
+        'code': 'OK',
+        'route': {...routeData(clock), 'target': 'pickup'},
+      };
+      await controller.refreshRoute();
+      expect(controller.route.value, isNull);
+      expect(controller.label.value, 'ETA unavailable');
+    });
+    test(
+      'route lifetime and deviation bounds reject malformed provider metadata',
+      () {
+        for (final invalid in [
+          {
+            'expiresAt': clock
+                .subtract(const Duration(seconds: 1))
+                .toIso8601String(),
+          },
+          {'deviationMeters': double.infinity},
+          {'cacheStatus': 'invented'},
+        ]) {
+          expect(
+            () => DeliveryRoute.fromJson({...routeData(clock), ...invalid}),
+            throwsFormatException,
+          );
+        }
+      },
+    );
     test('no HTTP without fresh FR13 location', () async {
       await controller.refreshRoute();
       expect(calls, 0);

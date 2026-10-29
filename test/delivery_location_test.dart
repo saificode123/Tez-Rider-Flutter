@@ -142,7 +142,10 @@ void main() {
     expect(map, isNot(contains("from('gps_locations')")));
     // FR14 now renders only server-derived road geometry; FR13 must still
     // reject simulation and direct legacy GPS access.
-    expect(map, contains('points: route.points'));
+    expect(
+      File('lib/widgets/delivery_map_view.dart').readAsStringSync(),
+      contains('points: route.points'),
+    );
     expect(map, isNot(contains('RoutingService.fetchRoute')));
     expect(map, isNot(contains('_etaText')));
     // Cohort16 replaced the legacy identity RPC with the guarded private card.
@@ -518,6 +521,8 @@ void main() {
       state.checkFreshness();
       expect(state.stale.value, true);
       expect(state.position.value, isNull);
+      expect(state.lastKnown.value, isNotNull);
+      expect(state.authorized.value, true);
       expect(state.receive(position(seconds: 31)), true);
       expect(state.stale.value, false);
       expect(
@@ -535,6 +540,22 @@ void main() {
     expect(state.stale.value, true);
     expect(state.position.value, isNull);
   });
+  test(
+    'revocation clears last-known memory and rejects late channel events',
+    () {
+      final state = CustomerLocationState(now: () => base);
+      state.open(1, 2, base);
+      expect(state.receive(position()), true);
+      expect(state.lastKnown.value, isNotNull);
+      state.clear();
+      expect(state.authorized.value, false);
+      expect(state.lastKnown.value, isNull);
+      expect(state.receive(position(seconds: 1)), false);
+      state.open(1, 3, base);
+      expect(state.receive(position(assignment: 2, seconds: 1)), false);
+      expect(state.lastKnown.value, isNull);
+    },
+  );
   test(
     'customer rejects wrong order, duplicate, malformed and low accuracy',
     () {

@@ -50,7 +50,45 @@ for (const code of ['DESTINATION_UNCONFIRMED', 'LOCATION_UNAVAILABLE']) {
 for (const code of ['QUOTA', 'BUSY', 'THROTTLED', 'NOT_CONFIGURED']) {
   Deno.test(code + ' prevents HTTP and returns labeled approximation', async () => { const h = harness({prepare: async () => ({code, orderId: 1, origin, destination, speedKmh: 20})}); const r = await h.run(); equal(r.data.route.isApproximate, true); equal(r.data.route.geometry, null); equal(h.calls.provider, 0); });
 }
-Deno.test('cache hit avoids provider', async () => { const h = harness({prepare: async () => ({code: 'CACHE', orderId: 1, origin, destination, cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}})}); equal((await h.run()).data.route.isStale, false); equal(h.calls.provider, 0); });
+Deno.test('cache hit avoids provider and labels cached geometry', async () => { const h = harness({prepare: async () => ({code: 'CACHE', orderId: 1, origin, destination, cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}})}); const result = await h.run(); equal(result.data.route.isStale, false); equal(result.data.route.cacheStatus, 'cached'); equal(h.calls.provider, 0); });
+Deno.test('new road geometry is labeled fresh after final live authorization', async () => {
+  const h = harness(); const result = await h.run(); equal(result.data.route.cacheStatus, 'fresh'); equal(h.calls.provider, 1);
+});
+Deno.test('pickup request uses separate authorized prepare/finish and revalidation', async () => {
+  let contexts=0, prepares=0, finishes=0;
+  const h=harness({context:async()=>{throw Error('Delivery context must not be used');},
+    pickupContext:async()=>{contexts++;return {code:'OK',actor:42};},
+    pickupPrepare:async()=>{prepares++;return {code:'COMPUTE',orderId:1,origin,destination,lease:'pickup'};},
+    pickupFinish:async(_o,_a,_l,route)=>{finishes++;return {code:'OK',route};}});
+  const result=await h.run({orderId:1,target:'pickup'});
+  equal(result.status,200);equal(result.data.route.target,'pickup');equal(contexts,2);equal(prepares,1);equal(finishes,1);
+  equal(h.calls.prepare,0);equal(h.calls.finish,0);
+});
+Deno.test('pickup authorization denial never calls provider or delivery prepare', async()=>{
+  const h=harness({pickupContext:async()=>({code:'FORBIDDEN'}),pickupPrepare:async()=>{throw Error('Must not prepare');},pickupFinish:async()=>({code:'UNAVAILABLE'})});
+  equal((await h.run({orderId:1,target:'pickup'})).status,403);equal(h.calls.provider,0);equal(h.calls.prepare,0);
+});
+Deno.test('pickup phase ending during provider request suppresses geometry',async()=>{
+  let context=0;
+  const h=harness({pickupContext:async()=>++context===1?{code:'OK',actor:42}:{code:'FORBIDDEN'},
+    pickupPrepare:async()=>({code:'COMPUTE',orderId:1,origin,destination,lease:'pickup'}),pickupFinish:async(_o,_a,_l,route)=>({code:'OK',route})});
+  const result=await h.run({orderId:1,target:'pickup'});equal(result.status,403);equal(result.data.route,undefined);
+});
+Deno.test('pickup provider failure never substitutes straight-line navigation',async()=>{
+  const h=harness({provider:async()=>{throw Error('offline');},pickupContext:async()=>({code:'OK',actor:42}),
+    pickupPrepare:async()=>({code:'COMPUTE',orderId:1,origin,destination,lease:'pickup'}),pickupFinish:async()=>({code:'RELEASED'})});
+  const result=await h.run({orderId:1,target:'pickup'});equal(result.data.route,null);equal(result.data.code,'UNAVAILABLE');
+});
+Deno.test('unknown navigation targets are rejected before any route preparation',async()=>{
+  for(const target of ['delivery','other',null,4]){
+    const h=harness();equal((await h.run({orderId:1,target})).status,400);equal(h.calls.prepare,0);
+  }
+  const h=harness();equal((await h.run(5)).status,400);
+});
+Deno.test('old geometry is labeled stale without another provider request', async () => {
+  const h = harness({prepare: async () => ({code: 'QUOTA', orderId: 1, origin, destination, cache: {expiresAt: '2026-10-19T11:00:00Z'}})});
+  equal((await h.run()).data.route.cacheStatus, 'stale'); equal(h.calls.provider, 0);
+});
 Deno.test('verified request actor avoids duplicate initial RPC and still revalidates', async () => {
   let contexts = 0, actor: unknown;
   const h = harness({initialActor: () => 42,

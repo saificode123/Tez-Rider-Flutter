@@ -91,11 +91,13 @@ class RiderLocationService extends GetxService {
     if (_closed || !_foreground || _guidance == null) return;
     try {
       if (!await _guidance!.openSettings() && !_closed) {
-        message.value = 'Settings could not be opened. Open TezRider location settings manually.';
+        message.value =
+            'Settings could not be opened. Open TezRider location settings manually.';
       }
     } catch (_) {
       if (!_closed) {
-        message.value = 'Settings could not be opened. Open TezRider location settings manually.';
+        message.value =
+            'Settings could not be opened. Open TezRider location settings manually.';
       }
     }
   }
@@ -286,7 +288,8 @@ class RiderLocationService extends GetxService {
       if (context['code'] != 'OK' ||
           context['sharing'] != true ||
           context['order_id'] != order) {
-        message.value = 'Sharing requires an online rider, completed checklist and started delivery.';
+        message.value =
+            'Sharing requires an online rider, completed checklist and started delivery.';
         return;
       }
       _order = order;
@@ -313,7 +316,8 @@ class RiderLocationService extends GetxService {
       if (!_closed && problem != null) message.value = problem;
     } catch (_) {
       if (!_closed) {
-        message.value = 'Location permission could not be checked. Retry when the app is open.';
+        message.value =
+            'Location permission could not be checked. Retry when the app is open.';
       }
     }
   }
@@ -474,7 +478,8 @@ class RiderLocationService extends GetxService {
         }
         if (!const ['PUBLISHED', 'REPLAYED', 'RATE_LIMIT'].contains(code)) {
           if (const ['STALE_FIX', 'INVALID_LOCATION'].contains(code)) {
-            message.value = 'Waiting for a fresh, accurate GPS fix. Check the device date and time.';
+            message.value =
+                'Waiting for a fresh, accurate GPS fix. Check the device date and time.';
             return;
           }
           throw StateError('Unconfirmed');
@@ -494,7 +499,8 @@ class RiderLocationService extends GetxService {
         _pendingTimer = null;
         _failures = (_failures + 1).clamp(1, 4);
         _retryAt = elapsed() + Duration(seconds: 1 << _failures);
-        message.value = 'Location update not confirmed. Retrying when a fresh fix is available.';
+        message.value =
+            'Location update not confirmed. Retrying when a fresh fix is available.';
       }
     } finally {
       _sending = false;
@@ -536,7 +542,8 @@ class RiderLocationService extends GetxService {
           await backend.context(order, enable: false);
         } catch (_) {
           if (!_closed) {
-            message.value = 'Device sharing stopped. Server cleanup awaits reconnection or lease expiry.';
+            message.value =
+                'Device sharing stopped. Server cleanup awaits reconnection or lease expiry.';
           }
         }
       }
@@ -598,6 +605,11 @@ class CustomerLocationState {
   final Duration Function() elapsed;
   final DateTime Function() now;
   final position = Rxn<DeviceFix>();
+  // Memory-only, scoped to this authorized order/assignment. A lost connection
+  // can show a timestamped stale pin; explicit revocation always clears it.
+  final lastKnown = Rxn<DeviceFix>();
+  final authorized = false.obs;
+  final availability = 'WAITING'.obs;
   final stale = true.obs;
   Duration? _expires;
   DateTime? _lastReceived;
@@ -611,10 +623,14 @@ class CustomerLocationState {
     order = nextOrder;
     assignment = nextAssignment;
     _serverOffset = serverNow.difference(now().toUtc());
+    authorized.value = true;
+    availability.value = 'WAITING';
   }
 
   bool receive(Map<String, dynamic> data) {
-    if (data['order_id'] != order || data['assignment_id'] != assignment) {
+    if (!authorized.value ||
+        data['order_id'] != order ||
+        data['assignment_id'] != assignment) {
       return false;
     }
     final lat = data['latitude'],
@@ -649,18 +665,28 @@ class CustomerLocationState {
         const Duration(seconds: 30) -
         (age.isNegative ? Duration.zero : age);
     position.value = fix;
+    lastKnown.value = fix;
     stale.value = false;
+    availability.value = 'LIVE';
     return true;
   }
 
   void checkFreshness() {
-    if (_expires != null && elapsed() > _expires!) clear();
+    if (_expires != null && elapsed() > _expires!) {
+      _expires = null;
+      position.value = null;
+      stale.value = true;
+      availability.value = 'STALE';
+    }
   }
 
-  void clear() {
+  void clear({String reason = 'UNAVAILABLE'}) {
+    authorized.value = false;
     _expires = null;
     position.value = null;
+    lastKnown.value = null;
     stale.value = true;
+    availability.value = reason;
   }
 }
 
@@ -719,7 +745,11 @@ class CustomerTrackingSession {
       if (context['code'] != 'OK' ||
           context['sharing'] != true ||
           context['topic'] is! String) {
-        state.clear();
+        state.clear(
+          reason: context['code'] == 'OK'
+              ? 'STOPPED'
+              : context['code']?.toString() ?? 'UNAVAILABLE',
+        );
         await _remove();
         if (!const ['ENDED', 'FORBIDDEN'].contains(context['code'])) {
           _scheduleRetry();
@@ -805,7 +835,7 @@ class CustomerTrackingSession {
     _generation++;
     _freshness?.cancel();
     _retry?.cancel();
-    await _remove();
     state.clear();
+    await _remove();
   }
 }

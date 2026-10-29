@@ -1,16 +1,14 @@
-import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../services/delivery_location.dart';
+import '../core/stage2_ui_strings.dart';
 import '../services/delivery_location_platform.dart';
+import '../services/delivery_map_stops.dart';
 import '../services/delivery_route.dart';
-import '../widgets/tez_map_tiles.dart';
+import '../widgets/delivery_map_view.dart';
 import '../widgets/rider_identity_card.dart';
 
 class MapScreen extends StatefulWidget {
@@ -21,120 +19,128 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final _client = Supabase.instance.client;
-  final _map = MapController();
-  CustomerLocationFeed? _feed;
-  DeliveryRouteController? _route;
-  Worker? _fixWorker;
-  bool _mapReady = false, _centered = false;
-  LatLng? _userLocation;
-  bool _loading = true;
-  int _generation = 0;
-  int? _identityOrder;
-  double? _fare;
+  final client = Supabase.instance.client;
+  CustomerLocationFeed? feed;
+  DeliveryRouteController? route;
+  DeliveryMapStops stops = const DeliveryMapStops();
+  LatLng? viewer;
+  bool loading = true, locating = false;
+  String problem = '';
+  int generation = 0;
+  int? identityOrder;
+  double? fare;
+  StreamSubscription<AuthState>? auth;
   @override
   void initState() {
     super.initState();
-    unawaited(_open());
+    final owner = client.auth.currentUser?.id;
+    auth = client.auth.onAuthStateChange.listen((event) {
+      if (event.event == AuthChangeEvent.signedOut ||
+          event.session?.user.id != owner) {
+        generation++;
+        route?.onClose();
+        route = null;
+        unawaited(feed?.dispose());
+        if (mounted) {
+          setState(() {
+            stops = const DeliveryMapStops();
+            viewer = null;
+            identityOrder = null;
+            fare = null;
+            loading = false;
+            locating = false;
+            problem = 'Account changed. Open tracking again.';
+          });
+        }
+      }
+    });
+    unawaited(open());
   }
 
   @override
   void didUpdateWidget(MapScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.orderId != widget.orderId) unawaited(_open());
+    if (oldWidget.orderId != widget.orderId) unawaited(open());
   }
 
-  Future<void> _open() async {
-    final generation = ++_generation;
-    _fixWorker?.dispose();
-    _route?.onClose();
-    _route = null;
-    _mapReady = false;
-    _centered = false;
-    final previous = _feed;
-    _feed = null;
-    await previous?.dispose();
-    if (!mounted || generation != _generation) return;
+  Future<void> open() async {
+    final request = ++generation;
+    route?.onClose();
+    route = null;
+    final old = feed;
+    feed = null;
+    await old?.dispose();
+    if (!mounted || request != generation) return;
     setState(() {
-      _loading = true;
-      _identityOrder = null;
-      _fare = null;
+      loading = true;
+      identityOrder = null;
+      fare = null;
+      stops = const DeliveryMapStops();
+      viewer = null;
+      problem = '';
     });
     try {
-      final actor = await _client
+      final actor = await client
           .rpc('fr21_actor')
           .timeout(const Duration(seconds: 8));
-      if (actor == null) return;
-      final query = _client
+      if (actor == null) throw StateError('Sign in required');
+      final query = client
           .from('orders')
           .select('id,rider_id,fare,order_status')
           .eq('user_id', actor);
-      final order = widget.orderId != null
+      final order = widget.orderId == null
           ? await query
-                .eq('id', widget.orderId!)
-                .maybeSingle()
-                .timeout(const Duration(seconds: 8))
-          : await query
                 .eq('order_status', 'on_the_way')
                 .order('created_at', ascending: false)
                 .limit(1)
                 .maybeSingle()
+                .timeout(const Duration(seconds: 8))
+          : await query
+                .eq('id', widget.orderId!)
+                .maybeSingle()
                 .timeout(const Duration(seconds: 8));
-      if (!mounted || generation != _generation || order == null) return;
-      _fare = (order['fare'] as num?)?.toDouble();
-      _identityOrder = order['id'] as int;
-      final feed = CustomerLocationFeed(order['id'] as int);
-      _feed = feed;
-      _route = DeliveryRouteController(order['id'] as int, feed.state, (
-        id,
-      ) async {
-        try {
-          final response = await _client.functions.invoke(
-            'get-delivery-route',
-            body: {'orderId': id},
-          );
-          return Map<String, dynamic>.from(response.data as Map);
-        } on FunctionException catch (e) {
-          final details = e.details;
-          return details is Map
-              ? Map<String, dynamic>.from(details)
-              : {
-                  'code': e.status == 401
-                      ? 'UNAUTHORIZED'
-                      : e.status == 403
-                      ? 'FORBIDDEN'
-                      : 'UNAVAILABLE',
-                };
-        }
-      })..start();
-      _fixWorker = ever(feed.state.position, (_) => _centerFirstFix());
-      await feed.start();
-      if (!mounted || generation != _generation) await feed.dispose();
-    } catch (_) {
-      /* No old coordinate or simulated fallback pin. */
-    } finally {
-      if (mounted && generation == _generation) {
-        setState(() => _loading = false);
+      if (!mounted || request != generation) return;
+      if (order == null) {
+        problem = 'No active delivery location';
+        return;
       }
+      identityOrder = order['id'] as int;
+      fare = (order['fare'] as num?)?.toDouble();
+      try {
+        final nextStops = await DeliveryMapStops.load(client, identityOrder!);
+        if (!mounted || request != generation) return;
+        stops = nextStops;
+      } catch (_) {
+        if (!mounted || request != generation) return;
+        problem = 'Delivery stops unavailable. Retry when connected.';
+      }
+      if (!mounted || request != generation) return;
+      final next = CustomerLocationFeed(identityOrder!);
+      feed = next;
+      route = DeliveryRouteController(
+        identityOrder!,
+        next.state,
+        fetchDeliveryRoadRoute,
+      )..start();
+      await next.start();
+      if (!mounted || request != generation) await next.dispose();
+    } catch (_) {
+      if (mounted && request == generation) {
+        problem =
+            'Delivery tracking unavailable. Check your connection and retry.';
+      }
+    } finally {
+      if (mounted && request == generation) setState(() => loading = false);
     }
   }
 
-  void _centerFirstFix() {
-    final fix = _feed?.state.position.value;
-    if (mounted &&
-        _mapReady &&
-        !_centered &&
-        fix != null &&
-        _feed?.state.stale.value == false) {
-      _centered = true;
-      _map.move(LatLng(fix.latitude, fix.longitude), 15);
-    }
-  }
-
-  Future<void> _myLocation() async {
+  Future<void> myLocation() async {
+    if (locating) return;
+    final request = generation;
+    setState(() => locating = true);
     try {
       if (!await Geolocator.isLocationServiceEnabled()) {
-        throw StateError('disabled');
+        throw StateError('GPS off');
       }
       var permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -142,305 +148,105 @@ class _MapScreenState extends State<MapScreen> {
       }
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever) {
-        throw StateError('denied');
+        throw StateError('Permission denied');
       }
-      final p = await Geolocator.getCurrentPosition(
+      final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 12));
-      if (!mounted) return;
-      setState(() => _userLocation = LatLng(p.latitude, p.longitude));
-      _map.move(_userLocation!, 15);
+      if (mounted && request == generation) {
+        setState(() => viewer = LatLng(position.latitude, position.longitude));
+      }
     } catch (_) {
-      if (mounted) {
+      if (mounted && request == generation) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Your location is unavailable. Check GPS and location permission."
+              'Your location is unavailable. Check GPS and location permission.'
                   .tr,
             ),
           ),
         );
       }
+    } finally {
+      if (mounted && request == generation) setState(() => locating = false);
     }
   }
 
   @override
   void dispose() {
-    _generation++;
-    _fixWorker?.dispose();
-    _route?.onClose();
-    unawaited(_feed?.dispose());
-    _map.dispose();
+    generation++;
+    unawaited(auth?.cancel());
+    route?.onClose();
+    unawaited(feed?.dispose());
     super.dispose();
   }
 
-  Marker _marker(LatLng point, IconData icon, Color color, String label) =>
-      Marker(
-        point: point,
-        width: 48,
-        height: 48,
-        child: Semantics(
-          label: label,
-          child: Icon(icon, color: color, size: 44),
-        ),
-      );
   @override
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
-    const green = Color(0xFF1B5E20);
-    return Scaffold(
-      body: _loading
-          ? const Center(child: CircularProgressIndicator(color: green))
-          : Stack(
-              children: [
-                FlutterMap(
-                  mapController: _map,
-                  // This is a map viewport, never a fabricated rider location.
-                  options: MapOptions(
-                    initialCenter: _feed?.state.position.value == null
-                        ? _userLocation ?? const LatLng(33.6844, 73.0479)
-                        : LatLng(
-                            _feed!.state.position.value!.latitude,
-                            _feed!.state.position.value!.longitude,
-                          ),
-                    onMapReady: () {
-                      _mapReady = true;
-                      _centerFirstFix();
-                    },
-                    initialZoom: 14.5,
+    if (loading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    Widget map() {
+      final state = feed?.state;
+      final allowed = state?.authorized.value == true;
+      final fix = allowed
+          ? state?.position.value ?? state?.lastKnown.value
+          : null;
+      final stale = state?.stale.value ?? true;
+      final availability = state?.availability.value;
+      final ended = [
+        'ENDED',
+        'FORBIDDEN',
+        'UNAUTHORIZED',
+      ].contains(availability);
+      final trackingNotice = availability == 'ENDED'
+          ? 'Delivery tracking ended.'
+          : availability == 'STOPPED'
+          ? 'The Rider has stopped sharing location.'
+          : '';
+      return DeliveryMapView(
+        key: ValueKey(identityOrder),
+        fix: fix,
+        stale: stale,
+        stops: ended ? const DeliveryMapStops() : stops,
+        viewerLocation: viewer,
+        onLocate: locating ? null : myLocation,
+        route: allowed ? route?.route.value : null,
+        eta: route?.label.value ?? 'ETA unavailable',
+        loading: route?.loading.value ?? false,
+        notice: trackingNotice.isNotEmpty
+            ? trackingNotice
+            : problem.isNotEmpty
+            ? problem
+            : route?.notice.value ?? '',
+        onRetry: () => unawaited(open()),
+        onBack: () => Get.back(),
+        footer: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (fare != null)
+              Text(
+                'Delivery charges: PKR @slot0end'.uiTr({
+                  'slot0end': fare!.toStringAsFixed(0),
+                }),
+              ),
+            if (identityOrder != null)
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                title: Text('Rider details'.tr),
+                children: [
+                  RiderIdentityCard(
+                    key: ValueKey(identityOrder),
+                    orderId: identityOrder!,
                   ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.example.tezrider',
-                      tileProvider: tezMapTiles(),
-                    ),
-                    if (_feed != null)
-                      Obx(() {
-                        final route = _route?.route.value;
-                        final visible = !_feed!.state.stale.value;
-                        return PolylineLayer(
-                          polylines: [
-                            if (visible &&
-                                route != null &&
-                                route.points.isNotEmpty)
-                              Polyline(
-                                points: route.points,
-                                strokeWidth: 5,
-                                color: green,
-                              ),
-                          ],
-                        );
-                      }),
-                    if (_feed != null)
-                      Obx(() {
-                        final fix = _feed!.state.position.value;
-                        final stale = _feed!.state.stale.value;
-                        return MarkerLayer(
-                          markers: [
-                            if (fix != null && !stale)
-                              _marker(
-                                LatLng(fix.latitude, fix.longitude),
-                                Icons.delivery_dining,
-                                Colors.deepOrange,
-                                'Live rider location',
-                              ),
-                            if (_userLocation != null)
-                              _marker(
-                                _userLocation!,
-                                Icons.person_pin_circle_rounded,
-                                green,
-                                'Your location',
-                              ),
-                          ],
-                        );
-                      })
-                    else
-                      MarkerLayer(
-                        markers: [
-                          if (_userLocation != null)
-                            _marker(
-                              _userLocation!,
-                              Icons.person_pin_circle_rounded,
-                              green,
-                              'Your location',
-                            ),
-                        ],
-                      ),
-                  ],
-                ),
-                const Positioned(
-                  bottom: 115,
-                  left: 16,
-                  child: TezMapAttribution(),
-                ),
-                Positioned(
-                  top: MediaQuery.of(context).padding.top + 12,
-                  left: 16,
-                  right: 16,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black12, blurRadius: 12),
-                      ],
-                    ),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.sizeOf(context).height * 0.45,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (_identityOrder != null)
-                              RiderIdentityCard(
-                                key: ValueKey(_identityOrder),
-                                orderId: _identityOrder!,
-                              ),
-                            if (_feed != null)
-                              Obx(() {
-                                final state = _feed!.state;
-                                return Text(
-                                  state.stale.value
-                                      ? unavailableRiderLocation
-                                      : "Live rider location • accuracy ±@slot0end m"
-                                            .uiTr({
-                                              "slot0end":
-                                                  (state
-                                                          .position
-                                                          .value!
-                                                          .accuracy
-                                                          .round())
-                                                      .toString(),
-                                            }),
-                                  style: const TextStyle(fontSize: 12),
-                                );
-                              })
-                            else
-                              Text(unavailableRiderLocation.uiMessage),
-                            if (_route != null)
-                              Obx(
-                                () => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Chip(
-                                      label: Text(
-                                        _route!.loading.value &&
-                                                _route!.route.value == null &&
-                                                !_feed!.state.stale.value
-                                            ? "Calculating ETA…".tr
-                                            : _route!.label.value.uiMessage,
-                                      ),
-                                    ),
-                                    if (_route!.notice.value.isNotEmpty &&
-                                        !_feed!.state.stale.value)
-                                      Text(
-                                        _route!.notice.value.uiMessage,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    if (_route!.route.value?.source ==
-                                            'geoapify' &&
-                                        !_feed!.state.stale.value)
-                                      InkWell(
-                                        onTap: () => launchUrl(
-                                          Uri.parse(
-                                            'https://www.geoapify.com/',
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Powered by Geoapify | © OpenStreetMap contributors"
-                                              .tr,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 16,
-                  bottom: 150,
-                  child: Column(
-                    children: [
-                      FloatingActionButton.small(
-                        heroTag: 'customer-position',
-                        tooltip: 'My location',
-                        onPressed: _myLocation,
-                        child: const Icon(Icons.my_location),
-                      ),
-                      const SizedBox(height: 12),
-                      FloatingActionButton.small(
-                        heroTag: 'rider-position',
-                        tooltip: 'Rider location',
-                        onPressed: () {
-                          final fix = _feed?.state.position.value;
-                          if (fix != null &&
-                              _feed?.state.stale.value == false) {
-                            _map.move(LatLng(fix.latitude, fix.longitude), 15);
-                          }
-                        },
-                        child: const Icon(Icons.delivery_dining),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: 24,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            _fare == null
-                                ? "Live delivery tracking".tr
-                                : "Delivery charges: PKR @slot0end".uiTr({
-                                    "slot0end": (_fare!.toStringAsFixed(
-                                      0,
-                                    )).toString(),
-                                  }),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (_feed == null) {
-                              unawaited(_open());
-                            } else {
-                              unawaited(_feed!.refresh());
-                              unawaited(_route?.refreshRoute(retry: true));
-                            }
-                          },
-                          child: Text("Retry".tr),
-                        ),
-                        FilledButton(
-                          onPressed: () => Get.back(),
-                          child: Text("Back".tr),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-    );
+                ],
+              ),
+          ],
+        ),
+      );
+    }
+
+    return Scaffold(body: feed == null ? map() : Obx(map));
   }
 }

@@ -7,6 +7,9 @@ export interface Dependencies {
   context(jwt: string, order: number): Promise<Data>;
   prepare(order: number, actor: number, configured: boolean): Promise<Data>;
   finish(order: number, actor: number, lease: string, route: Data | null): Promise<Data>;
+  pickupContext?(jwt: string, order: number): Promise<Data>;
+  pickupPrepare?(order: number, actor: number, configured: boolean): Promise<Data>;
+  pickupFinish?(order: number, actor: number, lease: string, route: Data | null): Promise<Data>;
   provider(origin: number[], destination: number[]): Promise<unknown>;
   configured: boolean;
   now?: () => number;
@@ -88,16 +91,22 @@ export function createHandler(deps: Dependencies) {
       } finally { await reader.cancel(); }
       let body: Data;
       try { body = JSON.parse(text); } catch { return reply({code: 'INVALID_REQUEST'}, 400); }
-      if (!body || Array.isArray(body) || Object.keys(body).length !== 1 || !Number.isSafeInteger(body.orderId) || body.orderId < 1) return reply({code: 'INVALID_REQUEST'}, 400);
+      if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some(key => !['orderId', 'target'].includes(key)) ||
+        ('target' in body && body.target !== 'pickup') || !Number.isSafeInteger(body.orderId) || body.orderId < 1) return reply({code: 'INVALID_REQUEST'}, 400);
+      const pickup = body.target === 'pickup';
+      if (pickup && (!deps.pickupContext || !deps.pickupPrepare || !deps.pickupFinish)) return reply({code: 'UNAVAILABLE', route: null}, 503);
+      const context = pickup ? deps.pickupContext! : deps.context;
+      const prepare = pickup ? deps.pickupPrepare! : deps.prepare;
+      const finish = pickup ? deps.pickupFinish! : deps.finish;
       const actor = deps.initialActor?.(jwt);
       // prepare independently checks current actor/order eligibility in SQL.
       // A verified request identity avoids a redundant initial context RPC;
       // final live JWT/session/order revalidation is still mandatory below.
       const access = Number.isSafeInteger(actor) && actor! > 0
         ? {code: 'OK', actor}
-        : await timed('context', () => deps.context(jwt, body.orderId));
+        : await timed('context', () => context(jwt, body.orderId));
       if (access.code !== 'OK' || !Number.isSafeInteger(access.actor)) return reply({code: 'FORBIDDEN'}, 403);
-      const ctx = await timed('prepare', () => deps.prepare(body.orderId, access.actor, deps.configured));
+      const ctx = await timed('prepare', () => prepare(body.orderId, access.actor, deps.configured));
       if (ctx.code === 'FORBIDDEN') return reply({code: 'FORBIDDEN'}, 403);
       if (ctx.code === 'RATE_LIMIT') return reply({code: 'RATE_LIMIT'}, 429);
       if (['DESTINATION_UNCONFIRMED', 'LOCATION_UNAVAILABLE'].includes(ctx.code)) return reply({code: ctx.code, route: null});
@@ -105,21 +114,22 @@ export function createHandler(deps: Dependencies) {
       if (ctx.code === 'COMPUTE') {
         let result: Data | null = null;
         try { result = parseProvider(await timed('provider', () => deps.provider(ctx.origin, ctx.destination)), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
-        const saved = await timed('finish', () => deps.finish(body.orderId, access.actor, ctx.lease, result));
+        const saved = await timed('finish', () => finish(body.orderId, access.actor, ctx.lease, result));
         if (result && saved.code === 'OK') {
           // Recheck the caller/session after the external request as well.
-          if ((await timed('revalidate', () => deps.context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
-          return reply({code: 'OK', route: saved.route});
+          if ((await timed('revalidate', () => context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+          return reply({code: 'OK', route: {...saved.route, target: pickup ? 'pickup' : 'delivery', cacheStatus: 'fresh'}});
         }
         if (!['OK', 'RELEASED'].includes(saved.code)) return reply({code: 'UNAVAILABLE', route: null});
       }
-      if ((await timed('revalidate', () => deps.context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+      if ((await timed('revalidate', () => context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
       const now = (deps.now ?? Date.now)();
       if (ctx.cache) {
         const stale = ctx.code !== 'CACHE' || Date.parse(ctx.cache.expiresAt) <= now;
-        return reply({code: 'OK', route: {...ctx.cache, isStale: stale, isApproximate: stale}, retryAfterSeconds: ctx.minimumSeconds});
+        return reply({code: 'OK', route: {...ctx.cache, target: pickup ? 'pickup' : 'delivery', isStale: stale, isApproximate: stale, cacheStatus: stale ? 'stale' : 'cached'}, retryAfterSeconds: ctx.minimumSeconds});
       }
-      const approximate = fallback(ctx, now);
+      // Pickup navigation never replaces a road route with a straight line.
+      const approximate = pickup ? null : fallback(ctx, now);
       return reply({code: approximate ? 'APPROXIMATE' : 'UNAVAILABLE', route: approximate, retryAfterSeconds: ctx.minimumSeconds});
     } catch { return reply({code: 'UNAVAILABLE', route: null}, 503); }
   };

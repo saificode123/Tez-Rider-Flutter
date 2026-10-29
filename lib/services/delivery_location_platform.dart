@@ -56,6 +56,11 @@ class AndroidRiderLocationSource implements RiderLocationSource {
         permission != LocationPermission.whileInUse) {
       return 'Allow location permission to refresh delivery matching and share an active delivery.';
     }
+    if (delivery &&
+        await Geolocator.getLocationAccuracy() ==
+            LocationAccuracyStatus.reduced) {
+      return 'Enable precise location in app settings for delivery tracking.';
+    }
     if (delivery && requestPermission) {
       final notifications = FlutterLocalNotificationsPlugin()
           .resolvePlatformSpecificImplementation<
@@ -89,8 +94,9 @@ class AndroidRiderLocationSource implements RiderLocationSource {
                     defType: 'drawable',
                   ),
                   notificationTitle: 'TezRider delivery location'.uiMessage,
-                  notificationText: 'Sharing location for your active delivery. Stop sharing in the app.'
-                      .uiMessage,
+                  notificationText:
+                      'Sharing location for your active delivery. Stop sharing in the app.'
+                          .uiMessage,
                   notificationChannelName: 'Active delivery location'.uiMessage,
                   enableWakeLock: true,
                   setOngoing: true,

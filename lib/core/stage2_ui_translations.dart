@@ -1,5 +1,44 @@
 /// Display-only English keys and Urdu translations for Stage 2 controls.
 const stage2UiUrdu = <String, String>{
+  'Pickup point': 'سامان لینے کی جگہ',
+  'Confirmed Rider position': 'رائیڈر کی تصدیق شدہ جگہ',
+  'Last confirmed Rider position': 'رائیڈر کی آخری تصدیق شدہ جگہ',
+  'Waiting for authorized location': 'مجاز مقام کی تازہ اطلاع کا انتظار ہے',
+  'Last known · not live': 'آخری معلوم مقام · لائیو نہیں',
+  'Live delivery location': 'ڈیلیوری کا لائیو مقام',
+  'Following Rider': 'رائیڈر کی پیروی جاری ہے',
+  'Recenter and follow': 'دوبارہ مرکز میں لائیں اور پیروی کریں',
+  'Route overview': 'پورا راستہ دیکھیں',
+  'Previous road route': 'پہلے حاصل کیا گیا سڑک کا راستہ',
+  'Cached road route': 'محفوظ سڑک کا راستہ',
+  'Delivery tracking ended.': 'ڈیلیوری کی ٹریکنگ ختم ہو گئی ہے۔',
+  'The Rider has stopped sharing location.':
+      'رائیڈر نے مقام کی شیئرنگ بند کر دی ہے۔',
+  'Ready for pickup': 'سامان وصولی کے لیے تیار ہے',
+  'Active delivery': 'جاری ڈیلیوری',
+  'Map tiles unavailable. Check connection and retry.':
+      'نقشہ دستیاب نہیں۔ رابطہ چیک کر کے دوبارہ کوشش کریں۔',
+  'Enable precise location in app settings for delivery tracking.':
+      'ڈیلیوری ٹریکنگ کے لیے ایپ کی ترتیبات میں درست مقام فعال کریں۔',
+  'Road route unavailable': 'سڑک کا راستہ دستیاب نہیں',
+  'Last update': 'آخری تازہ اطلاع',
+  '@seconds seconds ago': '@seconds سیکنڈ پہلے',
+  'km': 'کلومیٹر',
+  'Rider details': 'رائیڈر کی تفصیلات',
+  'Account changed. Open tracking again.':
+      'اکاؤنٹ تبدیل ہو گیا۔ ٹریکنگ دوبارہ کھولیں۔',
+  'No active delivery location': 'کسی جاری ڈیلیوری کا مقام دستیاب نہیں',
+  'Delivery stops unavailable. Retry when connected.':
+      'ڈیلیوری کے مقامات دستیاب نہیں۔ رابطہ بحال ہونے پر دوبارہ کوشش کریں۔',
+  'Delivery tracking unavailable. Check your connection and retry.':
+      'ڈیلیوری ٹریکنگ دستیاب نہیں۔ رابطہ چیک کر کے دوبارہ کوشش کریں۔',
+  'Proceed to pickup': 'سامان لینے کی جگہ جائیں',
+  'Confirm pickup before starting delivery.':
+      'ڈیلیوری شروع کرنے سے پہلے سامان کی وصولی کی تصدیق کریں۔',
+  'Enable sharing to load the authorized road route.':
+      'مجاز سڑک کا راستہ دیکھنے کے لیے مقام کی شیئرنگ شروع کریں۔',
+  'Navigation to customer': 'کسٹمر کی طرف رہنمائی',
+  'Navigation to pickup': 'سامان لینے کی جگہ کی طرف رہنمائی',
   'Support email': 'معاونت کا ای میل',
   'Support contact could not be loaded. Retry.':
       'معاونت کا رابطہ لوڈ نہیں ہو سکا۔ دوبارہ کوشش کریں۔',

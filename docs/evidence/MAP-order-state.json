@@ -1,0 +1,49 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T19:49:37.766110+00:00",
+  "new_order_count": 1,
+  "order": {
+    "id": 3180,
+    "order_status": "on_the_way",
+    "amount": 470,
+    "payment_method": "COD",
+    "rider_id": 999,
+    "created_at": "2026-10-29T13:58:55.515597+00:00"
+  },
+  "vendor_order": {
+    "id": 2096,
+    "vendor_id": 997,
+    "status": "on_the_way",
+    "sub_total": 350
+  },
+  "items": [
+    {
+      "product_id": 224,
+      "quantity": 1,
+      "price_at_time": 350
+    }
+  ],
+  "product": {
+    "id": 224,
+    "stock_qty": 29,
+    "is_available": true
+  },
+  "email_jobs": [
+    {
+      "id": "9b4c3847-134f-497d-9e1e-eff899cfd8f2",
+      "email_type": "order_confirmation",
+      "status": "sent",
+      "test_approved": true,
+      "attempts": 1,
+      "sent_at": "2026-10-29T14:03:06.297969+00:00"
+    }
+  ],
+  "otp_attempts": [],
+  "inventory": [
+    {
+      "movement_type": "ORDER_DECREMENT",
+      "quantity_delta": -1
+    }
+  ],
+  "scope": "Canonical read-only TEST inspection; encrypted local original-order checkpoint only. No lifecycle, payment, email or push write. Never create another order after a confirmed or ambiguous result."
+}

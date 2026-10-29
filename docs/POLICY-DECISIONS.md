@@ -69,3 +69,7 @@ The owner also explicitly answered **"Approve sanitized evidence push"** for pub
 ## Owner addendum — leave the controlled delivery unfinished (2026-10-29)
 
 After stating they cannot reach the confirmed destination, the owner selected **"Leave delivery pending and stop location sharing"**. Retain order 3180 for later normal completion; do not cancel, reset its lifecycle, create a replacement order or fabricate arrival, OTP, proof, cash, earnings or delivery. Stop live sharing and idle matching-location updates. This decision does not relax the original timing requirements or authorize production operations.
+
+## Owner addendum — bounded map-upgrade GPS checks (2026-10-30)
+
+For the requested map upgrade, the owner explicitly answered **"Yes, bounded stationary sharing test"** for restarting Rider 999's live sharing on existing TEST order 3180 after the updated APK is installed, then stopping it again. Preserve the existing order status and assignment; no new order, arrival, OTP, proof, cash or completion is authorized by this map-only consent. Retain the original timing targets and protected production boundary.

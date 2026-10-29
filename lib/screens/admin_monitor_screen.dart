@@ -576,6 +576,22 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                 height: 260,
                 child: FlutterMap(
                   options: MapOptions(
+                    initialCameraFit: pins.length < 2
+                        ? null
+                        : CameraFit.bounds(
+                            bounds: LatLngBounds.fromPoints(
+                              pins
+                                  .map(
+                                    (p) => LatLng(
+                                      (p['latitude'] as num).toDouble(),
+                                      (p['longitude'] as num).toDouble(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                            padding: const EdgeInsets.all(40),
+                            maxZoom: 15,
+                          ),
                     initialCenter: LatLng(
                       (pins.first['latitude'] as num).toDouble(),
                       (pins.first['longitude'] as num).toDouble(),
@@ -597,13 +613,28 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
                                 (p['latitude'] as num).toDouble(),
                                 (p['longitude'] as num).toDouble(),
                               ),
-                              child: Tooltip(
-                                message: "Rider #@slot0end".uiTr({
-                                  "slot0end": (p['rider_id']).toString(),
+                              child: Semantics(
+                                label: "Rider #@slot0end".uiTr({
+                                  'slot0end': '${p['rider_id']}',
                                 }),
-                                child: const Icon(
-                                  Icons.delivery_dining,
-                                  color: Colors.green,
+                                child: Tooltip(
+                                  message: "Rider #@slot0end".uiTr({
+                                    "slot0end": (p['rider_id']).toString(),
+                                  }),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: const Color(0xFF16803C),
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.delivery_dining,
+                                      color: Colors.green,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

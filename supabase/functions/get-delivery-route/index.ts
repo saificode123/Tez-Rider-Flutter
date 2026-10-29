@@ -30,6 +30,9 @@ const handler = createHandler({
   context: (jwt, order) => rpc(jwt, 'fr14_route_context', {p_order_id: order}),
   prepare: (order, actor, configured) => rpc(service, 'fr14_prepare', {p_order_id: order, p_actor: actor, p_configured: configured}, true),
   finish: (order, actor, lease, route) => rpc(service, 'fr14_finish', {p_order_id: order, p_actor: actor, p_lease: lease, p_route: route}, true),
+  pickupContext: (jwt, order) => rpc(jwt, 'fr14_pickup_context', {p_order_id: order}),
+  pickupPrepare: (order, actor, configured) => rpc(service, 'fr14_pickup_prepare', {p_order_id: order, p_actor: actor, p_configured: configured}, true),
+  pickupFinish: (order, actor, lease, route) => rpc(service, 'fr14_pickup_finish', {p_order_id: order, p_actor: actor, p_lease: lease, p_route: route}, true),
   async provider(origin, destination) {
     const url = new URL('https://api.geoapify.com/v1/routing');
     url.search = new URLSearchParams({waypoints: `${origin[1]},${origin[0]}|${destination[1]},${destination[0]}`, mode: 'drive', format: 'geojson', units: 'metric', apiKey: key}).toString();

@@ -1,0 +1,38 @@
+{
+  "anonymous_pickup_context": false,
+  "authenticated_pickup_prepare": false,
+  "cash_records": 0,
+  "earned_records": 0,
+  "existing_schedules": [
+    {
+      "active": true,
+      "name": "fr30-android-push",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr10-order-timeout",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr32-email-worker",
+      "schedule": "*/2 * * * *"
+    },
+    {
+      "active": true,
+      "name": "fr14-route-cleanup",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+  "migration_applied": true,
+  "observed_at": "2026-10-29T19:49:55.594097+00:00",
+  "order_status": "on_the_way",
+  "otp_requests": 0,
+  "pickup_allowed_for_started_order": false,
+  "pickup_phase_trigger_enabled": true,
+  "project": "igeisilhtmglgnqvllrx",
+  "public_pickup_cache_read": false,
+  "rider_online": false,
+  "stock_qty": 29
+}
