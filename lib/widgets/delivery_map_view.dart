@@ -28,6 +28,7 @@ class DeliveryMapView extends StatefulWidget {
     this.tileProvider,
     this.viewerLocation,
     this.onLocate,
+    this.compact = false,
   });
   final DeviceFix? fix;
   final bool stale, loading;
@@ -39,6 +40,7 @@ class DeliveryMapView extends StatefulWidget {
   final TileProvider? tileProvider;
   final LatLng? viewerLocation;
   final VoidCallback? onLocate;
+  final bool compact;
   @override
   State<DeliveryMapView> createState() => _DeliveryMapViewState();
 }
@@ -369,7 +371,9 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
           elevation: 6,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height * .34,
+              maxHeight:
+                  MediaQuery.sizeOf(context).height *
+                  (widget.compact ? .20 : .34),
             ),
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -378,54 +382,91 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                 children: [
                   if (widget.loading)
                     const LinearProgressIndicator(minHeight: 2),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      if (widget.stops.status.isNotEmpty)
+                  if (!widget.compact)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        if (widget.stops.status.isNotEmpty)
+                          Text(
+                            ({
+                                      'ready': 'Ready for pickup',
+                                      'on_the_way': 'On the way',
+                                      'accepted': 'Preparing',
+                                      'pending': 'Placed',
+                                      'delivered': 'Delivered',
+                                      'cancelled': 'Cancelled',
+                                    }[widget.stops.status] ??
+                                    'Active delivery')
+                                .tr,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
                         Text(
-                          ({
-                                    'ready': 'Ready for pickup',
-                                    'on_the_way': 'On the way',
-                                    'accepted': 'Preparing',
-                                    'pending': 'Placed',
-                                    'delivered': 'Delivered',
-                                    'cancelled': 'Cancelled',
-                                  }[widget.stops.status] ??
-                                  'Active delivery')
+                          widget.stale
+                              ? 'ETA unavailable'.tr
+                              : widget.eta.uiMessage,
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.primaryDark,
+                          ),
+                        ),
+                        if (road)
+                          Text(
+                            '${(route.distance / 1000).toStringAsFixed(1)} ${'km'.tr}',
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        Text(
+                          (road
+                                  ? (staleRoad
+                                        ? 'Previous road route'
+                                        : route.cacheStatus == 'cached'
+                                        ? 'Cached road route'
+                                        : 'Road route')
+                                  : 'Road route unavailable')
                               .tr,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
-                      Text(
-                        widget.stale
-                            ? 'ETA unavailable'.tr
-                            : widget.eta.uiMessage,
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.primaryDark,
+                      ],
+                    ),
+                  if (widget.compact)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.stale
+                                ? 'ETA unavailable'.tr
+                                : widget.eta.uiMessage,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.primaryDark,
+                            ),
+                          ),
                         ),
-                      ),
-                      if (road)
-                        Text(
-                          '${(route.distance / 1000).toStringAsFixed(1)} ${'km'.tr}',
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      Text(
-                        (road
-                                ? (staleRoad
-                                      ? 'Previous road route'
-                                      : route.cacheStatus == 'cached'
-                                      ? 'Cached road route'
-                                      : 'Road route')
-                                : 'Road route unavailable')
-                            .tr,
-                      ),
-                    ],
-                  ),
+                        if (road)
+                          Text(
+                            '${(route.distance / 1000).toStringAsFixed(1)} ${'km'.tr}',
+                          ),
+                        if (widget.onRetry != null)
+                          IconButton(
+                            tooltip: 'Retry'.tr,
+                            onPressed: widget.loading ? null : widget.onRetry,
+                            icon: const Icon(Icons.refresh),
+                          ),
+                      ],
+                    ),
                   const SizedBox(height: 4),
                   LastLocationUpdate(fix: widget.fix),
+                  if (road && widget.compact)
+                    Text(
+                      '${(staleRoad
+                          ? 'Previous road route'
+                          : route.cacheStatus == 'cached'
+                          ? 'Cached road route'
+                          : 'Road route').tr} · Geoapify',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   if (tileFailure)
                     Text(
                       'Map tiles unavailable. Check connection and retry.'.tr,
@@ -433,15 +474,17 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                   if (widget.notice.isNotEmpty)
                     Text(
                       widget.notice.uiMessage,
+                      maxLines: widget.compact ? 2 : null,
+                      overflow: widget.compact ? TextOverflow.ellipsis : null,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                  if (road)
+                  if (road && !widget.compact)
                     const Text(
                       'Geoapify · © OpenStreetMap contributors',
                       style: TextStyle(fontSize: 10),
                     ),
                   if (widget.footer != null) widget.footer!,
-                  if (widget.onRetry != null)
+                  if (widget.onRetry != null && !widget.compact)
                     Align(
                       alignment: AlignmentDirectional.centerEnd,
                       child: TextButton.icon(

@@ -13,7 +13,8 @@ spec=importlib.util.spec_from_file_location('auth_delivery_observer',Path(__file
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 b=m.delivery.b
 
-def main(mode):
+def main(mode, prefix='AUTH-delivery-'):
+    assert prefix in ('AUTH-delivery-', 'MAP-')
     assert mode in('gps','route','travel','stopped')
     b.target()
     state=json.loads(b.crypt((b.PRIVATE/'accept-single-delivery.dpapi').read_bytes(),True))
@@ -25,7 +26,7 @@ def main(mode):
     assert code==200 and len(orders)==1 and orders[0]['user_id']==159 and orders[0]['rider_id']==999 and orders[0]['order_status']=='on_the_way'
     # In-memory observer binding only; preserve old physical-order checkpoints.
     m.observer.h.state['physical_order_id']=oid
-    out=b.ROOT/'.fr21-local/auth-gps';out.mkdir(parents=True,exist_ok=True)
+    out=b.ROOT/('.fr21-local/auth-gps'if prefix=='AUTH-delivery-'else'.fr21-local/map-gps');out.mkdir(parents=True,exist_ok=True)
     m.observer.h.OUT=out
     if mode=='stopped':
         token=b.login(customer)
@@ -56,7 +57,7 @@ def main(mode):
             samples.append({'http_status':status,'code':data.get('code'),'request_ms':round((time.monotonic()-started)*1000,2),'source':route.get('source'),'road_geometry':route.get('geometry')is not None,'is_approximate':route.get('isApproximate')})
             time.sleep(1)
         result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'samples':samples,'strict_800ms_all_samples_pass':all(s['http_status']==200 and s['request_ms']<=800 for s in samples),'scope':'Three real owning-Customer authorized route calls on the genuine delivery. No coordinates or geometry persisted. No load or rendering qualification.'}
-    (b.ROOT/'docs/evidence'/('AUTH-delivery-'+mode+'.json')).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+    (b.ROOT/'docs/evidence'/(prefix+mode+'.json')).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'mode':mode,'order_id':oid,'evidence_saved':True,'result':{key:value for key,value in result.items()if key.startswith('strict_')or key in('events','device_interval_p50_seconds','device_interval_p95_seconds','samples')}}))
 
 if __name__=='__main__':main(sys.argv[1])

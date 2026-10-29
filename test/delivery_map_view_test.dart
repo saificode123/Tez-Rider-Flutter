@@ -9,6 +9,7 @@ import 'package:flutter_application_1/services/delivery_location.dart';
 import 'package:flutter_application_1/services/delivery_map_stops.dart';
 import 'package:flutter_application_1/services/delivery_route.dart';
 import 'package:flutter_application_1/widgets/delivery_map_view.dart';
+import 'package:flutter_application_1/widgets/rider_navigation_map.dart';
 
 class _Tiles extends TileProvider {
   @override
@@ -224,6 +225,49 @@ void main() {
         TextDirection.rtl,
       );
       expect(find.byTooltip(stage2UiUrdu['Route overview']!), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+  testWidgets(
+    'actual Rider layout keeps at least half the screen for the map with tall action forms',
+    (tester) async {
+      const size = Size(390, 780);
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        GetMaterialApp(
+          home: Scaffold(
+            body: RiderMapLayout(
+              map: DeliveryMapView(
+                compact: true,
+                tileProvider: _Tiles(),
+                fix: fix(),
+                stale: false,
+                route: road(),
+                eta: 'Arriving in 6 min',
+                footer: const Text('Navigation to customer'),
+              ),
+              actions: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                    30,
+                    (i) => ListTile(title: Text('Checklist item $i')),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 350));
+      expect(
+        tester.getSize(find.byType(FlutterMap)).height,
+        greaterThanOrEqualTo(size.height * .49),
+      );
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox());
     },

@@ -13,7 +13,8 @@ def read(path):
     assert status == 200 and isinstance(data, list), 'Canonical delivery inspection unconfirmed'
     return data
 
-def main():
+def main(evidence='AUTH-single-order.json'):
+    assert evidence in ('AUTH-single-order.json', 'MAP-order-state.json')
     b.target()
     file = b.PRIVATE / 'accept-single-delivery.dpapi'
     state = json.loads(b.crypt(file.read_bytes(), True))
@@ -42,7 +43,7 @@ def main():
             otp_attempts=read('/rest/v1/delivery_otps?order_id=eq.' + str(order['id']) + '&select=state,attempts,created_at,sent_at,expires_at'),
             inventory=read('/rest/v1/inventory_movements?order_id=eq.' + str(order['id']) + '&select=movement_type,quantity_delta'))
     result['scope'] = 'Canonical read-only TEST inspection; encrypted local original-order checkpoint only. No lifecycle, payment, email or push write. Never create another order after a confirmed or ambiguous result.'
-    (b.ROOT / 'docs/evidence/AUTH-single-order.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    (b.ROOT / 'docs/evidence' / evidence).write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result))
 
 if __name__ == '__main__':

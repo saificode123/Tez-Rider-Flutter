@@ -158,6 +158,7 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
     // when freshness actually changes, not on every timer tick.
     final stale = routeLocation.stale.value;
     return DeliveryMapView(
+      compact: true,
       fix: fix,
       stale: !fresh,
       stops: stops,
@@ -182,4 +183,22 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
       ),
     );
   });
+}
+
+/// Keep the road visible even when the existing checklist/photo form is tall.
+class RiderMapLayout extends StatelessWidget {
+  const RiderMapLayout({super.key, required this.map, required this.actions});
+  final Widget map, actions;
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (_, constraints) => Column(
+      children: [
+        Expanded(child: map),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: constraints.maxHeight * .30),
+          child: actions,
+        ),
+      ],
+    ),
+  );
 }

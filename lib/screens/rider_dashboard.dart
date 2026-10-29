@@ -861,227 +861,209 @@ class _RiderDashboardState extends State<RiderDashboard> {
         );
       }
 
-      return Column(
-        children: [
-          Expanded(
-            child: RiderNavigationMap(
-              key: ValueKey('navigation-${order['type']}-${order['id']}'),
-              orderId: int.parse(order['id'].toString()),
-              status: order['order_status']?.toString() ?? '',
-              isDelivery: order['type'] == 'order',
-              location: riderCtrl.location,
-              online: riderCtrl.isOnline.value,
-              onBack: () => setState(() => _tab = 0),
-            ),
-          ),
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height * .45,
-            ),
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 24,
-                    offset: Offset(0, -6),
-                  ),
-                ],
+      return RiderMapLayout(
+        map: RiderNavigationMap(
+          key: ValueKey('navigation-${order['type']}-${order['id']}'),
+          orderId: int.parse(order['id'].toString()),
+          status: order['order_status']?.toString() ?? '',
+          isDelivery: order['type'] == 'order',
+          location: riderCtrl.location,
+          online: riderCtrl.isOnline.value,
+          onBack: () => setState(() => _tab = 0),
+        ),
+        actions: Container(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 24,
+                offset: Offset(0, -6),
               ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * 0.45,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+            ],
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.45,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 36,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.divider,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (order['type'] == 'order' &&
+                      order['order_status'] != 'on_the_way')
+                    PreDeliveryChecklistCard(
+                      flow: riderCtrl.checklist,
+                      onAccept: () => _acceptOrder(order),
+                      onStart: riderCtrl.startDelivery,
+                    ),
+                  if (order['type'] == 'order' &&
+                      order['order_status'] == 'on_the_way') ...[
+                    Text(
+                      "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below."
+                          .tr,
+                    ),
+                    const SizedBox(height: 8),
+                    _locationStatus(),
+                    FilledButton(
+                      onPressed: riderCtrl.location.busy.value
+                          ? null
+                          : riderCtrl.location.sharing.value
+                          ? riderCtrl.location.stop
+                          : riderCtrl.shareDeliveryLocation,
+                      child: Text(
+                        riderCtrl.location.sharing.value
+                            ? "Stop sharing location".tr
+                            : "Share delivery location".tr,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                  if (order['type'] == 'order' &&
+                      order['order_status'] == 'on_the_way')
+                    DeliveryPhotoPanel(
+                      key: ValueKey('proof-${order['id']}'),
+                      orderId: int.parse(order['id'].toString()),
+                    ),
+                  Row(
                     children: [
                       Container(
-                        width: 36,
-                        height: 4,
+                        width: 46,
+                        height: 46,
                         decoration: BoxDecoration(
-                          color: AppColors.divider,
-                          borderRadius: BorderRadius.circular(2),
+                          color: AppColors.primarySurface,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.pin_drop_rounded,
+                          color: AppColors.primary,
+                          size: 22,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      if (order['type'] == 'order' &&
-                          order['order_status'] != 'on_the_way')
-                        PreDeliveryChecklistCard(
-                          flow: riderCtrl.checklist,
-                          onAccept: () => _acceptOrder(order),
-                          onStart: riderCtrl.startDelivery,
-                        ),
-                      if (order['type'] == 'order' &&
-                          order['order_status'] == 'on_the_way') ...[
-                        Text(
-                          "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below."
-                              .tr,
-                        ),
-                        const SizedBox(height: 8),
-                        _locationStatus(),
-                        FilledButton(
-                          onPressed: riderCtrl.location.busy.value
-                              ? null
-                              : riderCtrl.location.sharing.value
-                              ? riderCtrl.location.stop
-                              : riderCtrl.shareDeliveryLocation,
-                          child: Text(
-                            riderCtrl.location.sharing.value
-                                ? "Stop sharing location".tr
-                                : "Share delivery location".tr,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                      ],
-                      if (order['type'] == 'order' &&
-                          order['order_status'] == 'on_the_way')
-                        DeliveryPhotoPanel(
-                          key: ValueKey('proof-${order['id']}'),
-                          orderId: int.parse(order['id'].toString()),
-                        ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              color: AppColors.primarySurface,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.pin_drop_rounded,
-                              color: AppColors.primary,
-                              size: 22,
-                            ),
-                          ),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order['type'] == 'tailoring'
-                                      ? "Tailoring Pickup/Dropoff".tr
-                                      : "Delivering to".tr,
-                                  style: const TextStyle(
-                                    color: AppColors.textSecondary,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(height: 3),
-                                Text(
-                                  order['delivery_address'] ??
-                                      "Customer Location".tr,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () async {
-                                final phone =
-                                    order['customer_phone'] ?? order['phone'];
-                                if (phone != null &&
-                                    phone.toString().isNotEmpty) {
-                                  final uri = Uri.parse(
-                                    'tel:${phone.toString()}',
-                                  );
-                                  try {
-                                    await launchUrl(uri);
-                                  } catch (_) {}
-                                } else {
-                                  Get.snackbar(
-                                    "Contact".tr,
-                                    "Customer number not available.".tr,
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: AppColors.bgSection,
-                                    colorText: AppColors.textPrimary,
-                                    margin: const EdgeInsets.fromLTRB(
-                                      16,
-                                      0,
-                                      16,
-                                      20,
-                                    ),
-                                    borderRadius: 14,
-                                  );
-                                }
-                              },
-                              icon: const Icon(Icons.call_rounded, size: 18),
-                              label: Text("Call".tr),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: AppColors.success,
-                                side: const BorderSide(
-                                  color: AppColors.success,
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              order['type'] == 'tailoring'
+                                  ? "Tailoring Pickup/Dropoff".tr
+                                  : "Delivering to".tr,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 12,
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed:
-                                  riderCtrl.deliveryBusy.value ||
-                                      riderCtrl.deliveryOtp.busy.value ||
-                                      (order['type'] == 'order' &&
-                                          order['order_status'] != 'on_the_way')
-                                  ? null
-                                  : order['type'] == 'tailoring'
-                                  ? _markDelivered
-                                  : _arrived,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                elevation: 0,
+                            const SizedBox(height: 3),
+                            Text(
+                              order['delivery_address'] ??
+                                  "Customer Location".tr,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: AppColors.textPrimary,
                               ),
-                              child: Text(
-                                order['type'] == 'tailoring'
-                                    ? "Complete Step".tr
-                                    : "Arrived".tr,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                ),
-                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () async {
+                            final phone =
+                                order['customer_phone'] ?? order['phone'];
+                            if (phone != null && phone.toString().isNotEmpty) {
+                              final uri = Uri.parse('tel:${phone.toString()}');
+                              try {
+                                await launchUrl(uri);
+                              } catch (_) {}
+                            } else {
+                              Get.snackbar(
+                                "Contact".tr,
+                                "Customer number not available.".tr,
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: AppColors.bgSection,
+                                colorText: AppColors.textPrimary,
+                                margin: const EdgeInsets.fromLTRB(
+                                  16,
+                                  0,
+                                  16,
+                                  20,
+                                ),
+                                borderRadius: 14,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.call_rounded, size: 18),
+                          label: Text("Call".tr),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.success,
+                            side: const BorderSide(color: AppColors.success),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                          onPressed:
+                              riderCtrl.deliveryBusy.value ||
+                                  riderCtrl.deliveryOtp.busy.value ||
+                                  (order['type'] == 'order' &&
+                                      order['order_status'] != 'on_the_way')
+                              ? null
+                              : order['type'] == 'tailoring'
+                              ? _markDelivered
+                              : _arrived,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            order['type'] == 'tailoring'
+                                ? "Complete Step".tr
+                                : "Arrived".tr,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       );
     });
   }
