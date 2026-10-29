@@ -180,6 +180,12 @@ class DeliveryRouteController extends GetxController {
         _generation++;
         route.value = null;
         label.value = 'ETA unavailable';
+        notice.value = '';
+        loading.value = false;
+        _lastFix = null;
+        _lastFixAt = null;
+        _progress = null;
+        _adjusted = false;
       } else {
         _denied = false;
         _lastRequest = null;
@@ -336,6 +342,11 @@ class DeliveryRouteController extends GetxController {
     _timer?.cancel();
     route.value = null;
     label.value = 'ETA unavailable';
+    notice.value = '';
+    loading.value = false;
+    _lastFix = null;
+    _lastFixAt = null;
+    _progress = null;
     super.onClose();
   }
 }

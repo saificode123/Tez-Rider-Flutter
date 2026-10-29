@@ -180,11 +180,17 @@ void main() {
         pending = Completer();
         controller.start();
         expect(calls, 1);
+        controller.notice.value = 'Using a previous route estimate.';
+        expect(controller.loading.value, isTrue);
         state.clear(reason: 'STOPPED');
         expect(controller.route.value, isNull);
+        expect(controller.notice.value, isEmpty);
+        expect(controller.loading.value, isFalse);
+        expect(controller.label.value, 'ETA unavailable');
         pending!.complete({'code': 'OK', 'route': routeData(clock)});
         await flush();
         expect(controller.route.value, isNull);
+        expect(controller.notice.value, isEmpty);
         await controller.refreshRoute(retry: true);
         expect(calls, 1);
       },
