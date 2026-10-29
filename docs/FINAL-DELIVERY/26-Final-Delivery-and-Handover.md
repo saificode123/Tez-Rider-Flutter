@@ -1,5 +1,7 @@
 # Current completion-stage handover
 
+Latest acceptance continuation: [report 29](29-Controlled-Delivery-Acceptance.md), new checkout recovery implementation, 704 Flutter passes/two skips, new DEBUG TEST build, genuine Rider/phone dependency. Older results below retain their original scope.
+
 Current continuation (2026-10-29): [report 27](27-Release-Execution-Ledger.md) and [report 28](28-Remaining-Release-Dependencies.md) record newer implementation, TEST artifact and dependencies. Results below retain their historical scope.
 
 2026-10-28, Asia/Karachi. **NOT READY FOR PRODUCTION. Work remains open.**

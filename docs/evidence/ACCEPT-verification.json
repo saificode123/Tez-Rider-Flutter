@@ -1,0 +1,40 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T06:42:53.249510+00:00",
+  "implementation_revision": "612c53bd663bef50ea626b7b57a4b2b92d1f8939",
+  "inspected_revision": "612c53bd663bef50ea626b7b57a4b2b92d1f8939",
+  "full_flutter": {
+    "passed": 704,
+    "failed": 0,
+    "skipped": 2
+  },
+  "focused_flutter": {
+    "passed": 61,
+    "failed": 0
+  },
+  "analysis": "Seven files; no issues",
+  "log_sha256": {
+    "reproduction": "eea7ce346a81c0fc471e24c82a5844d361e942f80021a0765953daa4a0a06666",
+    "focused_flutter": "d947ff256a0fa084344410525be084b611ced9eba3bcbef708cf9dc2e7060e35",
+    "full_flutter": "cb86a9c1bc94a58ff2cea756bf3b19bd8b75576b952e1f2a10aac291247ea20e",
+    "final_analysis": "88137b22fe63e16da66852e7820f439d058455b7fec4a2ada999f724571a7506"
+  },
+  "build_manifest_sha256": "4fa8c2b15a15c6f704e13963b2bcadaa8f7b6057debe5f97acb767f5222adf1d",
+  "artifact_sha256": "8513DF0AA5AD848BDECB0E442C475EA43535BBCB89E7617491C93A369CDA06C9",
+  "build_sources_matched": 218,
+  "artifact_scope": "DEBUG TEST built; not installed/physically accepted in this continuation",
+  "historical_server_suite": "230 passes from prior unchanged server source; not rerun here",
+  "inventory": {
+    "total": 137,
+    "retained_counts": {
+      "PASS": 76,
+      "APPROVED DEVIATION": 17,
+      "PARTIAL": 43,
+      "BLOCKED": 1
+    },
+    "new_whole_requirements_accepted": 0
+  },
+  "initial_full_run": "701 pass, two skip, two failures: checkout widget lacked the newly required secure-storage platform adapter and the following test cascaded. Adapter added; assertions retained. Final complete invocation passed.",
+  "hosted_delivery": "NOT EXECUTED: owner is providing a genuinely verified Rider; phone disconnected",
+  "scope": "Fix reproduced with two local fake-server orders after a lost response. Protected journal now reuses one request/order, fails closed on storage/account errors, and retains unresolved data until confirmed completion. No hosted order, mail, push, proof, payment, earnings or production operation."
+}

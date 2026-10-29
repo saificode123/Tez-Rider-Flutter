@@ -1,0 +1,11 @@
+{
+  "debug_certificate": true,
+  "utc": "2026-10-29T06:40:28.3123209Z",
+  "production_signed": false,
+  "installed": false,
+  "production_deployed": false,
+  "signature_valid": true,
+  "artifact_sha256": "8513DF0AA5AD848BDECB0E442C475EA43535BBCB89E7617491C93A369CDA06C9",
+  "package": "com.example.flutter_application_1.fr21test",
+  "certificate_sha256": "8a34e66e44a7789737fd600989a927d7a0c1f2ed7fd50928317ae0a8378833fc"
+}

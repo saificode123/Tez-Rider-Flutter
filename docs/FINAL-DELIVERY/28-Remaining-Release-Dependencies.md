@@ -1,5 +1,7 @@
 # Remaining release dependencies
 
+Updated continuation: [report 29](29-Controlled-Delivery-Acceptance.md). The owner has now authorized the bounded TEST emails/push and selected a genuinely verified Rider; the earlier pending-message request and synthetic-fixture proposal below are historical. Original timing targets remain active.
+
 2026-10-29, Asia/Karachi. Report 27 contains implementation and fresh TEST results. Production remains untouched. These are open dependencies/proposals, not granted approvals or accepted requirement changes.
 
 ## Next physical delivery

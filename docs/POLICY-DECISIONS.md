@@ -41,3 +41,13 @@ Continue with the remaining work using these rules.
 ## Owner addendum — temporary public support contact (2026-10-26)
 
 The Help screen will show [urrehmansaif406@gmail.com](mailto:urrehmansaif406@gmail.com) as a temporary contact for blocked users. Please confirm the permanent support inbox when it’s ready. The address is stored in app_settings (support_email), so replacing it is a one-row change and doesn’t need an app release.
+
+## Owner addendum — bounded TEST acceptance (2026-10-29)
+
+The owner authorized exactly one controlled COD TEST delivery in `igeisilhtmglgnqvllrx`: Chicken Biryani, quantity one, product price PKR 350, existing approved delivery-charge calculation. Reuse the valid saved cart; do not create a second order after a retry/interruption.
+
+For that order only: at most two OTP emails, one confirmation email and one invoice email, exclusively to the verified owner-controlled TEST inbox after configuration/recipient verification. Order-related push is limited to the connected owner TEST Android phone. No SMS, real online payment, unrelated broadcast or production operation.
+
+When asked whether to reuse the retained approved synthetic Rider fixture, the owner answered: **"I will provide a genuinely verified Rider"**. Synthetic identity fixtures are therefore excluded from this delivery. Do not fabricate CNIC approval or bypass eligibility; wait for the genuine Rider dependency while continuing independent work.
+
+The original GPS 2–3-second target and routing 800ms target remain active. The owner has not approved the proposed relaxed targets. Implementation and acceptance remain separately recorded in FINAL-DELIVERY.
