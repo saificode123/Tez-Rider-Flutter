@@ -84,6 +84,9 @@ $manifest = [pscustomobject]@{
     scope = 'Database exports only. Storage object metadata is not object bytes. External secrets/configuration and cross-machine recovery require separate protected handover.'
 }
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $privateDirectory 'manifest.json') -Encoding utf8
+& (Join-Path $PSScriptRoot 'test-runtime-ledgers.ps1') -Mode Backup -BackupDirectory $privateDirectory -CliPath $CliPath
+$manifest | Add-Member -NotePropertyName runtime_ledgers_included -NotePropertyValue $true
+$manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $privateDirectory 'manifest.json') -Encoding utf8
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $repo ('docs/evidence/' + $EvidenceName)) -Encoding utf8
 Write-Output "TEST database exports encrypted and round-trip checked. Private backup directory: $privateDirectory"
 Write-Output 'This database-export helper alone does not verify Storage bytes, external configuration or isolated restore; consult their separate evidence.'

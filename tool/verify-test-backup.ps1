@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $container = 'tezrider-master-restore-20261028'
-if ($EvidenceName -notmatch '^MASTER-(post-seed-)?restore\.json$') { throw 'Unexpected evidence filename.' }
+if ($EvidenceName -notmatch '^(MASTER-(post-seed-)?restore|RELEASE-runtime-restore)\.json$') { throw 'Unexpected evidence filename.' }
 $privateRoot = [IO.Path]::GetFullPath((Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'TezRider-FR21/backups')) + [IO.Path]::DirectorySeparatorChar
 $BackupDirectory = (Resolve-Path -LiteralPath $BackupDirectory).Path
 if (-not ($BackupDirectory + [IO.Path]::DirectorySeparatorChar).StartsWith($privateRoot, [StringComparison]::OrdinalIgnoreCase)) {
@@ -54,6 +54,10 @@ foreach ($kind in @('schema', 'data')) {
     $outcome[$kind + '_restored'] = $true
 }
 if ($outcome.schema_restored -and $outcome.data_restored) {
+    if (Test-Path -LiteralPath (Join-Path $BackupDirectory 'runtime-ledgers.dpapi')) {
+        & (Join-Path $PSScriptRoot 'test-runtime-ledgers.ps1') -Mode Restore -BackupDirectory $BackupDirectory
+        $outcome['runtime_ledgers_restored'] = $true
+    }
     # Count only; do not emit imported identity, order or document records.
     $counts = & docker exec $container psql -U supabase_admin -d postgres -At -v ON_ERROR_STOP=1 -c "select json_build_object('auth_users',(select count(*) from auth.users),'profiles',(select count(*) from public.users),'linked_profiles',(select count(*) from public.users u join auth.users a on a.id=u.auth_user_id),'storage_metadata',(select count(*) from storage.objects));"
     if ($LASTEXITCODE -eq 0) {
