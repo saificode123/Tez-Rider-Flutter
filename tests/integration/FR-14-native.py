@@ -1,5 +1,5 @@
 """Observed controls on the authorized physical TEST app only; no credential logs."""
-import importlib.util,json,re,shlex,sys,datetime as dt,subprocess
+import importlib.util,json,re,shlex,sys,datetime as dt,subprocess,uuid,xml.etree.ElementTree as ET
 from pathlib import Path
 def load(name,file):
  spec=importlib.util.spec_from_file_location(name,Path(__file__).with_name(file));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
@@ -12,9 +12,29 @@ def emit(data):
  with(h.OUT/'native-evidence.jsonl').open('a')as f:f.write(json.dumps(data)+'\n')
  print(json.dumps(data),flush=True)
 def main(action):
+ if action=='dismiss-password-save':
+  assert ui.PKG in ui.adb('shell','dumpsys','activity','activities').split('topResumedActivity=')[-1].splitlines()[0],'TEST app must remain resumed'
+  path='/data/local/tmp/release-password-'+uuid.uuid4().hex+'.xml'
+  try:
+   assert 'dumped to:'in ui.adb('shell','uiautomator','dump',path)
+   overlay=list(ET.fromstring(ui.adb('exec-out','cat',path)).iter('node'))
+  finally:ui.adb('shell','rm',path)
+  assert any(node.get('package')=='android'and node.get('text')=='Save password to Google?'for node in overlay),'Observed Google password-save prompt required'
+  found=[node for node in overlay if node.get('package')=='android'and node.get('text')=='Not now']
+  if len(found)==1:ui.tap(found[0])
+  else:ui.adb('shell','input','keyevent','4')
+  emit({'TEST_password_save_declined':True});return
  current=n.nodes()
  if action=='screen':
   print(json.dumps([{'label':safe(n.label(node)),'bounds':node.get('bounds'),'enabled':node.get('enabled'),'checked':node.get('checked'),'class':node.get('class')}for node in current if node.get('class')!='android.widget.EditText'and(n.label(node)or node.get('clickable')=='true')and not re.fullmatch(r'\d{6}',n.label(node))]))
+ elif action=='scroll-release-product':
+  assert any(n.label(node)=='Chicken Biryani'for node in current)and any(n.label(node)=='Sana Foods'for node in current),'Reviewed TEST product detail required'
+  ui.adb('shell','input','swipe','540','1880','540','1010','450');emit({'reviewed_test_product_scrolled':True})
+ elif action=='scroll-account':
+  assert any(n.label(node)=='Me'for node in current)and any(n.label(node)=='Customer'for node in current),'Customer account tab required'
+  ui.adb('shell','input','swipe','540','1810','540','760','450');emit({'TEST_account_scrolled':True})
+ elif action=='back':
+  ui.adb('shell','input','keyevent','4');emit({'TEST_back_requested':True})
  elif action=='runtime-evidence':
   pid=ui.adb('shell','pidof',ui.PKG).strip();assert re.fullmatch(r'\d+(?: \d+)*',pid)
   connectivity=ui.adb('shell','dumpsys','connectivity')
@@ -45,21 +65,39 @@ def main(action):
    ui.adb('shell','input','text',shlex.quote(value));ui.adb('shell','input','keyevent','4')
   found=[node for node in n.nodes()if n.label(node)=='Sign in as '+role];assert len(found)==1
   ui.tap(found[0]);emit({'synthetic_login_submitted':profile})
+ elif action=='complete-test-profile-phone':
+  assert any(n.label(node)=='Complete Registration'and node.get('class')=='android.widget.Button'for node in current),'Existing profile completion form required'
+  fields=[node for node in current if node.get('class')=='android.widget.EditText']
+  assert len(fields)==2 and fields[0].get('text')=='FR33 synthetic customer','Retained TEST Customer name required'
+  assert fields[1].get('text')in('','Phone Number','Enter phone number'),'Only missing TEST phone may be supplied'
+  ui.tap(fields[1]);ui.adb('shell','input','text','0000000000');ui.adb('shell','input','keyevent','4')
+  emit({'existing_test_profile_noncontactable_phone_entered':True})
  elif action=='fill-test-contact':
   assert any(n.label(node)=='Contact Details'for node in current),'Observed checkout contact section required'
   fields=[node for node in current if node.get('class')=='android.widget.EditText']
   assert len(fields)>=3 and fields[1].get('text')in('','Phone number'),'Only empty TEST phone field may be filled'
   ui.tap(fields[1]);ui.adb('shell','input','text','0000000000');ui.adb('shell','input','keyevent','4')
   emit({'synthetic_noncontactable_phone_entered':True})
- elif action=='search-physical-product':
+ elif action=='open-release-product':
+  found=[node for node in current if 'Chicken Biryani'in n.label(node)and'Fictional TEST demonstration item.'in n.label(node)and'PKR 350'in n.label(node)]
+  assert len(found)==1 and found[0].get('enabled')!='false','Reviewed unique TEST product required'
+  ui.tap(found[0]);emit({'reviewed_test_product_opened':True})
+ elif action in('search-physical-product','search-release-product'):
   fields=[node for node in current if node.get('class')=='android.widget.EditText']
   assert len(fields)==1 and any(n.label(node)=='Browse Categories'for node in current),'Observed product search required'
-  ui.tap(fields[0]);ui.adb('shell','input','text','FR14%sPHYSICAL%sWALK%sTEST');ui.adb('shell','input','keyevent','4')
-  emit({'physical_fixture_product_search_submitted':True})
- elif action=='online':
+  term='Chicken%sBiryani'if action=='search-release-product'else'FR14%sPHYSICAL%sWALK%sTEST'
+  ui.tap(fields[0]);ui.adb('shell','input','text',term);ui.adb('shell','input','keyevent','4')
+  emit({'fixture_product_search_submitted':action})
+ elif action in('online','offline'):
   assert any(n.label(node)=='Rider Dashboard'for node in current)
   switches=[node for node in current if node.get('class')=='android.widget.Switch'];assert len(switches)==1
-  if switches[0].get('checked')=='false':ui.tap(switches[0])
-  emit({'observed_online_switch_requested':True})
+  if (switches[0].get('checked')=='true') != (action=='online'):
+   # Flutter merges the full availability card into Switch semantics. Its
+   # centre is not the actual thumb; use the trailing switch area observed on
+   # the English Rider Dashboard, bounded by the freshly inspected control.
+   bounds=list(map(int,re.findall(r'\d+',switches[0].get('bounds',''))));assert len(bounds)==4
+   x1,y1,x2,y2=bounds;assert x2>x1 and y2>y1
+   ui.adb('shell','input','tap',str(x2-(x2-x1)//6),str((y1+y2)//2))
+  emit({'observed_'+action+'_switch_requested':True})
  else:raise ValueError('Unsupported observed action')
 if __name__=='__main__':main(sys.argv[1])
