@@ -1451,6 +1451,22 @@ const stage2UiUrdu = <String, String>{
       "دستیابی کی تصدیق نہیں ہوئی۔ دوبارہ کوشش دبائیں۔",
   'Ask about products, your orders, delivery or how to use TezRider.':
       'مصنوعات، اپنے آرڈرز، ڈیلیوری یا تیز رائیڈر کے استعمال کے بارے میں پوچھیں۔',
+  'Checkout recovery could not be confirmed. Retry before placing an order.':
+      'چیک آؤٹ کی بحالی کی تصدیق نہیں ہو سکی۔ آرڈر دینے سے پہلے دوبارہ کوشش کریں۔',
+  'Saved checkout requires review. No new order was sent.':
+      'محفوظ چیک آؤٹ کا جائزہ ضروری ہے۔ کوئی نیا آرڈر نہیں بھیجا گیا۔',
+  'Saved checkout requires review.': 'محفوظ چیک آؤٹ کا جائزہ ضروری ہے۔',
+  'Sign in again before retrying checkout.':
+      'چیک آؤٹ دوبارہ کرنے سے پہلے سائن ان کریں۔',
+  'Account changed. No new order was sent.':
+      'اکاؤنٹ تبدیل ہو گیا۔ کوئی نیا آرڈر نہیں بھیجا گیا۔',
+  'Account changed. Review your order after signing in again.':
+      'اکاؤنٹ تبدیل ہو گیا۔ دوبارہ سائن ان کر کے اپنے آرڈر کا جائزہ لیں۔',
+  'The previous checkout result is uncertain. Retry with its original cart and delivery details.':
+      'پچھلے چیک آؤٹ کا نتیجہ غیر یقینی ہے۔ اسی کارٹ اور ترسیل کی تفصیلات کے ساتھ دوبارہ کوشش کریں۔',
+  'Secure checkout storage was not confirmed. Retry.':
+      'چیک آؤٹ کی محفوظ ذخیرہ کاری کی تصدیق نہیں ہو سکی۔ دوبارہ کوشش کریں۔',
+  'Checkout details are too large.': 'چیک آؤٹ کی تفصیلات بہت زیادہ ہیں۔',
   'Find available products': 'دستیاب مصنوعات تلاش کریں',
   'Where is my order?': 'میرا آرڈر کہاں ہے؟',
   'How do I pay?': 'ادائیگی کیسے کروں؟',

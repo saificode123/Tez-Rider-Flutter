@@ -84,35 +84,100 @@ class CheckoutStockShortage implements Exception {
   final List<Map<String, dynamic>> products;
 }
 
+abstract interface class CheckoutRequestStore {
+  String? get identity;
+  Future<Map<String, dynamic>?> read();
+  Future<void> write(Map<String, dynamic> request);
+  Future<void> clear();
+}
+
 class OrderCheckoutFlow {
-  OrderCheckoutFlow(this.submit);
+  OrderCheckoutFlow(this.submit, {this.store});
   final CheckoutSubmit submit;
+  final CheckoutRequestStore? store;
+  static final _activeAccounts = <String>{};
   Map<String, dynamic>? _request;
+  bool _confirmed = false;
   bool busy = false;
+
+  Future<Map<String, dynamic>?> restore() async {
+    if (store != null) {
+      final durable = await store!.read();
+      if (durable != null) _request = durable;
+    }
+    final value = _request;
+    if (value != null &&
+        (value.length != 3 ||
+            value['p_request_id'] is! String ||
+            !RegExp(
+              r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+            ).hasMatch(value['p_request_id']) ||
+            value['p_items'] is! List ||
+            value['p_delivery'] is! Map)) {
+      throw StateError(
+        'Saved checkout requires review. No new order was sent.',
+      );
+    }
+    return value == null
+        ? null
+        : Map<String, dynamic>.from(jsonDecode(jsonEncode(value)) as Map);
+  }
+
+  /// Clear only after confirmed placement and successful canonical cart clear.
+  Future<void> complete() async {
+    if (busy || !_confirmed) {
+      throw StateError(
+        'Confirm the existing order before clearing checkout recovery.',
+      );
+    }
+    await store?.clear();
+    _request = null;
+    _confirmed = false;
+  }
+
   Future<Map<String, dynamic>> place(
     List<Map<String, dynamic>> items,
     Map<String, dynamic> delivery,
   ) async {
     if (busy) throw StateError('Checkout is already in progress.');
-    final payload = {'p_items': items, 'p_delivery': delivery};
-    if (_request != null &&
-        jsonEncode({
-              'p_items': _request!['p_items'],
-              'p_delivery': _request!['p_delivery'],
-            }) !=
-            jsonEncode(payload)) {
-      throw StateError(
-        'The previous checkout result is uncertain. Retry with its original cart and delivery details.',
-      );
+    final identity = store?.identity;
+    if (store != null && identity == null) {
+      throw StateError('Sign in again before retrying checkout.');
     }
-    _request ??= Map<String, dynamic>.from(
-      jsonDecode(jsonEncode({'p_request_id': blockRequestId(), ...payload}))
-          as Map,
-    );
+    if (identity != null && !_activeAccounts.add(identity)) {
+      throw StateError('Checkout is already in progress.');
+    }
     busy = true;
     try {
+      await restore();
+      final payload = {'p_items': items, 'p_delivery': delivery};
+      if (_request != null &&
+          jsonEncode({
+                'p_items': _request!['p_items'],
+                'p_delivery': _request!['p_delivery'],
+              }) !=
+              jsonEncode(payload)) {
+        throw StateError(
+          'The previous checkout result is uncertain. Retry with its original cart and delivery details.',
+        );
+      }
+      _request ??= Map<String, dynamic>.from(
+        jsonDecode(jsonEncode({'p_request_id': blockRequestId(), ...payload}))
+            as Map,
+      );
+      // A durable, verified write must finish before any order request leaves.
+      await store?.write(_request!);
+      if (store != null && store!.identity != identity) {
+        throw StateError('Account changed. No new order was sent.');
+      }
       final result = await submit(_request!);
+      if (store != null && store!.identity != identity) {
+        throw StateError(
+          'Account changed. Review your order after signing in again.',
+        );
+      }
       if (result['code'] == 'INSUFFICIENT_STOCK') {
+        await store?.clear();
         _request =
             null; // Definitive rejection: no order/stock write committed.
         throw CheckoutStockShortage(
@@ -120,6 +185,7 @@ class OrderCheckoutFlow {
         );
       }
       if (result['code'] == 'UNAVAILABLE') {
+        await store?.clear();
         _request = null;
         throw StateError(
           'A product or vendor is unavailable. Review your cart.',
@@ -131,9 +197,11 @@ class OrderCheckoutFlow {
           'Order placement was not confirmed. Refresh and retry.',
         );
       }
+      _confirmed = true;
       return result;
     } finally {
       busy = false;
+      if (identity != null) _activeAccounts.remove(identity);
     }
   }
 }

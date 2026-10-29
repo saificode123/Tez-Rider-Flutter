@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -71,6 +72,7 @@ void main() {
   setUpAll(() => initializeClosureClient(transport));
   tearDownAll(() => Supabase.instance.dispose());
   setUp(() async {
+    VaultDouble().install();
     Get.testMode = true;
     transport.requests.clear();
     transport.respond = (r) async => UiTransport.jsonResponse(
@@ -86,7 +88,14 @@ void main() {
     cart = Get.put(CartController(inventoryReader: (_) async => [stock]));
     Get.put<ProductController>(QuietProducts());
   });
-  tearDown(Get.reset);
+  tearDown(() {
+    Get.reset();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
+          null,
+        );
+  });
   Future<void> tick(WidgetTester t) async {
     for (var i = 0; i < 5; i++) {
       await t.pump(const Duration(milliseconds: 250));

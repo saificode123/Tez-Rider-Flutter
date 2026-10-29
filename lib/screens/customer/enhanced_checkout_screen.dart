@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../services/order_timeout_service.dart';
+import '../../services/checkout_request_store.dart';
 import '../../services/delivery_destination.dart';
 import '../../widgets/tez_map_tiles.dart';
 import 'order_detail_screen.dart';
@@ -56,6 +57,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
               .timeout(const Duration(seconds: 15))
           as Map,
     ),
+    store: SecureCheckoutRequestStore(expectedAccount: widget.customerId),
   );
 
   static const Color _purple = Color(0xFF1B5E20);
@@ -86,7 +88,39 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
     _checkMultipleVendors();
 
-    _prefillContactInfo();
+    _restoreCheckout();
+  }
+
+  Future<void> _restoreCheckout() async {
+    _isProcessing = true;
+    try {
+      await _prefillContactInfo();
+      final saved = await _checkout.restore();
+      if (!mounted || saved == null) return;
+      final delivery = Map<String, dynamic>.from(saved['p_delivery'] as Map);
+      final lat = (delivery['lat'] as num).toDouble();
+      final lng = (delivery['lng'] as num).toDouble();
+      if (delivery['destination_confirmed'] != true ||
+          !const ['standard', 'express'].contains(delivery['speed'])) {
+        throw StateError('Saved checkout requires review.');
+      }
+      _destination.confirm(lat, lng, delivery['destination_source'] as String);
+      _currentLat = lat;
+      _currentLng = lng;
+      _addressCtrl.text = delivery['address'] as String;
+      _deliverySpeed = delivery['speed'] as String;
+      // Restores the customer's prior explicit confirmation, never a GPS fix.
+    } catch (_) {
+      if (mounted) {
+        Get.snackbar(
+          'Checkout'.tr,
+          'Checkout recovery could not be confirmed. Retry before placing an order.'
+              .tr,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
   }
 
   /// Pre-fills the contact fields from the logged-in user's auth record
@@ -108,7 +142,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
           .from('users')
           .select('name, phone')
           .eq('email', user.email as Object)
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(const Duration(seconds: 8));
 
       if (existing != null && mounted) {
         setState(() {
@@ -451,6 +486,15 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         },
       );
       final cartCleared = await widget.cart.clear();
+      var recoveryCleared = false;
+      if (cartCleared) {
+        try {
+          await _checkout.complete();
+          recoveryCleared = true;
+        } catch (_) {
+          // Placement is confirmed even if local recovery cleanup fails.
+        }
+      }
       if (mounted) {
         Get.back();
         if (_prescriptionsUploaded.isNotEmpty) {
@@ -458,7 +502,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         }
         Get.snackbar(
           "Order placed".tr,
-          cartCleared
+          cartCleared && recoveryCleared
               ? "Order placed! Awaiting vendor confirmation.".tr
               : "Order placed. Cart synchronization is pending; retry it before placing another order."
                     .tr,
@@ -503,7 +547,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
           : e is StateError
           ? e.message
           : 'Order placement could not be confirmed. Check your connection and retry with the same cart.';
-      Get.snackbar("Order not confirmed".tr, message);
+      Get.snackbar("Order not confirmed".tr, message.uiMessage);
 
       setState(() {
         _isProcessing = false;
