@@ -1,0 +1,9 @@
+{
+  "checkpoint_roundtrip": true,
+  "original_behavior_reproduced_after_rollback": true,
+  "repair_reapplied_nine_checks_passed": true,
+  "checkpoint_sha256": "f07b410f0d64661e659705889b44de967e118c046920a6f20dd05baff3d92df4",
+  "scope": "Owned network-none clone only; no hosted mutation or external messages.",
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-28T20:04:21.942927+00:00"
+}

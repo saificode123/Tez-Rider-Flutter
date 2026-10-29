@@ -1,0 +1,12 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-28T18:05:04.930683+00:00",
+  "status": "BOUNDED PASS",
+  "recovered_password_logins": 7,
+  "get_user_and_refresh_verified": 7,
+  "canonical_actor_and_role_verified": 7,
+  "network": "Owned network=none database namespace; no host ports or external mail",
+  "elapsed_seconds": 5.781,
+  "hosted_modified": false,
+  "scope": "Auth runtime accepted restored password hashes and backed-up credentials, new tokens and refresh; canonical SQL actor/role checks passed. Temporary local JWT signing identity differs from hosted identity. Remote Auth configuration parity, full Flutter/Edge recovery, signed media and cross-machine recovery remain separate."
+}

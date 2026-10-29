@@ -1,0 +1,42 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "verified_utc": "2026-10-28T20:09:01.129028+00:00",
+  "downloaded_source_checks": [
+    {
+      "path": "_shared/fr28-access.ts",
+      "sha256": "016689f93b1a01b32f73f2b50a115107e31ff5751fc8875d2dd6cb62708a029d",
+      "matches": true
+    },
+    {
+      "path": "_shared/security-runtime.ts",
+      "sha256": "f11d5c8f6e65f13ad21d73e0dab4aae8cf2d037e19c808e197ae7d1024671e10",
+      "matches": true
+    },
+    {
+      "path": "fr13-location/handler.ts",
+      "sha256": "e5fc6f495b758f1f167e4067d9f798ba3435ac823b4b5820b962d7b1925d7a01",
+      "matches": true
+    },
+    {
+      "path": "fr13-location/index.ts",
+      "sha256": "af1528c88a1f8d661256bfc6cd4e375571313ab020580ab9817f16024e52f2c1",
+      "matches": true
+    },
+    {
+      "path": "fr13-location/publication.ts",
+      "sha256": "87d5cc20b22a6a13d4a0948137f452e7fbcb7ebf5cfcc1e3a93a44c45f43bdfc",
+      "matches": true
+    },
+    {
+      "path": "get-delivery-route/handler.ts",
+      "sha256": "451f06efdaac213ff60f02eadabf587fe6357ecd0755f009305c7d825732e6e8",
+      "matches": true
+    },
+    {
+      "path": "get-delivery-route/index.ts",
+      "sha256": "92f709d0ebd966917c4b9c5443ef16937965597b5ee1dbe8f77133db59494037",
+      "matches": true
+    }
+  ],
+  "scope": "Read-only API download of final TEST bundles including the bounded body parser and shared security dependencies; current local byte equality."
+}

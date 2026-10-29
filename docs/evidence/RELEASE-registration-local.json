@@ -1,0 +1,44 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-28T20:04:21.907683+00:00",
+  "environment": "Owned offline restored database and real local Auth sessions",
+  "checks": [
+    {
+      "check": "Actual confirmed legacy Customer retains pending profile before completion",
+      "result": "PASS"
+    },
+    {
+      "check": "Missing profile requires completion; supplied phone activates only Customer, preserves identity/role, enables cart/ratings, retains stock/delivery guard, emits one audit and no messages",
+      "result": "PASS"
+    },
+    {
+      "check": "Pending Rider stays pending despite client requesting Customer role",
+      "result": "PASS"
+    },
+    {
+      "check": "Pending Vendor stays pending despite client requesting Customer role",
+      "result": "PASS"
+    },
+    {
+      "check": "rejected Customer is not automatically activated",
+      "result": "PASS"
+    },
+    {
+      "check": "suspended Customer is not automatically activated",
+      "result": "PASS"
+    },
+    {
+      "check": "Revoked session cannot complete registration",
+      "result": "PASS"
+    },
+    {
+      "check": "Blocked Customer cannot complete registration",
+      "result": "PASS"
+    },
+    {
+      "check": "Anonymous registration-completion execution remains denied",
+      "result": "PASS"
+    }
+  ],
+  "scope": "Rollback-only checks on existing profiles and an undelivered order. Canonical Customer completion tested without bulk backfill, changed feature grants, Vendor/Rider approval, external messages or delivered/earning fabrication."
+}

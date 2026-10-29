@@ -1,0 +1,12 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-28T17:52:52.435750+00:00",
+  "status": "BOUNDED PASS",
+  "verified_objects": 259,
+  "verified_bytes": 8001146,
+  "owner_mime_and_object_ids_retained": true,
+  "network": "Shared loopback namespace of owned network=none database; no host ports",
+  "elapsed_seconds": 15.344,
+  "hosted_modified": false,
+  "scope": "Recovered encrypted bytes uploaded/downloaded through isolated Storage API with SHA-256 comparisons. Service-role recovery only; per-user RLS, signed URLs, Auth/Edge configuration and cross-machine recovery remain separate."
+}

@@ -1,0 +1,37 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "prepared_utc": "2026-10-28T19:20:23.897560+00:00",
+  "status": "REVIEWABLE; NOT EXECUTED",
+  "product": {
+    "id": 224,
+    "name": "Chicken Biryani",
+    "price": 350,
+    "stock_qty": 30,
+    "is_available": true,
+    "vendor_id": 997
+  },
+  "quantity": 1,
+  "payment": "COD; no provider charge or payout",
+  "customer": "Existing confirmed owner-controlled TEST customer",
+  "recipient_mask": "ur***@gmail.com",
+  "rider_fixture": "fr04-accounts.bin:rider-a",
+  "rider_scope": "Retained canonical TEST approval and existing submitted document; no new identity approval or claim of genuine identity verification",
+  "prerequisites": [
+    "Pickup/destination confirmed through the app using actual device/map input",
+    "Retained rider eligible/online through normal APIs",
+    "Owner physical proof and received OTP"
+  ],
+  "requested_external_message_scope": {
+    "otp_emails_max": 2,
+    "confirmation_emails_max": 1,
+    "invoice_emails_max": 1,
+    "push": "Order-related messages only to the connected owner TEST phone"
+  },
+  "preserved": [
+    "Two pending demo Riders",
+    "All existing orders and historical earnings",
+    "47 approved unavailable products"
+  ],
+  "failure_recovery": "Cancel only this new order through canonical role APIs if unfinished; confirm stock restoration and record cancellation without inventing delivery/earnings.",
+  "backup": "Encrypted post-seed snapshot, recovered secrets/Storage/Auth and separately captured runtime ledgers; no production target."
+}

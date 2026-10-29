@@ -1,0 +1,497 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "generated_utc": "2026-10-28T20:09:01.066195+00:00",
+  "artifact_sha256": "F5F18E26D1F863FFFD33DBB33BDBE7EEA6206C0DE7E88EB7DB3AD0DA5A910D04",
+  "build_source_files_still_match": 217,
+  "percentile_method": "Nearest rank p95; arithmetic median p50. Small bounded samples, not fleet or load qualification.",
+  "gps_windows": {
+    "power-saving": {
+      "utc": "2026-10-28T17:45:35.909372+00:00",
+      "seconds": 60.3,
+      "events": 5,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 4,
+        "p50": 6.578,
+        "p95": 35.375,
+        "worst": 35.375
+      },
+      "pipeline_stages_ms": {
+        "publish_roundtrip": {
+          "samples": 7,
+          "p50": 1059,
+          "p95": 2121,
+          "worst": 2121
+        },
+        "fix_device_interval": {
+          "samples": 11,
+          "p50": 5082,
+          "p95": 10420,
+          "worst": 10420
+        },
+        "fix_arrival_interval": {
+          "samples": 11,
+          "p50": 5089,
+          "p95": 10351,
+          "worst": 10351
+        },
+        "client_queue": {
+          "samples": 6,
+          "p50": 1.0,
+          "p95": 338,
+          "worst": 338
+        }
+      }
+    },
+    "indoor-normal": {
+      "utc": "2026-10-28T17:48:37.290861+00:00",
+      "seconds": 60.5,
+      "events": 11,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 10,
+        "p50": 5.516,
+        "p95": 6.781,
+        "worst": 6.781
+      },
+      "pipeline_stages_ms": {
+        "client_queue": {
+          "samples": 11,
+          "p50": 1,
+          "p95": 1,
+          "worst": 1
+        },
+        "publish_roundtrip": {
+          "samples": 11,
+          "p50": 1036,
+          "p95": 1479,
+          "worst": 1479
+        },
+        "fix_device_interval": {
+          "samples": 10,
+          "p50": 5529.5,
+          "p95": 6052,
+          "worst": 6052
+        },
+        "fix_arrival_interval": {
+          "samples": 10,
+          "p50": 5540.0,
+          "p95": 6066,
+          "worst": 6066
+        }
+      }
+    },
+    "outdoor-transition": {
+      "utc": "2026-10-28T17:55:26.514333+00:00",
+      "seconds": 60.1,
+      "events": 21,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 20,
+        "p50": 2.43,
+        "p95": 4.156,
+        "worst": 5.797
+      },
+      "pipeline_stages_ms": {
+        "client_queue": {
+          "samples": 25,
+          "p50": 740,
+          "p95": 1817,
+          "worst": 1915
+        },
+        "publish_roundtrip": {
+          "samples": 24,
+          "p50": 1260.5,
+          "p95": 1653,
+          "worst": 1957
+        },
+        "fix_device_interval": {
+          "samples": 27,
+          "p50": 2058,
+          "p95": 3798,
+          "worst": 6031
+        },
+        "fix_arrival_interval": {
+          "samples": 27,
+          "p50": 2001,
+          "p95": 3859,
+          "worst": 6042
+        }
+      }
+    },
+    "outdoor-foreground": {
+      "utc": "2026-10-28T17:57:45.623590+00:00",
+      "seconds": 60.8,
+      "events": 18,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 17,
+        "p50": 3.016,
+        "p95": 5.922,
+        "worst": 5.922
+      },
+      "pipeline_stages_ms": {
+        "publish_roundtrip": {
+          "samples": 23,
+          "p50": 1161,
+          "p95": 1637,
+          "worst": 1953
+        },
+        "fix_device_interval": {
+          "samples": 26,
+          "p50": 2059.5,
+          "p95": 5037,
+          "worst": 5045
+        },
+        "fix_arrival_interval": {
+          "samples": 26,
+          "p50": 2004.0,
+          "p95": 4996,
+          "worst": 5028
+        },
+        "client_queue": {
+          "samples": 23,
+          "p50": 722,
+          "p95": 1814,
+          "worst": 1929
+        }
+      }
+    },
+    "outdoor-background": {
+      "utc": "2026-10-28T18:00:40.807382+00:00",
+      "seconds": 60.3,
+      "events": 24,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 23,
+        "p50": 2.36,
+        "p95": 3.594,
+        "worst": 4.594
+      },
+      "pipeline_stages_ms": {
+        "fix_arrival_interval": {
+          "samples": 30,
+          "p50": 2000.0,
+          "p95": 2446,
+          "worst": 2495
+        },
+        "publish_roundtrip": {
+          "samples": 26,
+          "p50": 1349.0,
+          "p95": 1803,
+          "worst": 2075
+        },
+        "client_queue": {
+          "samples": 26,
+          "p50": 1163.5,
+          "p95": 1919,
+          "worst": 2113
+        },
+        "fix_device_interval": {
+          "samples": 29,
+          "p50": 2059,
+          "p95": 2493,
+          "worst": 2494
+        }
+      }
+    },
+    "recovery": {
+      "utc": "2026-10-28T19:12:05.243765+00:00",
+      "seconds": 60.5,
+      "events": 23,
+      "duplicates": 0,
+      "customer_receipt_intervals_seconds": {
+        "samples": 22,
+        "p50": 2.515,
+        "p95": 3.969,
+        "worst": 4.61
+      },
+      "pipeline_stages_ms": {
+        "fix_arrival_interval": {
+          "samples": 31,
+          "p50": 2004,
+          "p95": 2062,
+          "worst": 2169
+        },
+        "client_queue": {
+          "samples": 27,
+          "p50": 974,
+          "p95": 1900,
+          "worst": 1957
+        },
+        "fix_device_interval": {
+          "samples": 30,
+          "p50": 1965.5,
+          "p95": 2106,
+          "worst": 2169
+        },
+        "publish_roundtrip": {
+          "samples": 26,
+          "p50": 1065.0,
+          "p95": 1688,
+          "worst": 1765
+        }
+      }
+    }
+  },
+  "routing": {
+    "utc": "2026-10-28T17:42:42.942000+00:00",
+    "dns_probe_ms": 11.93,
+    "initial_connect_tls_ms": 362.75,
+    "http_request_ms": {
+      "samples": 12,
+      "p50": 986.93,
+      "p95": 3439.9,
+      "worst": 3439.9
+    },
+    "warm_cache_http_request_ms": {
+      "samples": 11,
+      "p50": 951.29,
+      "p95": 1393.52,
+      "worst": 1393.52
+    },
+    "json_decode_ms": {
+      "samples": 12,
+      "p50": 0.45,
+      "p95": 0.7,
+      "worst": 0.7
+    },
+    "samples": [
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 3439.9,
+        "json_decode_ms": 0.69,
+        "server_stages_ms": {
+          "auth": 0.21,
+          "prepare": 430.86,
+          "provider": 998.33,
+          "finish": 248.73,
+          "revalidate": 307.89,
+          "handler": 1988.6
+        },
+        "response_bytes": 7842,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 797.47,
+        "json_decode_ms": 0.18,
+        "server_stages_ms": {
+          "auth": 0.22,
+          "prepare": 217.67,
+          "revalidate": 254.99,
+          "handler": 474.72
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 943.62,
+        "json_decode_ms": 0.61,
+        "server_stages_ms": {
+          "auth": 0.21,
+          "prepare": 179.87,
+          "revalidate": 353.51,
+          "handler": 535.43
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 801.7,
+        "json_decode_ms": 0.7,
+        "server_stages_ms": {
+          "auth": 0.26,
+          "prepare": 154.18,
+          "revalidate": 321.52,
+          "handler": 478.17
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 880.1,
+        "json_decode_ms": 0.18,
+        "server_stages_ms": {
+          "auth": 0.22,
+          "prepare": 154.01,
+          "revalidate": 258.86,
+          "handler": 415.26
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 1262.11,
+        "json_decode_ms": 0.46,
+        "server_stages_ms": {
+          "auth": 0.21,
+          "prepare": 180.09,
+          "revalidate": 504.78,
+          "handler": 686.89
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 1393.52,
+        "json_decode_ms": 0.2,
+        "server_stages_ms": {
+          "auth": 0.26,
+          "prepare": 180.92,
+          "revalidate": 628.79,
+          "handler": 812.4
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 1103.78,
+        "json_decode_ms": 0.44,
+        "server_stages_ms": {
+          "auth": 0.23,
+          "prepare": 392.99,
+          "revalidate": 315.32,
+          "handler": 710.3
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 1270.69,
+        "json_decode_ms": 0.54,
+        "server_stages_ms": {
+          "auth": 0.21,
+          "prepare": 340.27,
+          "revalidate": 292.36,
+          "handler": 634.56
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 1022.57,
+        "json_decode_ms": 0.64,
+        "server_stages_ms": {
+          "auth": 0.22,
+          "prepare": 163.06,
+          "revalidate": 255.54,
+          "handler": 420.79
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 723.16,
+        "json_decode_ms": 0.28,
+        "server_stages_ms": {
+          "auth": 0.04,
+          "prepare": 191.75,
+          "revalidate": 268.29,
+          "handler": 460.52
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      },
+      {
+        "http_status": 200,
+        "code": "OK",
+        "request_ms": 951.29,
+        "json_decode_ms": 0.25,
+        "server_stages_ms": {
+          "auth": 0.22,
+          "prepare": 180.51,
+          "revalidate": 421.56,
+          "handler": 604.27
+        },
+        "response_bytes": 7865,
+        "request_bytes": 17,
+        "connection_closed_by_server": false,
+        "road_geometry": true,
+        "source": "geoapify",
+        "is_stale": false,
+        "is_approximate": false
+      }
+    ]
+  },
+  "acceptance": {
+    "strict_gps_2_to_3_seconds": "PARTIAL: receipt outliers exceed 3 seconds",
+    "route_800_ms": "FAIL: both observed median and p95 exceed target"
+  },
+  "scope": "Stationary OPPO Android 13 DEBUG TEST. Observer/pipeline windows captured separately. No coordinates, absolute fix timestamps, summed jitter distance or uncertain cross-device latency included. No road movement, iOS, render latency or load claim. Physical GPS windows precede the final body-size parser patch; authorization/publication pipeline unchanged."
+}

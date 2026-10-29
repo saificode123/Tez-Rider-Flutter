@@ -1,5 +1,8 @@
 [CmdletBinding()]
-param([ValidateRange(60, 120)][int]$OfflineSeconds = 90)
+param(
+    [ValidateRange(60, 120)][int]$OfflineSeconds = 90,
+    [ValidateSet('MASTER-gps-network.json','RELEASE-gps-network.json')][string]$EvidenceName = 'MASTER-gps-network.json'
+)
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $adb = 'C:/Users/urreh/AppData/Local/Android/Sdk/platform-tools/adb.exe'
@@ -40,7 +43,7 @@ try {
     $record.settings_restored=(Phone @('shell','settings','get','global','wifi_on')) -eq $wifi -and (Phone @('shell','settings','get','global','mobile_data')) -eq $mobile
     $record.same_process=(Phone @('shell','pidof',$package)) -eq $process
     $record.utc=[DateTime]::UtcNow.ToString('o')
-    $record | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $repo 'docs/evidence/MASTER-gps-network.json') -Encoding utf8
+    $record | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $repo ('docs/evidence/' + $EvidenceName)) -Encoding utf8
 }
 $record | ConvertTo-Json
 if (-not $record.settings_restored -or -not $record.same_process -or -not $record.network_absent_observed) { exit 1 }

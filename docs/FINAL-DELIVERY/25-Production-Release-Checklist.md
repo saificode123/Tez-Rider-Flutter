@@ -1,5 +1,7 @@
 # Production release gates
 
+Current continuation (2026-10-29): see [report 27](27-Release-Execution-Ledger.md) and [report 28](28-Remaining-Release-Dependencies.md) for the newer APK, implementation and fresh results. The dated checklist below remains historical.
+
 2026-10-28. **NOT READY FOR PRODUCTION.**
 
 - OPEN: all 137 clauses accepted in release scope. Retained baseline is 76 historical bounded passes, 17 deviations, 43 partial, one blocked.

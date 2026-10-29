@@ -1,0 +1,24 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "utc": "2026-10-29T06:02:00.424242+00:00",
+  "results": {
+    "full_flutter": {
+      "passed": 691,
+      "skipped": 2,
+      "log_sha256": "0661b6b38681bba3d259132163c130f842e60315ce88338b4adc59b9f2f9efac"
+    },
+    "full_deno": {
+      "passed": 230,
+      "failed": 0,
+      "log_sha256": "f31d7cb8b1de5a303c5d8fa81975d2ea83e0ca967d759dbe25364ff2f58745b6"
+    },
+    "focused_flutter": {
+      "passed": 60,
+      "log_sha256": "af92e34b06287615168fcbfbd20dbddce14e5e1b036595bd2470d5f63d329127"
+    }
+  },
+  "analysis": "Focused source analysis: zero errors/warnings, three inherited brace-style infos.",
+  "helper_checks": "Seven changed/new PowerShell helpers parsed; ten changed/new Python helpers compiled.",
+  "registration": "Nine offline rollback-only guards, rollback/reapply rehearsal and actual TEST profile/cart/ratings verified separately.",
+  "scope": "Fresh current-source local regression. Initial Deno commands lacked font read/sample write permissions (227 pass, 3 permission failures each); final invocation added only scoped local reads/writes, no network permission, and passed all 230. No production, full SRDS, iOS, performance-target or new delivery acceptance implied."
+}

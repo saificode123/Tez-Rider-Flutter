@@ -1,5 +1,7 @@
 # Current completion-stage handover
 
+Current continuation (2026-10-29): [report 27](27-Release-Execution-Ledger.md) and [report 28](28-Remaining-Release-Dependencies.md) record newer implementation, TEST artifact and dependencies. Results below retain their historical scope.
+
 2026-10-28, Asia/Karachi. **NOT READY FOR PRODUCTION. Work remains open.**
 
 1. Total requirement/policy inventory: 137 unique rows, executable inventory in `tests/integration/MASTER-compliance.py`.

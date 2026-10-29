@@ -1,0 +1,12 @@
+{
+  "latest_auth": "20260831180000",
+  "scope": "Service-owned migration ledgers exported explicitly because CLI logical data dump omits them. Separate capture timestamp; no new data/schema export or point-in-time snapshot consistency implied.",
+  "latest_storage": "revoke-grants-to-unused-operations",
+  "plaintext_sha256": "C523468A8F4ED248858554692A0B565B810ABA1A467EFBAF52CE362B713696AC",
+  "encrypted_roundtrip": true,
+  "storage_versions": 74,
+  "encrypted_sha256": "7E0E3850E9708F04111D646D9668EF3D81F51871182A70C2CA3DD5DEA861FE54",
+  "captured_utc": "2026-10-28T18:04:09.3577256Z",
+  "auth_versions": 82,
+  "project": "igeisilhtmglgnqvllrx"
+}
