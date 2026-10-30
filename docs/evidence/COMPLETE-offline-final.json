@@ -1,0 +1,18 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "observed_at": "2026-10-30T10:27:55.428389+00:00",
+  "order_id": 3180,
+  "status": "delivered",
+  "rider_id": 999,
+  "rider_online": false,
+  "tracking_sessions": 0,
+  "stock_qty": 29,
+  "earned_records": 1,
+  "cash_records": 0,
+  "otp_requests": 2,
+  "otp_states": ["USED", "INVALIDATED"],
+  "proof_records": 1,
+  "amendments": 1,
+  "owner_reported_offline": true,
+  "scope": "Read-only TEST database confirmation after the owner used the normal Offline control. No native device inspection or location, recipient, credential or OTP value retained."
+}

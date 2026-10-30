@@ -69,6 +69,10 @@ class RiderLocationService extends GetxService {
   final sharing = false.obs, busy = false.obs;
   final message = 'Location sharing is off.'.obs;
   final latestFix = Rxn<DeviceFix>();
+
+  /// Delivery routing starts only after the server confirms this genuine fix.
+  /// Native fixes can arrive before fr13_submit_location has committed them.
+  final publishedFix = Rxn<DeviceFix>();
   StreamSubscription<DeviceFix>? _positions;
   StreamSubscription<bool>? _services;
   int? _order, _sharingOrder;
@@ -120,6 +124,7 @@ class RiderLocationService extends GetxService {
     if (presenceInterrupted && sameDelivery) {
       _foreground = foreground;
       _presenceSuspended = true;
+      publishedFix.value = null;
       _pendingFix = null;
       _pendingTimer?.cancel();
       _pendingTimer = null;
@@ -484,6 +489,12 @@ class RiderLocationService extends GetxService {
           }
           throw StateError('Unconfirmed');
         }
+        if (const ['PUBLISHED', 'REPLAYED'].contains(code) &&
+            !_presenceSuspended &&
+            sharing.value &&
+            fix.valid(now().toUtc())) {
+          publishedFix.value = fix;
+        }
         message.value = code == 'PUBLISHED'
             ? _guidance?.notice ?? 'Sharing your live location.'
             : 'Waiting for the next fresh GPS fix.';
@@ -565,6 +576,7 @@ class RiderLocationService extends GetxService {
     _pendingTimer?.cancel();
     _pendingTimer = null;
     sharing.value = false;
+    publishedFix.value = null;
     final position = _positions, services = _services;
     _positions = null;
     _services = null;

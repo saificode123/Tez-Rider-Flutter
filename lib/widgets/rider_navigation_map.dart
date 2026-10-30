@@ -64,6 +64,7 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
     createRoute();
     fixWorker = everAll([
       widget.location.latestFix,
+      widget.location.publishedFix,
       widget.location.sharing,
     ], (_) => sync());
     freshness = Timer.periodic(const Duration(seconds: 1), (_) => sync());
@@ -108,17 +109,20 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
     if (accountChanged) return;
     final fix = widget.location.latestFix.value;
     ownFresh.value = fix != null && fix.valid(DateTime.now().toUtc());
+    final routeFix = widget.status == 'on_the_way'
+        ? widget.location.publishedFix.value
+        : fix;
     final live =
         widget.isDelivery &&
         widget.online &&
         (widget.status == 'ready' ||
             (widget.status == 'on_the_way' && widget.location.sharing.value)) &&
-        fix != null &&
-        fix.valid(DateTime.now().toUtc());
+        routeFix != null &&
+        routeFix.valid(DateTime.now().toUtc());
     if (live) {
       routeLocation.authorized.value = true;
-      routeLocation.position.value = fix;
-      routeLocation.lastKnown.value = fix;
+      routeLocation.position.value = routeFix;
+      routeLocation.lastKnown.value = routeFix;
       routeLocation.stale.value = false;
     } else {
       routeLocation.clear();

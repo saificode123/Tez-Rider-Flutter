@@ -207,12 +207,13 @@ void main() {
         await Future<void>.delayed(Duration.zero);
         expect(service.sharing.value, outcome == 'recover');
         expect(backend.sent, outcome == 'recover' ? 1 : 0);
-        if (outcome == 'recover')
+        if (outcome == 'recover') {
           expect(
             source.starts,
             starts,
             reason: 'Reuse the existing real GPS subscription',
           );
+        }
         await service.stop();
         service.onClose();
         await Future<void>.delayed(Duration.zero);
@@ -346,6 +347,69 @@ void main() {
           expect(backend.sent, 2, reason: 'Never manufacture or repeat a fix');
         }
         await service.stop();
+        service.onClose();
+        await source.close();
+      },
+    );
+  }
+  for (final outcome in [
+    'PUBLISHED',
+    'REPLAYED',
+    'RATE_LIMIT',
+    'stop',
+    'interrupted',
+    'expired',
+  ]) {
+    test(
+      'routing waits for current publication acknowledgement: $outcome',
+      () async {
+        final source = Source();
+        final backend = Backend();
+        var current = base;
+        final service = RiderLocationService(
+          source,
+          backend,
+          now: () => current,
+        );
+        await service.reconcile(online: true, activeOrder: 1, foreground: true);
+        await service.share(1);
+        final response = Completer<String>();
+        backend.pendingPublish = response;
+        final fix = DeviceFix(33.7, 73.05, 5, base);
+        source.fixes.add(fix);
+        await Future<void>.delayed(Duration.zero);
+        expect(service.latestFix.value, same(fix));
+        expect(
+          service.publishedFix.value,
+          isNull,
+          reason: 'The server has no confirmed route origin yet',
+        );
+        if (outcome == 'stop') await service.stop();
+        if (outcome == 'interrupted') {
+          await service.reconcile(
+            online: true,
+            activeOrder: 1,
+            foreground: true,
+            presenceInterrupted: true,
+          );
+        }
+        if (outcome == 'expired') {
+          current = base.add(const Duration(seconds: 31));
+        }
+        response.complete(
+          const ['RATE_LIMIT', 'REPLAYED'].contains(outcome)
+              ? outcome
+              : 'PUBLISHED',
+        );
+        await Future<void>.delayed(Duration.zero);
+        expect(
+          service.publishedFix.value,
+          const ['PUBLISHED', 'REPLAYED'].contains(outcome)
+              ? same(fix)
+              : isNull,
+        );
+        await service.stop();
+        expect(service.publishedFix.value, isNull);
         service.onClose();
         await source.close();
       },
