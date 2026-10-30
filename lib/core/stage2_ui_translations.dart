@@ -1,5 +1,52 @@
 /// Display-only English keys and Urdu translations for Stage 2 controls.
 const stage2UiUrdu = <String, String>{
+  'Delivery destination changed. Refresh and review the new point.':
+      'ڈیلیوری کی منزل تبدیل ہو گئی۔ تازہ معلومات حاصل کر کے نئی جگہ دیکھیں۔',
+  'Change delivery location': 'ڈیلیوری کی جگہ تبدیل کریں',
+  'Delivery location': 'ڈیلیوری کی جگہ',
+  'Stop sharing': 'مقام شیئر کرنا بند کریں',
+  'Retry delivery location options':
+      'ڈیلیوری کی جگہ کے اختیارات دوبارہ حاصل کریں',
+  'Changing the point keeps the order, delivery charge and frozen Rider pay unchanged.':
+      'جگہ بدلنے سے آرڈر، ڈیلیوری چارج اور رائیڈر کا پہلے سے طے شدہ معاوضہ تبدیل نہیں ہوں گے۔',
+  'Delivery location updated. Ask the Rider to review it before sharing again.':
+      'ڈیلیوری کی جگہ تبدیل ہو گئی۔ دوبارہ مقام شیئر کرنے سے پہلے رائیڈر سے نئی جگہ دیکھنے کو کہیں۔',
+  'Ask the Rider to go Offline and stop sharing before changing the destination.':
+      'منزل بدلنے سے پہلے رائیڈر سے آف لائن ہونے اور مقام شیئر کرنا بند کرنے کو کہیں۔',
+  'An active delivery code or pending email must finish or expire before changing the destination.':
+      'منزل بدلنے سے پہلے فعال ڈیلیوری کوڈ یا زیرِ التوا ای میل کا عمل مکمل ہونا یا اس کی مدت ختم ہونا ضروری ہے۔',
+  'The destination cannot change after delivery proof, cash collection or verification has started.':
+      'ڈیلیوری کا ثبوت، نقد وصولی یا تصدیق شروع ہونے کے بعد منزل تبدیل نہیں ہو سکتی۔',
+  'The destination changed elsewhere. Refresh and review it before trying again.':
+      'منزل کہیں اور سے تبدیل ہو چکی ہے۔ دوبارہ کوشش سے پہلے تازہ معلومات حاصل کر کے اسے دیکھیں۔',
+  'Only an unfinished delivery with a confirmed destination can be changed.':
+      'صرف تصدیق شدہ منزل والی نامکمل ڈیلیوری کی جگہ تبدیل کی جا سکتی ہے۔',
+  'This change is available for unpaid Cash on Delivery orders only.':
+      'یہ تبدیلی صرف ان کیش آن ڈیلیوری آرڈرز کے لیے ہے جن کی رقم وصول نہیں ہوئی۔',
+  'Choose a different delivery point.':
+      'ڈیلیوری کے لیے کوئی مختلف جگہ منتخب کریں۔',
+  'Only this order’s signed-in Customer can change its destination.':
+      'صرف اس آرڈر کا لاگ اِن صارف اس کی منزل تبدیل کر سکتا ہے۔',
+  'Select and confirm a valid delivery point.':
+      'ڈیلیوری کی درست جگہ منتخب کر کے تصدیق کریں۔',
+  'This request could not be matched. Refresh the order before continuing.':
+      'یہ درخواست مطابقت نہیں رکھتی۔ آگے بڑھنے سے پہلے آرڈر کی تازہ معلومات حاصل کریں۔',
+  'The destination change was not confirmed. Retry the same request.':
+      'منزل کی تبدیلی کی تصدیق نہیں ہوئی۔ اسی درخواست کو دوبارہ آزمائیں۔',
+  'Confirm new delivery point': 'ڈیلیوری کی نئی جگہ کی تصدیق کریں',
+  'Choose a real handover point you can reach. The order status, delivery charge and frozen Rider pay stay unchanged. The Rider must review the new point before going Online again.':
+      'حوالگی کے لیے ایسی حقیقی جگہ چنیں جہاں آپ پہنچ سکیں۔ آرڈر کی حالت، ڈیلیوری چارج اور طے شدہ رائیڈر معاوضہ نہیں بدلیں گے۔ دوبارہ آن لائن ہونے سے پہلے رائیڈر نئی جگہ ضرور دیکھے۔',
+  'Select a nearby, real handover point on the map.':
+      'نقشے پر حوالگی کے لیے قریب کی حقیقی جگہ منتخب کریں۔',
+  'New delivery point selected': 'ڈیلیوری کی نئی جگہ منتخب ہو گئی',
+  'Choose delivery point': 'ڈیلیوری کی جگہ منتخب کریں',
+  'Save delivery location': 'ڈیلیوری کی جگہ محفوظ کریں',
+  'Retry destination change': 'منزل کی تبدیلی کی دوبارہ کوشش کریں',
+  'Current location unavailable. Check GPS and permission, or choose the actual point manually.':
+      'موجودہ مقام دستیاب نہیں۔ جی پی ایس اور اجازت چیک کریں یا اصل جگہ خود منتخب کریں۔',
+  'Tap the real handover point. Using My location only centers the map.':
+      'حوالگی کی اصل جگہ پر ٹیپ کریں۔ میرا مقام استعمال کرنے سے صرف نقشہ اس جگہ پر آتا ہے۔',
+  'Use selected point': 'منتخب جگہ استعمال کریں',
   'Pickup point': 'سامان لینے کی جگہ',
   'Confirmed Rider position': 'رائیڈر کی تصدیق شدہ جگہ',
   'Last confirmed Rider position': 'رائیڈر کی آخری تصدیق شدہ جگہ',

@@ -111,18 +111,29 @@ export function createHandler(deps: Dependencies) {
       if (ctx.code === 'RATE_LIMIT') return reply({code: 'RATE_LIMIT'}, 429);
       if (['DESTINATION_UNCONFIRMED', 'LOCATION_UNAVAILABLE'].includes(ctx.code)) return reply({code: ctx.code, route: null});
       if (!coordinate(ctx.origin) || !coordinate(ctx.destination) || ctx.orderId !== body.orderId) return reply({code: 'UNAVAILABLE', route: null});
+      const revalidate = async (): Promise<Response | null> => {
+        const live = await timed('revalidate', () => context(jwt, body.orderId));
+        if (live.code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+        if (!pickup) {
+          if (!coordinate(live.destination)) return reply({code: 'UNAVAILABLE', route: null});
+          if (live.destination[0] !== ctx.destination[0] || live.destination[1] !== ctx.destination[1]) {
+            return reply({code: 'DESTINATION_CHANGED', route: null});
+          }
+        }
+        return null;
+      };
       if (ctx.code === 'COMPUTE') {
         let result: Data | null = null;
         try { result = parseProvider(await timed('provider', () => deps.provider(ctx.origin, ctx.destination)), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
         const saved = await timed('finish', () => finish(body.orderId, access.actor, ctx.lease, result));
         if (result && saved.code === 'OK') {
           // Recheck the caller/session after the external request as well.
-          if ((await timed('revalidate', () => context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+          const denied = await revalidate(); if (denied) return denied;
           return reply({code: 'OK', route: {...saved.route, target: pickup ? 'pickup' : 'delivery', cacheStatus: 'fresh'}});
         }
         if (!['OK', 'RELEASED'].includes(saved.code)) return reply({code: 'UNAVAILABLE', route: null});
       }
-      if ((await timed('revalidate', () => context(jwt, body.orderId))).code !== 'OK') return reply({code: 'FORBIDDEN'}, 403);
+      const denied = await revalidate(); if (denied) return denied;
       const now = (deps.now ?? Date.now)();
       if (ctx.cache) {
         const stale = ctx.code !== 'CACHE' || Date.parse(ctx.cache.expiresAt) <= now;

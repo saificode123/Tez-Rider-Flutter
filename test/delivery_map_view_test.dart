@@ -272,4 +272,46 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     },
   );
+  testWidgets(
+    'Stop sharing remains reachable independently of a tall scrolled action panel',
+    (tester) async {
+      var stops = 0;
+      tester.view.physicalSize = const Size(390, 780);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        GetMaterialApp(
+          home: Scaffold(
+            body: RiderMapLayout(
+              map: DeliveryMapView(
+                compact: true,
+                tileProvider: _Tiles(),
+                fix: fix(),
+                stale: false,
+                onStopSharing: () => stops++,
+              ),
+              actions: SingleChildScrollView(
+                child: SizedBox(
+                  height: 2000,
+                  child: Column(
+                    children: List.generate(
+                      30,
+                      (i) => Text('Proof section $i'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(find.text('Stop sharing').hitTestable(), findsOneWidget);
+      await tester.tap(find.text('Stop sharing'));
+      expect(stops, 1);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
 }

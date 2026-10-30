@@ -13,6 +13,7 @@ import '../../widgets/order_payment_panel.dart';
 import '../../widgets/invoice_button.dart';
 import '../../widgets/delivery_photo_panel.dart';
 import '../../widgets/rider_identity_card.dart';
+import 'change_delivery_destination_screen.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({
@@ -299,6 +300,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ],
                         ),
                     ]),
+                  if (widget.service == null &&
+                      const bool.fromEnvironment('FR21_ISOLATED_TEST') &&
+                      widget.orderId == 3180 &&
+                      current.value['status'] == 'on_the_way')
+                    DestinationAmendmentEntry(
+                      key: ValueKey('destination-${widget.orderId}'),
+                      orderId: widget.orderId,
+                    ),
                   if (widget.service == null &&
                       current.portions.any(
                         (p) => p['status'] == 'pending_prescription',

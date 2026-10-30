@@ -174,6 +174,45 @@ void main() {
     });
     tearDown(() => controller.onClose());
     test(
+      'timings separate cached RPC from geometry work without position data',
+      () async {
+        final stages = <String, num>{};
+        fix(33.7, 73.05);
+        controller = DeliveryRouteController(
+          1,
+          state,
+          (_) async => {
+            'code': 'OK',
+            'route': {...routeData(clock), 'cacheStatus': 'cached'},
+          },
+          now: () => clock,
+          onMetric: (stage, value) => stages[stage] = value,
+        );
+        await controller.refreshRoute();
+        expect(controller.route.value, isNotNull);
+        expect(
+          stages.keys,
+          unorderedEquals(['route_rpc_cached', 'geometry_decode']),
+        );
+        expect(stages.values.every((v) => v.isFinite && v >= 0), isTrue);
+      },
+    );
+    test(
+      'diagnostic callback failure cannot discard a valid road route',
+      () async {
+        fix(33.7, 73.05);
+        controller = DeliveryRouteController(
+          1,
+          state,
+          (_) async => {'code': 'OK', 'route': routeData(clock)},
+          now: () => clock,
+          onMetric: (_, __) => throw StateError('diagnostics'),
+        );
+        await controller.refreshRoute();
+        expect(controller.route.value, isNotNull);
+      },
+    );
+    test(
       'revocation rejects a late route response and clears geometry immediately',
       () async {
         fix(33.7, 73.05);

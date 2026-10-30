@@ -869,6 +869,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
           isDelivery: order['type'] == 'order',
           location: riderCtrl.location,
           online: riderCtrl.isOnline.value,
+          destinationRevision: order['destination_confirmed_at']?.toString(),
           onBack: () => setState(() => _tab = 0),
         ),
         actions: Container(

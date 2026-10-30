@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'delivery_location.dart';
+import 'delivery_route_metrics.dart';
 
 class DeliveryRoute {
   DeliveryRoute.fromJson(Map<String, dynamic> data)
@@ -154,9 +155,11 @@ class DeliveryRouteController extends GetxController {
     this.fetch, {
     DateTime Function()? now,
     this.target = 'delivery',
+    this.onMetric = recordRouteMetric,
   }) : now = now ?? DateTime.now;
   final int order;
   final String target;
+  final void Function(String, num)? onMetric;
   final CustomerLocationState location;
   final FetchDeliveryRoute fetch;
   final DateTime Function() now;
@@ -172,6 +175,14 @@ class DeliveryRouteController extends GetxController {
   double? _progress;
   bool _adjusted = false;
   int _generation = 0;
+  void _metric(String stage, num value) {
+    try {
+      onMetric?.call(stage, value);
+    } catch (_) {
+      /* Diagnostics cannot alter route behavior. */
+    }
+  }
+
   void start() {
     _fix = ever(location.position, (_) => consider());
     _stale = ever(location.stale, (_) => consider());
@@ -276,8 +287,15 @@ class DeliveryRouteController extends GetxController {
     loading.value = true;
     final generation = _generation;
     try {
+      final requestClock = Stopwatch()..start();
       final response = await fetch(order).timeout(const Duration(seconds: 20));
       if (_closed || generation != _generation) return;
+      final rawRoute = response['route'];
+      final cache = rawRoute is Map ? rawRoute['cacheStatus'] : null;
+      _metric(
+        'route_rpc_${const ['fresh', 'cached', 'stale'].contains(cache) ? cache : 'unavailable'}',
+        requestClock.elapsedMicroseconds / 1000,
+      );
       if (const [
         'FORBIDDEN',
         'UNAUTHORIZED',
@@ -297,13 +315,17 @@ class DeliveryRouteController extends GetxController {
         label.value = 'ETA unavailable';
         notice.value = response['code'] == 'DESTINATION_UNCONFIRMED'
             ? 'Delivery destination has not been confirmed.'
+            : response['code'] == 'DESTINATION_CHANGED'
+            ? 'Delivery destination changed. Refresh and review the new point.'
             : '';
         return;
       }
+      final decodeClock = Stopwatch()..start();
       final next = DeliveryRoute.fromJson(Map<String, dynamic>.from(data));
       if (next.order != order || next.target != target) {
         throw const FormatException('Wrong order or navigation phase');
       }
+      _metric('geometry_decode', decodeClock.elapsedMicroseconds / 1000);
       final changed = route.value?.computed != next.computed;
       route.value = next;
       notice.value = next.source == 'straight_line'

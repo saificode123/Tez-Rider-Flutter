@@ -265,7 +265,7 @@ class RiderController extends GetxController with WidgetsBindingObserver {
         _supabase
             .from('orders')
             .select(
-              'id,rider_id,order_status,created_at,amount,delivery_address,delivery_lat,delivery_lng',
+              'id,rider_id,order_status,created_at,amount,delivery_address,delivery_lat,delivery_lng,destination_confirmed_at',
             )
             .inFilter('order_status', [
               'placed',
@@ -519,8 +519,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       };
       Get.snackbar("Accepted".tr, "Please proceed with the pickup.".tr);
     } catch (_) {
-      if (!isClosed)
+      if (!isClosed) {
         Get.snackbar("Error".tr, "Could not accept tailoring request.".tr);
+      }
     } finally {
       if (!isClosed) deliveryBusy.value = false;
     }
@@ -559,8 +560,9 @@ class RiderController extends GetxController with WidgetsBindingObserver {
       if (currentOrder.value?['id'] == current['id']) currentOrder.value = null;
       Get.snackbar("Success".tr, "Tailoring delivery complete!".tr);
     } catch (_) {
-      if (!isClosed)
+      if (!isClosed) {
         Get.snackbar("Error".tr, "Could not complete delivery.".tr);
+      }
     } finally {
       if (!isClosed) deliveryBusy.value = false;
     }

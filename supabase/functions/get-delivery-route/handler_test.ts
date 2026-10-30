@@ -6,7 +6,7 @@ function harness(change: Partial<Dependencies> = {}) {
   const calls = {provider: 0, prepare: 0, finish: 0};
   const deps: Dependencies = {
     configured: true, now: () => Date.parse('2026-10-19T12:00:00Z'),
-    authenticate: async jwt => jwt === 'valid', context: async () => ({code: 'OK', actor: 42}),
+    authenticate: async jwt => jwt === 'valid', context: async () => ({code: 'OK', actor: 42, destination}),
     prepare: async () => { calls.prepare++; return {code: 'COMPUTE', orderId: 1, origin, destination, lease: 'lease', speedKmh: 20, minimumSeconds: 60}; },
     finish: async (_order, _actor, _lease, route) => { calls.finish++; return route ? {code: 'OK', route} : {code: 'RELEASED'}; },
     provider: async () => { calls.provider++; return response(); }, ...change,
@@ -19,12 +19,29 @@ function harness(change: Partial<Dependencies> = {}) {
   return {run, calls, handler};
 }
 Deno.test('JWT rejected before routing', async () => { const h = harness(); equal((await h.run(undefined, 'forged')).status, 401); equal(h.calls.prepare, 0); });
+Deno.test('destination amendment during provider work suppresses the old geometry', async () => {
+  const h = harness({initialActor: () => 42, context: async () => ({code:'OK',actor:42,destination:[73.07,33.72]})});
+  const result = await h.run();
+  equal(result.data, {code:'DESTINATION_CHANGED',route:null});
+  equal(h.calls.finish, 1);
+});
+Deno.test('destination amendment during cache read suppresses the old geometry', async () => {
+  const h = harness({initialActor: () => 42,
+    prepare: async () => ({code:'CACHE',orderId:1,origin,destination,cache:{geometry:{type:'LineString',coordinates:[origin,destination]}}}),
+    context: async () => ({code:'OK',actor:42,destination:[73.07,33.72]})});
+  equal((await h.run()).data,{code:'DESTINATION_CHANGED',route:null});
+  equal(h.calls.provider,0);
+});
+Deno.test('missing final destination metadata fails closed without geometry', async () => {
+  const h = harness({initialActor: () => 42,context: async () => ({code:'OK',actor:42})});
+  equal((await h.run()).data,{code:'UNAVAILABLE',route:null});
+});
 Deno.test('live auth and account checks overlap without starting order work early', async () => {
   let release!: (value: boolean) => void, boundaryStarted = false, contexts = 0;
   const authenticated = new Promise<boolean>(resolve => { release = resolve; });
   const h = harness({authenticate: () => authenticated,
     accountBoundary: async () => { boundaryStarted = true; return null; },
-    context: async () => { contexts++; return {code: 'OK', actor: 42}; }});
+    context: async () => { contexts++; return {code: 'OK', actor: 42, destination}; }});
   const pending = h.run();
   await Promise.resolve(); equal(boundaryStarted, true); equal(contexts, 0); equal(h.calls.prepare, 0);
   release(true); equal((await pending).status, 200);
@@ -32,7 +49,7 @@ Deno.test('live auth and account checks overlap without starting order work earl
 Deno.test('blocked account denial wins and never starts coordinate lookup', async () => {
   let contexts = 0;
   const h = harness({accountBoundary: async () => Response.json({code: 'FR28_ACCOUNT_BLOCKED'}, {status: 403}),
-    context: async () => { contexts++; return {code: 'OK', actor: 42}; }});
+    context: async () => { contexts++; return {code: 'OK', actor: 42, destination}; }});
   equal((await h.run()).status, 403); equal(contexts, 0); equal(h.calls.prepare, 0);
 });
 Deno.test('unavailable account check fails closed without routing', async () => {
@@ -92,7 +109,7 @@ Deno.test('old geometry is labeled stale without another provider request', asyn
 Deno.test('verified request actor avoids duplicate initial RPC and still revalidates', async () => {
   let contexts = 0, actor: unknown;
   const h = harness({initialActor: () => 42,
-    context: async () => { contexts++; return {code: 'OK', actor: 42}; },
+    context: async () => { contexts++; return {code: 'OK', actor: 42, destination}; },
     prepare: async (_order, currentActor) => {actor = currentActor; return {code: 'CACHE', orderId: 1, origin, destination,
       cache: {source: 'geoapify', expiresAt: '2026-10-19T12:05:00Z'}}; }});
   equal((await h.run()).data.route.isStale, false);
@@ -124,7 +141,7 @@ Deno.test('oversized request bounded before JSON parse', async () => { const h =
 Deno.test('disconnected multipart road geometry is not bridged', () => { const v=response();v.features[0].geometry.coordinates.push([destination,origin]);let failed=false;try{parseProvider(v,origin,destination);}catch{failed=true;}equal(failed,true); });
 Deno.test('invalid provider duration rejected', () => { for(const time of [-1,NaN,Infinity]) {const v=response();v.features[0].properties.time=time;let failed=false;try{parseProvider(v,origin,destination);}catch{failed=true;}equal(failed,true);} });
 Deno.test('end-of-delivery race does not disclose computed route', async () => { const h = harness({finish: async () => ({code: 'UNAVAILABLE'})}); equal((await h.run()).data.route, null); });
-Deno.test('blocked/session change after HTTP suppresses route', async () => { let count = 0; const h = harness({context: async () => ++count === 1 ? {code: 'OK', actor: 42} : {code: 'FORBIDDEN'}}); equal((await h.run()).status, 403); });
+Deno.test('blocked/session change after HTTP suppresses route', async () => { let count = 0; const h = harness({context: async () => ++count === 1 ? {code: 'OK', actor: 42, destination} : {code: 'FORBIDDEN'}}); equal((await h.run()).status, 403); });
 Deno.test('SQL lease semantics mock: concurrent HTTP calls single provider invocation', async () => {
   let leased = false, providers = 0;
   const h = harness({prepare: async () => { const code = leased ? 'BUSY' : 'COMPUTE'; leased = true; return {code, orderId: 1, origin, destination, speedKmh: 20, lease: 'lease'}; },

@@ -73,3 +73,9 @@ After stating they cannot reach the confirmed destination, the owner selected **
 ## Owner addendum — bounded map-upgrade GPS checks (2026-10-30)
 
 For the requested map upgrade, the owner explicitly answered **"Yes, bounded stationary sharing test"** for restarting Rider 999's live sharing on existing TEST order 3180 after the updated APK is installed, then stopping it again. Preserve the existing order status and assignment; no new order, arrival, OTP, proof, cash or completion is authorized by this map-only consent. Retain the original timing targets and protected production boundary.
+
+## Owner addendum — resume delivery and change its actual destination (2026-10-30)
+
+The owner requested resuming and legitimately completing existing TEST order 3180, preserving the one-order checkpoint and previous notification limits. The owner manually restored Rider sign-in, enabled Online and pressed the normal sharing-consent control.
+
+Before arrival, the owner clarified: **"i want to change delivery location near to me so i can acutally walk there and test"**. Select and confirm a real nearby handover point through the Customer flow before resuming the same delivery. Do not fabricate GPS, arrival, proof, cash, earnings or completion. The existing start-frozen pay policy remains in effect; the destination change does not authorize another order, database reset, extra messages or a production change.

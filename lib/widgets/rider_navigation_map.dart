@@ -18,6 +18,7 @@ class RiderNavigationMap extends StatefulWidget {
     required this.onBack,
     required this.online,
     this.isDelivery = true,
+    this.destinationRevision,
   });
   final int orderId;
   final String status;
@@ -25,6 +26,7 @@ class RiderNavigationMap extends StatefulWidget {
   final VoidCallback onBack;
   final bool isDelivery;
   final bool online;
+  final String? destinationRevision;
   @override
   State<RiderNavigationMap> createState() => _RiderNavigationMapState();
 }
@@ -126,9 +128,11 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
   @override
   void didUpdateWidget(RiderNavigationMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.status != widget.status) {
+    if (oldWidget.status != widget.status ||
+        oldWidget.destinationRevision != widget.destinationRevision) {
       route?.onClose();
       routeLocation.clear();
+      stops = const DeliveryMapStops();
       createRoute();
       sync();
       unawaited(loadStops());
@@ -159,6 +163,9 @@ class _RiderNavigationMapState extends State<RiderNavigationMap> {
     final stale = routeLocation.stale.value;
     return DeliveryMapView(
       compact: true,
+      onStopSharing: shared && !widget.location.busy.value
+          ? () => unawaited(widget.location.stop())
+          : null,
       fix: fix,
       stale: !fresh,
       stops: stops,

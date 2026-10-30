@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import '../services/delivery_route_metrics.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import '../services/delivery_location.dart';
@@ -29,6 +30,7 @@ class DeliveryMapView extends StatefulWidget {
     this.viewerLocation,
     this.onLocate,
     this.compact = false,
+    this.onStopSharing,
   });
   final DeviceFix? fix;
   final bool stale, loading;
@@ -41,6 +43,7 @@ class DeliveryMapView extends StatefulWidget {
   final LatLng? viewerLocation;
   final VoidCallback? onLocate;
   final bool compact;
+  final VoidCallback? onStopSharing;
   @override
   State<DeliveryMapView> createState() => _DeliveryMapViewState();
 }
@@ -81,11 +84,28 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
         : LatLng(widget.fix!.latitude, widget.fix!.longitude);
     from = target;
     motion.value = 1;
+    _measureRouteFrame();
+  }
+
+  void _measureRouteFrame() {
+    final route = widget.route;
+    if (route == null || route.points.isEmpty) return;
+    final clock = Stopwatch()..start();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && identical(widget.route, route)) {
+        // Framework frame completion only, not tile download or GPU timing.
+        recordRouteMetric(
+          'route_widget_frame',
+          clock.elapsedMicroseconds / 1000,
+        );
+      }
+    });
   }
 
   @override
   void didUpdateWidget(DeliveryMapView oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.route, widget.route)) _measureRouteFrame();
     final next = widget.fix == null
         ? null
         : LatLng(widget.fix!.latitude, widget.fix!.longitude);
@@ -324,6 +344,22 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                     ),
                   ),
                 ),
+                if (widget.onStopSharing != null)
+                  PositionedDirectional(
+                    top: 72,
+                    end: 12,
+                    child: SafeArea(
+                      bottom: false,
+                      child: FilledButton.icon(
+                        onPressed: widget.onStopSharing,
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(48, 48),
+                        ),
+                        icon: const Icon(Icons.location_off_outlined),
+                        label: Text('Stop sharing'.tr),
+                      ),
+                    ),
+                  ),
                 PositionedDirectional(
                   end: 12,
                   bottom: 40,
