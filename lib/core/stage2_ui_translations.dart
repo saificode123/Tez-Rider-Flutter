@@ -1,5 +1,9 @@
 /// Display-only English keys and Urdu translations for Stage 2 controls.
 const stage2UiUrdu = <String, String>{
+  'A valid code immediately marks this order delivered. Complete the handover and upload any delivery photo before confirming.':
+      'درست کوڈ کی تصدیق سے آرڈر فوراً ڈیلیور ہو جاتا ہے۔ تصدیق سے پہلے پارسل حوالے کریں اور ترسیل کی کوئی تصویر شامل کرنی ہو تو اپ لوڈ کریں۔',
+  'After delivery, record a cash receipt only if cash was actually received.':
+      'ڈیلیوری کے بعد نقد وصولی کی رسید صرف اسی صورت میں درج کریں جب رقم واقعی وصول ہوئی ہو۔',
   'Delivery destination changed. Refresh and review the new point.':
       'ڈیلیوری کی منزل تبدیل ہو گئی۔ تازہ معلومات حاصل کر کے نئی جگہ دیکھیں۔',
   'Change delivery location': 'ڈیلیوری کی جگہ تبدیل کریں',

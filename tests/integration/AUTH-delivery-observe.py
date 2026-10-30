@@ -34,7 +34,7 @@ def main(mode, prefix='AUTH-delivery-', capture_seconds=None):
         token=b.login(customer)
         code,context=m.customer_rpc('fr13_tracking_context',{'p_order_id':oid},token)
         stopped=code==200 and context.get('code')in('OK','INELIGIBLE','ENDED')and context.get('sharing')is not True and context.get('latest')is None and not context.get('topic')
-        result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'http_status':code,'code':context.get('code'),'sharing':context.get('sharing'),'latest_exposed':context.get('latest')is not None,'topic_exposed':bool(context.get('topic')),'stop_confirmed':stopped,'scope':'Actual owner-instructed normal Rider Stop sharing control followed by fresh owning-Customer context inspection. No Rider password login, lifecycle transition or coordinates retained.'}
+        result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'http_status':code,'code':context.get('code'),'sharing':context.get('sharing'),'latest_exposed':context.get('latest')is not None,'topic_exposed':bool(context.get('topic')),'stop_confirmed':stopped,'scope':'Fresh owning-Customer context after normal delivery completion or Stop sharing. Read-only verification; no agent Rider password login, lifecycle mutation or coordinates retained.'}
         assert stopped,'Customer sharing revocation not confirmed'
     elif mode in('gps','travel'):
         seconds=capture_seconds or (120 if mode=='travel'else 60)

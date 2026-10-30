@@ -1,0 +1,87 @@
+{
+  "assignment_push": [
+    {
+      "attempts": 1,
+      "failure_code": null,
+      "provider_accepted": true,
+      "state": "PROVIDER_ACCEPTED",
+      "user_id": 999
+    }
+  ],
+  "assignments": [
+    {
+      "id": 593,
+      "rider_id": 999,
+      "status": "Accepted"
+    }
+  ],
+  "cash_records": 0,
+  "earned_amount": 0,
+  "earned_records": 0,
+  "email_jobs": [
+    {
+      "attempts": 1,
+      "email_type": "order_confirmation",
+      "id": "9b4c3847-134f-497d-9e1e-eff899cfd8f2",
+      "sent_at": "2026-10-29T19:03:06.297969+05:00",
+      "status": "sent",
+      "test_approved": true
+    }
+  ],
+  "frozen_expected_amount": 113,
+  "inventory": [
+    {
+      "movement_type": "ORDER_DECREMENT",
+      "quantity_delta": -1
+    }
+  ],
+  "invoice_records": 0,
+  "items": [
+    {
+      "price_at_time": 350,
+      "product_id": 224,
+      "quantity": 1,
+      "stock_qty": 29
+    }
+  ],
+  "observed_at": "2026-10-30T14:32:04.312236+05:00",
+  "order": {
+    "amount": 470,
+    "customer_id": 159,
+    "destination_confirmed": true,
+    "id": 3180,
+    "payment_method": "COD",
+    "rider_id": 999,
+    "status": "on_the_way"
+  },
+  "otp_attempts": [
+    {
+      "attempts": 0,
+      "created_at": "2026-10-30T14:31:20.415665+05:00",
+      "expires_at": "2026-10-30T14:41:21.169412+05:00",
+      "sent_at": "2026-10-30T14:31:21.169412+05:00",
+      "state": "ACCEPTED"
+    },
+    {
+      "attempts": 0,
+      "created_at": "2026-10-30T01:54:22.417968+05:00",
+      "expires_at": "2026-10-30T02:04:23.387443+05:00",
+      "sent_at": "2026-10-30T01:54:23.387443+05:00",
+      "state": "INVALIDATED"
+    }
+  ],
+  "payment_statuses": [
+    "pending"
+  ],
+  "project": "igeisilhtmglgnqvllrx",
+  "proof_records": 0,
+  "uploaded_delivery_photos": 0,
+  "vendors": [
+    {
+      "id": 2096,
+      "status": "on_the_way",
+      "sub_total": 350,
+      "vendor_id": 997
+    }
+  ]
+}

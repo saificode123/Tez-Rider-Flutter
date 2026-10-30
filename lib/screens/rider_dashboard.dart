@@ -937,6 +937,15 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       key: ValueKey('proof-${order['id']}'),
                       orderId: int.parse(order['id'].toString()),
                     ),
+                  if (order['type'] == 'order' &&
+                      order['order_status'] == 'on_the_way')
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(
+                        'A valid code immediately marks this order delivered. Complete the handover and upload any delivery photo before confirming.'
+                            .tr,
+                      ),
+                    ),
                   Row(
                     children: [
                       Container(
@@ -1697,6 +1706,16 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                 const SizedBox(height: 12),
                 Text(
                   "Ask the customer for the six-digit code from their registered email when handing over the order."
+                      .tr,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'A valid code immediately marks this order delivered. Complete the handover and upload any delivery photo before confirming.'
+                      .tr,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'After delivery, record a cash receipt only if cash was actually received.'
                       .tr,
                 ),
                 if (flow.status['masked_email'] is String)

@@ -1,6 +1,6 @@
 # Order 3180 destination correction and continuation
 
-2026-10-30, Asia/Karachi. TEST `igeisilhtmglgnqvllrx` only; production untouched. This checkpoint supplements reports 29–31 and does not certify delivery completion or production readiness.
+2026-10-30, Asia/Karachi. TEST `igeisilhtmglgnqvllrx` only; production untouched. This report supplements reports 29–31. Latest canonical status: **delivered after the owner's correct OTP**, with actual handover/cash confirmation still pending. This is not production-readiness certification. Earlier continuation checkpoints below retain their original sequence; the final section records the later completion.
 
 ## Owner-selected actual destination
 
@@ -40,4 +40,14 @@ Official documentation checked 2026-10-30: Geoapify Free provides **3,000 credit
 
 The 137-row SRDS inventory is not promoted by this checkpoint. The previous 43 PARTIAL, one BLOCKED and 17 owner-approved deviations remain separately qualified. Physical completion, original timing gates, ordinary notification receipt, production signing, iOS acceptance, full recovery/capacity qualification and separately authorized production work remain open.
 
-Evidence: `docs/evidence/COMPLETE-{preflight,destination-before,destination-after,destination-local,route,route-deployment-before,route-deployment-after,native-timings}.json`, bounded observer outputs and existing historical reports. Public evidence excludes credentials, OTP values, recipient addresses, coordinates and CNIC contents. No genuine Rider password was accessed or entered by the agent.
+## Owner's normal OTP completion, 14:38 local inspection
+
+The owner reported arrival, then reported entering the code and seeing delivery success before following the later photo instruction. Fresh canonical inspection confirms order 3180 **delivered**, Vendor order 2096 **delivered**, Rider assignment 593 **Delivered**, the second approved OTP **USED** with zero incorrect attempts, exactly one verification receipt, and one earned record for **PKR 113**. Stock remains **29**, with the original single decrement. Two OTP emails total and one confirmation remain within the approved limits. No further email or lifecycle action was dispatched by the agent.
+
+There is **no uploaded delivery photo**, **no cash receipt**, payment remains **pending**, and **no invoice** exists. The verification receipt is OTP proof, not a claim of a captured photograph, actual parcel handover or received cash. The owner was asked what physically occurred; that answer is pending. Do not reset/reopen the delivered order, fabricate a photograph, or acknowledge cash without that confirmation. Cash receipt entry is a separate existing post-delivery action; it is not a prerequisite enforced by OTP completion.
+
+The SRDS OTP event explicitly inserts delivery proof and marks the order delivered after a correct code. The UI did not clearly state that immediate consequence before confirmation. A small English/Urdu copy change now explains it on the active delivery panel and before the code field, advises completing handover/any photo first, and explains that actual cash is recorded separately after delivery. This preserves the documented completion flow rather than inventing a new mandatory-photo gate. Format check passed; static analysis of both changed Dart files found no issues; **36 focused OTP/photo/language tests passed**. It is a source change, **not yet installed on the phone**; the installed APK still corresponds to source `9e436a3`.
+
+A fresh owning-Customer context after completion returned INELIGIBLE with neither live position nor private topic exposed. This verifies server-side terminal privacy cleanup, not physical confirmation that every native phone location service has stopped. The phone was disconnected from USB at the destination. Cross-role physical reporting, actual handover/cash confirmation and production/performance gates remain separately open.
+
+Evidence: `docs/evidence/COMPLETE-{preflight,destination-before,destination-after,destination-local,route,route-deployment-before,route-deployment-after,native-timings,arrival-checkpoint,after-owner-verification,stopped}.json`, bounded observer outputs and existing historical reports. The earlier stopped observation is retained as `COMPLETE-stopped-before-delivery.json`. Public evidence excludes credentials, OTP values, recipient addresses, coordinates and CNIC contents. No genuine Rider password was accessed or entered by the agent.
