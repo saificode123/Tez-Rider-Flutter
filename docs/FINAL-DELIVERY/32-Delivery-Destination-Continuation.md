@@ -1,6 +1,6 @@
 # Order 3180 destination correction and continuation
 
-2026-10-30, Asia/Karachi. TEST `igeisilhtmglgnqvllrx` only; production untouched. This report supplements reports 29–31. Latest canonical status: **delivered after the owner's correct OTP**, with actual handover/cash confirmation still pending. This is not production-readiness certification. Earlier continuation checkpoints below retain their original sequence; the final section records the later completion.
+2026-10-30, Asia/Karachi. TEST `igeisilhtmglgnqvllrx` only; production untouched. This report supplements reports 29–31. Latest canonical status: **delivered after the owner's correct OTP**. The owner confirms **parcel handed over; no cash received**. Payment remains pending, with no cash receipt or invoice. This is not production-readiness certification. Earlier continuation checkpoints below retain their original sequence; the final sections record the later completion and owner confirmation.
 
 ## Owner-selected actual destination
 
@@ -51,3 +51,9 @@ The SRDS OTP event explicitly inserts delivery proof and marks the order deliver
 A fresh owning-Customer context after completion returned INELIGIBLE with neither live position nor private topic exposed. This verifies server-side terminal privacy cleanup, not physical confirmation that every native phone location service has stopped. The phone was disconnected from USB at the destination. Cross-role physical reporting, actual handover/cash confirmation and production/performance gates remain separately open.
 
 Evidence: `docs/evidence/COMPLETE-{preflight,destination-before,destination-after,destination-local,route,route-deployment-before,route-deployment-after,native-timings,arrival-checkpoint,after-owner-verification,stopped}.json`, bounded observer outputs and existing historical reports. The earlier stopped observation is retained as `COMPLETE-stopped-before-delivery.json`. Public evidence excludes credentials, OTP values, recipient addresses, coordinates and CNIC contents. No genuine Rider password was accessed or entered by the agent.
+
+## Owner-confirmed handover without cash
+
+The owner answered **"Parcel handed over; no cash received"**. This confirms the physical handover by owner statement; it does not supply a photograph or establish cash collection. A subsequent read-only checkpoint (`COMPLETE-handover-no-cash.json`) again confirms delivered status, one PKR 113 earning, one OTP proof receipt, zero uploaded delivery photographs, zero cash events, pending payment and zero invoices. No cash receipt, settlement, invoice or additional message was created. The earning follows the approved delivered-order policy and is not a payout claim.
+
+The delivered-but-unpaid state is verified; positive cash collection/invoice acceptance remains untested for this order. Do not ask the owner to acknowledge fictitious cash or create another order to replace this outcome. The owner was asked to switch Rider availability Offline to end matching-location collection after this test. The phone is disconnected from USB; native Offline confirmation remains pending. Server-side Customer tracking access has already cleared after delivery.
