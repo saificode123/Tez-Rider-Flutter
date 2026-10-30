@@ -1,0 +1,28 @@
+{
+  "amendments": 1,
+  "amount": 470,
+  "anonymous_amendment_denied": true,
+  "cash_records": 0,
+  "current_point_matches_latest_amendment": true,
+  "customer_id": 159,
+  "destination_guard_enabled": true,
+  "earned_records": 0,
+  "fare": 120,
+  "frozen_expected_amount": 113,
+  "observed_at": "2026-10-30T13:38:11.011489+05:00",
+  "order_id": 3180,
+  "otp_requests": 1,
+  "otp_states": [
+    "INVALIDATED"
+  ],
+  "private_history_read_denied": true,
+  "project": "igeisilhtmglgnqvllrx",
+  "proof_records": 0,
+  "rider_id": 999,
+  "rider_online": false,
+  "route_context_destination_contract": true,
+  "service_impersonation_denied": true,
+  "status": "on_the_way",
+  "stock_qty": 29,
+  "tracking_sessions": 0
+}

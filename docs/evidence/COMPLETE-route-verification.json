@@ -1,0 +1,25 @@
+{
+  "distance": 233,
+  "duration": 41.6,
+  "request_count": 3,
+  "status": [
+    {
+      "distance": null,
+      "duration": null,
+      "request_count": 1,
+      "status": "PRE_CAP_RESERVED"
+    },
+    {
+      "distance": null,
+      "duration": null,
+      "request_count": 2,
+      "status": "PRE_CAP_RESERVED"
+    },
+    {
+      "distance": 233,
+      "duration": 41.6,
+      "request_count": 3,
+      "status": "HTTP_200"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "passed": 17,
+  "assertions": [
+    "anonymous cannot claim",
+    "client cannot forge actor claims",
+    "service role cannot reset audit directly",
+    "other order blocked",
+    "other actor blocked",
+    "vendor pickup coordinates excluded",
+    "missing scope denied",
+    "first scoped request claimed",
+    "failure remains consumed",
+    "terminal record cannot be overwritten",
+    "third and last claim",
+    "fourth denied",
+    "repeated denial never resets count",
+    "exactly three retained entries",
+    "completed delivery cannot consume provider",
+    "pre-cap reservations leave one slot only",
+    "pre-cap accounting cannot grant extra calls"
+  ],
+  "local_sql_passed": true,
+  "fresh_empty_scratch_removed": true,
+  "external_provider_requests": 0,
+  "hosted_orders_created": 0
+}

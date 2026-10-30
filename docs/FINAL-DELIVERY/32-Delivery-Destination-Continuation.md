@@ -1,0 +1,43 @@
+# Order 3180 destination correction and continuation
+
+2026-10-30, Asia/Karachi. TEST `igeisilhtmglgnqvllrx` only; production untouched. This checkpoint supplements reports 29–31 and does not certify delivery completion or production readiness.
+
+## Owner-selected actual destination
+
+The owner requested a nearby point they can physically walk to. Sharing was stopped and Rider availability set Offline before correction. The owning Customer flow selected and confirmed a real map point for the same order. Fresh read-only inspection at 13:38 local confirmed exactly one private amendment and that the current destination/revision matches that audit. No coordinates or address are included in public evidence.
+
+Order 3180 remains `on_the_way`, Customer 159, Rider 999, total PKR 470 and delivery fee PKR 120. Start-frozen expected Rider pay remains PKR 113; it is not yet earned. Product 224 stock remains 29. There are zero cash, proof and earned records. The one earlier expired OTP was invalidated without erasing its history or resetting the send count. Only one further OTP email remains within the owner's two-send limit. Arrival, actual proof and cash confirmation must precede final OTP completion through the normal workflow.
+
+The owner privately signed back in as Rider, reviewed the new destination and explicitly enabled sharing. Actual map inspection confirmed active sharing. Physical travel and handover are still pending at this checkpoint; no arrival, delivery, receipt or cash is inferred from a selected pin or live position.
+
+## Implementation and verification
+
+Runtime source commit `9e436a3` adds the tightly scoped Customer correction for TEST order 3180, Customer 159 and Rider 999. It preserves original status, assignment, inventory and frozen charges/pay. The private audit records old/new points; ordinary direct writes remain locked. Online/sharing, proof/reservations, cash, earnings, live/uncertain OTP and review states prevent correction. Explicit confirmation, optimistic revision locking and immutable request-id replay prevent conflicting retries. Delivery-route responses revalidate destination revision and coordinates before disclosing geometry, including a destination-change race. Production and other orders have no new edit workflow.
+
+TEST migrations `202610300002` and `202610300003` were applied, and `get-delivery-route` deployed as version 11 with the existing Auth/session protections. Local rollback verification restores the previous public interfaces/guard while preserving private audit and the actual chosen destination; no hosted rollback was performed.
+
+Current-source checks completed: Flutter **756 PASS, 0 FAIL, 2 SKIP**; focused Flutter **77 PASS**; static analysis of ten relevant files **no issues**; Deno **240 PASS**; local rollback-only PostgreSQL **53 assertions PASS**; observer timing helper **4 tests PASS**. These are implementation checks, not physical delivery acceptance.
+
+The TEST debug APK was built and installed without clearing data. Installed `base.apk` independently matched SHA-256 `865F6E1AFD53499E0C4A7AF7B7B9211A23E5C918F27DC3C3310FC4E15175A50A`, built from `9e436a3`. It is not a signed production release.
+
+## Timing evidence and open gates
+
+The earlier 300-second capture is preserved as `COMPLETE-gps-before-amendment.json`: 52 events, no duplicates, published-device-fix interval median 6.108s and p95 7.037s. It fails the unwaived 2–3s requirement. Three cached route calls took 1844, 1390 and 1453ms, failing the unwaived 800ms target; this is not fresh-provider or rendering qualification.
+
+The observer now samples receipt time after the blocking receive returns and separates published-fix, server-publication and observer-receipt intervals. These published fixes are not every native GPS callback. A retrospective device-log attempt produced zero samples and proves no native cadence. The subsequent 300-second Customer observer received 55 events with no duplicates: published-fix interval p50/p95/worst **5.5165/6.097/6.110s**, server publication **5.5325/7.033/7.531s**, and observer receipt **5.5235/7.219/7.547s** (54 intervals each). The original timing target still fails. GPS path length alone does not establish physical travel or handover.
+
+The concurrent 300-second live scalar device capture measured 49 native timestamp intervals at p50/p95/worst **5268/6097/6110ms** and callback intervals **5141/6128/6144ms**. Queue time was **1/2/12ms** (50 samples); publish roundtrip **2892/4404/4861ms** (49). One fresh route RPC took **3651.898ms**, one unavailable RPC **2308.657ms**, one geometry decode **8.069ms**, and one framework-frame completion **78.765ms**. These single route/render samples do not qualify a distribution. Framework completion does not measure tile downloads or GPU completion. Device callback and publication latency remain separate unresolved contributors; no timing target is waived.
+
+A manual road-route retry was rejected by automatic approval review because sending the precise destination and Rider coordinates to the routing provider required specific approval. That retry did not execute, and no workaround was used. The owner subsequently approved only this one TEST order's selected destination/current Rider coordinates, only the existing Geoapify endpoint, at most three requests, no personal details beyond coordinates, scalar-only logging, server-only key, and mocked automated/load tests.
+
+Migrations `202610300004` and `202610300005` and routing function version **12 ACTIVE** enforce a serialized, persistent pre-fetch three-attempt cap. Other order/actor/pickup scopes cannot claim a provider call. Failures and uncertain attempts remain consumed. Seventeen local PostgreSQL assertions passed, the 51 mocked route tests passed, and the deployed entry point type-check passed. Local and automated checks sent **zero Geoapify requests**. The key's local file is gitignored; no key was changed, printed or added to Flutter/docs/Git. Provider redirects are rejected.
+
+Two automatic provider reservations from a conservative pre-cap window were deducted first, leaving at most one further attempt rather than granting three additional calls. One of those two earlier reservations settled as a valid road route; the other's network outcome remains uncertain and is conservatively consumed. The gated third attempt returned HTTP 200, 233m and 41.6s. **All three attempt slots are now consumed; two valid road responses are confirmed, one earlier attempt remains uncertain. Further external calls are blocked.** Basic short two-waypoint routes cost one credit each under the documented pricing, but exact account billing of the uncertain attempt was not inspected. No exact dashboard credit-consumption claim is made.
+
+The bounded ledger is `COMPLETE-route-verification.json` and includes only status, distance, duration and request count. An attempted normal Stop control was not followed by confirmed stopped state; a later inspection still showed sharing active. The database cap, rather than an assumed UI stop, enforces the request limit. Normal Rider map inspection showed a 236m road route and one-minute display ETA before the walk instruction. A subsequent two-minute broadcast observation disconnected after 20 events and approximately 113 seconds; its partial evidence is explicitly FAILED/incomplete and does not certify physical travel or arrival.
+
+Official documentation checked 2026-10-30: Geoapify Free provides **3,000 credits/day**, **up to 5 requests/second**, with attribution required. A basic two-waypoint route under 500km costs one credit; additional options and longer routes can increase cost. Sources: [pricing](https://www.geoapify.com/pricing/) and [routing credit calculation](https://apidocs.geoapify.com/docs/routing/). These are shared account quotas, not unlimited production capacity.
+
+The 137-row SRDS inventory is not promoted by this checkpoint. The previous 43 PARTIAL, one BLOCKED and 17 owner-approved deviations remain separately qualified. Physical completion, original timing gates, ordinary notification receipt, production signing, iOS acceptance, full recovery/capacity qualification and separately authorized production work remain open.
+
+Evidence: `docs/evidence/COMPLETE-{preflight,destination-before,destination-after,destination-local,route,route-deployment-before,route-deployment-after,native-timings}.json`, bounded observer outputs and existing historical reports. Public evidence excludes credentials, OTP values, recipient addresses, coordinates and CNIC contents. No genuine Rider password was accessed or entered by the agent.

@@ -13,8 +13,9 @@ spec=importlib.util.spec_from_file_location('auth_delivery_observer',Path(__file
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 b=m.delivery.b
 
-def main(mode, prefix='AUTH-delivery-'):
-    assert prefix in ('AUTH-delivery-', 'MAP-')
+def main(mode, prefix='AUTH-delivery-', capture_seconds=None):
+    assert prefix in ('AUTH-delivery-', 'MAP-', 'COMPLETE-')
+    assert capture_seconds is None or (prefix=='COMPLETE-' and mode=='gps' and 300<=capture_seconds<=900)
     assert mode in('gps','route','travel','stopped')
     b.target()
     state=json.loads(b.crypt((b.PRIVATE/'accept-single-delivery.dpapi').read_bytes(),True))
@@ -23,21 +24,30 @@ def main(mode, prefix='AUTH-delivery-'):
     customer=m.delivery.state['accounts']['physical-customer']
     assert customer['profile_id']==159 and customer['auth_id']!=owner['auth_id']
     code,orders=b.api('/rest/v1/orders?id=eq.'+str(oid)+'&select=user_id,rider_id,order_status',admin=True)
-    assert code==200 and len(orders)==1 and orders[0]['user_id']==159 and orders[0]['rider_id']==999 and orders[0]['order_status']=='on_the_way'
+    allowed_states=('on_the_way','delivered')if mode=='stopped'else('on_the_way',)
+    assert code==200 and len(orders)==1 and orders[0]['user_id']==159 and orders[0]['rider_id']==999 and orders[0]['order_status']in allowed_states
     # In-memory observer binding only; preserve old physical-order checkpoints.
     m.observer.h.state['physical_order_id']=oid
-    out=b.ROOT/('.fr21-local/auth-gps'if prefix=='AUTH-delivery-'else'.fr21-local/map-gps');out.mkdir(parents=True,exist_ok=True)
+    out=b.ROOT/('.fr21-local/auth-gps'if prefix=='AUTH-delivery-'else'.fr21-local/map-gps'if prefix=='MAP-'else'.fr21-local/complete-gps');out.mkdir(parents=True,exist_ok=True)
     m.observer.h.OUT=out
     if mode=='stopped':
         token=b.login(customer)
         code,context=m.customer_rpc('fr13_tracking_context',{'p_order_id':oid},token)
-        stopped=code==200 and context.get('code')in('OK','INELIGIBLE')and context.get('sharing')is not True and context.get('latest')is None and not context.get('topic')
+        stopped=code==200 and context.get('code')in('OK','INELIGIBLE','ENDED')and context.get('sharing')is not True and context.get('latest')is None and not context.get('topic')
         result={'project':b.REF,'order_id':oid,'utc':dt.datetime.now(dt.timezone.utc).isoformat(),'http_status':code,'code':context.get('code'),'sharing':context.get('sharing'),'latest_exposed':context.get('latest')is not None,'topic_exposed':bool(context.get('topic')),'stop_confirmed':stopped,'scope':'Actual owner-instructed normal Rider Stop sharing control followed by fresh owning-Customer context inspection. No Rider password login, lifecycle transition or coordinates retained.'}
         assert stopped,'Customer sharing revocation not confirmed'
     elif mode in('gps','travel'):
-        seconds=120 if mode=='travel'else 60
+        seconds=capture_seconds or (120 if mode=='travel'else 60)
         label='travel'if mode=='travel'else'foreground'
-        m.observer.main(seconds,label)
+        try:
+            m.observer.main(seconds,label)
+        except Exception as error:
+            path=out/('physical-observer-'+label+'.json')
+            result=json.loads(path.read_text())if path.exists()else{}
+            result.update(project=b.REF,order_id=oid,observer_status='FAILED',final=False,
+                error_type=type(error).__name__,scope='Incomplete bounded Customer-authorized broadcast observation. No physical travel, arrival or timing acceptance established.')
+            (b.ROOT/'docs/evidence'/(prefix+mode+'.json')).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+            raise RuntimeError('Bounded GPS observation incomplete; sanitized partial evidence saved')from None
         result=json.loads((out/('physical-observer-'+label+'.json')).read_text())
         intervals=result['device_intervals_seconds']
         result.update(project=b.REF,order_id=oid,artifact_sha256=json.loads((b.ROOT/'build/delivery/test/build-evidence.json').read_text(encoding='utf-8-sig'))['sha256'],

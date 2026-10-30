@@ -1,0 +1,64 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order_id": 3180,
+  "artifact_sha256": "865F6E1AFD53499E0C4A7AF7B7B9211A23E5C918F27DC3C3310FC4E15175A50A",
+  "started_at_utc": "2026-10-30T09:03:47.108823+00:00",
+  "seconds": 300.19,
+  "stages_ms": {
+    "fix_device_interval": {
+      "samples": 49,
+      "p50": 5268.0,
+      "p95": 6097.0,
+      "worst": 6110.0
+    },
+    "fix_arrival_interval": {
+      "samples": 49,
+      "p50": 5141.0,
+      "p95": 6128.0,
+      "worst": 6144.0
+    },
+    "client_queue": {
+      "samples": 50,
+      "p50": 1.0,
+      "p95": 2.0,
+      "worst": 12.0
+    },
+    "publish_roundtrip": {
+      "samples": 49,
+      "p50": 2892.0,
+      "p95": 4404.0,
+      "worst": 4861.0
+    },
+    "route_rpc_fresh": {
+      "samples": 1,
+      "p50": 3651.898,
+      "p95": 3651.898,
+      "worst": 3651.898
+    },
+    "route_rpc_cached": {
+      "samples": 0
+    },
+    "route_rpc_stale": {
+      "samples": 0
+    },
+    "route_rpc_unavailable": {
+      "samples": 1,
+      "p50": 2308.657,
+      "p95": 2308.657,
+      "worst": 2308.657
+    },
+    "geometry_decode": {
+      "samples": 1,
+      "p50": 8.069,
+      "p95": 8.069,
+      "worst": 8.069
+    },
+    "route_widget_frame": {
+      "samples": 1,
+      "p50": 78.765,
+      "p95": 78.765,
+      "worst": 78.765
+    }
+  },
+  "scope": "Live scalar TEST-app-only numeric metrics. Device fix timestamp and callback intervals cover native callbacks; queue/publication are separate. route_rpc includes SDK transport/response decoding, geometry_decode is application geometry parsing, route_widget_frame ends at Flutter framework frame completion and excludes tile downloads/GPU completion. No raw logs, PID, positions, recipient data or credentials retained."
+}

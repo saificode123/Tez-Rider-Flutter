@@ -60,7 +60,7 @@ Deno.test('ownership authorization precedes trusted coordinate lookup', async ()
 for (const body of [{orderId: 1, destination}, {orderId: -1}, {orderId: 1.5}, {}, null, []]) {
   Deno.test('strict input ' + JSON.stringify(body), async () => { equal((await harness().run(body)).status, 400); });
 }
-Deno.test('server coordinates exclusively passed to provider', async () => { let actual: unknown; const h = harness({provider: async (a, b) => { actual = [a, b]; return response(); }}); equal((await h.run()).data.code, 'OK'); equal(actual, [origin, destination]); equal(h.calls.finish, 1); });
+Deno.test('server coordinates exclusively passed to provider', async () => { let actual: unknown; const h = harness({provider: async (a, b, scope) => { actual = [a, b, scope]; return response(); }}); equal((await h.run()).data.code, 'OK'); equal(actual, [origin, destination, {orderId: 1, actor: 42, pickup: false}]); equal(h.calls.finish, 1); });
 for (const code of ['DESTINATION_UNCONFIRMED', 'LOCATION_UNAVAILABLE']) {
   Deno.test(code + ' returns no route', async () => { const h = harness({prepare: async () => ({code})}); equal((await h.run()).data.route, null); equal(h.calls.provider, 0); });
 }

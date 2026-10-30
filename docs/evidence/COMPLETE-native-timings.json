@@ -1,0 +1,21 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order_id": 3180,
+  "artifact_sha256": "81713D2599884C6FE6CC13F3F25E17301BB177897670992856937B7DDBB24FE8",
+  "stages_ms": {
+    "fix_device_interval": {
+      "samples": 0
+    },
+    "fix_arrival_interval": {
+      "samples": 0
+    },
+    "client_queue": {
+      "samples": 0
+    },
+    "publish_roundtrip": {
+      "samples": 0
+    }
+  },
+  "log_window_clock_uncertainty_seconds": 1.107,
+  "scope": "Scalar-only app-PID-filtered debug metrics within the observed five-minute GPS window. Phone clock alignment is bounded by one-second date precision plus half RTT. Native fix timestamps and callback intervals include all accepted native callbacks, separately from queued publication roundtrip. No raw logs, PID, coordinates, credentials or identities retained."
+}

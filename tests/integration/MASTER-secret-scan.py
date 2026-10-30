@@ -7,7 +7,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser()
-parser.add_argument('--evidence', choices=('MASTER-secret-scan.json', 'RELEASE-secret-scan.json', 'ACCEPT-secret-scan.json', 'AUTH-secret-scan.json', 'MAP-secret-scan.json'), default='MASTER-secret-scan.json')
+parser.add_argument('--evidence', choices=('MASTER-secret-scan.json', 'RELEASE-secret-scan.json', 'ACCEPT-secret-scan.json', 'AUTH-secret-scan.json', 'MAP-secret-scan.json', 'COMPLETE-secret-scan.json'), default='MASTER-secret-scan.json')
 options = parser.parse_args()
 spec = importlib.util.spec_from_file_location(
     'scanner', Path(__file__).with_name('FINAL-secret-scan.py'))

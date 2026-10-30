@@ -5,6 +5,7 @@ spec=importlib.util.spec_from_file_location('fr13',Path(__file__).with_name('FR-
 h=importlib.util.module_from_spec(spec);spec.loader.exec_module(h)
 sys.path.insert(0,str(h.ROOT/'build/fr21-python'))
 from websockets.sync.client import connect
+from tracking_timing import receive_frame, summarize
 
 def clocks():
  token=h.b.login(h.state['accounts']['physical-customer']);samples=[]
@@ -28,8 +29,13 @@ def main(seconds,label=''):
  intervals=[];latencies=[];accuracies=[];device_intervals=[];server_intervals=[];ages=[];previous_device=previous_server=None;distance=0.;start=time.monotonic();last=None
  path=h.OUT/('physical-observer'+('-'+label if label else'')+'.json')
  def report(final=False):
-  result={'actual_phone_websocket':True,'reported_at_utc':dt.datetime.now(dt.timezone.utc).isoformat(),'observer_status':'COMPLETED'if final else'RUNNING','seconds':round(time.monotonic()-start,1),'final':final,'events':count,'duplicates':duplicates,'intervals_seconds':intervals,'device_intervals_seconds':device_intervals,'server_intervals_seconds':server_intervals,'device_to_server_ms':ages,'latency_ms':latencies,'accuracy_metres':accuracies,'distance_metres':round(distance,1),'seconds_since_last_event':None if last is None else round(time.monotonic()-last,1),'coordinates_persisted':False}
+  result={'actual_phone_websocket':True,'reported_at_utc':dt.datetime.now(dt.timezone.utc).isoformat(),'observer_status':'COMPLETED'if final else'RUNNING','seconds':round(time.monotonic()-start,1),'final':final,'events':count,'duplicates':duplicates,'intervals_seconds':intervals,'device_intervals_seconds':device_intervals,'server_intervals_seconds':server_intervals,'device_to_server_ms':ages,'latency_ms':latencies,'accuracy_metres':accuracies,'distance_metres':round(distance,1),'seconds_since_last_event':None if last is None else round(time.monotonic()-last,1),'coordinates_persisted':False,
+   'receipt_clock':'Monotonic clock sampled immediately after blocking WebSocket receive, before JSON decoding.',
+   'interval_summaries_seconds':{'published_device_fixes':summarize(device_intervals),'server_publications':summarize(server_intervals),'customer_observer_receipts':summarize(intervals)},
+   'wall_clock_latency_is_uncorrected':True,
+   'latency_limitation':'Device/server/observer wall clocks may differ. Raw cross-clock differences are not one-way latency or Flutter rendering evidence.'}
   path.write_text(json.dumps(result,indent=2))
+ report()  # Reset this capture's aggregate file before any connection failure.
  with connect('wss://'+h.b.REF+'.supabase.co/realtime/v1/websocket?'+urllib.parse.urlencode({'apikey':h.b.ANON,'vsn':'1.0.0'}),open_timeout=20,close_timeout=3)as ws:
   ws.send(json.dumps({'topic':topic,'event':'phx_join','ref':'1','payload':{'config':{'private':True,'broadcast':{'ack':True,'self':True},'presence':{'key':''},'postgres_changes':[]},'access_token':token}}))
   joined=False;heartbeat=time.monotonic();saved=0
@@ -37,7 +43,7 @@ def main(seconds,label=''):
    now=time.monotonic()
    if now-heartbeat>=20:
     ws.send(json.dumps({'topic':'phoenix','event':'heartbeat','payload':{},'ref':str(int(now))}));heartbeat=now
-   try:message=json.loads(ws.recv(timeout=1))
+   try:message,now,received_wall=receive_frame(ws)
    except TimeoutError:
     if now-saved>=5:report();saved=now
     continue
@@ -56,7 +62,7 @@ def main(seconds,label=''):
    if previous_device is not None:device_intervals.append(round((device-previous_device).total_seconds(),3))
    if previous_server is not None:server_intervals.append(round((received-previous_server).total_seconds(),3))
    ages.append(round((received-device).total_seconds()*1000,1));previous_device=device;previous_server=received
-   latencies.append(round((dt.datetime.now(dt.timezone.utc)-received).total_seconds()*1000,1));accuracies.append(float(data['accuracy']))
+   latencies.append(round((received_wall-received).total_seconds()*1000,1));accuracies.append(float(data['accuracy']))
    point=(float(data['latitude']),float(data['longitude']))
    if previous:
     lat1,lat2=map(math.radians,(previous[0],point[0]));dl=math.radians(point[1]-previous[1]);da=lat2-lat1

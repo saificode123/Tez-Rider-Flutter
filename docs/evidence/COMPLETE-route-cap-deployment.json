@@ -1,0 +1,6 @@
+{
+  "slug": "get-delivery-route",
+  "status": "ACTIVE",
+  "version": 12,
+  "verify_jwt": false
+}

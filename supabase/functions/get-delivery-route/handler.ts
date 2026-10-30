@@ -10,7 +10,7 @@ export interface Dependencies {
   pickupContext?(jwt: string, order: number): Promise<Data>;
   pickupPrepare?(order: number, actor: number, configured: boolean): Promise<Data>;
   pickupFinish?(order: number, actor: number, lease: string, route: Data | null): Promise<Data>;
-  provider(origin: number[], destination: number[]): Promise<unknown>;
+  provider(origin: number[], destination: number[], scope: {orderId: number; actor: number; pickup: boolean}): Promise<unknown>;
   configured: boolean;
   now?: () => number;
 }
@@ -124,7 +124,7 @@ export function createHandler(deps: Dependencies) {
       };
       if (ctx.code === 'COMPUTE') {
         let result: Data | null = null;
-        try { result = parseProvider(await timed('provider', () => deps.provider(ctx.origin, ctx.destination)), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
+        try { result = parseProvider(await timed('provider', () => deps.provider(ctx.origin, ctx.destination, {orderId: body.orderId, actor: access.actor, pickup})), ctx.origin, ctx.destination); } catch { /* No raw provider error, URL, location or credential is logged or returned. */ }
         const saved = await timed('finish', () => finish(body.orderId, access.actor, ctx.lease, result));
         if (result && saved.code === 'OK') {
           // Recheck the caller/session after the external request as well.
