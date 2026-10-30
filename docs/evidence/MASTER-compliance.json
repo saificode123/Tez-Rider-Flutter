@@ -1,15 +1,21 @@
 {
   "total": 137,
   "classification_counts": {
+    "PASS": 77,
+    "APPROVED DEVIATION": 17,
+    "PARTIAL": 42,
+    "BLOCKED": 1
+  },
+  "classification_scope": "76 retained bounded passes and one fresh bounded Android TEST FR22 pass; not 77 fresh production passes",
+  "baseline_classification_counts": {
     "PASS": 76,
     "APPROVED DEVIATION": 17,
     "PARTIAL": 43,
     "BLOCKED": 1
   },
-  "classification_scope": "Retained baseline, not 76 fresh production passes",
   "source": "docs\\FINAL-DELIVERY\\15-SRDS-Complete-Test-Matrix.md",
-  "source_sha256": "b589c4532e033e4bd922c10757b2857908e5ad95d369768839a4683bfdfccd81",
-  "inspected_revision": "cd3f9ace050e1375cddef299104a787e724d9f3a",
+  "source_sha256": "2d29e16e1858f953924ba48006cce04f814c412564b60bb7a12cb69b9ac02930",
+  "inspected_revision": "e6d1fc0e57c0a4eea528aed008ecc6e7417bd1c0",
   "verdict": "NOT READY FOR PRODUCTION",
   "requirements": [
     {
@@ -297,13 +303,13 @@
       "description": "Store post-delivery rider metrics",
       "implementation": {
         "flutter": "lib/services/rider_performance_service.dart; lib/services/rider_earnings_service.dart; lib/widgets/rider_earnings_panel.dart; supabase/migrations/202610250006_final_delivery_rider_earnings.sql",
-        "backend": "Owner policy applied once to TEST; frozen start distance, exact-once OTP-confirmed earnings, base-only authorized post-pickup cancellation, no-clawback Admin flags. New history/quote source and unit evidence; physical acceptance pending."
+        "backend": "One linked stored metric/duration for actual OTP-completed TEST order 3180; one earned record PKR 113; Admin-authorized read and Customer/Vendor privacy denials; no payout claim."
       },
-      "test_id_and_evidence": "docs/evidence/FINAL-delivery-rider-pay-results.json; test/rider_earnings_test.dart; test/post_pickup_cancellation_test.dart",
-      "environment": "Historical bounded TEST; see original evidence",
-      "actual_result": "Complete acceptance remains open: PARTIAL",
-      "acceptance_status": "PARTIAL",
-      "fresh_requirement_acceptance": false
+      "test_id_and_evidence": "docs/evidence/COMPLETE-stored-rider-metrics.json; docs/evidence/COMPLETE-cross-role-reports.json; docs/evidence/COMPLETE-owner-earnings.json; docs/FINAL-DELIVERY/32-Delivery-Destination-Continuation.md; test/rider_performance_test.dart; test/rider_earnings_test.dart; test/post_pickup_cancellation_test.dart",
+      "environment": "Fresh bounded Android TEST order 3180, 2026-10-30; not production qualification",
+      "actual_result": "Fresh bounded Android TEST acceptance: one completed/timed delivery, persisted duration, 100 percent completion for one accepted assignment, PKR 113 confirmed on genuine Rider Earnings screen. Cash collection remains separate and unpaid.",
+      "acceptance_status": "PASS",
+      "fresh_requirement_acceptance": true
     },
     {
       "id": "FR-23",

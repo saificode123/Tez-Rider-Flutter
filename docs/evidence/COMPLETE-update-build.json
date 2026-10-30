@@ -1,0 +1,15 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "environment": "TEST",
+  "flavor": "fr21test",
+  "mode": "debug",
+  "source_commit": "e6d1fc0e57c0a4eea528aed008ecc6e7417bd1c0",
+  "sha256": "73B178DA066F49782A86F357F99DB4EB07E506C985E0A252B16734621600B043",
+  "built_at_utc": "2026-10-30T14:43:41.0378135Z",
+  "installed": false,
+  "production_deployed": false,
+  "flutter_passed": 762,
+  "flutter_failed": 0,
+  "flutter_skipped": 2,
+  "relevant_analysis_issues": 0
+}

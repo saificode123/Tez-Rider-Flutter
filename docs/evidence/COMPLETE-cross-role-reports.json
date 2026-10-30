@@ -1,0 +1,26 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "order_id": 3180,
+  "observed_at": "2026-10-30T14:38:03.096969+00:00",
+  "checks": [
+    "customer reads the same delivered order through normal authorization",
+    "admin reads the same delivered order through normal authorization",
+    "own Vendor report authorized",
+    "Vendor delivered itemization includes order 3180 once",
+    "Vendor report retains unpaid COD instead of claiming cash",
+    "Admin can read stored Rider performance",
+    "stored post-delivery performance includes recorded PKR 113 and completed/timed counts",
+    "customer cannot inspect private Rider performance",
+    "vendor cannot inspect private Rider performance"
+  ],
+  "vendor_payment_state": "UNPAID",
+  "metrics": {
+    "accepted_assignments": 1,
+    "completed_deliveries": 1,
+    "timed_deliveries": 1,
+    "completion_rate": 100.0,
+    "earned_fee_cents": 11300,
+    "earnings_only": true
+  },
+  "scope": "Fresh authenticated read-only TEST report checks using retained synthetic Customer/Vendor/Admin fixtures. No genuine Rider password, lifecycle/payment write, messages, routes, positions, contacts or tokens retained. Not physical Vendor/Admin screen acceptance."
+}
