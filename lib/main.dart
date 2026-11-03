@@ -27,7 +27,7 @@ void main() async {
       'SUPABASE_URL',
       defaultValue: 'https://igeisilhtmglgnqvllrx.supabase.co',
     ),
-    key: const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: ''),
+    key: backendPublicKey,
     isolatedTest: const bool.fromEnvironment(
       'FR21_ISOLATED_TEST',
       defaultValue: true,

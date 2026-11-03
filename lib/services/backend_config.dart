@@ -1,5 +1,21 @@
 import 'dart:convert';
 
+String resolveBackendPublicKey(String anonKey, String publishableKey) {
+  final anon = anonKey.trim();
+  final publishable = publishableKey.trim();
+  if (anon.isNotEmpty && publishable.isNotEmpty && anon != publishable) {
+    throw const FormatException(
+      'Set only one of SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY.',
+    );
+  }
+  return anon.isNotEmpty ? anon : publishable;
+}
+
+String get backendPublicKey => resolveBackendPublicKey(
+  const String.fromEnvironment('SUPABASE_ANON_KEY'),
+  const String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+);
+
 class BackendConfig {
   BackendConfig({
     required this.url,
@@ -8,7 +24,11 @@ class BackendConfig {
   }) {
     final uri = Uri.tryParse(url);
     if (uri == null || uri.host.isEmpty || key.isEmpty) {
-      throw const FormatException('Backend configuration is missing.');
+      throw const FormatException(
+        'Backend configuration is missing. Pass --dart-define-from-file=.env '
+        'with SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY (or SUPABASE_ANON_KEY). '
+        'See docs/PARTNER-WINDOWS-SETUP.md.',
+      );
     }
     final local = const {
       'localhost',

@@ -45,8 +45,9 @@ class _ProfileEmailPanelState extends State<ProfileEmailPanel>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && !_busy && !_changedAccount)
+    if (state == AppLifecycleState.resumed && !_busy && !_changedAccount) {
       unawaited(_check());
+    }
   }
 
   Future<void> _check() async {
@@ -70,12 +71,13 @@ class _ProfileEmailPanelState extends State<ProfileEmailPanel>
       });
       widget.onConfirmed?.call(result.email);
     } catch (_) {
-      if (mounted && generation == _generation)
+      if (mounted && generation == _generation) {
         setState(() {
           _canRequest = false;
           _notice =
               'Email status could not be verified. Check your connection and retry.';
         });
+      }
     } finally {
       if (mounted && generation == _generation) setState(() => _busy = false);
     }
@@ -128,11 +130,12 @@ class _ProfileEmailPanelState extends State<ProfileEmailPanel>
       });
       widget.onConfirmed?.call(result.email);
     } catch (_) {
-      if (mounted && generation == _generation)
+      if (mounted && generation == _generation) {
         setState(
           () => _notice =
               'Email change was not confirmed. Check email status before retrying.',
         );
+      }
     } finally {
       if (mounted && generation == _generation) setState(() => _busy = false);
     }

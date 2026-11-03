@@ -16,12 +16,38 @@ if (-not (Test-Path -LiteralPath (Join-Path $repo 'pubspec.yaml'))) {
     throw 'Run this helper from the existing TezRider repository.'
 }
 if (-not $DefinesFile) {
-    $DefinesFile = Join-Path $repo ('.fr21-local/' + $(if ($Environment -eq 'TEST') { 'public-defines.json' } else { 'production-defines.json' }))
+    $DefinesFile = if ($Environment -eq 'TEST' -and (Test-Path -LiteralPath (Join-Path $repo '.env'))) {
+        Join-Path $repo '.env'
+    } else {
+        Join-Path $repo ('.fr21-local/' + $(if ($Environment -eq 'TEST') { 'public-defines.json' } else { 'production-defines.json' }))
+    }
 }
 $DefinesFile = (Resolve-Path -LiteralPath $DefinesFile).Path
-$configuration = Get-Content -LiteralPath $DefinesFile -Raw | ConvertFrom-Json
-$allowed = @('SUPABASE_URL', 'SUPABASE_ANON_KEY', 'FR21_ISOLATED_TEST', 'FR30_ANDROID_PUSH', 'FR30_FIREBASE_PROJECT_ID')
+$rawConfiguration = Get-Content -LiteralPath $DefinesFile -Raw
+if ($rawConfiguration.TrimStart().StartsWith('{')) {
+    try { $configuration = $rawConfiguration | ConvertFrom-Json }
+    catch { throw 'Mobile configuration JSON is invalid. No configuration values displayed.' }
+} else {
+    $entries = @{}
+    foreach ($line in ($rawConfiguration -split '\r?\n')) {
+        $text = $line.Trim()
+        if (-not $text -or $text.StartsWith('#')) { continue }
+        if ($text -notmatch '^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$') { throw 'Invalid mobile configuration line; use KEY=VALUE.' }
+        $name = $Matches[1]
+        $value = $Matches[2].Trim()
+        if ($value -match '^(["''])(.*)\1\s*(?:#.*)?$') { $value = $Matches[2] }
+        else { $value = ($value -split '#', 2)[0].Trim() }
+        if ($entries.ContainsKey($name)) { throw 'Duplicate mobile configuration name.' }
+        if ($name -in @('FR21_ISOLATED_TEST', 'FR30_ANDROID_PUSH')) {
+            if ($value -cnotin @('true', 'false')) { throw 'Mobile boolean flags must be true or false.' }
+            $entries[$name] = $value -ceq 'true'
+        } else { $entries[$name] = $value }
+    }
+    $configuration = [pscustomobject]$entries
+}
+$allowed = @('SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'FR21_ISOLATED_TEST', 'FR30_ANDROID_PUSH', 'FR30_FIREBASE_PROJECT_ID')
 foreach ($property in $configuration.PSObject.Properties.Name) {
+    if ($property -eq 'SUPABASE_JWKS_URL') { Write-Output 'WARN: Remove unused SUPABASE_JWKS_URL from the mobile defines file.'; continue }
     if ($property -notin $allowed) { throw 'Unrecognized define: keep credentials and server-only configuration out of mobile builds.' }
 }
 $expectedRef = if ($Environment -eq 'TEST') { 'igeisilhtmglgnqvllrx' } else { 'arrqsvejrfdbacfwtpcc' }
@@ -30,7 +56,10 @@ if ($configuration.SUPABASE_URL -cne "https://$expectedRef.supabase.co" -or
     $configuration.FR21_ISOLATED_TEST -ne ($Environment -eq 'TEST')) {
     throw 'Backend URL and boolean isolation flag must match the requested environment.'
 }
-$publicKey = [string]$configuration.SUPABASE_ANON_KEY
+$anonKey = ([string]$configuration.SUPABASE_ANON_KEY).Trim()
+$publishableKey = ([string]$configuration.SUPABASE_PUBLISHABLE_KEY).Trim()
+if ($anonKey -and $publishableKey -and $anonKey -cne $publishableKey) { throw 'Set only one mobile public-key name.' }
+$publicKey = if ($anonKey) { $anonKey } else { $publishableKey }
 if ($publicKey.StartsWith('sb_publishable_')) {
     if ($publicKey.Length -lt 24) { throw 'A configured publishable key is required.' }
 } elseif ($publicKey.Split('.').Count -eq 3) {
@@ -43,6 +72,18 @@ if ($publicKey.StartsWith('sb_publishable_')) {
         throw 'Only an anon key belonging to the requested backend is permitted.'
     }
 } else { throw 'Only a public publishable or anon backend key is permitted.' }
+if ($Environment -eq 'TEST' -and $configuration.FR30_ANDROID_PUSH -eq $true) {
+    $firebasePath = Join-Path $repo 'android/app/src/fr21test/google-services.json'
+    if (-not (Test-Path -LiteralPath $firebasePath)) { throw 'Android TEST push requires android/app/src/fr21test/google-services.json. See docs/PARTNER-WINDOWS-SETUP.md.' }
+    try { $firebase = Get-Content -LiteralPath $firebasePath -Raw | ConvertFrom-Json }
+    catch { throw 'Firebase TEST JSON is invalid. Download the approved original client file.' }
+    $packages = @($firebase.client | ForEach-Object { $_.client_info.android_client_info.package_name })
+    if ($firebase.project_info.project_id -cne 'tez-rider-fe12b' -or
+        $packages -cnotcontains 'com.example.flutter_application_1.fr21test' -or
+        ($configuration.FR30_FIREBASE_PROJECT_ID -and $configuration.FR30_FIREBASE_PROJECT_ID -cne 'tez-rider-fe12b')) {
+        throw 'Firebase TEST project/package mismatch. Obtain the approved fr21test client file; never use the legacy root configuration.'
+    }
+}
 if ($Environment -eq 'Production') {
     if ($Mode -ne 'release') { throw 'Production builds must use release mode.' }
     if ($ProductionApplicationId -notmatch '^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*){2,}$' -or

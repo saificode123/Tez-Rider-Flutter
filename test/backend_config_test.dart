@@ -3,6 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/backend_config.dart';
 
 void main() {
+  test('public key accepts either documented name and rejects ambiguity', () {
+    expect(resolveBackendPublicKey('', ' publishable '), 'publishable');
+    expect(resolveBackendPublicKey(' anon ', ''), 'anon');
+    expect(resolveBackendPublicKey('same', 'same'), 'same');
+    expect(resolveBackendPublicKey('', ''), '');
+    expect(
+      () => resolveBackendPublicKey('first', 'second'),
+      throwsFormatException,
+    );
+  });
   test('isolated hosted app rejects production and other projects', () {
     expect(
       () => BackendConfig(

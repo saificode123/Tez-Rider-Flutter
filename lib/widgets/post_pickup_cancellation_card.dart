@@ -31,12 +31,13 @@ class _PostPickupCancellationCardState
     super.initState();
     _owner = _service.account;
     _subscription = _service.accountChanges.listen((_) {
-      if (mounted && _owner != _service.account)
+      if (mounted && _owner != _service.account) {
         setState(() {
           _changedAccount = true;
           _reason.clear();
           _message = null;
         });
+      }
     });
   }
 
@@ -94,14 +95,16 @@ class _PostPickupCancellationCardState
           _ => 'Cancellation was not confirmed. Retry the same request.',
         },
       );
-      if (code == 'CANCELLED' || code == 'ALREADY_CANCELLED')
+      if (code == 'CANCELLED' || code == 'ALREADY_CANCELLED') {
         widget.onChanged?.call();
+      }
     } catch (_) {
-      if (mounted && !_changedAccount)
+      if (mounted && !_changedAccount) {
         setState(
           () => _message =
               'Cancellation was not confirmed. Retry the same request.',
         );
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }

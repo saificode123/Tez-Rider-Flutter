@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:get/get.dart';
 import '../models/product_model.dart';
 import '../services/recommendation_service.dart';
@@ -20,7 +21,7 @@ class RecommendationController extends GetxController {
       );
       recommendations.value = recs;
     } catch (e) {
-      print('RecommendationController error: $e');
+      developer.log('Recommendations unavailable.', name: 'TezRider');
       recommendations.value = [];
     } finally {
       isLoading.value = false;

@@ -347,66 +347,6 @@ class _VendorDashboardState extends State<VendorDashboard> {
     );
   }
 
-  Widget _miniOrderCard(Map<String, dynamic> o) {
-    final status = o['status'] ?? 'pending';
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 8),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: AppColors.primarySurface,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.receipt_rounded,
-              color: AppColors.primary,
-              size: 18,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Order #@slot0end".uiTr({
-                    "slot0end": (_shortId(o['id'])).toString(),
-                  }),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                Text(
-                  "PKR @slot0end".uiTr({
-                    "slot0end": (o['sub_total']).toString(),
-                  }),
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          _statusBadge(status),
-        ],
-      ),
-    );
-  }
-
   Widget _ordersTab() {
     return SafeArea(
       child: Column(

@@ -141,6 +141,7 @@ Deno.test('invoice: committed manual COD receipt requires canonical event eviden
   const copy = template('paid_invoice', '123', true);
   ok(copy.subject.includes('COD cash receipt') && copy.text.includes('did not transfer funds'));
   ok(!copy.text.includes('refunded'));
+  await Deno.mkdir('.fr21-local/final2', { recursive: true });
   await Deno.writeFile('.fr21-local/final2/cash-invoice-sample.pdf', a);
 });
 Deno.test('invoice: actual pdf-lib runtime, valid PDF pages, deterministic repeat bytes', async () => {
@@ -148,10 +149,12 @@ Deno.test('invoice: actual pdf-lib runtime, valid PDF pages, deterministic repea
   ok(new TextDecoder().decode(a.subarray(0, 5)) === '%PDF-');
   const document = await PDFDocument.load(a); ok(document.getPageCount() === 1);
   ok(document.getTitle() === 'Invoice TR-000000000123'); ok(await digest(a) === await digest(b));
+  await Deno.mkdir('.fr21-local/fr32', { recursive: true });
   await Deno.writeFile('.fr21-local/fr32/invoice-sample.pdf', a);
 });
 Deno.test('invoice: Arabic Unicode identity and multipage rendering', async () => {
   const s = { ...sample, customer: 'محمد علی', items: Array.from({ length: 30 }, (_, i) => ({ ...sample.items[0], product: 'چاول', vendor: 'دکان', vendor_id: 20 + i % 2 })) , subtotal_cents: '480000', total_cents: '500000' };
   const bytes = await invoicePdf(s); ok((await PDFDocument.load(bytes)).getPageCount() >= 2);
+  await Deno.mkdir('.fr21-local/fr32', { recursive: true });
   await Deno.writeFile('.fr21-local/fr32/invoice-unicode.pdf', bytes);
 });

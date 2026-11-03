@@ -204,8 +204,9 @@ class AccountHttpClient extends http.BaseClient {
       };
       final headers = <String, String>{};
       for (final entry in request.headers.entries) {
-        if (allowed.contains(entry.key.toLowerCase()))
+        if (allowed.contains(entry.key.toLowerCase())) {
           headers[entry.key.toLowerCase()] = entry.value;
+        }
       }
       outgoing =
           http.Request(

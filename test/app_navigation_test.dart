@@ -1,3 +1,4 @@
+import 'dart:ui' show Tristate;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -124,14 +125,15 @@ void main() {
         ),
       );
       final home = tester.getSemantics(find.bySemanticsLabel('Home'));
-      expect(home.hasFlag(SemanticsFlag.isButton), isTrue);
-      expect(home.hasFlag(SemanticsFlag.isSelected), isTrue);
+      expect(home.flagsCollection.isButton, isTrue);
+      expect(home.flagsCollection.isSelected, Tristate.isTrue);
       expect(home.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
       expect(
         tester
             .getSemantics(find.bySemanticsLabel('Orders'))
-            .hasFlag(SemanticsFlag.isSelected),
-        isFalse,
+            .flagsCollection
+            .isSelected,
+        isNot(Tristate.isTrue),
       );
       await tester.tap(find.text('Orders'));
       await tester.pump();

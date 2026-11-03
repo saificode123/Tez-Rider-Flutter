@@ -28,7 +28,6 @@ class _CartScreenState extends State<CartScreen> {
   late PrescriptionController prescriptionController;
 
   bool _isGift = false;
-  String? _selectedProductForRec;
 
   final TextEditingController _recNameCtrl = TextEditingController();
   final TextEditingController _recPhoneCtrl = TextEditingController();
@@ -70,7 +69,6 @@ class _CartScreenState extends State<CartScreen> {
       );
 
       if (product != null) {
-        _selectedProductForRec = productId;
         await recommendationController.fetchRecommendations(product);
       }
     }

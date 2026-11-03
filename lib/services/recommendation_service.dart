@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import '../models/product_model.dart';
 
 class RecommendationService {
@@ -10,15 +11,17 @@ class RecommendationService {
       final productCat = product.category.toLowerCase().trim();
 
       final recommendations = allProducts
-          .where((p) =>
-              p.id != product.id &&
-              p.category.toLowerCase().trim() == productCat)
+          .where(
+            (p) =>
+                p.id != product.id &&
+                p.category.toLowerCase().trim() == productCat,
+          )
           .take(5)
           .toList();
 
       return recommendations;
     } catch (e) {
-      print('RecommendationService error: $e');
+      developer.log('Recommendations unavailable.', name: 'TezRider');
       return [];
     }
   }

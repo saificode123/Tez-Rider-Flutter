@@ -1,0 +1,66 @@
+name: Android TEST build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android-test:
+    runs-on: ubuntu-latest
+    environment: test
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          channel: stable
+          cache: false
+      - name: Prepare approved public TEST configuration
+        env:
+          TEST_PUBLIC_KEY: ${{ secrets.TEZRIDER_TEST_SUPABASE_PUBLIC_KEY }}
+          TEST_FIREBASE_JSON: ${{ secrets.TEZRIDER_TEST_FIREBASE_CONFIG }}
+        shell: python
+        run: |
+          import json, os
+          from pathlib import Path
+          key = os.environ.get('TEST_PUBLIC_KEY', '').strip()
+          if not key or key.startswith('sb_secret_'):
+              raise SystemExit('Configure the TEST public client key in the protected test environment.')
+          if not key.startswith('sb_publishable_'):
+              import base64
+              try:
+                  part = key.split('.')[1]
+                  claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
+                  assert claims['role'] == 'anon' and claims['ref'] == 'igeisilhtmglgnqvllrx'
+              except Exception:
+                  raise SystemExit('Only the authorized TEST public key is permitted.')
+          try:
+              firebase = json.loads(os.environ.get('TEST_FIREBASE_JSON', ''))
+              assert firebase['project_info']['project_id'] == 'tez-rider-fe12b'
+              assert any(c['client_info']['android_client_info']['package_name'] ==
+                         'com.example.flutter_application_1.fr21test' for c in firebase['client'])
+          except Exception:
+              raise SystemExit('Configure the matching TEST Firebase client file.')
+          Path('.env').write_text(json.dumps({
+              'SUPABASE_URL': 'https://igeisilhtmglgnqvllrx.supabase.co',
+              'SUPABASE_PUBLISHABLE_KEY': key,
+              'FR21_ISOLATED_TEST': True,
+              'FR30_ANDROID_PUSH': True,
+              'FR30_FIREBASE_PROJECT_ID': 'tez-rider-fe12b',
+          }))
+          Path('android/app/src/fr21test/google-services.json').write_text(json.dumps(firebase))
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --debug --flavor fr21test -t lib/main.dart --dart-define-from-file=.env
+      - name: Remove runner-local client configuration
+        if: always()
+        shell: python
+        run: |
+          from pathlib import Path
+          for name in ['.env', 'android/app/src/fr21test/google-services.json']:
+              Path(name).unlink(missing_ok=True)

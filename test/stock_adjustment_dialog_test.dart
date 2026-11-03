@@ -66,8 +66,9 @@ void main() {
     (tester) async {
       var calls = 0;
       await open(tester, (_, params) async {
-        if (++calls == 1)
+        if (++calls == 1) {
           return {'code': 'STOCK_CHANGED', 'stock_qty': 10, 'stock_version': 2};
+        }
         expect(params['p_expected_version'], 2);
         expect(params['p_quantity'], 10);
         return {'code': 'UPDATED'};

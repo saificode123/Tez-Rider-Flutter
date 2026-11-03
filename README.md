@@ -1,16 +1,9 @@
-# flutter_application_1
+# TezRider
 
-A new Flutter project.
+Existing Flutter/GetX Android and iOS app backed by Supabase. Start with
+[Windows partner setup](docs/PARTNER-WINDOWS-SETUP.md) and the
+[portability and FR audit](docs/FINAL-DELIVERY/FR-GITHUB-PORTABILITY-AUDIT.md).
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Use `feature/final-2-functional` and approved TEST configuration. A plain
+`flutter run` does not load `.env`. Never commit local credentials or use the
+protected production project for testing.

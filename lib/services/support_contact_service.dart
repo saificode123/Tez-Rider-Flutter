@@ -21,8 +21,9 @@ class SupportContactService {
         email.length > 254 ||
         !RegExp(
           r'^[^@\s\x00-\x1f\x7f]+@[^@\s\x00-\x1f\x7f]+\.[^@\s\x00-\x1f\x7f]+$',
-        ).hasMatch(email))
+        ).hasMatch(email)) {
       throw const FormatException('Support contact unavailable');
+    }
     return email;
   }
 }

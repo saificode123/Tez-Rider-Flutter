@@ -23,7 +23,7 @@ void main() {
             return {'epoch': 7, 'is_online': true};
           }
           writes.add(Map.of(parameters));
-          if (pending != null) return pending!.future;
+          if (pending != null) return pending.future;
           if (superseded) throw const PresenceFailure('Stale presence epoch');
           if (disconnected) throw StateError('network disconnected');
           return {'is_online': parameters['p_online']};
@@ -64,8 +64,9 @@ void main() {
       );
       expect(presence.transportInterrupted, isFalse);
       if (scenario == 'withdraw') expect(writes.length, before);
-      if (scenario == 'withdraw-in-flight')
+      if (scenario == 'withdraw-in-flight') {
         expect(writes.last['p_online'], isFalse);
+      }
       presence.dispose();
     });
   }

@@ -77,11 +77,12 @@ class _StockAdjustmentDialogState extends State<StockAdjustmentDialog> {
         );
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
           () => _error =
               'Update could not be confirmed. Retry the same count and reason.',
         );
+      }
     } finally {
       if (mounted && !closing) setState(() => _saving = false);
     }

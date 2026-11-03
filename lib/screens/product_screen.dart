@@ -39,7 +39,7 @@ class ProductScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator(color: _purple));
         }
 
-        if (productCtrl.error.value != null)
+        if (productCtrl.error.value != null) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -52,6 +52,7 @@ class ProductScreen extends StatelessWidget {
               ],
             ),
           );
+        }
 
         final vendorProducts = productCtrl.getProductsForVendor(
           vendor['id'] ?? '',
@@ -93,11 +94,12 @@ class ProductScreen extends StatelessWidget {
           itemCount:
               vendorProducts.length + (productCtrl.hasMore.value ? 1 : 0),
           itemBuilder: (_, i) {
-            if (i == vendorProducts.length)
+            if (i == vendorProducts.length) {
               return TextButton(
                 onPressed: () => productCtrl.refreshProducts(loadMore: true),
                 child: Text("Load more products".tr),
               );
+            }
             final p = vendorProducts[i];
 
             return Container(

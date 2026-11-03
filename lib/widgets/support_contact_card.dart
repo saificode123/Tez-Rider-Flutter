@@ -31,8 +31,9 @@ class _SupportContactCardState extends State<SupportContactCard> {
       final email = await _service.load();
       if (mounted) setState(() => _email = email);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = 'Support contact could not be loaded. Retry.');
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -49,17 +50,19 @@ class _SupportContactCardState extends State<SupportContactCard> {
       final opened =
           await (widget.open?.call(uri) ??
               launchUrl(uri, mode: LaunchMode.externalApplication));
-      if (!opened && mounted)
+      if (!opened && mounted) {
         setState(
           () => _error =
               'No email app opened. Copy the address to contact support.',
         );
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
           () => _error =
               'No email app opened. Copy the address to contact support.',
         );
+      }
     } finally {
       if (mounted) setState(() => _opening = false);
     }

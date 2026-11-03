@@ -89,8 +89,9 @@ class ProfileEmailService {
 
   Future<ProfileEmailState> request(String email) async {
     final target = email.trim();
-    if (!valid(target))
+    if (!valid(target)) {
       throw const FormatException('Enter a valid new email address.');
+    }
     if (busy) throw StateError('Email request already in progress');
     final owner = account;
     if (owner == null) throw StateError('Sign in required');
@@ -100,16 +101,18 @@ class ProfileEmailService {
       // Reopening/retrying an already-pending request must not resend mail.
       final before = await load();
       if (before.pendingEmail != null) {
-        if (before.pendingEmail!.toLowerCase() == target.toLowerCase())
+        if (before.pendingEmail!.toLowerCase() == target.toLowerCase()) {
           return before;
+        }
         throw StateError('An email change is already awaiting confirmation.');
       }
       if (before.email.toLowerCase() == target.toLowerCase()) {
         throw const FormatException('Enter a valid new email address.');
       }
       final user = await _request(target);
-      if (account != owner || user?.id != owner)
+      if (account != owner || user?.id != owner) {
         throw StateError('Account changed');
+      }
       final status = await load();
       if (status.email.toLowerCase() != target.toLowerCase() &&
           status.pendingEmail?.toLowerCase() != target.toLowerCase()) {

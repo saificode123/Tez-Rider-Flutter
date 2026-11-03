@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_users_service.dart' show blockRequestId;
 import 'broadcast_push_delivery.dart';
+import 'backend_config.dart';
 
 bool get androidTestPushEnabled =>
     !kIsWeb &&
@@ -89,7 +90,7 @@ Future<void> _receiveHint(RemoteMessage message) async {
   final delivery = BroadcastPushDelivery(
     readTicket: () => _storage.read(key: pushTicketKey),
     display: _showNotice,
-    publicKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+    publicKey: backendPublicKey,
   );
   try {
     await delivery.receive(message.data);

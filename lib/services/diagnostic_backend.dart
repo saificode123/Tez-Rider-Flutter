@@ -6,6 +6,6 @@ BackendConfig diagnosticBackend() => BackendConfig(
     'SUPABASE_URL',
     defaultValue: 'https://igeisilhtmglgnqvllrx.supabase.co',
   ),
-  key: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+  key: backendPublicKey,
   isolatedTest: true,
 );

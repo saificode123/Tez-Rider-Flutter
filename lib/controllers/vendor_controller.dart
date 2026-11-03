@@ -295,17 +295,19 @@ class VendorController extends GetxController {
         throw StateError('Tailoring update was not confirmed');
       }
       await refreshOrders();
-      if (!isClosed)
+      if (!isClosed) {
         Get.snackbar(
           "Success".tr,
           "Tailoring job marked as @slot0end".uiTr({"slot0end": newStatus}),
         );
+      }
     } catch (_) {
-      if (!isClosed)
+      if (!isClosed) {
         Get.snackbar(
           "Error".tr,
           'Tailoring update was not confirmed. Refresh and retry.'.tr,
         );
+      }
     } finally {
       _tailoringBusy.remove(id);
     }

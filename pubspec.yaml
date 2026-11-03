@@ -4,7 +4,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.13.0
+  flutter: '>=3.44.0'
 
 dependencies:
   flutter:
@@ -14,6 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   supabase_flutter: ^2.3.4
+  # Existing standalone Dart diagnostics import this package directly.
+  supabase: ^2.16.2
   google_fonts: ^6.1.0
   get: ^4.6.6
   local_auth: ^2.3.0
