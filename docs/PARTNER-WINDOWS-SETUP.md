@@ -76,22 +76,24 @@ Set-Location C:\src
 git clone https://github.com/saificode123/Tez-Rider-Flutter.git
 Set-Location Tez-Rider-Flutter
 git fetch origin --prune
-git switch --track origin/feature/final-2-functional
+git switch main
 git status --short
 git rev-parse HEAD
 ```
 
 For an existing clone, first inspect `git status`. Preserve or commit your work
-before switching; never use reset --hard. If the feature branch already exists:
+before switching; never use reset --hard. Update the reviewed default branch:
 
 ```powershell
-git switch feature/final-2-functional
-git pull --ff-only origin feature/final-2-functional
+git switch main
+git pull --ff-only origin main
 ```
 
 The old shared commit `2a059547a3054b35d34d6e81c181ef8879e2c19b` includes the
 map upgrade but predates these portability fixes. Use the portability fix commit
-reported in the audit/final handover. Do not assume `main` contains that fix.
+reported in the audit/final handover. The owner subsequently authorized putting
+the reviewed fixes on `main`; all historical feature refs were already contained
+in main, so no blind replay of old branches is necessary.
 
 ## 4. Supply approved TEST client configuration
 
@@ -156,6 +158,15 @@ hosted integration send/setup scripts without reviewing their permissions.
 Keep `pubspec.lock`; do not run pub upgrade to fix a missing SDK.
 
 ## 6. Run or build Android TEST
+
+For a quick Chrome demo after configuring `.env`:
+
+```powershell
+flutter run -d chrome -t lib/main.dart --dart-define-from-file=.env
+```
+
+Chrome startup and the owner's private Rider sign-in/earnings were exercised.
+Chrome does not qualify Android FCM, background GPS or physical delivery acceptance.
 
 ```powershell
 flutter devices

@@ -1,0 +1,212 @@
+{
+  "date": "2026-11-03",
+  "scope": "authorized TEST only",
+  "shared_commit": "2a059547a3054b35d34d6e81c181ef8879e2c19b",
+  "implementation_commit": "c296faf",
+  "main_source_commit": "448fdcab77fd524b07d783f74d68d3957272f654",
+  "git_push_main_and_feature": "verified by ls-remote",
+  "all_historical_feature_branches_already_in_main": true,
+  "checks": {
+    "flutter_pub_get": "PASS; no resolved version upgrades",
+    "flutter_analyze": "PASS, no issues",
+    "dart_analyze_after_dependency_classification": "PASS, no issues",
+    "flutter_tests": {
+      "passed": 763,
+      "skipped": 2,
+      "failed": 0
+    },
+    "deno_tests": {
+      "version": "2.5.6",
+      "passed": 240,
+      "failed": 0,
+      "runtime_network_permission": false
+    },
+    "standalone_dart_diagnostics_compile": 3,
+    "python_tracking_helper_tests": 4,
+    "configuration_guard_cases": 7,
+    "full_inventory": {
+      "rows": 137,
+      "historical_bounded_pass": 77,
+      "approved_deviations": 17,
+      "partial": 42,
+      "blocked": 1
+    },
+    "sql_and_hosted_mutation_integration": "NOT RUN",
+    "second_windows_laptop": "NOT RUN",
+    "android_installation": "NOT RUN"
+  },
+  "android": {
+    "sha256": "E7E7677B05E14297CFB4A085706F7D8ED4A6CF73EA9FAF813CC2F57AA28E514C",
+    "package": "com.example.flutter_application_1.fr21test",
+    "sdk": "24",
+    "target_sdk": "36",
+    "native_code": "'arm64-v8a' 'armeabi-v7a' 'x86_64'",
+    "certificate_sha256": "8a34e66e44a7789737fd600989a927d7a0c1f2ed7fd50928317ae0a8378833fc",
+    "signature_verified": true,
+    "certificate_scope": "local Android DEBUG key; not production signing",
+    "installation": "NOT RUN; no connected Android device",
+    "path": ".fr21-local/portability/artifacts/app-fr21test-arm64-debug.apk",
+    "flutter_engine_abis": [
+      "arm64-v8a"
+    ],
+    "production_reference_present": false,
+    "build_command": "flutter build apk --debug --flavor fr21test -t lib/main.dart --target-platform android-arm64 --dart-define-from-file=.env",
+    "build_seconds": 596.7
+  },
+  "universal_build": {
+    "status": "BLOCKED",
+    "reason": "Drive exhausted during packaging; output MD5 could not be created",
+    "verified_artifact": false
+  },
+  "chrome": {
+    "url": "http://127.0.0.1:7357",
+    "startup": "PASS",
+    "owner_private_sign_in_role": "rider",
+    "offline_dashboard": "PASS",
+    "real_earning_pkr": 113,
+    "existing_order_id": 3180,
+    "no_payout_claim": "PASS",
+    "admin_screen_hidden_from_rider": "PASS; access gate shown",
+    "customer_vendor_admin_positive_journeys": "NOT YET EXECUTED"
+  },
+  "test_backend_snapshot": {
+    "checked_utc": "2026-11-03T05:47:37.8671374Z",
+    "project": "igeisilhtmglgnqvllrx",
+    "mode": "operator read-only metadata; not role/RLS acceptance",
+    "order3180_status": "delivered",
+    "order3180_invoice_count": 0,
+    "product224_stock": 29,
+    "historical_broadcast_rows_observed": 38,
+    "order3180_email_statuses": [
+      {
+        "email_type": "order_confirmation",
+        "status": "sent"
+      }
+    ],
+    "private_buckets": [
+      {
+        "id": "rider-cnic",
+        "public": false
+      },
+      {
+        "id": "dispute-evidence",
+        "public": false
+      },
+      {
+        "id": "invoices",
+        "public": false
+      }
+    ],
+    "external_sends": 0,
+    "backend_mutations": 0,
+    "production_access": false
+  },
+  "priority_requirements": [
+    {
+      "id": "FR-04",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-10",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-13",
+      "status": "FAIL",
+      "note": "Strict cadence failed"
+    },
+    {
+      "id": "FR-14",
+      "status": "PARTIAL",
+      "note": "800ms gate failed"
+    },
+    {
+      "id": "FR-17",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-20",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-21",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-25",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-26",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-28",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-30",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-32",
+      "status": "PARTIAL",
+      "note": "See audit for current versus historical evidence"
+    },
+    {
+      "id": "FR-33",
+      "status": "PARTIAL",
+      "note": "Approved email substitution, not literal SMS"
+    }
+  ],
+  "agent_external_email_push_route_sends": 0,
+  "production_access_or_changes": false,
+  "changed_files": [
+    "README.md",
+    "lib/controllers/recommendation_controller.dart",
+    "lib/controllers/vendor_controller.dart",
+    "lib/main.dart",
+    "lib/screens/customer/about_tezrider_screen.dart",
+    "lib/screens/customer/cart_screen.dart",
+    "lib/screens/customer/cart_screen_new.dart",
+    "lib/screens/product_screen.dart",
+    "lib/screens/vendor_dashboard.dart",
+    "lib/services/account_access.dart",
+    "lib/services/account_session_service.dart",
+    "lib/services/android_broadcast_push_service.dart",
+    "lib/services/backend_config.dart",
+    "lib/services/diagnostic_backend.dart",
+    "lib/services/profile_email_service.dart",
+    "lib/services/recommendation_service.dart",
+    "lib/services/support_contact_service.dart",
+    "lib/widgets/post_pickup_cancellation_card.dart",
+    "lib/widgets/profile_email_panel.dart",
+    "lib/widgets/stock_adjustment_dialog.dart",
+    "lib/widgets/support_contact_card.dart",
+    "pubspec.lock",
+    "pubspec.yaml",
+    "supabase/functions/fr32-email-worker/handler_test.ts",
+    "test/app_navigation_test.dart",
+    "test/backend_config_test.dart",
+    "test/destination_amendment_test.dart",
+    "test/rider_presence_test.dart",
+    "test/stock_adjustment_dialog_test.dart",
+    "tool/build-android.ps1",
+    ".env.example",
+    "scripts/check-windows-setup.ps1",
+    "docs/PARTNER-WINDOWS-SETUP.md",
+    "assets/videos/.gitkeep",
+    ".github/workflows/android-test-build.yml",
+    "docs/FINAL-DELIVERY/FR-GITHUB-PORTABILITY-AUDIT.md",
+    "docs/evidence/PORTABILITY-verification.json"
+  ]
+}
