@@ -231,6 +231,14 @@ These are fresh bounded Chrome checks, not physical GPS/push acceptance or a
 claim of complete Customer/Vendor/Admin execution. Normal owner Auth/session
 bootstrap is distinct from an operator read-only metadata query.
 
+The owner then privately signed in as an existing Customer. The catalogue
+rendered actual TEST products/prices and categories; My Orders loaded two
+existing records with their actual cancelled/on-the-way states. No new order
+was placed by the agent. Cart navigation was exercised, but full cart/checkout
+acceptance is not inferred from these read-only checks. No invoice-eligible
+order was demonstrated in this Customer's visible history. Vendor/Admin
+positive browser journeys and real broadcast/invoice receipt remain unexecuted.
+
 - Customer: mocked auth/verification/browse/cart/checkout/tracking/invoice/dispute/notification regression coverage; no fresh physical full journey.
 - Vendor: mocked catalog/stock/transition/reporting coverage; no fresh physical preparation/readiness journey.
 - Rider: real GPS/CNIC/presence/assignment/OTP/proof/earnings paths present, mocked regressions and retained delivery evidence; no new genuine-device journey.
@@ -383,6 +391,8 @@ review rejected cleanup of the failed output folder and then its single failed
 APK file with only "blocked by policy"; the owner was asked to remove that
 generated folder manually. The separately retained verified arm64 APK must be
 kept. No unrelated source/configuration/user files were deleted.
+The owner subsequently confirmed that cleanup was done. No further universal
+build was attempted; the existing verified arm64 artifact is the delivered APK.
 
 Official limits checked 2026-11-03: [Geoapify Free](https://www.geoapify.com/pricing/)
 3,000 credits/day, up to 5 requests/s; [Brevo Free](https://help.brevo.com/hc/en-us/articles/208580669-FAQs-What-are-the-limits-of-the-Free-plan)

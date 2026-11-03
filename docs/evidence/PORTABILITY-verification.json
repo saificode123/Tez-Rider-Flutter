@@ -67,7 +67,11 @@
     "existing_order_id": 3180,
     "no_payout_claim": "PASS",
     "admin_screen_hidden_from_rider": "PASS; access gate shown",
-    "customer_vendor_admin_positive_journeys": "NOT YET EXECUTED"
+    "customer_private_sign_in": "PASS",
+    "customer_real_catalogue": "PASS",
+    "customer_order_history": "PASS; two existing records",
+    "cart_navigation": "EXERCISED; full checkout not executed",
+    "vendor_admin_positive_journeys": "NOT RUN"
   },
   "test_backend_snapshot": {
     "checked_utc": "2026-11-03T05:47:37.8671374Z",
@@ -208,5 +212,6 @@
     ".github/workflows/android-test-build.yml",
     "docs/FINAL-DELIVERY/FR-GITHUB-PORTABILITY-AUDIT.md",
     "docs/evidence/PORTABILITY-verification.json"
-  ]
+  ],
+  "manual_failed_output_cleanup": "Owner confirmed cleaned"
 }
