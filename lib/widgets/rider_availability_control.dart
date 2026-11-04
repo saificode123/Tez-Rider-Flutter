@@ -22,7 +22,7 @@ class RiderAvailabilityControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = ready && online ? AppColors.primary : AppColors.textSecondary;
+    final color = ready && online ? AppColors.success : AppColors.textSecondary;
     final label = !ready
         ? (busy ? 'Checking availability' : 'Availability unavailable').tr
         : (online ? 'Online' : 'Offline').tr;
@@ -30,12 +30,13 @@ class RiderAvailabilityControl extends StatelessWidget {
       child: AnimatedContainer(
         duration: AppMotion.duration(context),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpace.lg,
+          horizontal: AppSpace.xl,
           vertical: AppSpace.sm,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           border: Border.all(color: AppColors.divider),
+          boxShadow: AppShadow.soft,
           borderRadius: BorderRadius.circular(AppRadius.lg),
         ),
         child: Row(

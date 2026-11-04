@@ -23,86 +23,65 @@ class EmptyStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = accentColor ?? AppColors.primary;
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpace.xl,
-          vertical: AppSpace.lg,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: Alignment.center,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(color: AppColors.divider),
+              boxShadow: AppShadow.soft,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 130,
-                  height: 130,
+                  width: 88,
+                  height: 88,
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: color.withValues(alpha: 0.06),
+                    color: color.withValues(alpha: .07),
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                ),
-                Container(
-                  width: 96,
-                  height: 96,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: color.withValues(alpha: 0.1),
-                  ),
-                ),
-                Container(
-                  width: 68,
-                  height: 68,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: color.withValues(alpha: 0.15),
-                    border: Border.all(
-                      color: color.withValues(alpha: 0.2),
-                      width: 1.5,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: .08),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  child: Icon(
-                    icon,
-                    size: 34,
-                    color: color.withValues(alpha: 0.8),
+                    child: Icon(icon, size: 32, color: color),
                   ),
                 ),
+                const SizedBox(height: 24),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  subtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(height: 1.6),
+                  textAlign: TextAlign.center,
+                ),
+                if (actionLabel != null && onAction != null) ...[
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: onAction,
+                    child: Text(actionLabel!, textAlign: TextAlign.center),
+                  ),
+                ],
               ],
             ),
-
-            const SizedBox(height: 28),
-
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
-                letterSpacing: -0.4,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              subtitle,
-              style: const TextStyle(
-                fontSize: 14,
-                color: AppColors.textSecondary,
-                height: 1.55,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: 28),
-              ElevatedButton(
-                onPressed: onAction,
-                child: Text(actionLabel!, textAlign: TextAlign.center),
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );
@@ -138,7 +117,7 @@ class EmptySearchState extends StatelessWidget {
       title: 'No Results Found',
       subtitle:
           'We couldn\'t find anything for "$query".\nTry a different search term.',
-      accentColor: const Color(0xFF9B72CF),
+      accentColor: AppColors.primary,
     );
   }
 }
@@ -155,7 +134,7 @@ class NoInternetState extends StatelessWidget {
       subtitle: 'Please check your connection\nand try again.',
       actionLabel: 'Retry',
       onAction: onRetry,
-      accentColor: const Color(0xFF72B77A),
+      accentColor: AppColors.info,
     );
   }
 }
@@ -170,7 +149,7 @@ class EmptyNotificationsState extends StatelessWidget {
       title: 'All Caught Up!',
       subtitle:
           'You have no new notifications.\nWe\'ll let you know when something happens.',
-      accentColor: Color(0xFF9B72CF),
+      accentColor: AppColors.primary,
     );
   }
 }

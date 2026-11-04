@@ -73,7 +73,7 @@ class _RiderPerformancePanelState extends State<RiderPerformancePanel> {
     final data = _data;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

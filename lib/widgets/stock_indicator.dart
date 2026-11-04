@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import '../core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,12 @@ class StockIndicator extends StatelessWidget {
             ].join(' · '),
       style: TextStyle(
         fontSize: 12,
+        fontWeight: FontWeight.w600,
         color: !stock.purchasable
-            ? Colors.red.shade700
+            ? AppColors.error
             : stock.quantity <= stock.threshold
-            ? Colors.orange.shade800
-            : Colors.green.shade800,
+            ? AppColors.warning
+            : AppColors.success,
       ),
     );
   }

@@ -20,11 +20,12 @@ class AppStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(AppSpace.lg),
+    padding: const EdgeInsets.all(AppSpace.xl),
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.surface,
       borderRadius: BorderRadius.circular(AppRadius.lg),
       border: Border.all(color: AppColors.divider),
+      boxShadow: AppShadow.soft,
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,7 @@ class AppStatCard extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: color.withValues(alpha: .10),
-            borderRadius: BorderRadius.circular(AppRadius.sm),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(icon, color: color, size: 22),
         ),
@@ -45,9 +46,10 @@ class AppStatCard extends StatelessWidget {
           child: Text(
             value,
             key: ValueKey(value),
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w800,
+              letterSpacing: -.7,
+            ),
           ),
         ),
         const SizedBox(height: AppSpace.xs),

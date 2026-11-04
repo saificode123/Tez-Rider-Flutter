@@ -318,8 +318,8 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                         Flexible(
                           child: Material(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            elevation: 2,
+                            borderRadius: BorderRadius.circular(20),
+                            elevation: 3,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
@@ -403,8 +403,10 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
           ),
         ),
         Material(
-          color: Colors.white,
-          elevation: 6,
+          color: Theme.of(context).colorScheme.surface,
+          elevation: 4,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          clipBehavior: Clip.antiAlias,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight:
@@ -412,7 +414,7 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                   (widget.compact ? .20 : .34),
             ),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -548,7 +550,7 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
       Material(
         color: Colors.white,
         elevation: 2,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(18),
         child: IconButton(
           tooltip: label.tr,
           onPressed: action,

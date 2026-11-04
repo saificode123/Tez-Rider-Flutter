@@ -180,15 +180,15 @@ class _OrderTimelineState extends State<OrderTimeline>
                   height: 40,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isDone ? color : const Color(0xFFF0F0F0),
+                    color: isDone ? color : AppColors.bgSection,
                     border: isDone
                         ? null
-                        : Border.all(color: const Color(0xFFDDDDDD), width: 2),
+                        : Border.all(color: AppColors.divider, width: 2),
                   ),
                   child: Icon(
                     isDone ? Icons.check_rounded : step.icon,
                     size: 20,
-                    color: isDone ? Colors.white : const Color(0xFFCCCCCC),
+                    color: isDone ? Colors.white : AppColors.textHint,
                   ),
                 ),
 
@@ -201,7 +201,7 @@ class _OrderTimelineState extends State<OrderTimeline>
                   decoration: BoxDecoration(
                     color: isDone
                         ? color.withValues(alpha: 0.6)
-                        : const Color(0xFFE8E8E8),
+                        : AppColors.divider,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -228,10 +228,10 @@ class _OrderTimelineState extends State<OrderTimeline>
                         ? FontWeight.w800
                         : (isDone ? FontWeight.w600 : FontWeight.w500),
                     color: isActive
-                        ? const Color(0xFF1A0A00)
+                        ? AppColors.textPrimary
                         : isDone
-                        ? const Color(0xFF333333)
-                        : const Color(0xFFBBBBBB),
+                        ? AppColors.textPrimary
+                        : AppColors.textHint,
                   ),
                 ),
                 if (isActive || isDone) ...[
@@ -241,8 +241,8 @@ class _OrderTimelineState extends State<OrderTimeline>
                     style: TextStyle(
                       fontSize: 12,
                       color: isActive
-                          ? const Color(0xFF666666)
-                          : const Color(0xFFAAAAAA),
+                          ? AppColors.textSecondary
+                          : AppColors.textHint,
                       height: 1.4,
                     ),
                   ),
@@ -295,7 +295,7 @@ class OrderStatusCard extends StatelessWidget {
     super.key,
     required this.orderId,
     required this.currentStep,
-    this.accentColor = const Color(0xFFF2855A),
+    this.accentColor = AppColors.primary,
   });
 
   @override
@@ -304,8 +304,8 @@ class OrderStatusCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -327,7 +327,7 @@ class OrderStatusCard extends StatelessWidget {
                     "Order Status".tr,
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey[500],
+                      color: AppColors.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -336,7 +336,7 @@ class OrderStatusCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: Color(0xFF1A0A00),
+                      color: AppColors.textPrimary,
                       letterSpacing: -0.4,
                     ),
                   ),

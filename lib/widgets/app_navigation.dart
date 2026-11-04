@@ -109,7 +109,7 @@ class AppNavigationItem extends StatelessWidget {
           child: Tooltip(
             message: label,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Material(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -129,7 +129,7 @@ class AppNavigationItem extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: selected
-                          ? color.withValues(alpha: 0.09)
+                          ? color.withValues(alpha: 0.10)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                     ),
@@ -140,9 +140,9 @@ class AppNavigationItem extends StatelessWidget {
                         Icon(
                           selected ? activeIcon : inactiveIcon,
                           color: selected ? color : AppColors.textSecondary,
-                          size: 23,
+                          size: 24,
                         ),
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 4),
                         Text(
                           label,
                           maxLines: 1,
@@ -150,7 +150,7 @@ class AppNavigationItem extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: selected ? color : AppColors.textSecondary,
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: selected
                                 ? FontWeight.w700
                                 : FontWeight.w500,

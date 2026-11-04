@@ -26,8 +26,9 @@ class ProductCardSummary extends StatelessWidget {
         price,
         style: const TextStyle(
           color: AppColors.primaryDark,
-          fontSize: 15,
-          fontWeight: FontWeight.w900,
+          fontSize: 16,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -.4,
         ),
       ),
       Wrap(
@@ -36,13 +37,21 @@ class ProductCardSummary extends StatelessWidget {
         children: [
           IconButton(
             tooltip: favouriteLabel,
+            style: IconButton.styleFrom(
+              backgroundColor: favourite
+                  ? AppColors.primarySurface
+                  : AppColors.bgLight,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
             onPressed: onFavourite,
             icon: Icon(
               favourite
                   ? Icons.favorite_rounded
                   : Icons.favorite_border_rounded,
-              color: AppColors.error,
-              size: 20,
+              color: favourite ? AppColors.primary : AppColors.textSecondary,
+              size: 21,
             ),
           ),
           const Icon(Icons.star_rounded, size: 16, color: AppColors.warning),

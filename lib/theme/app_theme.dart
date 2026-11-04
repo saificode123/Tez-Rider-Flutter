@@ -12,42 +12,40 @@ import 'app_motion.dart';
 
 class AppColors {
   // ---- Brand ----
-  // A cleaner, slightly more vibrant forest green than before —
-  // reads as "fresh/organic" (food+grocery) without going neon.
-  static const primary = Color(0xFF16803C);
-  static const primaryDark = Color(0xFF0B4D24);
-  static const primaryLight = Color(0xFF2FA85A);
-  static const primarySurface = Color(0xFFE7F5EC);
+  // Deep coral carries accessible white labels; coral is decorative.
+  static const coral = Color(0xFFFF625E);
+  static const primary = Color(0xFFC9413D);
+  static const primaryDark = Color(0xFFA6322F);
+  static const primaryLight = Color(0xFFFF625E);
+  static const primarySurface = Color(0xFFFFE8E5);
 
-  // Warm accent for CTAs/highlights — matches reference marketplace apps.
-  static const accent = Color(0xFFFF7A1A);
-  static const accentLight = Color(0xFFFFA35C);
-  static const accentSurface = Color(0xFFFFF1E6);
+  // Warm terracotta detail, distinct from semantic warning and error.
+  static const accent = Color(0xFFAD4936);
+  static const accentLight = Color(0xFFFFB3A1);
+  static const accentSurface = Color(0xFFFFF0E9);
 
-  static const success = Color(0xFF16A34A);
-  static const warning = Color(0xFFF59E0B);
+  static const success = Color(0xFF217B5B);
+  static const warning = Color(0xFF996512);
   static const error = Color(0xFFE0342A);
   static const info = Color(0xFF2563EB);
 
-  // Clean neutral background instead of a heavy cream tint —
-  // reads as more "premium marketplace", less "handmade".
-  static const bgLight = Color(0xFFF7F8FA);
+  // Warm paper canvas with lifted white surfaces.
+  static const bgLight = Color(0xFFFFF9F5);
   static const bgCard = Color(0xFFFFFFFF);
-  static const bgSection = Color(0xFFF1F4F2);
+  static const bgSection = Color(0xFFFFF0EA);
 
-  // Neutral charcoal text instead of the old navy/purple tint —
-  // more professional, higher legibility on white cards.
-  static const textPrimary = Color(0xFF14181B);
-  static const textSecondary = Color(0xFF667085);
-  static const textHint = Color(0xFF667085);
-  static const divider = Color(0xFFE7EAEE);
+  // Warm charcoal and readable secondary text.
+  static const textPrimary = Color(0xFF242424);
+  static const textSecondary = Color(0xFF69615E);
+  static const textHint = Color(0xFF69615E);
+  static const divider = Color(0xFFF0E4DD);
 
-  static const bgDark = Color(0xFF0B1410);
-  static const bgCardDark = Color(0xFF141F19);
-  static const bgSectionDark = Color(0xFF1B2C22);
-  static const textPrimaryDark = Color(0xFFF3F6F4);
-  static const textSecondaryDark = Color(0xFFA6B3AC);
-  static const dividerDark = Color(0xFF263329);
+  static const bgDark = Color(0xFF1B1615);
+  static const bgCardDark = Color(0xFF292220);
+  static const bgSectionDark = Color(0xFF362B28);
+  static const textPrimaryDark = Color(0xFFFFF5EF);
+  static const textSecondaryDark = Color(0xFFD1BEB5);
+  static const dividerDark = Color(0xFF4A3933);
 
   // ---- Category accents ----
   static const catFood = Color(0xFFE8715A);
@@ -59,24 +57,24 @@ class AppColors {
   static const catGifts = Color(0xFFDB2777);
 
   // ---- Role identity colors ----
-  static const roleCustomer = Color(0xFF16803C);
-  static const roleCustomerAccent = Color(0xFF227548);
-  static const roleCustomerSoft = Color(0xFF36835A);
+  static const roleCustomer = Color(0xFFC9413D);
+  static const roleCustomerAccent = Color(0xFFB83C38);
+  static const roleCustomerSoft = Color(0xFFA6322F);
 
-  static const roleVendor = Color(0xFF985018);
-  static const roleVendorAccent = Color(0xFFA65B27);
-  static const roleVendorSoft = Color(0xFFB36D3D);
+  static const roleVendor = Color(0xFFB83C38);
+  static const roleVendorAccent = Color(0xFFA6322F);
+  static const roleVendorSoft = Color(0xFF96312C);
 
-  static const roleRider = Color(0xFF6750A4);
-  static const roleRiderAccent = Color(0xFF71609C);
-  static const roleRiderSoft = Color(0xFF806EA6);
+  static const roleRider = Color(0xFFC9413D);
+  static const roleRiderAccent = Color(0xFFB83C38);
+  static const roleRiderSoft = Color(0xFFA6322F);
 
-  static const roleAdmin = Color(0xFF2563EB);
+  static const roleAdmin = Color(0xFF96312C);
 
-  static final List<Color> gradientPrimary = [primary, primaryLight];
+  static final List<Color> gradientPrimary = [primary, primaryDark];
   static final List<Color> gradientDark = [primaryDark, primary];
   static final List<Color> gradientSuccess = [success, const Color(0xFF059669)];
-  static final List<Color> gradientAccent = [accent, accentLight];
+  static final List<Color> gradientAccent = [accent, primaryDark];
 
   static final List<Color> customerGradient = [
     roleCustomer,
@@ -106,16 +104,17 @@ class AppSpace {
   static const md = 12.0;
   static const lg = 16.0;
   static const xl = 20.0;
-  static const xxl = 28.0;
+  static const xxl = 24.0;
+  static const section = 32.0;
   static const xxxl = 40.0;
 }
 
 /// Consistent corner-radius scale.
 class AppRadius {
-  static const sm = 10.0;
-  static const md = 14.0;
-  static const lg = 18.0;
-  static const xl = 24.0;
+  static const sm = 12.0;
+  static const md = 16.0;
+  static const lg = 24.0;
+  static const xl = 32.0;
   static const pill = 999.0;
 }
 
@@ -123,29 +122,52 @@ class AppRadius {
 class AppShadow {
   static List<BoxShadow> soft = [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.05),
+      color: const Color(0xFF6B3325).withValues(alpha: 0.045),
       blurRadius: 16,
       offset: const Offset(0, 6),
     ),
   ];
   static List<BoxShadow> card = [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.06),
+      color: const Color(0xFF6B3325).withValues(alpha: 0.06),
       blurRadius: 20,
       offset: const Offset(0, 8),
     ),
   ];
   static List<BoxShadow> floating = [
     BoxShadow(
-      color: AppColors.primary.withValues(alpha: 0.25),
+      color: const Color(0xFF6B3325).withValues(alpha: 0.12),
       blurRadius: 20,
       offset: const Offset(0, 8),
     ),
   ];
 }
 
+/// Poppins for English with a bundled Arabic-script fallback for Urdu.
+/// GoogleFonts discovers both files in the existing declared asset directory.
+abstract final class AppTypography {
+  static final List<String> fallbacks = [
+    GoogleFonts.notoNaskhArabic().fontFamily!,
+    'sans-serif',
+  ];
+
+  static TextStyle poppins({
+    double? fontSize,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+    Color? color,
+  }) => GoogleFonts.poppins(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    letterSpacing: letterSpacing,
+    height: height,
+    color: color,
+  ).copyWith(fontFamilyFallback: fallbacks);
+}
+
 class AppTextStyles {
-  static TextStyle displayLarge(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle displayLarge(BuildContext ctx) => AppTypography.poppins(
     fontSize: 30,
     fontWeight: FontWeight.w800,
     letterSpacing: -0.6,
@@ -153,7 +175,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  static TextStyle displayMedium(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle displayMedium(BuildContext ctx) => AppTypography.poppins(
     fontSize: 25,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.4,
@@ -161,65 +183,65 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  static TextStyle headlineLarge(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle headlineLarge(BuildContext ctx) => AppTypography.poppins(
     fontSize: 21,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.2,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle headlineMedium(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle headlineMedium(BuildContext ctx) => AppTypography.poppins(
     fontSize: 17,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleLarge(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle titleLarge(BuildContext ctx) => AppTypography.poppins(
     fontSize: 15.5,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleMedium(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle titleMedium(BuildContext ctx) => AppTypography.poppins(
     fontSize: 13.5,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle bodyLarge(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle bodyLarge(BuildContext ctx) => AppTypography.poppins(
     fontSize: 14.5,
     fontWeight: FontWeight.w400,
     height: 1.4,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle bodyMedium(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle bodyMedium(BuildContext ctx) => AppTypography.poppins(
     fontSize: 13,
     fontWeight: FontWeight.w400,
     height: 1.4,
     color: AppColors.textSecondary,
   );
 
-  static TextStyle bodySmall(BuildContext ctx) => GoogleFonts.poppins(
-    fontSize: 11.5,
+  static TextStyle bodySmall(BuildContext ctx) => AppTypography.poppins(
+    fontSize: 12,
     fontWeight: FontWeight.w400,
     color: AppColors.textHint,
   );
 
-  static TextStyle labelLarge(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle labelLarge(BuildContext ctx) => AppTypography.poppins(
     fontSize: 13,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.2,
   );
 
-  static TextStyle caption(BuildContext ctx) => GoogleFonts.poppins(
-    fontSize: 10.5,
+  static TextStyle caption(BuildContext ctx) => AppTypography.poppins(
+    fontSize: 11.5,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.2,
     color: AppColors.textHint,
   );
 
-  static TextStyle price(BuildContext ctx) => GoogleFonts.poppins(
+  static TextStyle price(BuildContext ctx) => AppTypography.poppins(
     fontSize: 15,
     fontWeight: FontWeight.w800,
     color: AppColors.accent,
@@ -246,8 +268,15 @@ class AppTheme {
         surface: AppColors.bgCard,
         error: AppColors.error,
         brightness: Brightness.light,
+        onPrimary: Colors.white,
+        primaryContainer: AppColors.primarySurface,
+        onPrimaryContainer: AppColors.primaryDark,
+        onSurface: AppColors.textPrimary,
+        outline: AppColors.divider,
+        surfaceTint: Colors.transparent,
       ),
       textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(
+        fontFamilyFallback: AppTypography.fallbacks,
         bodyColor: AppColors.textPrimary,
         displayColor: AppColors.textPrimary,
       ),
@@ -258,7 +287,7 @@ class AppTheme {
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
-        titleTextStyle: GoogleFonts.poppins(
+        titleTextStyle: AppTypography.poppins(
           fontSize: 17,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
@@ -267,27 +296,29 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: AppColors.bgCard,
-        elevation: 0,
+        elevation: 1,
+        surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.lg),
+          side: const BorderSide(color: AppColors.divider),
         ),
         shadowColor: Colors.black.withValues(alpha: 0.06),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.bgSection,
+        fillColor: AppColors.bgCard,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpace.xl,
           vertical: AppSpace.lg,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.divider),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.divider),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -298,8 +329,15 @@ class AppTheme {
           borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
         errorMaxLines: 3,
-        hintStyle: GoogleFonts.poppins(color: AppColors.textHint, fontSize: 14),
-        labelStyle: GoogleFonts.poppins(
+        floatingLabelStyle: const TextStyle(
+          color: AppColors.primary,
+          fontWeight: FontWeight.w600,
+        ),
+        hintStyle: AppTypography.poppins(
+          color: AppColors.textHint,
+          fontSize: 14,
+        ),
+        labelStyle: AppTypography.poppins(
           color: AppColors.textSecondary,
           fontSize: 13,
           fontWeight: FontWeight.w500,
@@ -314,7 +352,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: GoogleFonts.poppins(
+          textStyle: AppTypography.poppins(
             fontSize: 15,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.1,
@@ -329,7 +367,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: GoogleFonts.poppins(
+          textStyle: AppTypography.poppins(
             fontSize: 15,
             fontWeight: FontWeight.w700,
           ),
@@ -368,10 +406,36 @@ class AppTheme {
           ),
         ),
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.bgCard,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        showDragHandle: true,
+        clipBehavior: Clip.antiAlias,
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColors.primary,
+      ),
+      listTileTheme: const ListTileThemeData(
+        iconColor: AppColors.primary,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          minimumSize: const Size(48, 48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          textStyle: GoogleFonts.poppins(
+          textStyle: AppTypography.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
@@ -384,20 +448,20 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.bgSection,
-        selectedColor: AppColors.primary,
-        labelStyle: GoogleFonts.poppins(
+        selectedColor: AppColors.primarySurface,
+        labelStyle: AppTypography.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.pill),
         ),
-        side: BorderSide.none,
+        side: const BorderSide(color: AppColors.divider),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.textPrimary,
-        contentTextStyle: GoogleFonts.poppins(
+        contentTextStyle: AppTypography.poppins(
           color: Colors.white,
           fontSize: 13,
           fontWeight: FontWeight.w500,
@@ -434,8 +498,12 @@ class AppTheme {
         surface: AppColors.bgCardDark,
         error: AppColors.error,
         brightness: Brightness.dark,
+        onPrimary: AppColors.textPrimary,
+        onSurface: AppColors.textPrimaryDark,
+        surfaceTint: Colors.transparent,
       ),
       textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(
+        fontFamilyFallback: AppTypography.fallbacks,
         bodyColor: AppColors.textPrimaryDark,
         displayColor: AppColors.textPrimaryDark,
       ),
@@ -446,7 +514,7 @@ class AppTheme {
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: AppColors.textPrimaryDark),
-        titleTextStyle: GoogleFonts.poppins(
+        titleTextStyle: AppTypography.poppins(
           fontSize: 17,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimaryDark,
@@ -481,7 +549,7 @@ class AppTheme {
             width: 1.5,
           ),
         ),
-        hintStyle: GoogleFonts.poppins(
+        hintStyle: AppTypography.poppins(
           color: AppColors.textSecondaryDark,
           fontSize: 14,
         ),
@@ -489,13 +557,13 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryLight,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.textPrimary,
           elevation: 0,
           minimumSize: const Size(double.infinity, 54),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: GoogleFonts.poppins(
+          textStyle: AppTypography.poppins(
             fontSize: 15,
             fontWeight: FontWeight.w700,
           ),

@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class RateOrderSheet extends StatefulWidget {
@@ -11,7 +12,7 @@ class RateOrderSheet extends StatefulWidget {
     super.key,
     required this.orderId,
     required this.storeName,
-    this.accentColor = const Color(0xFFF2855A),
+    this.accentColor = AppColors.primary,
     this.onSubmit,
   });
 
@@ -19,7 +20,7 @@ class RateOrderSheet extends StatefulWidget {
     BuildContext context, {
     required String orderId,
     required String storeName,
-    Color accentColor = const Color(0xFFF2855A),
+    Color accentColor = AppColors.primary,
     Function(int rating, String comment)? onSubmit,
   }) {
     return showModalBottomSheet(
@@ -39,7 +40,8 @@ class RateOrderSheet extends StatefulWidget {
   State<RateOrderSheet> createState() => _RateOrderSheetState();
 }
 
-class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProviderStateMixin {
+class _RateOrderSheetState extends State<RateOrderSheet>
+    with SingleTickerProviderStateMixin {
   int _rating = 0;
   int _hoveredStar = 0;
   final _commentCtrl = TextEditingController();
@@ -52,13 +54,18 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _entryCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 450));
-    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-      CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOutCubic),
+    _entryCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
     );
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOut),
-    );
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOutCubic));
+    _fadeAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOut));
     _entryCtrl.forward();
   }
 
@@ -71,12 +78,18 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
 
   String get _ratingLabel {
     switch (_rating) {
-      case 1: return 'Poor 😞';
-      case 2: return 'Fair 😐';
-      case 3: return 'Good 🙂';
-      case 4: return 'Great 😄';
-      case 5: return 'Amazing! 🤩';
-      default: return 'Tap to rate';
+      case 1:
+        return 'Poor 😞';
+      case 2:
+        return 'Fair 😐';
+      case 3:
+        return 'Good 🙂';
+      case 4:
+        return 'Great 😄';
+      case 5:
+        return 'Amazing! 🤩';
+      default:
+        return 'Tap to rate';
     }
   }
 
@@ -100,7 +113,9 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
           ),
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: SafeArea(
             top: false,
             child: _submitted ? _buildSuccess() : _buildForm(),
@@ -122,7 +137,10 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
               width: 40,
               height: 4,
               margin: const EdgeInsets.only(bottom: 20),
-              decoration: BoxDecoration(color: const Color(0xFFE0E0E0), borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE0E0E0),
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
 
@@ -133,7 +151,7 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
                 height: 52,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(Icons.star_rounded, color: color, size: 28),
               ),
@@ -142,8 +160,22 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Rate Your Order', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: Color(0xFF1A0A00), letterSpacing: -0.4)),
-                    Text(widget.storeName, style: const TextStyle(fontSize: 13, color: Color(0xFF888888))),
+                    const Text(
+                      'Rate Your Order',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                        letterSpacing: -0.4,
+                      ),
+                    ),
+                    Text(
+                      widget.storeName,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -155,16 +187,27 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8F8F8),
+              color: AppColors.bgLight,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFEEEEEE)),
+              border: Border.all(color: AppColors.divider),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.receipt_outlined, size: 14, color: Color(0xFF888888)),
+                const Icon(
+                  Icons.receipt_outlined,
+                  size: 14,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 6),
-                Text(widget.orderId, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF555555))),
+                Text(
+                  widget.orderId,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           ),
@@ -194,7 +237,9 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
                     child: Icon(
                       filled ? Icons.star_rounded : Icons.star_outline_rounded,
                       size: 46,
-                      color: filled ? const Color(0xFFFFB300) : const Color(0xFFDDDDDD),
+                      color: filled
+                          ? const Color(0xFFFFB300)
+                          : const Color(0xFFDDDDDD),
                     ),
                   ),
                 ),
@@ -212,7 +257,7 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: _rating > 0 ? color : const Color(0xFFAAAAAA),
+                color: _rating > 0 ? color : AppColors.textHint,
               ),
             ),
           ),
@@ -225,12 +270,15 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
             maxLength: 200,
             decoration: InputDecoration(
               hintText: 'Add a comment (optional)...',
-              hintStyle: const TextStyle(color: Color(0xFFBBBBBB), fontSize: 14),
-              fillColor: const Color(0xFFF8F8F8),
+              hintStyle: const TextStyle(
+                color: AppColors.textHint,
+                fontSize: 14,
+              ),
+              fillColor: AppColors.bgLight,
               filled: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: Color(0xFFEEEEEE)),
+                borderSide: const BorderSide(color: AppColors.divider),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -238,10 +286,13 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: Color(0xFFEEEEEE)),
+                borderSide: const BorderSide(color: AppColors.divider),
               ),
               contentPadding: const EdgeInsets.all(14),
-              counterStyle: const TextStyle(fontSize: 11, color: Color(0xFFBBBBBB)),
+              counterStyle: const TextStyle(
+                fontSize: 11,
+                color: AppColors.textHint,
+              ),
             ),
           ),
 
@@ -255,18 +306,28 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
               height: 56,
               decoration: BoxDecoration(
                 gradient: _rating > 0
-                    ? LinearGradient(colors: [color.withValues(alpha: 0.85), color])
-                    : const LinearGradient(colors: [Color(0xFFE0E0E0), Color(0xFFE0E0E0)]),
-                borderRadius: BorderRadius.circular(16),
+                    ? LinearGradient(
+                        colors: [color.withValues(alpha: 0.85), color],
+                      )
+                    : const LinearGradient(
+                        colors: [Color(0xFFE0E0E0), Color(0xFFE0E0E0)],
+                      ),
+                borderRadius: BorderRadius.circular(24),
                 boxShadow: _rating > 0
-                    ? [BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 14, offset: const Offset(0, 6))]
+                    ? [
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.3),
+                          blurRadius: 14,
+                          offset: const Offset(0, 6),
+                        ),
+                      ]
                     : [],
               ),
               child: Center(
                 child: Text(
                   'Submit Review',
                   style: TextStyle(
-                    color: _rating > 0 ? Colors.white : const Color(0xFF999999),
+                    color: _rating > 0 ? Colors.white : AppColors.textHint,
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                   ),
@@ -302,9 +363,20 @@ class _RateOrderSheetState extends State<RateOrderSheet> with SingleTickerProvid
             ),
           ),
           const SizedBox(height: 20),
-          const Text('Thanks for your review!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1A0A00), letterSpacing: -0.5)),
+          const Text(
+            'Thanks for your review!',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: AppColors.textPrimary,
+              letterSpacing: -0.5,
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('Your feedback helps us improve.', style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+          Text(
+            'Your feedback helps us improve.',
+            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+          ),
         ],
       ),
     );

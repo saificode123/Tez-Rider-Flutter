@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
@@ -137,12 +138,21 @@ class _OrderPaymentPanelState extends State<OrderPaymentPanel> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('${snapshot.method} · ${status.tr}'),
+        Text(
+          '${snapshot.method} · ${status.tr}',
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+        ),
         if (snapshot.amount != null)
           Text(
             "Order amount: PKR @slot0end".uiTr({
               "slot0end": (snapshot.amount!.toStringAsFixed(2)).toString(),
             }),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: AppColors.primaryDark,
+            ),
           ),
         if (snapshot.refunded != null && snapshot.refunded! > 0)
           Text(

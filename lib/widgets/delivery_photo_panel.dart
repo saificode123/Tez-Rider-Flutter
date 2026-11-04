@@ -82,7 +82,7 @@ class _DeliveryPhotoPanelState extends State<DeliveryPhotoPanel> {
     Localizations.localeOf(context);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Text("Delivery photo".tr),

@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -105,7 +106,7 @@ class _RiderEarningsPanelState extends State<RiderEarningsPanel> {
     final data = _data;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -142,7 +143,11 @@ class _RiderEarningsPanelState extends State<RiderEarningsPanel> {
             if (data != null && widget.orderId != null) ...[
               Text(
                 _money(data['expected_amount']),
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AppColors.primaryDark,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -.5,
+                ),
               ),
               Text(
                 '@slot0end base + @slot1end per km; minimum @slot2end'.uiTr({
@@ -173,7 +178,11 @@ class _RiderEarningsPanelState extends State<RiderEarningsPanel> {
                 'Total: @slot0end'.uiTr({
                   'slot0end': _money(data['total_amount']),
                 }),
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AppColors.primaryDark,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -.5,
+                ),
               ),
               if ((data['historical_unpriced_deliveries'] as int? ?? 0) > 0)
                 Text(

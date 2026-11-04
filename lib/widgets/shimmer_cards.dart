@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import '../theme/app_motion.dart';
@@ -10,13 +11,13 @@ class _ShimmerBase extends StatelessWidget {
   Widget build(BuildContext context) {
     if (AppMotion.reduced(context)) {
       return ColorFiltered(
-        colorFilter: const ColorFilter.mode(Color(0xFFE8E8E8), BlendMode.srcIn),
+        colorFilter: const ColorFilter.mode(AppColors.divider, BlendMode.srcIn),
         child: child,
       );
     }
     return Shimmer.fromColors(
-      baseColor: const Color(0xFFE8E8E8),
-      highlightColor: const Color(0xFFF5F5F5),
+      baseColor: AppColors.divider,
+      highlightColor: AppColors.bgLight,
       child: child,
     );
   }
@@ -27,7 +28,7 @@ Widget _box({double? width, double? height, double radius = 8}) {
     width: width,
     height: height,
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: AppColors.bgCard,
       borderRadius: BorderRadius.circular(radius),
     ),
   );
@@ -42,7 +43,7 @@ class ShimmerBanner extends StatelessWidget {
       child: Container(
         height: 170,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.bgCard,
           borderRadius: BorderRadius.circular(24),
         ),
       ),
@@ -89,8 +90,8 @@ class ShimmerCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        color: AppColors.bgCard,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -135,8 +136,8 @@ class ShimmerTrendingCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 14),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.bgCard,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -187,8 +188,8 @@ class ShimmerMetricGrid extends StatelessWidget {
       itemBuilder: (_, __) => Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          color: AppColors.bgCard,
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.04),

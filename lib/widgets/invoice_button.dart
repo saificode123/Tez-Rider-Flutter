@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,6 +52,13 @@ class _InvoiceButtonState extends State<InvoiceButton> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return TextButton.icon(
+      style: TextButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        backgroundColor: AppColors.primarySurface,
+        foregroundColor: AppColors.primaryDark,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      ),
       onPressed: _loading ? null : _show,
       icon: _loading
           ? const SizedBox(
@@ -58,7 +66,7 @@ class _InvoiceButtonState extends State<InvoiceButton> {
               height: 14,
               child: CircularProgressIndicator(strokeWidth: 2),
             )
-          : const Icon(Icons.receipt_long_outlined, size: 16),
+          : const Icon(Icons.receipt_long_outlined, size: 20),
       label: Text(_loading ? "Opening…".tr : "Invoice".tr),
     );
   }

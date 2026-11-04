@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,8 +14,8 @@ import '../screens/customer/notifications_screen.dart';
 import '../screens/admin_monitor_screen.dart';
 import 'biometric_settings_tile.dart';
 
-const _kGreen = Color(0xFF1B5E20);
-const _kGreenL = Color(0xFF388E3C);
+const _kGreen = AppColors.primary;
+const _kGreenL = AppColors.primaryDark;
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, required this.role});
@@ -33,13 +34,13 @@ class AppDrawer extends StatelessWidget {
     final initial = name.isNotEmpty ? name[0].toUpperCase() : 'U';
 
     return Drawer(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
           UserAccountsDrawerHeader(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF0D3B12), _kGreen, _kGreenL],
+                colors: [AppColors.primaryDark, _kGreen, _kGreenL],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -50,7 +51,7 @@ class AppDrawer extends StatelessWidget {
             ),
             accountEmail: Text(email),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.surface,
               child: Text(
                 initial,
                 style: const TextStyle(
@@ -63,7 +64,7 @@ class AppDrawer extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               children: [
                 _drawerItem(
                   icon: Icons.dashboard_rounded,
@@ -193,10 +194,17 @@ class AppDrawer extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: _kGreen),
+      leading: Container(
+        padding: const EdgeInsets.all(9),
+        decoration: BoxDecoration(
+          color: AppColors.primarySurface,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(icon, color: _kGreen, size: 22),
+      ),
       title: Text(text, style: const TextStyle(fontWeight: FontWeight.w500)),
       onTap: onTap,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     );
   }
 }

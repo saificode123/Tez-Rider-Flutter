@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
@@ -171,7 +172,7 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
                 height: 52,
                 fit: BoxFit.cover,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,11 +223,11 @@ class _RiderIdentityCardState extends State<RiderIdentityCard> {
                     size: 16,
                   ),
                   backgroundColor: i == current
-                      ? const Color(0xFFE8F5E9)
-                      : const Color(0xFFF2F3F4),
+                      ? AppColors.primarySurface
+                      : AppColors.bgLight,
                   label: Text(
                     labels[i].tr,
-                    style: const TextStyle(color: Color(0xFF263238)),
+                    style: const TextStyle(color: AppColors.textPrimary),
                   ),
                 ),
             ],

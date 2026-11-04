@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/stock_indicator.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class RecommendationCard extends StatelessWidget {
   final ProductModel product;
   final VoidCallback? onAddToCart;
 
-  static const _purple = Color(0xFF1B5E20);
+  static const _purple = AppColors.primary;
 
   const RecommendationCard({
     super.key,
@@ -22,15 +23,13 @@ class RecommendationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Container(
-      width: 140,
+      width: 168,
       margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200, width: 1),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 8),
-        ],
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.divider, width: 1),
+        boxShadow: AppShadow.soft,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -38,33 +37,39 @@ class RecommendationCard extends StatelessWidget {
         children: [
           // Product Image
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: product.imageUrl.isNotEmpty
                 ? ProductImage(
                     imageUrl: product.imageUrl,
                     width: double.infinity,
-                    height: 100,
+                    height: 110,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
-                      height: 100,
-                      color: Colors.grey.shade200,
-                      child: const Icon(Icons.image, color: Colors.grey),
+                      height: 110,
+                      color: AppColors.bgSection,
+                      child: const Icon(Icons.image, color: AppColors.textHint),
                     ),
                     errorWidget: (context, url, error) => Container(
-                      height: 100,
-                      color: Colors.grey.shade200,
-                      child: const Icon(Icons.fastfood, color: Colors.grey),
+                      height: 110,
+                      color: AppColors.bgSection,
+                      child: const Icon(
+                        Icons.fastfood,
+                        color: AppColors.textHint,
+                      ),
                     ),
                   )
                 : Container(
-                    height: 100,
-                    color: Colors.grey.shade200,
-                    child: const Icon(Icons.fastfood, color: Colors.grey),
+                    height: 110,
+                    color: AppColors.bgSection,
+                    child: const Icon(
+                      Icons.fastfood,
+                      color: AppColors.textHint,
+                    ),
                   ),
           ),
           // Product Details
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -75,7 +80,7 @@ class RecommendationCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                    fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -86,13 +91,13 @@ class RecommendationCard extends StatelessWidget {
                   style: const TextStyle(
                     color: _purple,
                     fontWeight: FontWeight.bold,
-                    fontSize: 11,
+                    fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 6),
                 SizedBox(
                   width: double.infinity,
-                  height: 28,
+                  height: 44,
                   child: ElevatedButton(
                     onPressed: product.isPurchasable
                         ? () async {
@@ -124,13 +129,13 @@ class RecommendationCard extends StatelessWidget {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: Text(
                       "Add".tr,
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
