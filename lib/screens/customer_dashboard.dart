@@ -780,11 +780,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               text: "Hello, @slot0end ".uiTr({
                                 "slot0end": (_userName).toString(),
                               }),
-                              style: const TextStyle(
+                              style: AppTypography.poppins(
                                 color: AppColors.textPrimary,
                                 fontSize: 28,
                                 fontWeight: FontWeight.w900,
-                                fontFamily: 'Poppins',
                                 letterSpacing: -0.5,
                               ),
                             ),
