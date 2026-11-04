@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/theme/app_theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/private_photo_service.dart';
 import 'package:flutter_application_1/widgets/private_photo_editor.dart';
@@ -42,7 +43,7 @@ void main() {
     expect(find.byIcon(Icons.radio_button_checked), findsOneWidget);
     expect(find.text('CNIC unavailable in this record.'), findsOneWidget);
     final label = t.widget<Text>(find.text('Placed'));
-    expect(label.style?.color, const Color(0xFF263238));
+    expect(label.style?.color, AppColors.textPrimary);
     await t.pumpWidget(const SizedBox());
   });
   testWidgets(
