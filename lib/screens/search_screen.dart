@@ -15,7 +15,6 @@ const _kBg = AppColors.bgLight;
 const _kCard = Color(0xFFFFFFFF);
 const _kText = AppColors.textPrimary;
 const _kTextSub = AppColors.textSecondary;
-const _kSaffron = Color(0xFFF59E0B);
 const _kGreen = Color(0xFF10B981);
 
 class SearchScreen extends StatefulWidget {
@@ -199,6 +198,10 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -215,9 +218,10 @@ class _SearchScreenState extends State<SearchScreen> {
           style: const TextStyle(color: Colors.white, fontSize: 15),
           cursorColor: Colors.white70,
           decoration: InputDecoration(
+            filled: false,
             hintText: "Search food, groceries, stores...".tr,
             hintStyle: TextStyle(
-              color: Colors.white.withValues(alpha: 0.60),
+              color: Colors.white.withValues(alpha: 0.88),
               fontSize: 14,
             ),
             border: InputBorder.none,
@@ -416,7 +420,7 @@ class _SearchScreenState extends State<SearchScreen> {
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: _kCard,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
               color: _kPurple.withValues(alpha: 0.07),
@@ -476,9 +480,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             "slot0end": (price).toString(),
                           }),
                           style: const TextStyle(
-                            color: _kSaffron,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 14,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
                           ),
                         ),
                         const SizedBox(width: 8),

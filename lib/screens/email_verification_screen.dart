@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -117,50 +118,58 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     Localizations.localeOf(context);
     final busy = _service.busy || _checking;
     return Scaffold(
-      appBar: AppBar(title: Text('Verify your email'.tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text('Verify your email'.tr),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Open the genuine email confirmation link. Email verification does not approve Rider identity.'
-                    .tr,
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _email,
-                enabled: !busy,
-                keyboardType: TextInputType.emailAddress,
-                maxLength: 254,
-                decoration: InputDecoration(labelText: 'Email'.tr),
-              ),
-              if (busy) const LinearProgressIndicator(),
-              if (_notice != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text(_notice!.tr),
-                ),
-              FilledButton(
-                onPressed: busy || _service.remainingSeconds > 0
-                    ? null
-                    : _resend,
-                child: Text('Resend verification email'.tr),
-              ),
-              if (_service.remainingSeconds > 0)
+          child: SpatialSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Text(
-                  '${'Retry in'.tr} ${_service.remainingSeconds} ${'seconds'.tr}',
+                  'Open the genuine email confirmation link. Email verification does not approve Rider identity.'
+                      .tr,
                 ),
-              TextButton(
-                onPressed: busy ? null : _check,
-                child: Text('I have verified my email'.tr),
-              ),
-              TextButton(
-                onPressed: busy ? null : () => Get.offAllNamed('/login'),
-                child: Text('Return to Login'.tr),
-              ),
-            ],
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _email,
+                  enabled: !busy,
+                  keyboardType: TextInputType.emailAddress,
+                  maxLength: 254,
+                  decoration: InputDecoration(labelText: 'Email'.tr),
+                ),
+                if (busy) const LinearProgressIndicator(),
+                if (_notice != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text(_notice!.tr),
+                  ),
+                FilledButton(
+                  onPressed: busy || _service.remainingSeconds > 0
+                      ? null
+                      : _resend,
+                  child: Text('Resend verification email'.tr),
+                ),
+                if (_service.remainingSeconds > 0)
+                  Text(
+                    '${'Retry in'.tr} ${_service.remainingSeconds} ${'seconds'.tr}',
+                  ),
+                TextButton(
+                  onPressed: busy ? null : _check,
+                  child: Text('I have verified my email'.tr),
+                ),
+                TextButton(
+                  onPressed: busy ? null : () => Get.offAllNamed('/login'),
+                  child: Text('Return to Login'.tr),
+                ),
+              ],
+            ),
           ),
         ),
       ),

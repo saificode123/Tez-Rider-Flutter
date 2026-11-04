@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter/material.dart';
 
 /// Constructor retained for compatibility. Never simulate a payment capture.
@@ -12,10 +13,16 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Payment unavailable')),
+    appBar: AppBar(
+      toolbarHeight: 64,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+      ),
+      title: const Text('Payment unavailable'),
+    ),
     body: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
+      child: SpatialSurface(
+        margin: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

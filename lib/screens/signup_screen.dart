@@ -469,8 +469,9 @@ class _SignupScreenState extends State<SignupScreen> {
     return Container(
       constraints: BoxConstraints(minHeight: headerHeight),
       decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(36)),
         gradient: LinearGradient(
-          colors: [const Color(0xFF0F351B), _selectedRoleColor],
+          colors: [AppColors.primaryDark, _selectedRoleColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -566,7 +567,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Text(
                           "Join TezRider today".tr,
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.65),
+                            color: Colors.white.withValues(alpha: 0.90),
                             fontSize: 13,
                           ),
                         ),
@@ -586,7 +587,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: AppColors.divider),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -797,7 +798,7 @@ class _SignupScreenState extends State<SignupScreen> {
             gradient: _loading
                 ? null
                 : LinearGradient(
-                    colors: [const Color(0xFF0F351B), _selectedRoleColor],
+                    colors: [AppColors.primaryDark, _selectedRoleColor],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),

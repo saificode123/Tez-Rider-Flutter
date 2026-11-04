@@ -1,3 +1,4 @@
+import '../../widgets/spatial_surface.dart';
 import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
@@ -14,7 +15,6 @@ import '../../widgets/language_settings_tile.dart';
 
 const _kPurple = AppColors.primaryDark;
 const _kBg = AppColors.bgLight;
-const _kCard = Color(0xFFFFFFFF);
 const _kTextSub = AppColors.textSecondary;
 
 class ProfileScreen extends StatefulWidget {
@@ -162,6 +162,10 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -242,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF1B5E20), Color(0xFF388E3C)],
+                        colors: [AppColors.primaryDark, AppColors.primary],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -307,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF1B5E20), Color(0xFF388E3C)],
+                        colors: [AppColors.primaryDark, AppColors.primary],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
@@ -361,19 +365,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                   const SizedBox(height: 24),
 
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _kCard,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: _kPurple.withValues(alpha: 0.07),
-                          blurRadius: 14,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(20),
+                  SpatialSurface(
+                    padding: const EdgeInsets.all(24),
                     child: Column(
                       children: [
                         _field(
@@ -465,7 +458,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         backgroundColor: _kPurple,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(22),
                         ),
                         elevation: 0,
                       ),

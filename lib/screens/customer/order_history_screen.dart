@@ -136,6 +136,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -295,7 +299,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                   height: 52,
                   decoration: BoxDecoration(
                     color: col.withValues(alpha: 0.10),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   child: Center(
                     child: Text(

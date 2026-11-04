@@ -320,6 +320,10 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -444,7 +448,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(22),
               ),
             ),
           ),

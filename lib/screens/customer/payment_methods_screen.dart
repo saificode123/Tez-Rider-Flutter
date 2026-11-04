@@ -11,7 +11,13 @@ class PaymentMethodsScreen extends StatelessWidget {
     Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-      appBar: AppBar(title: Text('Payment Methods'.tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text('Payment Methods'.tr),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(AppSpace.xl),
         children: [

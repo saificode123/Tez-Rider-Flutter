@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/chat_controller.dart';
@@ -60,9 +61,13 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F1F9),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B5E20),
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        backgroundColor: AppColors.primary,
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -108,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Obx(() {
               if (chatCtrl.isLoading.value) {
                 return const Center(
-                  child: CircularProgressIndicator(color: Color(0xFF1B5E20)),
+                  child: CircularProgressIndicator(color: AppColors.primary),
                 );
               }
               if (chatCtrl.messages.isEmpty) {
@@ -138,7 +143,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: isMe ? const Color(0xFF1B5E20) : Colors.white,
+                        color: isMe ? AppColors.primary : Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16),
                           topRight: const Radius.circular(16),
@@ -209,7 +214,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.grey,
                     ),
                     onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Secure attachments are not configured. No file was attached.')),
+                      const SnackBar(
+                        content: Text(
+                          'Secure attachments are not configured. No file was attached.',
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -241,7 +250,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: const BoxDecoration(
-                        color: Color(0xFF1B5E20),
+                        color: AppColors.primary,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

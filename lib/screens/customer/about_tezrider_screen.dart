@@ -24,6 +24,10 @@ class AboutTezRiderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -53,7 +57,7 @@ class AboutTezRiderScreen extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF0D3B12), _kPurple],
+                  colors: [AppColors.primaryDark, _kPurple],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -245,7 +249,7 @@ class AboutTezRiderScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: _kCard,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             boxShadow: [
               BoxShadow(
                 color: _kPurple.withValues(alpha: 0.06),

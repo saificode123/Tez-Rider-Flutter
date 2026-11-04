@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -89,55 +90,63 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
     return PopScope(
       canPop: !busy && !_updated,
       child: Scaffold(
-        appBar: AppBar(title: Text('Change password'.tr)),
+        appBar: AppBar(
+          toolbarHeight: 64,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+          ),
+          title: Text('Change password'.tr),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Enter a strong, unique new password here. Never share it in chat.'
-                      .tr,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _password,
-                  enabled: !busy && !_updated,
-                  obscureText: true,
-                  autocorrect: false,
-                  enableSuggestions: false,
-                  autofillHints: const [AutofillHints.newPassword],
-                  decoration: InputDecoration(labelText: 'New password'.tr),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _confirmation,
-                  enabled: !busy && !_updated,
-                  obscureText: true,
-                  autocorrect: false,
-                  enableSuggestions: false,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm new password'.tr,
+            child: SpatialSurface(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Enter a strong, unique new password here. Never share it in chat.'
+                        .tr,
                   ),
-                ),
-                if (busy) const LinearProgressIndicator(),
-                if (_notice != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(_notice!.tr),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _password,
+                    enabled: !busy && !_updated,
+                    obscureText: true,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    autofillHints: const [AutofillHints.newPassword],
+                    decoration: InputDecoration(labelText: 'New password'.tr),
                   ),
-                if (!_updated)
-                  FilledButton(
-                    onPressed: busy ? null : _change,
-                    child: Text('Update password'.tr),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _confirmation,
+                    enabled: !busy && !_updated,
+                    obscureText: true,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm new password'.tr,
+                    ),
                   ),
-                if (_updated)
-                  FilledButton(
-                    onPressed: busy ? null : _finish,
-                    child: Text('Sign out all sessions'.tr),
-                  ),
-              ],
+                  if (busy) const LinearProgressIndicator(),
+                  if (_notice != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(_notice!.tr),
+                    ),
+                  if (!_updated)
+                    FilledButton(
+                      onPressed: busy ? null : _change,
+                      child: Text('Update password'.tr),
+                    ),
+                  if (_updated)
+                    FilledButton(
+                      onPressed: busy ? null : _finish,
+                      child: Text('Sign out all sessions'.tr),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

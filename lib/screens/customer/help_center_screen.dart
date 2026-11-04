@@ -98,6 +98,10 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _kPurple,
         elevation: 0,
         leading: IconButton(
@@ -205,7 +209,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: _kCard,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
         boxShadow: [
           BoxShadow(
             color: _kPurple.withValues(alpha: 0.06),
@@ -290,7 +294,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
             height: 52,
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(22),
             ),
             child: Center(
               child: Text(emoji, style: const TextStyle(fontSize: 26)),

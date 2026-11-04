@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import '../widgets/product_image.dart';
 import '../widgets/stock_indicator.dart';
@@ -14,21 +15,25 @@ class ProductScreen extends StatelessWidget {
   final CartController cart = Get.find<CartController>();
   final ProductController productCtrl = Get.find<ProductController>();
 
-  static const _purple = Color(0xFF1B5E20);
+  static const _purple = AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
         title: Text(
           vendor['name'] ?? "Vendor".tr,
           style: const TextStyle(
-            color: Color(0xFF1A0533),
+            color: AppColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -106,7 +111,7 @@ class ProductScreen extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.04),
@@ -193,7 +198,7 @@ class ProductScreen extends StatelessWidget {
                                             "slot0end": (p.name).toString(),
                                           }),
                                           backgroundColor: Colors.white,
-                                          colorText: const Color(0xFF1A0533),
+                                          colorText: AppColors.textPrimary,
                                           snackPosition: SnackPosition.BOTTOM,
                                           margin: const EdgeInsets.all(16),
                                         );

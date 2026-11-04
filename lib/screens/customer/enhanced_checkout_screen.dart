@@ -1,3 +1,5 @@
+import '../../widgets/spatial_surface.dart';
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -60,7 +62,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     store: SecureCheckoutRequestStore(expectedAccount: widget.customerId),
   );
 
-  static const Color _purple = Color(0xFF1B5E20);
+  static const Color _purple = AppColors.primary;
 
   // ===== NEW VARIABLES =====
 
@@ -281,7 +283,13 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
     setState(() => _selectingDestination = true);
     final point = await Get.dialog<LatLng>(
       Scaffold(
-        appBar: AppBar(title: Text("Select Delivery Location".tr)),
+        appBar: AppBar(
+          toolbarHeight: 64,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+          ),
+          title: Text("Select Delivery Location".tr),
+        ),
 
         body: FlutterMap(
           options: MapOptions(
@@ -568,9 +576,11 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: selected ? Colors.green.withValues(alpha: 0.06) : Colors.white,
+          color: selected
+              ? AppColors.primary.withValues(alpha: 0.06)
+              : Colors.white,
           border: Border.all(
-            color: selected ? Colors.green : Colors.grey.shade300,
+            color: selected ? AppColors.primary : Colors.grey.shade300,
             width: selected ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(12),
@@ -581,7 +591,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
               selected
                   ? Icons.radio_button_checked
                   : Icons.radio_button_unchecked,
-              color: selected ? Colors.green : Colors.grey,
+              color: selected ? AppColors.primary : Colors.grey,
               size: 22,
             ),
             const SizedBox(width: 12),
@@ -609,7 +619,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
-                color: selected ? Colors.green : Colors.grey.shade700,
+                color: selected ? AppColors.primary : Colors.grey.shade700,
               ),
             ),
           ],
@@ -622,102 +632,125 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Checkout".tr), backgroundColor: _purple),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text("Checkout".tr),
+        backgroundColor: _purple,
+        foregroundColor: Colors.white,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Contact Details
-            Text(
-              "Contact Details".tr,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            SpatialSurface(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// Contact Details
+                  Text(
+                    "Contact Details".tr,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
 
-            const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-            TextField(
-              controller: _nameCtrl,
-              decoration: InputDecoration(
-                hintText: "Full name".tr,
-                prefixIcon: const Icon(Icons.person_outline),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            TextField(
-              controller: _phoneCtrl,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: "Phone number".tr,
-                prefixIcon: const Icon(Icons.phone_outlined),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            TextField(
-              controller: _emailCtrl,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                hintText: "Email address".tr,
-                prefixIcon: const Icon(Icons.email_outlined),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            /// Delivery Address
-            Text(
-              "Delivery Address".tr,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            TextField(
-              controller: _addressCtrl,
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: "Select delivery location".tr,
-                prefixIcon: const Icon(Icons.location_on),
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.my_location),
-                      tooltip: "My Location".tr,
-                      onPressed: _isProcessing || _selectingDestination
-                          ? null
-                          : _getCurrentLocation,
+                  TextField(
+                    controller: _nameCtrl,
+                    decoration: InputDecoration(
+                      hintText: "Full name".tr,
+                      prefixIcon: const Icon(Icons.person_outline),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
+                  ),
 
-                    IconButton(
-                      icon: const Icon(Icons.map),
-                      tooltip: "Choose delivery pin".tr,
-                      onPressed: _isProcessing || _selectingDestination
-                          ? null
-                          : _selectLocationOnMap,
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    controller: _phoneCtrl,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      hintText: "Phone number".tr,
+                      prefixIcon: const Icon(Icons.phone_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ],
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    controller: _emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      hintText: "Email address".tr,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+                ],
               ),
             ),
+            const SizedBox(height: 20),
+            SpatialSurface(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// Delivery Address
+                  Text(
+                    "Delivery Address".tr,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
 
-            const SizedBox(height: 25),
+                  const SizedBox(height: 10),
+
+                  TextField(
+                    controller: _addressCtrl,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: "Select delivery location".tr,
+                      prefixIcon: const Icon(Icons.location_on),
+                      suffixIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.my_location),
+                            tooltip: "My Location".tr,
+                            onPressed: _isProcessing || _selectingDestination
+                                ? null
+                                : _getCurrentLocation,
+                          ),
+
+                          IconButton(
+                            icon: const Icon(Icons.map),
+                            tooltip: "Choose delivery pin".tr,
+                            onPressed: _isProcessing || _selectingDestination
+                                ? null
+                                : _selectLocationOnMap,
+                          ),
+                        ],
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
 
             /// Payment Method
             Text(
@@ -798,7 +831,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
             /// Order Summary
             Card(
-              elevation: 2,
+              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(

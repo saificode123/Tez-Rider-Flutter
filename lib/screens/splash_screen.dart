@@ -288,7 +288,7 @@ class _SplashScreenState extends State<SplashScreen>
                               shape: BoxShape.circle,
                               gradient: const LinearGradient(
                                 colors: [
-                                  Color(0xFF388E3C),
+                                  AppColors.primaryLight,
                                   AppColors.primaryLight,
                                 ],
                                 begin: Alignment.topLeft,

@@ -15,13 +15,13 @@ import '../services/inventory_service.dart';
 import '../services/feedback_service.dart';
 import '../widgets/stock_indicator.dart';
 
-const _kGreen = Color(0xFF1B5E20);
-const _kGreenL = Color(0xFF388E3C);
+const _kGreen = AppColors.primary;
+const _kGreenL = AppColors.primary;
 const _kSaffron = Color(0xFFF59E0B);
 const _kPink = Color(0xFFEC4899);
 const _kText = AppColors.textPrimary;
 const _kTextSub = AppColors.textSecondary;
-const _kBg = Color(0xFFF5F6FA);
+const _kBg = AppColors.bgLight;
 
 class ProductDetailScreen extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -308,8 +308,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: imageUrl.isNotEmpty
                     ? ProductImage(
                         imageUrl: imageUrl,
-                        fit: BoxFit
-                            .contain, // never crops or over-zooms, whatever the window size
+                        fit: BoxFit.cover,
                         placeholder: (_, __) => Container(
                           color: _kGreen.withValues(alpha: 0.15),
                           child: const Center(
@@ -328,9 +327,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(36)),
               ),
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
+              padding: const EdgeInsets.fromLTRB(24, 28, 24, 36),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -406,9 +405,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Text(
                     "PKR @slot0end".uiTr({"slot0end": (price).toString()}),
                     style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                      color: _kSaffron,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary,
                     ),
                   ),
 
@@ -439,8 +438,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF8F8F8),
-                        borderRadius: BorderRadius.circular(16),
+                        color: AppColors.bgSection,
+                        borderRadius: BorderRadius.circular(22),
                         border: Border.all(color: Colors.grey.shade100),
                       ),
                       child: Column(
@@ -763,7 +762,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: AppColors.bgSection,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.grey.shade100),
       ),

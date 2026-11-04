@@ -1,3 +1,4 @@
+import '../../widgets/spatial_surface.dart';
 import '../../widgets/prescription_order_panel.dart';
 import '../../widgets/post_pickup_cancellation_card.dart';
 import 'package:get/get.dart';
@@ -94,9 +95,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   String status(dynamic raw) =>
       (raw?.toString() ?? 'unknown').replaceAll('_', ' ');
-  Widget section(String title, List<Widget> children) => Card(
+  Widget section(String title, List<Widget> children) => SpatialSurface(
+    margin: const EdgeInsets.only(bottom: 12),
+    padding: EdgeInsets.zero,
     child: Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -113,6 +116,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final current = detail;
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         title: Text(
           "Order #@slot0end details".uiTr({
             "slot0end": (widget.orderId).toString(),

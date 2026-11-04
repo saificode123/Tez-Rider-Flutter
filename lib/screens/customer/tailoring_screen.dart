@@ -1,3 +1,4 @@
+import '../../theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +26,7 @@ class _TailoringScreenState extends State<TailoringScreen> {
 
   String? _reference;
 
-  static const _purple = Color(0xFF1B5E20);
+  static const _purple = AppColors.primary;
 
   void _submit() async {
     if (_instructionsCtrl.text.trim().isEmpty) {
@@ -63,8 +64,12 @@ class _TailoringScreenState extends State<TailoringScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F1F9),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         backgroundColor: _purple,
         title: Text(
           'Home Tailoring'.tr,
@@ -147,7 +152,7 @@ class _TailoringScreenState extends State<TailoringScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(22),
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -217,7 +222,7 @@ class _TailoringScreenState extends State<TailoringScreen> {
                           backgroundColor: _purple,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(22),
                           ),
                         ),
                         child: _tailorCtrl.isSubmitting.value

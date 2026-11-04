@@ -17,6 +17,10 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         title: Text(
           "Notifications".tr,
           style: TextStyle(
@@ -69,7 +73,7 @@ class NotificationsScreen extends StatelessWidget {
         }
         if (notifCtrl.isLoading.value && notifCtrl.notifications.isEmpty) {
           return const Center(
-            child: CircularProgressIndicator(color: Color(0xFF1B5E20)),
+            child: CircularProgressIndicator(color: AppColors.primary),
           );
         }
 
@@ -99,7 +103,7 @@ class NotificationsScreen extends StatelessWidget {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           itemCount:
               notifCtrl.notifications.length +
               (notifCtrl.hasMore.value ? 1 : 0),
@@ -124,16 +128,16 @@ class NotificationsScreen extends StatelessWidget {
               },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: isRead
                       ? Colors.white
-                      : const Color(0xFF1B5E20).withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(16),
+                      : AppColors.primary.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(22),
                   border: isRead
                       ? Border.all(color: Colors.black.withValues(alpha: 0.05))
                       : Border.all(
-                          color: const Color(0xFF1B5E20).withValues(alpha: 0.3),
+                          color: AppColors.primary.withValues(alpha: 0.3),
                         ),
                 ),
                 child: Row(
@@ -144,14 +148,14 @@ class NotificationsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isRead
                             ? Colors.grey.shade100
-                            : const Color(0xFF1B5E20).withValues(alpha: 0.1),
+                            : AppColors.primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         isRead
                             ? Icons.notifications_none
                             : Icons.notifications_active,
-                        color: isRead ? Colors.grey : const Color(0xFF1B5E20),
+                        color: isRead ? Colors.grey : AppColors.primary,
                         size: 24,
                       ),
                     ),
@@ -165,7 +169,7 @@ class NotificationsScreen extends StatelessWidget {
                               "Admin broadcast".tr,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Color(0xFF1B5E20),
+                                color: AppColors.primary,
                               ),
                             ),
                           Text(
@@ -174,7 +178,7 @@ class NotificationsScreen extends StatelessWidget {
                               fontWeight: isRead
                                   ? FontWeight.w600
                                   : FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 15,
                             ),
                           ),
                           const SizedBox(height: 6),

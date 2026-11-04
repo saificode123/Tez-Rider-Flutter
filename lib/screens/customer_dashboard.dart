@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import '../widgets/product_card_summary.dart';
 import '../theme/app_motion.dart';
 import '../theme/app_theme.dart';
@@ -207,10 +208,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     try {
       final page = await CatalogueService().load(limit: 4);
       const gradients = [
-        [Color(0xFFFF6B35), Color(0xFFFF3B00)],
-        [Color(0xFF10B981), Color(0xFF059669)],
-        [Color(0xFF1B5E20), Color(0xFF2E7D32)],
-        [Color(0xFFF59E0B), Color(0xFFD97706)],
+        [AppColors.primary, AppColors.primaryDark],
+        [Color(0xFF7B4339), Color(0xFFAA6555)],
+        [Color(0xFF34302E), Color(0xFF62544E)],
+        [Color(0xFF9E5B2D), Color(0xFFC07B49)],
       ];
       final mapped = page.items.asMap().entries.map((entry) {
         final product = entry.value;
@@ -434,45 +435,30 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   Widget _buildBottomNav() {
     return FadeTransition(
       opacity: _navFade,
-      child: SafeArea(
-        child: Container(
-          height: 72,
-          margin: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-          decoration: BoxDecoration(
-            color: _kCard,
-            borderRadius: BorderRadius.circular(36),
-            boxShadow: [
-              BoxShadow(
-                color: _kPurple.withValues(alpha: 0.14),
-                blurRadius: 30,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _navItem(0, Icons.home_rounded, Icons.home_outlined, "Home".tr),
-              _navItem(
-                1,
-                Icons.receipt_long_rounded,
-                Icons.receipt_long_outlined,
-                "Orders".tr,
-              ),
-              _navItem(
-                2,
-                Icons.bolt_rounded,
-                Icons.bolt_outlined,
-                "TezRaftar".tr,
-              ),
-              _navItem(
-                3,
-                Icons.person_rounded,
-                Icons.person_outline_rounded,
-                "Me".tr,
-              ),
-            ],
-          ),
+      child: SpatialBottomBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _navItem(0, Icons.home_rounded, Icons.home_outlined, "Home".tr),
+            _navItem(
+              1,
+              Icons.receipt_long_rounded,
+              Icons.receipt_long_outlined,
+              "Orders".tr,
+            ),
+            _navItem(
+              2,
+              Icons.bolt_rounded,
+              Icons.bolt_outlined,
+              "TezRaftar".tr,
+            ),
+            _navItem(
+              3,
+              Icons.person_rounded,
+              Icons.person_outline_rounded,
+              "Me".tr,
+            ),
+          ],
         ),
       ),
     );
@@ -555,8 +541,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(child: _buildHeroBanner()),
-          SliverToBoxAdapter(child: _buildFeaturedSection()),
           SliverToBoxAdapter(child: _buildCategoriesSection()),
+          SliverToBoxAdapter(child: _buildFeaturedSection()),
           SliverToBoxAdapter(child: _buildProductsSection()),
           const SliverToBoxAdapter(child: SizedBox(height: 140)),
         ],
@@ -571,12 +557,14 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         opacity: _heroFade,
         child: Container(
           decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(36)),
             gradient: LinearGradient(
               colors: [AppColors.primaryDark, AppColors.primary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
+          clipBehavior: Clip.antiAlias,
           child: Stack(
             children: [
               Positioned(
@@ -619,8 +607,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 Scaffold.of(ctx).openDrawer();
                               },
                               child: Container(
-                                width: 42,
-                                height: 42,
+                                width: 48,
+                                height: 48,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(14),
@@ -633,38 +621,44 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               ),
                             ),
                           ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 7,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 6,
-                                  height: 6,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF6EE7B7),
-                                    shape: BoxShape.circle,
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF6EE7B7),
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  "My Location".tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                  const SizedBox(width: 6),
+                                  Flexible(
+                                    child: Text(
+                                      "My Location".tr,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 3),
-                              ],
+                                  const SizedBox(width: 3),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -676,8 +670,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 clipBehavior: Clip.none,
                                 children: [
                                   Container(
-                                    width: 42,
-                                    height: 42,
+                                    width: 48,
+                                    height: 48,
                                     decoration: BoxDecoration(
                                       color: Colors.white.withValues(
                                         alpha: 0.15,
@@ -729,8 +723,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 clipBehavior: Clip.none,
                                 children: [
                                   Container(
-                                    width: 42,
-                                    height: 42,
+                                    width: 48,
+                                    height: 48,
                                     decoration: BoxDecoration(
                                       color: Colors.white.withValues(
                                         alpha: 0.15,
@@ -810,7 +804,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           height: 52,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(22),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.12),
@@ -1433,9 +1427,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       children: [
         Expanded(child: Column(children: leftCol)),
         const SizedBox(width: 12),
-        Expanded(
-          child: Column(children: [const SizedBox(height: 24), ...rightCol]),
-        ),
+        Expanded(child: Column(children: rightCol)),
       ],
     );
   }
@@ -1450,8 +1442,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       Color(0xFF8B5CF6),
     ];
     final accent = accents[index % accents.length];
-    const double cardImageHeight =
-        120; // compact, consistent size for every card — matches reference-style listing
+    const double cardImageHeight = 148;
 
     final anim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _cardAnims[animIndex], curve: AppMotion.curve),
@@ -1486,10 +1477,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             margin: const EdgeInsets.only(bottom: 14),
             decoration: BoxDecoration(
               color: _kCard,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppColors.divider),
               boxShadow: [
                 BoxShadow(
-                  color: _kPurple.withValues(alpha: 0.08),
+                  color: AppColors.textPrimary.withValues(alpha: 0.05),
                   blurRadius: 18,
                   offset: const Offset(0, 6),
                 ),
@@ -1500,7 +1492,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
+                    top: Radius.circular(24),
                   ),
                   child: Stack(
                     children: [
@@ -1514,8 +1506,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           child: p.imageUrl.isNotEmpty
                               ? ProductImage(
                                   imageUrl: p.imageUrl,
-                                  fit: BoxFit
-                                      .contain, // never crops — always shows the full photo
+                                  fit: BoxFit.cover,
                                   placeholder: (_, __) => _shimmerBox(
                                     double.infinity,
                                     cardImageHeight,
@@ -2060,7 +2051,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   height: 52,
                   decoration: BoxDecoration(
                     color: col.withValues(alpha: 0.10),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   child: Center(
                     child: Text(
@@ -2161,7 +2152,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF0D3B12), _kPurple],
+                  colors: [AppColors.primaryDark, _kPurple],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -2195,7 +2186,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(22),
                             ),
                             child: const Text(
                               '⚡',
@@ -2381,7 +2372,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color: _kCard,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(22),
           border: Border.all(color: color.withValues(alpha: 0.20)),
           boxShadow: [
             BoxShadow(
@@ -2429,7 +2420,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF0D3B12), _kPurple, _kPurpleL],
+                  colors: [AppColors.primaryDark, _kPurple, _kPurpleL],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -2795,7 +2786,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         decoration: BoxDecoration(
                           color: _kBg,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(22),
                         ),
                         child: Center(
                           child: Text(
@@ -2821,7 +2812,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         decoration: BoxDecoration(
                           color: _kPink.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(22),
                           border: Border.all(
                             color: _kPink.withValues(alpha: 0.30),
                           ),

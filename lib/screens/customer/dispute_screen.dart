@@ -74,7 +74,13 @@ class _DisputeScreenState extends State<DisputeScreen> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Submit dispute".tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text("Submit dispute".tr),
+      ),
       body: Obx(
         () => controller.loading.value
             ? const Center(child: CircularProgressIndicator())
@@ -329,6 +335,10 @@ class _DisputeHistoryScreenState extends State<DisputeHistoryScreen> {
     Localizations.localeOf(context);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         title: Text("My disputes".tr),
         actions: [
           IconButton(
@@ -426,7 +436,13 @@ class _DisputeDetailScreenState extends State<DisputeDetailScreen> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Dispute details".tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text("Dispute details".tr),
+      ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : detail == null

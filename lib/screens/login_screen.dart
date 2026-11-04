@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'email_verification_screen.dart';
@@ -379,42 +380,13 @@ class _LoginScreenState extends State<LoginScreen>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const SizedBox(height: 12),
-                            Center(
-                              child: Container(
-                                width: 76,
-                                height: 76,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.xl,
-                                  ),
-                                  boxShadow: AppShadow.soft,
-                                ),
-                                child: const Icon(
-                                  Icons.delivery_dining_rounded,
-                                  size: 42,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 18),
-                            Text(
-                              'TEZRIDER'.tr,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 2,
-                                  ),
-                            ),
                             const SizedBox(height: 8),
-                            Text(
-                              'Welcome back'.tr,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.titleLarge,
+                            SpatialPageHeader(
+                              title: 'TEZRIDER'.tr,
+                              subtitle: 'Welcome back'.tr,
+                              icon: Icons.delivery_dining_rounded,
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: 20),
                             AnimatedSwitcher(
                               duration: AppMotion.duration(context),
                               child: Text(
@@ -430,9 +402,10 @@ class _LoginScreenState extends State<LoginScreen>
                               position: _cardSlide,
                               child: FadeTransition(
                                 opacity: _cardFade,
-                                child: Card(
+                                child: SpatialSurface(
+                                  padding: EdgeInsets.zero,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(20),
+                                    padding: const EdgeInsets.all(24),
                                     child: AutofillGroup(
                                       child: Column(
                                         crossAxisAlignment:

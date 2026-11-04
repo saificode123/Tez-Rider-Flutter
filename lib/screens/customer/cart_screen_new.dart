@@ -1,3 +1,5 @@
+import '../../widgets/spatial_surface.dart';
+import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +34,7 @@ class _CartScreenState extends State<CartScreen> {
   final TextEditingController _recPhoneCtrl = TextEditingController();
   final TextEditingController _giftMsgCtrl = TextEditingController();
 
-  static const _purple = Color(0xFF1B5E20);
+  static const _purple = AppColors.primary;
 
   @override
   void initState() {
@@ -98,18 +100,22 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         title: Text(
           'cart'.tr,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1A0533),
+            color: AppColors.textPrimary,
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF1A0533)),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
         centerTitle: true,
       ),
       body: Obx(() {
@@ -121,7 +127,7 @@ class _CartScreenState extends State<CartScreen> {
                 Icon(
                   Icons.shopping_cart_outlined,
                   size: 80,
-                  color: Colors.grey.shade300,
+                  color: AppColors.primary.withValues(alpha: 0.25),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -150,7 +156,7 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(22),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
@@ -165,12 +171,12 @@ class _CartScreenState extends State<CartScreen> {
                             child: item['image_url'] != null
                                 ? ProductImage(
                                     imageUrl: item['image_url'],
-                                    width: 60,
-                                    height: 60,
+                                    width: 72,
+                                    height: 72,
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => Container(
-                                      width: 60,
-                                      height: 60,
+                                      width: 72,
+                                      height: 72,
                                       color: Colors.grey.shade200,
                                       child: const Icon(
                                         Icons.image,
@@ -179,8 +185,8 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                     errorWidget: (context, url, error) =>
                                         Container(
-                                          width: 60,
-                                          height: 60,
+                                          width: 72,
+                                          height: 72,
                                           color: Colors.grey.shade200,
                                           child: const Icon(
                                             Icons.fastfood,
@@ -189,8 +195,8 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                   )
                                 : Container(
-                                    width: 60,
-                                    height: 60,
+                                    width: 72,
+                                    height: 72,
                                     color: Colors.grey.shade200,
                                     child: const Icon(
                                       Icons.fastfood,
@@ -366,11 +372,13 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
 
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            SpatialSurface(
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                16,
+                20,
+                20 + MediaQuery.paddingOf(context).bottom,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -454,7 +462,7 @@ class _CartScreenState extends State<CartScreen> {
                         backgroundColor: _purple,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(22),
                         ),
                       ),
                       child: Text(

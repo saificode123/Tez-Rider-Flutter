@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -95,9 +96,13 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F1F9),
+      backgroundColor: AppColors.bgLight,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B5E20),
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        backgroundColor: AppColors.primary,
         title: const Text(
           'Inbox',
           style: TextStyle(
@@ -165,7 +170,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
           Expanded(
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: Color(0xFF1B5E20)),
+                    child: CircularProgressIndicator(color: AppColors.primary),
                   )
                 : _enrichedRooms.isEmpty
                 ? Center(
@@ -209,7 +214,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(22),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.04),
@@ -228,7 +233,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                 child: Text(
                                   initial,
                                   style: const TextStyle(
-                                    color: Color(0xFF1B5E20),
+                                    color: AppColors.primary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),

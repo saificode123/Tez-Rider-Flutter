@@ -94,7 +94,11 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B5E20),
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        backgroundColor: AppColors.primary,
         title: Row(
           children: [
             const Icon(Icons.auto_awesome, color: Colors.amber, size: 20),
@@ -159,7 +163,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                       maxWidth: MediaQuery.of(context).size.width * 0.8,
                     ),
                     decoration: BoxDecoration(
-                      color: isBot ? Colors.white : const Color(0xFF1B5E20),
+                      color: isBot ? Colors.white : AppColors.primary,
                       borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(16),
                         topRight: const Radius.circular(16),
@@ -204,7 +208,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                       height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Color(0xFF1B5E20),
+                        color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -289,16 +293,14 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1B5E20).withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF1B5E20).withValues(alpha: 0.3),
-          ),
+          color: AppColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
         ),
         child: Text(
           text.tr,
           style: const TextStyle(
-            color: Color(0xFF1B5E20),
+            color: AppColors.primary,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),

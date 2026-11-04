@@ -202,7 +202,13 @@ class _ChangeDeliveryDestinationScreenState
   Widget build(BuildContext context) => PopScope(
     canPop: !flow.busy && !flow.uncertain,
     child: Scaffold(
-      appBar: AppBar(title: Text('Change delivery location'.tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text('Change delivery location'.tr),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -308,7 +314,13 @@ class _DeliveryPinPickerState extends State<DeliveryPinPicker> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text('Select Delivery Location'.tr)),
+    appBar: AppBar(
+      toolbarHeight: 64,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+      ),
+      title: Text('Select Delivery Location'.tr),
+    ),
     body: Column(
       children: [
         Expanded(

@@ -67,6 +67,10 @@ class _RatingSummaryScreenState extends State<RatingSummaryScreen> {
     Localizations.localeOf(context);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
         title: Text("Ratings & reviews".tr),
         actions: [IconButton(onPressed: load, icon: const Icon(Icons.refresh))],
       ),

@@ -62,7 +62,13 @@ class _RatingScreenState extends State<RatingScreen> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Delivery feedback".tr)),
+      appBar: AppBar(
+        toolbarHeight: 64,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+        title: Text("Delivery feedback".tr),
+      ),
       body: error != null
           ? Center(
               child: Column(
