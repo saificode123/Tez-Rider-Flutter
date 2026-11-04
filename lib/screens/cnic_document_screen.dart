@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,6 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
     Localizations.localeOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rider CNIC verification".tr),
         actions: [
           IconButton(
             onPressed: () => Get.find<AuthController>().logout(),
@@ -102,6 +102,11 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
         () => ListView(
           padding: const EdgeInsets.all(20),
           children: [
+            SpatialPageHeader(
+              title: "Rider CNIC verification".tr,
+              icon: Icons.verified_user_outlined,
+            ),
+            const SizedBox(height: 24),
             if (ctrl.application['document_valid'] == true) ...[
               const Icon(
                 Icons.hourglass_top,
@@ -146,6 +151,7 @@ class _CnicDocumentScreenState extends State<CnicDocumentScreen> {
               decoration: InputDecoration(
                 labelText: "CNIC number".tr,
                 hintText: '12345-1234567-1',
+                prefixIcon: const Icon(Icons.badge_outlined),
               ),
             ),
             if (ctrl.image.value != null)

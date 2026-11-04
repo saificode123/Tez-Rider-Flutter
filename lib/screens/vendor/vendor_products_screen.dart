@@ -243,7 +243,11 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('📦', style: TextStyle(fontSize: 64)),
+                  const Icon(
+                    Icons.inventory_2_outlined,
+                    size: 64,
+                    color: AppColors.primary,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     "No products yet".tr,
@@ -256,7 +260,10 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                   const SizedBox(height: 8),
                   Text(
                     "Tap + to add your first product.".tr,
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
@@ -287,10 +294,10 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
     final imageUrl = p['image_url'] as String? ?? '';
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: _kPurple.withValues(alpha: 0.07),
@@ -424,7 +431,9 @@ class _VendorProductsScreenState extends State<VendorProductsScreen> {
                             context: context,
                             builder: (_) => AlertDialog(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.xl,
+                                ),
                               ),
                               title: Text(
                                 "Delete?".tr,

@@ -1,3 +1,4 @@
+import '../../widgets/spatial_surface.dart';
 import '../../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
@@ -203,9 +204,13 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
 
                     const SizedBox(height: 20),
 
-                    Text(
-                      "Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation."
-                          .tr,
+                    SpatialSurface(
+                      elevated: false,
+                      color: AppColors.primarySurface,
+                      child: Text(
+                        "Gross delivered item sales, not net profit or a cash payout. Shared refunds have no recorded vendor allocation."
+                            .tr,
+                      ),
                     ),
                     if (_reviewCount > 0)
                       Text(
@@ -515,7 +520,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: _kCard,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
               color: _kPurple.withValues(alpha: 0.07),
@@ -582,7 +587,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.10),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
           ),
           child: Text(
             '$count',
@@ -603,7 +608,7 @@ class _VendorAnalyticsScreenState extends State<VendorAnalyticsBody> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: _kCard,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: _kPurple.withValues(alpha: 0.07),

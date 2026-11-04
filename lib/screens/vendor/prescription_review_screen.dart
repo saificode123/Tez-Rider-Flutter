@@ -196,7 +196,7 @@ class _VendorPrescriptionReviewScreenState
             color: AppColors.textPrimary,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.bgLight,
         elevation: 0,
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
         centerTitle: true,
@@ -235,7 +235,7 @@ class _VendorPrescriptionReviewScreenState
                 Icon(
                   Icons.check_circle_outline,
                   size: 80,
-                  color: Colors.grey.shade300,
+                  color: AppColors.primarySurface,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -243,13 +243,16 @@ class _VendorPrescriptionReviewScreenState
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600,
+                    color: AppColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'All prescriptions have been reviewed'.tr,
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade400),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -271,9 +274,9 @@ class _VendorPrescriptionReviewScreenState
             return Card(
               margin: const EdgeInsets.only(bottom: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppRadius.xl),
               ),
-              elevation: 2,
+              elevation: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -281,7 +284,7 @@ class _VendorPrescriptionReviewScreenState
                   if (imageUrl.isNotEmpty)
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12),
+                        top: Radius.circular(24),
                       ),
                       child: PrivatePhoto(
                         imageUrl: imageUrl,
@@ -358,7 +361,7 @@ class _VendorPrescriptionReviewScreenState
                             'Uploaded: ${uploadedAt.toString().split('.')[0]}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey.shade600,
+                              color: AppColors.textSecondary,
                             ),
                           ),
                         ],

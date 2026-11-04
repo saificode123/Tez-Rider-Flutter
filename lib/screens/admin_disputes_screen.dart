@@ -1,3 +1,5 @@
+import '../widgets/spatial_surface.dart';
+import '../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -71,50 +73,54 @@ class _AdminDisputeQueueState extends State<AdminDisputeQueue> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  DropdownButtonFormField<String>(
-                    initialValue:
-                        controller.disputeStatuses.contains(
-                          controller.disputeFilter.value,
-                        )
-                        ? controller.disputeFilter.value
-                        : 'ALL',
-                    decoration: InputDecoration(labelText: "Status filter".tr),
-                    items: [
-                      DropdownMenuItem(
-                        value: 'ALL',
-                        child: Text("All statuses".tr),
+              child: SpatialSurface(
+                child: Column(
+                  children: [
+                    DropdownButtonFormField<String>(
+                      initialValue:
+                          controller.disputeStatuses.contains(
+                            controller.disputeFilter.value,
+                          )
+                          ? controller.disputeFilter.value
+                          : 'ALL',
+                      decoration: InputDecoration(
+                        labelText: "Status filter".tr,
                       ),
-                      ...controller.disputeStatuses.map(
-                        (s) => DropdownMenuItem(
-                          value: s,
-                          child: Text(disputeStatusLabel(s)),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'ALL',
+                          child: Text("All statuses".tr),
                         ),
+                        ...controller.disputeStatuses.map(
+                          (s) => DropdownMenuItem(
+                            value: s,
+                            child: Text(disputeStatusLabel(s)),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) => controller.filterDisputes(
+                        value == 'ALL' ? null : value,
                       ),
-                    ],
-                    onChanged: (value) => controller.filterDisputes(
-                      value == 'ALL' ? null : value,
                     ),
-                  ),
-                  if (controller.disputeError.value != null)
-                    Text(
-                      controller.disputeError.value!.uiMessage,
-                      style: const TextStyle(color: Colors.red),
+                    if (controller.disputeError.value != null)
+                      Text(
+                        controller.disputeError.value!.uiMessage,
+                        style: const TextStyle(color: AppColors.error),
+                      ),
+                    TextButton(
+                      onPressed: controller.disputeLoading.value
+                          ? null
+                          : controller.retryDisputes,
+                      child: Text("Retry / refresh disputes".tr),
                     ),
-                  TextButton(
-                    onPressed: controller.disputeLoading.value
-                        ? null
-                        : controller.retryDisputes,
-                    child: Text("Retry / refresh disputes".tr),
-                  ),
-                  if (controller.disputeLoading.value)
-                    const LinearProgressIndicator(),
-                  if (controller.disputes.isEmpty &&
-                      !controller.disputeLoading.value &&
-                      controller.disputeError.value == null)
-                    Text("No disputes for this filter.".tr),
-                ],
+                    if (controller.disputeLoading.value)
+                      const LinearProgressIndicator(),
+                    if (controller.disputes.isEmpty &&
+                        !controller.disputeLoading.value &&
+                        controller.disputeError.value == null)
+                      Text("No disputes for this filter.".tr),
+                  ],
+                ),
               ),
             ),
           ),
@@ -124,7 +130,14 @@ class _AdminDisputeQueueState extends State<AdminDisputeQueue> {
               delegate: SliverChildBuilderDelegate((_, i) {
                 final d = controller.disputes[i];
                 return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
                   child: ListTile(
+                    contentPadding: const EdgeInsets.all(18),
+                    leading: const CircleAvatar(
+                      backgroundColor: AppColors.primarySurface,
+                      foregroundColor: AppColors.primary,
+                      child: Icon(Icons.support_agent_rounded),
+                    ),
                     title: Text(
                       "Dispute #@slot0end • Order #@slot1end".uiTr({
                         "slot0end": (d['id']).toString(),
@@ -375,7 +388,7 @@ class _AdminDisputeDetailsState extends State<AdminDisputeDetails> {
             if (controller.decisionError.value != null)
               Text(
                 controller.decisionError.value!.uiMessage,
-                style: const TextStyle(color: Colors.red),
+                style: const TextStyle(color: AppColors.error),
               ),
             if (eligible) ...[
               TextField(

@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import '../widgets/app_stat_card.dart';
 import 'vendor/prescription_review_screen.dart';
 import '../widgets/biometric_settings_tile.dart';
@@ -24,7 +25,7 @@ import 'customer/help_center_screen.dart';
 import 'chat_rooms_screen.dart';
 import 'customer/notifications_screen.dart';
 
-/// Safely shortens an id string for display — never crashes on short ids.
+/// Safely shortens an id string for display â€” never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
   final s = id?.toString() ?? '------';
   return s.length < len ? s : s.substring(0, len);
@@ -83,51 +84,35 @@ class _VendorDashboardState extends State<VendorDashboard> {
   }
 
   Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 24,
-            offset: const Offset(0, -4),
+    return SpatialBottomBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _navItem(
+            0,
+            Icons.dashboard_rounded,
+            Icons.dashboard_outlined,
+            "Dashboard".tr,
+          ),
+          _navItem(
+            1,
+            Icons.shopping_bag_rounded,
+            Icons.shopping_bag_outlined,
+            "Orders".tr,
+          ),
+          _navItem(
+            2,
+            Icons.dry_cleaning_rounded,
+            Icons.dry_cleaning_outlined,
+            "Tailoring".tr,
+          ),
+          _navItem(
+            3,
+            Icons.person_rounded,
+            Icons.person_outline_rounded,
+            "Profile".tr,
           ),
         ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _navItem(
-                0,
-                Icons.dashboard_rounded,
-                Icons.dashboard_outlined,
-                "Dashboard".tr,
-              ),
-              _navItem(
-                1,
-                Icons.shopping_bag_rounded,
-                Icons.shopping_bag_outlined,
-                "Orders".tr,
-              ),
-              _navItem(
-                2,
-                Icons.dry_cleaning_rounded,
-                Icons.dry_cleaning_outlined,
-                "Tailoring".tr,
-              ),
-              _navItem(
-                3,
-                Icons.person_rounded,
-                Icons.person_outline_rounded,
-                "Profile".tr,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -155,50 +140,37 @@ class _VendorDashboardState extends State<VendorDashboard> {
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.bgLight,
-            elevation: 0,
-            floating: true,
-            snap: true,
-            automaticallyImplyLeading: false,
-            title: Text(
-              'Store Dashboard'.tr,
-              style: const TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 20,
-                color: AppColors.textPrimary,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+              child: SpatialPageHeader(
+                title: 'Store Dashboard'.tr,
+                subtitle: email,
+                icon: Icons.storefront_rounded,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: "Notifications".tr,
+                      icon: const Icon(
+                        Icons.notifications_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => Get.to(() => NotificationsScreen()),
+                    ),
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Colors.white,
+                      foregroundColor: AppColors.primary,
+                      child: Text(
+                        initial,
+                        style: const TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            actions: [
-              IconButton(
-                tooltip: "Notifications".tr,
-                icon: const Icon(Icons.notifications_outlined),
-                onPressed: () => Get.to(() => NotificationsScreen()),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 16),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: AppColors.gradientPrimary,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    initial,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
 
           SliverPadding(
@@ -272,7 +244,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   child: Text(
                     "Quick Actions".tr,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
                     ),
@@ -431,7 +403,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               : () => vendorCtrl.refreshOrders(loadMore: true),
                           child: Text(
                             vendorCtrl.ordersRefreshing.value
-                                ? "Loading…".tr
+                                ? "Loadingâ€¦".tr
                                 : "Load more".tr,
                           ),
                         ),
@@ -498,7 +470,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -568,7 +540,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      "EXPRESS — prepare first".tr,
+                      "EXPRESS â€” prepare first".tr,
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
@@ -618,7 +590,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                   Expanded(
                     child: Text(
                       customerPhone != null
-                          ? '$customerName · $customerPhone'
+                          ? '$customerName Â· $customerPhone'
                           : customerName,
                       style: const TextStyle(
                         color: AppColors.textSecondary,
@@ -757,7 +729,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     if (busy) const LinearProgressIndicator(),
                     _actionBtn(
                       busy
-                          ? "Matching rider…".tr
+                          ? "Matching riderâ€¦".tr
                           : status == 'ready' || status == 'on_the_way'
                           ? "Retry Rider Matching".tr
                           : "Mark Ready & Call Rider".tr,
@@ -835,7 +807,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -1003,7 +975,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(AppRadius.xl),
                           ),
                           child: Text(
                             "Vendor Partner".tr,
@@ -1222,17 +1194,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
   Widget _statusBadge(String status, {Color? color}) {
     final col = color ?? _statusColor(status);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: col.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        status.toUpperCase(),
-        style: TextStyle(color: col, fontSize: 9, fontWeight: FontWeight.w800),
-      ),
-    );
+    return SpatialStatusBadge(label: status.toUpperCase(), color: col);
   }
 
   Color _statusColor(String s) {
@@ -1260,7 +1222,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
   ) {
     return SizedBox(
       width: double.infinity,
-      height: 44,
+      height: 48,
       child: filled
           ? ElevatedButton(
               onPressed: onTap,
@@ -1360,7 +1322,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.04),
@@ -1370,7 +1332,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
           ),
           child: Material(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
             clipBehavior: Clip.antiAlias,
             child: Column(children: tiles),
           ),

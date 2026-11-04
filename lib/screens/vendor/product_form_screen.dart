@@ -1,3 +1,4 @@
+import '../../widgets/spatial_surface.dart';
 import '../../theme/app_theme.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
@@ -333,7 +334,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                   if (_imageCtrl.text.isNotEmpty)
                     Container(
-                      height: 160,
+                      height: 200,
                       width: double.infinity,
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
@@ -444,7 +445,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: sel ? _kPurple : Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.xl,
+                                ),
                                 border: Border.all(
                                   color: sel
                                       ? _kPurple
@@ -561,20 +564,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   }
 
   Widget _card({required List<Widget> children}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: _kPurple.withValues(alpha: 0.07),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+    return SpatialSurface(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: children,

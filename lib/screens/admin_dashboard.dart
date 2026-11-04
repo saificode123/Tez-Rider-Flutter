@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import '../widgets/app_stat_card.dart';
 import '../widgets/app_navigation.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
@@ -91,51 +92,35 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 24,
-            offset: const Offset(0, -4),
+    return SpatialBottomBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _navItem(
+            0,
+            Icons.analytics_rounded,
+            Icons.analytics_outlined,
+            "Overview".tr,
+          ),
+          _navItem(
+            1,
+            Icons.delivery_dining_rounded,
+            Icons.delivery_dining_outlined,
+            "Riders".tr,
+          ),
+          _navItem(
+            2,
+            Icons.storefront_rounded,
+            Icons.storefront_outlined,
+            "Vendors".tr,
+          ),
+          _navItem(
+            3,
+            Icons.report_problem_rounded,
+            Icons.report_problem_outlined,
+            "Disputes".tr,
           ),
         ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _navItem(
-                0,
-                Icons.analytics_rounded,
-                Icons.analytics_outlined,
-                "Overview".tr,
-              ),
-              _navItem(
-                1,
-                Icons.delivery_dining_rounded,
-                Icons.delivery_dining_outlined,
-                "Riders".tr,
-              ),
-              _navItem(
-                2,
-                Icons.storefront_rounded,
-                Icons.storefront_outlined,
-                "Vendors".tr,
-              ),
-              _navItem(
-                3,
-                Icons.report_problem_rounded,
-                Icons.report_problem_outlined,
-                "Disputes".tr,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -160,6 +145,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       slivers: [
         SliverAppBar(
           backgroundColor: AppColors.bgLight,
+          toolbarHeight: 64,
           elevation: 0,
           floating: true,
           snap: true,
@@ -208,10 +194,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(28),
+                    topRight: Radius.circular(28),
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(28),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.32),
+                      color: AppColors.primary.withValues(alpha: 0.12),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -235,7 +226,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             "TezRider Admin".tr,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 26,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
@@ -257,7 +248,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 color: AppColors.success.withValues(
                                   alpha: 0.20,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.xl,
+                                ),
                               ),
                               child: Text(
                                 "@slot0end active orders right now".uiTr({
@@ -295,7 +288,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
               Obx(() {
                 final activeRiders =
-                    adminCtrl.activeRiderCount.value?.toString() ?? '—';
+                    adminCtrl.activeRiderCount.value?.toString() ?? 'â€”';
                 final liveOrders = adminCtrl.orders
                     .where(
                       (o) =>
@@ -304,7 +297,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     )
                     .length;
                 final openDisputes =
-                    adminCtrl.openDisputeCount.value?.toString() ?? '—';
+                    adminCtrl.openDisputeCount.value?.toString() ?? 'â€”';
 
                 return GridView.count(
                   shrinkWrap: true,
@@ -399,7 +392,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppRadius.xl),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.03),
@@ -482,7 +475,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(
           color: AppColors.warning.withValues(alpha: 0.30),
           width: 1.5,
@@ -516,7 +509,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                 ),
                 Text(
-                  "New @slot0end · @slot1end".uiTr({
+                  "New @slot0end Â· @slot1end".uiTr({
                     "slot0end": type.tr,
                     "slot1end": (item.email).toString(),
                   }),
@@ -673,7 +666,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -767,13 +760,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
       ),
       child: Text(
         text.toUpperCase(),
         style: TextStyle(
           color: color,
-          fontSize: 9,
+          fontSize: 12,
           fontWeight: FontWeight.w800,
         ),
       ),

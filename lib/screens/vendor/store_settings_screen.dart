@@ -1,3 +1,4 @@
+import '../../widgets/spatial_surface.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -197,10 +198,15 @@ class _StoreSettingsPanelState extends State<StoreSettingsPanel> {
   Widget build(BuildContext context) {
     Localizations.localeOf(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Store Settings'.tr)),
+      appBar: AppBar(),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          SpatialPageHeader(
+            title: 'Store Settings'.tr,
+            icon: Icons.storefront_rounded,
+          ),
+          const SizedBox(height: 24),
           if (loading || saving || locating) const LinearProgressIndicator(),
           if (error != null)
             Semantics(liveRegion: true, child: Text(error!.tr)),
@@ -210,13 +216,19 @@ class _StoreSettingsPanelState extends State<StoreSettingsPanel> {
             controller: name,
             enabled: !locked && version != null,
             maxLength: 200,
-            decoration: InputDecoration(labelText: 'Shop / Store Name'.tr),
+            decoration: InputDecoration(
+              labelText: 'Shop / Store Name'.tr,
+              prefixIcon: const Icon(Icons.storefront_outlined),
+            ),
           ),
           TextField(
             controller: address,
             enabled: !locked && version != null,
             maxLength: 500,
-            decoration: InputDecoration(labelText: 'Store Address'.tr),
+            decoration: InputDecoration(
+              labelText: 'Store Address'.tr,
+              prefixIcon: const Icon(Icons.location_on_outlined),
+            ),
           ),
           if (!changed && version != null)
             Text((active ? 'Store active' : 'Store inactive').tr),
@@ -232,6 +244,7 @@ class _StoreSettingsPanelState extends State<StoreSettingsPanel> {
             onPressed: locked || version == null ? null : locate,
             child: Text('Use my current pickup location'.tr),
           ),
+          const SizedBox(height: 16),
           FilledButton(
             onPressed:
                 changed || loading || saving || locating || version == null

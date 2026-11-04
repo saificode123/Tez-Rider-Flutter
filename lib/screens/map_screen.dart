@@ -1,3 +1,5 @@
+import '../widgets/spatial_surface.dart';
+import '../theme/app_theme.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -222,27 +224,32 @@ class _MapScreenState extends State<MapScreen> {
             : route?.notice.value ?? '',
         onRetry: () => unawaited(open()),
         onBack: () => Get.back(),
-        footer: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (fare != null)
-              Text(
-                'Delivery charges: PKR @slot0end'.uiTr({
-                  'slot0end': fare!.toStringAsFixed(0),
-                }),
-              ),
-            if (identityOrder != null)
-              ExpansionTile(
-                tilePadding: EdgeInsets.zero,
-                title: Text('Rider details'.tr),
-                children: [
-                  RiderIdentityCard(
-                    key: ValueKey(identityOrder),
-                    orderId: identityOrder!,
-                  ),
-                ],
-              ),
-          ],
+        footer: SpatialSurface(
+          padding: const EdgeInsets.all(16),
+          elevated: false,
+          color: AppColors.primarySurface,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (fare != null)
+                Text(
+                  'Delivery charges: PKR @slot0end'.uiTr({
+                    'slot0end': fare!.toStringAsFixed(0),
+                  }),
+                ),
+              if (identityOrder != null)
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text('Rider details'.tr),
+                  children: [
+                    RiderIdentityCard(
+                      key: ValueKey(identityOrder),
+                      orderId: identityOrder!,
+                    ),
+                  ],
+                ),
+            ],
+          ),
         ),
       );
     }

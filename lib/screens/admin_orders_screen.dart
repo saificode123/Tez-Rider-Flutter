@@ -1,3 +1,4 @@
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
@@ -107,22 +108,34 @@ class _AdminOrdersBodyState extends State<_AdminOrdersBody> {
                 }
                 final order = _rows[index];
                 final amount = order['amount'];
-                return ListTile(
-                  title: Text(
-                    "Order #@slot0end · @slot1end".uiTr({
-                      "slot0end": (order['id']).toString(),
-                      "slot1end": (order['order_status']).toString(),
-                    }),
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
                   ),
-                  subtitle: Text(
-                    '${order['payment_method'] ?? 'Method unavailable'} · ${amount is num ? 'PKR ${amount.toStringAsFixed(2)}' : 'Amount unavailable'}',
-                  ),
-                  trailing: const Icon(Icons.receipt_long),
-                  onTap: () => showOrderPayment(
-                    context,
-                    order['id'] as int,
-                    allowCollection: true,
-                    allowRefund: true,
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(20),
+                    leading: const CircleAvatar(
+                      backgroundColor: AppColors.primarySurface,
+                      foregroundColor: AppColors.primary,
+                      child: Icon(Icons.shopping_bag_outlined),
+                    ),
+                    title: Text(
+                      "Order #@slot0end · @slot1end".uiTr({
+                        "slot0end": (order['id']).toString(),
+                        "slot1end": (order['order_status']).toString(),
+                      }),
+                    ),
+                    subtitle: Text(
+                      '${order['payment_method'] ?? 'Method unavailable'} · ${amount is num ? 'PKR ${amount.toStringAsFixed(2)}' : 'Amount unavailable'}',
+                    ),
+                    trailing: const Icon(Icons.receipt_long),
+                    onTap: () => showOrderPayment(
+                      context,
+                      order['id'] as int,
+                      allowCollection: true,
+                      allowRefund: true,
+                    ),
                   ),
                 );
               },

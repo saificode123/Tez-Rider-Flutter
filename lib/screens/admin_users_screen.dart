@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -108,82 +109,85 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: search,
-                    maxLength: 80,
-                    onChanged: controller.searchUsers,
-                    decoration: InputDecoration(
-                      labelText: "Search name or email".tr,
-                      prefixIcon: Icon(Icons.search),
-                      counterText: '',
+              child: SpatialSurface(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: search,
+                      maxLength: 80,
+                      onChanged: controller.searchUsers,
+                      decoration: InputDecoration(
+                        labelText: "Search name or email".tr,
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        counterText: '',
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          initialValue: controller.roleFilter.value ?? 'all',
-                          decoration: InputDecoration(labelText: "Role".tr),
-                          items:
-                              const [
-                                    'all',
-                                    'customer',
-                                    'vendor',
-                                    'rider',
-                                    'admin',
-                                  ]
-                                  .map(
-                                    (v) => DropdownMenuItem(
-                                      value: v,
-                                      child: Text(
-                                        v == 'all'
-                                            ? "All roles".tr
-                                            : v.capitalizeFirst!.tr,
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            initialValue: controller.roleFilter.value ?? 'all',
+                            decoration: InputDecoration(labelText: "Role".tr),
+                            items:
+                                const [
+                                      'all',
+                                      'customer',
+                                      'vendor',
+                                      'rider',
+                                      'admin',
+                                    ]
+                                    .map(
+                                      (v) => DropdownMenuItem(
+                                        value: v,
+                                        child: Text(
+                                          v == 'all'
+                                              ? "All roles".tr
+                                              : v.capitalizeFirst!.tr,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (v) => controller.filterUsers(
-                            role: v == 'all' ? null : v,
-                            blocked: controller.blockedFilter.value,
+                                    )
+                                    .toList(),
+                            onChanged: (v) => controller.filterUsers(
+                              role: v == 'all' ? null : v,
+                              blocked: controller.blockedFilter.value,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          initialValue: controller.blockedFilter.value == null
-                              ? 'all'
-                              : controller.blockedFilter.value!
-                              ? 'blocked'
-                              : 'active',
-                          decoration: InputDecoration(labelText: "Status".tr),
-                          items: [
-                            DropdownMenuItem(
-                              value: 'all',
-                              child: Text("All statuses".tr),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            initialValue: controller.blockedFilter.value == null
+                                ? 'all'
+                                : controller.blockedFilter.value!
+                                ? 'blocked'
+                                : 'active',
+                            decoration: InputDecoration(labelText: "Status".tr),
+                            items: [
+                              DropdownMenuItem(
+                                value: 'all',
+                                child: Text("All statuses".tr),
+                              ),
+                              DropdownMenuItem(
+                                value: 'active',
+                                child: Text("Active".tr),
+                              ),
+                              DropdownMenuItem(
+                                value: 'blocked',
+                                child: Text("Blocked".tr),
+                              ),
+                            ],
+                            onChanged: (v) => controller.filterUsers(
+                              role: controller.roleFilter.value,
+                              blocked: v == 'all' ? null : v == 'blocked',
                             ),
-                            DropdownMenuItem(
-                              value: 'active',
-                              child: Text("Active".tr),
-                            ),
-                            DropdownMenuItem(
-                              value: 'blocked',
-                              child: Text("Blocked".tr),
-                            ),
-                          ],
-                          onChanged: (v) => controller.filterUsers(
-                            role: controller.roleFilter.value,
-                            blocked: v == 'all' ? null : v == 'blocked',
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             if (controller.userActionMessage.value != null)
@@ -242,7 +246,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                               vertical: 6,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(14),
+                              padding: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -90,91 +91,97 @@ class _AdminBroadcastsScreenState extends State<AdminBroadcastsScreen> {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Form(
-              key: form,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    controller: title,
-                    enabled: !locked,
-                    maxLength: 100,
-                    decoration: InputDecoration(
-                      labelText: "Broadcast title".tr,
+            SpatialSurface(
+              margin: const EdgeInsets.only(bottom: 20),
+              child: Form(
+                key: form,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      controller: title,
+                      enabled: !locked,
+                      maxLength: 100,
+                      decoration: InputDecoration(
+                        labelText: "Broadcast title".tr,
+                        prefixIcon: const Icon(Icons.campaign_outlined),
+                      ),
+                      validator: (value) =>
+                          value == null || value.trim().isEmpty
+                          ? 'Enter a title'.tr
+                          : null,
                     ),
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Enter a title'.tr
-                        : null,
-                  ),
-                  TextFormField(
-                    controller: message,
-                    enabled: !locked,
-                    maxLength: 1000,
-                    minLines: 3,
-                    maxLines: 5,
-                    decoration: InputDecoration(labelText: "Message".tr),
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Enter a message'.tr
-                        : null,
-                  ),
-                  DropdownButtonFormField<String>(
-                    initialValue: controller.audience.value,
-                    decoration: InputDecoration(labelText: "Audience".tr),
-                    items: broadcastAudiences.entries
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e.key,
-                            child: Text(e.value.tr),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: locked
-                        ? null
-                        : (value) => controller.refreshEstimate(value),
-                  ),
-                  const SizedBox(height: 12),
-                  if (controller.estimating.value)
-                    Text("Estimating recipients…".tr)
-                  else if (controller.estimate.value != null)
-                    Text(
-                      "Estimated recipients: @slot0end (informational)".uiTr({
-                        "slot0end": (controller.estimate.value).toString(),
-                      }),
+                    TextFormField(
+                      controller: message,
+                      enabled: !locked,
+                      maxLength: 1000,
+                      minLines: 3,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        labelText: "Message".tr,
+                        alignLabelWithHint: true,
+                      ),
+                      validator: (value) =>
+                          value == null || value.trim().isEmpty
+                          ? 'Enter a message'.tr
+                          : null,
                     ),
-                  if (controller.estimateError.value != null)
-                    TextButton(
-                      onPressed: controller.refreshEstimate,
-                      child: Text(controller.estimateError.value!.uiMessage),
+                    DropdownButtonFormField<String>(
+                      initialValue: controller.audience.value,
+                      decoration: InputDecoration(labelText: "Audience".tr),
+                      items: broadcastAudiences.entries
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e.key,
+                              child: Text(e.value.tr),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: locked
+                          ? null
+                          : (value) => controller.refreshEstimate(value),
                     ),
-                  const SizedBox(height: 12),
-                  FilledButton(
-                    onPressed:
-                        controller.sending.value ||
-                            confirming ||
-                            controller.estimate.value == null
-                        ? null
-                        : confirm,
-                    child: Text(
-                      controller.sending.value
-                          ? "Sending…".tr
-                          : controller.uncertain.value
-                          ? "Retry same broadcast".tr
-                          : "Review broadcast".tr,
+                    const SizedBox(height: 12),
+                    if (controller.estimating.value)
+                      Text("Estimating recipients…".tr)
+                    else if (controller.estimate.value != null)
+                      Text(
+                        "Estimated recipients: @slot0end (informational)".uiTr({
+                          "slot0end": (controller.estimate.value).toString(),
+                        }),
+                      ),
+                    if (controller.estimateError.value != null)
+                      TextButton(
+                        onPressed: controller.refreshEstimate,
+                        child: Text(controller.estimateError.value!.uiMessage),
+                      ),
+                    const SizedBox(height: 12),
+                    FilledButton(
+                      onPressed:
+                          controller.sending.value ||
+                              confirming ||
+                              controller.estimate.value == null
+                          ? null
+                          : confirm,
+                      child: Text(
+                        controller.sending.value
+                            ? "Sending…".tr
+                            : controller.uncertain.value
+                            ? "Retry same broadcast".tr
+                            : "Review broadcast".tr,
+                      ),
                     ),
-                  ),
-                  if (controller.feedback.value != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Text(controller.feedback.value!.uiMessage),
-                    ),
-                ],
+                    if (controller.feedback.value != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(controller.feedback.value!.uiMessage),
+                      ),
+                  ],
+                ),
               ),
             ),
-            const Divider(height: 32),
-            Text(
-              "Broadcast history".tr,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const SizedBox(height: 8),
+            SpatialSectionHeading(title: "Broadcast history".tr),
             if (controller.loading.value) const LinearProgressIndicator(),
             if (controller.historyError.value != null)
               TextButton(
@@ -187,25 +194,28 @@ class _AdminBroadcastsScreenState extends State<AdminBroadcastsScreen> {
                 child: Text("No broadcasts yet".tr),
               ),
             ...controller.history.map(
-              (row) => ListTile(
-                leading: const Icon(Icons.campaign_outlined),
-                title: Text(row['title'] as String),
-                subtitle: Text(
-                  "@slot0end · @slot1end recipients\n@slot2end · @slot3end"
-                      .uiTr({
-                        "slot0end":
-                            (broadcastAudiences[row['audience']] ??
-                                    row['audience']?.toString() ??
-                                    'Unknown audience')
-                                .tr,
-                        "slot1end": (row['recipient_count']).toString(),
-                        "slot2end": (DateTime.tryParse(
-                          row['created_at'] as String,
-                        )?.toLocal()).toString(),
-                        "slot3end": (row['status']).toString(),
-                      }),
+              (row) => Card(
+                margin: const EdgeInsets.only(top: 10),
+                child: ListTile(
+                  leading: const Icon(Icons.campaign_outlined),
+                  title: Text(row['title'] as String),
+                  subtitle: Text(
+                    "@slot0end · @slot1end recipients\n@slot2end · @slot3end"
+                        .uiTr({
+                          "slot0end":
+                              (broadcastAudiences[row['audience']] ??
+                                      row['audience']?.toString() ??
+                                      'Unknown audience')
+                                  .tr,
+                          "slot1end": (row['recipient_count']).toString(),
+                          "slot2end": (DateTime.tryParse(
+                            row['created_at'] as String,
+                          )?.toLocal()).toString(),
+                          "slot3end": (row['status']).toString(),
+                        }),
+                  ),
+                  isThreeLine: true,
                 ),
-                isThreeLine: true,
               ),
             ),
             if (controller.hasMore.value)

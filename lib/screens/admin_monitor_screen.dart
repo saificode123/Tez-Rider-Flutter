@@ -1,3 +1,5 @@
+import '../widgets/spatial_surface.dart';
+import '../theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'dart:async';
@@ -447,76 +449,79 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
         padding: const EdgeInsets.all(16),
         children: [
           if (_loading) const LinearProgressIndicator(),
-          Wrap(
-            spacing: 12,
-            runSpacing: 8,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              DropdownButton<String>(
-                value: _status ?? 'all',
-                items:
-                    [
-                          'all',
-                          'placed',
-                          'pending',
-                          'accepted',
-                          'preparing',
-                          'ready',
-                          'on_the_way',
-                          'delivered',
-                          'cancelled',
-                        ]
-                        .map(
-                          (s) => DropdownMenuItem(
-                            value: s,
-                            child: Text(s == 'all' ? "All statuses".tr : s),
-                          ),
-                        )
-                        .toList(),
-                onChanged: _loading || _exporting
-                    ? null
-                    : (s) {
-                        setState(() => _status = s == 'all' ? null : s);
-                        unawaited(_load());
-                      },
-              ),
-              TextButton(
-                onPressed: _loading || _exporting
-                    ? null
-                    : () async {
-                        final chosen = await showDateRangePicker(
-                          context: context,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime.now(),
-                          initialDateRange: _dates,
-                        );
-                        if (mounted && chosen != null) {
-                          setState(() => _dates = chosen);
+          SpatialSurface(
+            margin: const EdgeInsets.only(bottom: 20),
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                DropdownButton<String>(
+                  value: _status ?? 'all',
+                  items:
+                      [
+                            'all',
+                            'placed',
+                            'pending',
+                            'accepted',
+                            'preparing',
+                            'ready',
+                            'on_the_way',
+                            'delivered',
+                            'cancelled',
+                          ]
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(s == 'all' ? "All statuses".tr : s),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: _loading || _exporting
+                      ? null
+                      : (s) {
+                          setState(() => _status = s == 'all' ? null : s);
                           unawaited(_load());
-                        }
-                      },
-                child: Text(
-                  _dates == null
-                      ? "Filter dates".tr
-                      : '${_dates!.start.toString().split(' ').first} – ${_dates!.end.toString().split(' ').first}',
+                        },
                 ),
-              ),
-              if (_dates != null)
                 TextButton(
                   onPressed: _loading || _exporting
                       ? null
-                      : () {
-                          setState(() => _dates = null);
-                          unawaited(_load());
+                      : () async {
+                          final chosen = await showDateRangePicker(
+                            context: context,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime.now(),
+                            initialDateRange: _dates,
+                          );
+                          if (mounted && chosen != null) {
+                            setState(() => _dates = chosen);
+                            unawaited(_load());
+                          }
                         },
-                  child: Text("Clear dates".tr),
+                  child: Text(
+                    _dates == null
+                        ? "Filter dates".tr
+                        : '${_dates!.start.toString().split(' ').first} – ${_dates!.end.toString().split(' ').first}',
+                  ),
                 ),
-              OutlinedButton.icon(
-                onPressed: _exporting || _loading ? null : _export,
-                icon: const Icon(Icons.copy),
-                label: Text(_exporting ? "Exporting…".tr : "Copy CSV".tr),
-              ),
-            ],
+                if (_dates != null)
+                  TextButton(
+                    onPressed: _loading || _exporting
+                        ? null
+                        : () {
+                            setState(() => _dates = null);
+                            unawaited(_load());
+                          },
+                    child: Text("Clear dates".tr),
+                  ),
+                OutlinedButton.icon(
+                  onPressed: _exporting || _loading ? null : _export,
+                  icon: const Icon(Icons.copy),
+                  label: Text(_exporting ? "Exporting…".tr : "Copy CSV".tr),
+                ),
+              ],
+            ),
           ),
           if (_error != null) ...[
             Text(_error!.uiMessage),
@@ -572,80 +577,83 @@ class _AdminMonitorPanelState extends State<AdminMonitorPanel> {
             if (pins.isEmpty)
               Text("No fresh online Rider locations to display.".tr)
             else
-              SizedBox(
-                height: 260,
-                child: FlutterMap(
-                  options: MapOptions(
-                    initialCameraFit: pins.length < 2
-                        ? null
-                        : CameraFit.bounds(
-                            bounds: LatLngBounds.fromPoints(
-                              pins
-                                  .map(
-                                    (p) => LatLng(
-                                      (p['latitude'] as num).toDouble(),
-                                      (p['longitude'] as num).toDouble(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            padding: const EdgeInsets.all(40),
-                            maxZoom: 15,
-                          ),
-                    initialCenter: LatLng(
-                      (pins.first['latitude'] as num).toDouble(),
-                      (pins.first['longitude'] as num).toDouble(),
-                    ),
-                    initialZoom: 12,
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.tezrider.app',
-                      tileProvider: tezMapTiles(),
-                    ),
-                    MarkerLayer(
-                      markers: pins
-                          .map(
-                            (p) => Marker(
-                              point: LatLng(
-                                (p['latitude'] as num).toDouble(),
-                                (p['longitude'] as num).toDouble(),
-                              ),
-                              child: Semantics(
-                                label: "Rider #@slot0end".uiTr({
-                                  'slot0end': '${p['rider_id']}',
-                                }),
-                                child: Tooltip(
-                                  message: "Rider #@slot0end".uiTr({
-                                    "slot0end": (p['rider_id']).toString(),
-                                  }),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: const Color(0xFF16803C),
-                                        width: 2,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+                child: SizedBox(
+                  height: 260,
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCameraFit: pins.length < 2
+                          ? null
+                          : CameraFit.bounds(
+                              bounds: LatLngBounds.fromPoints(
+                                pins
+                                    .map(
+                                      (p) => LatLng(
+                                        (p['latitude'] as num).toDouble(),
+                                        (p['longitude'] as num).toDouble(),
                                       ),
-                                    ),
-                                    child: const Icon(
-                                      Icons.delivery_dining,
-                                      color: Colors.green,
+                                    )
+                                    .toList(),
+                              ),
+                              padding: const EdgeInsets.all(40),
+                              maxZoom: 15,
+                            ),
+                      initialCenter: LatLng(
+                        (pins.first['latitude'] as num).toDouble(),
+                        (pins.first['longitude'] as num).toDouble(),
+                      ),
+                      initialZoom: 12,
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.tezrider.app',
+                        tileProvider: tezMapTiles(),
+                      ),
+                      MarkerLayer(
+                        markers: pins
+                            .map(
+                              (p) => Marker(
+                                point: LatLng(
+                                  (p['latitude'] as num).toDouble(),
+                                  (p['longitude'] as num).toDouble(),
+                                ),
+                                child: Semantics(
+                                  label: "Rider #@slot0end".uiTr({
+                                    'slot0end': '${p['rider_id']}',
+                                  }),
+                                  child: Tooltip(
+                                    message: "Rider #@slot0end".uiTr({
+                                      "slot0end": (p['rider_id']).toString(),
+                                    }),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppColors.primary,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: const Icon(
+                                        Icons.delivery_dining,
+                                        color: Colors.green,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    const Align(
-                      alignment: Alignment.bottomRight,
-                      child: TezMapAttribution(),
-                    ),
-                  ],
+                            )
+                            .toList(),
+                      ),
+                      const Align(
+                        alignment: Alignment.bottomRight,
+                        child: TezMapAttribution(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             if (_snapshot!['locations_truncated'] == true)

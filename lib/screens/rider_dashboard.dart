@@ -1,3 +1,4 @@
+import '../widgets/spatial_surface.dart';
 import '../widgets/rider_availability_control.dart';
 import '../widgets/biometric_settings_tile.dart';
 import '../widgets/app_navigation.dart';
@@ -27,7 +28,7 @@ import 'chat_rooms_screen.dart';
 import 'customer/help_center_screen.dart';
 import 'customer/notifications_screen.dart';
 
-/// Safely shortens an id string for display — never crashes on short ids.
+/// Safely shortens an id string for display â€” never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
   final s = id?.toString() ?? '------';
   return s.length < len ? s : s.substring(0, len);
@@ -173,46 +174,30 @@ class _RiderDashboardState extends State<RiderDashboard> {
   }
 
   Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 24,
-            offset: const Offset(0, -4),
+    return SpatialBottomBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _navItem(
+            0,
+            Icons.dashboard_rounded,
+            Icons.dashboard_outlined,
+            "Home".tr,
+          ),
+          _navItem(1, Icons.map_rounded, Icons.map_outlined, "Map".tr),
+          _navItem(
+            2,
+            Icons.account_balance_wallet_rounded,
+            Icons.account_balance_wallet_outlined,
+            "Earnings".tr,
+          ),
+          _navItem(
+            3,
+            Icons.person_rounded,
+            Icons.person_outline_rounded,
+            "Profile".tr,
           ),
         ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _navItem(
-                0,
-                Icons.dashboard_rounded,
-                Icons.dashboard_outlined,
-                "Home".tr,
-              ),
-              _navItem(1, Icons.map_rounded, Icons.map_outlined, "Map".tr),
-              _navItem(
-                2,
-                Icons.account_balance_wallet_rounded,
-                Icons.account_balance_wallet_outlined,
-                "Earnings".tr,
-              ),
-              _navItem(
-                3,
-                Icons.person_rounded,
-                Icons.person_outline_rounded,
-                "Profile".tr,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -237,24 +222,22 @@ class _RiderDashboardState extends State<RiderDashboard> {
       child: Obx(
         () => CustomScrollView(
           slivers: [
-            SliverAppBar(
-              backgroundColor: AppColors.bgLight,
-              elevation: 0,
-              floating: true,
-              snap: true,
-              automaticallyImplyLeading: false,
-              title: Text(
-                'Rider Dashboard'.tr,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              actions: [
-                IconButton(
-                  tooltip: 'Notifications'.tr,
-                  onPressed: () => Get.to(() => NotificationsScreen()),
-                  icon: const Icon(Icons.notifications_outlined),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+                child: SpatialPageHeader(
+                  title: 'Rider Dashboard'.tr,
+                  icon: Icons.delivery_dining_rounded,
+                  trailing: IconButton(
+                    tooltip: 'Notifications'.tr,
+                    onPressed: () => Get.to(() => NotificationsScreen()),
+                    icon: const Icon(
+                      Icons.notifications_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ],
+              ),
             ),
             SliverToBoxAdapter(
               child: Padding(
@@ -322,7 +305,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                         borderRadius: BorderRadius.circular(22),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.35),
+                            color: AppColors.primary.withValues(alpha: 0.12),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -391,12 +374,14 @@ class _RiderDashboardState extends State<RiderDashboard> {
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 14),
                 child: Row(
                   children: [
-                    Text(
-                      "Available Requests".tr,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
+                    Expanded(
+                      child: Text(
+                        "Available Requests".tr,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ),
                     const Spacer(),
@@ -407,7 +392,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.primarySurface,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(AppRadius.xl),
                       ),
                       child: Obx(
                         () => Text(
@@ -432,6 +417,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
             if (!riderCtrl.isOnline.value)
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -473,6 +459,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             else if (riderCtrl.availableOrders.isEmpty &&
                 riderCtrl.availableTailoring.isEmpty)
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -546,7 +533,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -644,7 +631,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              height: 44,
+              height: 48,
               child: ElevatedButton(
                 onPressed: () => _acceptOrder(o),
                 style: ElevatedButton.styleFrom(
@@ -679,7 +666,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -769,7 +756,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              height: 44,
+              height: 48,
               child: ElevatedButton(
                 onPressed: () => _acceptTailoring(o),
                 style: ElevatedButton.styleFrom(
@@ -912,7 +899,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   if (order['type'] == 'order' &&
                       order['order_status'] == 'on_the_way') ...[
                     Text(
-                      "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below."
+                      "Share your live location with this orderâ€™s customer during delivery, including while the screen is locked. You can stop sharing below."
                           .tr,
                     ),
                     const SizedBox(height: 8),
@@ -1192,7 +1179,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                               color: riderCtrl.isOnline.value
                                   ? AppColors.success.withValues(alpha: 0.25)
                                   : Colors.white.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(AppRadius.xl),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -1403,17 +1390,8 @@ class _RiderDashboardState extends State<RiderDashboard> {
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
-                blurRadius: 10,
-              ),
-            ],
-          ),
+        SpatialSurface(
+          padding: EdgeInsets.zero,
           child: Column(children: tiles),
         ),
       ],
@@ -1519,7 +1497,7 @@ class _DeliveryHistoryListState extends State<_DeliveryHistoryList> {
         padding: const EdgeInsets.symmetric(vertical: 32),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.03),
@@ -1750,7 +1728,8 @@ class _OtpVerifySheetState extends State<_OtpVerifySheet> {
                   maxLength: 6,
                   decoration: InputDecoration(
                     labelText: "Six-digit delivery code".tr,
-                    border: OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                    counterText: '',
                   ),
                 ),
                 const SizedBox(height: 12),
