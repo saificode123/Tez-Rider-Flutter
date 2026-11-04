@@ -25,7 +25,7 @@ import 'customer/help_center_screen.dart';
 import 'chat_rooms_screen.dart';
 import 'customer/notifications_screen.dart';
 
-/// Safely shortens an id string for display â€” never crashes on short ids.
+/// Safely shortens an id string for display — never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
   final s = id?.toString() ?? '------';
   return s.length < len ? s : s.substring(0, len);
@@ -154,7 +154,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       tooltip: "Notifications".tr,
                       icon: const Icon(
                         Icons.notifications_outlined,
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                       ),
                       onPressed: () => Get.to(() => NotificationsScreen()),
                     ),
@@ -403,7 +403,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               : () => vendorCtrl.refreshOrders(loadMore: true),
                           child: Text(
                             vendorCtrl.ordersRefreshing.value
-                                ? "Loadingâ€¦".tr
+                                ? "Loading…".tr
                                 : "Load more".tr,
                           ),
                         ),
@@ -540,7 +540,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      "EXPRESS â€” prepare first".tr,
+                      "EXPRESS — prepare first".tr,
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
@@ -729,7 +729,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
                     if (busy) const LinearProgressIndicator(),
                     _actionBtn(
                       busy
-                          ? "Matching riderâ€¦".tr
+                          ? "Matching rider…".tr
                           : status == 'ready' || status == 'on_the_way'
                           ? "Retry Rider Matching".tr
                           : "Mark Ready & Call Rider".tr,

@@ -189,11 +189,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               Container(
                 padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: AppColors.gradientDark,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: AppColors.coral,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(28),
                     topRight: Radius.circular(28),
@@ -217,15 +213,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           Text(
                             "Operations Control".tr,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.75),
+                              color: AppColors.textPrimary,
                               fontSize: 13,
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            "TezRider Admin".tr,
+                          SpatialHeadline(
+                            title: "TezRider Admin".tr,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.textPrimary,
                               fontSize: 26,
                               fontWeight: FontWeight.w900,
                             ),
@@ -257,7 +253,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   "slot0end": (live).toString(),
                                 }),
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -276,7 +272,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       ),
                       child: const Icon(
                         Icons.shield_rounded,
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                         size: 28,
                       ),
                     ),
@@ -288,7 +284,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
               Obx(() {
                 final activeRiders =
-                    adminCtrl.activeRiderCount.value?.toString() ?? 'â€”';
+                    adminCtrl.activeRiderCount.value?.toString() ?? '—';
                 final liveOrders = adminCtrl.orders
                     .where(
                       (o) =>
@@ -297,44 +293,53 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     )
                     .length;
                 final openDisputes =
-                    adminCtrl.openDisputeCount.value?.toString() ?? 'â€”';
+                    adminCtrl.openDisputeCount.value?.toString() ?? '—';
 
-                return GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio:
-                      MediaQuery.textScalerOf(context).scale(1) > 1.3
-                      ? .65
-                      : 1.0,
-                  children: [
-                    _statCard(
-                      "Total Orders".tr,
-                      '${adminCtrl.orders.length}',
-                      Icons.receipt_long_rounded,
-                      AppColors.primary,
-                    ),
-                    _statCard(
-                      "Live Orders".tr,
-                      '$liveOrders',
-                      Icons.local_shipping_rounded,
-                      AppColors.info,
-                    ),
-                    _statCard(
-                      "Approved Riders".tr,
-                      activeRiders,
-                      Icons.moped_rounded,
-                      AppColors.success,
-                    ),
-                    _statCard(
-                      "Open Disputes".tr,
-                      openDisputes,
-                      Icons.warning_amber_rounded,
-                      AppColors.error,
-                    ),
-                  ],
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final singleColumn =
+                        constraints.maxWidth < 360 ||
+                        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+                    final cardWidth = singleColumn
+                        ? constraints.maxWidth
+                        : (constraints.maxWidth - 12) / 2;
+                    return Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children:
+                          <Widget>[
+                                _statCard(
+                                  "Total Orders".tr,
+                                  '${adminCtrl.orders.length}',
+                                  Icons.receipt_long_rounded,
+                                  AppColors.primary,
+                                ),
+                                _statCard(
+                                  "Live Orders".tr,
+                                  '$liveOrders',
+                                  Icons.local_shipping_rounded,
+                                  AppColors.info,
+                                ),
+                                _statCard(
+                                  "Approved Riders".tr,
+                                  activeRiders,
+                                  Icons.moped_rounded,
+                                  AppColors.success,
+                                ),
+                                _statCard(
+                                  "Open Disputes".tr,
+                                  openDisputes,
+                                  Icons.warning_amber_rounded,
+                                  AppColors.error,
+                                ),
+                              ]
+                              .map(
+                                (card) =>
+                                    SizedBox(width: cardWidth, child: card),
+                              )
+                              .toList(),
+                    );
+                  },
                 );
               }),
 

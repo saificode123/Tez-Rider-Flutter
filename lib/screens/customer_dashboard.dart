@@ -559,7 +559,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(36)),
             gradient: LinearGradient(
-              colors: [AppColors.primaryDark, AppColors.primary],
+              colors: [AppColors.coral, AppColors.coral],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -615,7 +615,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 ),
                                 child: const Icon(
                                   Icons.menu_rounded,
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary,
                                   size: 22,
                                 ),
                               ),
@@ -650,7 +650,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColors.textPrimary,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -680,7 +680,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                     ),
                                     child: const Icon(
                                       Icons.notifications_rounded,
-                                      color: Colors.white,
+                                      color: AppColors.textPrimary,
                                       size: 22,
                                     ),
                                   ),
@@ -703,7 +703,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                           child: Text(
                                             '$unread',
                                             style: const TextStyle(
-                                              color: Colors.white,
+                                              color: AppColors.textPrimary,
                                               fontSize: 8,
                                               fontWeight: FontWeight.w900,
                                             ),
@@ -733,7 +733,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                     ),
                                     child: const Icon(
                                       Icons.shopping_bag_rounded,
-                                      color: Colors.white,
+                                      color: AppColors.textPrimary,
                                       size: 22,
                                     ),
                                   ),
@@ -756,7 +756,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                           child: Text(
                                             '${cart.totalItems}',
                                             style: const TextStyle(
-                                              color: Colors.white,
+                                              color: AppColors.textPrimary,
                                               fontSize: 8,
                                               fontWeight: FontWeight.w900,
                                             ),
@@ -781,7 +781,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                 "slot0end": (_userName).toString(),
                               }),
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppColors.textPrimary,
                                 fontSize: 28,
                                 fontWeight: FontWeight.w900,
                                 fontFamily: 'Poppins',
@@ -801,7 +801,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       GestureDetector(
                         onTap: () => Get.to(() => const SearchScreen()),
                         child: Container(
-                          height: 52,
+                          constraints: const BoxConstraints(minHeight: 52),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(22),
@@ -1211,7 +1212,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           ),
         ),
         SizedBox(
-          height: 100,
+          height: 80 + MediaQuery.textScalerOf(context).scale(22),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),

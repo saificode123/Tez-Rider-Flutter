@@ -611,15 +611,18 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                     subtitle,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
+                  const SizedBox(height: 6),
+                  Text(
+                    priceLabel,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      color: selected
+                          ? AppColors.primary
+                          : Colors.grey.shade700,
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            Text(
-              priceLabel,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-                color: selected ? AppColors.primary : Colors.grey.shade700,
               ),
             ),
           ],
@@ -637,7 +640,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
         ),
-        title: Text("Checkout".tr),
+        title: Text("Checkout".tr, style: const TextStyle(color: Colors.white)),
         backgroundColor: _purple,
         foregroundColor: Colors.white,
       ),
@@ -771,9 +774,11 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                 children: [
                   Icon(Icons.payments_outlined, color: _purple),
                   const SizedBox(width: 12),
-                  Text(
-                    "Cash on Delivery".tr,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Text(
+                      "Cash on Delivery".tr,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -835,9 +840,12 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      spacing: 12,
+                      runSpacing: 4,
                       children: [
                         Text("Subtotal".tr),
                         Text(
@@ -852,10 +860,12 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        spacing: 12,
+                        runSpacing: 4,
                         children: [
-                          Expanded(child: Text("Delivery Charges".tr)),
+                          Text("Delivery Charges".tr),
                           Text(
                             "PKR @slot0end".uiTr({
                               "slot0end": (_baseDeliveryFee.toStringAsFixed(
@@ -870,10 +880,12 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                     if (_speedFee > 0)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Wrap(
+                          alignment: WrapAlignment.spaceBetween,
+                          spacing: 12,
+                          runSpacing: 4,
                           children: [
-                            Expanded(child: Text("Express Delivery".tr)),
+                            Text("Express Delivery".tr),
                             Text(
                               "PKR @slot0end".uiTr({
                                 "slot0end": (_speedFee.toStringAsFixed(
@@ -888,8 +900,10 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                     if (_extraDelivery > 0)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Wrap(
+                          alignment: WrapAlignment.spaceBetween,
+                          spacing: 12,
+                          runSpacing: 4,
                           children: [
                             Text("Extra Delivery".tr),
                             Text(
@@ -906,8 +920,10 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
                     const Divider(),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      spacing: 12,
+                      runSpacing: 4,
                       children: [
                         Text(
                           "Total".tr,
@@ -941,10 +957,14 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
             SizedBox(
               width: double.infinity,
-              height: 55,
               child: ElevatedButton(
                 onPressed: _isProcessing ? null : _placeOrder,
                 style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(55),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   backgroundColor: _purple,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -954,6 +974,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                     ? const CircularProgressIndicator(color: Colors.white)
                     : Text(
                         "Place Order (Cash on Delivery)".tr,
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
               ),

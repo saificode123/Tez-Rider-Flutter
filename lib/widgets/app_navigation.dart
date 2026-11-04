@@ -149,7 +149,11 @@ class AppNavigationItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: selected ? color : AppColors.textSecondary,
+                            color: selected
+                                ? (color == AppColors.primary
+                                      ? AppColors.primaryDark
+                                      : color)
+                                : AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: selected
                                 ? FontWeight.w700

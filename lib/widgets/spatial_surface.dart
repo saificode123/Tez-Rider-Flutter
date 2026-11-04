@@ -110,14 +110,18 @@ class SpatialStatusBadge extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[
-          Icon(icon, size: 16, color: color),
+          Icon(
+            icon,
+            size: 16,
+            color: color == AppColors.primary ? AppColors.primaryDark : color,
+          ),
           const SizedBox(width: 6),
         ],
         Flexible(
           child: Text(
             label,
             style: TextStyle(
-              color: color,
+              color: color == AppColors.primary ? AppColors.primaryDark : color,
               fontWeight: FontWeight.w700,
               fontSize: 12,
             ),
@@ -170,7 +174,7 @@ class SpatialPageHeader extends StatelessWidget {
     width: double.infinity,
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
-      color: AppColors.primary,
+      color: AppColors.coral,
       borderRadius: const BorderRadiusDirectional.only(
         topStart: Radius.circular(24),
         topEnd: Radius.circular(24),
@@ -180,9 +184,9 @@ class SpatialPageHeader extends StatelessWidget {
       boxShadow: AppShadow.soft,
     ),
     child: DefaultTextStyle.merge(
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: AppColors.textPrimary),
       child: IconTheme(
-        data: const IconThemeData(color: Colors.white),
+        data: const IconThemeData(color: AppColors.textPrimary),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -193,7 +197,7 @@ class SpatialPageHeader extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: .12),
+                        color: AppColors.textPrimary.withValues(alpha: .12),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(icon, size: 26),
@@ -204,10 +208,10 @@ class SpatialPageHeader extends StatelessWidget {
               ),
               const SizedBox(height: 20),
             ],
-            Text(
-              title,
+            SpatialHeadline(
+              title: title,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.w800,
                 letterSpacing: -.6,
                 height: 1.2,
@@ -218,7 +222,7 @@ class SpatialPageHeader extends StatelessWidget {
               Text(
                 subtitle!,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                   height: 1.5,
                 ),
               ),
@@ -227,5 +231,38 @@ class SpatialPageHeader extends StatelessWidget {
         ),
       ),
     ),
+  );
+}
+
+/// Fits whole words to the available column while retaining system text scaling.
+class SpatialHeadline extends StatelessWidget {
+  const SpatialHeadline({super.key, required this.title, this.style});
+  final String title;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final resolvedStyle = style ?? Theme.of(context).textTheme.headlineSmall!;
+      var widestWord = 0.0;
+      for (final word in title.split(RegExp(r'\s+'))) {
+        final painter = TextPainter(
+          text: TextSpan(text: word, style: resolvedStyle),
+          textDirection: Directionality.of(context),
+          textScaler: MediaQuery.textScalerOf(context),
+        )..layout();
+        if (painter.width > widestWord) widestWord = painter.width;
+        painter.dispose();
+      }
+      final factor = widestWord > constraints.maxWidth && widestWord > 0
+          ? (constraints.maxWidth / widestWord * .98).clamp(0.0, 1.0)
+          : 1.0;
+      return Text(
+        title,
+        style: resolvedStyle.copyWith(
+          fontSize: (resolvedStyle.fontSize ?? 26) * factor,
+        ),
+      );
+    },
   );
 }

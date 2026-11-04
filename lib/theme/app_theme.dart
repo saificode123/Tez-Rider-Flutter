@@ -12,9 +12,9 @@ import 'app_motion.dart';
 
 class AppColors {
   // ---- Brand ----
-  // Deep coral carries accessible white labels; coral is decorative.
+  // Deep coral carries white labels; bright coral pairs with charcoal.
   static const coral = Color(0xFFFF625E);
-  static const primary = Color(0xFFC9413D);
+  static const primary = Color(0xFFCE3D3A);
   static const primaryDark = Color(0xFFA6322F);
   static const primaryLight = Color(0xFFFF625E);
   static const primarySurface = Color(0xFFFFE8E5);
@@ -57,7 +57,7 @@ class AppColors {
   static const catGifts = Color(0xFFDB2777);
 
   // ---- Role identity colors ----
-  static const roleCustomer = Color(0xFFC9413D);
+  static const roleCustomer = Color(0xFFCE3D3A);
   static const roleCustomerAccent = Color(0xFFB83C38);
   static const roleCustomerSoft = Color(0xFFA6322F);
 
@@ -65,7 +65,7 @@ class AppColors {
   static const roleVendorAccent = Color(0xFFA6322F);
   static const roleVendorSoft = Color(0xFF96312C);
 
-  static const roleRider = Color(0xFFC9413D);
+  static const roleRider = Color(0xFFCE3D3A);
   static const roleRiderAccent = Color(0xFFB83C38);
   static const roleRiderSoft = Color(0xFFA6322F);
 

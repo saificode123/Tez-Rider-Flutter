@@ -28,7 +28,7 @@ import 'chat_rooms_screen.dart';
 import 'customer/help_center_screen.dart';
 import 'customer/notifications_screen.dart';
 
-/// Safely shortens an id string for display â€” never crashes on short ids.
+/// Safely shortens an id string for display — never crashes on short ids.
 String _shortId(dynamic id, [int len = 6]) {
   final s = id?.toString() ?? '------';
   return s.length < len ? s : s.substring(0, len);
@@ -233,7 +233,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                     onPressed: () => Get.to(() => NotificationsScreen()),
                     icon: const Icon(
                       Icons.notifications_outlined,
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -899,7 +899,7 @@ class _RiderDashboardState extends State<RiderDashboard> {
                   if (order['type'] == 'order' &&
                       order['order_status'] == 'on_the_way') ...[
                     Text(
-                      "Share your live location with this orderâ€™s customer during delivery, including while the screen is locked. You can stop sharing below."
+                      "Share your live location with this order’s customer during delivery, including while the screen is locked. You can stop sharing below."
                           .tr,
                     ),
                     const SizedBox(height: 8),

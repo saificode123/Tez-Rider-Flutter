@@ -189,73 +189,81 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ],
                       ),
-                      child: Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: item['image_url'] != null
-                                ? ProductImage(
-                                    imageUrl: item['image_url'],
-                                    width: 72,
-                                    height: 72,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Container(
-                                      width: 72,
-                                      height: 72,
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(
-                                        Icons.image,
-                                        color: Colors.grey,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: item['image_url'] != null
+                                    ? ProductImage(
+                                        imageUrl: item['image_url'],
+                                        width: 72,
+                                        height: 72,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                              width: 72,
+                                              height: 72,
+                                              color: Colors.grey.shade200,
+                                              child: const Icon(
+                                                Icons.image,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                              width: 72,
+                                              height: 72,
+                                              color: Colors.grey.shade200,
+                                              child: const Icon(
+                                                Icons.fastfood,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                      )
+                                    : Container(
+                                        width: 72,
+                                        height: 72,
+                                        color: Colors.grey.shade200,
+                                        child: const Icon(
+                                          Icons.fastfood,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['name'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
                                       ),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                          width: 72,
-                                          height: 72,
-                                          color: Colors.grey.shade200,
-                                          child: const Icon(
-                                            Icons.fastfood,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                  )
-                                : Container(
-                                    width: 72,
-                                    height: 72,
-                                    color: Colors.grey.shade200,
-                                    child: const Icon(
-                                      Icons.fastfood,
-                                      color: Colors.grey,
+                                    StockIndicator(product: item),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "PKR @slot0end".uiTr({
+                                        "slot0end": (item['price']).toString(),
+                                      }),
+                                      style: const TextStyle(
+                                        color: _purple,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item['name'],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
+                                  ],
                                 ),
-                                StockIndicator(product: item),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "PKR @slot0end".uiTr({
-                                    "slot0end": (item['price']).toString(),
-                                  }),
-                                  style: const TextStyle(
-                                    color: _purple,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               IconButton(
                                 icon: const Icon(
@@ -294,6 +302,68 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     );
                   }),
+
+                  SpatialSurface(
+                    margin: const EdgeInsets.only(top: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Material(
+                          color: Colors.transparent,
+                          child: SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              'send_as_gift'.tr,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Perfect for overseas users surprising loved ones."
+                                  .tr,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            value: _isGift,
+                            activeThumbColor: _purple,
+                            onChanged: (val) => setState(() => _isGift = val),
+                          ),
+                        ),
+
+                        if (_isGift) ...[
+                          const SizedBox(height: 12),
+                          TextField(
+                            controller: _recNameCtrl,
+                            decoration: InputDecoration(
+                              labelText: 'recipient_name'.tr,
+                              prefixIcon: const Icon(Icons.person_outline),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          TextField(
+                            controller: _recPhoneCtrl,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              labelText: 'recipient_phone'.tr,
+                              prefixIcon: const Icon(Icons.phone_outlined),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          TextField(
+                            controller: _giftMsgCtrl,
+                            maxLines: 2,
+                            decoration: InputDecoration(
+                              labelText: 'gift_message'.tr,
+                              prefixIcon: const Icon(Icons.card_giftcard),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ],
+                    ),
+                  ),
 
                   // Smart Recommendations Section
                   Obx(() {
@@ -406,60 +476,12 @@ class _CartScreenState extends State<CartScreen> {
                 20 + MediaQuery.paddingOf(context).bottom,
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Material(
-                    color: Colors.transparent,
-                    child: SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        'send_as_gift'.tr,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "Perfect for overseas users surprising loved ones.".tr,
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                      value: _isGift,
-                      activeThumbColor: _purple,
-                      onChanged: (val) => setState(() => _isGift = val),
-                    ),
-                  ),
-
-                  if (_isGift) ...[
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _recNameCtrl,
-                      decoration: InputDecoration(
-                        labelText: 'recipient_name'.tr,
-                        prefixIcon: const Icon(Icons.person_outline),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _recPhoneCtrl,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: 'recipient_phone'.tr,
-                        prefixIcon: const Icon(Icons.phone_outlined),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _giftMsgCtrl,
-                      maxLines: 2,
-                      decoration: InputDecoration(
-                        labelText: 'gift_message'.tr,
-                        prefixIcon: const Icon(Icons.card_giftcard),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-
-                  const Divider(),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 12,
+                    runSpacing: 4,
                     children: [
                       Text(
                         'total'.tr,
@@ -483,10 +505,14 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
-                    height: 54,
                     child: ElevatedButton(
                       onPressed: () => _showCheckoutSheet(),
                       style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(54),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
                         backgroundColor: _purple,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -495,6 +521,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       child: Text(
                         "Proceed to Checkout".tr,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
