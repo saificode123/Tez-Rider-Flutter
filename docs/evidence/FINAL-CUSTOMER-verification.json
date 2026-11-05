@@ -1,0 +1,130 @@
+{
+  "checked_utc": "2026-11-05T15:58:51.118547+00:00",
+  "source_commit": "0a70920d25f0d7e6e9db6a5c8de785659f7ec073",
+  "source_branch": "feature/final-customer-delivery-fixes",
+  "clone_source": "GitHub shallow clone, unchanged lockfile",
+  "flutter": {
+    "passed": 812,
+    "failed": 0,
+    "skipped": 2
+  },
+  "analysis": "No issues found",
+  "deno": {
+    "passed": 240,
+    "failed": 0
+  },
+  "presentation_fixtures": {
+    "passed": 12,
+    "live_backend": false
+  },
+  "configuration_cases": 11,
+  "windows_preflight_failures": 0,
+  "sql_regression_files": 3,
+  "sql_before_and_after_deployment": "PASS",
+  "database": {
+    "controlled_cnic_objects": 1,
+    "migrations": [
+      "202611040001",
+      "202611050001",
+      "202611050002"
+    ],
+    "order3180_cash_events": 0,
+    "order3180_earnings": {
+      "amount": 113,
+      "records": 1
+    }
+  },
+  "preserved_test_state": {
+    "checked_utc": "2026-11-05T15:58:11.0363661Z",
+    "project": "igeisilhtmglgnqvllrx",
+    "mode": "operator read-only metadata; not role/RLS acceptance",
+    "order3180_status": "delivered",
+    "order3180_invoice_count": 0,
+    "product224_stock": 29,
+    "historical_broadcast_rows_observed": 38,
+    "order3180_email_statuses": [
+      {
+        "email_type": "order_confirmation",
+        "status": "sent"
+      }
+    ],
+    "private_buckets": [
+      {
+        "id": "rider-cnic",
+        "public": false
+      },
+      {
+        "id": "dispute-evidence",
+        "public": false
+      },
+      {
+        "id": "invoices",
+        "public": false
+      }
+    ],
+    "external_sends": 0,
+    "backend_mutations": 0,
+    "production_access": false
+  },
+  "android": {
+    "source_commit": "0a70920d25f0d7e6e9db6a5c8de785659f7ec073",
+    "source": "fresh GitHub clone",
+    "artifact": "tezrider-final-customer-fr21test-arm64-debug.apk",
+    "sha256": "28f5cb9b4ed0a9c42409769d3b2df973b6764ca327441cd8965dd9b4ea0cf8ab",
+    "bytes": 106275524,
+    "flutter_abis": [
+      "arm64-v8a"
+    ],
+    "env_asset_present": false,
+    "bundled_fonts": {
+      "Poppins-Regular": true,
+      "Poppins-Bold": true,
+      "NotoNaskhArabic": true,
+      "MaterialIcons": true
+    },
+    "build": "Android TEST arm64 debug; not production signing",
+    "package": "com.example.flutter_application_1.fr21test",
+    "min_sdk": "24",
+    "target_sdk": "36",
+    "signer_sha256": "8a34e66e44a7789737fd600989a927d7a0c1f2ed7fd50928317ae0a8378833fc"
+  },
+  "physical_observations": {
+    "final_apk_installed": true,
+    "customer_session_restored": true,
+    "earlier_stage_apk_product_favorites_empty_and_discovery": true,
+    "final_new_feature_journeys_completed": false
+  },
+  "external_sends": {
+    "email": 1,
+    "otp": 0,
+    "push": 0,
+    "routing": 0
+  },
+  "new_orders": 0,
+  "identity_approvals": 0,
+  "protected_production_access": false,
+  "release_decision": "NOT READY FOR CUSTOMER ACCEPTANCE",
+  "remaining_gates": [
+    "physical camera/gallery/GPS and full current-APK role journeys",
+    "original 2-3s GPS cadence and 800ms route target",
+    "correct approved imagery for missing image data",
+    "invoice inbox/PDF receipt and broadcast device acceptance",
+    "actual partner laptop and iOS/production release gates"
+  ],
+  "invoice_email": {
+    "order_id": 2439,
+    "recipient_digest_verified": true,
+    "status": "sent",
+    "attempts": 1,
+    "inbox_receipt_confirmed": false
+  },
+  "chrome": {
+    "source_commit": "0a70920d25f0d7e6e9db6a5c8de785659f7ec073",
+    "origin": "http://127.0.0.1:7365",
+    "login_rendered": true,
+    "empty_login_validation": true,
+    "rider_role_selection": true,
+    "authenticated_journeys": false,
+    "language_switch_acceptance": "not verified"
+  }
+}

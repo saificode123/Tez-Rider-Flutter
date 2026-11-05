@@ -1,0 +1,22 @@
+{
+  "source_commit": "0a70920d25f0d7e6e9db6a5c8de785659f7ec073",
+  "source": "fresh GitHub clone",
+  "artifact": "tezrider-final-customer-fr21test-arm64-debug.apk",
+  "sha256": "28f5cb9b4ed0a9c42409769d3b2df973b6764ca327441cd8965dd9b4ea0cf8ab",
+  "bytes": 106275524,
+  "flutter_abis": [
+    "arm64-v8a"
+  ],
+  "env_asset_present": false,
+  "bundled_fonts": {
+    "Poppins-Regular": true,
+    "Poppins-Bold": true,
+    "NotoNaskhArabic": true,
+    "MaterialIcons": true
+  },
+  "build": "Android TEST arm64 debug; not production signing",
+  "package": "com.example.flutter_application_1.fr21test",
+  "min_sdk": "24",
+  "target_sdk": "36",
+  "signer_sha256": "8a34e66e44a7789737fd600989a927d7a0c1f2ed7fd50928317ae0a8378833fc"
+}

@@ -1,0 +1,43 @@
+{
+  "checked_utc": "2026-11-05T07:17:39.584723+00:00",
+  "project": "igeisilhtmglgnqvllrx",
+  "mode": "existing synthetic Auth sessions; read-only role checks",
+  "checks": [
+    {
+      "role": "customer",
+      "account_status_http": 200,
+      "server_role": "customer",
+      "account_code": "OK",
+      "dispute_read_http": 200,
+      "dispute_read_role_boundary": true,
+      "favorites_read_http": 200,
+      "foreign_favorites_observed": 0
+    },
+    {
+      "role": "vendor",
+      "account_status_http": 200,
+      "server_role": "vendor",
+      "account_code": "OK",
+      "dispute_read_http": 403,
+      "dispute_read_role_boundary": true
+    },
+    {
+      "role": "rider",
+      "account_status_http": 200,
+      "server_role": "rider",
+      "account_code": "OK",
+      "dispute_read_http": 403,
+      "dispute_read_role_boundary": true
+    },
+    {
+      "role": "admin",
+      "account_status_http": 200,
+      "server_role": "admin",
+      "account_code": "OK",
+      "dispute_read_http": 403,
+      "dispute_read_role_boundary": true
+    }
+  ],
+  "external_sends": 0,
+  "business_mutations": 0
+}

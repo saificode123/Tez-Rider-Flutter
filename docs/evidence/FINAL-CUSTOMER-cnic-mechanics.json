@@ -1,0 +1,82 @@
+{
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "controlled non-sensitive synthetic upload mechanics only; not genuine identity acceptance",
+  "checks": [
+    {
+      "check": "existing synthetic account prefix",
+      "result": "PASS"
+    },
+    {
+      "check": "existing synthetic account authenticated",
+      "result": "PASS"
+    },
+    {
+      "check": "synthetic fixture metadata confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "only an existing pending synthetic Rider is modified",
+      "result": "PASS"
+    },
+    {
+      "check": "real Edge upload confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "database path and private object verified through Rider RPC",
+      "result": "PASS"
+    },
+    {
+      "check": "same upload UUID safely replays",
+      "result": "PASS"
+    },
+    {
+      "check": "existing synthetic account prefix",
+      "result": "PASS"
+    },
+    {
+      "check": "existing synthetic account authenticated",
+      "result": "PASS"
+    },
+    {
+      "check": "synthetic fixture metadata confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "Admin receives only an authorized private expiring link",
+      "result": "PASS"
+    },
+    {
+      "check": "Admin private download matches uploaded PNG",
+      "result": "PASS"
+    },
+    {
+      "check": "existing synthetic account prefix",
+      "result": "PASS"
+    },
+    {
+      "check": "existing synthetic account authenticated",
+      "result": "PASS"
+    },
+    {
+      "check": "synthetic fixture metadata confirmed",
+      "result": "PASS"
+    },
+    {
+      "check": "unrelated Customer cannot retrieve Rider document",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous document request denied",
+      "result": "PASS"
+    },
+    {
+      "check": "synthetic mechanics never become genuine verification or approval",
+      "result": "PASS"
+    }
+  ],
+  "external_sends": 0,
+  "new_orders": 0,
+  "identity_approvals": 0,
+  "protected_production_access": false
+}

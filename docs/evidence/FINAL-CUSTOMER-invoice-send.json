@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-11-05T16:06:10.3840697Z",
+  "project": "igeisilhtmglgnqvllrx",
+  "owner_approval": "Approve recipient correction and one TEST email",
+  "recipient_digest_verified": true,
+  "authorized_existing_jobs": 1,
+  "order_id": 2439,
+  "total_pkr": 600,
+  "new_orders": 0,
+  "new_payments": 0,
+  "new_cash_records": 0,
+  "otp_sends": 0,
+  "broadcast_sends": 0,
+  "protected_production_access": false,
+  "worker_result": {
+    "status": "sent",
+    "attempts": 1,
+    "test_approved": true,
+    "last_error": null,
+    "sent_at": "2026-11-05T21:07:37.3787+05:00"
+  },
+  "inbox_and_attachment_receipt": "Awaiting owner confirmation; not inferred from sent status"
+}

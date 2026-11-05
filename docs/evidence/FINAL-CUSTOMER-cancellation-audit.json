@@ -1,0 +1,66 @@
+{
+  "portions": [
+    {
+      "id": 2097,
+      "order_id": 3181,
+      "vendor_id": 998,
+      "status": "cancelled",
+      "acceptance_started_at": "2026-10-30T02:05:58.62268+05:00",
+      "acceptance_deadline_at": "2026-10-30T02:08:58.62268+05:00"
+    },
+    {
+      "id": 2098,
+      "order_id": 3182,
+      "vendor_id": 998,
+      "status": "cancelled",
+      "acceptance_started_at": "2026-11-03T16:51:14.244381+05:00",
+      "acceptance_deadline_at": "2026-11-03T16:54:14.244381+05:00"
+    },
+    {
+      "id": 2099,
+      "order_id": 3183,
+      "vendor_id": 998,
+      "status": "cancelled",
+      "acceptance_started_at": "2026-11-03T18:44:36.983788+05:00",
+      "acceptance_deadline_at": "2026-11-03T18:47:36.983788+05:00"
+    }
+  ],
+  "orders": [
+    {
+      "id": 3180,
+      "order_status": "delivered",
+      "cancellation_reason": null,
+      "cancelled_at": null,
+      "acceptance_deadline_at": null,
+      "checkout_finalized_at": "2026-10-29T18:58:55.682248+05:00",
+      "timeout_review_reason": null
+    },
+    {
+      "id": 3181,
+      "order_status": "cancelled",
+      "cancellation_reason": "vendor_timeout",
+      "cancelled_at": "2026-10-30T02:09:00.199322+05:00",
+      "acceptance_deadline_at": null,
+      "checkout_finalized_at": "2026-10-30T02:05:58.62268+05:00",
+      "timeout_review_reason": null
+    },
+    {
+      "id": 3182,
+      "order_status": "cancelled",
+      "cancellation_reason": "vendor_timeout",
+      "cancelled_at": "2026-11-03T16:55:00.418039+05:00",
+      "acceptance_deadline_at": null,
+      "checkout_finalized_at": "2026-11-03T16:51:14.244381+05:00",
+      "timeout_review_reason": null
+    },
+    {
+      "id": 3183,
+      "order_status": "cancelled",
+      "cancellation_reason": "vendor_timeout",
+      "cancelled_at": "2026-11-03T18:48:00.070203+05:00",
+      "acceptance_deadline_at": null,
+      "checkout_finalized_at": "2026-11-03T18:44:36.983788+05:00",
+      "timeout_review_reason": null
+    }
+  ]
+}

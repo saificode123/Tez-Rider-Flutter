@@ -87,3 +87,7 @@ The owner specifically approved sending only order 3180's synthetic TEST Custome
 ## Owner addendum — TEST Vendor/Rider Favorites (2026-11-05)
 
 The owner explicitly answered **"Approve this TEST-only implementation"** to the bounded relationship contract in `docs/FINAL-DELIVERY/FAVORITE-RELATIONSHIPS-PROPOSAL.md`: Customer-owned Vendor favorites from actual order history and Rider favorites from completed deliveries, with no private contact, CNIC or location disclosure. Reuse the existing UUID favorites table through server-authorized, idempotent operations; verify ownership, role and history. This supersedes the earlier optional-module deferral only for this approved scope. No production change, invented relationship, account approval or external message is authorized by this addendum.
+
+## Owner addendum — one existing TEST invoice email (2026-11-05)
+
+The owner explicitly answered **"Approve recipient correction and one TEST email"** for correcting only TEST `BREVO_TEST_RECIPIENT` to the verified owner-controlled inbox and sending exactly one existing synthetic invoice email for order 2439, PKR 600. This authorizes no new order, payment, cash record, OTP, broadcast or production operation. Provider acceptance and inbox/PDF receipt remain separate acceptance checks.

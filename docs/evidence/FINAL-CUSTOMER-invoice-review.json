@@ -1,0 +1,41 @@
+{
+  "order_id": 2439,
+  "invoice_id": "553b9bd2-1436-47a0-b2d6-d34c52a5fabe",
+  "email_id": "d1882560-f619-46cd-83a6-06008a9cbdc0",
+  "scope": "existing synthetic TEST invoice; not order 3180 or a new payment",
+  "checks": [
+    {
+      "check": "Existing synthetic Admin authenticated",
+      "pass": true
+    },
+    {
+      "check": "Existing candidate PDF is ready",
+      "pass": true
+    },
+    {
+      "check": "Admin gets authorized expiring private invoice link",
+      "pass": true
+    },
+    {
+      "check": "Private PDF downloaded",
+      "pass": true
+    },
+    {
+      "check": "Real PDF signature",
+      "pass": true
+    },
+    {
+      "check": "Downloaded PDF matches server hash and length",
+      "pass": true
+    }
+  ],
+  "email_sent": false,
+  "pdf_checks": {
+    "order_id": 2439,
+    "pages": 1,
+    "order_id_in_text": true,
+    "currency_in_text": true,
+    "expected_amount_in_text": true,
+    "email_sent": false
+  }
+}
