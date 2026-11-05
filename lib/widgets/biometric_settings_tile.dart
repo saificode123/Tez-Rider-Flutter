@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../controllers/auth_controller.dart';
 
-/// Optional account-bound sign-in shortcut. Normal session restore is separate.
+/// Explicit account-bound enrollment; logout revokes the shortcut.
 class BiometricSettingsTile extends StatefulWidget {
   const BiometricSettingsTile({super.key});
 
@@ -28,7 +29,7 @@ class _BiometricSettingsTileState extends State<BiometricSettingsTile> {
             title: Text('Biometric sign-in'.tr),
             subtitle: Text(
               (auth.isBioSupported.value
-                      ? 'Optional sign-in shortcut for this account. Password login remains available; this does not lock an already signed-in app.'
+                      ? 'Use biometrics when reopening this app. Password login remains available. Logout removes this preference.'
                       : 'Enroll biometrics in your device settings to use this shortcut.')
                   .tr,
             ),
@@ -44,8 +45,7 @@ class _BiometricSettingsTileState extends State<BiometricSettingsTile> {
                       await auth.setBioPreference(enabled);
                       if (mounted && auth.isBioEnabled.value != enabled) {
                         setState(
-                          () => _error =
-                              'Biometric verification was not completed. Retry or use your password.',
+                          () => _error = 'Biometric verification was not completed. Retry or use your password.',
                         );
                       }
                     } catch (_) {
@@ -60,6 +60,24 @@ class _BiometricSettingsTileState extends State<BiometricSettingsTile> {
                     }
                   },
           ),
+          if (auth.isBioEnabled.value && auth.isBioSupported.value)
+            TextButton.icon(
+              onPressed: _saving
+                  ? null
+                  : () async {
+                      try {
+                        await auth.lockForBiometricSignIn();
+                      } catch (_) {
+                        if (mounted) {
+                          setState(
+                            () => _error = 'Biometric preference could not be saved. Retry.',
+                          );
+                        }
+                      }
+                    },
+              icon: const Icon(Icons.lock_outline_rounded),
+              label: Text('Lock and sign in'.tr),
+            ),
           if (_saving) const LinearProgressIndicator(),
           if (_error != null)
             Padding(

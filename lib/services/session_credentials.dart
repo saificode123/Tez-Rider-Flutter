@@ -134,6 +134,14 @@ class SessionCredentials {
     }
   }
 
+  /// Strict read for the entry gate: storage failure must deny restoration.
+  Future<bool> biometricRequired(String account) async {
+    if (!await restorationAllowed()) throw StateError(secureSessionUnavailable);
+    final enabled = await _readSecure('bio_enabled');
+    final owner = await _readSecure('bio_account');
+    return enabled == 'true' && owner == account;
+  }
+
   /// A legacy device-wide flag never grants enrollment to another account.
   Future<bool> biometricEnabled(String account) async {
     if (!await restorationAllowed()) return false;

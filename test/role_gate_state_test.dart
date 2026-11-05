@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_application_1/controllers/auth_controller.dart';
 import 'package:flutter_application_1/widgets/role_access_gate.dart';
+
 import 'support/closure_harness.dart';
 
 class _Dashboard extends StatefulWidget {
@@ -42,6 +43,7 @@ void main() {
   tearDownAll(() => Supabase.instance.dispose());
   setUp(() async {
     Get.testMode = true;
+    VaultDouble().install();
     await Supabase.instance.client.auth.recoverSession(
       jsonEncode(unitSession().toJson()),
     );

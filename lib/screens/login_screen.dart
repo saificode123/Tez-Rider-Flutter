@@ -29,7 +29,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final AuthController authController = Get.find<AuthController>();
@@ -80,6 +80,8 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    authController.refreshBiometricState();
     _animCtrl = AnimationController(vsync: this, duration: AppMotion.entrance);
     _cardFade = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _cardSlide = Tween<Offset>(
@@ -106,7 +108,15 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      authController.refreshBiometricState();
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _animCtrl.dispose();
     _emailCtrl.dispose();
     _passCtrl.dispose();
@@ -215,8 +225,14 @@ class _LoginScreenState extends State<LoginScreen>
       }
 
       try {
-        await authController.credentials.remember(res.session!, realRole);
-        authController.isBioEnabled.value = false;
+        await authController.credentials.remember(
+          res.session!,
+          realRole,
+          preserveBiometric: true,
+        );
+        authController.confirmSessionEntry(res.user!.id);
+        authController.isBioEnabled.value = await authController.credentials
+            .biometricEnabled(res.user!.id);
       } catch (_) {
         await authController.logout(navigate: false);
         _showError(secureSessionUnavailable);
@@ -297,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen>
             _showError('Please sign in with your password.');
             return;
           }
-          if (!await authController.enforceAccountAccess()) {
+          if (!await authController.enforceAccountAccess(passwordLogin: true)) {
             final disposition = authController.accountGate.current;
             await authController.logout(navigate: false);
             _showError(
@@ -325,6 +341,7 @@ class _LoginScreenState extends State<LoginScreen>
             access.role,
             preserveBiometric: true,
           );
+          authController.confirmSessionEntry(saved.account);
           if (access.needsApproval) {
             if (access.role == 'rider') {
               Get.offAll(() => const CnicDocumentScreen());
@@ -340,6 +357,10 @@ class _LoginScreenState extends State<LoginScreen>
         } else {
           _showError('Session expired. Please sign in with your password.');
         }
+      } else {
+        _showError(
+          'Biometric verification was not completed. Retry or use your password.',
+        );
       }
     } catch (_) {
       await authController.logout(navigate: false);
@@ -580,18 +601,19 @@ class _LoginScreenState extends State<LoginScreen>
                                           Obx(
                                             () =>
                                                 authController
-                                                        .isBioSupported
-                                                        .value &&
-                                                    authController
-                                                        .isBioEnabled
-                                                        .value
+                                                    .isBioSupported
+                                                    .value
                                                 ? Padding(
                                                     padding:
                                                         const EdgeInsets.only(
                                                           top: 12,
                                                         ),
                                                     child: TextButton.icon(
-                                                      onPressed: _loading
+                                                      onPressed:
+                                                          _loading ||
+                                                              !authController
+                                                                  .isBioEnabled
+                                                                  .value
                                                           ? null
                                                           : _biometricLogin,
                                                       icon: const Icon(
@@ -599,7 +621,11 @@ class _LoginScreenState extends State<LoginScreen>
                                                             .fingerprint_rounded,
                                                       ),
                                                       label: Text(
-                                                        'Continue with Biometrics'
+                                                        (authController
+                                                                    .isBioEnabled
+                                                                    .value
+                                                                ? 'Continue with Biometrics'
+                                                                : 'Sign in, then enable biometrics in your profile.')
                                                             .tr,
                                                       ),
                                                     ),

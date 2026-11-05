@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_application_1/controllers/auth_controller.dart';
 import 'package:flutter_application_1/services/account_session_service.dart';
 import 'package:flutter_application_1/services/session_credentials.dart';
 import 'package:flutter_application_1/widgets/role_access_gate.dart';
+
 import 'support/closure_harness.dart';
 
 class ReviewStatusBackend implements AccountSessionBackend {
@@ -56,6 +58,7 @@ void main() {
     'live review status hides and restores the vendor dashboard using the existing account watcher',
     (tester) async {
       Get.testMode = true;
+      VaultDouble().install();
       await Supabase.instance.client.auth.recoverSession(
         jsonEncode(unitSession().toJson()),
       );

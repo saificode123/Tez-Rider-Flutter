@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../services/onboarding_service.dart';
 import 'signup_screen.dart';
+
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'cnic_document_screen.dart';
 import '../theme/app_theme.dart';
 import '../controllers/auth_controller.dart';
@@ -100,13 +103,17 @@ class _SplashScreenState extends State<SplashScreen>
     if (client.auth.currentSession != null) {
       try {
         if (Get.isRegistered<AuthController>() &&
+            !await Get.find<AuthController>().sessionRestorationAllowed()) {
+          if (mounted) Get.offAllNamed('/login');
+          return;
+        }
+        if (Get.isRegistered<AuthController>() &&
             !await Get.find<AuthController>().enforceAccountAccess()) {
           if (mounted) {
             Get.offAllNamed(
               '/login',
               arguments: {
-                'account_message':
-                    'Account access could not be verified. Check your connection and Retry.',
+                'account_message': 'Account access could not be verified. Check your connection and Retry.',
               },
             );
           }

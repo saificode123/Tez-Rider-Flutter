@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../services/account_access.dart';
 import '../controllers/auth_controller.dart';
 
@@ -58,7 +60,7 @@ class _RoleAccessGateState extends State<RoleAccessGate>
     if (account == null) return false;
     try {
       if (Get.isRegistered<AuthController>() &&
-          !await Get.find<AuthController>().credentials.restorationAllowed()) {
+          !await Get.find<AuthController>().sessionRestorationAllowed()) {
         return false;
       }
       final status = await _client

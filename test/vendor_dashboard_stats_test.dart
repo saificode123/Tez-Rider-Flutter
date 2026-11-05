@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_application_1/controllers/vendor_controller.dart';
 import 'package:flutter_application_1/controllers/auth_controller.dart';
 import 'package:flutter_application_1/controllers/rider_controller.dart';
 import 'package:flutter_application_1/screens/vendor_dashboard.dart';
+
 import 'support/closure_harness.dart';
 
 class QuietVendor extends VendorController {
@@ -90,31 +92,28 @@ void main() {
       expect(jsonDecode(request.body)['p_limit'], 1);
     },
   );
-  test(
-    'Vendor dashboard displays canonical feedback average instead of older mixed ratings',
-    () async {
-      transport.respond = (r) async => UiTransport.jsonResponse(
-        r.url.path.endsWith('/final2_vendor_report')
-            ? statsReport()
-            : {
-                'code': 'OK',
-                'target_id': 10,
-                'role': 'vendor',
-                'count': 2,
-                'average': 4.5,
-                'recent': [],
-              },
-      );
-      await controller.loadStats();
-      expect(controller.averageRating.value, '4.5 ★');
-      expect(
-        transport.requests.any(
-          (r) => r.url.path.endsWith('/fr21_dashboard_stats'),
-        ),
-        false,
-      );
-    },
-  );
+  test('Vendor dashboard displays canonical feedback average instead of older mixed ratings', () async {
+    transport.respond = (r) async => UiTransport.jsonResponse(
+      r.url.path.endsWith('/final2_vendor_report')
+          ? statsReport()
+          : {
+              'code': 'OK',
+              'target_id': 10,
+              'role': 'vendor',
+              'count': 2,
+              'average': 4.5,
+              'recent': [],
+            },
+    );
+    await controller.loadStats();
+    expect(controller.averageRating.value, '4.5 ★');
+    expect(
+      transport.requests.any(
+        (r) => r.url.path.endsWith('/fr21_dashboard_stats'),
+      ),
+      false,
+    );
+  });
   test(
     'unapproved Rider fees never reuse delivered order totals as wages',
     () async {
@@ -194,6 +193,7 @@ void main() {
     'profile payment entry opens the actual authorized report instead of a placeholder',
     (t) async {
       Get.testMode = true;
+      VaultDouble().install();
       await t.binding.setSurfaceSize(const Size(600, 1000));
       addTearDown(() => t.binding.setSurfaceSize(null));
       transport.respond = (r) async {

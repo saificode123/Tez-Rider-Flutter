@@ -1,5 +1,10 @@
 /// Final customer delivery fixes; source keys remain stable in English.
 const finalCustomerUrdu = <String, String>{
+  'Lock and sign in': 'لاک کریں اور سائن اِن کریں',
+  'Sign in, then enable biometrics in your profile.':
+      'سائن اِن کر کے اپنے پروفائل میں بایومیٹرک فعال کریں۔',
+  'Use biometrics when reopening this app. Password login remains available. Logout removes this preference.': 'ایپ دوبارہ کھولتے وقت بایومیٹرک استعمال کریں۔ پاس ورڈ سے سائن اِن دستیاب ہے۔ لاگ آؤٹ سے یہ ترجیح ختم ہو جائے گی۔',
+
   'Photo not provided.': 'تصویر فراہم نہیں کی گئی۔',
   'Image unavailable. Tap to retry.':
       'تصویر دستیاب نہیں۔ دوبارہ کوشش کرنے کے لیے دبائیں۔',

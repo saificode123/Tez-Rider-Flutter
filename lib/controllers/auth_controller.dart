@@ -1,9 +1,14 @@
 import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
 import '../services/email_verification.dart';
 import '../screens/email_verification_screen.dart';
+
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'rider_controller.dart';
 import 'cart_controller.dart';
 import '../services/account_session_service.dart';
@@ -23,8 +28,47 @@ class AuthController extends GetxController {
   late final AccountSessionGate accountGate;
   StreamSubscription<AuthState>? _sessionChanges;
   bool _denying = false;
+  String? _unlockedAccount;
+  int _biometricGeneration = 0;
+  bool get localSessionEntered =>
+      _unlockedAccount != null &&
+      _unlockedAccount == Supabase.instance.client.auth.currentUser?.id;
+
+  /// A cold opted-in session cannot enter a dashboard before local verification.
+  Future<bool> sessionRestorationAllowed() async {
+    if (!await credentials.restorationAllowed()) return false;
+    final account = Supabase.instance.client.auth.currentUser?.id;
+    if (account == null) return false;
+    if (_unlockedAccount == account) return true;
+    try {
+      final allowed =
+          !await credentials.biometricRequired(account) &&
+          account == Supabase.instance.client.auth.currentUser?.id;
+      if (allowed) _unlockedAccount = account;
+      return allowed;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void confirmSessionEntry(String account) {
+    if (account == Supabase.instance.client.auth.currentUser?.id) {
+      _unlockedAccount = account;
+    }
+  }
+
+  Future<void> lockForBiometricSignIn() async {
+    final account = Supabase.instance.client.auth.currentUser?.id;
+    if (account == null || !await credentials.biometricRequired(account)) {
+      return;
+    }
+    if (account != Supabase.instance.client.auth.currentUser?.id) return;
+    _unlockedAccount = null;
+    Get.offAllNamed('/login');
+  }
+
   Future<bool> enforceAccountAccess({bool passwordLogin = false}) async {
-    if (!passwordLogin && !await credentials.restorationAllowed()) return false;
+    if (!passwordLogin && !await sessionRestorationAllowed()) return false;
     final result = await accountGate.check();
     return result == AccountDisposition.allowed ||
         result == AccountDisposition.missing;
@@ -71,6 +115,8 @@ class AuthController extends GetxController {
     _sessionChanges = Supabase.instance.client.auth.onAuthStateChange.listen(
       (state) {
         if (state.event == AuthChangeEvent.signedOut) {
+          _unlockedAccount = null;
+          _biometricGeneration++;
           unawaited(accountGate.reset());
         } else if (state.session != null) {
           // Keep Auth SDK calls outside its synchronous event callback.
@@ -95,8 +141,7 @@ class AuthController extends GetxController {
             Future<void>(() {
               Get.offAll(
                 () => const EmailVerificationScreen(
-                  notice:
-                      'This verification link is expired or invalid. Request a new link.',
+                  notice: 'This verification link is expired or invalid. Request a new link.',
                 ),
               );
             }),
@@ -110,15 +155,21 @@ class AuthController extends GetxController {
   void onReady() {
     super.onReady();
     // Native keystore callbacks must not compete with pre-frame bootstrap.
-    unawaited(_initializeBiometrics());
+    unawaited(refreshBiometricState());
   }
 
-  Future<void> _initializeBiometrics() async {
+  Future<void> refreshBiometricState() async {
     await _checkBioSupport();
     await _loadBioPreference();
   }
 
   Future<void> _checkBioSupport() async {
+    if (kIsWeb ||
+        defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux) {
+      isBioSupported.value = false;
+      return;
+    }
     try {
       final canCheck = await _auth.canCheckBiometrics;
       final isDeviceSupported = await _auth.isDeviceSupported();
@@ -152,25 +203,28 @@ class AuthController extends GetxController {
     }
     await credentials.setBiometricEnabled(account, val);
     isBioEnabled.value = val;
+    if (val) confirmSessionEntry(account);
   }
 
   Future<bool> authenticateWithBiometrics() async {
     if (isLoading.value) return false;
     isLoading.value = true;
+    final generation = _biometricGeneration;
     try {
       if (!isBioSupported.value ||
           (await _auth.getAvailableBiometrics()).isEmpty) {
         return false;
       }
-      return await _auth.authenticate(
+      final verified = await _auth.authenticate(
         localizedReason:
             'Verify your identity with biometrics to sign in to TezRider',
         options: const AuthenticationOptions(
           biometricOnly: true,
           stickyAuth: true,
-          useErrorDialogs: true,
+          useErrorDialogs: false,
         ),
       );
+      return verified && generation == _biometricGeneration;
     } catch (_) {
       return false;
     } finally {
@@ -186,6 +240,13 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout({bool navigate = true}) async {
+    _unlockedAccount = null;
+    _biometricGeneration++;
+    if (isLoading.value) {
+      try {
+        await _auth.stopAuthentication().timeout(const Duration(seconds: 2));
+      } catch (_) {}
+    }
     if (Get.isRegistered<CartController>()) {
       Get.find<CartController>().forgetSession();
     }
