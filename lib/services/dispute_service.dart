@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -61,22 +62,23 @@ class DisputeImagePicker {
       source: source,
       requestFullMetadata: false,
     );
-    return file == null ? null : read(file.path);
+    return file == null ? null : readFile(file);
   }
 
   Future<DisputeImage?> recover() async {
-    if (!Platform.isAndroid) return null;
+    if (kIsWeb || !Platform.isAndroid) return null;
     final result = await _picker.retrieveLostData();
     if (result.exception != null) {
       throw const FormatException('Select the interrupted image again.');
     }
     return result.files?.isNotEmpty == true
-        ? read(result.files!.first.path)
+        ? readFile(result.files!.first)
         : null;
   }
 
-  Future<DisputeImage> read(String path) async {
-    final file = File(path);
+  Future<DisputeImage> read(String path) => readFile(XFile(path));
+
+  Future<DisputeImage> readFile(XFile file) async {
     if (await file.length() > 5242880) {
       throw const FormatException('Maximum image size is 5 MB.');
     }
@@ -129,7 +131,7 @@ class DisputeImagePicker {
           'Maximum prepared image size is 5 MB. Select a smaller image.',
         );
       }
-      return DisputeImage(encoded.buffer.asUint8List(), path);
+      return DisputeImage(encoded.buffer.asUint8List(), file.path);
     } catch (e) {
       if (e is FormatException) rethrow;
       throw const FormatException(

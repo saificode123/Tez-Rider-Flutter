@@ -1,11 +1,18 @@
+import '../search_screen.dart';
+import '../../widgets/spatial_surface.dart';
 import '../../theme/app_theme.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import '../../widgets/stock_indicator.dart';
 import '../../services/inventory_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../widgets/product_image.dart';
+import '../../widgets/related_favorites.dart';
 import '../../controllers/cart_controller.dart';
 import '../product_detail_screen.dart';
 
@@ -30,6 +37,10 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   bool _loading = true;
   String? _loadError;
   int? _userId;
+  bool _loadBusy = false;
+  bool _related = false;
+  int _relatedRevision = 0;
+  final Set<dynamic> _removing = {};
 
   @override
   void initState() {
@@ -38,6 +49,8 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   }
 
   Future<void> _load() async {
+    if (_loadBusy || !mounted) return;
+    _loadBusy = true;
     setState(() {
       _loading = true;
       _loadError = null;
@@ -48,8 +61,9 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
       final rec = await _supabase
           .from('users')
           .select('id')
-          .eq('email', user.email!)
-          .maybeSingle();
+          .eq('auth_user_id', user.id)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 12));
       if (rec == null) throw StateError('Account unavailable');
       _userId = rec['id'];
 
@@ -61,28 +75,46 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                   )
                   .eq('user_id', _userId!)
                   .order('created_at', ascending: false)
+                  .timeout(const Duration(seconds: 12))
               as List;
       if (mounted) {
         setState(() => _favourites = data.cast<Map<String, dynamic>>());
       }
+    } on PostgrestException catch (error) {
+      if (mounted) {
+        setState(
+          () => _loadError = error.code == '42501'
+              ? 'Favorites are unavailable for this account. Please contact support.'
+              : 'Favorites could not be loaded. Please retry.',
+        );
+      }
     } catch (_) {
       if (mounted) {
-        setState(() => _loadError = 'Favourites could not be loaded. Retry.');
+        setState(
+          () => _loadError =
+              'Favorites could not be loaded. Check your connection and retry.',
+        );
       }
     } finally {
+      _loadBusy = false;
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _remove(dynamic favId, String name) async {
+    if (_userId == null || _removing.contains(favId)) return;
+    setState(() => _removing.add(favId));
     try {
       await _supabase
           .from('favourite')
           .delete()
           .eq('id', favId)
+          .eq('user_id', _userId!)
           .select('id')
-          .single();
-      _load();
+          .single()
+          .timeout(const Duration(seconds: 12));
+      if (!mounted) return;
+      setState(() => _favourites.removeWhere((row) => row['id'] == favId));
       Get.snackbar(
         "Removed".tr,
         "\"@slot0end\" removed from favourites.".uiTr({
@@ -95,10 +127,14 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
         borderRadius: 14,
       );
     } catch (_) {
-      Get.snackbar(
-        "Not removed".tr,
-        "Removal was not confirmed. Please retry.".tr,
-      );
+      if (mounted) {
+        Get.snackbar(
+          "Not removed".tr,
+          "Removal was not confirmed. Please retry.".tr,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _removing.remove(favId));
     }
   }
 
@@ -134,69 +170,164 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded, color: Colors.white),
-            onPressed: _load,
+            onPressed: _related
+                ? () => setState(() => _relatedRevision++)
+                : _loading
+                ? null
+                : _load,
+            tooltip: 'Refresh favorites'.tr,
           ),
         ],
       ),
-      body: _loading
-          ? const Center(
-              child: CircularProgressIndicator(color: _kPurple, strokeWidth: 2),
-            )
-          : _loadError != null
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(_loadError!.tr),
-                  TextButton(
-                    onPressed: _load,
-                    child: Text("Retry favourites".tr),
-                  ),
-                ],
-              ),
-            )
-          : _favourites.isEmpty
-          ? _buildEmpty()
-          : RefreshIndicator(
-              color: _kPurple,
-              onRefresh: _load,
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                itemCount: _favourites.length,
-                itemBuilder: (_, i) => _buildCard(_favourites[i], cart),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ChoiceChip(
+                  label: Text('Products'.tr),
+                  selected: !_related,
+                  onSelected: (_) => setState(() => _related = false),
+                ),
+                ChoiceChip(
+                  label: Text('Vendors & Riders'.tr),
+                  selected: _related,
+                  onSelected: (_) => setState(() => _related = true),
+                ),
+              ],
             ),
+          ),
+          Expanded(
+            child: _related
+                ? SingleChildScrollView(
+                    child: RelatedFavorites(key: ValueKey(_relatedRevision)),
+                  )
+                : _loading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: _kPurple,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : _loadError != null
+                ? Center(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(24),
+                      child: SpatialSurface(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.cloud_off_rounded,
+                              color: _kPurple,
+                              size: 40,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(_loadError!.tr, textAlign: TextAlign.center),
+                            const SizedBox(height: 12),
+                            OutlinedButton.icon(
+                              onPressed: _load,
+                              icon: const Icon(Icons.refresh_rounded),
+                              label: Text("Retry favourites".tr),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : _favourites.isEmpty
+                ? _buildEmpty()
+                : RefreshIndicator(
+                    color: _kPurple,
+                    onRefresh: _load,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+                      itemCount: _favourites.length,
+                      itemBuilder: (_, i) => _buildCard(_favourites[i], cart),
+                    ),
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildEmpty() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('❤️', style: TextStyle(fontSize: 60)),
-          const SizedBox(height: 20),
-          Text(
-            "No favourites yet".tr,
-            style: TextStyle(
-              color: _kText,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 440),
+          child: SpatialSurface(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    color: AppColors.primarySurface,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.favorite_border_rounded,
+                    size: 48,
+                    color: _kPurple,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  'No Favorites'.tr,
+                  style: Theme.of(context).textTheme.headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.w800),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Save products you love using the heart on a product.'.tr,
+                  style: const TextStyle(color: _kTextSub, height: 1.6),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () async {
+                    await Get.to(() => const SearchScreen());
+                    if (mounted) await _load();
+                  },
+                  icon: const Icon(Icons.add_rounded),
+                  label: Text('Add to Favorites'.tr),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            "Tap ❤️ on any product to save it here.".tr,
-            style: TextStyle(color: _kTextSub, fontSize: 14),
-            textAlign: TextAlign.center,
-          ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildCard(Map<String, dynamic> fav, CartController cart) {
-    final p = fav['products'] as Map<String, dynamic>? ?? {};
+    final p = fav['products'] as Map<String, dynamic>?;
+    if (p == null) {
+      return SpatialSurface(
+        margin: const EdgeInsets.only(bottom: 14),
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.inventory_2_outlined, color: _kPurple),
+          title: Text('Product unavailable'.tr),
+          subtitle: Text('This saved product is no longer available.'.tr),
+          trailing: IconButton(
+            tooltip: 'Remove'.tr,
+            onPressed: _removing.contains(fav['id'])
+                ? null
+                : () => _remove(fav['id'], 'Product'.tr),
+            icon: const Icon(Icons.favorite_rounded, color: _kPurple),
+          ),
+        ),
+      );
+    }
     final name = p['name'] ?? 'Product';
     final price = p['price'] ?? 0;
     final imageUrl = p['image_url'] as String? ?? '';
@@ -296,7 +427,9 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
                       color: _kPink,
                       size: 22,
                     ),
-                    onPressed: () => _remove(fav['id'], name),
+                    onPressed: _removing.contains(fav['id'])
+                        ? null
+                        : () => _remove(fav['id'], name),
                     tooltip: "Remove".tr,
                   ),
                   Material(
@@ -368,21 +501,20 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
   }
 
   Widget _placeholder(String cat) {
-    const map = {
-      'Food': '🍔',
-      'Grocery': '🥦',
-      'Pharmacy': '💊',
-      'Thrift': '👗',
-      'Preloved': '♻️',
-      'Tailoring': '✂️',
+    final icon = switch (cat.toLowerCase().trim()) {
+      'food' => Icons.restaurant_rounded,
+      'grocery' || 'groceries' => Icons.local_grocery_store_rounded,
+      'pharmacy' => Icons.local_pharmacy_rounded,
+      'thrift' => Icons.checkroom_rounded,
+      'preloved' => Icons.recycling_rounded,
+      'tailoring' => Icons.content_cut_rounded,
+      _ => Icons.shopping_bag_outlined,
     };
     return Container(
       width: 88,
       height: 88,
       color: _kPurple.withValues(alpha: 0.08),
-      child: Center(
-        child: Text(map[cat] ?? '🛍️', style: const TextStyle(fontSize: 32)),
-      ),
+      child: Center(child: Icon(icon, size: 32, color: _kPurple)),
     );
   }
 }

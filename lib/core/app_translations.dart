@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+
 import 'stage2_translations.dart';
 import 'stage2_ui_translations.dart';
 import 'profile_email_translations.dart';
+import 'final_customer_translations.dart';
 
 class AppTranslations extends Translations {
   @override
@@ -25,6 +27,7 @@ class AppTranslations extends Translations {
       'Show password': 'Show password',
       'Hide password': 'Hide password',
       'Continue with Biometrics': 'Continue with Biometrics',
+      for (final key in finalCustomerUrdu.keys) key: key,
       for (final key in profileEmailUrdu.keys) key: key,
       for (final key in stage2UiUrdu.keys) key: key,
       for (final key in stage2Urdu.keys) key: key,
@@ -109,6 +112,7 @@ class AppTranslations extends Translations {
       'Hide password': 'پاس ورڈ چھپائیں',
       'Continue with Biometrics': 'بائیومیٹرک سے جاری رکھیں',
       ...profileEmailUrdu,
+      ...finalCustomerUrdu,
       ...stage2UiUrdu,
       ...stage2Urdu,
       'app_name': 'تیز رائیڈر',

@@ -31,7 +31,13 @@ class OrderTimeoutSummary extends StatelessWidget {
           ExpansionTile(
             title: Text("Order timeline".tr),
             tilePadding: EdgeInsets.zero,
-            children: [OrderTimeline(currentStep: 0, events: events)],
+            children: [
+              OrderTimeline(
+                currentStep: 0,
+                events: events,
+                showDeliveryAnimation: true,
+              ),
+            ],
           ),
       ],
     );

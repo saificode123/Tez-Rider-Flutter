@@ -1,9 +1,13 @@
 import 'dart:convert';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'admin_users_service.dart' show blockRequestId;
 
-typedef AddressRpc =
-    Future<dynamic> Function(String name, Map<String, dynamic> params);
+typedef AddressRpc = Future<dynamic> Function(
+  String name,
+  Map<String, dynamic> params,
+);
 
 class SavedAddressesService {
   SavedAddressesService({
@@ -66,6 +70,17 @@ class SavedAddressesService {
           item['revision'] < 0) {
         throw const FormatException('Addresses were not confirmed.');
       }
+      final lat = item['latitude'], lng = item['longitude'];
+      final confirmed = item['location_confirmed_at'];
+      if (lat != null || lng != null || confirmed != null) {
+        if (lat is! num ||
+            lng is! num ||
+            !validCoordinates(lat.toDouble(), lng.toDouble()) ||
+            confirmed is! String ||
+            DateTime.tryParse(confirmed) == null) {
+          throw const FormatException('Saved delivery pin was not confirmed.');
+        }
+      }
       previous = item['id'];
     }
     if (value['has_more'] == true &&
@@ -86,12 +101,20 @@ class SavedAddressesService {
     return null;
   }
 
+  static bool validCoordinates(double latitude, double longitude) =>
+      latitude.isFinite &&
+      longitude.isFinite &&
+      latitude.abs() <= 90 &&
+      longitude.abs() <= 180;
+
   Future<Map<String, dynamic>> change({
     required String operation,
     int? id,
     int? revision,
     String? label,
     String? address,
+    double? latitude,
+    double? longitude,
   }) async {
     if (busy) throw StateError('An address change is already in progress.');
     if (!['create', 'edit', 'delete'].contains(operation) ||
@@ -103,12 +126,22 @@ class SavedAddressesService {
       final error = validate(label ?? '', address ?? '');
       if (error != null) throw FormatException(error);
     }
+    if ((latitude == null) != (longitude == null) ||
+        latitude != null &&
+            (operation == 'delete' ||
+                !validCoordinates(latitude, longitude!))) {
+      throw const FormatException('Confirm a valid delivery pin.');
+    }
     final payload = {
       'p_operation': operation,
       'p_id': id,
       'p_expected_revision': revision,
       'p_label': label?.trim(),
       'p_address': address?.trim(),
+      if (latitude != null) ...{
+        'p_latitude': latitude,
+        'p_longitude': longitude,
+      },
     };
     if (_pending != null &&
         jsonEncode({..._pending!}..remove('p_request_id')) !=
@@ -126,7 +159,9 @@ class SavedAddressesService {
     busy = true;
     try {
       final value = await call(
-        'final2_change_address',
+        _pending!.containsKey('p_latitude')
+            ? 'final_customer_change_address'
+            : 'final2_change_address',
         Map<String, dynamic>.from(_pending!),
       );
       if (value is! Map ||

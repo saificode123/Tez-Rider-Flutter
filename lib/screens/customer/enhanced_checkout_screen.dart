@@ -1,7 +1,11 @@
+import '../../services/saved_addresses_service.dart';
 import '../../widgets/spatial_surface.dart';
 import '../../theme/app_theme.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,11 +24,13 @@ import 'order_detail_screen.dart';
 class EnhancedCheckoutScreen extends StatefulWidget {
   final CartController cart;
   final String customerId;
+  final SavedAddressesService? savedAddressesService;
 
   const EnhancedCheckoutScreen({
     super.key,
     required this.cart,
     required this.customerId,
+    this.savedAddressesService,
   });
 
   @override
@@ -47,7 +53,9 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
   double? _currentLat;
   double? _currentLng;
-  final _destination = DeliveryDestination();
+  var _destination = DeliveryDestination();
+  late final SavedAddressesService _savedAddresses;
+  bool _choosingSavedAddress = false;
   bool _selectingDestination = false;
 
   final Map<String, bool> _prescriptionsUploaded = {};
@@ -85,6 +93,7 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
   @override
   void initState() {
     super.initState();
+    _savedAddresses = widget.savedAddressesService ?? SavedAddressesService();
 
     _initializePrescriptionTracking();
 
@@ -241,8 +250,9 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
   Future<void> _confirmDestination(
     double lat,
     double lng,
-    String source,
-  ) async {
+    String source, {
+    String? expectedOwner,
+  }) async {
     if (!mounted) return;
     final confirmed = await Get.dialog<bool>(
       AlertDialog(
@@ -268,13 +278,17 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
         ],
       ),
     );
-    if (!mounted || confirmed != true) return;
+    if (!mounted ||
+        confirmed != true ||
+        expectedOwner != null && _savedAddresses.identity() != expectedOwner) {
+      return;
+    }
     _destination.confirm(lat, lng, source);
     setState(() {
       _currentLat = lat;
       _currentLng = lng;
-      _addressCtrl.text =
-          'Confirmed delivery pin: ${lat.toStringAsFixed(5)}, ${lng.toStringAsFixed(5)}';
+      // A map confirmation changes coordinates, never the customer's written
+      // house/street details. Both are required independently at checkout.
     });
   }
 
@@ -349,6 +363,52 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       await _confirmDestination(point.latitude, point.longitude, 'map_pin');
     }
     if (mounted) setState(() => _selectingDestination = false);
+  }
+
+  Future<void> _chooseSavedAddress() async {
+    if (_isProcessing || _selectingDestination || _choosingSavedAddress) return;
+    final owner = _savedAddresses.identity();
+    if (owner == null) return;
+    setState(() => _choosingSavedAddress = true);
+    try {
+      final selected = await showModalBottomSheet<Map<String, dynamic>>(
+        context: context,
+        isScrollControlled: true,
+        showDragHandle: true,
+        builder: (_) =>
+            _CheckoutSavedAddressPicker(service: _savedAddresses, owner: owner),
+      );
+      if (!mounted || selected == null || _savedAddresses.identity() != owner) {
+        return;
+      }
+      setState(() {
+        _addressCtrl.text = selected['address'] as String;
+        // A different written address must never inherit an older destination.
+        _destination = DeliveryDestination();
+        _currentLat = null;
+        _currentLng = null;
+      });
+      final lat = selected['latitude'];
+      final lng = selected['longitude'];
+      final confirmedAt = selected['location_confirmed_at'];
+      if (lat is num &&
+          lng is num &&
+          lat.isFinite &&
+          lng.isFinite &&
+          lat.abs() <= 90 &&
+          lng.abs() <= 180 &&
+          confirmedAt is String &&
+          DateTime.tryParse(confirmedAt) != null) {
+        await _confirmDestination(
+          lat.toDouble(),
+          lng.toDouble(),
+          'map_pin',
+          expectedOwner: owner,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _choosingSavedAddress = false);
+    }
   }
 
   /// Initialize prescription tracking
@@ -439,6 +499,18 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       Get.snackbar(
         "Delivery destination".tr,
         "Confirm My Location or a map pin before placing your order.".tr,
+      );
+      return;
+    }
+
+    final address = _addressCtrl.text.trim();
+    if (address.isEmpty ||
+        address.startsWith('Confirmed delivery pin:') ||
+        address.length > 2000 ||
+        RegExp(r'[\x00-\x1f\x7f]').hasMatch(address)) {
+      Get.snackbar(
+        'Delivery Address'.tr,
+        'Enter your house, street, area and city (up to 2000 characters).'.tr,
       );
       return;
     }
@@ -717,11 +789,25 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
 
                   const SizedBox(height: 10),
 
+                  OutlinedButton.icon(
+                    onPressed:
+                        _isProcessing ||
+                            _selectingDestination ||
+                            _choosingSavedAddress
+                        ? null
+                        : _chooseSavedAddress,
+                    icon: const Icon(Icons.bookmark_outline_rounded),
+                    label: Text('Use saved address'.tr),
+                  ),
+                  const SizedBox(height: 12),
                   TextField(
                     controller: _addressCtrl,
-                    readOnly: true,
+                    readOnly: _isProcessing,
+                    minLines: 1,
+                    maxLines: 3,
+                    maxLength: 2000,
                     decoration: InputDecoration(
-                      hintText: "Select delivery location".tr,
+                      hintText: "House, street, area and city".tr,
                       prefixIcon: const Icon(Icons.location_on),
                       suffixIcon: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -749,6 +835,14 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                     ),
                   ),
 
+                  const SizedBox(height: 10),
+                  Text(
+                    (_destination.confirmed
+                            ? 'Delivery pin confirmed'
+                            : 'Choose and confirm a delivery pin before checkout.')
+                        .tr,
+                    style: const TextStyle(color: AppColors.textSecondary),
+                  ),
                   const SizedBox(height: 25),
                 ],
               ),
@@ -868,9 +962,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                           Text("Delivery Charges".tr),
                           Text(
                             "PKR @slot0end".uiTr({
-                              "slot0end": (_baseDeliveryFee.toStringAsFixed(
-                                0,
-                              )).toString(),
+                              "slot0end": (_baseDeliveryFee.toStringAsFixed(0))
+                                  .toString(),
                             }),
                           ),
                         ],
@@ -888,9 +981,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                             Text("Express Delivery".tr),
                             Text(
                               "PKR @slot0end".uiTr({
-                                "slot0end": (_speedFee.toStringAsFixed(
-                                  0,
-                                )).toString(),
+                                "slot0end": (_speedFee.toStringAsFixed(0))
+                                    .toString(),
                               }),
                             ),
                           ],
@@ -908,9 +1000,8 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
                             Text("Extra Delivery".tr),
                             Text(
                               "PKR @slot0end".uiTr({
-                                "slot0end": (_extraDelivery.toStringAsFixed(
-                                  0,
-                                )).toString(),
+                                "slot0end": (_extraDelivery.toStringAsFixed(0))
+                                    .toString(),
                               }),
                               style: const TextStyle(color: Colors.red),
                             ),
@@ -986,4 +1077,191 @@ class _EnhancedCheckoutScreenState extends State<EnhancedCheckoutScreen> {
       ),
     );
   }
+}
+
+/// Reads only the current customer's versioned saved-address service.
+class _CheckoutSavedAddressPicker extends StatefulWidget {
+  const _CheckoutSavedAddressPicker({
+    required this.service,
+    required this.owner,
+  });
+  final SavedAddressesService service;
+  final String owner;
+  @override
+  State<_CheckoutSavedAddressPicker> createState() =>
+      _CheckoutSavedAddressPickerState();
+}
+
+class _CheckoutSavedAddressPickerState
+    extends State<_CheckoutSavedAddressPicker> {
+  final List<Map<String, dynamic>> _rows = [];
+  bool _loading = true, _loadingMore = false, _hasMore = false;
+  int? _cursor;
+  String? _error;
+  StreamSubscription<void>? _accountChanges;
+
+  bool get _sameOwner => mounted && widget.service.identity() == widget.owner;
+
+  @override
+  void initState() {
+    super.initState();
+    _accountChanges = widget.service.accountChanges.listen((_) {
+      if (mounted && !_sameOwner) Navigator.of(context).pop();
+    });
+    _load();
+  }
+
+  @override
+  void dispose() {
+    unawaited(_accountChanges?.cancel());
+    super.dispose();
+  }
+
+  Future<void> _load({bool more = false}) async {
+    if (!_sameOwner || more && (_loadingMore || !_hasMore)) return;
+    setState(() {
+      if (more) {
+        _loadingMore = true;
+      } else {
+        _loading = true;
+      }
+      _error = null;
+    });
+    try {
+      final page = await widget.service.load(before: more ? _cursor : null);
+      if (!_sameOwner) return;
+      final rows = List<Map<String, dynamic>>.from(
+        (page['items'] as List).map((row) => Map<String, dynamic>.from(row)),
+      );
+      setState(() {
+        if (!more) _rows.clear();
+        final seen = _rows.map((row) => row['id']).toSet();
+        _rows.addAll(rows.where((row) => seen.add(row['id'])));
+        _hasMore = page['has_more'] == true;
+        _cursor = page['cursor'] as int?;
+      });
+    } catch (_) {
+      if (_sameOwner) {
+        setState(() => _error = 'Saved addresses could not be loaded. Retry.');
+      }
+    } finally {
+      if (_sameOwner) {
+        setState(() {
+          _loading = false;
+          _loadingMore = false;
+        });
+      }
+    }
+  }
+
+  bool _hasPin(Map<String, dynamic> row) {
+    final lat = row['latitude'];
+    final lng = row['longitude'];
+    final timestamp = row['location_confirmed_at'];
+    return lat is num &&
+        lng is num &&
+        lat.isFinite &&
+        lng.isFinite &&
+        lat.abs() <= 90 &&
+        lng.abs() <= 180 &&
+        timestamp is String &&
+        DateTime.tryParse(timestamp) != null;
+  }
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+    top: false,
+    child: SizedBox(
+      height: MediaQuery.sizeOf(context).height * .72,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Use saved address'.tr,
+              style: Theme.of(context).textTheme.titleLarge
+                  ?.copyWith(fontWeight: FontWeight.w800),
+            ),
+            const SizedBox(height: 8),
+            Text('Confirm the delivery pin after selecting an address.'.tr),
+            const SizedBox(height: 16),
+            if (_error != null) ...[
+              Text(_error!.tr, textAlign: TextAlign.center),
+              TextButton.icon(
+                onPressed: _loading || _loadingMore
+                    ? null
+                    : () => _load(more: _rows.isNotEmpty && _hasMore),
+                icon: const Icon(Icons.refresh_rounded),
+                label: Text('Retry addresses'.tr),
+              ),
+            ],
+            Expanded(
+              child: _loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _rows.isEmpty
+                  ? Center(
+                      child: Text(
+                        (_error == null
+                                ? 'No saved addresses'
+                                : 'Saved addresses are unavailable.')
+                            .tr,
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: _rows.length + (_hasMore ? 1 : 0),
+                      separatorBuilder: (_, __) => const Divider(),
+                      itemBuilder: (_, index) {
+                        if (index == _rows.length) {
+                          return TextButton(
+                            onPressed: _loadingMore
+                                ? null
+                                : () => _load(more: true),
+                            child: _loadingMore
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text('Load more addresses'.tr),
+                          );
+                        }
+                        final row = _rows[index];
+                        return ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                          ),
+                          leading: const Icon(
+                            Icons.location_on_outlined,
+                            color: AppColors.primary,
+                          ),
+                          title: Text(row['label'] as String),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(row['address'] as String),
+                              const SizedBox(height: 6),
+                              Text(
+                                (_hasPin(row)
+                                        ? 'Saved delivery pin available'
+                                        : 'No delivery pin saved')
+                                    .tr,
+                              ),
+                            ],
+                          ),
+                          trailing: const Icon(Icons.chevron_right_rounded),
+                          onTap: !_sameOwner
+                              ? null
+                              : () => Navigator.of(context).pop(row),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

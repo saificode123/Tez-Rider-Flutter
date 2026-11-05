@@ -1,8 +1,17 @@
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
+
+import '../../widgets/tez_map_tiles.dart';
 import '../../theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'dart:async';
+
 import '../../services/saved_addresses_service.dart';
+
 import 'package:get/get.dart';
 
 const _kPurple = AppColors.primaryDark;
@@ -24,7 +33,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
   late final SavedAddressesService _service;
   late final String? _owner;
   StreamSubscription<void>? _auth;
-  BuildContext? _editor, _confirmation;
+  BuildContext? _editor, _confirmation, _pinPicker;
   int _generation = 0;
   bool _changed = false, _loadingMore = false, _hasMore = false;
   int? _cursor;
@@ -41,7 +50,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
     _auth = _service.accountChanges.listen((_) {
       if (!mounted || _service.identity() == _owner) return;
       _generation++;
-      for (final overlay in [_confirmation, _editor]) {
+      for (final overlay in [_confirmation, _pinPicker, _editor]) {
         if (overlay != null && overlay.mounted) {
           final route = ModalRoute.of(overlay);
           if (route != null) Navigator.of(overlay).removeRoute(route);
@@ -159,6 +168,8 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
     final label = TextEditingController(text: existing?['label'] ?? '');
     final address = TextEditingController(text: existing?['address'] ?? '');
     String? error;
+    LatLng? pin = _addressPoint(existing);
+    bool locating = false;
     ModalRoute<dynamic>? sheetRoute;
     final generation = _generation;
     try {
@@ -214,11 +225,140 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
                         Icons.location_on_outlined,
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.primarySurface,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                pin == null
+                                    ? Icons.location_off_outlined
+                                    : Icons.location_on_rounded,
+                                color: _kPurple,
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  (pin == null
+                                          ? 'No delivery pin saved'
+                                          : 'Delivery pin confirmed')
+                                      .tr,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Your written address is kept when you choose a pin.'
+                                .tr,
+                            style: const TextStyle(
+                              color: _kTextSub,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              OutlinedButton.icon(
+                                onPressed:
+                                    _savingAddress ||
+                                        _service.pending ||
+                                        locating
+                                    ? null
+                                    : () async {
+                                        update(() {
+                                          locating = true;
+                                          error = null;
+                                        });
+                                        try {
+                                          final point =
+                                              await _currentAddressPin();
+                                          if (ctx.mounted &&
+                                              !_changed &&
+                                              point != null) {
+                                            update(() => pin = point);
+                                          }
+                                        } catch (failure) {
+                                          if (ctx.mounted && !_changed) {
+                                            update(
+                                              () =>
+                                                  error = failure is StateError
+                                                  ? failure.message.toString()
+                                                  : 'Location unavailable. Choose a map pin or retry My Location.',
+                                            );
+                                          }
+                                        } finally {
+                                          if (ctx.mounted) {
+                                            update(() => locating = false);
+                                          }
+                                        }
+                                      },
+                                icon: const Icon(Icons.my_location_rounded),
+                                label: Text('My Location'.tr),
+                              ),
+                              OutlinedButton.icon(
+                                onPressed:
+                                    _savingAddress ||
+                                        _service.pending ||
+                                        locating
+                                    ? null
+                                    : () async {
+                                        update(() {
+                                          locating = true;
+                                          error = null;
+                                        });
+                                        try {
+                                          final point = await _chooseAddressPin(
+                                            pin,
+                                          );
+                                          if (ctx.mounted &&
+                                              !_changed &&
+                                              point != null) {
+                                            update(() => pin = point);
+                                          }
+                                        } catch (_) {
+                                          if (ctx.mounted && !_changed) {
+                                            update(
+                                              () => error = 'The map could not be opened. Please retry.',
+                                            );
+                                          }
+                                        } finally {
+                                          if (ctx.mounted) {
+                                            update(() => locating = false);
+                                          }
+                                        }
+                                      },
+                                icon: const Icon(Icons.map_outlined),
+                                label: Text('Choose map pin'.tr),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (locating) const LinearProgressIndicator(),
+                    const SizedBox(height: 16),
                     if (_savingAddress) const LinearProgressIndicator(),
                     FilledButton(
-                      onPressed: _savingAddress
+                      onPressed: _savingAddress || locating
                           ? null
                           : () async {
+                              if (_changed || _service.identity() != _owner) {
+                                return;
+                              }
                               if (!_service.pending) {
                                 final validation =
                                     SavedAddressesService.validate(
@@ -244,6 +384,8 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
                                     revision: existing?['revision'],
                                     label: label.text,
                                     address: address.text,
+                                    latitude: pin?.latitude,
+                                    longitude: pin?.longitude,
                                   );
                                 }
                                 if (!mounted ||
@@ -256,8 +398,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
                               } catch (_) {
                                 if (ctx.mounted && !_changed) {
                                   update(
-                                    () => error =
-                                        'Address change was not confirmed. Retry the original change.',
+                                    () => error = 'Address change was not confirmed. Retry the original change.',
                                   );
                                 }
                               } finally {
@@ -289,6 +430,156 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
       label.dispose();
       address.dispose();
     }
+  }
+
+  LatLng? _addressPoint(Map<String, dynamic>? address) {
+    final lat = address?['latitude'];
+    final lng = address?['longitude'];
+    if (lat is! num ||
+        lng is! num ||
+        !lat.isFinite ||
+        !lng.isFinite ||
+        lat.abs() > 90 ||
+        lng.abs() > 180) {
+      return null;
+    }
+    return LatLng(lat.toDouble(), lng.toDouble());
+  }
+
+  bool get _sameOwner =>
+      mounted &&
+      !_changed &&
+      _editor?.mounted == true &&
+      _service.identity() == _owner;
+
+  Future<LatLng?> _currentAddressPin() async {
+    if (!_sameOwner) return null;
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      throw StateError('Please enable location or choose a map pin.');
+    }
+    if (!_sameOwner) return null;
+    var permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (!_sameOwner) return null;
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      throw StateError('Location permission denied. Choose a map pin instead.');
+    }
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    ).timeout(const Duration(seconds: 15));
+    if (!_sameOwner) return null;
+    if (!position.accuracy.isFinite ||
+        position.accuracy > 100 ||
+        DateTime.now().difference(position.timestamp).abs() >
+            const Duration(seconds: 30)) {
+      throw StateError('Waiting for a fresh, accurate location. Please retry.');
+    }
+    if (!mounted) return null;
+    final point = LatLng(position.latitude, position.longitude);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        _confirmation = dialogContext;
+        return AlertDialog(
+          title: Text('Confirm delivery pin'.tr),
+          content: Text(
+            '${point.latitude.toStringAsFixed(5)}, ${point.longitude.toStringAsFixed(5)}',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text('Cancel'.tr),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text('Confirm pin'.tr),
+            ),
+          ],
+        );
+      },
+    ).whenComplete(() => _confirmation = null);
+    return _sameOwner && confirmed == true ? point : null;
+  }
+
+  Future<LatLng?> _chooseAddressPin(LatLng? initial) async {
+    if (!_sameOwner) return null;
+    LatLng? chosen;
+    final result = await showDialog<LatLng>(
+      context: context,
+      builder: (dialogContext) {
+        _pinPicker = dialogContext;
+        return StatefulBuilder(
+          builder: (mapContext, update) => Scaffold(
+            appBar: AppBar(title: Text('Choose map pin'.tr)),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    'Tap the map, then confirm your delivery pin.'.tr,
+                  ),
+                ),
+                Expanded(
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: initial ?? const LatLng(33.6844, 73.0479),
+                      initialZoom: 15,
+                      onTap: (_, point) => update(() => chosen = point),
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName:
+                            'com.example.flutter_application_1',
+                        tileProvider: tezMapTiles(),
+                      ),
+                      const RichAttributionWidget(
+                        attributions: [
+                          TextSourceAttribution('OpenStreetMap contributors'),
+                        ],
+                      ),
+                      MarkerLayer(
+                        markers: [
+                          if (chosen ?? initial case final point?)
+                            Marker(
+                              point: point,
+                              width: 48,
+                              height: 48,
+                              child: const Icon(
+                                Icons.location_pin,
+                                size: 44,
+                                color: _kPurple,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: FilledButton.icon(
+                      onPressed: chosen == null
+                          ? null
+                          : () => Navigator.pop(dialogContext, chosen),
+                      icon: const Icon(Icons.check_rounded),
+                      label: Text('Confirm pin'.tr),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ).whenComplete(() => _pinPicker = null);
+    return _sameOwner ? result : null;
   }
 
   InputDecoration _inputDecoration(String label, String hint, IconData icon) {
@@ -421,7 +712,11 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('📍', style: TextStyle(fontSize: 60)),
+          const Icon(
+            Icons.add_location_alt_outlined,
+            size: 60,
+            color: _kPurple,
+          ),
           const SizedBox(height: 20),
           Text(
             'No saved addresses'.tr,
@@ -463,10 +758,10 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
     final isHome = label.toLowerCase() == 'home';
     final isWork = label.toLowerCase() == 'work';
     final icon = isHome
-        ? '🏠'
+        ? Icons.home_outlined
         : isWork
-        ? '🏢'
-        : '📍';
+        ? Icons.work_outline_rounded
+        : Icons.location_on_outlined;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
@@ -493,9 +788,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
             color: _kPurple.withValues(alpha: 0.10),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: Center(
-            child: Text(icon, style: const TextStyle(fontSize: 22)),
-          ),
+          child: Center(child: Icon(icon, size: 24, color: _kPurple)),
         ),
         title: Text(
           label,
@@ -507,11 +800,25 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
         ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 3),
-          child: Text(
-            address,
-            style: TextStyle(color: _kTextSub, fontSize: 12),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                address,
+                style: const TextStyle(color: _kTextSub, fontSize: 12),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                (_addressPoint(addr) == null ||
+                            addr['location_confirmed_at'] == null
+                        ? 'No delivery pin saved'
+                        : 'Delivery pin confirmed')
+                    .tr,
+                style: const TextStyle(color: _kPurple, fontSize: 11),
+              ),
+            ],
           ),
         ),
         trailing: Row(

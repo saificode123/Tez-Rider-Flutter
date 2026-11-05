@@ -1,0 +1,30 @@
+begin;
+set local statement_timeout='60s';
+create function pg_temp.address_ok(ok boolean,label text)returns void language plpgsql as $$begin
+ if ok is distinct from true then raise exception 'Address test failed: %',label;end if;
+end$$;
+do $$declare uid uuid:=gen_random_uuid();sid uuid:=gen_random_uuid();actor bigint;request uuid:=gen_random_uuid();r jsonb;again jsonb;items jsonb;aid bigint;begin
+ insert into auth.users(id,email,email_confirmed_at,role,aud)values(uid,'final-address-sql-'||uid||'@example.test',clock_timestamp(),'authenticated','authenticated');
+ insert into public.users(auth_user_id,email,name,role,verification_status,is_blocked)values(uid,'final-address-sql-'||uid||'@example.test','SYNTHETIC SQL ADDRESS TEST','customer','approved',false)returning id into actor;
+ insert into auth.sessions(id,user_id,created_at,updated_at)values(sid,uid,clock_timestamp(),clock_timestamp());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',uid,'role','authenticated','session_id',sid)::text,true);
+ r:=public.final_customer_change_address(request,'create',null,null,'Home','House 7, Street 2, TEST AREA',10.25,20.75);
+ aid:=(r->>'address_id')::bigint;
+ perform pg_temp.address_ok(r->>'code'='APPLIED','create confirmed');
+ again:=public.final_customer_change_address(request,'create',null,null,'Home','House 7, Street 2, TEST AREA',10.25,20.75);
+ perform pg_temp.address_ok(again->>'code'='ALREADY_APPLIED'and(again->>'address_id')::bigint=aid,'same UUID creates one row');
+ begin perform public.final_customer_change_address(request,'create',null,null,'Home','House 7, Street 2, TEST AREA',11,22);raise exception 'Changed retry accepted';exception when sqlstate 'PT409'then null;end;
+ items:=public.final2_saved_addresses();
+ perform pg_temp.address_ok(items->'items'->0->>'address'='House 7, Street 2, TEST AREA'and(items->'items'->0->>'latitude')::numeric=10.25 and items->'items'->0->>'location_confirmed_at'is not null,'read retains text and confirmed pin');
+ begin perform public.final_customer_change_address(gen_random_uuid(),'edit',aid,0,'Home','TEST',91,20);raise exception 'Invalid latitude accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.final_customer_change_address(gen_random_uuid(),'edit',aid,0,'Home','TEST',10,null);raise exception 'Partial pin accepted';exception when invalid_parameter_value then null;end;
+ perform public.final2_change_address(gen_random_uuid(),'edit',aid,0,'Work','Updated street details');
+ perform pg_temp.address_ok((select latitude=10.25 and longitude=20.75 from public.addresses where id=aid),'legacy text edit preserves pin');
+ begin perform public.final_customer_change_address(gen_random_uuid(),'edit',aid,0,'Home','TEST',12,23);raise exception 'Stale revision accepted';exception when sqlstate 'PT409'then null;end;
+ perform public.final_customer_change_address(gen_random_uuid(),'edit',aid,1,'Work','Updated street details',12,23);
+ perform pg_temp.address_ok((select latitude=12 and longitude=23 and revision=2 from public.addresses where id=aid),'edit atomically replaces confirmed pin');
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',gen_random_uuid(),'role','authenticated','session_id',sid)::text,true);
+ begin perform public.final_customer_change_address(gen_random_uuid(),'edit',aid,2,'Foreign','TEST',12,23);raise exception 'Foreign edit accepted';exception when insufficient_privilege then null;end;
+end$$;
+select 'PASS: address persistence, retry payload, coordinate validation, legacy compatibility, revision and ownership; rolled back' as result;
+rollback;

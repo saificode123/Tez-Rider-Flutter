@@ -16,6 +16,7 @@ void main() {
   tearDownAll(() => Supabase.instance.dispose());
   setUp(() {
     Get.testMode = true;
+    (VaultDouble()..data['tr_language'] = 'ur').install();
     Get.put<AuthController>(QuietAuth());
     transport.requests.clear();
   });

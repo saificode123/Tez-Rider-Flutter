@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_application_1/screens/vendor/vendor_products_screen.dart
 import 'package:flutter_application_1/screens/vendor/product_form_screen.dart';
 import 'package:flutter_application_1/screens/search_screen.dart';
 import 'package:flutter_application_1/widgets/role_access_gate.dart';
+
 import 'support/closure_harness.dart';
 
 class QuietNotifications extends NotificationController {
@@ -238,7 +240,7 @@ void main() {
           findsOneWidget,
         );
         expect(
-          find.text('No favourites yet'),
+          find.text('No Favorites'),
           confirmed ? findsOneWidget : findsNothing,
         );
         expect(
@@ -330,9 +332,9 @@ void main() {
       'customer favourites',
       () => const SavedStoresScreen(),
       '/favourite',
-      'No favourites yet',
+      'No Favorites',
       'Retry favourites',
-      'Favourites could not be loaded. Retry.',
+      'Favorites are unavailable for this account. Please contact support.',
     ),
     _Page(
       'shared chat list',
@@ -471,9 +473,9 @@ void main() {
   testWidgets(
     'notifications: loading, empty, error Retry, populated read and pagination handlers',
     (tester) async {
-      final controller =
-          Get.put<NotificationController>(QuietNotifications())
-              as QuietNotifications;
+      final controller = Get.put<NotificationController>(
+        QuietNotifications(),
+      ) as QuietNotifications;
       await show(tester, NotificationsScreen());
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       controller.isLoading.value = false;

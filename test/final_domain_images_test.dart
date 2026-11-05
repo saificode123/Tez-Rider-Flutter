@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 // The existing image_picker dependency provides this platform testing seam.
@@ -95,22 +96,19 @@ void main() {
   Future<File> file(Uint8List bytes) async =>
       File('${directory.path}/synthetic-image').writeAsBytes(bytes);
 
-  test(
-    'CNIC PNG re-encoding strips ancillary private metadata without losing pixels',
-    () async {
-      final bytes = _withComment(await _png(37, 29));
-      expect(latin1.decode(bytes), contains('synthetic-private-location'));
-      final source = await file(bytes);
-      final prepared = await CnicImageService().read(source.path);
-      expect(
-        latin1.decode(prepared.bytes),
-        isNot(contains('synthetic-private-location')),
-      );
-      expect(prepared.sourcePath, source.path);
-      expect(prepared.mime, 'image/png');
-      await _dimensions(prepared.bytes, 37, 29);
-    },
-  );
+  test('CNIC PNG re-encoding strips ancillary private metadata without losing pixels', () async {
+    final bytes = _withComment(await _png(37, 29));
+    expect(latin1.decode(bytes), contains('synthetic-private-location'));
+    final source = await file(bytes);
+    final prepared = await CnicImageService().read(source.path);
+    expect(
+      latin1.decode(prepared.bytes),
+      isNot(contains('synthetic-private-location')),
+    );
+    expect(prepared.sourcePath, source.path);
+    expect(prepared.mime, 'image/png');
+    await _dimensions(prepared.bytes, 37, 29);
+  });
 
   test(
     'portrait dispute evidence is resized proportionally and metadata removed',
@@ -138,24 +136,22 @@ void main() {
     },
   );
 
-  test(
-    'CNIC rejects over-limit PNG dimensions before accepting a document',
-    () async {
-      for (final dimensions in [(2049, 1), (1, 2049)]) {
-        final source = await file(await _png(dimensions.$1, dimensions.$2));
-        await expectLater(
-          CnicImageService().read(source.path),
-          throwsFormatException,
-        );
-      }
-      final source = await file(await _png(2048, 1));
+  test('CNIC safely resizes phone photos and rejects pixel bombs', () async {
+    for (final dimensions in [(3000, 1000), (1000, 3000)]) {
+      final source = await file(await _png(dimensions.$1, dimensions.$2));
+      final prepared = await CnicImageService().read(source.path);
       await _dimensions(
-        (await CnicImageService().read(source.path)).bytes,
-        2048,
-        1,
+        prepared.bytes,
+        dimensions.$1 > dimensions.$2 ? 1600 : 533,
+        dimensions.$1 > dimensions.$2 ? 533 : 1600,
       );
-    },
-  );
+    }
+    final source = await file(await _png(4001, 4000));
+    await expectLater(
+      CnicImageService().read(source.path),
+      throwsFormatException,
+    );
+  });
 
   test(
     'dispute rejects a decoded image exceeding its sixteen-megapixel limit',
@@ -174,20 +170,17 @@ void main() {
     },
   );
 
-  test(
-    'JPEG evidence is decoded and converted to PNG while CNIC retains JPEG format',
-    () async {
-      final bytes = _jpeg();
-      final source = await file(bytes);
-      final cnic = await CnicImageService().read(source.path);
-      expect(cnic.mime, 'image/jpeg');
-      expect(cnic.bytes, bytes);
-      await _dimensions(cnic.bytes, 2, 3);
-      final dispute = await DisputeImagePicker().read(source.path);
-      expect(dispute.bytes.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
-      await _dimensions(dispute.bytes, 2, 3);
-    },
-  );
+  test('JPEG evidence and CNIC are decoded and re-encoded without original metadata', () async {
+    final bytes = _jpeg();
+    final source = await file(bytes);
+    final cnic = await CnicImageService().read(source.path);
+    expect(cnic.mime, 'image/png');
+    expect(cnic.bytes.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
+    await _dimensions(cnic.bytes, 2, 3);
+    final dispute = await DisputeImagePicker().read(source.path);
+    expect(dispute.bytes.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
+    await _dimensions(dispute.bytes, 2, 3);
+  });
 
   test(
     'JPEG signature alone cannot bypass actual decoder validation',
@@ -204,25 +197,22 @@ void main() {
     },
   );
 
-  test(
-    'picker cancellation creates no evidence and successful selection suppresses metadata',
-    () async {
-      final picker = _Picker();
-      ImagePickerPlatform.instance = picker;
-      expect(await DisputeImagePicker().pick(ImageSource.gallery), isNull);
-      expect(await CnicImageService().pick(ImageSource.camera), isNull);
-      final source = await file(await _png(17, 23));
-      picker.path = source.path;
-      final evidence = await DisputeImagePicker().pick(ImageSource.gallery);
-      expect(evidence, isNotNull);
-      expect(picker.options?.requestFullMetadata, isFalse);
-      await _dimensions(evidence!.bytes, 17, 23);
-      if (!Platform.isAndroid) {
-        expect(await CnicImageService().lostSelection(), isNull);
-        expect(await DisputeImagePicker().recover(), isNull);
-      }
-    },
-  );
+  test('picker cancellation creates no evidence and successful selection suppresses metadata', () async {
+    final picker = _Picker();
+    ImagePickerPlatform.instance = picker;
+    expect(await DisputeImagePicker().pick(ImageSource.gallery), isNull);
+    expect(await CnicImageService().pick(ImageSource.camera), isNull);
+    final source = await file(await _png(17, 23));
+    picker.path = source.path;
+    final evidence = await DisputeImagePicker().pick(ImageSource.gallery);
+    expect(evidence, isNotNull);
+    expect(picker.options?.requestFullMetadata, isFalse);
+    await _dimensions(evidence!.bytes, 17, 23);
+    if (!Platform.isAndroid) {
+      expect(await CnicImageService().lostSelection(), isNull);
+      expect(await DisputeImagePicker().recover(), isNull);
+    }
+  });
 
   test(
     'secure evidence drafts preserve request identity and isolate accounts',

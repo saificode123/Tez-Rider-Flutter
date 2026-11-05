@@ -1,4 +1,7 @@
+import 'package:get/get.dart';
+
 import '../../theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,10 +15,21 @@ const _kGreen = Color(0xFF10B981);
 class AboutTezRiderScreen extends StatelessWidget {
   const AboutTezRiderScreen({super.key});
 
-  Future<void> _launch(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+  Future<void> _launch(BuildContext context, String url) async {
+    try {
+      final opened = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!opened) throw StateError('Link unavailable');
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('This link could not be opened. Please retry.'.tr),
+          ),
+        );
+      }
     }
   }
 
@@ -71,7 +85,7 @@ class AboutTezRiderScreen extends StatelessWidget {
                 ],
               ),
               child: const Center(
-                child: Text('⚡', style: TextStyle(fontSize: 52)),
+                child: Icon(Icons.bolt_rounded, size: 60, color: Colors.white),
               ),
             ),
 
@@ -143,28 +157,28 @@ class AboutTezRiderScreen extends StatelessWidget {
             _sectionTitle('Links'),
             const SizedBox(height: 12),
             _linkTile(
-              '🌐',
+              Icons.language_rounded,
               'Website',
               'www.tezrider.pk',
               'https://www.tezrider.pk',
             ),
             const SizedBox(height: 10),
             _linkTile(
-              '📜',
+              Icons.privacy_tip_outlined,
               'Privacy Policy',
               'How we use your data',
               'https://www.tezrider.pk/privacy',
             ),
             const SizedBox(height: 10),
             _linkTile(
-              '📋',
+              Icons.description_outlined,
               'Terms of Service',
               'Our terms & conditions',
               'https://www.tezrider.pk/terms',
             ),
             const SizedBox(height: 10),
             _linkTile(
-              '💼',
+              Icons.work_outline_rounded,
               'Careers',
               'Join the TezRider team',
               'https://www.tezrider.pk/careers',
@@ -179,7 +193,8 @@ class AboutTezRiderScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: _socialBtn(
-                    '📘',
+                    context,
+                    Icons.facebook_rounded,
                     'Facebook',
                     Color(0xFF1877F2),
                     'https://facebook.com/tezrider',
@@ -188,16 +203,8 @@ class AboutTezRiderScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _socialBtn(
-                    '📸',
-                    'Instagram',
-                    Color(0xFFE1306C),
-                    'https://instagram.com/tezrider',
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _socialBtn(
-                    '🐦',
+                    context,
+                    Icons.forum_outlined,
                     'Twitter',
                     Color(0xFF1DA1F2),
                     'https://twitter.com/tezrider',
@@ -206,6 +213,17 @@ class AboutTezRiderScreen extends StatelessWidget {
               ],
             ),
 
+            const SizedBox(height: 12),
+            Text(
+              'Instagram will be available once the official account is verified.'
+                  .tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: _kTextSub,
+                fontSize: 12,
+                height: 1.5,
+              ),
+            ),
             const SizedBox(height: 36),
 
             Text(
@@ -241,10 +259,10 @@ class AboutTezRiderScreen extends StatelessWidget {
     );
   }
 
-  Widget _linkTile(String emoji, String title, String sub, String url) {
+  Widget _linkTile(IconData icon, String title, String sub, String url) {
     return Builder(
       builder: (context) => GestureDetector(
-        onTap: () => _launch(url),
+        onTap: () => _launch(context, url),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -260,7 +278,7 @@ class AboutTezRiderScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 22)),
+              Icon(icon, size: 22, color: _kPurple),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -286,9 +304,15 @@ class AboutTezRiderScreen extends StatelessWidget {
     );
   }
 
-  Widget _socialBtn(String emoji, String label, Color color, String url) {
+  Widget _socialBtn(
+    BuildContext context,
+    IconData icon,
+    String label,
+    Color color,
+    String url,
+  ) {
     return GestureDetector(
-      onTap: () => _launch(url),
+      onTap: () => _launch(context, url),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
@@ -299,7 +323,7 @@ class AboutTezRiderScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 22)),
+            Icon(icon, size: 22, color: _kPurple),
             const SizedBox(height: 5),
             Text(
               label,

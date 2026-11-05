@@ -1,13 +1,19 @@
 import '../theme/app_theme.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import '../services/rating_watch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import '../widgets/product_image.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+
 import '../controllers/cart_controller.dart';
 import '../controllers/vendor_info_controller.dart';
 
@@ -178,8 +184,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       final rec = await _supabase
           .from('users')
           .select('id')
-          .eq('email', user.email!)
-          .maybeSingle();
+          .eq('auth_user_id', user.id)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 12));
       if (rec == null) return;
       _userId = rec['id'];
       final fav = await _supabase
@@ -187,12 +194,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           .select('id')
           .eq('user_id', _userId!)
           .eq('product_id', pid)
-          .maybeSingle();
+          .limit(1)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 12));
       if (mounted) setState(() => _isFav = fav != null);
     } catch (_) {}
   }
 
   Future<void> _toggleFav() async {
+    if (_favLoading) return;
     final pid = int.tryParse(widget.product['id']?.toString() ?? '');
     if (pid == null || _userId == null) {
       Get.snackbar(
@@ -208,15 +218,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
     setState(() {
       _favLoading = true;
-      _isFav = !_isFav;
     });
+    final save = !_isFav;
     HapticFeedback.selectionClick();
     try {
-      if (_isFav) {
-        await _supabase.from('favourite').insert({
-          'user_id': _userId!,
-          'product_id': pid,
-        });
+      if (save) {
+        await _supabase
+            .from('favourite')
+            .insert({'user_id': _userId!, 'product_id': pid})
+            .select('id')
+            .single()
+            .timeout(const Duration(seconds: 12));
+        if (!mounted) return;
+        setState(() => _isFav = true);
         Get.snackbar(
           '',
           "Saved to favourites ❤️".tr,
@@ -228,14 +242,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           duration: const Duration(seconds: 2),
         );
       } else {
-        await _supabase
+        final removed = await _supabase
             .from('favourite')
             .delete()
             .eq('user_id', _userId!)
-            .eq('product_id', pid);
+            .eq('product_id', pid)
+            .select('id')
+            .timeout(const Duration(seconds: 12));
+        if (removed.isEmpty) throw StateError('Removal was not confirmed.');
+        if (mounted) setState(() => _isFav = false);
       }
     } catch (_) {
-      setState(() => _isFav = !_isFav);
+      if (mounted) {
+        Get.snackbar(
+          'Favorites'.tr,
+          'The change was not confirmed. Check your connection and retry.'.tr,
+        );
+      }
     } finally {
       if (mounted) setState(() => _favLoading = false);
     }
@@ -316,9 +339,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                         errorWidget: (_, __, ___) =>
-                            _imagePlaceholder(category),
+                            _imagePlaceholder(failed: true),
                       )
-                    : _imagePlaceholder(category),
+                    : _imagePlaceholder(),
               ),
             ),
           ),
@@ -525,8 +548,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                     children: [
                                       TileLayer(
-                                        urlTemplate:
-                                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                         userAgentPackageName:
                                             'com.example.tezrider',
                                       ),
@@ -831,23 +853,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _imagePlaceholder(String category) {
-    const emojis = {
-      'Food': '🍔',
-      'Grocery': '🥦',
-      'Pharmacy': '💊',
-      'Thrift': '👗',
-      'Preloved': '♻️',
-      'Tailoring': '✂️',
-    };
-    return Container(
-      color: _kGreen.withValues(alpha: 0.10),
-      child: Center(
-        child: Text(
-          emojis[category] ?? '🛍️',
-          style: const TextStyle(fontSize: 72),
+  Widget _imagePlaceholder({bool failed = false}) => Container(
+    color: _kGreen.withValues(alpha: 0.10),
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              failed
+                  ? Icons.broken_image_outlined
+                  : Icons.image_not_supported_outlined,
+              size: 56,
+              color: _kText,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              (failed
+                      ? 'Image unavailable. Tap to retry.'
+                      : 'Photo not provided.')
+                  .tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: _kText),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }

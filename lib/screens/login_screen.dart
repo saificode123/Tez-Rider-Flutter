@@ -1,12 +1,16 @@
 import '../widgets/spatial_surface.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
 import 'package:flutter/material.dart';
+
 import 'email_verification_screen.dart';
 import '../services/account_session_service.dart';
 import '../services/account_access.dart';
 import '../services/onboarding_service.dart';
+
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../services/session_credentials.dart';
 import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
@@ -33,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen>
   bool _loading = false;
   bool _obscure = true;
   String? _error;
+  final _errorKey = GlobalKey();
   String _role = 'customer';
 
   late AnimationController _animCtrl;
@@ -118,14 +123,15 @@ class _LoginScreenState extends State<LoginScreen>
     Get.offAllNamed(route);
   }
 
-  bool _isValidEmail(String email) => RegExp(
-    r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$',
-  ).hasMatch(email);
+  bool _isValidEmail(String email) =>
+      RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
+          .hasMatch(email);
 
   bool _isStrongPassword(String pw) => pw.length >= 6;
 
   Future<void> _login() async {
     if (_loading) return;
+    final selectedRole = _role;
     final email = _emailCtrl.text.trim();
     final password = _passCtrl.text;
 
@@ -148,10 +154,9 @@ class _LoginScreenState extends State<LoginScreen>
       _error = null;
     });
     try {
-      final res = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
+      final res = await Supabase.instance.client.auth
+          .signInWithPassword(email: email, password: password)
+          .timeout(const Duration(seconds: 15));
       if (res.session == null) {
         _showError(
           'Sign in failed. Please check your credentials and try again.',
@@ -160,8 +165,9 @@ class _LoginScreenState extends State<LoginScreen>
       }
 
       if (!await authController.enforceAccountAccess(passwordLogin: true)) {
-        if (authController.accountGate.current ==
-            AccountDisposition.unavailable) {
+        final disposition = authController.accountGate.current;
+        await authController.logout(navigate: false);
+        if (disposition == AccountDisposition.unavailable) {
           _showError(
             'Account access could not be verified. Check your connection and Retry.',
           );
@@ -171,6 +177,11 @@ class _LoginScreenState extends State<LoginScreen>
       try {
         await OnboardingService().completeFromMetadata(res.user!);
       } on RegistrationRequired catch (required) {
+        if (required.role != selectedRole) {
+          await authController.logout(navigate: false);
+          _showError('Sign in with the correct account role selected.');
+          return;
+        }
         Get.off(
           () =>
               SignupScreen(initialRole: required.role, completeExisting: true),
@@ -181,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen>
       // watcher to the now-confirmed profile before any dashboard is opened.
       await authController.accountGate.reset();
       if (!await authController.enforceAccountAccess(passwordLogin: true)) {
+        await authController.logout(navigate: false);
         _showError('Account access could not be confirmed. Please retry.');
         return;
       }
@@ -188,11 +200,19 @@ class _LoginScreenState extends State<LoginScreen>
           .from('users')
           .select('id,role,verification_status,is_blocked,rejection_reason')
           .eq('auth_user_id', res.user!.id)
-          .single();
+          .single()
+          .timeout(const Duration(seconds: 12));
 
       final access = AccountAccess.fromProfile(userRecord);
       final realRole = access.role;
       final vStatus = access.status;
+
+      if (Supabase.instance.client.auth.currentUser?.id != res.user!.id ||
+          realRole != selectedRole) {
+        await authController.logout(navigate: false);
+        _showError('Sign in with the correct account role selected.');
+        return;
+      }
 
       try {
         await authController.credentials.remember(res.session!, realRole);
@@ -219,6 +239,7 @@ class _LoginScreenState extends State<LoginScreen>
         _goTo(realRole);
       }
     } on AuthApiException catch (e) {
+      await authController.logout(navigate: false);
       switch (e.code) {
         case 'user_banned':
           _showError(blockedAccountMessage);
@@ -230,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen>
           Get.to(() => EmailVerificationScreen(email: email));
           break;
         case 'user_not_found':
-          _showError('No account found with this email. Please sign up first.');
+          _showError('Incorrect email or password. Please try again.');
           break;
         case 'too_many_requests':
           _showError('Too many login attempts. Please wait a few minutes.');
@@ -239,6 +260,7 @@ class _LoginScreenState extends State<LoginScreen>
           _showError('Sign in could not be confirmed. Retry.');
       }
     } catch (_) {
+      await authController.logout(navigate: false);
       _showError('Sign in was not confirmed. Check your connection and Retry.');
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -247,6 +269,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   Future<void> _biometricLogin() async {
     if (_loading) return;
+    final selectedRole = _role;
     setState(() => _loading = true);
     try {
       final saved = await authController.credentials.read(
@@ -265,9 +288,9 @@ class _LoginScreenState extends State<LoginScreen>
       }
       final ok = await authController.authenticateWithBiometrics();
       if (ok) {
-        final res = await Supabase.instance.client.auth.setSession(
-          saved.refreshToken,
-        );
+        final res = await Supabase.instance.client.auth
+            .setSession(saved.refreshToken)
+            .timeout(const Duration(seconds: 15));
         if (res.session != null) {
           if (res.user?.id != saved.account) {
             await authController.logout(navigate: false);
@@ -275,8 +298,10 @@ class _LoginScreenState extends State<LoginScreen>
             return;
           }
           if (!await authController.enforceAccountAccess()) {
+            final disposition = authController.accountGate.current;
+            await authController.logout(navigate: false);
             _showError(
-              authController.accountGate.current == AccountDisposition.blocked
+              disposition == AccountDisposition.blocked
                   ? blockedAccountMessage
                   : 'Account access could not be verified. Retry.',
             );
@@ -286,8 +311,15 @@ class _LoginScreenState extends State<LoginScreen>
               .from('users')
               .select('role,verification_status,is_blocked,rejection_reason')
               .eq('auth_user_id', saved.account)
-              .maybeSingle();
+              .maybeSingle()
+              .timeout(const Duration(seconds: 12));
           final access = AccountAccess.fromProfile(profile);
+          if (Supabase.instance.client.auth.currentUser?.id != saved.account ||
+              access.role != selectedRole) {
+            await authController.logout(navigate: false);
+            _showError('Sign in with the correct account role selected.');
+            return;
+          }
           await authController.credentials.remember(
             res.session!,
             access.role,
@@ -318,7 +350,14 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _showError(String msg) {
-    if (mounted) setState(() => _error = msg);
+    if (!mounted) return;
+    setState(() => _error = msg);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _errorKey.currentContext;
+      if (mounted && target != null) {
+        Scrollable.ensureVisible(target, alignment: 0.25);
+      }
+    });
   }
 
   void _showForgotPassword() {
@@ -415,6 +454,7 @@ class _LoginScreenState extends State<LoginScreen>
                                           if (_error != null) ...[
                                             const SizedBox(height: 16),
                                             Semantics(
+                                              key: _errorKey,
                                               liveRegion: true,
                                               child: Container(
                                                 padding: const EdgeInsets.all(

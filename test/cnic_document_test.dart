@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_application_1/services/cnic_document.dart';
+import 'package:flutter_application_1/services/dispute_service.dart';
 import 'package:flutter_application_1/controllers/cnic_document_controller.dart';
 import 'package:flutter_application_1/widgets/cnic_document_viewer.dart';
 
@@ -172,6 +173,44 @@ void main() {
       } finally {
         await directory.delete(recursive: true);
       }
+    },
+  );
+  test(
+    'gallery reads XFile bytes without opening its browser-style path',
+    () async {
+      final file = XFile.fromData(
+        png,
+        name: 'controlled.png',
+        path: 'blob:controlled-test',
+      );
+      final result = await CnicImageService().readFile(file);
+      expect(result.mime, 'image/png');
+      expect(result.sourcePath, file.path);
+      expect(result.bytes, isNotEmpty);
+      final evidence = await DisputeImagePicker().readFile(file);
+      expect(evidence.bytes, isNotEmpty);
+    },
+  );
+  test(
+    'CNIC resizes a legitimate large photo before upload validation',
+    () async {
+      final recorder = ui.PictureRecorder();
+      Canvas(recorder).drawColor(Colors.white, BlendMode.src);
+      final picture = recorder.endRecording();
+      final original = await picture.toImage(3000, 1000);
+      final encoded = await original.toByteData(format: ui.ImageByteFormat.png);
+      final result = await CnicImageService().readFile(
+        XFile.fromData(encoded!.buffer.asUint8List(), name: 'large.png'),
+      );
+      final codec = await ui.instantiateImageCodec(result.bytes);
+      final frame = await codec.getNextFrame();
+      expect(frame.image.width, 1600);
+      expect(frame.image.height, 533);
+      expect(result.mime, 'image/png');
+      frame.image.dispose();
+      codec.dispose();
+      original.dispose();
+      picture.dispose();
     },
   );
   test('normalizes exactly 13 digits and standard dashed format', () {

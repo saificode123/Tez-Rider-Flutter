@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -34,6 +35,103 @@ Map<String, dynamic> applied(String operation, {String code = 'APPLIED'}) => {
 void main() {
   setUp(() => Get.locale = const Locale('en', 'US'));
   tearDown(Get.reset);
+  test(
+    'saved pin retry retains coordinates and the same request identity',
+    () async {
+      final calls = <Map<String, dynamic>>[];
+      final names = <String>[];
+      final service = SavedAddressesService(
+        identity: () => 'owner',
+        rpc: (name, params) async {
+          names.add(name);
+          calls.add(Map.from(params));
+          if (calls.length == 1) throw TimeoutException('lost response');
+          return applied('create', code: 'ALREADY_APPLIED');
+        },
+      );
+      await expectLater(
+        service.change(
+          operation: 'create',
+          label: 'Home',
+          address: 'Written street details',
+          latitude: 10.25,
+          longitude: 20.75,
+        ),
+        throwsA(isA<TimeoutException>()),
+      );
+      await expectLater(
+        service.change(
+          operation: 'create',
+          label: 'Home',
+          address: 'Written street details',
+          latitude: 12,
+          longitude: 23,
+        ),
+        throwsStateError,
+      );
+      await service.retry();
+      expect(names, [
+        'final_customer_change_address',
+        'final_customer_change_address',
+      ]);
+      expect(calls[0], calls[1]);
+      expect(calls[1]['p_latitude'], 10.25);
+      expect(calls[1]['p_longitude'], 20.75);
+      expect(calls[1]['p_address'], 'Written street details');
+    },
+  );
+  test('invalid or incomplete delivery pins never reach the backend', () async {
+    var calls = 0;
+    final service = SavedAddressesService(
+      identity: () => 'owner',
+      rpc: (_, params) async {
+        calls++;
+        return applied('create');
+      },
+    );
+    for (final point in [
+      (91.0, 20.0),
+      (10.0, 181.0),
+      (double.nan, 0.0),
+      (double.infinity, 0.0),
+      (10.0, null),
+    ]) {
+      await expectLater(
+        service.change(
+          operation: 'create',
+          label: 'Home',
+          address: 'Street',
+          latitude: point.$1,
+          longitude: point.$2,
+        ),
+        throwsFormatException,
+      );
+    }
+    expect(calls, 0);
+  });
+  test(
+    'saved pin reads reject inconsistent or unconfirmed coordinates',
+    () async {
+      for (final pin in [
+        {'latitude': 10, 'longitude': null},
+        {'latitude': 10, 'longitude': 20},
+        {'latitude': 10, 'longitude': 20, 'location_confirmed_at': 'invalid'},
+        {
+          'latitude': 91,
+          'longitude': 20,
+          'location_confirmed_at': '2026-11-05T00:00:00Z',
+        },
+      ]) {
+        final service = SavedAddressesService(
+          identity: () => 'owner',
+          rpc: (_, params) async => page([
+            {...row(), ...pin},
+          ]),
+        );
+        await expectLater(service.load(), throwsFormatException);
+      }
+    },
+  );
   test(
     'lost address create keeps UUID and rejects replacement before retry',
     () async {

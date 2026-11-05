@@ -26,8 +26,8 @@ try {
         Write-Output "INFO: Branch $branch; commit $head"
         & git merge-base --is-ancestor 2a059547a3054b35d34d6e81c181ef8879e2c19b HEAD 2>$null
         Result ($LASTEXITCODE -eq 0) 'Shared baseline included' 'Fetch origin and select feature/final-2-functional; preserve local changes first.'
-        if ($branch -notin @('main', 'feature/final-2-functional')) {
-            Write-Output 'WARN: Use the reviewed main branch or the exact portability-fix commit from the audit.'
+        if ($branch -notin @('main', 'feature/final-2-functional', 'feature/final-customer-delivery-fixes')) {
+            Write-Output 'WARN: Use the reviewed delivery branch or the exact verified commit from the acceptance report.'
         }
     }
     $flutter = Get-Command flutter -ErrorAction SilentlyContinue

@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_motion.dart';
@@ -7,12 +8,14 @@ class OrderTimeline extends StatefulWidget {
   final int currentStep;
   final Color activeColor;
   final List<Map<String, dynamic>>? events;
+  final bool showDeliveryAnimation;
 
   const OrderTimeline({
     super.key,
     required this.currentStep,
     this.activeColor = AppColors.primary,
     this.events,
+    this.showDeliveryAnimation = false,
   });
 
   @override
@@ -45,7 +48,7 @@ class _OrderTimelineState extends State<OrderTimeline>
       'On the Way',
       'Rider is heading your way',
     ),
-    _TimelineStep(Icons.home_rounded, 'Delivered', 'Enjoy your order! 🎉'),
+    _TimelineStep(Icons.home_rounded, 'Delivered', 'Enjoy your order!'),
   ];
 
   @override
@@ -64,6 +67,7 @@ class _OrderTimelineState extends State<OrderTimeline>
 
   void _syncMotion() {
     if (widget.events != null ||
+        widget.currentStep < 0 ||
         widget.currentStep >= 4 ||
         AppMotion.reduced(context)) {
       _pulseCtrl.stop();
@@ -101,38 +105,140 @@ class _OrderTimelineState extends State<OrderTimeline>
               a['created_at'].toString().compareTo(b['created_at'].toString()),
         );
       return Column(
-        children: sorted
-            .map(
-              (event) => ListTile(
-                dense: true,
-                leading: Icon(
-                  event['status'] == 'cancelled'
-                      ? Icons.cancel_outlined
-                      : Icons.check_circle_outline,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Only the enclosing order may authorize this animation. A Vendor
+          // portion's on_the_way event can describe a reserved pickup instead.
+          if (widget.showDeliveryAnimation &&
+              sorted.isNotEmpty &&
+              sorted.last['status'] == 'on_the_way')
+            _deliveryAnimation(),
+          for (var i = 0; i < sorted.length; i++)
+            _buildEvent(
+              sorted[i],
+              i == sorted.length - 1,
+              i == sorted.length - 1,
+            ),
+        ],
+      );
+    }
+    return Column(
+      children: [
+        if (widget.currentStep == 3) _deliveryAnimation(),
+        ...List.generate(_steps.length, (i) {
+          final isDone = i < widget.currentStep;
+          final isActive = i == widget.currentStep;
+          final isLast = i == _steps.length - 1;
+          return _buildRow(_steps[i], i, isDone, isActive, isLast);
+        }),
+      ],
+    );
+  }
+
+  Widget _deliveryAnimation() => Semantics(
+    label: 'On the Way'.tr,
+    image: true,
+    child: ExcludeSemantics(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Lottie.asset(
+          'assets/lottie/delivery_cyclist.json',
+          height: 124,
+          fit: BoxFit.contain,
+          animate: !AppMotion.reduced(context),
+          repeat: !AppMotion.reduced(context),
+          errorBuilder: (_, __, ___) => const SizedBox(
+            height: 124,
+            child: Icon(
+              Icons.delivery_dining_rounded,
+              size: 64,
+              color: AppColors.primary,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  Widget _buildEvent(Map<String, dynamic> event, bool current, bool last) {
+    final status = event['status']?.toString() ?? '';
+    final cancelled = status == 'cancelled';
+    final color = cancelled ? AppColors.error : widget.activeColor;
+    final icon = switch (status) {
+      'placed' => Icons.receipt_long_rounded,
+      'accepted' || 'confirmed' => Icons.check_circle_outline_rounded,
+      'preparing' => Icons.restaurant_rounded,
+      'rider_assigned' => Icons.person_pin_circle_outlined,
+      'picked_up' || 'on_the_way' => Icons.delivery_dining_rounded,
+      'delivered' => Icons.home_rounded,
+      'cancelled' => Icons.cancel_outlined,
+      _ => Icons.history_rounded,
+    };
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 44,
+            child: Column(
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: current ? .14 : .06),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: color.withValues(alpha: .2)),
+                  ),
+                  child: Icon(icon, color: color, size: 20),
                 ),
-                title: Text(event['status'].toString().replaceAll('_', ' ').tr),
-                subtitle: Text(
-                  [
-                    if (event['reason'] == 'vendor_timeout')
+                if (!last)
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      width: 2,
+                      color: AppColors.divider,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 6, bottom: 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    status.replaceAll('_', ' ').tr,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: cancelled ? color : AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  if (event['reason'] == 'vendor_timeout')
+                    Text(
                       'Order cancelled — vendor unavailable.'.tr,
+                      style: const TextStyle(color: AppColors.textSecondary),
+                    ),
+                  Text(
                     DateTime.tryParse(
                           event['created_at'].toString(),
                         )?.toLocal().toString() ??
                         'Timestamp unavailable'.tr,
-                  ].join('\n'),
-                ),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
               ),
-            )
-            .toList(),
-      );
-    }
-    return Column(
-      children: List.generate(_steps.length, (i) {
-        final isDone = i < widget.currentStep;
-        final isActive = i == widget.currentStep;
-        final isLast = i == _steps.length - 1;
-        return _buildRow(_steps[i], i, isDone, isActive, isLast);
-      }),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -175,7 +281,10 @@ class _OrderTimelineState extends State<OrderTimeline>
                 )
               else
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 400),
+                  duration: AppMotion.duration(
+                    context,
+                    const Duration(milliseconds: 400),
+                  ),
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
@@ -194,7 +303,10 @@ class _OrderTimelineState extends State<OrderTimeline>
 
               if (!isLast)
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
+                  duration: AppMotion.duration(
+                    context,
+                    const Duration(milliseconds: 500),
+                  ),
                   width: 2.5,
                   height: 44,
                   margin: const EdgeInsets.symmetric(vertical: 4),

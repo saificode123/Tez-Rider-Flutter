@@ -1,11 +1,16 @@
 import '../../widgets/spatial_surface.dart';
+import '../../widgets/related_favorites.dart';
 import '../../widgets/prescription_order_panel.dart';
 import '../../widgets/post_pickup_cancellation_card.dart';
+
 import 'package:get/get.dart';
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../services/order_detail_service.dart';
 import '../../services/order_detail_watch.dart';
 import '../../services/cash_ledger_service.dart';
@@ -71,8 +76,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     } catch (_) {
       if (mounted && request == generation) {
         setState(
-          () => error =
-              'Order details could not be verified. Check your connection and account access, then retry.',
+          () => error = 'Order details could not be verified. Check your connection and account access, then retry.',
         );
       }
     }
@@ -160,33 +164,29 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ),
                     Text(
                       "Placed: @slot0end".uiTr({
-                        "slot0end": (date(
-                          current.value['created_at'],
-                        )).toString(),
+                        "slot0end": (date(current.value['created_at']))
+                            .toString(),
                       }),
                     ),
                     if (current.value['delivered_at'] != null)
                       Text(
                         "Delivered: @slot0end".uiTr({
-                          "slot0end": (date(
-                            current.value['delivered_at'],
-                          )).toString(),
+                          "slot0end": (date(current.value['delivered_at']))
+                              .toString(),
                         }),
                       ),
                     if (current.value['cancelled_at'] != null)
                       Text(
                         "Cancelled: @slot0end".uiTr({
-                          "slot0end": (date(
-                            current.value['cancelled_at'],
-                          )).toString(),
+                          "slot0end": (date(current.value['cancelled_at']))
+                              .toString(),
                         }),
                       ),
                     if (updated != null)
                       Text(
                         "Updated: @slot0end".uiTr({
-                          "slot0end": (date(
-                            updated!.toIso8601String(),
-                          )).toString(),
+                          "slot0end": (date(updated!.toIso8601String()))
+                              .toString(),
                         }),
                       ),
                   ]),
@@ -274,7 +274,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         "No recorded lifecycle events for this older order.".tr,
                       )
                     else
-                      OrderTimeline(currentStep: 0, events: current.events),
+                      OrderTimeline(
+                        currentStep: 0,
+                        events: current.events,
+                        showDeliveryAnimation:
+                            current.value['status'] == 'on_the_way',
+                      ),
                   ]),
                   if (current.portions.isNotEmpty)
                     section("Vendor progress".tr, [
@@ -331,6 +336,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       key: ValueKey('identity-${widget.orderId}'),
                       orderId: widget.orderId,
                     ),
+                  if (widget.service == null)
+                    section('Vendor & Rider Favorites'.tr, [
+                      RelatedFavorites(orderId: widget.orderId),
+                    ]),
                   if (widget.service == null)
                     DeliveryPhotoPanel(
                       key: ValueKey('proof-${widget.orderId}'),

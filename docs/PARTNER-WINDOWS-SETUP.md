@@ -1,6 +1,6 @@
 # TezRider: Windows partner setup
 
-2026-11-03, Asia/Karachi. Run commands in PowerShell from the repository root,
+Updated 2026-11-05, Asia/Karachi. Run commands in PowerShell from the repository root,
 the directory containing `pubspec.yaml`. There is no nested `FYP_Final2_Backup`
 in this GitHub checkout. These steps target Android TEST only.
 
@@ -68,6 +68,10 @@ alone may show a different JDK. Visual Studio is unnecessary for an Android buil
 
 ## 3. Get the reviewed branch
 
+The current fixes are on `feature/final-customer-delivery-fixes`. Main retains
+the earlier portability baseline; the current delivery branch is not merged.
+Use the commit recorded in `docs/FINAL-DELIVERY/FINAL-CUSTOMER-ACCEPTANCE.md`.
+
 For a new clone:
 
 ```powershell
@@ -76,7 +80,7 @@ Set-Location C:\src
 git clone https://github.com/saificode123/Tez-Rider-Flutter.git
 Set-Location Tez-Rider-Flutter
 git fetch origin --prune
-git switch main
+git switch feature/final-customer-delivery-fixes
 git status --short
 git rev-parse HEAD
 ```
@@ -85,8 +89,8 @@ For an existing clone, first inspect `git status`. Preserve or commit your work
 before switching; never use reset --hard. Update the reviewed default branch:
 
 ```powershell
-git switch main
-git pull --ff-only origin main
+git switch feature/final-customer-delivery-fixes
+git pull --ff-only origin feature/final-customer-delivery-fixes
 ```
 
 The old shared commit `2a059547a3054b35d34d6e81c181ef8879e2c19b` includes the

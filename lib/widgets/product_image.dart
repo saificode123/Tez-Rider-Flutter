@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../services/product_image_service.dart';
 
 /// Existing catalogue URLs remain compatible. Validated references are fetched
@@ -35,6 +37,7 @@ class _ProductImageState extends State<ProductImage> {
   Timer? expiry;
   Object? error;
   int generation = 0;
+  int legacyRevision = 0;
   late final service = widget.service ?? ProductImageService();
   StreamSubscription<void>? auth;
   @override
@@ -110,12 +113,27 @@ class _ProductImageState extends State<ProductImage> {
   Widget build(BuildContext context) {
     if (!isProductImage(widget.imageUrl)) {
       return CachedNetworkImage(
+        key: ValueKey('${widget.imageUrl}-$legacyRevision'),
         imageUrl: widget.imageUrl,
         width: widget.width,
         height: widget.height,
         fit: widget.fit,
         placeholder: widget.placeholder,
-        errorWidget: widget.errorWidget,
+        errorWidget: (context, url, failure) => Semantics(
+          label: 'Retry product image',
+          button: true,
+          child: GestureDetector(
+            onTap: () async {
+              await CachedNetworkImage.evictFromCache(url);
+              if (mounted && widget.imageUrl == url) {
+                setState(() => legacyRevision++);
+              }
+            },
+            child:
+                widget.errorWidget?.call(context, url, failure) ??
+                const Center(child: Icon(Icons.broken_image_outlined)),
+          ),
+        ),
       );
     }
     return SizedBox(

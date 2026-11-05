@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -72,47 +73,75 @@ class CnicImageService {
       maxHeight: source == ImageSource.camera ? 1600 : null,
       requestFullMetadata: false,
     );
-    return file == null ? null : read(file.path);
+    return file == null ? null : readFile(file);
   }
 
   Future<CnicImage?> lostSelection() async {
-    if (!Platform.isAndroid) return null;
+    if (kIsWeb || !Platform.isAndroid) return null;
     final lost = await picker.retrieveLostData();
     if (lost.exception != null) {
       throw const FormatException(
         'Image selection was interrupted. Select the image again.',
       );
     }
-    return lost.files?.isNotEmpty == true ? read(lost.files!.first.path) : null;
+    return lost.files?.isNotEmpty == true ? readFile(lost.files!.first) : null;
   }
 
-  Future<CnicImage> read(String path) async {
-    final file = File(path);
+  Future<CnicImage> read(String path) => readFile(XFile(path));
+
+  Future<CnicImage> readFile(XFile file) async {
     if (await file.length() > 5 * 1024 * 1024) {
       throw const FormatException('The image must be no larger than 5 MB.');
     }
     final bytes = await file.readAsBytes();
-    final mime = cnicImageMime(bytes);
+    // Validate the original size and format before decoding or resizing.
+    final png =
+        bytes.length >= 8 &&
+        const [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10,
+        ].asMap().entries.every((e) => bytes[e.key] == e.value);
+    final jpeg =
+        bytes.length >= 3 &&
+        bytes[0] == 255 &&
+        bytes[1] == 216 &&
+        bytes[2] == 255;
+    if (bytes.isEmpty || bytes.length > 5 * 1024 * 1024 || (!png && !jpeg)) {
+      throw const FormatException(
+        'Select a JPEG or PNG image no larger than 5 MB.',
+      );
+    }
+    ui.ImmutableBuffer? buffer;
+    ui.ImageDescriptor? descriptor;
     ui.Codec? codec;
     ui.Image? image;
     try {
-      codec = await ui.instantiateImageCodec(bytes);
-      image = (await codec.getNextFrame()).image;
-      if (image.width > 2048 || image.height > 2048) {
+      buffer = await ui.ImmutableBuffer.fromUint8List(bytes);
+      descriptor = await ui.ImageDescriptor.encoded(buffer);
+      if (descriptor.width * descriptor.height > 16000000) {
         throw const FormatException('Select a smaller image.');
       }
-      if (mime == 'image/png') {
-        // Re-encode pixels to strip metadata and compress the PNG payload.
-        final encoded = await image.toByteData(format: ui.ImageByteFormat.png);
-        if (encoded == null) {
-          throw const FormatException('Could not prepare the image.');
-        }
-        final compressed = encoded.buffer.asUint8List();
-        cnicImageMime(compressed);
-        return CnicImage(compressed, mime, path);
+      final longest = max(descriptor.width, descriptor.height);
+      final scale = min(1.0, 1600 / longest);
+      codec = await descriptor.instantiateCodec(
+        targetWidth: max(1, (descriptor.width * scale).round()),
+        targetHeight: max(1, (descriptor.height * scale).round()),
+      );
+      image = (await codec.getNextFrame()).image;
+      // Re-encode pixels for both formats, stripping EXIF/location metadata.
+      final encoded = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (encoded == null) {
+        throw const FormatException('Could not prepare the image.');
       }
-      // JPEG compression/resizing was performed by image_picker above.
-      return CnicImage(bytes, mime, path);
+      final prepared = encoded.buffer.asUint8List();
+      final mime = cnicImageMime(prepared);
+      return CnicImage(prepared, mime, file.path);
     } catch (error) {
       if (error is FormatException) rethrow;
       throw const FormatException(
@@ -121,6 +150,8 @@ class CnicImageService {
     } finally {
       image?.dispose();
       codec?.dispose();
+      descriptor?.dispose();
+      buffer?.dispose();
     }
   }
 }

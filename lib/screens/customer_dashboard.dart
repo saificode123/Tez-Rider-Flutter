@@ -3,17 +3,24 @@ import '../widgets/product_card_summary.dart';
 import '../theme/app_motion.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_navigation.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import '../widgets/stock_indicator.dart';
 import '../services/catalogue_service.dart';
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../widgets/product_image.dart';
+
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'customer/cart_screen.dart';
 import 'map_screen.dart';
 import '../controllers/auth_controller.dart';
@@ -38,6 +45,7 @@ import 'customer/help_center_screen.dart';
 import 'customer/about_tezrider_screen.dart';
 import 'product_detail_screen.dart';
 import 'chat_rooms_screen.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 const _kBg = AppColors.bgLight;
@@ -72,6 +80,18 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   String? _ordersError;
   int? _userId;
   Set<dynamic> _favIds = {};
+  final Set<int> _favouritePending = {};
+  String? _favouritesError;
+
+  // Historical controls from d1b5981, without invented database identifiers.
+  static const _originalCategories = [
+    'Food',
+    'Grocery',
+    'Pharmacy',
+    'Thrift',
+    'Preloved',
+    'Tailoring',
+  ];
 
   final AuthController auth = Get.find<AuthController>();
   final TezOrderController tezCtrl = Get.put(TezOrderController());
@@ -219,7 +239,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           'title': product['name'],
           'sub': 'From the catalogue',
           'price': (product['price'] as num).toStringAsFixed(2),
-          'emoji': _catEmoji(product['category']?.toString() ?? ''),
+          'icon': _catIcon(product['category']?.toString() ?? ''),
           'imageUrl': product['image_url']?.toString() ?? '',
           'gradient': gradients[entry.key % gradients.length],
           'product': product,
@@ -246,50 +266,97 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   Future<void> _loadFavourites() async {
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      if (user == null) throw StateError('Sign in required');
       final rec = await _supabase
           .from('users')
           .select('id')
-          .eq('email', user.email!)
-          .maybeSingle();
-      if (rec == null) return;
+          .eq('auth_user_id', user.id)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 12));
+      if (rec == null) throw StateError('Account unavailable');
       _userId = rec['id'];
-      final favs =
-          await _supabase
-                  .from('favourite')
-                  .select('product_id')
-                  .eq('user_id', _userId!)
-              as List;
+      final favs = await _supabase
+          .from('favourite')
+          .select('product_id')
+          .eq('user_id', _userId!)
+          .timeout(const Duration(seconds: 12));
       if (mounted) {
-        setState(() => _favIds = favs.map((f) => f['product_id']).toSet());
-      }
-    } catch (_) {}
-  }
-
-  Future<void> _toggleFavourite(dynamic productId) async {
-    if (_userId == null || int.tryParse(productId.toString()) == null) return;
-    final pid = int.parse(productId.toString());
-    final isFav = _favIds.contains(pid);
-    setState(() {
-      isFav ? _favIds.remove(pid) : _favIds.add(pid);
-    });
-    try {
-      if (isFav) {
-        await _supabase
-            .from('favourite')
-            .delete()
-            .eq('user_id', _userId!)
-            .eq('product_id', pid);
-      } else {
-        await _supabase.from('favourite').insert({
-          'user_id': _userId!,
-          'product_id': pid,
+        setState(() {
+          _favIds = favs.map((f) => f['product_id']).toSet();
+          _favouritesError = null;
         });
       }
     } catch (_) {
-      setState(() {
-        isFav ? _favIds.add(pid) : _favIds.remove(pid);
-      });
+      if (mounted) {
+        setState(
+          () => _favouritesError =
+              'Favorites could not be loaded. Tap a heart to retry.',
+        );
+      }
+    }
+  }
+
+  Future<void> _toggleFavourite(dynamic productId) async {
+    final pid = int.tryParse(productId.toString());
+    if (pid == null || _favouritePending.contains(pid)) return;
+    _favouritePending.add(pid);
+    try {
+      if (_userId == null || _favouritesError != null) {
+        await _loadFavourites();
+        if (!mounted) return;
+        if (_favouritesError != null || _userId == null) {
+          if (mounted) {
+            Get.snackbar(
+              'Favorites'.tr,
+              (_favouritesError ?? 'Sign in to save favorites.').tr,
+            );
+          }
+          return;
+        }
+      }
+      final isFav = _favIds.contains(pid);
+      if (isFav) {
+        final removed = await _supabase
+            .from('favourite')
+            .delete()
+            .eq('user_id', _userId!)
+            .eq('product_id', pid)
+            .select('id')
+            .timeout(const Duration(seconds: 12));
+        if (removed.isEmpty) throw StateError('Removal not confirmed');
+      } else {
+        final existing = await _supabase
+            .from('favourite')
+            .select('id')
+            .eq('user_id', _userId!)
+            .eq('product_id', pid)
+            .limit(1)
+            .timeout(const Duration(seconds: 12));
+        if (!mounted) return;
+        if (existing.isEmpty) {
+          await _supabase
+              .from('favourite')
+              .insert({'user_id': _userId!, 'product_id': pid})
+              .select('id')
+              .single()
+              .timeout(const Duration(seconds: 12));
+        }
+      }
+      if (mounted) {
+        setState(() {
+          isFav ? _favIds.remove(pid) : _favIds.add(pid);
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        Get.snackbar(
+          'Favorites'.tr,
+          'Change was not confirmed. Please retry.'.tr,
+        );
+        await _loadFavourites();
+      }
+    } finally {
+      _favouritePending.remove(pid);
     }
   }
 
@@ -362,7 +429,21 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       });
     }
     try {
-      final data = await CatalogueService().categories();
+      final live = await CatalogueService().categories();
+      final data = <Map<String, dynamic>>[];
+      final remaining = [...live];
+      for (final name in _originalCategories) {
+        final index = remaining.indexWhere(
+          (row) =>
+              row['name'].toString().toLowerCase().trim() == name.toLowerCase(),
+        );
+        data.add(index >= 0 ? remaining.removeAt(index) : {'name': name});
+      }
+      data.addAll(
+        remaining.where(
+          (row) => row['name'].toString().toLowerCase().trim() != 'all',
+        ),
+      );
       if (mounted) {
         final selected = productCtrl.category.value;
         final names = ['All', ...data.map((c) => c['name'] as String)];
@@ -1046,9 +1127,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                     builder: (_) {
                       final imageUrl = (item['imageUrl'] as String?) ?? '';
                       if (imageUrl.isEmpty) {
-                        return Text(
-                          item['emoji'] as String,
-                          style: const TextStyle(fontSize: 72),
+                        return Icon(
+                          item['icon'] as IconData,
+                          size: 72,
+                          color: Colors.white,
                         );
                       }
                       return Container(
@@ -1070,11 +1152,11 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           borderRadius: BorderRadius.circular(14),
                           child: ProductImage(
                             imageUrl: imageUrl,
-                            fit: BoxFit
-                                .contain, // shows the real product photo, never crops
-                            errorWidget: (_, __, ___) => Text(
-                              item['emoji'] as String,
-                              style: const TextStyle(fontSize: 60),
+                            fit: BoxFit.contain, // shows the real product photo, never crops
+                            errorWidget: (_, __, ___) => Icon(
+                              item['icon'] as IconData,
+                              size: 60,
+                              color: _kPurple,
                             ),
                           ),
                         ),
@@ -1267,16 +1349,18 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                   fit: BoxFit.cover,
                                   placeholder: (_, __) => _shimmerBox(64, 64),
                                   errorWidget: (_, __, ___) => Center(
-                                    child: Text(
-                                      _catEmoji(name),
-                                      style: const TextStyle(fontSize: 28),
+                                    child: Icon(
+                                      _catIcon(name),
+                                      size: 28,
+                                      color: _kPurple,
                                     ),
                                   ),
                                 )
                               : Center(
-                                  child: Text(
-                                    _catEmoji(name),
-                                    style: const TextStyle(fontSize: 28),
+                                  child: Icon(
+                                    _catIcon(name),
+                                    size: 28,
+                                    color: _kPurple,
                                   ),
                                 ),
                         ),
@@ -1301,18 +1385,16 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     );
   }
 
-  String _catEmoji(String name) {
-    const map = {
-      'All': '🛍️',
-      'Food': '🍔',
-      'Grocery': '🥦',
-      'Pharmacy': '💊',
-      'Thrift': '👗',
-      'Preloved': '♻️',
-      'Tailoring': '✂️',
-    };
-    return map[name] ?? '🛍️';
-  }
+  IconData _catIcon(String name) => switch (name.toLowerCase().trim()) {
+    'food' => Icons.restaurant_rounded,
+    'grocery' || 'groceries' => Icons.local_grocery_store_rounded,
+    'pharmacy' => Icons.local_pharmacy_rounded,
+    'thrift' => Icons.checkroom_rounded,
+    'preloved' => Icons.recycling_rounded,
+    'tailoring' => Icons.content_cut_rounded,
+    'electronics' => Icons.devices_rounded,
+    _ => Icons.shopping_bag_outlined,
+  };
 
   Widget _buildProductsSection() {
     return Padding(
@@ -1497,8 +1579,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   child: Stack(
                     children: [
                       SizedBox(
-                        height:
-                            cardImageHeight, // fixed, compact, same on every screen size
+                        height: cardImageHeight, // fixed, compact, same on every screen size
                         width: double.infinity,
                         child: Container(
                           width: double.infinity,
@@ -1693,9 +1774,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                     "slot0end": (nearest.branch.name)
                                         .toString(),
                                     "slot1end":
-                                        (nearest.distanceKm.toStringAsFixed(
-                                          1,
-                                        )).toString(),
+                                        (nearest.distanceKm.toStringAsFixed(1))
+                                            .toString(),
                                   }),
                                   style: TextStyle(
                                     color: _kTextSub,
@@ -1737,17 +1817,6 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   }
 
   Widget _placeholderBox(Color accent, double height, String? category) {
-    final emojis = {
-      'Food': '🍔',
-      'Grocery': '🥦',
-      'Pharmacy': '💊',
-      'Thrift': '👗',
-      'Tailoring': '✂️',
-      'Preloved': '♻️',
-      'Electronics': '💻',
-    };
-
-    final emoji = emojis[category] ?? '🍽️';
     return Container(
       height: height,
       decoration: BoxDecoration(
@@ -1760,7 +1829,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
           end: Alignment.bottomRight,
         ),
       ),
-      child: Center(child: Text(emoji, style: const TextStyle(fontSize: 44))),
+      child: Center(
+        child: Icon(_catIcon(category ?? ''), size: 44, color: accent),
+      ),
     );
   }
 
