@@ -108,7 +108,7 @@
     "physical camera/gallery/GPS and full current-APK role journeys",
     "original 2-3s GPS cadence and 800ms route target",
     "correct approved imagery for missing image data",
-    "invoice inbox/PDF receipt and broadcast device acceptance",
+    "broadcast device acceptance",
     "actual partner laptop and iOS/production release gates"
   ],
   "invoice_email": {
@@ -116,7 +116,10 @@
     "recipient_digest_verified": true,
     "status": "sent",
     "attempts": 1,
-    "inbox_receipt_confirmed": false
+    "inbox_receipt_confirmed": true,
+    "pdf_opens_confirmed": true,
+    "total_pkr_confirmed": 600,
+    "confirmation_source": "owner response, 2026-11-05"
   },
   "chrome": {
     "source_commit": "0a70920d25f0d7e6e9db6a5c8de785659f7ec073",

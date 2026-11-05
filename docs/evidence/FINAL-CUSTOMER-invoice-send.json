@@ -19,5 +19,12 @@
     "last_error": null,
     "sent_at": "2026-11-05T21:07:37.3787+05:00"
   },
-  "inbox_and_attachment_receipt": "Awaiting owner confirmation; not inferred from sent status"
+  "inbox_and_attachment_receipt": {
+    "confirmed_by": "owner",
+    "confirmation_date": "2026-11-05",
+    "response": "Received; PDF opens and total is PKR 600",
+    "inbox_received": true,
+    "pdf_opens": true,
+    "total_pkr": 600
+  }
 }
