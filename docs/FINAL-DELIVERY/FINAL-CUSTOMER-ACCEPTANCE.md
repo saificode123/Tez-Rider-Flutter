@@ -4,7 +4,7 @@ Updated 2026-11-06 UTC. This report supersedes the archived November 5 report. *
 
 ## Published source and installed artifact
 
-- Branch: `feature/final-customer-delivery-fixes`. Application source: `623d1c72bac1cff5c1ea6db66eb1c8c4c79f0335`. No final-delivery merge into main or production deployment.
+- Branch: `feature/final-customer-delivery-fixes`. Application source: `623d1c72bac1cff5c1ea6db66eb1c8c4c79f0335`. This verified source was subsequently consolidated into main with owner approval; see MAIN-CONSOLIDATION.md. No production deployment.
 - APK: `tezrider-623d1c7-fr21test-arm64-debug.apk`, 106,892,601 bytes; SHA-256 `30200c6107be5976e8bf6c2d127ac0be8174f318393e1cd2ee1c0a85adcd5968`.
 - Debug signer SHA-256: `8a34e66e44a7789737fd600989a927d7a0c1f2ed7fd50928317ae0a8378833fc`. APK installed with retained data on the connected OPPO Android 13 phone; installed APK hash independently matched. This is TEST/debug, not production signing or iOS acceptance.
 - Protected production was not accessed. All backend changes and bounded operations target isolated TEST `igeisilhtmglgnqvllrx`.
@@ -69,7 +69,7 @@ The retained 137-row SRDS matrix remains 77 bounded historical PASS, 17 approved
 
 ## Partner setup and biometric use
 
-Follow `docs/PARTNER-WINDOWS-SETUP.md`: install the documented Flutter/Dart, JDK and Android SDK; clone and select this feature branch, supply private TEST `.env` and matching TEST Firebase configuration, then run the documented analysis/test/flavor commands. `.env` alone is not a substitute for the toolchain and Firebase configuration. No secrets, APK, raw UI, coordinates or private PDFs are committed.
+Follow `docs/PARTNER-WINDOWS-SETUP.md`: install the documented Flutter/Dart, JDK and Android SDK; clone and select `main`, supply private TEST `.env` and matching TEST Firebase configuration, then run the documented analysis/test/flavor commands. `.env` alone is not a substitute for the toolchain and Firebase configuration. No secrets, APK, raw UI, coordinates or private PDFs are committed.
 
 Biometrics: sign in normally with the correct role, explicitly enable Biometric sign-in under Me/Profile and complete the genuine OS prompt. Use Lock and sign in or restart to exercise protected entry. Sign out revokes the protected credentials; use normal login and explicit opt-in again. No automatic enrollment or password storage.
 

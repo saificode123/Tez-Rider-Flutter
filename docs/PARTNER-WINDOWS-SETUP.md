@@ -68,9 +68,10 @@ alone may show a different JDK. Visual Studio is unnecessary for an Android buil
 
 ## 3. Get the reviewed branch
 
-The current fixes are on `feature/final-customer-delivery-fixes`. Main retains
-the earlier portability baseline; the current delivery branch is not merged.
-Use the commit recorded in `docs/FINAL-DELIVERY/FINAL-CUSTOMER-ACCEPTANCE.md`.
+All 18 remote feature branches are contained in `main`, consolidated with owner
+approval on 2026-11-06. Main includes the tested application source recorded in
+`docs/FINAL-DELIVERY/FINAL-CUSTOMER-ACCEPTANCE.md`; remaining acceptance gates
+are unchanged. See `docs/FINAL-DELIVERY/MAIN-CONSOLIDATION.md` for branch coverage.
 
 For a new clone:
 
@@ -80,17 +81,17 @@ Set-Location C:\src
 git clone https://github.com/saificode123/Tez-Rider-Flutter.git
 Set-Location Tez-Rider-Flutter
 git fetch origin --prune
-git switch feature/final-customer-delivery-fixes
+git switch main
 git status --short
 git rev-parse HEAD
 ```
 
 For an existing clone, first inspect `git status`. Preserve or commit your work
-before switching; never use reset --hard. Update the reviewed feature branch:
+before switching; never use reset --hard. Update main:
 
 ```powershell
-git switch feature/final-customer-delivery-fixes
-git pull --ff-only origin feature/final-customer-delivery-fixes
+git switch main
+git pull origin main
 ```
 
 The old shared commit `2a059547a3054b35d34d6e81c181ef8879e2c19b` includes the
@@ -98,7 +99,7 @@ map upgrade but predates these portability fixes. Use the portability fix commit
 reported in the audit/final handover. The owner subsequently authorized putting
 the earlier portability fixes on `main`; all historical feature refs were already
 contained in main, so no blind replay of old branches is necessary. The current
-Customer/biometric/Rider fixes remain on the feature branch and are not merged.
+Customer/biometric/Rider fixes are now included in main after owner approval.
 
 ## 4. Supply approved TEST client configuration
 
