@@ -91,3 +91,15 @@ The owner explicitly answered **"Approve this TEST-only implementation"** to the
 ## Owner addendum — one existing TEST invoice email (2026-11-05)
 
 The owner explicitly answered **"Approve recipient correction and one TEST email"** for correcting only TEST `BREVO_TEST_RECIPIENT` to the verified owner-controlled inbox and sending exactly one existing synthetic invoice email for order 2439, PKR 600. This authorizes no new order, payment, cash record, OTP, broadcast or production operation. Provider acceptance and inbox/PDF receipt remain separate acceptance checks.
+
+## Owner addendum — bounded Customer TEST broadcast (2026-11-06)
+
+The owner explicitly answered **"Approve this bounded TEST broadcast"** for one broadcast titled **"TezRider TEST acceptance"**, message **"Notification delivery check. No action required."** The reviewed existing audience is 39 TEST Customer accounts and 2 registered TEST push installations. This authorizes the 39 in-app notices and existing delivery/retry rules for those two installations; it is not a one-device-only send. Recheck scope before sending, use one stable request UUID, and distinguish server/provider status from actual owner-device receipt. No production, new order, payment, cash, OTP or additional email is authorized.
+
+## Owner addendum — one GPS saved-address acceptance record (2026-11-06)
+
+The owner explicitly answered **"Approve TEST save and cleanup"** for saving one **"TEST device acceptance"** address containing the phone's actual GPS coordinates and synthetic house/street text to isolated TEST `igeisilhtmglgnqvllrx`, verifying it after app restart, then deleting only that test address. This approval does not cover other addresses, production, fabricated GPS or new delivery/order/payment operations. Keep precise coordinates and raw device captures out of published evidence.
+
+## Owner addendum — brief genuine Rider Online/GPS check (2026-11-06)
+
+The owner explicitly answered **"Approve brief TEST Online/GPS check"** for turning the genuine Rider Online for up to two minutes to verify the repaired estimate and presence behavior. Actual matching-location updates may be sent to isolated TEST `igeisilhtmglgnqvllrx` during that bounded interval; return the Rider Offline afterward. Do not accept/create an order, send another broadcast/email/OTP, fabricate location or access production. This does not renew the earlier external routing-provider request budget or relax GPS/route timing targets.

@@ -11,6 +11,19 @@ import '../services/pre_delivery_checklist_service.dart';
 import '../services/delivery_location.dart';
 import '../services/delivery_location_platform.dart';
 
+/// Requests awaiting Vendor acceptance are not open Rider offers. Assigned
+/// nonterminal work stays visible even while its parent status catches up.
+bool riderRequestVisible(Map<String, dynamic> order, Object? riderId) {
+  if (riderId == null) return false;
+  final status = order['order_status'];
+  if (!const {'placed', 'accepted', 'ready', 'on_the_way'}.contains(status)) {
+    return false;
+  }
+  if (order['rider_id'] == riderId) return true;
+  return order['rider_id'] == null &&
+      const {'accepted', 'ready'}.contains(status);
+}
+
 class RiderController extends GetxController with WidgetsBindingObserver {
   final _supabase = Supabase.instance.client;
 
@@ -286,17 +299,21 @@ class RiderController extends GetxController with WidgetsBindingObserver {
             .timeout(const Duration(seconds: 8)),
       ]);
       if (!isClosed) {
+        final visibleOrders = responses[0].where(
+          (row) =>
+              riderRequestVisible(Map<String, dynamic>.from(row), _riderId),
+        );
         if (loadMore) {
           final orderIds = availableOrders.map((o) => o['id']).toSet();
           final tailoringIds = availableTailoring.map((o) => o['id']).toSet();
           availableOrders.addAll(
-            responses[0].where((o) => !orderIds.contains(o['id'])),
+            visibleOrders.where((o) => !orderIds.contains(o['id'])),
           );
           availableTailoring.addAll(
             responses[1].where((o) => !tailoringIds.contains(o['id'])),
           );
         } else {
-          availableOrders.assignAll(responses[0]);
+          availableOrders.assignAll(visibleOrders);
           availableTailoring.assignAll(responses[1]);
         }
         _requestsPage = page;
@@ -374,7 +391,12 @@ class RiderController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> acceptOrder(Map<String, dynamic> order) async {
-    if (deliveryBusy.value) return;
+    if (deliveryBusy.value ||
+        presenceBusy.value ||
+        !presenceReady.value ||
+        !isOnline.value) {
+      return;
+    }
     if (currentOrder.value != null &&
         (currentOrder.value?['type'] != 'order' ||
             currentOrder.value?['id'] != order['id'])) {

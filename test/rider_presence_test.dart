@@ -1,8 +1,53 @@
 import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/services/rider_presence.dart';
 
 void main() {
+  for (final initiallyOnline in [false, true]) {
+    for (final succeeds in [false, true]) {
+      test(
+        'availability waits for confirmation: initial=$initiallyOnline success=$succeeds',
+        () async {
+          final response = Completer<void>();
+          final started = Completer<void>();
+          var writes = 0;
+          final presence = RiderPresence((name, parameters) async {
+            if (name == 'fr21_begin_presence') {
+              return {'epoch': 1, 'is_online': initiallyOnline};
+            }
+            writes++;
+            started.complete();
+            expect(parameters['p_online'], !initiallyOnline);
+            await response.future;
+            if (!succeeds) throw const PresenceFailure('Session expired');
+            return {'is_online': !initiallyOnline};
+          }, () {});
+          await presence.restore();
+          final pending = presence.setOnline(!initiallyOnline);
+          expect(presence.busy, isTrue);
+          expect(presence.online, initiallyOnline);
+          await started.future;
+          expect(writes, 1);
+          expect(
+            presence.online,
+            initiallyOnline,
+            reason: 'No quote or accept control may observe unconfirmed availability',
+          );
+          response.complete();
+          await pending;
+          expect(presence.busy, isFalse);
+          expect(
+            presence.online,
+            succeeds ? !initiallyOnline : initiallyOnline,
+          );
+          expect(presence.ready, succeeds);
+          presence.dispose();
+        },
+      );
+    }
+  }
+
   for (final scenario in [
     'recover',
     'offline',

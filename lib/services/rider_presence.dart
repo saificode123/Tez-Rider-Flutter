@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
-typedef PresenceCall =
-    Future<Map<String, dynamic>> Function(
-      String name,
-      Map<String, dynamic> parameters,
-    );
+typedef PresenceCall = Future<Map<String, dynamic>> Function(
+  String name,
+  Map<String, dynamic> parameters,
+);
 
 class PresenceFailure implements Exception {
   const PresenceFailure(this.message, {this.retryable = false});
@@ -117,7 +116,8 @@ class RiderPresence {
     busy = true;
     final previous = online;
     final generation = _generation;
-    online = value;
+    // Keep the last confirmed value while writing. An optimistic Online value
+    // would mount quote/accept controls before the server presence is valid.
     _heartbeat?.cancel();
     changed();
     try {
@@ -131,9 +131,7 @@ class RiderPresence {
       if (generation == _generation) {
         online = previous;
         ready = false;
-        error = e is PresenceFailure
-            ? e.message
-            : 'Availability was not confirmed. Check your connection and retry.';
+        error = e is PresenceFailure ? e.message : 'Availability was not confirmed. Check your connection and retry.';
       }
     } finally {
       busy = false;

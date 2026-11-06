@@ -1,7 +1,10 @@
 import '../theme/app_theme.dart';
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../core/stage2_ui_strings.dart';
 import '../services/rider_earnings_service.dart';
 
@@ -80,6 +83,10 @@ class _RiderEarningsPanelState extends State<RiderEarningsPanel> {
           );
         }
       });
+    } on RiderEarningsUnavailable catch (failure) {
+      if (mounted && generation == _generation) {
+        setState(() => _error = failure.message);
+      }
     } catch (_) {
       if (mounted && generation == _generation) {
         setState(() => _error = 'Earnings could not be loaded. Please retry.');
@@ -204,9 +211,11 @@ class _RiderEarningsPanelState extends State<RiderEarningsPanel> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        DateTime.parse(
-                          entry['earned_at'],
-                        ).toLocal().toString().split('.').first,
+                        DateTime.parse(entry['earned_at'])
+                            .toLocal()
+                            .toString()
+                            .split('.')
+                            .first,
                       ),
                       Text(
                         '@slot0end km · @slot1end'.uiTr({

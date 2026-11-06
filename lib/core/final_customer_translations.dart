@@ -1,5 +1,15 @@
 /// Final customer delivery fixes; source keys remain stable in English.
 const finalCustomerUrdu = <String, String>{
+  'This delivery request is no longer available.':
+      'یہ ڈیلیوری درخواست اب دستیاب نہیں ہے۔',
+  'Vendor pickup details are missing. Ask the Vendor to confirm them.':
+      'وینڈر کی پک اپ تفصیلات موجود نہیں۔ وینڈر سے ان کی تصدیق کروائیں۔',
+  'Vendor pickup location is missing. Ask the Vendor to confirm it.':
+      'وینڈر کا پک اپ مقام موجود نہیں۔ وینڈر سے اس کی تصدیق کروائیں۔',
+  'The Customer must confirm a delivery pin before an earning estimate is available.':
+      'کمائی کا تخمینہ دیکھنے سے پہلے کسٹمر کو ڈیلیوری پن کی تصدیق کرنا ہوگی۔',
+  'Pickup or delivery coordinates are invalid. Confirm both locations.': 'پک اپ یا ڈیلیوری کے مقام کی معلومات درست نہیں۔ دونوں مقامات کی تصدیق کریں۔',
+
   'Lock and sign in': 'لاک کریں اور سائن اِن کریں',
   'Sign in, then enable biometrics in your profile.':
       'سائن اِن کر کے اپنے پروفائل میں بایومیٹرک فعال کریں۔',

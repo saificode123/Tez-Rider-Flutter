@@ -1,0 +1,57 @@
+-- Dedicated TEST fixture 2468 only. Creates no orders; every fixture change rolls back.
+begin;
+set local statement_timeout='60s';
+create function pg_temp.quote_ok(ok boolean,label text)returns void language plpgsql as $$begin
+ if ok is distinct from true then raise exception 'Rider quote regression failed: %',label;end if;
+end$$;
+do $$declare uid uuid:=gen_random_uuid();sid uuid:=gen_random_uuid();actor bigint;customer_uid uuid:=gen_random_uuid();customer_sid uuid:=gen_random_uuid();claims text;q jsonb;before_assignment bigint;before_snapshot bigint;before_earning bigint;begin
+ perform pg_temp.quote_ok(exists(select 1 from public.orders where id=2468 and rider_id is null and order_status in('accepted','ready')and delivery_address='FR10 synthetic TEST address'),'existing synthetic unassigned accepted fixture required');
+ select count(*)into before_assignment from public.rider_assignments;
+ select count(*)into before_snapshot from final_delivery_private.pay_snapshots;
+ select count(*)into before_earning from final_delivery_private.rider_earnings;
+ insert into auth.users(id,email,email_confirmed_at,role,aud,raw_user_meta_data)values(uid,'quote-sql-'||uid||'@example.test',clock_timestamp(),'authenticated','authenticated','{"final_quote_fixture":true}');
+ insert into public.users(auth_user_id,email,name,role,verification_status,is_blocked)values(uid,'quote-sql-'||uid||'@example.test','SYNTHETIC QUOTE SQL TEST','rider','approved',false)returning id into actor;
+ insert into auth.sessions(id,user_id,created_at,updated_at)values(sid,uid,clock_timestamp(),clock_timestamp());
+ insert into public.riders(userid,is_online,is_available,isavailable,last_seen)values(actor,true,true,true,clock_timestamp());
+ claims:=jsonb_build_object('sub',uid,'role','authenticated','session_id',sid)::text;
+ perform set_config('request.jwt.claims',claims,true);
+ q:=public.final_delivery_rider_quote(2468);
+ perform pg_temp.quote_ok((q->>'order_id')::bigint=2468 and(q->>'preview_before_acceptance')::boolean and q->>'code'in('OK','DISTANCE_UNAVAILABLE'),'eligible pre-acceptance preview is returned instead of assigned-only denial');
+ if q->>'code'='OK'then
+ perform pg_temp.quote_ok((q->>'rider_id')::bigint=actor and not(q->>'frozen')::boolean and(q->>'earnings_only')::boolean and(q->>'expected_amount')::numeric>=80,'real server estimate, caller binding and no freeze');
+ else perform pg_temp.quote_ok(q->>'reason'in('ORDER_REQUIRED','PICKUP_ORDER_REQUIRED','PICKUP_LOCATION_REQUIRED','DESTINATION_CONFIRMATION_REQUIRED','VALID_COORDINATES_REQUIRED')and not(q?'expected_amount'),'missing location remains explicit and never fabricates a price');end if;
+ perform pg_temp.quote_ok((select count(*)from public.rider_assignments)=before_assignment and(select count(*)from final_delivery_private.pay_snapshots)=before_snapshot and(select count(*)from final_delivery_private.rider_earnings)=before_earning and exists(select 1 from public.orders where id=2468 and rider_id is null and order_status in('accepted','ready')),'preview is read-only: no assignment, order transition, snapshot or earning');
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ update public.riders set is_online=false where userid=actor;
+ perform set_config('request.jwt.claims',claims,true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Offline Rider preview allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ update public.riders set is_online=true,last_seen=clock_timestamp()-interval '10 minutes'where userid=actor;
+ perform set_config('request.jwt.claims',claims,true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Stale Rider preview allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ update public.riders set last_seen=clock_timestamp(),is_available=false,isavailable=false where userid=actor;
+ perform set_config('request.jwt.claims',claims,true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Unavailable Rider preview allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ update public.riders set is_available=true,isavailable=true where userid=actor;
+ update public.users set is_blocked=true where id=actor;
+ perform set_config('request.jwt.claims',claims,true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Blocked Rider preview allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ update public.users set is_blocked=false where id=actor;
+ perform set_config('request.jwt.claims',claims,true);
+ begin perform public.final_delivery_rider_quote(3180);raise exception 'Foreign assigned quote allowed';exception when insufficient_privilege then null;end;
+ begin perform public.final_delivery_rider_quote(-1);raise exception 'Invalid order allowed';exception when invalid_parameter_value then null;end;
+ perform set_config('request.jwt.claims','{"role":"service_role"}',true);
+ insert into auth.users(id,email,email_confirmed_at,role,aud)values(customer_uid,'quote-customer-'||customer_uid||'@example.test',clock_timestamp(),'authenticated','authenticated');
+ insert into public.users(auth_user_id,email,name,role,verification_status,is_blocked)values(customer_uid,'quote-customer-'||customer_uid||'@example.test','SYNTHETIC QUOTE SQL CUSTOMER','customer','approved',false);
+ insert into auth.sessions(id,user_id,created_at,updated_at)values(customer_sid,customer_uid,clock_timestamp(),clock_timestamp());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',customer_uid,'role','authenticated','session_id',customer_sid)::text,true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Customer quote allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{"role":"anon"}',true);
+ begin perform public.final_delivery_rider_quote(2468);raise exception 'Anonymous preview allowed';exception when insufficient_privilege then null;end;
+ perform pg_temp.quote_ok(not has_function_privilege('anon','public.final_delivery_rider_quote(bigint)','execute')and has_function_privilege('authenticated','public.final_delivery_rider_quote(bigint)','execute'),'public grants remain role-scoped');
+end$$;
+select 'PASS: eligible preview and unavailable input handling; read-only invariant; offline, stale, unavailable, blocked, foreign, invalid, Customer and anonymous boundaries; grants retained' as result;
+rollback;

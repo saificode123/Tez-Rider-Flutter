@@ -2,7 +2,9 @@ import '../widgets/spatial_surface.dart';
 import '../widgets/rider_availability_control.dart';
 import '../widgets/biometric_settings_tile.dart';
 import '../widgets/app_navigation.dart';
+
 import 'package:flutter_application_1/core/stage2_ui_strings.dart';
+
 import '../widgets/rider_performance_panel.dart';
 import '../widgets/rider_earnings_panel.dart';
 import '../services/rider_earnings_service.dart';
@@ -10,14 +12,19 @@ import '../widgets/delivery_photo_panel.dart';
 import 'customer/profile_screen.dart';
 import '../widgets/language_settings_tile.dart';
 import 'rating_summary_screen.dart';
+
 import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../widgets/rider_navigation_map.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+
 import '../controllers/auth_controller.dart';
 import '../controllers/rider_controller.dart';
 import '../widgets/pre_delivery_checklist_card.dart';
@@ -68,7 +75,12 @@ class _RiderDashboardState extends State<RiderDashboard> {
 
   bool _reviewingEarning = false;
   Future<void> _acceptOrder(Map<String, dynamic> order) async {
-    if (_reviewingEarning) return;
+    if (_reviewingEarning ||
+        riderCtrl.presenceBusy.value ||
+        !riderCtrl.presenceReady.value ||
+        !riderCtrl.isOnline.value) {
+      return;
+    }
     _reviewingEarning = true;
     try {
       final id = int.tryParse('${order['id']}');
@@ -98,6 +110,10 @@ class _RiderDashboardState extends State<RiderDashboard> {
       await riderCtrl.acceptOrder(order);
       if (mounted && riderCtrl.currentOrder.value != null) {
         setState(() => _tab = 1);
+      }
+    } on RiderEarningsUnavailable catch (failure) {
+      if (mounted) {
+        Get.snackbar('Expected delivery earning'.tr, failure.message.tr);
       }
     } catch (_) {
       if (mounted) {

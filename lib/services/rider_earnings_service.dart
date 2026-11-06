@@ -2,6 +2,23 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 typedef EarningsRead = Future<dynamic> Function(String, Map<String, dynamic>);
 
+class RiderEarningsUnavailable implements Exception {
+  const RiderEarningsUnavailable(this.reason);
+  final String reason;
+  static const reasons = {
+    'ORDER_REQUIRED': 'This delivery request is no longer available.',
+    'PICKUP_ORDER_REQUIRED':
+        'Vendor pickup details are missing. Ask the Vendor to confirm them.',
+    'PICKUP_LOCATION_REQUIRED':
+        'Vendor pickup location is missing. Ask the Vendor to confirm it.',
+    'DESTINATION_CONFIRMATION_REQUIRED': 'The Customer must confirm a delivery pin before an earning estimate is available.',
+    'VALID_COORDINATES_REQUIRED':
+        'Pickup or delivery coordinates are invalid. Confirm both locations.',
+  };
+  String get message =>
+      reasons[reason] ?? 'Earnings could not be loaded. Please retry.';
+}
+
 class RiderEarningsService {
   RiderEarningsService({
     EarningsRead? read,
@@ -33,6 +50,13 @@ class RiderEarningsService {
     if (owner == null) throw StateError('Sign in required');
     final value = await _read(name, args);
     if (account != owner) throw StateError('Account changed');
+    if (name == 'final_delivery_rider_quote' &&
+        value is Map &&
+        value['code'] == 'DISTANCE_UNAVAILABLE' &&
+        value['order_id'] == args['p_order_id'] &&
+        RiderEarningsUnavailable.reasons.containsKey(value['reason'])) {
+      throw RiderEarningsUnavailable(value['reason'] as String);
+    }
     if (value is! Map ||
         value['code'] != 'OK' ||
         value['rider_id'] is! int ||
