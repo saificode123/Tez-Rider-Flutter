@@ -1,0 +1,121 @@
+{
+  "checked_utc": "2026-11-06T18:33:43.489025+00:00",
+  "source_commit": "623d1c72bac1cff5c1ea6db66eb1c8c4c79f0335",
+  "branch": "feature/final-customer-delivery-fixes",
+  "production_access": false,
+  "main_merged": false,
+  "apk": {
+    "sha256": "30200c6107be5976e8bf6c2d127ac0be8174f318393e1cd2ee1c0a85adcd5968",
+    "bytes": 106892601,
+    "installed_hash_verified": true,
+    "signer": "Android Debug",
+    "flavor": "fr21test",
+    "abi": "arm64"
+  },
+  "flutter": {
+    "passed": 846,
+    "failed": 0,
+    "skipped": 2
+  },
+  "analysis": "No issues found, root and updated clone",
+  "deno": {
+    "passed": 240,
+    "failed": 0
+  },
+  "sql_rollback_suites": 4,
+  "role_matrix_cases": 32,
+  "biometrics": {
+    "explicit_opt_in": true,
+    "cancel_locked": true,
+    "cold_start_locked": true,
+    "genuine_success": true,
+    "physical_source": "bc38ccf",
+    "hardware_lockout_tested": false,
+    "physical_negative_cross_role": "inconclusive; owner entered genuine Rider credentials"
+  },
+  "chrome": {
+    "kind": "owner-assisted bc38ccf",
+    "login_rendered": true,
+    "empty_validation": true,
+    "role_label_and_biometrics_unavailable": true,
+    "full_acceptance": false
+  },
+  "broadcast": {
+    "authorized_broadcasts": 1,
+    "in_app_notices": 39,
+    "push_installations": 2,
+    "provider_accepted": 1,
+    "invalid_token_failed": 1,
+    "owner_android_receipt": true,
+    "native_admin_creation_tested": false
+  },
+  "invoice": {
+    "existing_synthetic_order": 2439,
+    "authorized_emails": 1,
+    "owner_received_pdf_total_pkr": 600
+  },
+  "gps_address": {
+    "explicit_save_and_cleanup_approved": true,
+    "actual_pin_owner_confirmed": true,
+    "text_preserved": true,
+    "backend_saved": true,
+    "restart_verified": true,
+    "only_test_address_deleted": true,
+    "remaining_test_label_rows": 0,
+    "coordinates_published": false,
+    "server_audit_receipts_retained": true
+  },
+  "rider_check": {
+    "source": "623d1c7",
+    "approved_cap_seconds": 120,
+    "order_actions": 0,
+    "external_message_sends": 0,
+    "online_ui_confirmed": true,
+    "generic_estimate_error": false,
+    "estimate_guidance": [
+      "Expected delivery earning\nEarnings records only. This is not a payout confirmation.\nVendor pickup location is missing. Ask the Vendor to confirm it."
+    ],
+    "offline_ui_confirmed": true,
+    "elapsed_seconds": 26.27
+  },
+  "final_server_online": false,
+  "native_final_checkpoints": [
+    {
+      "checked_utc": "2026-11-06T18:32:36.638758+00:00",
+      "kind": "ADB native integration; read-only assertions, not Flutter integration_test runner",
+      "package": "com.example.flutter_application_1.fr21test",
+      "installed_apk_sha256": "30200c6107be5976e8bf6c2d127ac0be8174f318393e1cd2ee1c0a85adcd5968",
+      "checkpoint": "rider-home",
+      "passed": 3,
+      "failed": 0,
+      "checks": [
+        "installed TEST APK matches reviewed SHA-256",
+        "only TEST app is visible",
+        "Rider navigation and availability visible after authorized entry"
+      ],
+      "writes": 0,
+      "external_sends": 0,
+      "raw_ui_saved": false,
+      "coordinates_logged": false
+    },
+    {
+      "checked_utc": "2026-11-06T18:32:52.325704+00:00",
+      "kind": "ADB native integration; read-only assertions, not Flutter integration_test runner",
+      "package": "com.example.flutter_application_1.fr21test",
+      "installed_apk_sha256": "30200c6107be5976e8bf6c2d127ac0be8174f318393e1cd2ee1c0a85adcd5968",
+      "checkpoint": "rider-earnings",
+      "passed": 3,
+      "failed": 0,
+      "checks": [
+        "installed TEST APK matches reviewed SHA-256",
+        "only TEST app is visible",
+        "owner-confirmed PKR 113 stored earning and explicit no-payout statement visible"
+      ],
+      "writes": 0,
+      "external_sends": 0,
+      "raw_ui_saved": false,
+      "coordinates_logged": false
+    }
+  ],
+  "overall": "PARTIAL; mandatory timing and physical/data gates remain open"
+}

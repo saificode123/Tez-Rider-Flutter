@@ -1,8 +1,8 @@
 # Vendor/Rider Favorites — proposed authorization contract
 
-Prepared 2026-11-05. Not implemented or deployed. Product Favorites already use the existing `favourite` table and are restored separately.
+Prepared 2026-11-05; owner-approved and implemented/deployed to isolated TEST on that date. The contract below is retained as the approval record; current acceptance is in FINAL-CUSTOMER-ACCEPTANCE.md. Product Favorites already use the existing `favourite` table and are restored separately.
 
-The existing `public.favorites` table has UUID `user_id`, UUID `favorite_user_id`, `type`, `created_at`, and a unique actor/target pair. TEST currently has zero rows and no verified role/history contract. The final delivery request explicitly requires approval before introducing this model.
+The existing `public.favorites` table has UUID `user_id`, UUID `favorite_user_id`, `type`, `created_at`, and a unique actor/target pair. At proposal time TEST had zero rows and no verified role/history contract. The final delivery request explicitly requires approval before introducing this model.
 
 Proposed bounded change:
 

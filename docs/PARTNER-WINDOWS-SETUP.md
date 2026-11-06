@@ -1,6 +1,6 @@
 # TezRider: Windows partner setup
 
-Updated 2026-11-05, Asia/Karachi. Run commands in PowerShell from the repository root,
+Updated 2026-11-06, Asia/Karachi. Run commands in PowerShell from the repository root,
 the directory containing `pubspec.yaml`. There is no nested `FYP_Final2_Backup`
 in this GitHub checkout. These steps target Android TEST only.
 
@@ -86,7 +86,7 @@ git rev-parse HEAD
 ```
 
 For an existing clone, first inspect `git status`. Preserve or commit your work
-before switching; never use reset --hard. Update the reviewed default branch:
+before switching; never use reset --hard. Update the reviewed feature branch:
 
 ```powershell
 git switch feature/final-customer-delivery-fixes
@@ -96,8 +96,9 @@ git pull --ff-only origin feature/final-customer-delivery-fixes
 The old shared commit `2a059547a3054b35d34d6e81c181ef8879e2c19b` includes the
 map upgrade but predates these portability fixes. Use the portability fix commit
 reported in the audit/final handover. The owner subsequently authorized putting
-the reviewed fixes on `main`; all historical feature refs were already contained
-in main, so no blind replay of old branches is necessary.
+the earlier portability fixes on `main`; all historical feature refs were already
+contained in main, so no blind replay of old branches is necessary. The current
+Customer/biometric/Rider fixes remain on the feature branch and are not merged.
 
 ## 4. Supply approved TEST client configuration
 
@@ -256,3 +257,16 @@ to resolve a signature mismatch without backing up needed state and approval.
 No unlimited cloud capacity is assumed. Current quotas and remaining message
 allowances must be checked by the owner before external TEST sends; see
 `docs/FR-32-operations.md` and `docs/POLICY-DECISIONS.md`.
+
+## Biometric acceptance
+
+Sign in normally with the correct role, open Me/Profile and explicitly enable
+Biometric sign-in through the genuine phone prompt. Lock and sign in or restart
+to verify protected entry. Sign out revokes protected credentials; normal login
+and explicit opt-in are required again. Unsupported Chrome/devices do not offer
+an enabled biometric sign-in action. Never share passwords with the agent.
+
+The November 6 report records the exact installed TEST APK/source and current
+limits. Successful clone/build on the owner machine is not physical acceptance
+on a partner laptop. Toolchain and matching TEST Firebase configuration are
+required in addition to `.env`.
