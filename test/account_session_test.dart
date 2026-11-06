@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -81,7 +82,9 @@ void main() {
       await gate.dispose();
     },
   );
-  test('Realtime events coalesce and force blocked sign-out', () async {
+  testWidgets('Realtime events coalesce and force blocked sign-out', (
+    tester,
+  ) async {
     final backend = Backend();
     final denied = <AccountDisposition>[];
     final gate = AccountSessionGate(backend, (d) async {
@@ -92,10 +95,16 @@ void main() {
     backend.changed!();
     backend.changed!();
     backend.changed!();
-    await Future<void>.delayed(const Duration(milliseconds: 220));
+    await tester.pump(const Duration(milliseconds: 149));
+    expect(backend.checks, 1);
+    expect(denied, isEmpty);
+    await tester.pump(const Duration(milliseconds: 1));
     expect(backend.checks, 2);
     expect(denied, [AccountDisposition.blocked]);
     expect(backend.changed, isNull);
+    await tester.pump(const Duration(seconds: 1));
+    expect(backend.checks, 2);
+    expect(denied, [AccountDisposition.blocked]);
     await gate.dispose();
   });
   test('reset invalidates an earlier restoration for same identity', () async {

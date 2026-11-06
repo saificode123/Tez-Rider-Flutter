@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../services/ai_service.dart';
 import '../theme/app_theme.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AIAssistantScreen extends StatefulWidget {
@@ -253,7 +255,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                           fontSize: 14,
                         ),
                         filled: true,
-                        fillColor: const Color(0xFFF4F4F8),
+                        fillColor: AppColors.bgSection,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                           borderSide: BorderSide.none,

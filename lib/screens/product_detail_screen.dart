@@ -297,19 +297,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             actions: [
-              GestureDetector(
-                onTap: _toggleFav,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: Colors.black26,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: _favLoading
-                      ? const Padding(
-                          padding: EdgeInsets.all(10),
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: IconButton(
+                  tooltip:
+                      (_isFav ? 'Remove from Favorites' : 'Add to Favorites')
+                          .tr,
+                  onPressed: _favLoading ? null : _toggleFav,
+                  style: IconButton.styleFrom(backgroundColor: Colors.black26),
+                  icon: _favLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(
                             color: Colors.white,
                             strokeWidth: 2,

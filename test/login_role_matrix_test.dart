@@ -111,6 +111,12 @@ void main() {
                 ? 'Continue with Biometrics'
                 : 'Sign in as ${selected[0].toUpperCase()}${selected.substring(1)}',
           );
+          if (method == 'biometric') {
+            expect(
+              t.getTopLeft(button).dy,
+              lessThan(t.getTopLeft(find.byType(TextField).first).dy),
+            );
+          }
           await t.ensureVisible(button);
           await t.tap(button);
           await t.pumpAndSettle();

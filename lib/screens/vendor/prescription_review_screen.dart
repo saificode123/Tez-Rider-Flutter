@@ -1,7 +1,9 @@
 import '../../theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../widgets/private_photo.dart';
 import '../../services/optional_media_service.dart';
 import '../../controllers/prescription_controller.dart';
@@ -25,7 +27,7 @@ class _VendorPrescriptionReviewScreenState
   final TextEditingController _rejectionReasonController =
       TextEditingController();
 
-  static const _purple = Color(0xFF1B5E20);
+  static const _primary = AppColors.primary;
 
   @override
   void initState() {
@@ -89,8 +91,8 @@ class _VendorPrescriptionReviewScreenState
                       }
                     },
               style: ElevatedButton.styleFrom(
-                backgroundColor: _purple,
-                disabledBackgroundColor: _purple.withValues(alpha: 0.5),
+                backgroundColor: _primary,
+                disabledBackgroundColor: _primary.withValues(alpha: 0.5),
               ),
               child: _prescriptionController.isLoading.value
                   ? const SizedBox(
@@ -126,9 +128,8 @@ class _VendorPrescriptionReviewScreenState
               controller: _rejectionReasonController,
               maxLines: 3,
               decoration: InputDecoration(
-                hintText:
-                    'Provide a clear reason (e.g., "Prescription is expired" or "Not clearly visible")'
-                        .tr,
+                hintText: 'Provide a clear reason (e.g., "Prescription is expired" or "Not clearly visible")'
+                    .tr,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -376,7 +377,7 @@ class _VendorPrescriptionReviewScreenState
                                 icon: const Icon(Icons.check_circle),
                                 label: Text('Approve'.tr),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: _purple,
+                                  backgroundColor: _primary,
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),

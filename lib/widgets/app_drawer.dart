@@ -1,7 +1,9 @@
 import '../theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../controllers/auth_controller.dart';
 import '../controllers/language_controller.dart';
 import '../screens/splash_screen.dart';
@@ -82,7 +84,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _drawerItem(
                     icon: Icons.favorite_rounded,
-                    text: 'saved_vendors'.tr,
+                    text: 'Favorites'.tr,
                     onTap: () {
                       Get.back();
                       Get.to(() => const SavedStoresScreen());

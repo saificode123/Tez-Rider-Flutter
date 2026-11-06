@@ -1,3 +1,4 @@
+import '../widgets/biometric_settings_tile.dart';
 import '../widgets/spatial_surface.dart';
 import '../widgets/product_card_summary.dart';
 import '../theme/app_motion.dart';
@@ -1798,7 +1799,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           favourite: _favIds.contains(
                             int.tryParse(p.id.toString()),
                           ),
-                          favouriteLabel: "Saved Stores".tr,
+                          favouriteLabel: "Favorites".tr,
                           onFavourite: () {
                             HapticFeedback.selectionClick();
                             _toggleFavourite(p.id);
@@ -2642,7 +2643,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               ),
               _menuRow(
                 '❤️',
-                "Saved Stores".tr,
+                "Favorites".tr,
                 _kPink,
                 () => Get.to(() => const SavedStoresScreen()),
               ),
@@ -2656,6 +2657,8 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
             const SizedBox(height: 16),
 
+            const BiometricSettingsTile(),
+            const SizedBox(height: 16),
             _menuGroup("Support".tr, [
               _menuRow(
                 '⚖️',

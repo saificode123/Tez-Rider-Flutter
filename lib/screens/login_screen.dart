@@ -472,6 +472,40 @@ class _LoginScreenState extends State<LoginScreen>
                                             CrossAxisAlignment.stretch,
                                         children: [
                                           _buildRoleDropdown(role),
+                                          Obx(
+                                            () =>
+                                                authController
+                                                    .isBioSupported
+                                                    .value
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                          top: 12,
+                                                        ),
+                                                    child: TextButton.icon(
+                                                      onPressed:
+                                                          _loading ||
+                                                              !authController
+                                                                  .isBioEnabled
+                                                                  .value
+                                                          ? null
+                                                          : _biometricLogin,
+                                                      icon: const Icon(
+                                                        Icons
+                                                            .fingerprint_rounded,
+                                                      ),
+                                                      label: Text(
+                                                        (authController
+                                                                    .isBioEnabled
+                                                                    .value
+                                                                ? 'Continue with Biometrics'
+                                                                : 'Sign in, then enable biometrics in your profile.')
+                                                            .tr,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const SizedBox.shrink(),
+                                          ),
                                           if (_error != null) ...[
                                             const SizedBox(height: 16),
                                             Semantics(
@@ -597,40 +631,6 @@ class _LoginScreenState extends State<LoginScreen>
                                                       initialRole: _role,
                                                     ),
                                                   ),
-                                          ),
-                                          Obx(
-                                            () =>
-                                                authController
-                                                    .isBioSupported
-                                                    .value
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                          top: 12,
-                                                        ),
-                                                    child: TextButton.icon(
-                                                      onPressed:
-                                                          _loading ||
-                                                              !authController
-                                                                  .isBioEnabled
-                                                                  .value
-                                                          ? null
-                                                          : _biometricLogin,
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .fingerprint_rounded,
-                                                      ),
-                                                      label: Text(
-                                                        (authController
-                                                                    .isBioEnabled
-                                                                    .value
-                                                                ? 'Continue with Biometrics'
-                                                                : 'Sign in, then enable biometrics in your profile.')
-                                                            .tr,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : const SizedBox.shrink(),
                                           ),
                                         ],
                                       ),

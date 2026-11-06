@@ -160,7 +160,7 @@ class _SavedStoresScreenState extends State<SavedStoresScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Favourites".tr,
+          "Favorites".tr,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,

@@ -1,7 +1,10 @@
 import '../theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../controllers/chat_controller.dart';
+
 import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -231,7 +234,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           fontSize: 14,
                         ),
                         filled: true,
-                        fillColor: const Color(0xFFF4F4F8),
+                        fillColor: AppColors.bgSection,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                           borderSide: BorderSide.none,
@@ -245,19 +248,17 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: _sendMessage,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.send_rounded,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                  Obx(
+                    () => IconButton.filled(
+                      tooltip: 'Send'.tr,
+                      onPressed: chatCtrl.sending.value ? null : _sendMessage,
+                      icon: chatCtrl.sending.value
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.send_rounded),
                     ),
                   ),
                 ],

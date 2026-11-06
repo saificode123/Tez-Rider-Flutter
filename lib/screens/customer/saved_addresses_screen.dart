@@ -588,7 +588,7 @@ class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
       hintText: hint,
       prefixIcon: Icon(icon, color: _kPurple, size: 20),
       filled: true,
-      fillColor: const Color(0xFFF8F7FF),
+      fillColor: AppColors.bgSection,
       labelStyle: const TextStyle(color: _kTextSub),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
