@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+
 import 'delivery_location.dart';
 import 'delivery_route_metrics.dart';
 
@@ -310,14 +312,15 @@ class DeliveryRouteController extends GetxController {
       }
       final data = response['route'];
       if (data is! Map) {
-        if (response['code'] == 'DESTINATION_UNCONFIRMED') _denied = true;
         route.value = null;
         label.value = 'ETA unavailable';
         notice.value = response['code'] == 'DESTINATION_UNCONFIRMED'
             ? 'Delivery destination has not been confirmed.'
             : response['code'] == 'DESTINATION_CHANGED'
             ? 'Delivery destination changed. Refresh and review the new point.'
-            : '';
+            : response['code'] == 'LOCATION_UNAVAILABLE'
+            ? 'Waiting for a fresh Rider location. Keep GPS and location sharing enabled.'
+            : 'Route unavailable. Retrying when connected.';
         return;
       }
       final decodeClock = Stopwatch()..start();

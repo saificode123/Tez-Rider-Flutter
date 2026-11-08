@@ -1,11 +1,14 @@
 import '../widgets/spatial_surface.dart';
 import '../theme/app_theme.dart';
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../core/stage2_ui_strings.dart';
 import '../services/delivery_location_platform.dart';
 import '../services/delivery_map_stops.dart';
@@ -108,6 +111,7 @@ class _MapScreenState extends State<MapScreen> {
       }
       identityOrder = order['id'] as int;
       fare = (order['fare'] as num?)?.toDouble();
+      stops = DeliveryMapStops(status: order['order_status'] as String? ?? '');
       try {
         final nextStops = await DeliveryMapStops.load(client, identityOrder!);
         if (!mounted || request != generation) return;
@@ -117,6 +121,7 @@ class _MapScreenState extends State<MapScreen> {
         problem = 'Delivery stops unavailable. Retry when connected.';
       }
       if (!mounted || request != generation) return;
+      if (const ['delivered', 'cancelled'].contains(stops.status)) return;
       final next = CustomerLocationFeed(identityOrder!);
       feed = next;
       route = DeliveryRouteController(
@@ -206,12 +211,18 @@ class _MapScreenState extends State<MapScreen> {
           ? 'Delivery tracking ended.'
           : availability == 'STOPPED'
           ? 'The Rider has stopped sharing location.'
+          : availability == 'WAITING'
+          ? 'Waiting for the Rider to share a live location.'
+          : availability == 'STALE'
+          ? 'Rider location is outdated. Waiting for a fresh update.'
           : '';
       return DeliveryMapView(
         key: ValueKey(identityOrder),
+        noActiveDelivery:
+            identityOrder == null && problem == 'No active delivery location',
         fix: fix,
         stale: stale,
-        stops: ended ? const DeliveryMapStops() : stops,
+        stops: ended ? DeliveryMapStops(status: stops.status) : stops,
         viewerLocation: viewer,
         onLocate: locating ? null : myLocation,
         route: allowed ? route?.route.value : null,

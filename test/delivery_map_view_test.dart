@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -13,14 +14,12 @@ import 'package:flutter_application_1/widgets/rider_navigation_map.dart';
 
 class _Tiles extends TileProvider {
   @override
-  ImageProvider getImage(
-    TileCoordinates coordinates,
-    TileLayer options,
-  ) => MemoryImage(
-    base64Decode(
-      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgaGD4DwAChAGA+gVWHQAAAABJRU5ErkJggg==',
-    ),
-  );
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) =>
+      MemoryImage(
+        base64Decode(
+          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgaGD4DwAChAGA+gVWHQAAAABJRU5ErkJggg==',
+        ),
+      );
 }
 
 class _Translations extends Translations {
@@ -54,6 +53,9 @@ void main() {
     WidgetTester tester, {
     DeviceFix? fix,
     bool stale = false,
+    bool noActiveDelivery = false,
+    bool compact = false,
+    String status = 'on_the_way',
     DeliveryRoute? route,
     Locale locale = const Locale('en'),
     Size size = const Size(390, 780),
@@ -78,13 +80,15 @@ void main() {
               tileProvider: _Tiles(),
               fix: fix,
               stale: stale,
+              noActiveDelivery: noActiveDelivery,
+              compact: compact,
               route: route,
               eta: 'Arriving in 6 min',
               onBack: () {},
-              stops: const DeliveryMapStops(
+              stops: DeliveryMapStops(
                 pickup: LatLng(33.7, 73.05),
                 destination: LatLng(33.71, 73.06),
-                status: 'on_the_way',
+                status: status,
               ),
             ),
           ),
@@ -122,6 +126,28 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     },
   );
+  for (final compact in [false, true]) {
+    testWidgets(
+      'inactive and completed tracking explains missing ETA compact=$compact',
+      (tester) async {
+        await show(
+          tester,
+          stale: true,
+          noActiveDelivery: true,
+          compact: compact,
+        );
+        expect(find.text('No active delivery'), findsOneWidget);
+        expect(find.text('ETA unavailable'), findsNothing);
+        await show(tester, stale: true, status: 'delivered', compact: compact);
+        expect(find.text('Delivery completed'), findsOneWidget);
+        expect(find.text('Arriving in 6 min'), findsNothing);
+        await show(tester, stale: true, status: 'cancelled', compact: compact);
+        expect(find.text('Order cancelled'), findsOneWidget);
+        expect(find.text('ETA unavailable'), findsNothing);
+        await tester.pumpWidget(const SizedBox());
+      },
+    );
+  }
   testWidgets('stale confirmed pin has timestamp and cannot claim live ETA', (
     tester,
   ) async {

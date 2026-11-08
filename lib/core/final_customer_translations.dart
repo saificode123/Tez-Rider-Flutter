@@ -1,5 +1,14 @@
 /// Final customer delivery fixes; source keys remain stable in English.
 const finalCustomerUrdu = <String, String>{
+  'No active delivery': 'کوئی فعال ڈیلیوری نہیں ہے',
+  'Delivery completed': 'ڈیلیوری مکمل ہو گئی',
+  'Order cancelled': 'آرڈر منسوخ ہو گیا',
+  'Waiting for the Rider to share a live location.':
+      'رائیڈر کے براہ راست مقام شیئر کرنے کا انتظار ہے۔',
+  'Rider location is outdated. Waiting for a fresh update.':
+      'رائیڈر کا مقام پرانا ہے۔ تازہ مقام کا انتظار ہے۔',
+  'Waiting for a fresh Rider location. Keep GPS and location sharing enabled.': 'رائیڈر کے تازہ مقام کا انتظار ہے۔ جی پی ایس اور مقام شیئر کرنا فعال رکھیں۔',
+
   'This delivery request is no longer available.':
       'یہ ڈیلیوری درخواست اب دستیاب نہیں ہے۔',
   'Vendor pickup details are missing. Ask the Vendor to confirm them.':

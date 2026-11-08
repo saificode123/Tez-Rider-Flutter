@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -212,28 +213,25 @@ void main() {
         expect(controller.route.value, isNotNull);
       },
     );
-    test(
-      'revocation rejects a late route response and clears geometry immediately',
-      () async {
-        fix(33.7, 73.05);
-        pending = Completer();
-        controller.start();
-        expect(calls, 1);
-        controller.notice.value = 'Using a previous route estimate.';
-        expect(controller.loading.value, isTrue);
-        state.clear(reason: 'STOPPED');
-        expect(controller.route.value, isNull);
-        expect(controller.notice.value, isEmpty);
-        expect(controller.loading.value, isFalse);
-        expect(controller.label.value, 'ETA unavailable');
-        pending!.complete({'code': 'OK', 'route': routeData(clock)});
-        await flush();
-        expect(controller.route.value, isNull);
-        expect(controller.notice.value, isEmpty);
-        await controller.refreshRoute(retry: true);
-        expect(calls, 1);
-      },
-    );
+    test('revocation rejects a late route response and clears geometry immediately', () async {
+      fix(33.7, 73.05);
+      pending = Completer();
+      controller.start();
+      expect(calls, 1);
+      controller.notice.value = 'Using a previous route estimate.';
+      expect(controller.loading.value, isTrue);
+      state.clear(reason: 'STOPPED');
+      expect(controller.route.value, isNull);
+      expect(controller.notice.value, isEmpty);
+      expect(controller.loading.value, isFalse);
+      expect(controller.label.value, 'ETA unavailable');
+      pending!.complete({'code': 'OK', 'route': routeData(clock)});
+      await flush();
+      expect(controller.route.value, isNull);
+      expect(controller.notice.value, isEmpty);
+      await controller.refreshRoute(retry: true);
+      expect(calls, 1);
+    });
     test('pickup geometry cannot be rendered as the delivery phase', () async {
       fix(33.7, 73.05);
       response = {
@@ -370,6 +368,32 @@ void main() {
       expect(controller.route.value, isNull);
       expect(controller.label.value, 'ETA unavailable');
       expect(controller.notice.value, contains('not been confirmed'));
+    });
+    test(
+      'confirmed destination recovers after an earlier unconfirmed response',
+      () async {
+        response = {'code': 'DESTINATION_UNCONFIRMED', 'route': null};
+        fix(33.7, 73.05);
+        await controller.refreshRoute();
+        expect(controller.label.value, 'ETA unavailable');
+        response = {'code': 'OK', 'route': routeData(clock)};
+        clock = clock.add(const Duration(seconds: 61));
+        fix(33.7, 73.05);
+        controller.consider();
+        await flush();
+        expect(calls, 2);
+        expect(controller.label.value, startsWith('Arriving'));
+      },
+    );
+    test('missing live GPS explains why no ETA is calculated', () async {
+      response = {'code': 'LOCATION_UNAVAILABLE', 'route': null};
+      fix(33.7, 73.05);
+      await controller.refreshRoute();
+      expect(controller.route.value, isNull);
+      expect(
+        controller.notice.value,
+        'Waiting for a fresh Rider location. Keep GPS and location sharing enabled.',
+      );
     });
     test('network failure clears route and never simulates success', () async {
       fix(33.7, 73.05);

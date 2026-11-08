@@ -1,9 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+
 import '../services/delivery_route_metrics.dart';
+
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+
 import '../services/delivery_location.dart';
 import '../core/stage2_ui_strings.dart';
 import '../services/delivery_map_stops.dart';
@@ -18,6 +22,7 @@ class DeliveryMapView extends StatefulWidget {
     super.key,
     this.fix,
     this.stale = true,
+    this.noActiveDelivery = false,
     this.stops = const DeliveryMapStops(),
     this.route,
     this.eta = 'ETA unavailable',
@@ -33,7 +38,7 @@ class DeliveryMapView extends StatefulWidget {
     this.onStopSharing,
   });
   final DeviceFix? fix;
-  final bool stale, loading;
+  final bool stale, loading, noActiveDelivery;
   final DeliveryMapStops stops;
   final DeliveryRoute? route;
   final String eta, notice;
@@ -57,6 +62,13 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
   bool ready = false, follow = true, centered = false;
   bool tileFailure = false;
   final tileReset = StreamController<void>.broadcast();
+  String get etaLabel {
+    if (widget.noActiveDelivery) return 'No active delivery'.tr;
+    if (widget.stops.status == 'delivered') return 'Delivery completed'.tr;
+    if (widget.stops.status == 'cancelled') return 'Order cancelled'.tr;
+    return widget.stale ? 'ETA unavailable'.tr : widget.eta.uiMessage;
+  }
+
   LatLng? get displayed {
     if (target == null || from == null) return target;
     final t = motion.value.clamp(0.0, 1.0);
@@ -441,9 +453,7 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         Text(
-                          widget.stale
-                              ? 'ETA unavailable'.tr
-                              : widget.eta.uiMessage,
+                          etaLabel,
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.w800,
@@ -472,9 +482,7 @@ class _DeliveryMapViewState extends State<DeliveryMapView>
                       children: [
                         Expanded(
                           child: Text(
-                            widget.stale
-                                ? 'ETA unavailable'.tr
-                                : widget.eta.uiMessage,
+                            etaLabel,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
