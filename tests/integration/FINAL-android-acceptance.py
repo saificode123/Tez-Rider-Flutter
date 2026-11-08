@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--device', required=True)
     parser.add_argument('--check', required=True, choices=[
         'customer-home', 'biometric-login', 'favorites-empty',
-        'test-address-present', 'test-address-absent', 'rider-home', 'rider-earnings'])
+        'test-address-present', 'test-address-absent', 'rider-home', 'rider-earnings', 'eta-inactive'])
     parser.add_argument('--expected-sha256', required=True)
     parser.add_argument('--report', type=Path)
     args = parser.parse_args()
@@ -65,6 +65,11 @@ def main():
         assert has('Earnings records only. This is not a payout confirmation.') and has('PKR 113'), 'Expected owner TEST earnings record not visible'
         assert not has('Earnings could not be loaded.'), 'Earnings request failed'
         checks.append('owner-confirmed PKR 113 stored earning and explicit no-payout statement visible')
+    elif args.check == 'eta-inactive':
+        assert any(has(text) for text in ['No active delivery', 'Delivery completed', 'Order cancelled']), 'Inactive delivery state is not explained'
+        checks.append('inactive delivery state is explicitly explained')
+        assert not has('ETA unavailable'), 'Inactive delivery must not appear as a failed ETA'
+        checks.append('inactive delivery is not presented as an ETA failure')
     elif args.check == 'biometric-login':
         button = next((n for n in nodes if 'Continue with Biometrics' in (n.get('text', '') + n.get('content-desc', ''))), None)
         assert button is not None and button.get('enabled') == 'true', 'Enrolled biometric action is not available'

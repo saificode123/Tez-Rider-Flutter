@@ -1,0 +1,60 @@
+{
+  "checked_utc": "2026-11-08T16:24:13.961217+00:00",
+  "application_source": "0b5a18aa072af289b9f48918eceb56a057e5db48",
+  "project": "igeisilhtmglgnqvllrx",
+  "scope": "ETA recovery, inactive delivery display and native device acceptance",
+  "flutter": {
+    "passed": 850,
+    "failed": 0,
+    "skipped": 2,
+    "concurrency": 1
+  },
+  "focused_route_map_tests": 43,
+  "analysis": "No issues found, lib and test",
+  "earlier_parallel_attempts": "Host memory failures; not counted as passes",
+  "apk": {
+    "sha256": "9624bf825fb3b0465e9f5b47b24cdce281cc91f255814f394c3a6c3a7b9118e9",
+    "bytes": 106892601,
+    "flavor": "fr21test",
+    "abi": "arm64",
+    "build": "PASS",
+    "signature_verified": true,
+    "installed": true,
+    "on_device_hash_verified": true
+  },
+  "native": {
+    "checked_utc": "2026-11-08T16:20:35.563503+00:00",
+    "kind": "ADB native integration; read-only assertions, not Flutter integration_test runner",
+    "package": "com.example.flutter_application_1.fr21test",
+    "installed_apk_sha256": "9624bf825fb3b0465e9f5b47b24cdce281cc91f255814f394c3a6c3a7b9118e9",
+    "checkpoint": "eta-inactive",
+    "passed": 4,
+    "failed": 0,
+    "checks": [
+      "installed TEST APK matches reviewed SHA-256",
+      "only TEST app is visible",
+      "inactive delivery state is explicitly explained",
+      "inactive delivery is not presented as an ETA failure"
+    ],
+    "writes": 0,
+    "external_sends": 0,
+    "raw_ui_saved": false,
+    "coordinates_logged": false
+  },
+  "backend_inspection": {
+    "active_orders_created_previous_14_days": 0,
+    "live_location_rows": 0,
+    "latest_controlled_order_status": "delivered"
+  },
+  "operator_database_writes": 0,
+  "business_order_actions": 0,
+  "external_routing_calls": 0,
+  "external_messages_sent": 0,
+  "production_access": false,
+  "pending_demo_reset_executed": false,
+  "remaining_gates": [
+    "Numeric active-delivery device ETA not executed; no legitimate active delivery",
+    "Earlier external route verification cap not renewed",
+    "Original GPS/routing timing acceptance gates remain open"
+  ]
+}

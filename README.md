@@ -9,6 +9,8 @@ The owner approved consolidation on 2026-11-06. Use approved TEST configuration.
 `flutter run` does not load `.env`. Never commit local credentials or use the
 protected production project for testing.
 
+Latest scoped fix: [ETA recovery and device verification](docs/FINAL-DELIVERY/ETA-RECOVERY-2026-11-08.md).
+
 ## Update an existing main checkout
 
 ```powershell
