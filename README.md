@@ -16,10 +16,12 @@ Latest scoped fix: [ETA recovery and device verification](docs/FINAL-DELIVERY/ET
 ```powershell
 git pull origin main
 flutter pub get
+flutter run --flavor fr21test --dart-define-from-file=.env
 ```
 
-Keep your private `.env` and matching TEST Firebase configuration locally. If
-currently on another branch, preserve local changes and switch to `main` first.
+Keep your existing TEST `.env` locally. If currently on another branch,
+preserve local changes and switch to `main` first. The Android build can run
+without a Firebase file. Android push requires the matching TEST client file.
 See the acceptance report for outstanding functional/device gates; consolidation
 does not turn incomplete checks into passes.
 
@@ -38,6 +40,6 @@ flutter run -d chrome --dart-define-from-file=.env
 
 In VS Code with the Flutter extension, select **TezRider Chrome (.env)** and
 press F5. The tracked launch configuration passes `.env` automatically.
-For Android, follow the guide to add the TEST Firebase client file and select
-**TezRider Android TEST (.env)** with an Android device selected. Server-side
+For Android, select **TezRider Android TEST (.env)** with an Android device
+selected. Follow the guide to enable Android push. Server-side
 secrets stay on the existing Supabase backend. Do not commit local `.env` files.

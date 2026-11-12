@@ -1,18 +1,18 @@
+import com.google.gms.googleservices.GoogleServicesTask
+import groovy.json.JsonSlurper
+import org.gradle.api.tasks.StopExecutionException
 import java.util.Properties
 
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
-    id("com.google.gms.google-services") apply false
+    id("com.google.gms.google-services")
     // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Android TEST FCM uses only its own registered Firebase configuration.
-// Until supplied, existing in-app TEST builds remain usable with push disabled.
-val isFr21TestBuild = gradle.startParameter.taskNames.any { it.contains("Fr21test", ignoreCase = true) }
 val includesProductionRelease = gradle.startParameter.taskNames.any {
     it.contains("Release", ignoreCase = true) && !it.contains("Fr21test", ignoreCase = true)
 }
@@ -33,8 +33,40 @@ if (includesProductionRelease) {
         "Production release requires a valid private android/key.properties and upload keystore."
     }
 }
-if (!isFr21TestBuild || file("src/fr21test/google-services.json").exists()) {
-    apply(plugin = "com.google.gms.google-services")
+// Configure each TEST task, including those reached through assembleDebug.
+// The Google Services plugin otherwise falls back to the legacy root JSON.
+val testApplicationId = "com.example.flutter_application_1.fr21test"
+val appBuildDirectory = layout.buildDirectory
+val legacyFirebaseConfig = file("google-services.json")
+tasks.withType<GoogleServicesTask>().configureEach {
+    if (!name.startsWith("processFr21test")) return@configureEach
+
+    doFirst {
+        // The plugin assigns the task inputs after registering the task.
+        val googleServicesTask = this as GoogleServicesTask
+        val config = googleServicesTask.googleServicesJsonFiles.firstOrNull { it.isFile }
+        val matchesTestClient = config != null && config != legacyFirebaseConfig &&
+            runCatching {
+                val json = JsonSlurper().parse(config) as Map<*, *>
+                val project = json["project_info"] as Map<*, *>
+                val clients = json["client"] as List<*>
+                project["project_id"] == "tez-rider-fe12b" && clients.any { client ->
+                    val info = (client as? Map<*, *>)?.get("client_info") as? Map<*, *>
+                    val android = info?.get("android_client_info") as? Map<*, *>
+                    android?.get("package_name") == testApplicationId
+                }
+            }.getOrDefault(false)
+        if (matchesTestClient) return@doFirst
+
+        // Remove resources from an earlier push-enabled build when the file changes.
+        val output = googleServicesTask.outputDirectory.get().asFile.canonicalFile
+        val buildRoot = appBuildDirectory.get().asFile.canonicalFile
+        check(output != buildRoot && output.toPath().startsWith(buildRoot.toPath()))
+        check(output.deleteRecursively()) { "Could not clear generated TEST Firebase resources." }
+        check(output.mkdirs() || output.isDirectory)
+        logger.lifecycle("TezRider TEST: Firebase push disabled. Add the matching TEST google-services.json to enable it.")
+        throw StopExecutionException()
+    }
 }
 
 android {

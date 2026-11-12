@@ -109,13 +109,14 @@ notepad .env
 ```
 
 Only do the copy for a missing `.env`; preserve any configured local file.
-Ask the owner through a private channel for the approved TEST **public** key and
-TEST Firebase Android client file. Fill `SUPABASE_PUBLISHABLE_KEY` in `.env`.
+Ask the owner through a private channel for the approved TEST **public** key.
+Fill `SUPABASE_PUBLISHABLE_KEY` in `.env`.
 Legacy `SUPABASE_ANON_KEY` also works; set only one key name. Keep
 `SUPABASE_URL=https://igeisilhtmglgnqvllrx.supabase.co` and
 `FR21_ISOLATED_TEST=true`. Remove unused `SUPABASE_JWKS_URL` from mobile defines.
 
-Create the directory if needed, then save the approved Firebase file as:
+For Android push, obtain the approved TEST Firebase Android client file from
+the owner and save it in the flavor-specific directory:
 
 ```powershell
 New-Item -ItemType Directory -Force android\app\src\fr21test | Out-Null
@@ -143,10 +144,12 @@ sign-in/SMS provider or SHA registration requirement demonstrated by the source.
 Configure the existing Supabase redirect `tezrider-fr21-test://login-callback/`
 in the TEST Auth allowlist if absent; do not change production Auth settings.
 
-For a deliberate push-disabled build set `FR30_ANDROID_PUSH=false`; the core app
-can build without TEST Firebase. This does not pass FR-30 native-push acceptance.
-The full TEST configuration keeps it `true` and
-`FR30_FIREBASE_PROJECT_ID=tez-rider-fe12b`.
+The TEST build skips Firebase resource generation when the selected Android
+client file is absent or belongs to the wrong project or package. The core app
+can start with a valid TEST `.env`. Set `FR30_ANDROID_PUSH=false` if you are
+using the app without push. To enable push, supply the matching Firebase client
+file and keep `FR30_ANDROID_PUSH=true` and
+`FR30_FIREBASE_PROJECT_ID=tez-rider-fe12b` in `.env`.
 
 ## 5. Resolve dependencies and verify
 
@@ -211,9 +214,8 @@ to resolve a signature mismatch without backing up needed state and approval.
   if SDK discovery fails use `flutter config --android-sdk="YOUR_ACTUAL_SDK_FOLDER"`.
   Never copy another computer's `android/local.properties`.
 - **Licenses missing:** install command-line tools, then `flutter doctor --android-licenses`.
-- **No matching Firebase client:** check the exact flavor package/project in step 4;
-  obtain the original registered TEST client. SHA fingerprints are not a cure for
-  a package mismatch. Console permissions must be handled by the Firebase owner.
+- **Android push configuration unavailable:** check the flavor package and
+  project in step 4 and obtain the registered TEST client from the Firebase owner.
 - **Missing .env:** create it in the folder containing pubspec.yaml; ensure Windows
   did not name it `.env.txt`. Supply `--dart-define-from-file=.env` on every run/build.
 - **Backend configuration missing/invalid:** use one supported public-key name,
@@ -269,5 +271,5 @@ an enabled biometric sign-in action. Never share passwords with the agent.
 
 The November 6 report records the exact installed TEST APK/source and current
 limits. Successful clone/build on the owner machine is not physical acceptance
-on a partner laptop. Toolchain and matching TEST Firebase configuration are
-required in addition to `.env`.
+on a partner laptop. The Android toolchain and TEST `.env` are required.
+The matching Firebase file is required for Android push.
